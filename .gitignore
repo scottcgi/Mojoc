@@ -1,0 +1,5 @@
+# Platform
+/Engine/Build/Android/Bin
+
+# Tmp
+.DS_Store
