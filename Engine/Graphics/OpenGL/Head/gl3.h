@@ -32,7 +32,7 @@
 ** Khronos $Revision: 32120 $ on $Date: 2015-10-15 04:27:13 -0700 (Thu, 15 Oct 2015) $
 */
 
-#include "Mojoc/Graphics/OpenGL/Head/gl3platform.h"
+#include "Engine/Graphics/OpenGL/Head/gl3platform.h"
 
 #ifndef GL_APIENTRYP
 #define GL_APIENTRYP GL_APIENTRY*
@@ -56,7 +56,7 @@
 
 #ifndef GL_ES_VERSION_2_0
 #define GL_ES_VERSION_2_0 1
-#include "Mojoc/Graphics/OpenGL/Head/khrplatform.h"
+#include "Engine/Graphics/OpenGL/Head/khrplatform.h"
 
 typedef khronos_int8_t GLbyte;
 typedef khronos_float_t GLclampf;

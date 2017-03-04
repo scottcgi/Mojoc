@@ -7,7 +7,7 @@
 #ifndef component_h
 #define component_h
 
-#include "Mojoc/Toolkit/Utils/ArrayIntMap.h"
+#include "Engine/Toolkit/Utils/ArrayIntMap.h"
 
 typedef struct Component      Component;
 typedef struct ComponentState ComponentState;

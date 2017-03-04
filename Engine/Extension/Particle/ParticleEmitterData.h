@@ -9,7 +9,7 @@
 #define particle_emitter_data_h
 
 #include <stdbool.h>
-#include "Mojoc/Toolkit/Utils/Array.h"
+#include "Engine/Toolkit/Utils/Array.h"
 
 typedef struct
 {

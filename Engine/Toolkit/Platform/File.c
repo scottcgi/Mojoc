@@ -9,9 +9,9 @@
 #include <malloc.h>
 #include <string.h>
 
-#include "Mojoc/Toolkit/Platform/File.h"
-#include "Mojoc/Toolkit/Math/Math.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
+#include "Engine/Toolkit/Platform/File.h"
+#include "Engine/Toolkit/Math/Math.h"
+#include "Engine/Toolkit/Platform/Log.h"
 
 extern ANativeActivity* nativeActivity;
 

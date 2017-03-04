@@ -8,7 +8,7 @@
 #ifndef mesh_def_h
 #define mesh_def_h
 
-#include "Mojoc/Graphics/OpenGL/Head/gl3.h"
+#include "Engine/Graphics/OpenGL/Head/gl3.h"
 
 typedef struct Mesh    Mesh;
 typedef struct SubMesh SubMesh;

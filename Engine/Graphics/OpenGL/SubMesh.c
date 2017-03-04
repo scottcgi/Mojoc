@@ -5,10 +5,10 @@
  *      Author: scott.cgi
  */
 
-#include "Mojoc/Graphics/Graphics.h"
-#include "Mojoc/Graphics/OpenGL/SubMesh.h"
-#include "Mojoc/Graphics/OpenGL/Mesh.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
+#include "Engine/Graphics/Graphics.h"
+#include "Engine/Graphics/OpenGL/SubMesh.h"
+#include "Engine/Graphics/OpenGL/Mesh.h"
+#include "Engine/Toolkit/Platform/Log.h"
 
 static inline void InitSubMesh(SubMesh* subMesh, float width, float height)
 {

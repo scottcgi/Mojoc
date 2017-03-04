@@ -4,7 +4,7 @@
  *      Author: scott.cgi
  */
 
-#include "Mojoc/Graphics/OpenGL/Shader/Shader.h"
+#include "Engine/Graphics/OpenGL/Shader/Shader.h"
 
 struct AShader AShader[1] =
 {

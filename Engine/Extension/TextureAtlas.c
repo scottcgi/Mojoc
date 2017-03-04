@@ -9,12 +9,12 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "Mojoc/Toolkit/Define/Def.h"
-#include "Mojoc/Extension/TextureAtlas.h"
-#include "Mojoc/Toolkit/Platform/File.h"
-#include "Mojoc/Toolkit/Utils/BufferReader.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
-#include "Mojoc/Graphics/OpenGL/GLTool.h"
+#include "Engine/Toolkit/Define/Def.h"
+#include "Engine/Extension/TextureAtlas.h"
+#include "Engine/Toolkit/Platform/File.h"
+#include "Engine/Toolkit/Utils/BufferReader.h"
+#include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Graphics/OpenGL/GLTool.h"
 
 
 static ArrayStrMap(filePath, TextureAtlas*) textureAtlasMap[1] = AArrayStrMapInit(TextureAtlas*, 10);

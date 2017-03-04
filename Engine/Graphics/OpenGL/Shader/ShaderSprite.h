@@ -8,11 +8,11 @@
 #ifndef shader_sprite_h
 #define shader_sprite_h
 
-#include "Mojoc/Graphics/OpenGL/Head/gl3.h"
-#include "Mojoc/Toolkit/Math/Matrix.h"
-#include "Mojoc/Toolkit/Math/Math.h"
+#include "Engine/Graphics/OpenGL/Head/gl3.h"
+#include "Engine/Toolkit/Math/Matrix.h"
+#include "Engine/Toolkit/Math/Math.h"
 
-#include "Mojoc/Graphics/Draw/Color.h"
+#include "Engine/Graphics/Draw/Color.h"
 
 struct AShaderSprite
 {

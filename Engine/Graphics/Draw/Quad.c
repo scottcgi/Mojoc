@@ -8,8 +8,8 @@
 #include <malloc.h>
 #include <string.h>
 
-#include "Mojoc/Graphics/Draw/Quad.h"
-#include "Mojoc/Graphics/OpenGL/GLTool.h"
+#include "Engine/Graphics/Draw/Quad.h"
+#include "Engine/Graphics/OpenGL/GLTool.h"
 
 
 static void Init(float width, float height, Quad* outQuad)

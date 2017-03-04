@@ -11,8 +11,8 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-#include "Mojoc/Toolkit/Math/TweenEase.h"
-#include "Mojoc/Toolkit/Utils/ArrayList.h"
+#include "Engine/Toolkit/Math/TweenEase.h"
+#include "Engine/Toolkit/Utils/ArrayList.h"
 
 typedef float (*TweenActionValueOnGet)(void* target);
 typedef void  (*TweenActionValueOnSet)(void* target, float value);

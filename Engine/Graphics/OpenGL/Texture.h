@@ -8,7 +8,7 @@
 #ifndef texture_h
 #define texture_h
 
-#include "Mojoc/Graphics/OpenGL/Head/gl3.h"
+#include "Engine/Graphics/OpenGL/Head/gl3.h"
 
 /**
  * Use openGL world coordinate system

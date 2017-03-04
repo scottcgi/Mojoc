@@ -7,9 +7,9 @@
 
 #include <string.h>
 
-#include "Mojoc/Graphics/OpenGL/Head/gl3.h"
-#include "Mojoc/Graphics/OpenGL/GLInfo.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
+#include "Engine/Graphics/OpenGL/Head/gl3.h"
+#include "Engine/Graphics/OpenGL/GLInfo.h"
+#include "Engine/Toolkit/Platform/Log.h"
 
 
 static void Init()

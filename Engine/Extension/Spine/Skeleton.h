@@ -8,9 +8,9 @@
 #ifndef skeleton_h
 #define skeleton_h
 
-#include "Mojoc/Toolkit/Define/Def.h"
-#include "Mojoc/Extension/Spine/SkeletonData.h"
-#include "Mojoc/Extension/Spine/SkeletonBone.h"
+#include "Engine/Toolkit/Define/Def.h"
+#include "Engine/Extension/Spine/SkeletonData.h"
+#include "Engine/Extension/Spine/SkeletonBone.h"
 #include "SkeletonData.h"
 
 

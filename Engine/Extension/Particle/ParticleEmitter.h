@@ -9,11 +9,11 @@
 #define particle_emitter_h
 
 
-#include "Mojoc/Graphics/OpenGL/Mesh.h"
-#include "Mojoc/Extension/Particle/ParticleEmitterData.h"
-#include "Mojoc/Extension/Particle/Particle.h"
-#include "Mojoc/Graphics/OpenGL/Texture.h"
-#include "Mojoc/Toolkit/Utils/Array.h"
+#include "Engine/Graphics/OpenGL/Mesh.h"
+#include "Engine/Extension/Particle/ParticleEmitterData.h"
+#include "Engine/Extension/Particle/Particle.h"
+#include "Engine/Graphics/OpenGL/Texture.h"
+#include "Engine/Toolkit/Utils/Array.h"
 
 
 typedef struct

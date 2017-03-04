@@ -9,14 +9,14 @@
 #ifndef gl_primitive_h
 #define gl_primitive_h
 
-#include "Mojoc/Graphics/OpenGL/Head/gl3.h"
+#include "Engine/Graphics/OpenGL/Head/gl3.h"
 
-#include "Mojoc/Toolkit/Math/Matrix.h"
-#include "Mojoc/Toolkit/Math/Math.h"
+#include "Engine/Toolkit/Math/Matrix.h"
+#include "Engine/Toolkit/Math/Math.h"
 
-#include "Mojoc/Toolkit/Define/Rect.h"
-#include "Mojoc/Graphics/Draw/Color.h"
-#include "Mojoc/Toolkit/Utils/Array.h"
+#include "Engine/Toolkit/Define/Rect.h"
+#include "Engine/Graphics/Draw/Color.h"
+#include "Engine/Toolkit/Utils/Array.h"
 
 
 struct AGLPrimitive

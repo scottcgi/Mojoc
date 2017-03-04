@@ -6,8 +6,8 @@
  */
 
 
-#include "Mojoc/Toolkit/Math/Math.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
+#include "Engine/Toolkit/Math/Math.h"
+#include "Engine/Toolkit/Platform/Log.h"
 
 
 static bool TestPolygonPoint(Array(float)* vertexArr, float x, float y)

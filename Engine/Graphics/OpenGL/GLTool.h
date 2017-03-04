@@ -10,9 +10,9 @@
 
 #include <stdbool.h>
 
-#include "Mojoc/Graphics/OpenGL/Head/egl.h"
-#include "Mojoc/Graphics/OpenGL/Head/gl3.h"
-#include "Mojoc/Graphics/OpenGL/Texture.h"
+#include "Engine/Graphics/OpenGL/Head/egl.h"
+#include "Engine/Graphics/OpenGL/Head/gl3.h"
+#include "Engine/Graphics/OpenGL/Texture.h"
 
 
 struct AGLTool

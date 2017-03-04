@@ -12,7 +12,7 @@
 #include <stdbool.h>
 
 
-#include "Mojoc/Graphics/OpenGL/SubMesh.h"
+#include "Engine/Graphics/OpenGL/SubMesh.h"
 
 
 typedef struct

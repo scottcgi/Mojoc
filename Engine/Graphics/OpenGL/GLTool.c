@@ -8,10 +8,10 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "Mojoc/Toolkit/Platform/Log.h"
-#include "Mojoc/Graphics/OpenGL/GLTool.h"
-#include "Mojoc/Toolkit/Platform/File.h"
-#include "Mojoc/Graphics/Utils/Image.h"
+#include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Graphics/OpenGL/GLTool.h"
+#include "Engine/Toolkit/Platform/File.h"
+#include "Engine/Graphics/Utils/Image.h"
 
 static void SetSize(int width, int height)
 {

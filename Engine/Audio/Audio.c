@@ -7,13 +7,13 @@
 #include <stdlib.h>
 #include <SLES/OpenSLES.h>
 #include <SLES/OpenSLES_Android.h>
-#include <Mojoc/Toolkit/Utils/ArrayList.h>
 
-#include "Mojoc/Toolkit/Utils/ArrayIntMap.h"
-#include "Mojoc/Toolkit/Define/Def.h"
-#include "Mojoc/Toolkit/Platform/File.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
-#include "Mojoc/Audio/Audio.h"
+#include "Engine/Toolkit/Utils/ArrayList.h"
+#include "Engine/Toolkit/Utils/ArrayIntMap.h"
+#include "Engine/Toolkit/Define/Def.h"
+#include "Engine/Toolkit/Platform/File.h"
+#include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Audio/Audio.h"
 
 
 //--------------------------------------------------------------------------------------------------

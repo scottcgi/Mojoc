@@ -10,10 +10,10 @@
 
 #include <stdbool.h>
 
-#include "Mojoc/Toolkit/Utils/ArrayStrMap.h"
-#include "Mojoc/Graphics/Draw/Color.h"
-#include "Mojoc/Graphics/OpenGL/Mesh.h"
-#include "Mojoc/Extension/TextureAtlas.h"
+#include "Engine/Toolkit/Utils/ArrayStrMap.h"
+#include "Engine/Graphics/Draw/Color.h"
+#include "Engine/Graphics/OpenGL/Mesh.h"
+#include "Engine/Extension/TextureAtlas.h"
 
 typedef struct SkeletonBoneData SkeletonBoneData;
 struct  SkeletonBoneData

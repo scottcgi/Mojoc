@@ -7,9 +7,9 @@
 
 #include <math.h>
 
-#include "Mojoc/Extension/Spine/SkeletonAnimationPlayer.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
-#include "Mojoc/Graphics/OpenGL/GLPrimitive.h"
+#include "Engine/Extension/Spine/SkeletonAnimationPlayer.h"
+#include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Graphics/OpenGL/GLPrimitive.h"
 
 
 static inline void UpdateNormal(SkeletonAnimationPlayer* player, float deltaTime)

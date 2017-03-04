@@ -7,8 +7,8 @@
 
 #include <string.h>
 
-#include "Mojoc/Toolkit/Utils/ArrayStrMap.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
+#include "Engine/Toolkit/Utils/ArrayStrMap.h"
+#include "Engine/Toolkit/Platform/Log.h"
 
 
 #define CheckIndex(tag) \

@@ -7,9 +7,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "Mojoc/Application/Component.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
-#include "Mojoc/Toolkit/Define/Def.h"
+#include "Engine/Application/Component.h"
+#include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Toolkit/Define/Def.h"
 
 
 static void Init(Component* outComponent)

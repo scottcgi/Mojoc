@@ -8,8 +8,8 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "Mojoc/Toolkit/Utils/ArrayIntMap.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
+#include "Engine/Toolkit/Utils/ArrayIntMap.h"
+#include "Engine/Toolkit/Platform/Log.h"
 
 
 

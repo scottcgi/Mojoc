@@ -8,8 +8,8 @@
 #ifndef skeleton_bone_h
 #define skeleton_bone_h
 
-#include "Mojoc/Extension/Spine/SkeletonData.h"
-#include "Mojoc/Graphics/Draw/Drawable.h"
+#include "Engine/Extension/Spine/SkeletonData.h"
+#include "Engine/Graphics/Draw/Drawable.h"
 
 typedef struct
 {

@@ -10,7 +10,7 @@
 
 #include <stdbool.h>
 
-#include "Mojoc/Graphics/OpenGL/Head/gl3.h"
+#include "Engine/Graphics/OpenGL/Head/gl3.h"
 
 struct AGLInfo
 {

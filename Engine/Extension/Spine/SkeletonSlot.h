@@ -9,9 +9,9 @@
 #define skeleton_slot_h
 
 
-#include "Mojoc/Extension/Spine/SkeletonData.h"
-#include "Mojoc/Extension/Spine/SkeletonBone.h"
-#include "Mojoc/Extension/Spine/Skeleton.h"
+#include "Engine/Extension/Spine/SkeletonData.h"
+#include "Engine/Extension/Spine/SkeletonBone.h"
+#include "Engine/Extension/Spine/Skeleton.h"
 
 
 typedef struct

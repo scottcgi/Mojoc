@@ -6,12 +6,12 @@
  */
 
 
-#include "Mojoc/Graphics/Graphics.h"
-#include "Mojoc/Graphics/OpenGL/Shader/ShaderMesh.h"
-#include "Mojoc/Graphics/OpenGL/Shader/ShaderSprite.h"
-#include "Mojoc/Graphics/OpenGL/Shader/ShaderPrimitive.h"
-#include "Mojoc/Graphics/OpenGL/GLInfo.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
+#include "Engine/Graphics/Graphics.h"
+#include "Engine/Graphics/OpenGL/Shader/ShaderMesh.h"
+#include "Engine/Graphics/OpenGL/Shader/ShaderSprite.h"
+#include "Engine/Graphics/OpenGL/Shader/ShaderPrimitive.h"
+#include "Engine/Graphics/OpenGL/GLInfo.h"
+#include "Engine/Toolkit/Platform/Log.h"
 
 
 static void Init()

@@ -9,10 +9,10 @@
 #define sprite_h
 
 
-#include "Mojoc/Graphics/Draw/Drawable.h"
-#include "Mojoc/Graphics/Draw/Quad.h"
-#include "Mojoc/Graphics/OpenGL/Texture.h"
-#include "Mojoc/Toolkit/Utils/Array.h"
+#include "Engine/Graphics/Draw/Drawable.h"
+#include "Engine/Graphics/Draw/Quad.h"
+#include "Engine/Graphics/OpenGL/Texture.h"
+#include "Engine/Toolkit/Utils/Array.h"
 
 
 typedef struct

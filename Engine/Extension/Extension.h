@@ -6,7 +6,7 @@
 #ifndef extension_h
 #define extension_h
 
-#include "Mojoc/Toolkit/Toolkit.h"
+#include "Engine/Toolkit/Toolkit.h"
 
 struct AExtension
 {

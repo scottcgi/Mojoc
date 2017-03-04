@@ -8,9 +8,9 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "Mojoc/Graphics/OpenGL/SubMesh.h"
-#include "Mojoc/Extension/Spine/SkeletonTimeline.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
+#include "Engine/Graphics/OpenGL/SubMesh.h"
+#include "Engine/Extension/Spine/SkeletonTimeline.h"
+#include "Engine/Toolkit/Platform/Log.h"
 
 /** The target After the first and before the last entry */
 static inline int BinarySearchByStep(float* values, int valuesLength, float target, int step)

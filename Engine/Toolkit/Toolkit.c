@@ -7,8 +7,8 @@
 
 #include <stdbool.h>
 
-#include "Mojoc/Toolkit/Toolkit.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
+#include "Engine/Toolkit/Toolkit.h"
+#include "Engine/Toolkit/Platform/Log.h"
 
 
 static void Init()

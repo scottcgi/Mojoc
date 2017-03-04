@@ -33,7 +33,7 @@
 /* All platform-dependent types and macro boilerplate (such as EGLAPI
  * and EGLAPIENTRY) should go in eglplatform.h.
  */
-#include "Mojoc/Graphics/OpenGL/Head/eglplatform.h"
+#include "Engine/Graphics/OpenGL/Head/eglplatform.h"
 
 /* EGL Types */
 /* EGLint is defined in eglplatform.h */

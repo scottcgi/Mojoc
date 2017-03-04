@@ -8,12 +8,12 @@
 
 #include <malloc.h>
 
-#include "Mojoc/Graphics/OpenGL/MeshDef.h"
-#include "Mojoc/Graphics/OpenGL/Sprite.h"
-#include "Mojoc/Toolkit/Define/StructFrom.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
-#include "Mojoc/Graphics/OpenGL/Shader/ShaderSprite.h"
-#include "Mojoc/Graphics/Graphics.h"
+#include "Engine/Graphics/OpenGL/MeshDef.h"
+#include "Engine/Graphics/OpenGL/Sprite.h"
+#include "Engine/Toolkit/Define/StructFrom.h"
+#include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Graphics/OpenGL/Shader/ShaderSprite.h"
+#include "Engine/Graphics/Graphics.h"
 
 
 static void Render(Drawable* drawable)

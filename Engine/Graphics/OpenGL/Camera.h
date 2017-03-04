@@ -9,8 +9,8 @@
 #define camera_h
 
 
-#include "Mojoc/Toolkit/Math/Matrix.h"
-#include "Mojoc/Toolkit/Math/Math.h"
+#include "Engine/Toolkit/Math/Matrix.h"
+#include "Engine/Toolkit/Math/Math.h"
 
 
 struct ACamera

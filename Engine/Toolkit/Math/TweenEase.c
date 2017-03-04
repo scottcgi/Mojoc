@@ -4,8 +4,8 @@
  *      Author: scott.cgi
  */
 
-#include "Mojoc/Toolkit/Math/TweenEase.h"
-#include "Mojoc/Toolkit/Math/Math.h"
+#include "Engine/Toolkit/Math/TweenEase.h"
+#include "Engine/Toolkit/Math/Math.h"
 
 
 

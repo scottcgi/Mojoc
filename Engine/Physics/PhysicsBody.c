@@ -5,8 +5,8 @@
  *      Author: scott.cgi
  */
 
-#include "Mojoc/Physics/PhysicsBody.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
+#include "Engine/Physics/PhysicsBody.h"
+#include "Engine/Toolkit/Platform/Log.h"
 
 static inline void Init(PhysicsBody* body)
 {

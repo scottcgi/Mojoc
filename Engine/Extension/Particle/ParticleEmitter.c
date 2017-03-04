@@ -8,9 +8,9 @@
 
 #include <math.h>
 
-#include "Mojoc/Extension/Particle/ParticleEmitter.h"
-#include "Mojoc/Toolkit/Define/StructFrom.h"
-#include "Mojoc/Graphics/OpenGL/GLTool.h"
+#include "Engine/Extension/Particle/ParticleEmitter.h"
+#include "Engine/Toolkit/Define/StructFrom.h"
+#include "Engine/Graphics/OpenGL/GLTool.h"
 
 static void Restart(ParticleEmitter* emitter)
 {

@@ -8,7 +8,7 @@
 #ifndef application_h
 #define application_h
 
-#include "Mojoc/Application/Component.h"
+#include "Engine/Application/Component.h"
 
 /**
  * AApplication receive this type of subject message

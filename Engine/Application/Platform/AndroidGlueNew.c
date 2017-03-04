@@ -14,11 +14,11 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include "Mojoc/Graphics/OpenGL/Head/egl.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
-#include "Mojoc/Application/Application.h"
-#include "Mojoc/Graphics/OpenGL/GLTool.h"
-#include "Mojoc/Application/Event.h"
+#include "Engine/Graphics/OpenGL/Head/egl.h"
+#include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Application/Application.h"
+#include "Engine/Graphics/OpenGL/GLTool.h"
+#include "Engine/Application/Event.h"
 
 static const char* saveDataFileName = "NDKSaveDataFile";
 

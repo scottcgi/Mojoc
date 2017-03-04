@@ -5,8 +5,8 @@
  *      Author: scott.cgi
  */
 
-#include "Mojoc/Graphics/OpenGL/SubMesh.h"
-#include "Mojoc/Extension/Spine/SkeletonSlot.h"
+#include "Engine/Graphics/OpenGL/SubMesh.h"
+#include "Engine/Extension/Spine/SkeletonSlot.h"
 
 static inline void SetAttachmentToBone(SkeletonSlot* slot)
 {

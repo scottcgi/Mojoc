@@ -9,13 +9,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "Mojoc/Extension/Spine/SkeletonData.h"
+#include "Engine/Extension/Spine/SkeletonData.h"
 
-#include "Mojoc/Toolkit/Utils/Json.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
-#include "Mojoc/Extension/Spine/SkeletonTimeline.h"
-#include "Mojoc/Graphics/OpenGL/GLTool.h"
-#include "Mojoc/Toolkit/Define/Def.h"
+#include "Engine/Toolkit/Utils/Json.h"
+#include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Extension/Spine/SkeletonTimeline.h"
+#include "Engine/Graphics/OpenGL/GLTool.h"
+#include "Engine/Toolkit/Define/Def.h"
 
 
 static ArrayStrMap(filePath, SkeletonData*) skeletonDataMap[1] = AArrayStrMapInit(SkeletonData*, 20);

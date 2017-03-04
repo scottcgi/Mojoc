@@ -5,7 +5,7 @@
  *  Author: scott.cgi
  */
 
-#include "Mojoc/Graphics/OpenGL/Camera.h"
+#include "Engine/Graphics/OpenGL/Camera.h"
 
 static void SetOrtho()
 {

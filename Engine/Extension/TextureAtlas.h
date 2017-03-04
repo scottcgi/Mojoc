@@ -8,8 +8,8 @@
 #ifndef texture_atlas_h
 #define texture_atlas_h
 
-#include "Mojoc/Graphics/Draw/Quad.h"
-#include "Mojoc/Toolkit/Utils/ArrayStrMap.h"
+#include "Engine/Graphics/Draw/Quad.h"
+#include "Engine/Toolkit/Utils/ArrayStrMap.h"
 
 
 typedef struct

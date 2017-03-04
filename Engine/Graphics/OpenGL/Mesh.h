@@ -9,13 +9,13 @@
 #define mesh_h
 
 
-#include "Mojoc/Toolkit/Utils/ArrayList.h"
-#include "Mojoc/Graphics/Draw/Drawable.h"
-#include "Mojoc/Graphics/Draw/Quad.h"
-#include "Mojoc/Graphics/OpenGL/Texture.h"
-#include "Mojoc/Toolkit/Utils/Array.h"
-#include "Mojoc/Toolkit/Utils/ArrayQueue.h"
-#include "Mojoc/Graphics/OpenGL/MeshDef.h"
+#include "Engine/Toolkit/Utils/ArrayList.h"
+#include "Engine/Graphics/Draw/Drawable.h"
+#include "Engine/Graphics/Draw/Quad.h"
+#include "Engine/Graphics/OpenGL/Texture.h"
+#include "Engine/Toolkit/Utils/Array.h"
+#include "Engine/Toolkit/Utils/ArrayQueue.h"
+#include "Engine/Graphics/OpenGL/MeshDef.h"
 
 /** If use VBO update to buffer */
 typedef struct

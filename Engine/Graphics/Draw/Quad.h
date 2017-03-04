@@ -8,9 +8,9 @@
 #ifndef quad_h
 #define quad_h
 
-#include "Mojoc/Graphics/OpenGL/MeshDef.h"
-#include "Mojoc/Toolkit/Utils/Array.h"
-#include "Mojoc/Graphics/OpenGL/Texture.h"
+#include "Engine/Graphics/OpenGL/MeshDef.h"
+#include "Engine/Toolkit/Utils/Array.h"
+#include "Engine/Graphics/OpenGL/Texture.h"
 
 /**
  * Rect in texture

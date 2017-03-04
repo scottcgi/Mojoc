@@ -8,10 +8,10 @@
 #include <stdbool.h>
 #include <setjmp.h>
 
-#include "Mojoc/Graphics/Utils/Image.h"
-#include "Mojoc/Toolkit/Platform/File.h"
-#include "Mojoc/Toolkit/Platform/Log.h"
-#include "Mojoc/External/PNG/Include/Android/png.h"
+#include "Engine/Graphics/Utils/Image.h"
+#include "Engine/Toolkit/Platform/File.h"
+#include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/External/PNG/Include/Android/png.h"
 
 
 /**

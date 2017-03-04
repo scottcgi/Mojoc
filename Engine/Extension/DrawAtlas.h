@@ -5,8 +5,8 @@
 #ifndef draw_atlas_h
 #define draw_atlas_h
 
-#include "Mojoc/Extension/TextureAtlas.h"
-#include "Mojoc/Graphics/OpenGL/Mesh.h"
+#include "Engine/Extension/TextureAtlas.h"
+#include "Engine/Graphics/OpenGL/Mesh.h"
 
 
 typedef struct

@@ -5,9 +5,9 @@
  *      Author: scott.cgi
  */
 
-#include "Mojoc/Graphics/OpenGL/GLPrimitive.h"
-#include "Mojoc/Graphics/OpenGL/Shader/ShaderPrimitive.h"
-#include "Mojoc/Graphics/OpenGL/Camera.h"
+#include "Engine/Graphics/OpenGL/GLPrimitive.h"
+#include "Engine/Graphics/OpenGL/Shader/ShaderPrimitive.h"
+#include "Engine/Graphics/OpenGL/Camera.h"
 
 
 static Matrix4 identityMatrix[1] = matrix4_identity;

@@ -8,9 +8,9 @@
 #ifndef sub_mesh_h
 #define sub_mesh_h
 
-#include "Mojoc/Graphics/OpenGL/MeshDef.h"
-#include "Mojoc/Graphics/Draw/Drawable.h"
-#include "Mojoc/Graphics/Draw/Quad.h"
+#include "Engine/Graphics/OpenGL/MeshDef.h"
+#include "Engine/Graphics/Draw/Drawable.h"
+#include "Engine/Graphics/Draw/Quad.h"
 
 struct SubMesh
 {

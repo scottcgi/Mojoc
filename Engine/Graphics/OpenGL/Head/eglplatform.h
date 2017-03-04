@@ -34,7 +34,7 @@
  * by filing a bug against product "EGL" component "Registry".
  */
 
-#include "Mojoc/Graphics/OpenGL/Head/khrplatform.h"
+#include "Engine/Graphics/OpenGL/Head/khrplatform.h"
 
 /* Macros used in EGL function prototype declarations.
  *

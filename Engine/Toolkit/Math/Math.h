@@ -14,8 +14,8 @@
 #include <float.h>
 #include <stdbool.h>
 
-#include "Mojoc/Toolkit/Math/God.h"
-#include "Mojoc/Toolkit/Utils/Array.h"
+#include "Engine/Toolkit/Math/God.h"
+#include "Engine/Toolkit/Utils/Array.h"
 
 struct AMath
 {
