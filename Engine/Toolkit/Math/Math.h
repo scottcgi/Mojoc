@@ -14,7 +14,6 @@
 #include <float.h>
 #include <stdbool.h>
 
-#include "Engine/Toolkit/Math/God.h"
 #include "Engine/Toolkit/Utils/Array.h"
 
 struct AMath
@@ -36,6 +35,21 @@ extern struct AMath AMath[1];
 
 //--------------------------------------------------------------------------------------------------
 
+#define golden_ratio     0.618033988749894
+
+/**  PI / 180.0 */
+#define degree_to_radian 0.017453292519943
+
+/** 180.0f / PI */
+#define radian_to_degree 57.29577951308232
+
+#define	math_pi		     3.141592653589793
+
+#define math_2pi         6.283185307179586
+
+#define math_pi2         1.570796326794897
+
+//--------------------------------------------------------------------------------------------------
 
 
 /** Random float in range [0.0, 1.0] */
