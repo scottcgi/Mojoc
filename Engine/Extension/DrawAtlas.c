@@ -5,7 +5,7 @@
 #include "DrawAtlas.h"
 
 #include "Engine/Graphics/OpenGL/SubMesh.h"
-#include "Engine/Toolkit/Define/StructFrom.h"
+#include "Engine/Toolkit/Define/Struct.h"
 #include "Engine/Toolkit/Define/Def.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
@@ -72,7 +72,7 @@ static Drawable* GetQuad(DrawAtlas* drawAtlas, const char* quadName)
 
         ASubMesh->SetWithQuad
         (
-            StructFrom2(drawable, SubMesh),
+            AStructGetParent2(drawable, SubMesh),
             drawAtlas->mesh->texture,
             atlasQuad->quad
         );
@@ -100,7 +100,7 @@ static void Reuse(DrawAtlas* drawAtlas)
 
 static void ReuseQuad(DrawAtlas* drawAtlas, Drawable* drawable)
 {
-    SubMesh* subMesh = StructFrom2(drawable, SubMesh);
+    SubMesh* subMesh = AStructGetParent2(drawable, SubMesh);
 
     ALogA
     (

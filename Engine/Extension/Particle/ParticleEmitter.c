@@ -9,7 +9,7 @@
 #include <math.h>
 
 #include "Engine/Extension/Particle/ParticleEmitter.h"
-#include "Engine/Toolkit/Define/StructFrom.h"
+#include "Engine/Toolkit/Define/Struct.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 
 static void Restart(ParticleEmitter* emitter)
@@ -291,8 +291,8 @@ static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, 
 
 static void Render(Drawable* drawable)
 {
-	Mesh*            mesh    = StructFrom2(drawable, Mesh);
-	ParticleEmitter* emitter = StructFrom2(mesh,     ParticleEmitter);
+	Mesh*            mesh    = AStructGetParent2(drawable, Mesh);
+	ParticleEmitter* emitter = AStructGetParent2(mesh,     ParticleEmitter);
 
 	if (emitter->emitterData->isAdditive)
 	{

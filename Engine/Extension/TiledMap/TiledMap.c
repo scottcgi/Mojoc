@@ -10,7 +10,7 @@
 
 #include "Engine/Extension/TiledMap/TiledMap.h"
 
-#include "Engine/Toolkit/Define/StructFrom.h"
+#include "Engine/Toolkit/Define/Struct.h"
 #include "Engine/Toolkit/Utils/Json.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
@@ -367,7 +367,7 @@ static void Release(TiledMap* map)
 
 static void Render(Drawable* drawable)
 {
-	TiledMap* tiledMap = StructFrom2(drawable, TiledMap);
+	TiledMap* tiledMap = AStructGetParent2(drawable, TiledMap);
     for (int i = 0; i < tiledMap->tilesetArr->length; i++)
     {
     	ADrawable->Draw(AArrayGet(tiledMap->tilesetArr, i, Mesh).drawable);

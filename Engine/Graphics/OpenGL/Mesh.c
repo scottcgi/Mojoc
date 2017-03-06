@@ -9,7 +9,7 @@
 #include "Engine/Graphics/OpenGL/Mesh.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderMesh.h"
-#include "Engine/Toolkit/Define/StructFrom.h"
+#include "Engine/Toolkit/Define/Struct.h"
 #include "Engine/Graphics/Graphics.h"
 
 
@@ -55,7 +55,7 @@ static void ReorderChildren(Mesh* mesh)
 
 static void Draw(Drawable* meshDrawable)
 {
-	Mesh* mesh             = StructFrom3(meshDrawable, Mesh, drawable);
+	Mesh* mesh             = AStructGetParent3  (meshDrawable, Mesh, drawable);
 	bool  isChangedOpacity = ADrawableCheckState(meshDrawable, drawable_state_opacity_ed);
 	bool  isChangedRGB     = ADrawableCheckState(meshDrawable, drawable_state_rgb_ed);
 
@@ -247,7 +247,7 @@ static inline void BindVBO(Mesh* mesh)
 
 static void Render(Drawable* drawable)
 {
-	Mesh* mesh = StructFrom2(drawable, Mesh);
+	Mesh* mesh = AStructGetParent2(drawable, Mesh);
 
 	if (mesh->children->size == 0)
 	{

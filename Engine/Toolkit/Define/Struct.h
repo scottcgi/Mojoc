@@ -18,14 +18,14 @@
 /**
  * Get struct pointer from member pointer
  */
-#define StructFrom2(memberPtr, structType) \
+#define AStructGetParent2(memberPtr, structType) \
 	((structType*) ((char*) memberPtr - offsetof(structType, memberPtr)))
 
 
 /**
- * Get struct pointer from member pointer
+ * Get struct pointer from member pointer with memberName
  */
-#define StructFrom3(memberPtr, structType, memberName) \
+#define AStructGetParent3(memberPtr, structType, memberName) \
 	((structType*) ((char*) memberPtr - offsetof(structType, memberName)))
 
 

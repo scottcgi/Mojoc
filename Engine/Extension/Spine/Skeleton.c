@@ -7,7 +7,7 @@
 
 #include "Engine/Extension/Spine/Skeleton.h"
 
-#include "Engine/Toolkit/Define/StructFrom.h"
+#include "Engine/Toolkit/Define/Struct.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Define/Def.h"
 #include "Engine/Extension/Spine/SkeletonTimeline.h"
@@ -234,7 +234,7 @@ static void Apply(Skeleton* skeleton, SkeletonAnimationData* animationData, floa
 
 static void Draw(Drawable* drawable)
 {
-	Skeleton* skeleton = StructFrom2(drawable, Skeleton);
+	Skeleton* skeleton = AStructGetParent2(drawable, Skeleton);
 
 	for (int i = 0; i < skeleton->boneArr->length; i++)
 	{

@@ -10,7 +10,7 @@
 
 #include "Engine/Graphics/OpenGL/MeshDef.h"
 #include "Engine/Graphics/OpenGL/Sprite.h"
-#include "Engine/Toolkit/Define/StructFrom.h"
+#include "Engine/Toolkit/Define/Struct.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderSprite.h"
 #include "Engine/Graphics/Graphics.h"
@@ -18,7 +18,7 @@
 
 static void Render(Drawable* drawable)
 {
-	Sprite* sprite = StructFrom2(drawable, Sprite);
+	Sprite* sprite = AStructGetParent2(drawable, Sprite);
 
 	AShaderSprite->Use(drawable->mvpMatrix, sprite->drawable->blendColor);
 
