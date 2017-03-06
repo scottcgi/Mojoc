@@ -12,7 +12,6 @@
 #include <stdint.h>
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
-#include "ArrayList.h"
 
 typedef struct
 {

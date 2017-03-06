@@ -12,8 +12,6 @@
 #include "Engine/Toolkit/Define/Def.h"
 #include "Engine/Extension/Spine/Skeleton.h"
 #include "Engine/Extension/Spine/SkeletonSlot.h"
-#include "SkeletonData.h"
-
 
 typedef struct SkeletonAnimationPlayer SkeletonAnimationPlayer;
 typedef void (*SkeletonAnimationPlayerOnActionOver)(SkeletonAnimationPlayer* player);

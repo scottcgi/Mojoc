@@ -11,9 +11,6 @@
 #include "Engine/Toolkit/Define/Def.h"
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
 #include "Engine/Toolkit/Utils/ArrayQueue.h"
-#include "ArrayList.h"
-#include "ArrayQueue.h"
-
 
 typedef struct
 {

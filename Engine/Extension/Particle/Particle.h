@@ -11,7 +11,6 @@
 
 #include <stdbool.h>
 
-
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 
 

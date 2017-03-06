@@ -8,8 +8,6 @@
 #ifndef array_list_h
 #define array_list_h
 
-
-
 #include "Engine/Toolkit/Utils/Array.h"
 
 

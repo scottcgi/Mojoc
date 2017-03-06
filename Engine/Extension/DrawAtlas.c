@@ -2,8 +2,7 @@
 // Created by scott.cgi on 2017/1/5.
 //
 
-#include "DrawAtlas.h"
-
+#include "Engine/Extension/DrawAtlas.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 #include "Engine/Toolkit/Define/Struct.h"
 #include "Engine/Toolkit/Define/Def.h"

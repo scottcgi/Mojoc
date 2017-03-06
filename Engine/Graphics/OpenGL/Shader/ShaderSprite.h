@@ -11,7 +11,6 @@
 #include "Engine/Graphics/OpenGL/Head/gl3.h"
 #include "Engine/Toolkit/Math/Matrix.h"
 #include "Engine/Toolkit/Math/Math.h"
-
 #include "Engine/Graphics/Draw/Color.h"
 
 struct AShaderSprite

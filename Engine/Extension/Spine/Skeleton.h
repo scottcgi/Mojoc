@@ -11,8 +11,6 @@
 #include "Engine/Toolkit/Define/Def.h"
 #include "Engine/Extension/Spine/SkeletonData.h"
 #include "Engine/Extension/Spine/SkeletonBone.h"
-#include "SkeletonData.h"
-
 
 typedef struct Skeleton Skeleton;
 struct  Skeleton

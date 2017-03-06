@@ -10,7 +10,6 @@
 #include <string.h>
 
 #include "Engine/Extension/Spine/SkeletonData.h"
-
 #include "Engine/Toolkit/Utils/Json.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Extension/Spine/SkeletonTimeline.h"

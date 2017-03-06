@@ -8,8 +8,6 @@
 #ifndef color_h
 #define color_h
 
-
-
 typedef struct
 {
 	float r;
