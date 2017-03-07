@@ -5,7 +5,7 @@
  *      Author: scott.cgi
  */
 
-#include "Engine/Toolkit/Utils/tween.h"
+#include "Engine/Toolkit/Utils/Tween.h"
 #include "Engine/Toolkit/Math/Math.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Define/Def.h"

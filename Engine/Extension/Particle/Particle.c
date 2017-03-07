@@ -7,7 +7,7 @@
 
 #include <malloc.h>
 
-#include "Engine/Extension/Particle/particle.h"
+#include "Engine/Extension/Particle/Particle.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
 

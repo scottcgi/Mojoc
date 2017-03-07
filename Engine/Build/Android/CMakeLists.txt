@@ -89,7 +89,7 @@ add_library(
 	../../Application/Application.c
 	../../Application/Scheduler.c
 	../../Application/Component.c
-	../../Application/Platform/AndroidGlueNew.c
+	../../Application/Platform/AndroidGlue.c
 
 ################ MojocExtension ################
 
@@ -111,8 +111,7 @@ add_library(
 	../../Extension/DrawAtlas.c
 
 ################ MojocAudio ################
-    ../../Audio/Audio.c
-
+    ../../Audio/Platform/Audio.c
 )
 
 target_link_libraries(

@@ -15,7 +15,6 @@
 
 extern ANativeActivity* nativeActivity;
 
-
 static File* Open(const char* filePath)
 {
 	AAsset* asset = AAssetManager_open(nativeActivity->assetManager, filePath, AASSET_MODE_UNKNOWN);
