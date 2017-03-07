@@ -115,16 +115,10 @@ add_library(
 
 )
 
-#add_library(
-#    JustForLink STATIC
-#    ../../Application/JustForLink.c
-#)
-
 target_link_libraries(
     Mojoc
 
     PNG
-    #JustForLink
 
     android
     EGL
