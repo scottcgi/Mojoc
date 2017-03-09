@@ -5,7 +5,7 @@
  *  Author: scott.cgi
  */
 
-#include <malloc.h>
+
 #include <string.h>
 
 #include "Engine/Toolkit/Utils/ArrayList.h"

@@ -5,8 +5,7 @@
  *  Author: scott.cgi
  */
 
-#include <malloc.h>
-
+#include "Engine/Toolkit/Head/Stdlib.h"
 #include "Engine/Graphics/OpenGL/Texture.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"

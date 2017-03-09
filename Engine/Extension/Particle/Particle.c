@@ -5,12 +5,8 @@
  *  Author: scott.cgi
  */
 
-#include <malloc.h>
-
+#include "Engine/Toolkit/Head/Stdlib.h"
 #include "Engine/Extension/Particle/Particle.h"
-#include "Engine/Toolkit/Platform/Log.h"
-
-
 
 static void Reset(Particle* particle)
 {

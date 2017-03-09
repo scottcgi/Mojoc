@@ -5,8 +5,7 @@
  *      Author: scott.cgi
  */
 
-#include <malloc.h>
-
+#include "Engine/Toolkit/Head/Stdlib.h"
 #include "Engine/Toolkit/Head/Def.h"
 #include "Engine/Application/Scheduler.h"
 #include "Engine/Toolkit/Platform/Log.h"

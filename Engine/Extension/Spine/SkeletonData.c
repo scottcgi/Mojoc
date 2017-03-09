@@ -5,10 +5,10 @@
  *      Author: scott.cgi
  */
 
-#include <malloc.h>
 #include <stdio.h>
 #include <string.h>
 
+#include "Engine/Toolkit/Head/Stdlib.h"
 #include "Engine/Extension/Spine/SkeletonData.h"
 #include "Engine/Toolkit/Utils/Json.h"
 #include "Engine/Toolkit/Platform/Log.h"

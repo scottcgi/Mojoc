@@ -2,8 +2,7 @@
 // Created by scottcgi on 2016/11/13.
 //
 
-#include <malloc.h>
-
+#include "Engine/Toolkit/Head/Stdlib.h"
 #include "Engine/Toolkit/Head/Def.h"
 #include "Engine/Toolkit/Utils/Coroutine.h"
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"

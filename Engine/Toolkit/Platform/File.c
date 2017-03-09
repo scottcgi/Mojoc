@@ -6,7 +6,6 @@
  */
 
 #include <android/native_activity.h>
-#include <malloc.h>
 #include <string.h>
 
 #include "Engine/Toolkit/Platform/File.h"

@@ -5,7 +5,6 @@
  *  Author: scott.cgi
  */
 
-#include <malloc.h>
 #include <string.h>
 
 #include "Engine/Graphics/Draw/Quad.h"
