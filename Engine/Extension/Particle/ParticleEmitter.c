@@ -9,7 +9,7 @@
 #include <math.h>
 
 #include "Engine/Extension/Particle/ParticleEmitter.h"
-#include "Engine/Toolkit/Define/Struct.h"
+#include "Engine/Toolkit/Head/Struct.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 
 static void Restart(ParticleEmitter* emitter)

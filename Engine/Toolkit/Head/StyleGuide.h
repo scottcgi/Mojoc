@@ -5,8 +5,8 @@
  *  Author: scott.cgi
  */
 
-#ifndef style_guid_h
-#define style_guid_h
+#ifndef style_guide_h
+#define style_guide_h
 
 /**
  *  1.  Use camel named

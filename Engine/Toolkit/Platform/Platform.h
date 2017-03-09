@@ -8,10 +8,24 @@
 #ifndef platform_h
 #define platform_h
 
-
-#define platform_android 1
-#define platform_mac     2
-#define platform_win     3
+#define platform_android 0
+#define platform_ios     1
 #define platform_target  platform_android
+
+
+//--------------------------------------------------------------------------------------------------
+#if platform_target == platform_android
+
+#define is_platform_android
+
+#elif platform_target == platform_ios
+
+#define is_platform_ios
+
+#endif
+//--------------------------------------------------------------------------------------------------
+
+
+
 
 #endif

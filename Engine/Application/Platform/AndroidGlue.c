@@ -5,6 +5,12 @@
  *      Author: scott.cgi
  */
 
+#include "Engine/Toolkit/Platform/Platform.h"
+
+//--------------------------------------------------------------------------------------------------
+#ifdef is_platform_android
+//--------------------------------------------------------------------------------------------------
+
 
 #include <pthread.h>
 #include <android/asset_manager.h>
@@ -515,3 +521,8 @@ void ANativeActivityOnCreate(ANativeActivity* activity, void* savedState, size_t
 	pthread_create             (thread, attr, ThreadRun, NULL);
 	pthread_attr_destroy       (attr);
 }
+
+
+//--------------------------------------------------------------------------------------------------
+#endif
+//--------------------------------------------------------------------------------------------------

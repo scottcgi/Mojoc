@@ -7,9 +7,9 @@
 
 #include "Engine/Extension/Spine/Skeleton.h"
 
-#include "Engine/Toolkit/Define/Struct.h"
+#include "Engine/Toolkit/Head/Struct.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Toolkit/Define/Def.h"
+#include "Engine/Toolkit/Head/Def.h"
 #include "Engine/Extension/Spine/SkeletonTimeline.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 

@@ -9,7 +9,7 @@
 #define physics_body_h
 
 #include "Engine/Toolkit/Math/Matrix.h"
-#include "Engine/Toolkit/Define/Bitwise.h"
+#include "Engine/Toolkit/Head/Bitwise.h"
 #include "Engine/Toolkit/Utils/Array.h"
 
 
