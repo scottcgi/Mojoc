@@ -7,8 +7,8 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-#include "Engine/Toolkit/Head/Stdlib.h"
 #include "Engine/Extension/Spine/SkeletonData.h"
 #include "Engine/Toolkit/Utils/Json.h"
 #include "Engine/Toolkit/Platform/Log.h"

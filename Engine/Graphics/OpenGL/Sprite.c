@@ -5,8 +5,8 @@
  *      Author: scott.cgi
  */
 
+#include <stdlib.h>
 
-#include "Engine/Toolkit/Head/Stdlib.h"
 #include "Engine/Graphics/OpenGL/MeshDef.h"
 #include "Engine/Graphics/OpenGL/Sprite.h"
 #include "Engine/Toolkit/Head/Struct.h"

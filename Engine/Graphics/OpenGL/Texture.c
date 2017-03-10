@@ -5,7 +5,8 @@
  *  Author: scott.cgi
  */
 
-#include "Engine/Toolkit/Head/Stdlib.h"
+#include <stdlib.h>
+
 #include "Engine/Graphics/OpenGL/Texture.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"
