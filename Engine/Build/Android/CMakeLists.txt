@@ -49,7 +49,7 @@ add_library(
     ../../Toolkit/Utils/TweenTool.c
     ../../Toolkit/Utils/Coroutine.c
 
-    ../../Toolkit/Platform/File.c
+    ../../Toolkit/Platform/FileAndroid.c
 
 ################ MojocGraphics ################
 
@@ -111,7 +111,7 @@ add_library(
 	../../Extension/DrawAtlas.c
 
 ################ MojocAudio ################
-    ../../Audio/Platform/Audio.c
+    ../../Audio/Platform/AudioAndroid.c
 )
 
 target_link_libraries(

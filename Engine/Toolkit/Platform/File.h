@@ -17,7 +17,7 @@ struct AFile
 	/**
 	 * Return filePtr
 	 */
-    File* (*Open)       (const char* filePath);
+    File* (*Open)             (const char* filePath);
 
     /**
      * Open a new file descriptor that can be used to read the asset data. If the
