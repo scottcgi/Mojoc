@@ -6,6 +6,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"

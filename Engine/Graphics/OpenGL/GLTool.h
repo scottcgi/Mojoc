@@ -10,8 +10,8 @@
 
 #include <stdbool.h>
 
-#include "Engine/Graphics/OpenGL/Platform/egl.h"
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
+#include "Engine/Graphics/OpenGL/Platform/egl.h"
 #include "Engine/Graphics/OpenGL/Texture.h"
 
 

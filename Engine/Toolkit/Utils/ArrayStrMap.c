@@ -6,6 +6,7 @@
  */
 
 #include <string.h>
+#include <stdlib.h>
 
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"
 #include "Engine/Toolkit/Platform/Log.h"

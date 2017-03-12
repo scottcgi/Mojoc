@@ -5,6 +5,8 @@
  *      Author: scott.cgi
  */
 
+#include <string.h>
+
 #include "Engine/Physics/PhysicsBody.h"
 #include "Engine/Toolkit/Platform/Log.h"
 

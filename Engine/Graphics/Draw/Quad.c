@@ -6,6 +6,7 @@
  */
 
 #include <string.h>
+#include <stdlib.h>
 
 #include "Engine/Graphics/Draw/Quad.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
@@ -100,20 +101,22 @@ static void GetQuadVertex(Quad* quad, Texture* texture, float outVertexData[quad
     memcpy
 	(
 		outVertexData,
-		(float[])
-		{
-			qx, qy, // Position 0
-			tx, ty, // TexCoord 0
-
-			qx, qh, // Position 1
-			tx, th, // TexCoord 1
-
-			qw, qh, // Position 2
-			tw, th, // TexCoord 2
-
-			qw, qy, // Position 3
-			tw, ty, // TexCoord 3
-		},
+        (
+            (float[])
+            {
+                qx, qy, // Position 0
+                tx, ty, // TexCoord 0
+          
+                qx, qh, // Position 1
+                tx, th, // TexCoord 1
+          
+                qw, qh, // Position 2
+                tw, th, // TexCoord 2
+          
+                qw, qy, // Position 3
+                tw, ty, // TexCoord 3
+            }
+        ),
 		quad_vertex_num_byte
 	);
 }
@@ -130,16 +133,18 @@ static void GetQuadPosition3(Quad* quad, float outBornPositionData[quad_position
     memcpy
 	(
 		outBornPositionData,
-		(float[])
-		{
-			qx, qy, 0.0f, // Position 0
-
-			qx, qh, 0.0f, // Position 1
-
-			qw ,qh, 0.0f, // Position 2
-
-			qw, qy, 0.0f, // Position 3
-		},
+        (
+            (float[])
+            {
+                qx, qy, 0.0f, // Position 0
+        
+                qx, qh, 0.0f, // Position 1
+        
+                qw ,qh, 0.0f, // Position 2
+        
+                qw, qy, 0.0f, // Position 3
+            }
+         ),
 		quad_position3_num_byte
 	);
 }
@@ -156,16 +161,18 @@ static void GetQuadUV(Quad* quad, Texture* texture, float outUVData[quad_uv_num]
     memcpy
 	(
 		outUVData,
-		(float[])
-		{
-			tx, ty, // TexCoord 0
+		(
+            (float[])
+            {
+                tx, ty, // TexCoord 0
 
-			tx, th, // TexCoord 1
+                tx, th, // TexCoord 1
 
-			tw, th, // TexCoord 2
-
-			tw, ty, // TexCoord 3
-		},
+                tw, th, // TexCoord 2
+                
+                tw, ty, // TexCoord 3
+            }
+        ),
 		quad_uv_num_byte
 	);
 }
@@ -176,7 +183,7 @@ static void GetQuadIndex(int vertexNumBefore, short outIndexData[quad_index_num]
     memcpy
 	(
 		outIndexData,
-		(short[])
+		((short[])
 		{
 			(short) (0 + vertexNumBefore),
 			(short) (1 + vertexNumBefore),
@@ -185,7 +192,7 @@ static void GetQuadIndex(int vertexNumBefore, short outIndexData[quad_index_num]
 			(short) (2 + vertexNumBefore),
 			(short) (3 + vertexNumBefore),
 			(short) (0 + vertexNumBefore),
-		},
+		}),
 		quad_index_num_byte
 	);
 }
