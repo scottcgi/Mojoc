@@ -7,7 +7,7 @@
 
 #include <string.h>
 
-#include "Engine/Graphics/OpenGL/Head/gl3.h"
+#include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Graphics/OpenGL/GLInfo.h"
 #include "Engine/Toolkit/Platform/Log.h"
 

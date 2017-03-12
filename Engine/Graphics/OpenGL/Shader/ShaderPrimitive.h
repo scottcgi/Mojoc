@@ -8,7 +8,7 @@
 #ifndef shader_primitive_h
 #define shader_primitive_h
 
-#include "Engine/Graphics/OpenGL/Head/gl3.h"
+#include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Toolkit/Math/Matrix.h"
 #include "Engine/Toolkit/Math/Math.h"
 #include "Engine/Graphics/Draw/Color.h"

@@ -7,7 +7,7 @@
 
 #include <stdbool.h>
 
-#include "Engine/Graphics/OpenGL/Head/gl3.h"
+#include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderPrimitive.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"

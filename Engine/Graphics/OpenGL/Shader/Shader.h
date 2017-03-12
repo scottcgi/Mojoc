@@ -8,7 +8,7 @@
 #ifndef shader_h
 #define shader_h
 
-#include "Engine/Graphics/OpenGL/Head/gl3.h"
+#include "Engine/Graphics/OpenGL/Platform/gl3.h"
 
 /**
  * Record current using shader info
