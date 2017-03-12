@@ -69,6 +69,7 @@ add_library(
 	../../Graphics/OpenGL/Texture.c
 	../../Graphics/OpenGL/Mesh.c
 	../../Graphics/OpenGL/SubMesh.c
+    ../../Graphics/OpenGL/Platform/EGLTool.c
 
 	../../Graphics/Draw/Quad.c
 	../../Graphics/Draw/Drawable.c

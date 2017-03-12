@@ -11,7 +11,6 @@
 #ifdef is_platform_android
 //--------------------------------------------------------------------------------------------------
 
-
 #include <pthread.h>
 #include <android/asset_manager.h>
 #include <android/configuration.h>
@@ -20,6 +19,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#include "Engine/Graphics/OpenGL/Platform/EGLTool.h"
 #include "Engine/Graphics/OpenGL/Platform/egl.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Application/Application.h"
@@ -282,7 +282,7 @@ static void* ThreadRun(void* param)
             {
                 case main_thread_on_destroy:
                     // call in main thread
-                    AGLTool->DestroyEGL(&AData->display, &AData->context, &AData->surface);
+                    AEGLTool->DestroyEGL(&AData->display, &AData->context, &AData->surface);
                     return NULL;
 
                 case main_thread_on_pause: // sometimes before resized
@@ -300,7 +300,7 @@ static void* ThreadRun(void* param)
                 case main_thread_on_first_resized:
                     // we need create EGL and use openGL in one thread
                     // call in main thread
-                    AGLTool->CreateEGL(AData->window, &AData->display, &AData->context, &AData->surface, &AData->config);
+                    AEGLTool->CreateEGL(AData->window, &AData->display, &AData->context, &AData->surface, &AData->config);
 
                     // EGL_NATIVE_VISUAL_ID is an attribute of the EGLConfig that is
                     // guaranteed to be accepted by ANativeWindow_SetBuffersGeometry()
@@ -317,7 +317,7 @@ static void* ThreadRun(void* param)
 
                 case main_thread_on_resized:
                     // call in main thread
-                    AGLTool->ResetSurface(AData->window, AData->display, AData->context, AData->config, &AData->surface);
+                    AEGLTool->ResetSurface(AData->window, AData->display, AData->context, AData->config, &AData->surface);
                     ANativeWindow_setBuffersGeometry(AData->window, 0, 0, AData->format);
                     AApplicationOnResized(ANativeWindow_getWidth(AData->window), ANativeWindow_getHeight(AData->window));
                     AData->mainThreadCallback = main_thread_on_null;
