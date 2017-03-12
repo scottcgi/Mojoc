@@ -5,6 +5,8 @@
  *      Author: scott.cgi
  */
 
+#include <string.h>
+
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/Mesh.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"

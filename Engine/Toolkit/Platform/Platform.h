@@ -12,7 +12,6 @@
 #define platform_ios     1
 #define platform_target  platform_android
 
-
 //--------------------------------------------------------------------------------------------------
 #if platform_target == platform_android
 
