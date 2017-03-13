@@ -5,6 +5,7 @@
  *      Author: scott.cgi
  */
 
+#include <string.h>
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 #include "Engine/Extension/Spine/SkeletonSlot.h"
 
