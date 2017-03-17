@@ -31,7 +31,7 @@ static File* Open(const char* filePath)
 }
 
 
-static int OpenFileDescriptor(const char* filePath, off_t* outStart, off_t* outLength)
+static int OpenFileDescriptor(const char* filePath, long* outStart, long* outLength)
 {
     AAsset* asset = AAssetManager_open(nativeActivity->assetManager, filePath, AASSET_MODE_UNKNOWN);
 
@@ -61,6 +61,7 @@ static int Read(File* filePtr, void* buffer, size_t count)
 	return AAsset_read((AAsset*) filePtr, buffer, count);
 }
 
+
 static int Seek(File* filePtr, long offset, int whence)
 {
 	return AAsset_seek((AAsset*) filePtr, offset, whence);
@@ -82,6 +83,7 @@ static char* ReadBuffer(const char* filePath, long* outLength)
 
 	return buffer;
 }
+
 
 static char* ReadString(const char* filePath)
 {
@@ -108,13 +110,14 @@ static int GetDirLength(const char* filePath)
 	if (lastSlash != NULL)
 	{
     	// include last slash
-		return lastSlash - filePath + 1;
+		return (int) (lastSlash - filePath + 1);
 	}
 	else
 	{
 		return 0;
 	}
 }
+
 
 struct AFile AFile[1] =
 {
