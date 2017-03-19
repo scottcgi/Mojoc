@@ -37,7 +37,7 @@ enum
 };
 
 
-typedef enum
+typedef volatile enum
 {
 	main_thread_on_null,
 	main_thread_on_wait,
@@ -53,18 +53,19 @@ MainThreadCallback;
 
 static struct
 {
-    EGLDisplay         display;
-    EGLSurface         surface;
-    EGLContext         context;
-    EGLConfig          config;
-	EGLint             format;
+    EGLDisplay      display;
+    EGLSurface      surface;
+    EGLContext      context;
+    EGLConfig       config;
+	EGLint          format;
 
-	AConfiguration*    assetConfig;
-	ANativeWindow*     window;
-	ALooper*           looper;
-	AInputQueue*       inputQueue;
+	AConfiguration* assetConfig;
+	ANativeWindow*  window;
+	ALooper*        looper;
+	AInputQueue*    inputQueue;
 
-	MainThreadCallback mainThreadCallback;
+    // volatile make sure not optimized by the compiler
+    volatile MainThreadCallback mainThreadCallback;
 }
 AData[1] =
 {
@@ -249,83 +250,67 @@ static int LooperOnInputEvent(int fd, int events, void* data)
 static void* ThreadRun(void* param)
 {
 	AApplication->Init();
-
     AData->looper = ALooper_prepare(0);
-
-    struct timespec now;
-    struct timespec last;
-    // start clock
-    clock_gettime(CLOCK_MONOTONIC, &last);
 
 //--------------------------------------------------------------------------------------------------
 
 	while (true)
     {
-    	clock_gettime(CLOCK_MONOTONIC, &now);
-    	float deltaTime = (now.tv_nsec - last.tv_nsec) * 0.000000001 + (now.tv_sec - last.tv_sec);
-		last            =  now;
-
-        if (AData->mainThreadCallback == main_thread_on_null)
+        switch (AData->mainThreadCallback)
         {
-            // handle event
-            ALooper_pollAll(0, NULL, NULL, NULL);
+            case main_thread_on_null:
+                // handle event
+                ALooper_pollAll(0, NULL, NULL, NULL);
 
-            // application main loop
-            AApplication->Loop(deltaTime);
+                // application main loop
+                AApplication->Loop();
 
-            // render buffer
-            eglSwapBuffers(AData->display, AData->surface);
-        }
-        else
-        {
-            switch (AData->mainThreadCallback)
-            {
-                case main_thread_on_destroy:
-                    // call in main thread
-                    AEGLTool->DestroyEGL(&AData->display, &AData->context, &AData->surface);
-                    return NULL;
+                // render buffer
+                eglSwapBuffers(AData->display, AData->surface);
+                continue;
 
-                case main_thread_on_pause: // sometimes before resized
-                    // call in main thread
-                    AApplication->callbacks->OnPause();
-                    AData->mainThreadCallback = main_thread_on_wait;
-                    continue;
+            case main_thread_on_destroy:
+                // call in main thread
+                AEGLTool->DestroyEGL(&AData->display, &AData->context, &AData->surface);
+                return NULL;
 
-                case main_thread_on_resume:
-                    // call in main thread
-                    AApplication->callbacks->OnResume();
-                    AData->mainThreadCallback = main_thread_on_null;
-                    break;
+            case main_thread_on_pause: // sometimes before resized
+                // call in main thread
+                AApplication->callbacks->OnPause();
+                AData->mainThreadCallback = main_thread_on_wait;
+                continue;
 
-                case main_thread_on_first_resized:
-                    // we need create EGL and use openGL in one thread
-                    // call in main thread
-                    AEGLTool->CreateEGL(AData->window, &AData->display, &AData->context, &AData->surface, &AData->config);
+            case main_thread_on_resume:
+                // call in main thread
+                AApplicationOnResme();
+                AData->mainThreadCallback = main_thread_on_null;
+                break;
 
-                    // EGL_NATIVE_VISUAL_ID is an attribute of the EGLConfig that is
-                    // guaranteed to be accepted by ANativeWindow_SetBuffersGeometry()
-                    // As soon as we picked a EGLConfig, we can safely reconfigure the
-                    // ANativeWindow buffers to match, using EGL_NATIVE_VISUAL_ID
-                    eglGetConfigAttrib              (AData->display, AData->config, EGL_NATIVE_VISUAL_ID, &AData->format);
-                    ANativeWindow_setBuffersGeometry(AData->window,  0, 0, AData->format);
-                    AApplicationOnResized(ANativeWindow_getWidth(AData->window), ANativeWindow_getHeight(AData->window));
+            case main_thread_on_first_resized:
+                // we need create EGL and use openGL in one thread
+                // call in main thread
+                AEGLTool->CreateEGL(AData->window, &AData->display, &AData->context, &AData->surface, &AData->config);
 
-                    AApplicationOnGLReady();
-                    AApplication->callbacks->OnCreated();
-                    AData->mainThreadCallback = main_thread_on_null;
-                    break;
+                // EGL_NATIVE_VISUAL_ID is an attribute of the EGLConfig that is
+                // guaranteed to be accepted by ANativeWindow_SetBuffersGeometry()
+                // As soon as we picked a EGLConfig, we can safely reconfigure the
+                // ANativeWindow buffers to match, using EGL_NATIVE_VISUAL_ID
+                eglGetConfigAttrib              (AData->display, AData->config, EGL_NATIVE_VISUAL_ID, &AData->format);
+                ANativeWindow_setBuffersGeometry(AData->window,  0, 0, AData->format);
+                AApplicationOnResized(ANativeWindow_getWidth(AData->window), ANativeWindow_getHeight(AData->window));
 
-                case main_thread_on_resized:
-                    // call in main thread
-                    AEGLTool->ResetSurface(AData->window, AData->display, AData->context, AData->config, &AData->surface);
-                    ANativeWindow_setBuffersGeometry(AData->window, 0, 0, AData->format);
-                    AApplicationOnResized(ANativeWindow_getWidth(AData->window), ANativeWindow_getHeight(AData->window));
-                    AData->mainThreadCallback = main_thread_on_null;
-                    break;
+                AApplicationOnGLReady();
+                AApplication->callbacks->OnCreated();
+                AData->mainThreadCallback = main_thread_on_null;
+                break;
 
-                case main_thread_on_wait:
-                    continue;
-            }
+            case main_thread_on_resized:
+                // call in main thread
+                AEGLTool->ResetSurface(AData->window, AData->display, AData->context, AData->config, &AData->surface);
+                ANativeWindow_setBuffersGeometry(AData->window, 0, 0, AData->format);
+                AApplicationOnResized(ANativeWindow_getWidth(AData->window), ANativeWindow_getHeight(AData->window));
+                AData->mainThreadCallback = main_thread_on_null;
+                break;
         }
     }
 

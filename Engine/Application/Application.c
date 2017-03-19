@@ -17,6 +17,8 @@
 #include "Engine/Physics/PhysicsWorld.h"
 #include "Engine/Toolkit/Utils/Coroutine.h"
 
+static struct timespec now;
+static struct timespec last;
 
 static bool OnMessage(Component* component, void* sender, int subject, void* extraData)
 {
@@ -45,6 +47,14 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                 AApplication->callbacks->OnResized(width, height);
 			}
 			break;
+
+            case application_msg_on_resume:
+            {
+                AApplication->callbacks->OnResume();
+                // restart clock
+                clock_gettime(CLOCK_MONOTONIC, &last);
+            }
+            break;
 		}
 	}
 
@@ -60,12 +70,22 @@ static void Init()
 
     AComponent->Init(AApplication->component);
     AApplication->component->defualtState->OnMessage = OnMessage;
+
+    // start clock
+    clock_gettime(CLOCK_MONOTONIC, &last);
 }
 
 
-static void Loop(float deltaTime)
+
+static void Loop()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    float deltaTime = (now.tv_nsec - last.tv_nsec) * 0.000000001 + (now.tv_sec - last.tv_sec);
+    last            =  now;
+
+//--------------------------------------------------------------------------------------------------
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	AScheduler   ->Update(deltaTime);
 	ACoroutine   ->Update(deltaTime);

@@ -34,6 +34,11 @@ enum
      * When window has been resized
      */
 	application_msg_on_resized,
+
+    /**
+     * When application resume
+     */
+    application_msg_on_resume,
 };
 
 //--------------------------------------------------------------------------------------------------
@@ -80,7 +85,7 @@ struct AApplication
 	void (*Init)();
 
 	/** Called every frame */
-	void (*Loop)(float deltaTime);
+	void (*Loop)();
 };
 
 extern struct AApplication AApplication[1];
@@ -132,6 +137,17 @@ static inline void AApplicationOnResized(int width, int height)
         AApplication,
         application_msg_on_resized,
         (int[]) {width, height}
+    );
+}
+
+static inline void AApplicationOnResme()
+{
+    AApplication->component->curState->OnMessage
+    (
+        AApplication->component,
+        AApplication,
+        application_msg_on_resume,
+        NULL
     );
 }
 
