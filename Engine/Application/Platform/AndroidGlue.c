@@ -65,6 +65,7 @@ static struct
 	AInputQueue*    inputQueue;
 
     // volatile make sure not optimized by the compiler
+    // because two threads modify mainThreadCallback
     volatile MainThreadCallback mainThreadCallback;
 }
 AData[1] =
@@ -93,7 +94,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 				// first pointer down
 				case AMOTION_EVENT_ACTION_DOWN:
 				{
-					AApplicationOnTouch
+					AApplication->Touch
 					(
 						AArrayMake
 						(
@@ -115,7 +116,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 				{
 					int indexDown = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
 
-					AApplicationOnTouch
+                    AApplication->Touch
 					(
 						AArrayMake
 						(
@@ -135,7 +136,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 				// first pinter up
 				case AMOTION_EVENT_ACTION_UP:
 				{
-					AApplicationOnTouch
+                    AApplication->Touch
 					(
 						AArrayMake
 						(
@@ -157,7 +158,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 				{
 					int indexUp = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
 
-					AApplicationOnTouch
+                    AApplication->Touch
 					(
 						AArrayMake
 						(
@@ -186,7 +187,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 						points[i].type = event_touch_move;
 					}
 
-					AApplicationOnTouch
+                    AApplication->Touch
 					(
 						(Array[]) {points, count}
 					);
@@ -207,7 +208,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 						points[i].type = event_touch_cancel;
 					}
 
-					AApplicationOnTouch
+                    AApplication->Touch
 					(
 						(Array[]) {points, count}
 					);
@@ -249,7 +250,6 @@ static int LooperOnInputEvent(int fd, int events, void* data)
 
 static void* ThreadRun(void* param)
 {
-	AApplication->Init();
     AData->looper = ALooper_prepare(0);
 
 //--------------------------------------------------------------------------------------------------
@@ -276,13 +276,13 @@ static void* ThreadRun(void* param)
 
             case main_thread_on_pause: // sometimes before resized
                 // call in main thread
-                AApplication->callbacks->OnPause();
+                AApplication->Pause();
                 AData->mainThreadCallback = main_thread_on_wait;
                 continue;
 
             case main_thread_on_resume:
                 // call in main thread
-                AApplicationOnResme();
+                AApplication->Resume();
                 AData->mainThreadCallback = main_thread_on_null;
                 break;
 
@@ -297,18 +297,21 @@ static void* ThreadRun(void* param)
                 // ANativeWindow buffers to match, using EGL_NATIVE_VISUAL_ID
                 eglGetConfigAttrib              (AData->display, AData->config, EGL_NATIVE_VISUAL_ID, &AData->format);
                 ANativeWindow_setBuffersGeometry(AData->window,  0, 0, AData->format);
-                AApplicationOnResized(ANativeWindow_getWidth(AData->window), ANativeWindow_getHeight(AData->window));
 
-                AApplicationOnGLReady();
-                AApplication->callbacks->OnCreated();
+                AApplication->GLReady
+                (
+                    ANativeWindow_getWidth (AData->window),
+                    ANativeWindow_getHeight(AData->window)
+                );
+
                 AData->mainThreadCallback = main_thread_on_null;
                 break;
 
             case main_thread_on_resized:
                 // call in main thread
-                AEGLTool->ResetSurface(AData->window, AData->display, AData->context, AData->config, &AData->surface);
+                AEGLTool->ResetSurface          (AData->window, AData->display, AData->context, AData->config, &AData->surface);
                 ANativeWindow_setBuffersGeometry(AData->window, 0, 0, AData->format);
-                AApplicationOnResized(ANativeWindow_getWidth(AData->window), ANativeWindow_getHeight(AData->window));
+                AApplication->Resized           (ANativeWindow_getWidth(AData->window), ANativeWindow_getHeight(AData->window));
                 AData->mainThreadCallback = main_thread_on_null;
                 break;
         }
@@ -464,14 +467,7 @@ void ANativeActivityOnCreate(ANativeActivity* activity, void* savedState, size_t
     activity->callbacks->onConfigurationChanged     = OnConfigurationChanged;
     activity->callbacks->onLowMemory                = OnLowMemory;
 
-    ApplicationMain();
-
-    ALogA(AApplication->callbacks->OnCreated     != NULL, "AApplication->callbacks->OnCreated     must set");
-    ALogA(AApplication->callbacks->OnPause       != NULL, "AApplication->callbacks->OnPause       must set");
-    ALogA(AApplication->callbacks->OnResume      != NULL, "AApplication->callbacks->OnResume      must set");
-    ALogA(AApplication->callbacks->OnResized     != NULL, "AApplication->callbacks->OnResized     must set");
-    ALogA(AApplication->callbacks->OnGetSaveData != NULL, "AApplication->callbacks->OnGetSaveData must set");
-    ALogA(AApplication->callbacks->OnSetSaveData != NULL, "AApplication->callbacks->OnSetSaveData must set");
+    AApplication->Init();
 
 //--------------------------------------------------------------------------------------------------
 

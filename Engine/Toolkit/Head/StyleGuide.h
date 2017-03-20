@@ -87,20 +87,16 @@
  *  34. function pointer or function name first word upper case
  *
  *  35. if comment between
- *      '--------------------------------------------------------------------------------------------------'
+ *      '//--------------------------------------------------------------------------------------------------'
  *      means comment few blocks of code
  *
  *  36. Use
  *      '//--------------------------------------------------------------------------------------------------'
  *      for split line
  *
- *  37. use
- *      '/*--------------------------------------------------------------------------------------------------'
- *      for code block comment
+ *  37. non-boolean value use conditional expressions in conditional judgments
  *
- *  38. non-boolean value use conditional expressions in conditional judgments
- *
- *  39. In head file that the macro of conditional inclusion use lower case words separated by '_' with suffix '_h'
+ *  38. In head file that the macro of conditional inclusion use lower case words separated by '_' with suffix '_h'
  */
 
 #endif

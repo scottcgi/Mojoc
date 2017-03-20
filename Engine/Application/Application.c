@@ -16,50 +16,10 @@
 #include "Engine/Physics/Physics.h"
 #include "Engine/Physics/PhysicsWorld.h"
 #include "Engine/Toolkit/Utils/Coroutine.h"
+#include "Engine/Toolkit/Platform/Log.h"
 
 static struct timespec now;
 static struct timespec last;
-
-static bool OnMessage(Component* component, void* sender, int subject, void* extraData)
-{
-	if (sender == AApplication)
-	{
-		switch (subject)
-		{
-			case application_msg_on_gl_ready:
-			{
-				AGraphics->Init();
-			}
-			break;
-
-			case application_msg_on_touch:
-			{
-				AComponent->SendMessageToChildren(AApplication->component, AApplication, subject, extraData);
-			}
-			break;
-
-			case application_msg_on_resized:
-			{
-                int width  = ((int*) extraData)[0];
-                int height = ((int*) extraData)[1];
-
-                AGLTool     ->SetSize             (width, height);
-                AApplication->callbacks->OnResized(width, height);
-			}
-			break;
-
-            case application_msg_on_resume:
-            {
-                AApplication->callbacks->OnResume();
-                // restart clock
-                clock_gettime(CLOCK_MONOTONIC, &last);
-            }
-            break;
-		}
-	}
-
-	return false;
-}
 
 static void Init()
 {
@@ -69,12 +29,21 @@ static void Init()
 	AAudio    ->Init();
 
     AComponent->Init(AApplication->component);
-    AApplication->component->defualtState->OnMessage = OnMessage;
+
+    // entry called
+    ApplicationMain();
+
+    // check callback setting
+    ALogA(AApplication->callbacks->OnReady       != NULL, "AApplication->callbacks->OnReady     must set");
+    ALogA(AApplication->callbacks->OnPause       != NULL, "AApplication->callbacks->OnPause       must set");
+    ALogA(AApplication->callbacks->OnResume      != NULL, "AApplication->callbacks->OnResume      must set");
+    ALogA(AApplication->callbacks->OnResized     != NULL, "AApplication->callbacks->OnResized     must set");
+    ALogA(AApplication->callbacks->OnGetSaveData != NULL, "AApplication->callbacks->OnGetSaveData must set");
+    ALogA(AApplication->callbacks->OnSetSaveData != NULL, "AApplication->callbacks->OnSetSaveData must set");
 
     // start clock
     clock_gettime(CLOCK_MONOTONIC, &last);
 }
-
 
 
 static void Loop()
@@ -100,13 +69,55 @@ static void Loop()
 	ADrawable->RenderQueue();
 }
 
+
+static void Resized(int width, int height)
+{
+    AGLTool     ->SetSize             (width, height);
+    AApplication->callbacks->OnResized(width, height);
+}
+
+
+static void GLReady(int width, int height)
+{
+    Resized(width, height);
+    AGraphics->Init();
+    AApplication->callbacks->OnReady();
+}
+
+
+static void Pause()
+{
+    AApplication->callbacks->OnPause();
+}
+
+
+static void Resume()
+{
+    AApplication->callbacks->OnResume();
+    // restart clock
+    clock_gettime(CLOCK_MONOTONIC, &last);
+}
+
+
+static void Touch(Array(EventTouchPoint)* touchData)
+{
+    AComponent->SendMessageToChildren
+    (
+        AApplication->component,
+        AApplication,
+        application_msg_on_touch,
+        touchData
+    );
+}
+
+
 struct AApplication AApplication[1] =
 {
 	{
 		.callbacks =
         {
             {
-               .OnCreated     = NULL,
+               .OnReady       = NULL,
                .OnPause       = NULL,
                .OnResume      = NULL,
                .OnResized     = NULL,
@@ -114,8 +125,14 @@ struct AApplication AApplication[1] =
                .OnSetSaveData = NULL,
             }
         },
-		.Init = Init,
-		.Loop = Loop,
+
+		.Init    = Init,
+		.Loop    = Loop,
+        .GLReady = GLReady,
+        .Resized = Resized,
+        .Pause   = Pause,
+        .Resume  = Resume,
+        .Touch   = Touch,
 	}
 };
 

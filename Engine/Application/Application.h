@@ -24,21 +24,6 @@ enum
 	 * the extraData is Array(EventTouchPoint)
      */
 	application_msg_on_touch,
-
-	/**
-	 * When EGL ready, openGL command can work
-	 */
-	application_msg_on_gl_ready,
-
-	/**
-     * When window has been resized
-     */
-	application_msg_on_resized,
-
-    /**
-     * When application resume
-     */
-    application_msg_on_resume,
 };
 
 //--------------------------------------------------------------------------------------------------
@@ -46,7 +31,7 @@ enum
 typedef struct
 {
 	/** Called when application window ready, openGL ready */
-	void (*OnCreated)    ();
+	void (*OnReady)      ();
 
 	/** Called when application going into the background */
 	void (*OnPause)      ();
@@ -79,16 +64,48 @@ struct AApplication
 	 */
 	ApplicationCallbacks  callbacks[1];
 
+//--------------------------------------------------------------------------------------------------
+// These functions called in target platform
+//--------------------------------------------------------------------------------------------------
+
 	/**
 	 * Initialize each modules
 	 */
-	void (*Init)();
+	void (*Init)   ();
 
-	/** Called every frame */
-	void (*Loop)();
+	/**
+	 * Called every frame
+	 */
+	void (*Loop)   ();
+
+    /**
+     * Called when OpenGL ready to rendering
+     */
+    void (*GLReady)(int width, int height);
+
+    /**
+     * Called when window resized
+     */
+    void (*Resized)(int width, int height);
+
+    /**
+     * Called when application pause
+     */
+    void (*Pause)  ();
+
+    /**
+     * Called when application resume from pause
+     */
+    void (*Resume) ();
+
+    /**
+     * Called when receive touch event
+     */
+    void (*Touch)  (Array(EventTouchPoint)* touchData);
 };
 
 extern struct AApplication AApplication[1];
+
 
 /**
  * This function must implement ApplicationCallbacks method
@@ -102,53 +119,11 @@ static inline void AApplicationAppendChild(Component* child)
     AComponent->AppendChild(AApplication->component, child);
 }
 
+
 static inline void AApplicationAddChild(Component* child, int order)
 {
 	AComponent->AddChild(AApplication->component, child, order);
 }
 
-static inline void AApplicationOnTouch(void* extraData)
-{
-	AApplication->component->curState->OnMessage
-	(
-		AApplication->component,
-		AApplication,
-		application_msg_on_touch,
-		extraData
-	);
-}
-
-static inline void AApplicationOnGLReady()
-{
-	AApplication->component->curState->OnMessage
-	(
-		AApplication->component,
-		AApplication,
-		application_msg_on_gl_ready,
-		NULL
-	);
-}
-
-static inline void AApplicationOnResized(int width, int height)
-{
-    AApplication->component->curState->OnMessage
-    (
-        AApplication->component,
-        AApplication,
-        application_msg_on_resized,
-        (int[]) {width, height}
-    );
-}
-
-static inline void AApplicationOnResme()
-{
-    AApplication->component->curState->OnMessage
-    (
-        AApplication->component,
-        AApplication,
-        application_msg_on_resume,
-        NULL
-    );
-}
 
 #endif
