@@ -14,8 +14,8 @@
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Graphics/OpenGL/Sprite.h"
-#include "Engine/Toolkit/Platform/File.h"
 #include "Engine/Graphics/OpenGL/Mesh.h"
+#include "Engine/Toolkit/Utils/FileTool.h"
 
 
 static inline void ParseMapInfo(TiledMap* map, JsonObject* root)
@@ -78,7 +78,7 @@ static inline void ParseTilesets(TiledMap* map, JsonObject* root, const char* fi
     	Texture* texture;
 
     	const char* image = AJsonObject->GetString(tileset, "image", NULL);
-        int   fileDirLen  = AFile->GetDirLength(filePath);
+        int   fileDirLen  = AFileTool->GetDirLength(filePath);
 
     	if (fileDirLen == 0)
     	{

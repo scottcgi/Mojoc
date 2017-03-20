@@ -11,10 +11,10 @@
 
 #include "Engine/Toolkit/Head/Def.h"
 #include "Engine/Extension/TextureAtlas.h"
-#include "Engine/Toolkit/Platform/File.h"
 #include "Engine/Toolkit/Utils/BufferReader.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
+#include "Engine/Toolkit/Utils/FileTool.h"
 
 
 static ArrayStrMap(filePath, TextureAtlas*) textureAtlasMap[1] = AArrayStrMapInit(TextureAtlas*, 10);
@@ -34,7 +34,7 @@ static void Init(const char* filePath, TextureAtlas* outTextureAtlas)
 	AArrayList  ->InitWithCapacity(sizeof(Texture*),           5,  outTextureAtlas->textureList);
 
 	long  size;
-	char* buffer = AFile->ReadBuffer(filePath, &size);
+	char* buffer = AFileTool->ReadBufferPlatform(filePath, &size);
 
 	ArrayRange range[1] = {0, size - 1};
 	ArrayRange line [1];
@@ -46,7 +46,7 @@ static void Init(const char* filePath, TextureAtlas* outTextureAtlas)
 		// read image name
 		ABufferReader->ReadLine(buffer, range, line);
 
-		int  fileDirLen = AFile->GetDirLength(filePath);
+		int  fileDirLen = AFileTool->GetDirLength(filePath);
 		int  pathLen    = fileDirLen + (line->end - line->start);
 		char path[pathLen + 1];
 

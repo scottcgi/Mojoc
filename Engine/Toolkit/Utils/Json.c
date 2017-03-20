@@ -13,7 +13,7 @@
 #include "Engine/Toolkit/Utils/Json.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Head/Def.h"
-#include "Engine/Toolkit/Platform/File.h"
+#include "Engine/Toolkit/Utils/FileTool.h"
 
 /**
  * if json_array  free each items and recursive
@@ -583,7 +583,7 @@ static JsonValue* Parse(const char* jsonString)
 
 static JsonValue* ParseWithFile(const char* jsonPath)
 {
-	char*        jsonString = AFile->ReadString(jsonPath);
+	char*        jsonString = AFileTool->ReadStringPlatform(jsonPath);
 	JsonValue*   value      = Parse(jsonString);
 	free(jsonString);
 

@@ -14,8 +14,7 @@
 #include "Engine/Toolkit/Math/Math.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Utils/BufferReader.h"
-#include "Engine/Toolkit/Platform/File.h"
-
+#include "Engine/Toolkit/Utils/FileTool.h"
 
 
 
@@ -242,7 +241,7 @@ static inline void LoadRGBValue(char* buffer, ArrayRange* range, ArrayRange* lin
 static void Init(const char* filePath, ParticleEmitterData* outEmitterData)
 {
 	long  size;
-	char* buffer = AFile->ReadBuffer(filePath, &size);
+	char* buffer = AFileTool->ReadBufferPlatform(filePath, &size);
 
 	ArrayRange range[1] = {0, size - 1};
 	ArrayRange line [1];

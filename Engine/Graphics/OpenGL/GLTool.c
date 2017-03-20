@@ -10,7 +10,7 @@
 
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
-#include "Engine/Toolkit/Platform/File.h"
+#include "Engine/Toolkit/Utils/FileTool.h"
 #include "Engine/Graphics/Utils/Image.h"
 
 static void SetSize(int width, int height)
@@ -146,9 +146,9 @@ static GLuint LoadProgram(const char* vertexSource, const char* fragmentSource)
 
 GLuint LoadProgramByFile(const char* vertexShaderPath, const char* fragmentShaderPath)
 {
-	const char* vSource = AFile->ReadString(vertexShaderPath);
-	const char* fSource = AFile->ReadString(fragmentShaderPath);
-	GLuint      program = AGLTool->LoadProgram(vSource, fSource);
+	const char* vSource = AFileTool->ReadStringPlatform(vertexShaderPath);
+	const char* fSource = AFileTool->ReadStringPlatform(fragmentShaderPath);
+	GLuint      program = AGLTool  ->LoadProgram       (vSource, fSource);
 
 	free((void*) vSource);
 	free((void*) fSource);
