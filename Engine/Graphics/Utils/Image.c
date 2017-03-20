@@ -25,14 +25,14 @@ static void ReadPngData(png_structp pngPtr, png_bytep data, png_size_t length)
 static void* CreatePixelDataFromPng(const char* filePath, float* outWidth, float* outHeight)
 {
 	void* pixelData = NULL;
-	File* filePtr   = NULL;
+	File* file      = NULL;
 
 	do
 	{
-		filePtr = AFile->Open(filePath);
+		file = AFile->Open(filePath);
 
 		unsigned char head[8];
-		AFile->Read(filePtr, head, 8);
+		AFile->Read(file, head, 8);
 		if (png_sig_cmp(head, 0, 8))
 		{
 			ALogE("file %s, is not PNG", filePath);
@@ -83,7 +83,7 @@ static void* CreatePixelDataFromPng(const char* filePath, float* outWidth, float
 		// if you are using replacement read functions, instead of calling
 		// png_init_io() here you would call:
 		// where user_io_ptr is a structure you want available to the callbacks
-	    png_set_read_fn(pngPtr, filePtr, ReadPngData);
+	    png_set_read_fn(pngPtr, file, ReadPngData);
 
 	    // if we have already read some of the signature
 	    png_set_sig_bytes(pngPtr, 8);
@@ -181,7 +181,7 @@ static void* CreatePixelDataFromPng(const char* filePath, float* outWidth, float
 	}
 	while (false);
 
-	AFile->Close(filePtr);
+	AFile->Close(file);
 
 	return pixelData;
 }

@@ -10,40 +10,45 @@
 
 #include <stddef.h>
 
+/**
+ * Related to platform private files such as
+ * Android: assets   files
+ * IOS:     NSBundle files
+ */
 typedef struct File File;
+
 
 struct AFile
 {
 	/**
-	 * Return filePtr
+	 * The filePath is relative to platform directory
 	 */
     File* (*Open)             (const char* filePath);
 
     /**
-     * Open a new file descriptor that can be used to read the asset data. If the
-     * start or length cannot be represented by a 32-bit number, it will be
-     * truncated. If the file is large, use AAsset_openFileDescriptor64 instead.
+     * Open a new file descriptor that can be used to read the asset data
+     * If the start or length cannot be represented by a 32-bit number, it will be truncated
+     * If the file is large, use AAsset_openFileDescriptor64 instead
      *
-     * Returns < 0 if direct fd access is not possible (for example, if the asset is
-     * compressed).
+     * Returns < 0 if direct fd access is not possible (for example, if the asset is compressed)
      */
     int   (*OpenFileDescriptor)(const char* filePath, long* outStart, long* outLength);
 
 	/**
 	 * Close an opened file connection, free any related resources
 	 */
-	void  (*Close)      (File* filePtr);
+	void  (*Close)             (File* file);
 
 	/**
 	 * Return file length
 	 */
-	long  (*GetLength)  (File* filePtr);
+	long  (*GetLength)         (File* file);
 
 	/**
 	 * Read count bytes of data from the current offset
 	 * return the number of bytes read, zero on EOF, or < 0 on error
 	 */
-	int   (*Read)       (File* filePtr, void* buffer, size_t count);
+	int   (*Read)              (File* file, void* buffer, size_t count);
 
 	/**
 	 * Seek to the specified offset
@@ -51,25 +56,25 @@ struct AFile
 	 *
 	 * return the new position on success, or -1 on error
 	 */
-	int   (*Seek)        (File* filePtr, long offset, int whence);
+	int   (*Seek)              (File* file, long offset, int whence);
 
 	/**
-	 * Read all file data into buffer with it length, with close filePtr
+	 * Read all file data into buffer with it length, with close file
 	 * return buffer pointer
 	 */
-	char* (*ReadBuffer)  (const char* filePath, long* outLength);
+	char* (*ReadBuffer)        (const char* filePath, long* outLength);
 
 	/**
-	 * Read all file data into buffer with '\0' end with close filePtr
+	 * Read all file data into buffer with '\0' end with close file
 	 * return buffer pointer
 	 */
-	char* (*ReadString)  (const char* filePath);
+	char* (*ReadString)        (const char* filePath);
 
 	/**
 	 * Get file directory length in file path, include last slash '/' or '\\'
 	 * if no directory return 0
 	 */
-	int   (*GetDirLength)(const char* filePath);
+	int   (*GetDirLength)      (const char* filePath);
 };
 
 extern struct AFile AFile[1];

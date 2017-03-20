@@ -38,61 +38,61 @@ static int OpenFileDescriptor(const char* filePath, long* outStart, long* outLen
 }
 
 
-static void Close(File* filePtr)
+static void Close(File* file)
 {
-    fclose((FILE*) filePtr);
+    fclose((FILE*) file);
 }
 
 
-static long GetLength(File* filePtr)
+static long GetLength(File* file)
 {
-    fseek((FILE*) filePtr, 0, SEEK_END);
-    long length = ftell((FILE*) filePtr);
-    fseek((FILE*) filePtr, 0, SEEK_SET);
+    fseek((FILE*) file, 0, SEEK_END);
+    long length = ftell((FILE*) file);
+    fseek((FILE*) file, 0, SEEK_SET);
     
 	return length;
 }
 
 
-static int Read(File* filePtr, void* buffer, size_t count)
+static int Read(File* file, void* buffer, size_t count)
 {
-	return (int) fread(buffer, count, 1, (FILE*) filePtr);
+	return (int) fread(buffer, count, 1, (FILE*) file);
 }
 
-static int Seek(File* filePtr, long offset, int whence)
+static int Seek(File* file, long offset, int whence)
 {
-	return fseek((FILE*) filePtr, offset, whence);
+	return fseek((FILE*) file, offset, whence);
 }
 
 
 static char* ReadBuffer(const char* filePath, long* outLength)
 {
-    void* filePtr = Open(filePath);
-    long  length  = GetLength(filePtr);
-    *outLength    = length;
+    void* file   = Open(filePath);
+    long  length = GetLength(file);
+    *outLength   = length;
     
     ALogD("file length = %ld", length);
     
     char* buffer = (char*) malloc(length);
     
-    Read (filePtr, buffer, length);
-    Close(filePtr);
+    Read (file, buffer, length);
+    Close(file);
     
     return buffer;
 }
 
 static char* ReadString(const char* filePath)
 {
-    void* filePtr  = Open(filePath);
-    long  length   = GetLength(filePtr);
+    void* file   = Open(filePath);
+    long  length = GetLength(file);
     
     ALogD("file length = %ld", length);
     
     char* buffer   = (char*) malloc(length + 1);
     buffer[length] = '\0';
     
-    Read (filePtr, buffer, length);
-    Close(filePtr);
+    Read (file, buffer, length);
+    Close(file);
     
     return buffer;
 }

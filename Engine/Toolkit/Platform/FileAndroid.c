@@ -44,42 +44,42 @@ static int OpenFileDescriptor(const char* filePath, long* outStart, long* outLen
 }
 
 
-static void Close(File* filePtr)
+static void Close(File* file)
 {
-	AAsset_close((AAsset*) filePtr);
+	AAsset_close((AAsset*) file);
 }
 
 
-static long GetLength(File* filePtr)
+static long GetLength(File* file)
 {
-	return AAsset_getLength((AAsset*) filePtr);
+	return AAsset_getLength((AAsset*) file);
 }
 
 
-static int Read(File* filePtr, void* buffer, size_t count)
+static int Read(File* file, void* buffer, size_t count)
 {
-	return AAsset_read((AAsset*) filePtr, buffer, count);
+	return AAsset_read((AAsset*) file, buffer, count);
 }
 
 
-static int Seek(File* filePtr, long offset, int whence)
+static int Seek(File* file, long offset, int whence)
 {
-	return AAsset_seek((AAsset*) filePtr, offset, whence);
+	return AAsset_seek((AAsset*) file, offset, whence);
 }
 
 
 static char* ReadBuffer(const char* filePath, long* outLength)
 {
-	void* filePtr = Open(filePath);
-	long  length  = GetLength(filePtr);
+	void* file    = Open(filePath);
+	long  length  = GetLength(file);
 	*outLength    = length;
 
 	ALogD("file length = %ld", length);
 
 	char* buffer = (char*) malloc(length);
 
-	Read(filePtr, buffer, length);
-	Close(filePtr);
+	Read(file, buffer, length);
+	Close(file);
 
 	return buffer;
 }
@@ -87,16 +87,16 @@ static char* ReadBuffer(const char* filePath, long* outLength)
 
 static char* ReadString(const char* filePath)
 {
-	void* filePtr  = Open(filePath);
-	long  length   = GetLength(filePtr);
+	void* file   = Open(filePath);
+	long  length = GetLength(file);
 
 	ALogD("file length = %ld", length);
 
 	char* buffer   = (char*) malloc(length + 1);
 	buffer[length] = '\0';
 
-	Read(filePtr, buffer, length);
-	Close(filePtr);
+	Read(file, buffer, length);
+	Close(file);
 
 	return buffer;
 }
