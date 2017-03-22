@@ -12,10 +12,8 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <android/native_activity.h>
-#include <string.h>
 
 #include "Engine/Toolkit/Platform/File.h"
-#include "Engine/Toolkit/Math/Math.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
 extern ANativeActivity* nativeActivity;

@@ -16,7 +16,7 @@ struct AFileTool
 	/**
 	 * The filePath is absolute path
 	 */
-    FILE* (*Open)             (const char* filePath);
+    FILE* (*Open)              (const char* filePath);
 
 	/**
 	 * Close an opened file connection, free any related resources
