@@ -20,7 +20,6 @@
 #include <stdio.h>
 
 #include "Engine/Graphics/OpenGL/Platform/EGLTool.h"
-#include "Engine/Graphics/OpenGL/Platform/egl.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Application/Application.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"

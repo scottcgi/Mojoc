@@ -29,7 +29,7 @@
 
 #include <stdio.h>
 
-#define ALogD(...)
+#define ALogD(...) printf(__VA_ARGS__)
 #define ALogI(...)
 #define ALogW(...)
 #define ALogE(...)
