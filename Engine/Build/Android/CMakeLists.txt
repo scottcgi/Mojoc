@@ -91,6 +91,7 @@ add_library(
 	../../Application/Application.c
 	../../Application/Scheduler.c
 	../../Application/Component.c
+    ../../Application/Input.c
 	../../Application/Platform/AndroidGlue.c
 
 ################ MojocExtension ################

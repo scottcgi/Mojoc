@@ -21,7 +21,7 @@ enum
 {
 	/**
 	 * When touch event happened
-	 * the extraData is Array(EventTouchPoint)
+	 * the extraData is Array(InputTouch*)
      */
 	application_msg_on_touch,
 };
@@ -101,7 +101,7 @@ struct AApplication
     /**
      * Called when receive touch event
      */
-    void (*Touch)  (Array(EventTouchPoint)* touchData);
+    void (*Touch)  (Array(InputTouch*)* touchData);
 };
 
 extern struct AApplication AApplication[1];

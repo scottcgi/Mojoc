@@ -99,7 +99,7 @@ static void Resume()
 }
 
 
-static void Touch(Array(EventTouchPoint)* touchData)
+static void Touch(Array(InputTouch*)* touchData)
 {
     AComponent->SendMessageToChildren
     (

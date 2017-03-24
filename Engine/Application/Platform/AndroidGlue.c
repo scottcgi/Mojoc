@@ -23,7 +23,7 @@
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Application/Application.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
-#include "Engine/Application/Event.h"
+#include "Engine/Application/Input.h"
 
 static const char* saveDataFileName = "NDKSaveDataFile";
 
@@ -97,13 +97,14 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 					(
 						AArrayMake
 						(
-							EventTouchPoint, 1,
-							{
-								AGLToolToGLX(AMotionEvent_getX(event, 0)),
-								AGLToolToGLY(AMotionEvent_getY(event, 0)),
-								AMotionEvent_getPointerId     (event, 0),
-								event_touch_down,
-							}
+							InputTouch*, 1,
+                            AInput->GetTouch
+                            (
+                                AMotionEvent_getPointerId(event, 0),
+                                AMotionEvent_getX        (event, 0),
+                                AMotionEvent_getY        (event, 0),
+                                input_touch_down
+                            )
 						)
 					);
 				}
@@ -119,13 +120,14 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 					(
 						AArrayMake
 						(
-							EventTouchPoint, 1,
-							{
-								AGLToolToGLX(AMotionEvent_getX(event, indexDown)),
-								AGLToolToGLY(AMotionEvent_getY(event, indexDown)),
-								AMotionEvent_getPointerId     (event, indexDown),
-								event_touch_down,
-							}
+							InputTouch*, 1,
+                            AInput->GetTouch
+                            (
+                                AMotionEvent_getPointerId(event, indexDown),
+                                AMotionEvent_getX        (event, indexDown),
+                                AMotionEvent_getY        (event, indexDown),
+                                input_touch_down
+                            )
 						)
 					);
 				}
@@ -139,13 +141,14 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 					(
 						AArrayMake
 						(
-							EventTouchPoint, 1,
-							{
-								AGLToolToGLX(AMotionEvent_getX(event, 0)),
-								AGLToolToGLY(AMotionEvent_getY(event, 0)),
-								AMotionEvent_getPointerId     (event, 0),
-								event_touch_up,
-							}
+							InputTouch*, 1,
+                            AInput->GetTouch
+                            (
+                                AMotionEvent_getPointerId(event, 0),
+                                AMotionEvent_getX        (event, 0),
+                                AMotionEvent_getY        (event, 0),
+                                input_touch_up
+                            )
 						)
 					);
 				}
@@ -161,13 +164,14 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 					(
 						AArrayMake
 						(
-							EventTouchPoint, 1,
-							{
-								AGLToolToGLX(AMotionEvent_getX(event, indexUp)),
-								AGLToolToGLY(AMotionEvent_getY(event, indexUp)),
-								AMotionEvent_getPointerId     (event, indexUp),
-								event_touch_up,
-							}
+							InputTouch*, 1,
+                            AInput->GetTouch
+                            (
+                                AMotionEvent_getPointerId(event, indexUp),
+                                AMotionEvent_getX        (event, indexUp),
+                                AMotionEvent_getY        (event, indexUp),
+                                input_touch_up
+                            )
 						)
 					);
 				}
@@ -176,19 +180,24 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 				case AMOTION_EVENT_ACTION_MOVE:
 				{
 					int count = AMotionEvent_getPointerCount(event);
-					EventTouchPoint points[count];
+					InputTouch* touches[count];
 
 					for (int i = 0; i < count; i++)
 					{
-						points[i].x    = AGLToolToGLX(AMotionEvent_getX(event, i));
-						points[i].y    = AGLToolToGLY(AMotionEvent_getY(event, i));
-						points[i].id   = AMotionEvent_getPointerId     (event, i);
-						points[i].type = event_touch_move;
+                        InputTouch* touch = AInput->GetTouch
+                                            (
+                                                AMotionEvent_getPointerId(event, i),
+                                                AMotionEvent_getX        (event, i),
+                                                AMotionEvent_getY        (event, i),
+                                                input_touch_move
+                                            );
+
+                        touches[i]        = touch;
 					}
 
                     AApplication->Touch
 					(
-						(Array[]) {points, count}
+						(Array[]) {touches, count}
 					);
 				}
 				break;
@@ -197,20 +206,25 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 				case AMOTION_EVENT_ACTION_CANCEL:
 				{
 					int count = AMotionEvent_getPointerCount(event);
-					EventTouchPoint points[count];
+                    InputTouch* touches[count];
 
 					for (int i = 0; i < count; i++)
 					{
-						points[i].x    = AGLToolToGLX(AMotionEvent_getX(event, i));
-						points[i].y    = AGLToolToGLY(AMotionEvent_getY(event, i));
-						points[i].id   = AMotionEvent_getPointerId     (event, i);
-						points[i].type = event_touch_cancel;
+                        InputTouch* touch = AInput->GetTouch
+                                            (
+                                                AMotionEvent_getPointerId(event, i),
+                                                AMotionEvent_getX        (event, i),
+                                                AMotionEvent_getY        (event, i),
+                                                input_touch_cancel
+                                            );
+
+                        touches[i]        = touch;
 					}
 
                     AApplication->Touch
-					(
-						(Array[]) {points, count}
-					);
+                    (
+                        (Array[]) {touches, count}
+                    );
 				}
 				break;
 
