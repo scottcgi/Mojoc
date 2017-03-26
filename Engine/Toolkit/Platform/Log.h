@@ -17,7 +17,7 @@
 
 #include <android/log.h>
 
-#define ALogD(...)    __android_log_print(ANDROID_LOG_DEBUG, "MojocLib debug", __VA_ARGS__)
+#define ALogD(...)    // __android_log_print(ANDROID_LOG_DEBUG, "MojocLib debug", __VA_ARGS__)
 #define ALogI(...)    __android_log_print(ANDROID_LOG_INFO,  "MojocLib info",  __VA_ARGS__)
 #define ALogW(...)    __android_log_print(ANDROID_LOG_WARN,  "MojocLib warn",  __VA_ARGS__)
 #define ALogE(...)    __android_log_print(ANDROID_LOG_ERROR, "MojocLib error", __VA_ARGS__)
