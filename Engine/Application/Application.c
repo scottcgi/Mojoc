@@ -34,7 +34,7 @@ static void Init()
     ApplicationMain();
 
     // check callback setting
-    ALogA(AApplication->callbacks->OnReady       != NULL, "AApplication->callbacks->OnReady     must set");
+    ALogA(AApplication->callbacks->OnReady       != NULL, "AApplication->callbacks->OnReady       must set");
     ALogA(AApplication->callbacks->OnPause       != NULL, "AApplication->callbacks->OnPause       must set");
     ALogA(AApplication->callbacks->OnResume      != NULL, "AApplication->callbacks->OnResume      must set");
     ALogA(AApplication->callbacks->OnResized     != NULL, "AApplication->callbacks->OnResized     must set");
@@ -72,6 +72,9 @@ static void Loop()
 
 static void Resized(int width, int height)
 {
+    // set the OpenGL viewport to the same size as the surface.
+    glViewport(0, 0, width, height);
+    
     AGLTool     ->SetSize             (width, height);
     AApplication->callbacks->OnResized(width, height);
 }
