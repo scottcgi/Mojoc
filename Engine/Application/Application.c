@@ -74,7 +74,7 @@ static void Resized(int width, int height)
 {
     // set the OpenGL viewport to the same size as the surface.
     glViewport(0, 0, width, height);
-    
+
     AGLTool     ->SetSize             (width, height);
     AApplication->callbacks->OnResized(width, height);
 }

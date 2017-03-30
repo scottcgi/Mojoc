@@ -98,7 +98,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 						AArrayMake
 						(
 							InputTouch*, 1,
-                            AInput->GetTouch
+                            AInput->SetTouch
                             (
                                 AMotionEvent_getPointerId(event, 0),
                                 AMotionEvent_getX        (event, 0),
@@ -121,7 +121,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 						AArrayMake
 						(
 							InputTouch*, 1,
-                            AInput->GetTouch
+                            AInput->SetTouch
                             (
                                 AMotionEvent_getPointerId(event, indexDown),
                                 AMotionEvent_getX        (event, indexDown),
@@ -142,7 +142,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 						AArrayMake
 						(
 							InputTouch*, 1,
-                            AInput->GetTouch
+                            AInput->SetTouch
                             (
                                 AMotionEvent_getPointerId(event, 0),
                                 AMotionEvent_getX        (event, 0),
@@ -165,7 +165,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 						AArrayMake
 						(
 							InputTouch*, 1,
-                            AInput->GetTouch
+                            AInput->SetTouch
                             (
                                 AMotionEvent_getPointerId(event, indexUp),
                                 AMotionEvent_getX        (event, indexUp),
@@ -184,7 +184,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 
 					for (int i = 0; i < count; i++)
 					{
-                        InputTouch* touch = AInput->GetTouch
+                        InputTouch* touch = AInput->SetTouch
                                             (
                                                 AMotionEvent_getPointerId(event, i),
                                                 AMotionEvent_getX        (event, i),
@@ -210,7 +210,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 
 					for (int i = 0; i < count; i++)
 					{
-                        InputTouch* touch = AInput->GetTouch
+                        InputTouch* touch = AInput->SetTouch
                                             (
                                                 AMotionEvent_getPointerId(event, i),
                                                 AMotionEvent_getX        (event, i),

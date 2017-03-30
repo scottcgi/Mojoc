@@ -2,6 +2,7 @@
 // Created by scott.cgi on 2017/3/24.
 //
 
+#include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Application/Input.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 
@@ -10,7 +11,7 @@ static  InputTouch touches[finger_count];
 
 //--------------------------------------------------------------------------------------------------
 
-static InputTouch* GetTouch(int fingerId, float x, float y, InputTouchType type)
+static InputTouch* SetTouch(int fingerId, float x, float y, InputTouchType type)
 {
     InputTouch* touch = touches + fingerId;
 
@@ -22,8 +23,15 @@ static InputTouch* GetTouch(int fingerId, float x, float y, InputTouchType type)
     return touch;
 }
 
+static InputTouch* GetTouch(int fingerId)
+{
+    ALogA(fingerId > -1 && fingerId < 10, "AInput GetTouch fingerId = %d invalid", fingerId);
+    return touches + fingerId;
+}
+
 
 struct AInput AInput[1] =
 {
+    SetTouch,
     GetTouch,
 };

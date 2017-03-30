@@ -33,8 +33,14 @@ struct AInput
 {
     /**
      * The x, y in screen coordinate
+     * return the InputTouch that fingerId associated
      */
-    InputTouch* (*GetTouch)(int fingerId, float x, float y, InputTouchType type);
+    InputTouch* (*SetTouch)(int fingerId, float x, float y, InputTouchType type);
+
+    /**
+     * Get the InputTouch that fingerId associated
+     */
+    InputTouch* (*GetTouch)(int fingerId);
 };
 
 extern struct AInput AInput[1];
