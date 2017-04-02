@@ -93,6 +93,7 @@ add_library(
 	../../Application/Component.c
     ../../Application/Input.c
 	../../Application/Platform/AndroidGlue.c
+    ../../Application/Platform/JniTool.c
 
 ################ MojocExtension ################
 
@@ -116,6 +117,7 @@ add_library(
 ################ MojocAudio ################
     ../../Audio/Platform/AudioAndroid.c
 )
+
 
 target_link_libraries(
     Mojoc
