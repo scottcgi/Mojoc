@@ -193,7 +193,7 @@ static jvalue CallObjectMethod(jobject object, char* methodName, char* paramCode
 static inline jvalue CallClassMethodV(jclass cls, char* methodName, char* paramCode, va_list args)
 {
     JNIEnv*   envPtr    = GetEnvPtr();
-    jmethodID methodId  = (*envPtr)->GetMethodID(envPtr, cls, methodName, paramCode);
+    jmethodID methodId  = (*envPtr)->GetStaticMethodID(envPtr, cls, methodName, paramCode);
 
     ALogA
     (
