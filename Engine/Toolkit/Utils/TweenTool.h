@@ -72,7 +72,7 @@ struct ATweenTool
     struct ATweenTool* (*AddFadeTo)    (float fadeTo,  float duration);
 
 //--------------------------------------------------------------------------------------------------
-// et TweenAction property for current context
+// Set TweenAction property for current context
 //--------------------------------------------------------------------------------------------------
 
 	struct ATweenTool* (*SetDuration)  (float                 duration);
