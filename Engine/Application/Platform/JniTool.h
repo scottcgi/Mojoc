@@ -19,6 +19,8 @@ JniMethodInfo;
 struct AJniTool
 {
 //--------------------------------------------------------------------------------------------------
+// Must Called in same thread with OpenGL
+//
 // className:
 // pass to FindClass which is java class name with package like "java/lang/ClassLoader"
 //

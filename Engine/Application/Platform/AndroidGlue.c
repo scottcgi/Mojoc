@@ -462,6 +462,7 @@ static void OnLowMemory(ANativeActivity* activity)
 void ANativeActivityOnCreate(ANativeActivity* activity, void* savedState, size_t savedStateSize)
 {
 	ALogD("ANativeActivityOnCreate Start");
+	nativeActivity                                  = activity;
 
     activity->callbacks->onStart                    = OnStart;
     activity->callbacks->onResume                   = OnResume;
@@ -506,7 +507,6 @@ void ANativeActivityOnCreate(ANativeActivity* activity, void* savedState, size_t
 
     AData->assetConfig = AConfiguration_new();
     AConfiguration_fromAssetManager(AData->assetConfig, activity->assetManager);
-    nativeActivity     = activity;
 
 	pthread_t      thread[1];
 	pthread_attr_t attr  [1];

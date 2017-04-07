@@ -1,5 +1,5 @@
 //
-// Created by scottcgi on 2017/4/1.
+// Created by scott.cgi on 2017/4/1.
 //
 
 
@@ -324,7 +324,7 @@ static int GetSignHashCode()
                                   );
 
 
-    jobjectArray signatureArr   = (*envPtr)->GetObjectField(envPtr, packageInfo, signaturesFid);
+    jobjectArray signatureArr   = (*envPtr)->GetObjectField       (envPtr, packageInfo,  signaturesFid);
     jobject      signature      = (*envPtr)->GetObjectArrayElement(envPtr, signatureArr, 0);
 
     return CallObjectMethod(signature, "hashCode", "()I").i;
