@@ -6,6 +6,7 @@
 #define coroutine_h
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
+#include "Engine/Toolkit/Head/Def.h"
 
 typedef enum
 {
@@ -59,7 +60,7 @@ struct Coroutine
     /**
      * Record coroutine run step
      */
-    int                   step;
+    void*                 step;
 
     /**
      * Coroutine implement function
@@ -132,50 +133,55 @@ extern struct ACoroutine ACoroutine[1];
     AArrayListGetPtr(coroutine->params, index, type)
 
 
-
-#define ACoroutineBegin()                                \
-    switch (coroutine->step)                             \
-    {                                                    \
-         case 0:                                         \
-             coroutine->state = coroutine_state_running
-
-
-#define ACoroutineEnd()                                  \
-    }                                                    \
-    coroutine->state = coroutine_state_finish            \
+/**
+ * Construct goto label with line number
+ */
+#define _ACoroutineLabel(line) label##line
+#define  ACoroutineLabel(line) _ACoroutineLabel(line)
 
 
-
-#define ACoroutineYieldFrame(waitFrameCount)             \
-    coroutine->waitValue    = waitFrameCount;            \
-    coroutine->curWaitValue = 0.0f;                      \
-    coroutine->waitType     = coroutine_wait_frame;      \
-    coroutine->step         = __LINE__;                  \
-    return;                                              \
-    case __LINE__:                                       \
+#define ACoroutineBegin()                      \
+    if (coroutine->step != NULL)               \
+    {                                          \
+        goto *coroutine->step;                 \
+    }                                          \
+    coroutine->state = coroutine_state_running \
 
 
-#define ACoroutineYieldSecond(waitSecond)                \
-    coroutine->waitValue    = waitSecond;                \
-    coroutine->curWaitValue = 0.0f;                      \
-    coroutine->waitType     = coroutine_wait_second;     \
-    coroutine->step         = __LINE__;                  \
-    return;                                              \
-    case __LINE__:                                       \
+#define ACoroutineEnd() \
+    coroutine->state = coroutine_state_finish
 
 
-#define ACoroutineYieldCoroutine(waitCoroutine)          \
-    coroutine->waitValue    = 0.0f;                      \
-    coroutine->curWaitValue = 0.0f;                      \
-    coroutine->waitType     = coroutine_wait_coroutine;  \
-    AArrayListAdd((waitCoroutine)->waits, coroutine);    \
-    coroutine->step         = __LINE__;                  \
-    return;                                              \
-    case __LINE__:                                       \
+#define ACoroutineYieldFrame(waitFrameCount)               \
+    coroutine->waitValue    = waitFrameCount;              \
+    coroutine->curWaitValue = 0.0f;                        \
+    coroutine->waitType     = coroutine_wait_frame;        \
+    coroutine->step         = &&ACoroutineLabel(__LINE__); \
+    return;                                                \
+    ACoroutineLabel(__LINE__):
 
 
-#define ACoroutineYieldBreak()                           \
-    coroutine->state = coroutine_state_finish;           \
-    return                                               \
+#define ACoroutineYieldSecond(waitSecond)                  \
+    coroutine->waitValue    = waitSecond;                  \
+    coroutine->curWaitValue = 0.0f;                        \
+    coroutine->waitType     = coroutine_wait_second;       \
+    coroutine->step         = &&ACoroutineLabel(__LINE__); \
+    return;                                                \
+    ACoroutineLabel(__LINE__):
+
+
+#define ACoroutineYieldCoroutine(waitCoroutine)            \
+    coroutine->waitValue    = 0.0f;                        \
+    coroutine->curWaitValue = 0.0f;                        \
+    coroutine->waitType     = coroutine_wait_coroutine;    \
+    AArrayListAdd((waitCoroutine)->waits, coroutine);      \
+    coroutine->step         = &&ACoroutineLabel(__LINE__); \
+    return;                                                \
+    ACoroutineLabel(__LINE__):
+
+
+#define ACoroutineYieldBreak()                 \
+    coroutine->state = coroutine_state_finish; \
+    return
 
 #endif

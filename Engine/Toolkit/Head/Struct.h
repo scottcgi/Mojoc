@@ -5,8 +5,8 @@
  *      Author: scott.cgi
  */
 
-#ifndef struct_from_h
-#define struct_from_h
+#ifndef struct_h
+#define struct_h
 
 #include <stddef.h>
 
