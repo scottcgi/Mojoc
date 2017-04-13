@@ -11,7 +11,7 @@
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Toolkit/Head/Def.h"
+#include "Engine/Toolkit/Head/MacroDefine.h"
 
 static ArrayStrMap(filePath, Texture*) textureMap[1] = AArrayStrMapInit(Texture*, 20);
 

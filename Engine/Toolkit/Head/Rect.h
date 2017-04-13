@@ -8,7 +8,9 @@
 #ifndef rect_h
 #define rect_h
 
+
 #include <stdbool.h>
+
 
 typedef struct
 {
@@ -18,6 +20,7 @@ typedef struct
 	float bottom;
 }
 Rect;
+
 
 static inline bool ARectTestPoint(Rect* rect, float x, float y)
 {

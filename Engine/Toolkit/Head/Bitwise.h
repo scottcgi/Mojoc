@@ -8,11 +8,15 @@
 #ifndef bitwise_h
 #define bitwise_h
 
-//--------------------------------------------------------------------------------------------------
-// The biteState is usually an expression
-// the inline function can not use expression for bitState
-// so if not use macro we need pass the third parameter that's bitState owner
-//--------------------------------------------------------------------------------------------------
+
+/*
+-------------------------------------------------------------------------------
+	The biteState is usually an expression
+	the inline function can not use expression for bitState
+	so if not use macro we need pass the third parameter that's bitState owner
+-------------------------------------------------------------------------------
+*/
+
 
 #define ABitwiseSet(bitState,     bits) \
 	((bitState)  |= (bits))
@@ -32,5 +36,6 @@
 
 #define ABitwiseClearAndSet(bitState, clearBits, setBits) \
 	((bitState)  = ((bitState) & ~(clearBits)) | (setBits))
+
 
 #endif

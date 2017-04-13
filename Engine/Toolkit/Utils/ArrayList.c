@@ -33,7 +33,8 @@ static inline void AddCapacity(ArrayList* arrayList, int increase)
 		arrayList->size, arrayList->array->length, increase
 	);
 
-/*--------------------------------------------------------------------------------------------------
+/*
+----------------------------------------------------------------------------------------------------
 	//set increase data to 0, but it seems not very necessary
 	memset
 	(
@@ -41,11 +42,13 @@ static inline void AddCapacity(ArrayList* arrayList, int increase)
 		 0,
 		 arrayList->typeSize * increase
     );
---------------------------------------------------------------------------------------------------*/
+----------------------------------------------------------------------------------------------------
+*/
 
 	arrayList->array->data    = data;
 	arrayList->array->length += increase;
 }
+
 
 static void* GetAdd(ArrayList* arrayList)
 {
@@ -56,6 +59,7 @@ static void* GetAdd(ArrayList* arrayList)
 
     return (char*) arrayList->array->data + arrayList->typeSize * (arrayList->size++);
 }
+
 
 static void* GetInsert(ArrayList* arrayList, int index)
 {
@@ -76,10 +80,12 @@ static void* GetInsert(ArrayList* arrayList, int index)
 	return from;
 }
 
+
 static void* Add(ArrayList* arrayList, void* elementPtr)
 {
 	return memcpy(GetAdd(arrayList), elementPtr, arrayList->typeSize);
 }
+
 
 static void* Insert(ArrayList* arrayList, int index, void* elementPtr)
 {
@@ -87,27 +93,31 @@ static void* Insert(ArrayList* arrayList, int index, void* elementPtr)
 }
 
 
-/*--------------------------------------------------------------------------------------------------
+/*
+----------------------------------------------------------------------------------------------------
 // use macro instead
 static void* Get(ArrayList* arrayList, int index)
 {
 	CheckIndex("Get", index);
 	return (char*) arrayList->array->data + arrayList->typeSize * index;
 }
---------------------------------------------------------------------------------------------------*/
+----------------------------------------------------------------------------------------------------
+*/
 
 
-/*--------------------------------------------------------------------------------------------------
+/*-
+----------------------------------------------------------------------------------------------------
 // use macro instead
 static void Set(ArrayList* arrayList, int index, void* elementPtr)
 {
 	CheckIndex("Set", index);
 	memcpy((char*) arrayList->array->data + arrayList->typeSize * index, elementPtr, arrayList->typeSize);
 }
---------------------------------------------------------------------------------------------------*/
+----------------------------------------------------------------------------------------------------
+*/
 
 
-static void* Pop(ArrayList* arrayList, void* defaultValuePtr)
+static void* Pop(ArrayList* arrayList, void* defaultElementPtr)
 {
 	if (arrayList->size > 0)
 	{
@@ -116,7 +126,7 @@ static void* Pop(ArrayList* arrayList, void* defaultValuePtr)
 	}
 	else
 	{
-		return defaultValuePtr;
+		return defaultElementPtr;
 	}
 }
 
@@ -167,13 +177,15 @@ static void Remove(ArrayList* arrayList, int index)
 		// set last element 0, but it seems not very necessary
 		// memset((char*) arrayList->array->data + arrayList->typeSize * arrayList->size, 0, arrayList->typeSize);
 	}
-/*--------------------------------------------------------------------------------------------------
+/*
+----------------------------------------------------------------------------------------------------
 	else
 	{
 		// remove the last element only set 0, but it seems not very necessary
 		// memset((char*) arrayList->array->data + arrayList->typeSize * index, 0, arrayList->typeSize);
 	}
---------------------------------------------------------------------------------------------------*/
+----------------------------------------------------------------------------------------------------
+*/
 }
 
 
@@ -200,14 +212,17 @@ static void RemoveRange(ArrayList* arrayList, int fromIndex, int toIndex)
 		// memset((char*) arrayList->array->data + arrayList->typeSize * arrayList->size, 0, arrayList->typeSize * num);
 
 	}
-/*--------------------------------------------------------------------------------------------------
+/*
+----------------------------------------------------------------------------------------------------
 	else
 	{
 		// range reach the end, but it seems not very necessary
 		// memset((char*) arrayList->array->data + arrayList->typeSize * fromIndex, 0, arrayList->typeSize * num);
 	}
---------------------------------------------------------------------------------------------------*/
+----------------------------------------------------------------------------------------------------
+*/
 }
+
 
 static void RemoveByLast(ArrayList* arrayList, int index)
 {
@@ -225,13 +240,15 @@ static void RemoveByLast(ArrayList* arrayList, int index)
 			arrayList->typeSize
 		);
 	}
-/*--------------------------------------------------------------------------------------------------
+/*
+----------------------------------------------------------------------------------------------------
 	else
 	{
 		// remove the last element only set 0, but it seems not very necessary
 		// memset((char*) arrayList->array->data + arrayList->typeSize * index, 0, arrayList->typeSize);
 	}
---------------------------------------------------------------------------------------------------*/
+----------------------------------------------------------------------------------------------------
+*/
 }
 
 
@@ -272,7 +289,6 @@ static void Release(ArrayList* arrayList)
 }
 
 
-
 static void SetSize(ArrayList* arrayList, int size)
 {
 	arrayList->size = size;
@@ -285,6 +301,7 @@ static void SetSize(ArrayList* arrayList, int size)
 	AddCapacity(arrayList, size - arrayList->array->length);
 }
 
+
 static void SetCapacity(ArrayList* arrayList, int capacity)
 {
 	if (arrayList->array->length >= capacity)
@@ -294,7 +311,6 @@ static void SetCapacity(ArrayList* arrayList, int capacity)
 	
 	AddCapacity(arrayList, capacity - arrayList->array->length);
 }
-
 
 
 static inline void InitArrayList(int typeSize, ArrayList* arrayList)
@@ -315,10 +331,12 @@ static ArrayList* Create(int typeSize)
 	return arrayList;
 }
 
+
 static void init(int typeSize, ArrayList* outArrayList)
 {
 	InitArrayList(typeSize, outArrayList);
 }
+
 
 static ArrayList* CreateWithSize(int typeSize, int size)
 {
@@ -327,6 +345,7 @@ static ArrayList* CreateWithSize(int typeSize, int size)
 
 	return arrayList;
 }
+
 
 static void InitWithSize(int typeSize, int size, ArrayList* outArrayList)
 {
@@ -342,6 +361,7 @@ static ArrayList* CreateWithCapacity(int typeSize, int capacity)
 	
 	return arrayList;
 }
+
 
 static void InitWithCapacity(int typeSize, int capacity, ArrayList* outArrayList)
 {
@@ -377,6 +397,7 @@ struct AArrayList AArrayList[1] =
 	SetSize,
 	SetCapacity,
 };
+
 
 #undef CheckIndex
 #undef CheckInsertIndex

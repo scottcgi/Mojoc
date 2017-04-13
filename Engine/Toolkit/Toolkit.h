@@ -14,6 +14,8 @@ struct AToolkit
 	void (*Init)();
 };
 
+
 extern struct AToolkit AToolkit[1];
+
 
 #endif 

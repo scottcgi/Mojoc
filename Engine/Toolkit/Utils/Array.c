@@ -18,6 +18,7 @@ static Array* Create(int typeSize, int length)
 	return array;
 }
 
+
 struct AArray AArray[1] =
 {
 	Create,

@@ -14,30 +14,32 @@
 typedef struct
 {
 	/**
-	 * Increase memory space default 10
+	 * Increase memory space, default 10
 	 */
-	int   increase;
+	int            increase;
 
 	/**
 	 * Hold memory data, the length is memory capacity
 	 * if increase capacity, memory data will realloc
 	 * so the data address may changed
 	 */
-	Array array[1];
+	Array          array[1];
 
-	/** The sizeof element type   */
-	int	  typeSize;
+	/**
+	 * The sizeof element type
+	 */
+	int	  get_only typeSize;
 
-	/** Element count */
-	int   size;
+	/**
+	 * Element count
+	 */
+	int   get_only size;
 }
 ArrayList;
 
 
-
 struct AArrayList
 {
-	/** The typeSize is sizeof element type */
 	ArrayList* (*Create)            (int typeSize);
 	void       (*Init)              (int typeSize, ArrayList* outArrayList);
 
@@ -70,6 +72,7 @@ struct AArrayList
 	/**
 	 * Copy element data into getAdd memory
 	 * elementPtr point to element
+	 *
 	 * return elementPtr in ArrayList
 	 */
 	void*      (*Add)               (ArrayList* arrayList, void* elementPtr);
@@ -77,15 +80,16 @@ struct AArrayList
 	/**
 	 * Copy element data into getInsert memory
 	 * elementPtr point to element
+	 *
 	 * return elementPtr in ArrayList
 	 */
 	void*      (*Insert)            (ArrayList* arrayList, int index, void* elementPtr);
 
 	/**
 	 * Remove last element and return removed elementPtr
-	 * if empty return defaultValuePtr
+	 * if empty return defaultElementPtr
 	 */
-	void*      (*Pop)               (ArrayList* arrayList, void* defaultValuePtr);
+	void*      (*Pop)               (ArrayList* arrayList, void* defaultElementPtr);
 
 	/**
 	 * Add copy of array data
@@ -129,10 +133,13 @@ struct AArrayList
 	void       (*SetCapacity)       (ArrayList* arrayList, int capacity);
 };
 
+
 extern struct AArrayList AArrayList[1];
 
 
-/** The type is the ArrayList element type */
+/**
+ * The type is the ArrayList element type
+ */
 #define ArrayList(type) ArrayList
 
 
@@ -153,7 +160,6 @@ extern struct AArrayList AArrayList[1];
 
 /**
  * Initialize constant ArrayList with fixed capacity, unable to expansion capacity
- * macro can use type parameter
  */
 #define AArayListInitFix(type, capacity, size, ...) \
 	{                                               \
@@ -211,7 +217,7 @@ extern struct AArrayList AArrayList[1];
 
 
 /**
- * The type is element type, macro can use type parameter
+ * The type is element type
  */
 #define AArrayListGetData(arrayList, type) \
 	((type*) ((arrayList)->array->data))
@@ -220,7 +226,6 @@ extern struct AArrayList AArrayList[1];
 /**
  * Instead of AArrayList->get for quick iterate element
  * return element
- * macro can use type parameter
  */
 #define AArrayListGet(arrayList, index, type) \
 	(AArrayListGetData(arrayList, type))[index]
@@ -228,8 +233,7 @@ extern struct AArrayList AArrayList[1];
 
 /**
  * Instead of AArrayList->get for quick iterate element
- * return element ptr
- * macro can use type parameter
+ * return elementPtr
  */
 #define AArrayListGetPtr(arrayList, index, type) \
 	(AArrayListGetData(arrayList, type) + (index))
@@ -237,7 +241,6 @@ extern struct AArrayList AArrayList[1];
 
 /**
  * Instead of AArrayList->set for quick set element
- * macro can use type parameter
  */
 #define AArrayListSet(arrayList, index, element, type) \
 	AArrayListGet(arrayList, index, type) = element

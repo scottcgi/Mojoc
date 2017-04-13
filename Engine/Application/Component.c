@@ -9,7 +9,7 @@
 
 #include "Engine/Application/Component.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Toolkit/Head/Def.h"
+#include "Engine/Toolkit/Head/MacroDefine.h"
 
 
 static void Init(Component* outComponent)

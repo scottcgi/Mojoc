@@ -13,7 +13,6 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-
 #define CheckIndex(tag) \
 	ALogA(index >= 0 && index <  arrayIntMap->arrayList->size, "ArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->arrayList->size);
 
@@ -168,6 +167,7 @@ static intptr_t GetKey(ArrayIntMap* arrayIntMap, int index)
 	CheckIndex("GetKey");
 	return AArrayListGet(arrayIntMap->arrayList, index, ArrayIntMapElement*)->key;
 }
+
 
 static void* GetAt(ArrayIntMap* arrayIntMap, int index)
 {

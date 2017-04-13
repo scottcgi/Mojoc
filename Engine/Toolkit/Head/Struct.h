@@ -11,9 +11,12 @@
 #include <stddef.h>
 
 
-//--------------------------------------------------
-// The macro can use generic parameter 'structType'
-//--------------------------------------------------
+/*
+--------------------------------------------
+   The macro can use generic parameter
+--------------------------------------------
+*/
+
 
 /**
  * Get struct pointer from member pointer

@@ -12,7 +12,7 @@
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Graphics/OpenGL/Shader/Shader.h"
-#include "Engine/Toolkit/Head/Def.h"
+#include "Engine/Toolkit/Head/MacroDefine.h"
 
 
 static void Use(Matrix4* mvpMatrix, Color* color, GLint pointSize)

@@ -13,29 +13,33 @@
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
 
+
 typedef struct
 {
-	/** Can use pointer be key */
-	intptr_t key;
+	/**
+	 * Can use pointer be key
+	 */
+	intptr_t get_only key;
 
 	/**
 	 * ArrayIntMap value pointer
 	 * value data copy into ArrayIntMapElement
 	 */
-	void*    valuePtr;
+	void*    get_only valuePtr;
 }
 ArrayIntMapElement;
 
 
 typedef struct
 {
-	ArrayList arrayList[1];
+	ArrayList     arrayList[1];
 
-	/** ArrayIntMap value type's sizeof */
-	int typeSize;
+	/**
+	 * ArrayIntMap value type's sizeof
+	 */
+	int  get_only typeSize;
 }
 ArrayIntMap;
-
 
 
 struct AArrayIntMap
@@ -67,7 +71,7 @@ struct AArrayIntMap
 
 
 	/**
-	 * Set new value from valuePtr by key , return valuePtr in ArrayIntMap
+	 * Set new value from valuePtr by key, return valuePtr in ArrayIntMap
 	 */
 	void*        (*Set)               (ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr);
 
@@ -124,6 +128,7 @@ struct AArrayIntMap
 	void         (*RemoveAt)          (ArrayIntMap* arrayIntMap, int index);
 };
 
+
 extern struct AArrayIntMap AArrayIntMap[1];
 
 
@@ -139,7 +144,9 @@ static inline void AArrayIntMapSetIncrease(ArrayIntMap* arrayIntMap, int increas
 }
 
 
-/** The type is the ArrayIntMap value type */
+/**
+ * The type is the ArrayIntMap value type *
+ */
 #define ArrayIntMap(keyName, valueType) ArrayIntMap
 
 
@@ -165,7 +172,7 @@ static inline void AArrayIntMapSetIncrease(ArrayIntMap* arrayIntMap, int increas
 
 /**
  * Shortcut of AArrayIntMap->Get
- * return element
+ * return value
  */
 #define AArrayIntMapGet(arrayIntMap, key, type) \
 	(*(type*) AArrayIntMap->Get(arrayIntMap, (intptr_t) key, null_ptr))
@@ -173,7 +180,7 @@ static inline void AArrayIntMapSetIncrease(ArrayIntMap* arrayIntMap, int increas
 
 /**
  * Shortcut of AArrayIntMap->Get
- * return elementPtr
+ * return valuePtr
  */
 #define AArrayIntMapGetPtr(arrayIntMap, key, type) \
 	((type*) AArrayIntMap->Get(arrayIntMap, (intptr_t) key, NULL))
@@ -195,7 +202,7 @@ static inline void AArrayIntMapSetIncrease(ArrayIntMap* arrayIntMap, int increas
 
 /**
  * Shortcut of AArrayIntMap->GetAt
- * return element
+ * return value
  */
 #define AArrayIntMapGetAt(arrayIntMap, index, type) \
    (*(type*) AArrayIntMap->GetAt(arrayIntMap, index))
@@ -203,7 +210,7 @@ static inline void AArrayIntMapSetIncrease(ArrayIntMap* arrayIntMap, int increas
 
 /**
  * Shortcut of AArrayIntMap->GetAt
- * return elementPtr
+ * return valuePtr
  */
 #define AArrayIntMapGetPtrAt(arrayIntMap, index, type) \
    ((type*) AArrayIntMap->GetAt(arrayIntMap, index))
