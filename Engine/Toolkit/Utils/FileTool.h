@@ -8,8 +8,10 @@
 #ifndef file_tool_h
 #define file_tool_h
 
+
 #include <stddef.h>
 #include <stdio.h>
+
 
 struct AFileTool
 {
@@ -35,8 +37,7 @@ struct AFileTool
 	int   (*Read)              (FILE* file, void* buffer, size_t count);
 
 	/**
-	 * Seek to the specified offset
-	 * the whence use for fseek()
+	 * Seek to the specified offset, he whence use for fseek()
 	 * return the new position on success, or -1 on error
 	 */
 	int   (*Seek)              (FILE* file, long offset, int whence);
@@ -80,9 +81,10 @@ struct AFileTool
      * return buffer pointer
      */
     char* (*ReadStringPlatform)(const char* filePath);
-
 };
 
+
 extern struct AFileTool AFileTool[1];
+
 
 #endif

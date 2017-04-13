@@ -8,6 +8,7 @@
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Toolkit/Head/MacroDefine.h"
 
+
 typedef enum
 {
     /**
@@ -32,6 +33,7 @@ typedef enum
 }
 CoroutineWaitType;
 
+
 typedef enum
 {
     /**
@@ -55,49 +57,51 @@ CoroutineState;
 typedef struct Coroutine Coroutine;
 typedef void   (*CoroutineRun)(Coroutine* coroutine);
 
+
 struct Coroutine
 {
     /**
      * Record coroutine run step
      */
-    void*                 step;
+    void*             get_only  step;
 
     /**
      * Coroutine implement function
      */
-    CoroutineRun          Run;
+    CoroutineRun      get_only  Run;
 
     /**
      * Coroutine current state
      */
-    CoroutineState        state;
+    CoroutineState    get_only  state;
 
     /**
      * Coroutine wait value to execute
      */
-    float                 waitValue;
+    float             get_only  waitValue;
 
     /**
      * Record wait progress
      */
-    float                 curWaitValue;
+    float             get_only  curWaitValue;
 
     /**
      * Coroutine wait types
      */
-    CoroutineWaitType     waitType;
+    CoroutineWaitType get_only  waitType;
 
     /**
      * Hold params for CoroutineRun to get
      * when coroutine finish clear but the param create memory control yourself
      */
-    ArrayList(void*)      params[1];
+    ArrayList(void*)            params[1];
 
     /**
      * Hold Coroutines wait for this Coroutine to finish
      */
-    ArrayList(Coroutine*) waits [1];
+    ArrayList(Coroutine*)       waits [1];
 };
+
 
 struct ACoroutine
 {
@@ -115,19 +119,19 @@ struct ACoroutine
 extern struct ACoroutine ACoroutine[1];
 
 
-#define ACoroutineAddParam(coroutine, value)             \
+#define ACoroutineAddParam(coroutine, value) \
     AArrayListAdd(coroutine->params, value)
 
 
 /**
- * return value
+ * Get param value
  */
 #define ACoroutineGetParam(coroutine, index, type)       \
     AArrayListGet(coroutine->params, index, type)
 
 
 /**
- * return valuePtr
+ * Get param valuePtr
  */
 #define ACoroutineGetPtrParam(coroutine, index, type)    \
     AArrayListGetPtr(coroutine->params, index, type)
@@ -183,5 +187,6 @@ extern struct ACoroutine ACoroutine[1];
 #define ACoroutineYieldBreak()                 \
     coroutine->state = coroutine_state_finish; \
     return
+
 
 #endif

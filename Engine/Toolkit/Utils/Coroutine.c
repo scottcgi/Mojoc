@@ -45,6 +45,7 @@ static Coroutine* StartCoroutine(CoroutineRun Run)
     return coroutine;
 }
 
+
 static void Update(float deltaTime)
 {
     for (int i = coroutineMap->arrayList->size - 1; i > -1; i--)

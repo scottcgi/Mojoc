@@ -5,7 +5,6 @@
  *      Author: scott.cgi
  */
 
-
 #include "Engine/Toolkit/Utils/BufferReader.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
@@ -35,6 +34,7 @@ static int64_t ReadInt64(const char* buffer, ArrayRange* range)
 			);
 }
 
+
 /**
  * Read int from buffer data, where ArrayRange in buffer
  */
@@ -54,6 +54,7 @@ static int32_t ReadInt32(const char* buffer, ArrayRange* range)
 
 	return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
 }
+
 
 /**
  * Read short from buffer data, where ArrayRange in buffer
@@ -137,7 +138,6 @@ static void ReadLine(char* buffer, ArrayRange* range, ArrayRange* outLine)
 }
 
 
-
 static bool TryFindString(char* buffer, ArrayRange* range, const char* str)
 {
 	CheckIndex("TryFindString");
@@ -173,6 +173,7 @@ static bool TryFindString(char* buffer, ArrayRange* range, const char* str)
 	return isFound;
 }
 
+
 struct ABufferReader ABufferReader[1] =
 {
 	ReadInt64,
@@ -182,6 +183,7 @@ struct ABufferReader ABufferReader[1] =
     ReadLine,
 	TryFindString,
 };
+
 
 #undef CheckIndex
 

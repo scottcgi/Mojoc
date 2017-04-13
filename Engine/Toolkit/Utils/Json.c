@@ -12,10 +12,11 @@
 
 #include "Engine/Toolkit/Utils/Json.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Toolkit/Head/MacroDefine.h"
 #include "Engine/Toolkit/Utils/FileTool.h"
 
+
 /**
+ * The JsonValue which
  * if json_array  free each items and recursive
  * if json_object free each K-V   and recursive
  */
@@ -108,6 +109,7 @@ static bool ObjectGetBool(JsonObject* object, const char* key, bool defaultValue
 	return jsonValue != NULL ? strcmp(jsonValue->stringValue, "true") == 0 : defaultValue;
 }
 
+
 static int ObjectGetInt(JsonObject* object, const char* key, int defaultValue)
 {
 	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
@@ -119,6 +121,7 @@ static int ObjectGetInt(JsonObject* object, const char* key, int defaultValue)
 	
 	return defaultValue;
 }
+
 
 static float ObjectGetFloat(JsonObject* object, const char* key, float defaultValue)
 {
@@ -132,7 +135,8 @@ static float ObjectGetFloat(JsonObject* object, const char* key, float defaultVa
 	return defaultValue;
 }
 
-static char* ObjectGetString(JsonObject* object, const char* key, char* defaultValue)
+
+static const char* ObjectGetString(JsonObject* object, const char* key, char* defaultValue)
 {
 	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
 	return jsonValue != NULL ? jsonValue->stringValue : defaultValue;
@@ -171,16 +175,17 @@ static const char* ObjectGetKey(JsonObject* object, int index)
 	return AArrayStrMap->GetKey(object->arrayStrMap, index);
 }
 
+
 static JsonObject* ObjectGetObjectByIndex(JsonObject* object, int index)
 {
 	return AArrayStrMapGetAt(object->arrayStrMap, index, JsonValue*)->object;
 }
 
+
 static JsonArray* ObjectGetArrayByIndex(JsonObject* object, int index)
 {
 	return AArrayStrMapGetAt(object->arrayStrMap, index, JsonValue*)->array;
 }
-
 
 
 struct AJsonObject AJsonObject[1] =
@@ -197,6 +202,7 @@ struct AJsonObject AJsonObject[1] =
 	ObjectGetArrayByIndex,
 };
 
+
 //--------------------------------------------------------------------------------------------------
 
 
@@ -204,6 +210,7 @@ static bool ArrayGetBool(JsonArray* array, int index)
 {
 	return strcmp(AArrayListGet(array->arrayList, index, JsonValue*)->stringValue, "true") == 0;
 }
+
 
 static int ArrayGetInt(JsonArray* array, int index)
 {
@@ -215,7 +222,8 @@ static float ArrayGetFloat(JsonArray* array, int index)
 	return AArrayListGet(array->arrayList, index, JsonValue*)->floatValue;
 }
 
-static char* ArrayGetString(JsonArray* array, int index)
+
+static const char* ArrayGetString(JsonArray* array, int index)
 {
 	return AArrayListGet(array->arrayList, index, JsonValue*)->stringValue;
 }
@@ -226,10 +234,12 @@ static JsonObject* ArrayGetObject(JsonArray* array, int index)
 	return AArrayListGet(array->arrayList, index, JsonValue*)->object;
 }
 
+
 static JsonArray* ArrayGetArray(JsonArray* array, int index)
 {
 	return AArrayListGet(array->arrayList, index, JsonValue*)->array;
 }
+
 
 static JsonType ArrayGetType(JsonArray* array, int index)
 {
@@ -253,7 +263,9 @@ struct AJsonArray AJsonArray[1] =
 	ArrayGetArray,
 };
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 // skip whitespace and CR/LF
 static inline void SkipWhiteSpace(const char** jsonPtr)
@@ -270,8 +282,10 @@ static inline void SkipWhiteSpace(const char** jsonPtr)
 	*jsonPtr = json;
 }
 
+
 #define parse_nubmer_validate_by_strtof
 #ifdef  parse_nubmer_validate_by_strtof
+
 
 static inline void* ParseNumber(const char** jsonPtr)
 {
@@ -295,7 +309,9 @@ static inline void* ParseNumber(const char** jsonPtr)
 	return value;
 }
 
+
 #else
+
 
 static inline void* ParseNumber(const char** jsonPtr)
 {
@@ -321,6 +337,7 @@ static inline void* ParseNumber(const char** jsonPtr)
 
 	return value;
 }
+
 
 #endif
 #undef parse_nubmer_validate_by_strtof
@@ -373,8 +390,10 @@ static inline JsonValue* ParseString(const char** jsonPtr)
 	return value;
 }
 
+
 // predefine
 static inline JsonValue* ParseValue(const char** jsonPtr);
+
 
 static inline JsonValue* ParseArray(const char** jsonPtr)
 {
@@ -430,6 +449,7 @@ static inline JsonValue* ParseArray(const char** jsonPtr)
 	
 	return jsonValue;
 }
+
 
 static inline JsonValue* ParseObject(const char** jsonPtr)
 {
@@ -510,6 +530,7 @@ static inline JsonValue* ParseObject(const char** jsonPtr)
 	return jsonValue;
 }
 
+
 /**
  * ParseValue changed the *jsonPtr, so if *jsonPtr is direct malloc will cause error
  */
@@ -581,6 +602,7 @@ static JsonValue* Parse(const char* jsonString)
 	return ParseValue(&jsonString);
 }
 
+
 static JsonValue* ParseWithFile(const char* jsonPath)
 {
 	char*        jsonString = AFileTool->ReadStringPlatform(jsonPath);
@@ -589,6 +611,7 @@ static JsonValue* ParseWithFile(const char* jsonPath)
 
 	return value;
 }
+
 
 struct AJson AJson[1] =
 {

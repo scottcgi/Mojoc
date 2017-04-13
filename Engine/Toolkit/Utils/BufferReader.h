@@ -10,8 +10,8 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-
 #include "Engine/Toolkit/Head/ArrayRange.h"
+
 
 struct ABufferReader
 {
@@ -48,6 +48,8 @@ struct ABufferReader
 	bool   (*TryFindString)(char* buffer, ArrayRange* range, const char* str);
 };
 
+
 extern struct ABufferReader ABufferReader[1];
+
 
 #endif

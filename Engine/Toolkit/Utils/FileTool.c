@@ -63,6 +63,7 @@ static char* ReadBuffer(const char* filePath, long* outLength)
     return buffer;
 }
 
+
 static char* ReadString(const char* filePath)
 {
     void* file     = Open(filePath);
@@ -75,6 +76,7 @@ static char* ReadString(const char* filePath)
     
     return buffer;
 }
+
 
 static int GetDirLength(const char* filePath)
 {
@@ -93,7 +95,9 @@ static int GetDirLength(const char* filePath)
     }
 }
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 static char* ReadBufferPlatform(const char* filePath, long* outLength)
 {
@@ -121,6 +125,7 @@ static char* ReadStringPlatform(const char* filePath)
 
     return buffer;
 }
+
 
 struct AFileTool AFileTool[1] =
 {

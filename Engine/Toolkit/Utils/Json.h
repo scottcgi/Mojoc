@@ -8,9 +8,9 @@
 #ifndef json_h
 #define json_h
 
+
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"
 #include "Engine/Toolkit/Utils/ArrayList.h"
-
 
 
 typedef enum
@@ -22,7 +22,6 @@ typedef enum
 	json_null,
 }
 JsonType;
-
 
 
 typedef struct
@@ -39,25 +38,34 @@ typedef struct
 JsonArray;
 
 
-
 typedef struct
 {
-	JsonType type;
+	JsonType get_only type;
 
 	union
 	{
-		/** json_string */
-		char*       stringValue;
-		/** json_object */
-		JsonObject* object;
-		/** json_array */
-		JsonArray*  array;
-		/** json_float */
-		float       floatValue;
+		/**
+		 * json_string
+		 */
+		char*       get_only  stringValue;
+
+		/**
+		 * json_object
+		 */
+		JsonObject* get_only  object;
+
+		/**
+		 * json_array
+		 */
+		JsonArray*  get_only  array;
+
+		/**
+		 * json_float
+		 */
+		float       get_only  floatValue;
 	};
 }
 JsonValue;
-
 
 
 struct AJsonObject
@@ -70,25 +78,36 @@ struct AJsonObject
 	/**
 	 * When JsonValue released string value will free
 	 */
-	char*       (*GetString)       (JsonObject* object, const char* key, char* defaultValue);
+    const char* (*GetString)       (JsonObject* object, const char* key, char* defaultValue);
 
-	/** Not found return NULL */
+	/**
+	 * Not found return NULL
+	 */
 	JsonObject* (*GetObject)       (JsonObject* object, const char* key);
 
-	/** Not found return NULL */
+	/**
+	 * Not found return NULL
+	 */
 	JsonArray*  (*GetArray)        (JsonObject* object, const char* key);
 
+    /**
+     * Get JsonObject key
+     */
 	const char* (*GetKey)          (JsonObject* object, int   index);
 
-	/** Get JsonObject in index of JsonObject map */
+	/**
+	 * Get JsonObject in index of JsonObject map
+	 */
 	JsonObject* (*GetObjectByIndex)(JsonObject* object, int   index);
 
-	/** Get JsonArray in index of JsonObject map */
+	/**
+	 * Get JsonArray in index of JsonObject map
+	 */
 	JsonArray*  (*GetArrayByIndex) (JsonObject* object, int   index);
 };
 
-extern struct AJsonObject AJsonObject[1];
 
+extern struct AJsonObject AJsonObject[1];
 
 
 struct AJsonArray
@@ -96,24 +115,23 @@ struct AJsonArray
 	bool        (*GetBool)      (JsonArray* array, int index);
 	int         (*GetInt)       (JsonArray* array, int index);
 	float       (*GetFloat)     (JsonArray* array, int index);
-
 	JsonType    (*GetType)      (JsonArray* array, int index);
 
-	/** When JsonValue released string value will free */
-	char*       (*GetString)    (JsonArray* array, int index);
-
+	/**
+	 * When JsonValue released string value will free
+	 */
+    const char* (*GetString)    (JsonArray* array, int index);
 	JsonObject* (*GetObject)    (JsonArray* array, int index);
 	JsonArray*  (*GetArray)     (JsonArray* array, int index);
 
 };
 
-extern struct AJsonArray AJsonArray[1];
 
+extern struct AJsonArray AJsonArray[1];
 
 
 struct AJson
 {
-
 	/**
 	 * Parse with Json string, return root JsonValue
 	 */
@@ -124,13 +142,13 @@ struct AJson
 	 */
 	JsonValue* (*ParseWithFile) (const char* jsonPath);
 
-
 	/**
 	 * Release JsonValue member memory space and free itself
 	 * if release root JsonValue will free all memory space
 	 */
 	void       (*Release)       (JsonValue*  jsonValue);
 };
+
 
 extern struct AJson AJson[1];
 
