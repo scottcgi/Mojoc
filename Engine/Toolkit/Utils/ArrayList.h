@@ -41,13 +41,13 @@ ArrayList;
 struct AArrayList
 {
 	ArrayList* (*Create)            (int typeSize);
-	void       (*Init)              (int typeSize, ArrayList* outArrayList);
+	void       (*Init)              (int typeSize, ArrayList* out_param arrayList);
 
 	ArrayList* (*CreateWithSize)    (int typeSize, int size);
-	void       (*InitWithSize)      (int typeSize, int size, ArrayList* outArrayList);
+	void       (*InitWithSize)      (int typeSize, int size, ArrayList* out_param arrayList);
 
 	ArrayList* (*CreateWithCapacity)(int typeSize, int capacity);
-	void       (*InitWithCapacity)  (int typeSize, int capacity, ArrayList* outArrayList);
+	void       (*InitWithCapacity)  (int typeSize, int capacity, ArrayList* out_param arrayList);
 
 	/**
 	 * Release member memory space

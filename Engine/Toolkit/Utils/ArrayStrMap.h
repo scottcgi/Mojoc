@@ -9,31 +9,35 @@
 #define array_str_map_h
 
 #include <stdbool.h>
-
 #include "Engine/Toolkit/Utils/ArrayList.h"
+
 
 typedef struct
 {
-	const char*  key;
+	const char*  get_only key;
 
-	/** include '\0' */
-	int          keyLength;
+	/**
+	 * include '\0'
+	 */
+	int          get_only keyLength;
 
 	/**
 	 * ArrayStrMap value pointer
 	 * value data copy into ArrayStrMapElement
 	 */
-	void*        valuePtr;
+	void*        get_only valuePtr;
 }
 ArrayStrMapElement;
 
 
 typedef struct
 {
-	ArrayList arrayList[1];
+	ArrayList    arrayList[1];
 
-	/** ArrayStrMap value type sizeof */
-	int typeSize;
+	/**
+	 * ArrayStrMap value type sizeof
+	 */
+	int get_only typeSize;
 }
 ArrayStrMap;
 
@@ -41,10 +45,10 @@ ArrayStrMap;
 struct AArrayStrMap
 {
 	ArrayStrMap* (*Create)             (int typeSize);
-	void         (*Init)               (int typeSize, ArrayStrMap* outArrayStrMap);
+	void         (*Init)               (int typeSize, ArrayStrMap* out_param arrayStrMap);
 
 	ArrayStrMap* (*CreateWithCapacity) (int typeSize, int capacity);
-	void         (*InitWithCapacity)   (int typeSize, int capacity, ArrayStrMap* outArrayStrMap);
+	void         (*InitWithCapacity)   (int typeSize, int capacity, ArrayStrMap* out_param arrayStrMap);
 
 	void         (*Release)            (ArrayStrMap*  arrayStrMap);
 
@@ -61,7 +65,7 @@ struct AArrayStrMap
 	void*        (*Get)                (ArrayStrMap* arrayStrMap, const char* key, void* defaultValuePtr);
 
 	/**
-	 * Set new value from valuePtr by key , return valuePtr in ArrayStrMap
+	 * Set new value from valuePtr by key, return valuePtr in ArrayStrMap
 	 */
 	void*        (*Set)                (ArrayStrMap* arrayStrMap, const char* key, void* valuePtr);
 
@@ -110,6 +114,7 @@ struct AArrayStrMap
 	void         (*RemoveAt)           (ArrayStrMap* arrayStrMap, int index);
 };
 
+
 extern struct AArrayStrMap AArrayStrMap[1];
 
 
@@ -134,14 +139,15 @@ static inline void AArrayStrMapSetIncrease(ArrayStrMap* arrayStrMap, int increas
 }
 
 
-/** The type is the ArrayStrMap value type */
+/**
+ * The type is the ArrayStrMap value type
+ */
 #define ArrayStrMap(keyName, valueType) ArrayStrMap
 
 
 /**
- * Initialize constant ArrayStrMap
+ * Initialize constant ArrayStrMap, macro can use type parameter
  * use like ArrayStrMap map[1] = AArrayStrMapInit(type, increase)
- * macro can use type parameter
  */
 #define AArrayStrMapInit(type, increase)                   \
 	{                                                      \
@@ -161,7 +167,7 @@ static inline void AArrayStrMapSetIncrease(ArrayStrMap* arrayStrMap, int increas
 
 /**
  * Shortcut of AArrayStrMap->Get
- * return element
+ * return value
  */
 #define AArrayStrMapGet(arrayStrMap, key, type) \
 	(*(type*) AArrayStrMap->Get(arrayStrMap, key, null_ptr))
@@ -169,7 +175,7 @@ static inline void AArrayStrMapSetIncrease(ArrayStrMap* arrayStrMap, int increas
 
 /**
  * Shortcut of AArrayStrMap->Get
- * return elementPtr
+ * return valuePtr
  */
 #define AArrayStrMapGetPtr(arrayStrMap, key, type) \
 	((type*) AArrayStrMap->Get(arrayStrMap, key, NULL))
@@ -191,7 +197,7 @@ static inline void AArrayStrMapSetIncrease(ArrayStrMap* arrayStrMap, int increas
 
 /**
  * Shortcut of AArrayStrMap->GetAt
- * return element
+ * return value
  */
 #define AArrayStrMapGetAt(arrayStrMap, index, type) \
 	(*(type*) AArrayStrMap->GetAt(arrayStrMap, index))
@@ -199,7 +205,7 @@ static inline void AArrayStrMapSetIncrease(ArrayStrMap* arrayStrMap, int increas
 
 /**
  * Shortcut of AArrayStrMap->GetAt
- * return elementPtr
+ * return valuePtr
  */
 #define AArrayStrMapGetPtrAt(arrayStrMap, index, type) \
 	((type*) AArrayStrMap->GetAt(arrayStrMap, index))
@@ -210,5 +216,6 @@ static inline void AArrayStrMapSetIncrease(ArrayStrMap* arrayStrMap, int increas
  */
 #define AArrayStrMapSetAt(arrayStrMap, index, value) \
 	AArrayStrMap->SetAt(arrayStrMap, index, &(value))
+
 
 #endif

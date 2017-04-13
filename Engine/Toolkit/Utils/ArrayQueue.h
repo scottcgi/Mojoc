@@ -10,25 +10,27 @@
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
 
+
 typedef struct
 {
-	ArrayList arrayList[1];
+	ArrayList    arrayList[1];
 
 	/**
 	 * ArrayQueue top element index
 	 */
-	int topIndex;
+	int get_only topIndex;
 }
 ArrayQueue;
-
 
 
 struct AArrayQueue
 {
 	ArrayQueue* (*Create)            (int typeSize);
-	void        (*Init)              (int typeSize, ArrayQueue* outArrayQueue);
+	void        (*Init)              (int typeSize, ArrayQueue* out_param arrayQueue);
+
 	ArrayQueue* (*CreateWithCapacity)(int typeSize, int capacity);
-	void        (*InitWithCapacity)  (int typeSize, int capacity, ArrayQueue* outArrayQueue);
+	void        (*InitWithCapacity)  (int typeSize, int capacity, ArrayQueue* out_param arrayQueue);
+
 	void        (*Release)           (ArrayQueue*   arrayQueue);
 
 	/**
@@ -41,9 +43,9 @@ struct AArrayQueue
 
 	/**
 	 * Pop element from ArrayQueue
-	 * return top elementPtr in ArrayQueue, if no element return defaultValuePtr
+	 * return top elementPtr in ArrayQueue, if no element return defaultElementPtr
 	 */
-	void*       (*Pop)               (ArrayQueue* arrayQueue, void* defaultValuePtr);
+	void*       (*Pop)               (ArrayQueue* arrayQueue, void* defaultElementPtr);
 
 	/**
 	 * Remove element at index range in [topIndex, ArrayQueue size - 1]
@@ -56,6 +58,7 @@ struct AArrayQueue
 	void        (*Clear)             (ArrayQueue* arrayQueue);
 };
 
+
 extern struct AArrayQueue AArrayQueue[1];
 
 
@@ -65,7 +68,9 @@ static inline void AArrayQueueSetIncrease(ArrayQueue* arrayQueue, int increase)
 }
 
 
-/** The type is the ArrayQueue value type */
+/**
+ * The type is the ArrayQueue value type
+ */
 #define ArrayQueue(valueType) ArrayQueue
 
 

@@ -223,7 +223,7 @@ static void RemoveAt(ArrayStrMap* arrayStrMap, int index)
 }
 
 
-static void Release(ArrayStrMap*  arrayStrMap)
+static void Release(ArrayStrMap* arrayStrMap)
 {
 	for (int i = 0; i < arrayStrMap->arrayList->size; i++)
 	{
@@ -237,18 +237,18 @@ static void Release(ArrayStrMap*  arrayStrMap)
 }
 
 
-static void InitWithCapacity(int typeSize, int capacity, ArrayStrMap* outArrayStrMap)
+static void InitWithCapacity(int typeSize, int capacity, ArrayStrMap* out_param arrayStrMap)
 {
 	if (capacity == 0)
 	{
-		AArrayList->Init(sizeof(ArrayStrMapElement*), outArrayStrMap->arrayList);
+		AArrayList->Init(sizeof(ArrayStrMapElement*), arrayStrMap->arrayList);
 	}
 	else
 	{
-		AArrayList->InitWithCapacity(sizeof(ArrayStrMapElement*), capacity, outArrayStrMap->arrayList);
+		AArrayList->InitWithCapacity(sizeof(ArrayStrMapElement*), capacity, arrayStrMap->arrayList);
 	}
 
-	outArrayStrMap->typeSize = typeSize;
+	arrayStrMap->typeSize = typeSize;
 }
 
 
@@ -261,9 +261,9 @@ static ArrayStrMap* CreateWithCapacity(int typeSize, int capacity)
 }
 
 
-static void Init(int typeSize, ArrayStrMap* outArrayStrMap)
+static void Init(int typeSize, ArrayStrMap* out_param arrayStrMap)
 {
-	InitWithCapacity(typeSize, 0, outArrayStrMap);
+	InitWithCapacity(typeSize, 0, arrayStrMap);
 }
 
 
@@ -294,6 +294,7 @@ struct AArrayStrMap AArrayStrMap[1] =
 	SetAt,
 	RemoveAt,
 };
+
 
 #undef CheckIndex
 #undef CheckInsertIndex

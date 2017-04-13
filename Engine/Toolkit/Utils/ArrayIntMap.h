@@ -45,10 +45,10 @@ ArrayIntMap;
 struct AArrayIntMap
 {
 	ArrayIntMap* (*Create)            (int typeSize);
-	void         (*Init)              (int typeSize, ArrayIntMap* outArrayIntMap);
+	void         (*Init)              (int typeSize, ArrayIntMap* out_param arrayIntMap);
 
 	ArrayIntMap* (*CreateWithCapacity)(int typeSize, int capacity);
-	void         (*InitWithCapacity)  (int typeSize, int capacity, ArrayIntMap* outArrayIntMap);
+	void         (*InitWithCapacity)  (int typeSize, int capacity, ArrayIntMap* out_param arrayIntMap);
 
 	/**
 	 * Release member memory space

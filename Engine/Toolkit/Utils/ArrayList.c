@@ -332,9 +332,9 @@ static ArrayList* Create(int typeSize)
 }
 
 
-static void init(int typeSize, ArrayList* outArrayList)
+static void init(int typeSize, ArrayList* out_param arrayList)
 {
-	InitArrayList(typeSize, outArrayList);
+	InitArrayList(typeSize, arrayList);
 }
 
 
@@ -347,10 +347,10 @@ static ArrayList* CreateWithSize(int typeSize, int size)
 }
 
 
-static void InitWithSize(int typeSize, int size, ArrayList* outArrayList)
+static void InitWithSize(int typeSize, int size, ArrayList* out_param arrayList)
 {
-	InitArrayList(typeSize, outArrayList);
-	SetSize(outArrayList, size);
+	InitArrayList(typeSize, arrayList);
+	SetSize(arrayList, size);
 }
 
 
@@ -363,10 +363,10 @@ static ArrayList* CreateWithCapacity(int typeSize, int capacity)
 }
 
 
-static void InitWithCapacity(int typeSize, int capacity, ArrayList* outArrayList)
+static void InitWithCapacity(int typeSize, int capacity, ArrayList* out_param arrayList)
 {
-	InitArrayList(typeSize, outArrayList);
-	SetCapacity(outArrayList, capacity);
+	InitArrayList(typeSize, arrayList);
+	SetCapacity(arrayList, capacity);
 }
 
 

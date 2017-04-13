@@ -20,15 +20,17 @@ static void* Push(ArrayQueue* arrayQueue, void* elementPtr)
 	return AArrayList->Add(arrayQueue->arrayList, elementPtr);
 }
 
-static void* Pop(ArrayQueue* arrayQueue, void* defaultValuePtr)
+
+static void* Pop(ArrayQueue* arrayQueue, void* defaultElementPtr)
 {
 	if (arrayQueue->topIndex == arrayQueue->arrayList->size)
 	{
-		return defaultValuePtr;
+		return defaultElementPtr;
 	}
 
 	return (char*) arrayQueue->arrayList->array->data + arrayQueue->arrayList->typeSize * (arrayQueue->topIndex++);
 }
+
 
 static void RemoveAt(ArrayQueue* arrayQueue, int index)
 {
@@ -42,25 +44,28 @@ static void RemoveAt(ArrayQueue* arrayQueue, int index)
 	AArrayList->Remove(arrayQueue->arrayList, index);
 }
 
+
 static void Release(ArrayQueue* arrayQueue)
 {
 	arrayQueue->topIndex = 0;
 	AArrayList->Release(arrayQueue->arrayList);
 }
 
-static void InitWithCapacity(int typeSize, int capacity, ArrayQueue* outArrayQueue)
+
+static void InitWithCapacity(int typeSize, int capacity, ArrayQueue* out_param arrayQueue)
 {
 	if (capacity == 0)
 	{
-		AArrayList->Init(typeSize, outArrayQueue->arrayList);
+		AArrayList->Init(typeSize, arrayQueue->arrayList);
 	}
 	else
 	{
-		AArrayList->InitWithCapacity(typeSize, capacity, outArrayQueue->arrayList);
+		AArrayList->InitWithCapacity(typeSize, capacity, arrayQueue->arrayList);
 	}
 
-	outArrayQueue->topIndex = 0;
+	arrayQueue->topIndex = 0;
 }
+
 
 static ArrayQueue* CreateWithCapacity(int typeSize, int capacity)
 {
@@ -70,21 +75,25 @@ static ArrayQueue* CreateWithCapacity(int typeSize, int capacity)
 	return arrayQueue;
 }
 
-static void Init(int typeSize, ArrayQueue* outArrayQueue)
+
+static void Init(int typeSize, ArrayQueue* out_param arrayQueue)
 {
-	InitWithCapacity(typeSize, 0, outArrayQueue);
+	InitWithCapacity(typeSize, 0, arrayQueue);
 }
+
 
 static ArrayQueue* Create(int typeSize)
 {
 	return CreateWithCapacity(typeSize, 0);
 }
 
+
 static void Clear(ArrayQueue* arrayQueue)
 {
 	arrayQueue->topIndex = 0;
     AArrayList->Clear(arrayQueue->arrayList);
 }
+
 
 struct AArrayQueue AArrayQueue[1] =
 {

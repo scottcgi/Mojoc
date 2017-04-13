@@ -216,18 +216,18 @@ static void Release(ArrayIntMap* arrayIntMap)
 }
 
 
-static void InitWithCapacity(int typeSize, int capacity, ArrayIntMap* outArrayIntMap)
+static void InitWithCapacity(int typeSize, int capacity, ArrayIntMap* out_param arrayIntMap)
 {
 	if (capacity == 0)
 	{
-		AArrayList->Init(sizeof(ArrayIntMapElement*), outArrayIntMap->arrayList);
+		AArrayList->Init(sizeof(ArrayIntMapElement*), arrayIntMap->arrayList);
 	}
 	else
 	{
-		AArrayList->InitWithCapacity(sizeof(ArrayIntMapElement*), capacity, outArrayIntMap->arrayList);
+		AArrayList->InitWithCapacity(sizeof(ArrayIntMapElement*), capacity, arrayIntMap->arrayList);
 	}
 
-	outArrayIntMap->typeSize = typeSize;
+	arrayIntMap->typeSize = typeSize;
 }
 
 
@@ -240,9 +240,9 @@ static ArrayIntMap* CreateWithCapacity(int typeSize, int capacity)
 }
 
 
-static void Init(int typeSize, ArrayIntMap* outArrayIntMap)
+static void Init(int typeSize, ArrayIntMap* out_param arrayIntMap)
 {
-	InitWithCapacity(typeSize, 0, outArrayIntMap);
+	InitWithCapacity(typeSize, 0, arrayIntMap);
 }
 
 
