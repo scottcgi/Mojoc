@@ -24,6 +24,9 @@
 /**
  * Marked variable can only get value
  *
+ * the variable can not set directly
+ * use function or macro to instead of set value
+ *
  * the marker effect use data structure variable
  * if construct data structure variable not follow the rule
  */
@@ -32,6 +35,9 @@
 
 /**
  * Marked variable can only set value
+ *
+   the variable can not get directly
+ * use function or macro to instead of get value
  *
  * the marker effect use data structure variable
  * if construct data structure variable not follow the rule
@@ -43,6 +49,12 @@
  * Marked function argument for get value out
  */
 #define out_param
+
+
+/**
+ * Marked variable must set, or may cause crash, or running incorrectly
+ */
+#define set_required
 
 
 #endif

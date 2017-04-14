@@ -32,6 +32,7 @@ struct ATweenActionValueGetSetImpl
     TweenActionValueGetSet fadeTo [1];
 };
 
+
 /**
  * Application must implement tween action value get set method
  */
@@ -40,10 +41,9 @@ extern struct ATweenActionValueGetSetImpl ATweenActionValueGetSetImpl[1];
 
 struct ATweenTool
 {
-
     /**
      * Add one TweenAction in context for chain setting
-     * TweenAction can add several TweenActionValue
+     * the TweenAction can add several TweenActionValue
      */
 	struct ATweenTool* (*AddAction)  ();
 
@@ -52,9 +52,11 @@ struct ATweenTool
 	 */
 	struct ATweenTool* (*AddInterval)(float duration);
 
-//--------------------------------------------------------------------------------------------------
-// Add one TweenAction with TweenActionValue
-//--------------------------------------------------------------------------------------------------
+/*
+----------------------------------------------------------------------------------------------------
+    Add one TweenAction with TweenActionValue
+----------------------------------------------------------------------------------------------------
+*/
 
     struct ATweenTool* (*AddMoveX)     (float moveX,   float duration);
     struct ATweenTool* (*AddMoveY)     (float moveY,   float duration);
@@ -71,24 +73,31 @@ struct ATweenTool
     struct ATweenTool* (*AddRotateZ)   (float rotateZ, float duration);
     struct ATweenTool* (*AddFadeTo)    (float fadeTo,  float duration);
 
-//--------------------------------------------------------------------------------------------------
-// Set TweenAction property for current context
-//--------------------------------------------------------------------------------------------------
 
-	struct ATweenTool* (*SetDuration)  (float                 duration);
-	struct ATweenTool* (*SetUserData)  (void*                 userData);
-	struct ATweenTool* (*SetQueue)     (bool                  isQueue);
-	struct ATweenTool* (*SetOnComplete)(TweenActionOnComplete OnComplete);
-	struct ATweenTool* (*SetTarget)    (void*                 target);
+/*
+----------------------------------------------------------------------------------------------------
+    Set TweenAction property for current context
+----------------------------------------------------------------------------------------------------
+*/
+
+	struct ATweenTool* (*SetDuration)  (float                   duration);
+	struct ATweenTool* (*SetUserData)  (void*                   userData);
+	struct ATweenTool* (*SetQueue)     (bool                    isQueue);
+	struct ATweenTool* (*SetOnComplete)(TweenActionOnComplete   OnComplete);
+	struct ATweenTool* (*SetTarget)    (void*                   target);
 
 	/**
 	 * Get TweenAction in current context
 	 */
-	struct ATweenTool* (*GetAction)    (TweenAction**         outActionPtr);
+	struct ATweenTool* (*GetAction)    (TweenAction** out_param actionPtr);
 
-//--------------------------------------------------------------------------------------------------
-// Set new TweenActionValue into context TweenAction
-//--------------------------------------------------------------------------------------------------
+
+/*
+----------------------------------------------------------------------------------------------------
+    Set new TweenActionValue into context TweenAction
+----------------------------------------------------------------------------------------------------
+*/
+
 
     struct ATweenTool* (*SetMoveX)     (float moveX);
     struct ATweenTool* (*SetMoveY)     (float moveY);
@@ -105,9 +114,13 @@ struct ATweenTool
     struct ATweenTool* (*SetRotateZ)   (float rotateZ);
     struct ATweenTool* (*SetFadeTo)    (float fadeTo);
 
-//--------------------------------------------------------------------------------------------------
-// Set TweenActionValue property for current context
-//--------------------------------------------------------------------------------------------------
+
+/*
+----------------------------------------------------------------------------------------------------
+    Set TweenActionValue property for current context
+----------------------------------------------------------------------------------------------------
+*/
+
 
 	/**
 	 * Set TweenActiveValue's isRelative
@@ -126,16 +139,18 @@ struct ATweenTool
 	 * Run actions all in current context, set action target if has actionValue
 	 * use target be tweenId
 	 */
-	void               (*RunActions)(void* target);
+	void               (*RunActions) (void* target);
 
 	/**
 	 * Run actions all in current context, action must set target if has actionValue
 	 * all different targets will in same queue
 	 * return tweenId
 	 */
-	void*              (*RunTargets)();
+	void*              (*RunTargets) ();
 };
 
+
 extern struct ATweenTool ATweenTool[1];
+
 
 #endif

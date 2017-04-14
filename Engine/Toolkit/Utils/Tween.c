@@ -8,9 +8,9 @@
 #include "Engine/Toolkit/Utils/Tween.h"
 #include "Engine/Toolkit/Math/Math.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Toolkit/Head/MacroDefine.h"
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
 #include "Engine/Toolkit/Utils/ArrayQueue.h"
+
 
 typedef struct
 {
@@ -35,6 +35,7 @@ TweenData;
 static ArrayIntMap(tweendId, TweenData*) dataMap   [1] = AArrayIntMapInit(TweenData*,   25);
 static ArrayList  (TweenData*)           dataList  [1] = AArrayListInit  (TweenData*,   25);
 static ArrayList  (TweenAction*)         actionList[1] = AArrayListInit  (TweenAction*, 25);
+
 
 static inline TweenData* GetTweenData()
 {
@@ -93,6 +94,7 @@ static TweenAction* GetAction()
 	return action;
 }
 
+
 static TweenActionValue* AddTweenActionValue(TweenAction* action)
 {
 	TweenActionValue* actionValue = AArrayListGetPtrAdd(action->actionValueList, TweenActionValue);
@@ -108,6 +110,7 @@ static TweenActionValue* AddTweenActionValue(TweenAction* action)
 
 	return actionValue;
 }
+
 
 static inline void SetActionValue(TweenAction* action)
 {
@@ -129,6 +132,7 @@ static inline void SetActionValue(TweenAction* action)
 		}
 	}
 }
+
 
 static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
 {
@@ -264,6 +268,7 @@ static bool TryRemoveAllActions(void* tweenId)
 	return false;
 }
 
+
 static inline void SetActionComplete(TweenAction* action, bool isFireOnComplete)
 {
     for (int k = 0; k < action->actionValueList->size; k++)
@@ -282,6 +287,7 @@ static inline void SetActionComplete(TweenAction* action, bool isFireOnComplete)
         action->OnComplete(action, action->userData);
     }
 }
+
 
 static bool TryCompleteAllActions(void* tweenId, bool isFireOnComplete)
 {

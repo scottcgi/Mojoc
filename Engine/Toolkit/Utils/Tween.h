@@ -14,36 +14,50 @@
 #include "Engine/Toolkit/Math/TweenEase.h"
 #include "Engine/Toolkit/Utils/ArrayList.h"
 
+
 typedef float (*TweenActionValueOnGet)(void* target);
 typedef void  (*TweenActionValueOnSet)(void* target, float value);
 
+
 typedef struct
 {
-	void*                 userData;
+	void*                              userData;
 
-	float                 value;
-	float                 fromValue;
-	float                 toValue;
+    /**
+     * The action will reach to this value
+     * depend on isRelative
+     */
+	float                              value;
+
+    /**
+     * The action start from this value
+     */
+	float  get_only                    fromValue;
+
+    /**
+     * The final value action will reach to
+     */
+	float  get_only                    toValue;
 
 	/**
-	 * When TweenAction's target value need to get
+	 * When TweenAction's target value need to be get
 	 */
-	TweenActionValueOnGet OnGet;
+	TweenActionValueOnGet set_required OnGet;
 
 	/**
-	 * When TweenAction's target value need to set
+	 * When TweenAction's target value need to be set
 	 */
-	TweenActionValueOnSet OnSet;
+	TweenActionValueOnSet set_required OnSet;
 
 	/**
 	 * The motion is relative or absolute default true
 	 */
-	bool                  isRelative;
+	bool                               isRelative;
 
 	/**
 	 * Default tween_ease_linear
 	 */
-	TweenEaseType         easeType;
+	TweenEaseType                      easeType;
 }
 TweenActionValue;
 
@@ -51,11 +65,9 @@ TweenActionValue;
 typedef struct TweenAction TweenAction;
 typedef void   (*TweenActionOnComplete)(TweenAction* action, void* userData);
 
+
 struct TweenAction
 {
-	/**
-	 * Bind data can not get from context
-	 */
 	void*                        userData;
 
 	/**
@@ -63,8 +75,15 @@ struct TweenAction
 	 */
 	void*                        target;
 
+    /**
+     * The action running duration time
+     */
 	float                        duration;
-	float                        curTime;
+
+    /**
+     * The action running current postion in duration time
+     */
+	float get_only               curTime;
 
 	/**
 	 * Means action running in queue or immediately default true
@@ -77,7 +96,7 @@ struct TweenAction
 	ArrayList(TweenActionValue)  actionValueList[1];
 
 	/**
-	 * When action complete call back, passed action and userData
+	 * When action complete callback, passed action and userData
 	 */
 	TweenActionOnComplete        OnComplete;
 };
@@ -140,6 +159,8 @@ struct ATween
 	void              (*Update)               (float deltaTime);
 };
 
+
 extern struct ATween ATween[1];
+
 
 #endif

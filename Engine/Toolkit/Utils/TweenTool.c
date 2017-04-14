@@ -26,6 +26,7 @@ static TweenActionValue* actionValue = NULL;
 #define CheckAction(tag) \
 	ALogA(action      != NULL, "ATweenTool " tag " TweenAction not created");
 
+
 #define CheckActionValue(tag) \
 	ALogA(actionValue != NULL, "ATweenTool " tag " TweenActionValue invalid");
 
@@ -146,6 +147,7 @@ static struct ATweenTool* AddMove2(float moveX, float moveY, float duration, boo
     return ATweenTool;
 }
 
+
 static struct ATweenTool* AddMoveSame2(float move, float duration, bool  isRelative, TweenEaseType easeType)
 {
 	return AddMove2(move, move, duration, isRelative, easeType);
@@ -190,6 +192,7 @@ static struct ATweenTool* AddScale2(float scaleX, float scaleY, float duration, 
 
     return ATweenTool;
 }
+
 
 static struct ATweenTool* AddScaleSame2(float scale, float duration, bool  isRelative, TweenEaseType  easeType)
 {
@@ -239,6 +242,7 @@ static struct ATweenTool* SetQueue(bool isQueue)
 	return ATweenTool;
 }
 
+
 static struct ATweenTool* SetOnComplete(TweenActionOnComplete OnComplete)
 {
 	CheckAction("SetOnComplete");
@@ -257,10 +261,10 @@ static struct ATweenTool* SetTarget(void* target)
 }
 
 
-static struct ATweenTool* GetAction(TweenAction** outActionPtr)
+static struct ATweenTool* GetAction(TweenAction** out_param actionPtr)
 {
 	CheckAction("GetAction");
-	*outActionPtr = action;
+	*actionPtr = action;
 
 	return ATweenTool;
 }
@@ -397,6 +401,7 @@ static void* RunTargets()
     return tweenId;
 }
 
+
 struct ATweenTool ATweenTool[1] =
 {
 	AddAction,
@@ -439,6 +444,7 @@ struct ATweenTool ATweenTool[1] =
 	RunActions,
 	RunTargets,
 };
+
 
 #undef action_length
 #undef CheckAction
