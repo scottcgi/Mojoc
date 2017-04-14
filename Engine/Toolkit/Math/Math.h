@@ -8,13 +8,14 @@
 #ifndef math_h
 #define math_h
 
+
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
 #include <float.h>
 #include <stdbool.h>
-
 #include "Engine/Toolkit/Utils/Array.h"
+
 
 struct AMath
 {
@@ -27,13 +28,15 @@ struct AMath
 	/**
 	 * Rotate 2D point pair of x, y by angle
 	 */
-	void  (*RotatePoints2)   (Array(float)* pointArr, float angle, Array(float)* outRotatedPointArr);
+	void  (*RotatePoints2)   (Array(float)* pointArr, float angle, Array(float)* out_param rotatedPointArr);
 };
+
 
 extern struct AMath AMath[1];
 
 
 //--------------------------------------------------------------------------------------------------
+
 
 #define golden_ratio     0.618033988749894
 
@@ -49,103 +52,133 @@ extern struct AMath AMath[1];
 
 #define math_pi2         1.570796326794897
 
+
 //--------------------------------------------------------------------------------------------------
 
 
-/** Random float in range [0.0, 1.0] */
+/**
+ * Random float in range [0.0, 1.0]
+ */
 static inline float AMathRandom()
 {
 	return rand() / (double) RAND_MAX;
 }
 
 
-/** Random integer in range [from, to] */
+/**
+ * Random integer in range [from, to]
+ */
 static inline int AMathRandomInt(int from, int to)
 {
 	return (from) + rand() % ((to) - (from) + 1);
 }
 
 
-/** Random float in range [from, to] */
+/**
+ * Random float in range [from, to]
+ */
 static inline float AMathRandomFloat(float from, float to)
 {
 	return from + AMathRandom() * (to - from);
 }
 
 
-/** Random seed by system time */
+/**
+ * Random seed by system time
+ */
 static inline void AMathRandomSeedByTime()
 {
 	srand((unsigned) time(NULL));
 }
 
 
-/** Convert degree to radian */
+/**
+ * Convert degree to radian
+ */
 static inline float AMathToRadian(float degree)
 {
 	return (degree) * degree_to_radian;
 }
 
 
-/** Convert radian to degree */
+/**
+ * Convert radian to degree
+ */
 static inline float AMathToDegree(float radian)
 {
 	return (radian) * radian_to_degree;
 }
 
 
-/** Cos by degree */
+/**
+ * Cos by degree
+ */
 static inline float AMathCos(float degree)
 {
 	return cosf(AMathToRadian(degree));
 }
 
 
-/** Sin by degree */
+/**
+ * Sin by degree
+ */
 static inline float AMathSin(float degree)
 {
 	return sinf(AMathToRadian(degree));
 }
 
 
-/** Degree by atan2 */
+/**
+ * Degree by atan2
+ */
 static inline float AMathAtan2(float x, float y)
 {
 	return 	AMathToDegree(atan2f(y, x));
 }
 
 
-
-/** Degree by acosf */
+/**
+ * Degree by acosf
+ */
 static inline float AMathAcos(float ratio)
 {
 	return AMathToDegree(acosf(ratio));
 }
 
 
-/** Degree by asinf */
+/**
+ * Degree by asinf
+ */
 static inline float AMathAsin(float ratio)
 {
 	return AMathToDegree(asinf(ratio));
 }
 
 
-/** Min in x and y, macro can use generic parameter */
+/**
+ * Min in x and y, macro can use generic parameter
+ */
 #define AMathMin(x, y) \
 	(((x) < (y)) ? (x) : (y))
 
 
-/** Max in a and b, macro can use generic parameter */
+/**
+ * Max in a and b, macro can use generic parameter
+ */
 #define AMathMax(x, y) \
 	(((x) > (y)) ? (x) : (y))
 
 
-/** Clamp x in min and max, macro can use generic parameter */
+/**
+ * Clamp x in min and max, macro can use generic parameter
+ */
 #define AMathClamp(x, min, max) \
 	(AMathMin((max), AMathMax((x), (min))))
 
 
-/** Compare float value equals */
+/**
+ * Compare float value equals
+ */
 static inline bool AMathTestFloatEqual(float x, float y)
 {
 	return fabsf((x) - (y)) <= FLT_EPSILON;
@@ -160,5 +193,6 @@ static inline bool AMathTestFloatEqual(float x, float y)
  */
 #define AMathSignBit(x) \
 	(((signed char*) &(x))[sizeof(x) - 1] >> 7 | 1)
+
 
 #endif

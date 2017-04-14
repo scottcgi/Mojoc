@@ -5,9 +5,7 @@
  *  Author: scott.cgi
  */
 
-
 #include "Engine/Toolkit/Math/Math.h"
-#include "Engine/Toolkit/Platform/Log.h"
 
 
 static bool TestPolygonPoint(Array(float)* vertexArr, float x, float y)
@@ -43,14 +41,14 @@ static bool TestPolygonPoint(Array(float)* vertexArr, float x, float y)
 }
 
 
-static void RotatePoints2(Array(float)* pointArr, float angle, Array(float)* outRotatedPointArr)
+static void RotatePoints2(Array(float)* pointArr, float angle, Array(float)* out_param rotatedPointArr)
 {
-	ALogA(outRotatedPointArr->length >= pointArr->length, "rotatedPointArr length must larger than pointArr");
+	ALogA(rotatedPointArr->length >= pointArr->length, "rotatedPointArr length must larger than pointArr");
 
 	float  cos  = AMathCos(angle);
 	float  sin  = AMathSin(angle);
 	float* arr1 = (float*) pointArr->data;
-	float* arr2 = (float*) outRotatedPointArr->data;
+	float* arr2 = (float*) rotatedPointArr->data;
 
 	for (int i = 0; i < pointArr->length; i += 2)
 	{
