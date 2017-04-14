@@ -9,6 +9,8 @@
 #define file_h
 
 #include <stddef.h>
+#include "Engine/Toolkit/Head/MacroDefine.h"
+
 
 /**
  * Related to platform private files such as
@@ -32,7 +34,7 @@ struct AFile
      *
      * returns < 0 if direct fd access is not possible (for example, if the asset is compressed)
      */
-    int   (*OpenFileDescriptor)(const char* filePath, long* outStart, long* outLength);
+    int   (*OpenFileDescriptor)(const char* filePath, long* out_param start, long* out_param length);
 
 	/**
 	 * Close an opened file connection, free any related resources
@@ -59,6 +61,8 @@ struct AFile
 	int   (*Seek)              (File* file, long offset, int whence);
 };
 
+
 extern struct AFile AFile[1];
+
 
 #endif

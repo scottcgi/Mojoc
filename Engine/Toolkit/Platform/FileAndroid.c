@@ -11,10 +11,11 @@
 #ifdef is_platform_android
 //--------------------------------------------------------------------------------------------------
 
-#include <android/native_activity.h>
 
+#include <android/native_activity.h>
 #include "Engine/Toolkit/Platform/File.h"
 #include "Engine/Toolkit/Platform/Log.h"
+
 
 extern ANativeActivity* nativeActivity;
 
@@ -29,12 +30,12 @@ static File* Open(const char* filePath)
 }
 
 
-static int OpenFileDescriptor(const char* filePath, long* outStart, long* outLength)
+static int OpenFileDescriptor(const char* filePath, long* out_param start, long* out_param length)
 {
     AAsset* asset = AAssetManager_open(nativeActivity->assetManager, filePath, AASSET_MODE_UNKNOWN);
 
     // open asset as file descriptor
-    int fd = AAsset_openFileDescriptor(asset, outStart, outLength);
+    int fd = AAsset_openFileDescriptor(asset, start, length);
     ALogA(fd >= 0, "AFile OpenFileDescriptor error");
     AAsset_close(asset);
 
@@ -65,6 +66,7 @@ static int Seek(File* file, long offset, int whence)
 	return AAsset_seek((AAsset*) file, offset, whence);
 }
 
+
 struct AFile AFile[1] =
 {
 	Open,
@@ -74,6 +76,7 @@ struct AFile AFile[1] =
 	Read,
 	Seek,
 };
+
 
 //--------------------------------------------------------------------------------------------------
 #endif

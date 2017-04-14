@@ -7,9 +7,11 @@
 
 #include "Engine/Toolkit/Platform/Platform.h"
 
+
 //--------------------------------------------------------------------------------------------------
 #ifdef is_platform_ios
 //--------------------------------------------------------------------------------------------------
+
 
 #include <stdio.h>
 #include <Foundation/Foundation.h>
@@ -30,9 +32,9 @@ static File* Open(const char* filePath)
 }
 
 
-static int OpenFileDescriptor(const char* filePath, long* outStart, long* outLength)
+static int OpenFileDescriptor(const char* filePath, long* out_param start, long* out_param length)
 {
-    ALogA(NULL, "AFile OpenFileDescriptor not supported !")
+    ALogA(NULL, "AFile OpenFileDescriptor not supported !");
     return 0;
 }
 
@@ -74,6 +76,7 @@ struct AFile AFile[1] =
 	Read,
 	Seek,
 };
+
 
 //--------------------------------------------------------------------------------------------------
 #endif

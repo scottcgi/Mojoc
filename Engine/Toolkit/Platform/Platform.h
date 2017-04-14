@@ -8,9 +8,11 @@
 #ifndef platform_h
 #define platform_h
 
+
 #define platform_android 0
 #define platform_ios     1
 #define platform_target  platform_android
+
 
 //--------------------------------------------------------------------------------------------------
 #if platform_target == platform_android
@@ -23,8 +25,5 @@
 
 #endif
 //--------------------------------------------------------------------------------------------------
-
-
-
 
 #endif
