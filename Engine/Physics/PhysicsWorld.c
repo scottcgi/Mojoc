@@ -9,8 +9,6 @@
 #include "Engine/Physics/PhysicsWorld.h"
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
 #include "Engine/Physics/PhysicsCollision.h"
-#include "Engine/Toolkit/Platform/Log.h"
-
 
 
 static ArrayIntMap(bodyPtr, PhysicsBody*) bodyMap[1] = AArrayIntMapInit(PhysicsBody*, 20);
@@ -48,7 +46,6 @@ static inline void UpdateMotion(PhysicsBody* body, float deltaTime)
 		APhysicsBodySetState(body, physics_body_state_sleeping);
 	}
 }
-
 
 
 static void Update(float deltaTime)
@@ -105,7 +102,8 @@ static PhysicsBody* AddBody(PhysicsShape shape, Array(float)* vertexArr)
 	return body;
 }
 
-void DestroyBody(PhysicsBody* body)
+
+static void DestroyBody(PhysicsBody* body)
 {
     AArrayIntMap->TryRemove(bodyMap, (intptr_t) body);
     free(body);

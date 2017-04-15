@@ -8,7 +8,6 @@
 #include "Engine/Toolkit/Math/Math.h"
 
 
-
 #define value from + (to - from)
 
 
@@ -18,16 +17,20 @@ static float Linear(float from, float to, float time)
 }
 
 
-/** Quadratic */
+/**
+ * Quadratic
+ */
 static float QuadIn(float from, float to, float time)
 {
 	return value * time * time;
 }
 
+
 static float QuadOut(float from, float to, float time)
 {
 	return value * time * (2.0f - time);
 }
+
 
 static float QuadBoth(float from, float to, float time)
 {
@@ -42,17 +45,21 @@ static float QuadBoth(float from, float to, float time)
 }
 
 
-/** Cubic */
+/**
+ * Cubic
+ */
 static float CubicIn(float from, float to, float time)
 {
 	return value * time * time * time;
 }
+
 
 static float CubicOut(float from, float to, float time)
 {
 	time -= 1.0f;
 	return value * (time * time * time + 1.0f);
 }
+
 
 static float CubicBoth(float from, float to, float time)
 {
@@ -68,18 +75,21 @@ static float CubicBoth(float from, float to, float time)
 }
 
 
-
-/** Quartic */
+/**
+ * Quartic
+ */
 static float QuartIn(float from, float to, float time)
 {
 	return value * time * time * time * time;
 }
+
 
 static float QuartOut(float from, float to, float time)
 {
 	time -= 1.0f;
 	return value * (time * time * time * (-time) + 1.0f);
 }
+
 
 static float QuartBoth(float from, float to, float time)
 {
@@ -95,18 +105,21 @@ static float QuartBoth(float from, float to, float time)
 }
 
 
-
-/** Quintic */
+/**
+ * Quintic
+ */
 static float QuintIn(float from, float to, float time)
 {
 	return value * time * time * time * time * time;
 }
+
 
 static float QuintOut(float from, float to, float time)
 {
 	time -= 1.0f;
 	return value * (time * time * time * time * time + 1.0f);
 }
+
 
 static float QuintBoth(float from, float to, float time)
 {
@@ -122,17 +135,20 @@ static float QuintBoth(float from, float to, float time)
 }
 
 
-
-/** Sine */
+/**
+ * Sine
+ */
 static float SineIn(float from, float to, float time)
 {
 	return value * (1.0f - cosf(time * math_pi2));
 }
 
+
 static float SineOut(float from, float to, float time)
 {
 	return value * sinf(time * math_pi2);
 }
+
 
 static float SineBoth(float from, float to, float time)
 {
@@ -140,7 +156,9 @@ static float SineBoth(float from, float to, float time)
 }
 
 
-/* exponential */
+/**
+ * Exponential
+ */
 static float ExpoIn(float from, float to, float time)
 {
 	if (time == 0.0f)
@@ -153,6 +171,7 @@ static float ExpoIn(float from, float to, float time)
 	}
 }
 
+
 static float ExpoOut(float from, float to, float time)
 {
 	if (time == 1.0f)
@@ -164,6 +183,7 @@ static float ExpoOut(float from, float to, float time)
 		return value * (1.0f - powf(2.0f, -10.0f * time));
 	}
 }
+
 
 static float ExpoBoth(float from, float to, float time)
 {
@@ -188,16 +208,20 @@ static float ExpoBoth(float from, float to, float time)
 }
 
 
-/** Circular */
+/**
+ * Circular
+ */
 static float CircIn(float from, float to, float time)
 {
 	return value * (1.0f - sqrtf(1.0f - time * time));
 }
 
+
 static float CircOut(float from, float to, float time)
 {
 	return value * sqrtf((2.0f - time) * time);
 }
+
 
 static float CircBoth(float from, float to, float time)
 {
@@ -212,7 +236,10 @@ static float CircBoth(float from, float to, float time)
 	}
 }
 
-/** Elastic */
+
+/**
+ * Elastic
+ */
 static float ElasticIn(float from, float to, float time)
 {
 	if (time == 0.0f)
@@ -228,6 +255,7 @@ static float ElasticIn(float from, float to, float time)
 	return value * -powf(2.0f, 10.0f * time - 10.0f) * sinf((3.33f * time - 3.58f) * math_2pi);
 }
 
+
 static float ElasticOut(float from, float to, float time)
 {
 	if (time == 0.0f)
@@ -242,6 +270,7 @@ static float ElasticOut(float from, float to, float time)
 
 	return value * (powf(2.0f, -10.0f * time) * sinf((3.33f * time - 0.25f) * math_2pi) + 1.0f);
 }
+
 
 static float ElasticBoth(float from, float to, float time)
 {
@@ -266,18 +295,21 @@ static float ElasticBoth(float from, float to, float time)
 }
 
 
-
-/** Back */
+/**
+ * Back
+ */
 static float BackIn(float from, float to, float time)
 {
 	return value * time * time * (2.70158f * time - 1.70158f);
 }
+
 
 static float BackOut(float from, float to, float time)
 {
 	time -= 1.0f;
 	return value * (time * time * (2.70158f * time + 1.70158f) + 1.0f);
 }
+
 
 static float BackBoth(float from, float to, float time)
 {
@@ -292,7 +324,10 @@ static float BackBoth(float from, float to, float time)
 	}
 }
 
-/** Bounce */
+
+/**
+ * Bounce
+ */
 static float BounceOut(float from, float to, float time)
 {
 	if (time < 0.363636f)
@@ -315,6 +350,7 @@ static float BounceOut(float from, float to, float time)
 		return value * (7.5625f * time * time + 0.984375f);
 	}
 }
+
 
 static float BounceIn(float from, float to, float time)
 {
@@ -339,6 +375,7 @@ static float BounceIn(float from, float to, float time)
 		return value * (0.015625f - 7.5625f * time * time);
 	}
 }
+
 
 static float BounceBoth(float from, float to, float time)
 {
@@ -390,8 +427,8 @@ static float BounceBoth(float from, float to, float time)
 	}
 }
 
-#undef value
 
+#undef value
 
 
 struct ATweenEase ATweenEase[1] =

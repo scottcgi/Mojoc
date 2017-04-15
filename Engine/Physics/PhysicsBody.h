@@ -8,6 +8,7 @@
 #ifndef physics_body_h
 #define physics_body_h
 
+
 #include "Engine/Toolkit/Math/Matrix.h"
 #include "Engine/Toolkit/Head/Bitwise.h"
 #include "Engine/Toolkit/Utils/Array.h"
@@ -22,6 +23,7 @@ typedef enum
 }
 PhysicsShape;
 
+
 /**
  * If contains 'is' the state can set and clear
  * else the state will automatically set and clear
@@ -30,18 +32,26 @@ typedef enum
 {
 	physics_body_state_null           = 0,
 
-	/** Auto set no motion can collision, collision will wake up */
+	/**
+	 * Auto set no motion can collision, collision will wake up
+	 */
 	physics_body_state_sleeping       = 1,
 
-	/** Auto set whether has collision */
+	/**
+	 * Auto set whether has collision
+	 */
 	physics_body_state_collision      = 1 << 1,
 
 //--------------------------------------------------------------------------------------------------
 
-	/** No motion can collision */
+	/**
+	 * No motion can collision
+	 */
 	physics_body_state_is_fixed       = 1 << 2,
 
-	/** No motion no collision forever */
+	/**
+	 * No motion no collision forever
+	 */
 	physics_body_state_is_freeze      = 1 << 3,
 
 
@@ -64,31 +74,39 @@ PhysicsBodyState;
 typedef struct PhysicsBody PhysicsBody;
 struct  PhysicsBody
 {
-	/** Bind data can not get from context */
-	void*            userData;
-	/** Default -1 used to identify PhysicsBody*/
-	int              userId;
+	void*                 userData;
 
-	float            positionX;
-	float            positionY;
-	float            velocityX;
-	float            velocityY;
-	float            accelerationX;
-	float            accelerationY;
-	float            rotationZ;
+	/**
+	 * Default -1 used to identify PhysicsBody*
+	 */
+	int                   userId;
 
-	PhysicsShape     shape;
-	Array(float)     vertexArr  [1];
-	/** The vertices after transformed */
-	Array(float)     positionArr[1];
-	int              state;
+	float                 positionX;
+	float                 positionY;
+	float                 velocityX;
+	float                 velocityY;
+	float                 accelerationX;
+	float                 accelerationY;
+	float                 rotationZ;
+
+	PhysicsShape get_only shape;
+	Array(float) get_only vertexArr   [1];
+
+	/**
+	 * The vertices after transformed
+	 */
+	Array(float) get_only  positionArr[1];
+	int          get_only  state;
 
 	/**
 	 * Pow of 2, default 0
 	 * body can collision between different collisionGroup
 	 */
-	int              collisionGroup;
+	int          get_only  collisionGroup;
 
+    /**
+     * When body collision callback
+     */
 	void (*OnCollision)(PhysicsBody* self, PhysicsBody* other, float deltaTime);
 };
 
@@ -107,6 +125,7 @@ struct APhysicsBody
 	void         (*UpdateMotion)(PhysicsBody* body, float deltaTime);
 
 };
+
 
 extern struct APhysicsBody APhysicsBody[1];
 
@@ -166,5 +185,6 @@ static inline void APhysicsBodyClearCollisionGroup(PhysicsBody* physicsBody,   i
 {
 	ABitwiseClear(physicsBody->collisionGroup, clearCollisionGroup);
 }
+
 
 #endif

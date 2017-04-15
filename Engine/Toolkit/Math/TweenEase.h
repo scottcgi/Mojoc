@@ -8,6 +8,7 @@
 #ifndef tween_ease_h
 #define tween_ease_h
 
+
 typedef enum
 {
 	tween_ease_linear,
@@ -76,6 +77,8 @@ struct ATweenEase
 	float (*Interpolates[tween_ease_type_length])(float from, float to, float time);
 };
 
+
 extern struct ATweenEase ATweenEase[1];
+
 
 #endif

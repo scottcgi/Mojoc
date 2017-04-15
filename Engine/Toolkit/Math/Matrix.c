@@ -792,7 +792,7 @@ static void LookAt
 	float fz   = centerZ - eyeZ;
 
 	// normalize f
-	float rlf  = AVector2_Normalize3(fx, fy, fz);
+	float rlf  = AVector2Normalize3(fx, fy, fz);
 	fx        *= rlf;
 	fy        *= rlf;
 	fz        *= rlf;
@@ -803,7 +803,7 @@ static void LookAt
 	float sz  = fx * upY - fy * upX;
 
 	// and normalize s
-	float rls = AVector2_Normalize3(sx, sy, sz);
+	float rls = AVector2Normalize3(sx, sy, sz);
 	sx       *= rls;
 	sy       *= rls;
 	sz       *= rls;

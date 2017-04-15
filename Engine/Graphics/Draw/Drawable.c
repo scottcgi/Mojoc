@@ -353,7 +353,7 @@ static inline float GetWorldScaleX(Drawable* drawable)
 		}
 	};
 
-	return AVector3_Length(vector) * sign;
+	return AVector3Length(vector) * sign;
 }
 
 static inline float GetWorldScaleY(Drawable* drawable)
@@ -381,7 +381,7 @@ static inline float GetWorldScaleY(Drawable* drawable)
 		}
 	};
 
-	return AVector3_Length(vector) * sign;
+	return AVector3Length(vector) * sign;
 }
 
 

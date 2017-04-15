@@ -6,9 +6,9 @@
  */
 
 #include <string.h>
-
 #include "Engine/Physics/PhysicsBody.h"
 #include "Engine/Toolkit/Platform/Log.h"
+
 
 static inline void Init(PhysicsBody* body)
 {
@@ -50,7 +50,6 @@ static inline PhysicsBody* CreateWithPolygon(Array(float)* vertexArr)
 }
 
 
-
 static inline PhysicsBody* CreateWithLine(Array(float)* vertexArr)
 {
 	ALogA(vertexArr->length == 4, "physics_shape_line vertex length must 4");
@@ -73,6 +72,7 @@ static inline PhysicsBody* CreateWithLine(Array(float)* vertexArr)
 
 	return body;
 }
+
 
 static PhysicsBody* Create(PhysicsShape shape, Array(float)* vertexArr)
 {

@@ -8,6 +8,7 @@
 #ifndef physics_collision_h
 #define physics_collision_h
 
+
 #include <stdbool.h>
 #include "Engine/Physics/PhysicsBody.h"
 
@@ -17,6 +18,8 @@ struct APhysicsCollision
 	bool (*TestCollision)(PhysicsBody* bodyA, PhysicsBody* bodyB);
 };
 
+
 extern struct APhysicsCollision APhysicsCollision[1];
+
 
 #endif 

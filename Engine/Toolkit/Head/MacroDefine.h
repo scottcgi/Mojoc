@@ -57,4 +57,10 @@
 #define set_required
 
 
+/**
+ * Marked variable can set
+ */
+#define set_optional
+
+
 #endif

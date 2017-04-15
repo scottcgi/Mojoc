@@ -8,7 +8,9 @@
 #ifndef vector_h
 #define vector_h
 
+
 #include <math.h>
+
 
 typedef union
 {
@@ -20,7 +22,6 @@ typedef union
 	};
 }
 Vector2;
-
 
 
 typedef union
@@ -68,7 +69,7 @@ static inline float AVector2Length2(float x, float y)
 }
 
 
-static inline float AVector2_Normalize3(float x, float y, float z)
+static inline float AVector2Normalize3(float x, float y, float z)
 {
 	return 1.0f / sqrtf(x * x + y * y + z * z);
 }
@@ -76,7 +77,8 @@ static inline float AVector2_Normalize3(float x, float y, float z)
 
 //--------------------------------------------------------------------------------------------------
 
-static inline float AVector3_Length(Vector3* vec3)
+
+static inline float AVector3Length(Vector3 *vec3)
 {
 	return sqrtf(vec3->x * vec3->x + vec3->y * vec3->y + vec3->z * vec3->z);
 }

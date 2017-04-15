@@ -7,8 +7,6 @@
 
 #include "Engine/Physics/Physics.h"
 #include "Engine/Physics/PhysicsWorld.h"
-#include "Engine/Toolkit/Platform/Log.h"
-
 
 
 static void Init()

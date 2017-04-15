@@ -7,6 +7,7 @@
 #include "Engine/Physics/PhysicsCollision.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
+
 /**
  * Test polygonA each vertex in polygonB, true inside or false outside
  * can test through and cross each others
@@ -107,8 +108,6 @@ static inline bool TestPolygonPolygon(Array(float)* polygonA, Array(float)* poly
 
 	return inside;
 }
-
-
 
 
 /**
@@ -219,7 +218,9 @@ static inline bool TestPolygonPoint(Array(float)* polygon, Array(float)* point)
 	return inside;
 }
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 enum
 {
@@ -267,6 +268,7 @@ static bool TestCollision(PhysicsBody* bodyA, PhysicsBody* bodyB)
 
 	return false;
 }
+
 
 struct APhysicsCollision APhysicsCollision[1] =
 {

@@ -8,9 +8,11 @@
 #ifndef physics_world_h
 #define physics_world_h
 
+
 #include "Engine/Toolkit/Head/Rect.h"
 #include "Engine/Physics/PhysicsBody.h"
 #include "Engine/Toolkit/Math/Vector.h"
+
 
 struct APhysicsWorld
 {
@@ -34,6 +36,8 @@ struct APhysicsWorld
 	void         (*Update)     (float deltaTime);
 };
 
+
 extern struct APhysicsWorld APhysicsWorld[1];
+
 
 #endif
