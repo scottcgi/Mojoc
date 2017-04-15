@@ -7,7 +7,6 @@
 
 #include <stdbool.h>
 #include <setjmp.h>
-
 #include "Engine/Graphics/Utils/Image.h"
 #include "Engine/Toolkit/Platform/File.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -22,7 +21,8 @@ static void ReadPngData(png_structp pngPtr, png_bytep data, png_size_t length)
 	AFile->Read(png_get_io_ptr(pngPtr), data, length);
 }
 
-static void* CreatePixelDataFromPng(const char* filePath, float* outWidth, float* outHeight)
+
+static void* CreatePixelDataFromPng(const char* filePath, float* out_param width, float* out_param height)
 {
 	void* pixelData = NULL;
 	File* file      = NULL;
@@ -101,10 +101,10 @@ static void* CreatePixelDataFromPng(const char* filePath, float* outWidth, float
 		int         bitDepth  = png_get_bit_depth (pngPtr, infoPtr);
 		int         colorType = png_get_color_type(pngPtr, infoPtr);
 
-		*outWidth             = (float) pngWidth;
-		*outHeight            = (float) pngHeight;
+		*width             = (float) pngWidth;
+		*height            = (float) pngHeight;
 
-		ALogD("PNG width = %f, height = %f", *outWidth, *outHeight);
+		ALogD("PNG width = %f, height = %f", *width, *height);
 		ALogD("PNG bitDepth = %d, colorType = %d", bitDepth, colorType);
 
 		// force palette images to be expanded to 24-bit RGB
@@ -185,6 +185,7 @@ static void* CreatePixelDataFromPng(const char* filePath, float* outWidth, float
 
 	return pixelData;
 }
+
 
 struct AImage AImage[1] =
 {

@@ -50,6 +50,7 @@ static void ScaleYOnSet(void* target, float value)
 	ADrawableSetScaleY((Drawable*) target, value);
 }
 
+
 static float ScaleYOnGet(void* target)
 {
 	return ((Drawable*) target)->scaleY;

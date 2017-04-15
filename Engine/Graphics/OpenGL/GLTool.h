@@ -8,47 +8,49 @@
 #ifndef gl_tool_h
 #define gl_tool_h
 
-#include <stdbool.h>
 
+#include <stdbool.h>
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Graphics/OpenGL/Texture.h"
+#include "Engine/Toolkit/Head/MacroDefine.h"
+
 
 struct AGLTool
 {
 	/**
 	 * Screen pixel width
 	 */
-	float screenWidth;
+	float get_only screenWidth;
 
 	/**
 	 * Screen pixel height
 	 */
-	float screenHeight;
+	float get_only screenHeight;
 
 	/**
 	 * Screen half pixel width
 	 */
-	float screenHalfWidth;
+	float get_only screenHalfWidth;
 
 	/**
 	 * Screen half pixel height
 	 */
-	float screenHalfHeight;
+	float get_only screenHalfHeight;
 
 	/**
 	 * Screen width / height
 	 */
-	float screenRatio;
+	float get_only screenRatio;
 
 	/**
 	 * Screen ratio / halfWidth
 	 */
-	float ratioDivideHalfWidth;
+	float get_only ratioDivideHalfWidth;
 
 	/**
 	 * Screen halfWidth / ratio
 	 */
-	float halfWidthDivideRatio;
+	float get_only halfWidthDivideRatio;
 
 	/**
 	 * When screen changed called
@@ -87,9 +89,12 @@ struct AGLTool
 	void (*LoadTexture)            (const char* filePath, Texture* texture);
 };
 
+
 extern struct AGLTool AGLTool[1];
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 /**
  * Convert screen width to openGL width

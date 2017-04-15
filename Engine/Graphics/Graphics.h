@@ -8,11 +8,15 @@
 #ifndef graphics_h
 #define graphics_h
 
+
 #include <stdbool.h>
+
 
 struct AGraphics
 {
-	/** Default false */
+	/**
+	 * Default false
+	 */
 	bool isUseVBO;
 
 	/**
@@ -27,8 +31,10 @@ struct AGraphics
      */
     bool isUseMapBuffer;
 
-
-    void (*Init)();
+    /**
+     * Initialize graphics each modules
+     */
+    void (*Init)           ();
 
     /**
      * If VAO not support nothing changed
@@ -43,6 +49,8 @@ struct AGraphics
     void (*SetUseMapBuffer)(bool isUseMapBuffer);
 };
 
+
 extern struct AGraphics AGraphics[1];
+
 
 #endif

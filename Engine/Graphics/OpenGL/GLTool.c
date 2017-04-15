@@ -13,6 +13,7 @@
 #include "Engine/Toolkit/Utils/FileTool.h"
 #include "Engine/Graphics/Utils/Image.h"
 
+
 static void SetSize(int width, int height)
 {
 	AGLTool->screenWidth           = (float) width;
@@ -25,6 +26,7 @@ static void SetSize(int width, int height)
 	AGLTool->halfWidthDivideRatio  = AGLTool->screenHalfWidth / AGLTool->screenRatio;
 }
 
+
 static void CheckGLError(const char* printMsg)
 {
     for (GLint error = glGetError(); error; error = glGetError())
@@ -32,6 +34,7 @@ static void CheckGLError(const char* printMsg)
         ALogE("after %s() glError (0x%x)", printMsg, error);
     }
 }
+
 
 static void PrintGLString(const char *name, GLenum s)
 {
@@ -79,6 +82,7 @@ static GLuint LoadShader(GLenum shaderType, const char* shaderSource)
 
     return shader;
 }
+
 
 static GLuint LoadProgram(const char* vertexSource, const char* fragmentSource)
 {
@@ -144,6 +148,7 @@ static GLuint LoadProgram(const char* vertexSource, const char* fragmentSource)
 	return program;
 }
 
+
 GLuint LoadProgramByFile(const char* vertexShaderPath, const char* fragmentShaderPath)
 {
 	const char* vSource = AFileTool->ReadStringPlatform(vertexShaderPath);
@@ -155,6 +160,7 @@ GLuint LoadProgramByFile(const char* vertexShaderPath, const char* fragmentShade
 
 	return program;
 }
+
 
 static void LoadTexture(const char* filePath, Texture* texture)
 {
@@ -193,6 +199,7 @@ static void LoadTexture(const char* filePath, Texture* texture)
 
 	 free(pixels);
 }
+
 
 struct AGLTool AGLTool[1] =
 {

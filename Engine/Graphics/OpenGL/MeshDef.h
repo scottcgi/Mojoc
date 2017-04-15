@@ -10,17 +10,20 @@
 
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
 
+
 typedef struct Mesh    Mesh;
 typedef struct SubMesh SubMesh;
 
+
 enum
 {
-	mesh_buffer_num              = 2,
-	mesh_buffer_num_byte         = mesh_buffer_num * sizeof(GLuint),
+	mesh_buffer_num      = 2,
+	mesh_buffer_num_byte = mesh_buffer_num * sizeof(GLuint),
 
-	mesh_buffer_vertex           = 0,
-	mesh_buffer_index            = 1,
+	mesh_buffer_vertex   = 0,
+	mesh_buffer_index    = 1,
 };
+
 
 enum
 {
@@ -38,7 +41,6 @@ enum
 	mesh_vertex_size             = mesh_vertex_position2_size + mesh_vertex_uv_size,
 
 
-
 	/** 3(x,y,z) * 4(float size) */
 	mesh_vertex_position3_stride = 12,
 	/** 2(u,v) * 4(float size) */
@@ -51,7 +53,6 @@ enum
 	mesh_vertex_position2_stride = 8,
 
 	mesh_vertex_stride           = mesh_vertex_position2_stride + mesh_vertex_uv_stride,
-
 
 
 	/** Two triangles vertex 6(points) */
@@ -81,5 +82,6 @@ enum
 
 	quad_vertex_num_byte           = quad_vertex_num    * sizeof(float),
 };
+
 
 #endif

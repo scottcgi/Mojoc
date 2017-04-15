@@ -6,8 +6,6 @@
  */
 
 #include <string.h>
-
-#include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/Mesh.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderMesh.h"
@@ -52,7 +50,6 @@ static void ReorderChildren(Mesh* mesh)
 		subData->data       = mesh->indexArr->data;
 	}
 }
-
 
 
 static void Draw(Drawable* meshDrawable)
@@ -128,7 +125,6 @@ static void Draw(Drawable* meshDrawable)
 					subData->data       = opacityData;
 				}
 			}
-
 
 //--------------------------------------------------------------------------------------------------
 
@@ -246,6 +242,7 @@ static inline void BindVBO(Mesh* mesh)
         (const void*) mesh->rgbDataOffset
     );
 }
+
 
 static void Render(Drawable* drawable)
 {
@@ -372,6 +369,7 @@ static void Render(Drawable* drawable)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[mesh_buffer_index]);
 
         label_mesh_use_vbo:
+
 //--------------------------------------------------------------------------------------------------
 
         BindVBO(mesh);
@@ -445,41 +443,39 @@ static void Render(Drawable* drawable)
 }
 
 
-
-
-static void Init(Texture* texture, Mesh* outMesh)
+static void Init(Texture* texture, Mesh* out_param mesh)
 {
 	Quad quad[1];
 	AQuad->Init(texture->width, texture->height, quad);
 
-	Drawable* drawable                  = outMesh->drawable;
+	Drawable* drawable               = mesh->drawable;
 	ADrawable->Init(drawable);
 
 	// override
-	drawable->Draw                      = Draw;
-	drawable->Render                    = Render;
+	drawable->Draw                   = Draw;
+	drawable->Render                 = Render;
 
 	ADrawableSetState(drawable, drawable_state_is_update_mvp);
 
-	outMesh->texture                    = texture;
-	outMesh->vboIds[mesh_buffer_index]  = 0;
-    outMesh->vboIds[mesh_buffer_vertex] = 0;
+	mesh->texture                    = texture;
+	mesh->vboIds[mesh_buffer_index]  = 0;
+    mesh->vboIds[mesh_buffer_vertex] = 0;
 
-    outMesh->vaoId                      = 0;
-	outMesh->vertexArr                  = NULL;
-	outMesh->indexArr                   = NULL;
+    mesh->vaoId                      = 0;
+	mesh->vertexArr                  = NULL;
+	mesh->indexArr                   = NULL;
 
-	outMesh->vertexCountOffset          = 0;
-    outMesh->positionDataLength         = 0;
-    outMesh->uvDataLength               = 0;
-    outMesh->rgbDataLength              = 0;
-    outMesh->opacityDataLength          = 0;
-    outMesh->indexDataLength            = 0;
+	mesh->vertexCountOffset          = 0;
+    mesh->positionDataLength         = 0;
+    mesh->uvDataLength               = 0;
+    mesh->rgbDataLength              = 0;
+    mesh->opacityDataLength          = 0;
+    mesh->indexDataLength            = 0;
 
-	AArrayQueue->Init(sizeof(int),             outMesh->drawRangeQueue);
-	AArrayList ->Init(sizeof(SubMesh*),        outMesh->children);
-	AArrayList ->Init(sizeof(VBOSubData),      outMesh->vboSubDataList);
-    outMesh->vboSubDataList->increase = outMesh->children->increase * 4;
+	AArrayQueue->Init(sizeof(int),             mesh->drawRangeQueue);
+	AArrayList ->Init(sizeof(SubMesh*),        mesh->children);
+	AArrayList ->Init(sizeof(VBOSubData),      mesh->vboSubDataList);
+    mesh->vboSubDataList->increase = mesh->children->increase * 4;
 }
 
 static inline void InitBuffer(Mesh* mesh)
@@ -510,11 +506,12 @@ static inline void InitBuffer(Mesh* mesh)
 }
 
 
-static void InitWithCapacity(Texture* texture, int capacity, Mesh* outMesh)
+static void InitWithCapacity(Texture* texture, int capacity, Mesh* out_param mesh)
 {
-	Init(texture, outMesh);
-	AArrayList->SetCapacity(outMesh->children, capacity);
+	Init(texture, mesh);
+	AArrayList->SetCapacity(mesh->children, capacity);
 }
+
 
 static Mesh* Create(Texture* texture)
 {
@@ -523,6 +520,7 @@ static Mesh* Create(Texture* texture)
 
 	return mesh;
 }
+
 
 static inline SubMesh* AddChild(Mesh* mesh, SubMesh* subMesh)
 {
@@ -556,6 +554,7 @@ static inline SubMesh* AddChild(Mesh* mesh, SubMesh* subMesh)
     return subMesh;
 }
 
+
 static SubMesh* AddChildWithData(Mesh* mesh, Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr)
 {
 	return AddChild
@@ -564,6 +563,7 @@ static SubMesh* AddChildWithData(Mesh* mesh, Array(float)* positionArr, Array(fl
                ASubMesh->CreateWithData(positionArr, uvArr, indexArr)
            );
 }
+
 
 static SubMesh* AddChildWithQuad(Mesh* mesh, Quad* quad)
 {
@@ -596,6 +596,7 @@ static inline void ReleaseBuffer(Mesh* mesh)
         }
 	}
 }
+
 
 static void GenerateBuffer(Mesh* mesh)
 {
@@ -634,9 +635,11 @@ static void GenerateBuffer(Mesh* mesh)
 
             glBindVertexArray(mesh->vaoId);
 
-//--------------------------------------------------------------------------------------------------
-// with vao has own state
-//--------------------------------------------------------------------------------------------------
+/*
+----------------------------------------------------------------------------------------------------
+    with vao has own state
+----------------------------------------------------------------------------------------------------
+*/
 
             // load the vertex data
             glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIds[mesh_buffer_vertex]);
@@ -655,6 +658,7 @@ static void GenerateBuffer(Mesh* mesh)
         }
 	}
 }
+
 
 static void Release(Mesh* mesh)
 {
@@ -689,6 +693,7 @@ static void Clear(Mesh* mesh)
     mesh->opacityDataLength  = 0;
     mesh->indexDataLength    = 0;
 }
+
 
 struct AMesh AMesh[1] =
 {

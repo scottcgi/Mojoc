@@ -11,7 +11,6 @@
 #include "Engine/Graphics/OpenGL/Shader/ShaderSprite.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderPrimitive.h"
 #include "Engine/Graphics/OpenGL/GLInfo.h"
-#include "Engine/Toolkit/Platform/Log.h"
 
 
 static void Init()
@@ -25,6 +24,7 @@ static void Init()
     AGraphics->isUseVAO       = false;
     AGraphics->isUseMapBuffer = false;
 }
+
 
 static void SetUseVAO(bool isUseVAO)
 {
@@ -40,6 +40,7 @@ static void SetUseVAO(bool isUseVAO)
     }
 }
 
+
 static void SetUseMapBuffer(bool isUseMapBuffer)
 {
     if (isUseMapBuffer && AGLInfo->version > 2.0f)
@@ -51,6 +52,7 @@ static void SetUseMapBuffer(bool isUseMapBuffer)
         AGraphics->isUseMapBuffer = false;
     }
 }
+
 
 struct AGraphics AGraphics[1] =
 {

@@ -27,13 +27,13 @@ static inline void SetMatrix()
 	AShaderPrimitive->Use(mvpMatrix, AGLPrimitive->color, AGLPrimitive->pointSize);
 }
 
+
 static void DrawPoints(Array(float)* pointArr)
 {
 	SetMatrix();
 	glVertexAttribPointer(AShaderPrimitive->attribPosition, 2, GL_FLOAT, false, 0, pointArr->data);
 	glDrawArrays(GL_POINTS, 0, pointArr->length >> 1);
 }
-
 
 
 static void DrawPolygon(Array(float)* vertexArr)
@@ -43,13 +43,13 @@ static void DrawPolygon(Array(float)* vertexArr)
 	glDrawArrays(GL_LINE_LOOP, 0, vertexArr->length >> 1);
 }
 
+
 static void DrawLines(Array(float)* vertexArr)
 {
 	SetMatrix();
 	glVertexAttribPointer(AShaderPrimitive->attribPosition, 2, GL_FLOAT, false, 0, vertexArr->data);
 	glDrawArrays(GL_LINES, 0, vertexArr->length >> 1);
 }
-
 
 
 static void DrawRect(Rect* rect)

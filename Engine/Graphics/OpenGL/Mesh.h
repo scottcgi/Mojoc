@@ -17,7 +17,10 @@
 #include "Engine/Toolkit/Utils/ArrayQueue.h"
 #include "Engine/Graphics/OpenGL/MeshDef.h"
 
-/** If use VBO update to buffer */
+
+/**
+ * If use VBO update to buffer
+ */
 typedef struct
 {
 	GLenum        target;
@@ -30,67 +33,78 @@ VBOSubData;
 
 struct Mesh
 {
-	/** Draw from index, default first in children */
-	int                        fromIndex;
+	/**
+	 * Draw from index, default first in children
+	 */
+	int                              fromIndex;
 
-	/** Draw to index, default last in children */
-	int                        toIndex;
+	/**
+	 * Draw to index, default last in children
+	 */
+	int                              toIndex;
 
 	/**
 	 * Pair of from and to index SubMesh to draw
 	 * if no range will default draw fromIndex to toIndex
 	 */
-	ArrayQueue(int)            drawRangeQueue[1];
+	ArrayQueue(int)        get_only  drawRangeQueue[1];
 
 	/**
 	 * Sometimes use fixed index for get child in children
 	 * so can not change children order instead of use SubMesh index for sorting
 	 */
-	ArrayList(SubMesh*)        children      [1];
+	ArrayList(SubMesh*)    get_only  children      [1];
+
+	Drawable                         drawable      [1];
+	Texture*                         texture;
 
 //--------------------------------------------------------------------------------------------------
 
-	Drawable                   drawable      [1];
-
-
-	Texture*                   texture;
+    /**
+     * All vertex data, every vertex has position, uv, color
+     */
+	Array(float)*          get_only   vertexArr;
 
 	/**
-	 * All vertex data, every vertex has position, uv, color
+	 * All vertex index data
 	 */
-	Array(float)*              vertexArr;
+	Array(short)*          get_only   indexArr;
 
-	/** All vertex index data */
-	Array(short)*              indexArr;
+	/**
+	 * If use VBO is array buffer id
+	 */
+	GLuint                 get_only   vboIds[mesh_buffer_num];
 
-	/** If use VBO is array buffer id */
-	GLuint                     vboIds[mesh_buffer_num];
+    /**
+     * If use VAO is generated id else 0
+     */
+    GLuint                 get_only   vaoId;
 
-    /** If use VAO is generated id else 0 */
-    GLuint                     vaoId;
-
-	/** If use VBO update to buffer */
-	ArrayList(VBOSubData)      vboSubDataList[1];
+	/**
+	 * If use VBO update to buffer
+	 */
+	ArrayList(VBOSubData)  get_only   vboSubDataList[1];
 
 //--------------------------------------------------------------------------------------------------
 
-    int                        uvDataOffset;
-	int                        rgbDataOffset;
-	int                        opacityDataOffset;
-    int                        vertexCountOffset;
+    int                    get_only   uvDataOffset;
+	int                    get_only   rgbDataOffset;
+	int                    get_only   opacityDataOffset;
+    int                    get_only   vertexCountOffset;
 
-    int                        positionDataLength;
-    int                        uvDataLength;
-    int                        rgbDataLength;
-    int                        opacityDataLength;
-    int                        indexDataLength;
+    int                    get_only   positionDataLength;
+    int                    get_only   uvDataLength;
+    int                    get_only   rgbDataLength;
+    int                    get_only   opacityDataLength;
+    int                    get_only   indexDataLength;
 };
+
 
 struct AMesh
 {
 	Mesh*     (*Create)            (Texture* texture);
-	void      (*Init)              (Texture* texture,  Mesh* outMesh);
-	void      (*InitWithCapacity)  (Texture* texture,  int capacity, Mesh* outMesh);
+	void      (*Init)              (Texture* texture,  Mesh* out_param mesh);
+	void      (*InitWithCapacity)  (Texture* texture,  int capacity, Mesh* out_param mesh);
 
 	/**
 	 * Call Mesh member's Release and free all SubMesh memory
@@ -132,6 +146,7 @@ struct AMesh
 	void      (*Render)            (Drawable* drawable);
 };
 
+
 extern struct AMesh AMesh[1];
 
 
@@ -140,10 +155,12 @@ static inline void AMeshDraw(Mesh* mesh)
 	ADrawable->Draw(mesh->drawable);
 }
 
+
 static inline void AMeshSetIncrease(Mesh* mesh, int increase)
 {
 	mesh->children->increase = increase;
 }
+
 
 /**
  * Push startIndex and endIndex into drawRangeQueue
@@ -153,5 +170,6 @@ static inline void AMeshPushDrawRange(Mesh* mesh, int startIndex, int endIndex)
     AArrayQueuePush(mesh->drawRangeQueue, startIndex);
     AArrayQueuePush(mesh->drawRangeQueue, endIndex);
 }
+
 
 #endif

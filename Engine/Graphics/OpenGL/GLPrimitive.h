@@ -9,11 +9,10 @@
 #ifndef gl_primitive_h
 #define gl_primitive_h
 
-#include "Engine/Graphics/OpenGL/Platform/gl3.h"
 
+#include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Toolkit/Math/Matrix.h"
 #include "Engine/Toolkit/Math/Math.h"
-
 #include "Engine/Toolkit/Head/Rect.h"
 #include "Engine/Graphics/Draw/Color.h"
 #include "Engine/Toolkit/Utils/Array.h"
@@ -54,6 +53,8 @@ struct AGLPrimitive
     void (*DrawRect)   (Rect* rect);
 };
 
+
 extern struct AGLPrimitive AGLPrimitive[1];
+
 
 #endif

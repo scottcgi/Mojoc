@@ -71,7 +71,6 @@ static void Render(Drawable* drawable)
 }
 
 
-
 static void Release(Sprite* sprite)
 {
 	free(sprite->vertexArr);
@@ -149,9 +148,11 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 
             glBindVertexArray(sprite->vaoId);
 
-//--------------------------------------------------------------------------------------------------
-// with vao has own state
-//--------------------------------------------------------------------------------------------------
+/*
+----------------------------------------------------------------------------------------------------
+	with vao has own state
+--------------------------------------------------------------------------------------------------
+*/
 
             glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIds[mesh_buffer_vertex]);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[mesh_buffer_index]);
@@ -175,12 +176,13 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 }
 
 
-static void Init(Texture* texture, Sprite* outSprite)
+static void Init(Texture* texture, Sprite* out_param sprite)
 {
 	Quad quad[1];
 	AQuad->Init(texture->width, texture->height, quad);
-	InitSprite(outSprite, texture, (Array[]) {quad, 1});
+	InitSprite(sprite, texture, (Array[]) {quad, 1});
 }
+
 
 static Sprite* Create(Texture* texture)
 {
@@ -191,9 +193,9 @@ static Sprite* Create(Texture* texture)
 }
 
 
-static void InitWithQuad(Texture* texture, Quad* quad, Sprite* outSprite)
+static void InitWithQuad(Texture* texture, Quad* quad, Sprite* out_param sprite)
 {
-	InitSprite(outSprite, texture, (Array[]) {quad, 1});
+	InitSprite(sprite, texture, (Array[]) {quad, 1});
 }
 
 
@@ -215,9 +217,9 @@ static Sprite* CreateWithQuadArray(Texture* texture, Array(Quad)* quadArr)
 }
 
 
-static void InitWithQuadArray(Texture* texture, Array(Quad)* quadArr, Sprite* outSprite)
+static void InitWithQuadArray(Texture* texture, Array(Quad)* quadArr, Sprite* out_param sprite)
 {
-	InitSprite(outSprite, texture, quadArr);
+	InitSprite(sprite, texture, quadArr);
 }
 
 
@@ -226,9 +228,10 @@ static Sprite* CreateWithFile(const char* filePath)
 	return Create(ATexture->Get(filePath));
 }
 
-static void InitWithFile(const char* filePath, Sprite* outSprite)
+
+static void InitWithFile(const char* filePath, Sprite* out_param sprite)
 {
-	Init(ATexture->Get(filePath), outSprite);
+	Init(ATexture->Get(filePath), sprite);
 }
 
 
@@ -249,4 +252,3 @@ struct ASprite ASprite[1] =
 	Release,
 	Render,
 };
-
