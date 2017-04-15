@@ -11,6 +11,7 @@
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/Camera.h"
 
+
 static ArrayList(Drawable*) renderQueue[1] = AArrayListInit(Drawable*, 150);
 
 
@@ -319,7 +320,9 @@ static void RenderQueue()
 	AArrayList->Clear(renderQueue);
 }
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 static inline float GetWorldRotationZ(Drawable* drawable)
 {
@@ -356,6 +359,7 @@ static inline float GetWorldScaleX(Drawable* drawable)
 	return AVector3Length(vector) * sign;
 }
 
+
 static inline float GetWorldScaleY(Drawable* drawable)
 {
 	int       sign   = drawable->scaleY < 0.0f ? -1 : 1;
@@ -385,8 +389,8 @@ static inline float GetWorldScaleY(Drawable* drawable)
 }
 
 
-
 //--------------------------------------------------------------------------------------------------
+
 
 static float ConvertToWorldX(Drawable* localParent, float localX)
 {
@@ -399,11 +403,11 @@ static float ConvertToWorldY(Drawable* localParent, float localY)
 	return AMatrix->MultiplyMY(localParent->modelMatrix, localY);
 }
 
-static void ConvertToWorldPoint(Drawable* localParent, Vector2* localPoint, Vector2* outWorldPoint)
-{
-	AMatrix->MultiplyMV2(localParent->modelMatrix, localPoint->x, localPoint->y , outWorldPoint);
-}
 
+static void ConvertToWorldPoint(Drawable* localParent, Vector2* localPoint, Vector2* out_param worldPoint)
+{
+	AMatrix->MultiplyMV2(localParent->modelMatrix, localPoint->x, localPoint->y , worldPoint);
+}
 
 
 static float ConvertToLocalX(Drawable* localParent, float worldX)
@@ -429,7 +433,8 @@ static float ConvertToLocalY(Drawable* localParent, float worldY)
 	return AMatrix->MultiplyMY(localParent->inverseMatrix, worldY);
 }
 
-static void ConvertToLocalPoint(Drawable* localParent, Vector2* worldPoint, Vector2* outLocalPoint)
+
+static void ConvertToLocalPoint(Drawable* localParent, Vector2* worldPoint, Vector2* out_param localPoint)
 {
 	if (ADrawableCheckState(localParent, drawable_state_update_inverse))
 	{
@@ -437,7 +442,7 @@ static void ConvertToLocalPoint(Drawable* localParent, Vector2* worldPoint, Vect
 		AMatrix->Inverse(localParent->modelMatrix, localParent->inverseMatrix);
 	}
 
-	AMatrix->MultiplyMV2(localParent->inverseMatrix, worldPoint->x, worldPoint->y, outLocalPoint);
+	AMatrix->MultiplyMV2(localParent->inverseMatrix, worldPoint->x, worldPoint->y, localPoint);
 }
 
 
@@ -534,20 +539,21 @@ static float ConvertBetweenLocalY(Drawable* parentA, float localYA, Drawable* pa
 	return ConvertToLocalY(parentB, AMatrix->MultiplyMY(parentA->modelMatrix, localYA));
 }
 
-static void ConvertBetweenLocal(Drawable* parentA, Vector2* localPointA, Drawable* parentB, Vector2* outLocalPointB)
+
+static void ConvertBetweenLocal(Drawable* parentA, Vector2* localPointA, Drawable* parentB, Vector2* out_param localPointB)
 {
 	ALogA(parentA        != NULL, "ConvertBetweenLocal parentA     not NULL");
 	ALogA(localPointA    != NULL, "ConvertBetweenLocal localPointA not NULL");
 	ALogA(parentB        != NULL, "ConvertBetweenLocal parentB     not NULL");
-	ALogA(outLocalPointB != NULL, "ConvertBetweenLocal localPointB not NULL");
+	ALogA(localPointB    != NULL, "ConvertBetweenLocal localPointB not NULL");
 
 	Vector2 worldPoint[1];
 	AMatrix->MultiplyMV2(parentA->modelMatrix, localPointA->x, localPointA->y, worldPoint);
-	ConvertToLocalPoint(parentB, worldPoint, outLocalPointB);
+	ConvertToLocalPoint(parentB, worldPoint, localPointB);
 }
 
-//--------------------------------------------------------------------------------------------------
 
+//--------------------------------------------------------------------------------------------------
 
 
 static float GetFlipRotationZ(Drawable* drawable, float rotationZ)
@@ -566,50 +572,48 @@ static float GetFlipRotationZ(Drawable* drawable, float rotationZ)
 }
 
 
-
-
-static void Init(Drawable* outDrawable)
+static void Init(Drawable* out_param drawable)
 {
-	outDrawable->userData      = NULL;
-	outDrawable->width         = 0.0f;
-	outDrawable->height        = 0.0f;
+	drawable->userData      = NULL;
+	drawable->width         = 0.0f;
+	drawable->height        = 0.0f;
 
 //--------------------------------------------------------------------------------------------------
 
-	outDrawable->parent        = NULL;
+	drawable->parent        = NULL;
 
-	outDrawable->positionX     = 0.0f;
-	outDrawable->positionY     = 0.0f;
-	outDrawable->positionZ     = 0.0f;
+	drawable->positionX     = 0.0f;
+	drawable->positionY     = 0.0f;
+	drawable->positionZ     = 0.0f;
 
-	outDrawable->scaleX        = 1.0f;
-	outDrawable->scaleY        = 1.0f;
-	outDrawable->scaleZ        = 1.0f;
+	drawable->scaleX        = 1.0f;
+	drawable->scaleY        = 1.0f;
+	drawable->scaleZ        = 1.0f;
 
-	outDrawable->rotationZ     = 0.0f;
+	drawable->rotationZ     = 0.0f;
 
-	outDrawable->color->r      = 1.0f;
-	outDrawable->color->g      = 1.0f;
-	outDrawable->color->b      = 1.0f;
-	outDrawable->color->a      = 1.0f;
+	drawable->color->r      = 1.0f;
+	drawable->color->g      = 1.0f;
+	drawable->color->b      = 1.0f;
+	drawable->color->a      = 1.0f;
 
-	outDrawable->blendColor->r = 1.0f;
-	outDrawable->blendColor->g = 1.0f;
-	outDrawable->blendColor->b = 1.0f;
-	outDrawable->blendColor->a = 1.0f;
+	drawable->blendColor->r = 1.0f;
+	drawable->blendColor->g = 1.0f;
+	drawable->blendColor->b = 1.0f;
+	drawable->blendColor->a = 1.0f;
 
 //--------------------------------------------------------------------------------------------------
 
-   *outDrawable->modelMatrix   = *(Matrix4[]) matrix4_identity;
-	outDrawable->state         = 0;
-	outDrawable->Draw          = NULL;
-	outDrawable->Render        = NULL;
+   *drawable->modelMatrix   = *(Matrix4[]) matrix4_identity;
+	drawable->state         = 0;
+	drawable->Draw          = NULL;
+	drawable->Render        = NULL;
 
 	// first born make matrix update
 	// first born inverse matrix need update
 	ADrawableSetState
 	(
-		outDrawable,
+		drawable,
 		drawable_state_transform      |
 		drawable_state_update_inverse |
 		drawable_state_color          |
@@ -617,6 +621,7 @@ static void Init(Drawable* outDrawable)
 		drawable_state_draw_ed
 	);
 }
+
 
 static Drawable* Create()
 {

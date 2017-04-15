@@ -15,6 +15,7 @@
 #include <stdbool.h>
 #include "Engine/Graphics/OpenGL/Platform/egl.h"
 
+
 struct AEGLTool
 {
     /**

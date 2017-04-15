@@ -12,15 +12,15 @@
 #include "Engine/Toolkit/Utils/Array.h"
 #include "Engine/Graphics/OpenGL/Texture.h"
 
+
 /**
  * Rect in texture
  * use openGL world coordinate system
  */
 typedef struct
 {
-
-	float width;
-	float height;
+	float get_only width;
+	float get_only height;
 
 	/**
 	 * The top left is (0, 0)
@@ -62,32 +62,32 @@ Quad;
 struct AQuad
 {
 	Quad* (*Create)         (float width, float height);
-	void  (*Init)           (float width, float height, Quad* outQuad);
+	void  (*Init)           (float width, float height, Quad* out_param quad);
 
 	/**
 	 * Max size of all quads
 	 */
-	void (*MaxSize)         (Array(Quad)* quadArr, float* outWidth, float* outHeight);
+	void (*MaxSize)         (Array(Quad)* quadArr, float* out_param width, float* out_param height);
 
 	/**
 	 * Get Quad 4 vertices data into vertexData[quad_vertex_num]
 	 */
-	void (*GetQuadVertex)   (Quad* quad, Texture* texture, float outVertexData[quad_vertex_num]);
+	void (*GetQuadVertex)   (Quad* quad, Texture* texture, float out_param vertexData[quad_vertex_num]);
 
 	/**
 	 * Get Quad 4 vertices position data into bornPositionData[quad_position3_num]
 	 */
-	void (*GetQuadPosition3)(Quad* quad, float outBornPositionData[quad_position3_num]);
+	void (*GetQuadPosition3)(Quad* quad, float out_param bornPositionData[quad_position3_num]);
 
 	/**
 	 * Get Quad 4 vertices uv data into uvData[quad_uv_num]
 	 */
-	void (*GetQuadUV)       (Quad* quad, Texture* texture, float outUVData[quad_uv_num]);
+	void (*GetQuadUV)       (Quad* quad, Texture* texture, float out_param uvData[quad_uv_num]);
 
 	/**
 	 * Get Quad 4 vertices index data into indexData[quad_index_num]
 	 */
-	void (*GetQuadIndex)    (int vertexNumBefore, short outIndexData[quad_index_num]);
+	void (*GetQuadIndex)    (int vertexNumBefore, short out_param indexData[quad_index_num]);
 };
 
 extern struct AQuad AQuad[1];

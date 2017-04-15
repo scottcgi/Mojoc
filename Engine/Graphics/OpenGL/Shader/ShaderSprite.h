@@ -15,17 +15,16 @@
 
 struct AShaderSprite
 {
-	GLuint program;
-	GLuint attribPositionTexcoord;
-	GLint  uniformSampler2D;
-	GLint  uniformMVPMatrix;
-	GLint  uniformColor;
+	GLuint get_only program;
+	GLuint get_only attribPositionTexcoord;
+	GLint  get_only uniformSampler2D;
+	GLint  get_only uniformMVPMatrix;
+	GLint  get_only uniformColor;
 
 	void (*Use) (Matrix4* mvpMatrix, Color* color);
 	void (*Init)();
 };
 
 extern struct AShaderSprite AShaderSprite[1];
-
 
 #endif

@@ -8,6 +8,7 @@
 #ifndef color_h
 #define color_h
 
+
 typedef struct
 {
 	float r;
@@ -17,6 +18,7 @@ typedef struct
 }
 Color;
 
+
 struct AColor
 {
 	/**
@@ -25,8 +27,11 @@ struct AColor
 	void (*SetWithString)(const char* colorStr, Color* outColor);
 };
 
+
 extern struct AColor AColor[1];
 
+
 #define color_white {1.0f, 1.0f, 1.0f, 1.0f}
+
 
 #endif

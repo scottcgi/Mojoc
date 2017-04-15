@@ -12,6 +12,7 @@
 #include "Engine/Graphics/OpenGL/Platform/EGLTool.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
+
 void CreateEGL(EGLNativeWindowType window, EGLDisplay* outDisplay, EGLContext* outContext, EGLSurface* outSurface, EGLConfig*  outConfig)
 {
 
@@ -112,6 +113,7 @@ void DestroyEGL(EGLDisplay* display, EGLContext* context, EGLSurface* surface)
     *surface = EGL_NO_SURFACE;
 }
 
+
 static void ResetSurface(EGLNativeWindowType window, EGLDisplay display, EGLContext context, EGLConfig config, EGLSurface* surface)
 {
     if (*surface != EGL_NO_SURFACE)
@@ -134,12 +136,14 @@ static void ResetSurface(EGLNativeWindowType window, EGLDisplay display, EGLCont
     }
 }
 
+
 struct AEGLTool AEGLTool[1] =
 {
     CreateEGL,
     DestroyEGL,
     ResetSurface,
 };
+
 
 //--------------------------------------------------------------------------------------------------
 #endif

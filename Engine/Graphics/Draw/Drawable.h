@@ -19,6 +19,7 @@
 #include "Engine/Graphics/Draw/Color.h"
 #include "Engine/Toolkit/Math/Vector.h"
 
+
 /**
  * If contains 'is' the state can set and clear
  * else the state will automatically set and clear
@@ -139,7 +140,6 @@ DrawableState;
 typedef struct Drawable Drawable;
 struct  Drawable
 {
-	 /** Bind data can not get from context */
 	 void*     userData;
 
 	 /** Default 0.0f */
@@ -152,23 +152,31 @@ struct  Drawable
 	  * If has parent will render use parent modelMatrix
 	  * parent invisible child will stop rendering
 	  */
-	 Drawable* parent;
+	 Drawable* get_only parent;
 
-	 /** Default 0.0f */
-	 float     positionX;
-	 float     positionY;
-	 float     positionZ;
+	 /**
+	  * Default 0.0f
+	  */
+	 float     get_only positionX;
+	 float     get_only positionY;
+	 float     get_only positionZ;
 
-	 /** Default 1.0f */
-	 float     scaleX;
-	 float     scaleY;
-	 float     scaleZ;
+	 /**
+	  * Default 1.0f
+	  */
+	 float     get_only scaleX;
+	 float     get_only scaleY;
+	 float     get_only scaleZ;
 
-	 /** Default0.0f Clockwise [0.0f - 360.0f] */
-	 float     rotationZ;
+	 /**
+	  * Default0.0f Clockwise [0.0f - 360.0f]
+	  */
+	 float     get_only rotationZ;
 
-	 /** Each [0.0f, 1.0f], default (1.0f, 1.0f, 1.0f, 1.0f) */
-	 Color     color     [1];
+	 /**
+	  * Each [0.0f, 1.0f], default (1.0f, 1.0f, 1.0f, 1.0f)
+	  */
+	 Color     get_only color[1];
 
 	 /**
 	  * If set drawable_state_is_blend_color
@@ -178,28 +186,40 @@ struct  Drawable
 	  *
 	  * default (1.0f, 1.0f, 1.0f, 1.0f)
 	  */
-	 Color     blendColor [1];
+	 Color     get_only blendColor   [1];
 
 //--------------------------------------------------------------------------------------------------
 
-	 /** Cached MVP matrix when property changed will update */
-	 Matrix4   mvpMatrix    [1];
-
-	 /** Cached model matrix when property changed will update*/
-	 Matrix4   modelMatrix  [1];
-
-	 /** Cached inverse model matrix */
-	 Matrix4   inverseMatrix[1];
-
-	 /** Identifier property has changed */
-	 int       state;
+	 /**
+	  * Cached MVP matrix when property changed will update
+	  */
+	 Matrix4   get_only mvpMatrix    [1];
 
 	 /**
+	  * Cached model matrix when property changed will update
+	  */
+	 Matrix4   get_only modelMatrix  [1];
+
+	 /**
+	  * Cached inverse model matrix
+	  */
+	 Matrix4   get_only inverseMatrix[1];
+
+	 /**
+	  * Identifier property has changed
+	  */
+	 int       get_only state;
+
+//--------------------------------------------------------------------------------------------------
+
+    /**
 	  * Custom draw called by ADrawable's Draw, not use any openGL command
 	  */
 	 void (*Draw)  (Drawable* drawable);
 
-	 /* Render with openGL command */
+	 /**
+	  * Render with openGL command
+	  */
 	 void (*Render)(Drawable* drawable);
 };
 
@@ -208,7 +228,7 @@ struct  Drawable
 struct ADrawable
 {
 	Drawable* (*Create)                ();
-	void      (*Init)                  (Drawable* outDrawable);
+	void      (*Init)                  (Drawable* out_param drawable);
 
      /**
       * Transform model matrix and calculate mvp matrix if need
@@ -239,7 +259,7 @@ struct ADrawable
 	/**
 	 * Convert localPoint in parent coordinate to world coordinate
 	 */
-	void      (*ConvertToWorldPoint)   (Drawable* localParent, Vector2* localPoint, Vector2* outWorldPoint);
+	void      (*ConvertToWorldPoint)   (Drawable* localParent, Vector2* localPoint, Vector2* out_param worldPoint);
 
 	/**
 	 * Convert world x to local x in parent coordinate
@@ -256,7 +276,7 @@ struct ADrawable
 	/**
 	 * Convert worldPoint to localPoint in parent coordinate
 	 */
-	void      (*ConvertToLocalPoint)   (Drawable* localParent, Vector2* worldPoint, Vector2* outLocalPoint);
+	void      (*ConvertToLocalPoint)   (Drawable* localParent, Vector2* worldPoint, Vector2* out_param localPoint);
 
 	/**
 	 * Convert drawable transform to parent, will change parent and scale position rotationZ for parent coordinate
@@ -281,7 +301,7 @@ struct ADrawable
 	/**
 	 * Convert localPointA in parentA to localPointB in parentB
 	 */
-	void      (*ConvertBetweenLocal)   (Drawable* parentA, Vector2* localPointA, Drawable* parentB, Vector2* outLocalPointB);
+	void      (*ConvertBetweenLocal)   (Drawable* parentA, Vector2* localPointA, Drawable* parentB, Vector2* out_param localPointB);
 
 
 	/**
@@ -307,7 +327,9 @@ struct ADrawable
 
 extern struct ADrawable ADrawable[1];
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 static inline bool ADrawableCheckState(Drawable* drawable, DrawableState checkState)
 {
@@ -315,13 +337,13 @@ static inline bool ADrawableCheckState(Drawable* drawable, DrawableState checkSt
 }
 
 
-static inline void ADrawableSetState(Drawable* drawable,   DrawableState setState)
+static inline void ADrawableSetState(Drawable* drawable, DrawableState setState)
 {
 	ABitwiseSet(drawable->state, setState);
 }
 
 
-static inline void ADrawableSetOnlyState(Drawable* drawable,   DrawableState setOnlyState)
+static inline void ADrawableSetOnlyState(Drawable* drawable, DrawableState setOnlyState)
 {
 	ABitwiseSetOnly(drawable->state, setOnlyState);
 }
@@ -338,7 +360,9 @@ static inline void ADrawableClearAndSetState(Drawable* drawable, DrawableState c
 	ABitwiseClearAndSet(drawable->state, clearState, setState);
 }
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 static inline void ADrawableSetVisible(Drawable* drawable)
 {
@@ -351,6 +375,7 @@ static inline void ADrawableSetInVisible(Drawable* drawable)
 	ADrawableSetState(drawable, drawable_state_is_invisible);
 }
 
+
 static inline bool ADrawableCheckVisible(Drawable* drawable)
 {
 	return ADrawableCheckState(drawable, drawable_state_is_invisible) == false;
@@ -358,6 +383,7 @@ static inline bool ADrawableCheckVisible(Drawable* drawable)
 
 
 //--------------------------------------------------------------------------------------------------
+
 
 static inline void ADrawableSetParent(Drawable* drawable, Drawable* parent)
 {
@@ -367,6 +393,7 @@ static inline void ADrawableSetParent(Drawable* drawable, Drawable* parent)
 
 
 //--------------------------------------------------------------------------------------------------
+
 
 static inline void ADrawableSetPositionX(Drawable* drawable, float positionX)
 {
@@ -397,10 +424,14 @@ static inline void ADrawableSetPositionSame2(Drawable* drawable, float position)
     ADrawableSetState(drawable, drawable_state_position2);
 }
 
-//--------------------------------------------------------------------------------------------------
-// All property set just make dirty flag
-// so the model matrix will apply changes until nearest frame draw called
-//--------------------------------------------------------------------------------------------------
+
+/*
+----------------------------------------------------------------------------------------------------
+    All property set just make dirty flag
+    so the model matrix will apply changes until nearest frame draw called
+----------------------------------------------------------------------------------------------------
+*/
+
 
 static inline void ADrawableSetScaleX(Drawable* drawable, float scaleX)
 {
@@ -431,7 +462,9 @@ static inline void ADrawableSetScaleSame2(Drawable* drawable, float scale)
 	ADrawableSetState(drawable, drawable_state_scale2);
 }
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 static inline void ADrawableSetRotationZ(Drawable* drawable, float rotationZ)
 {
@@ -441,6 +474,7 @@ static inline void ADrawableSetRotationZ(Drawable* drawable, float rotationZ)
 
 
 //--------------------------------------------------------------------------------------------------
+
 
 static inline void ADrawableSetRGB(Drawable* drawable, float red, float green, float blue)
 {
@@ -493,9 +527,11 @@ static inline void ADrawableSetColor(Drawable* drawable, Color* color)
 	ADrawableSetState(drawable, drawable_state_color);
 }
 
+
 static inline void ADrawableSetBlendColor(Drawable* drawable)
 {
 	ADrawableSetState(drawable, drawable_state_is_blend_color);
 }
+
 
 #endif

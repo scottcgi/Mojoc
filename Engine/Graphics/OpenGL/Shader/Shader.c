@@ -6,6 +6,7 @@
 
 #include "Engine/Graphics/OpenGL/Shader/Shader.h"
 
+
 struct AShader AShader[1] =
 {
 	-1,

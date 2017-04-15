@@ -12,7 +12,6 @@
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Graphics/OpenGL/Shader/Shader.h"
-#include "Engine/Toolkit/Head/MacroDefine.h"
 
 
 static void Use(Matrix4* mvpMatrix, Color* color)
@@ -26,6 +25,7 @@ static void Use(Matrix4* mvpMatrix, Color* color)
     glUniformMatrix4fv(AShaderSprite->uniformMVPMatrix, 1,        false,    mvpMatrix->m);
     glUniform4f       (AShaderSprite->uniformColor,     color->r, color->g, color->b, color->a);
 }
+
 
 static void Init()
 {
@@ -87,6 +87,7 @@ static void Init()
 	// set the sampler to texture unit 0
 	glUniform1i(AShaderSprite->uniformSampler2D, 0);
 }
+
 
 struct AShaderSprite AShaderSprite[1] =
 {
