@@ -8,9 +8,11 @@
 #ifndef sub_mesh_h
 #define sub_mesh_h
 
+
 #include "Engine/Graphics/OpenGL/MeshDef.h"
 #include "Engine/Graphics/Draw/Drawable.h"
 #include "Engine/Graphics/Draw/Quad.h"
+
 
 struct SubMesh
 {
@@ -18,39 +20,42 @@ struct SubMesh
      * if regenerate, the drawable parent must visible
      * or parent property will lost
      */
-	Drawable      drawable   [1];
+	Drawable              drawable[1];
 
 	/**
 	 * SubMesh coordinate under parent Mesh drawable matrix
 	 * if SubMesh drawable has own parent, equivalent to the parent under Mesh drawable matrix
 	 * so let parent Mesh coordinate equal world space will make SubMesh own parent coordinate understandable
 	 */
-    Mesh*         parent;
+    Mesh*         get_only parent;
 
 	/**
 	 * Index in Mesh for Mesh ReorderChildren
 	 */
-	int           index;
+	int           get_only index;
 
 //--------------------------------------------------------------------------------------------------
 
-	Array(float*) positionArr[1];
-	Array(float*) uvArr      [1];
+	Array(float*) get_only positionArr[1];
+	Array(float*) get_only uvArr      [1];
 
-	/** Careful 4 byte aligned */
-	Array(short*) indexArr   [1];
+	/**
+	 * Careful 4 byte aligned
+	 */
+	Array(short*) get_only indexArr   [1];
 
 //--------------------------------------------------------------------------------------------------
 
-	int           vertexCount;
-	int           indexOffset;
+	int           get_only vertexCount;
+	int           get_only indexOffset;
 
-	int           positionDataOffset;
-	int           uvDataOffset;
-	int           rgbDataOffset;
-	int           opacityDataOffset;
-	int           indexDataOffset;
+	int           get_only positionDataOffset;
+	int           get_only uvDataOffset;
+	int           get_only rgbDataOffset;
+	int           get_only opacityDataOffset;
+	int           get_only indexDataOffset;
 };
+
 
 struct ASubMesh
 {
@@ -70,6 +75,8 @@ struct ASubMesh
 	void     (*SetWithQuad)   (SubMesh* subMesh, Texture* texture, Quad* quad);
 };
 
+
 extern struct ASubMesh ASubMesh[1];
+
 
 #endif

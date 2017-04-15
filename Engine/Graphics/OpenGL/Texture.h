@@ -8,7 +8,9 @@
 #ifndef texture_h
 #define texture_h
 
+
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
+
 
 /**
  * Use openGL world coordinate system
@@ -40,6 +42,8 @@ struct ATexture
 	void      (*Release)(Texture*    texture);
 };
 
+
 extern struct ATexture ATexture[1];
+
 
 #endif

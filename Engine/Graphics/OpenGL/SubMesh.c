@@ -5,11 +5,11 @@
  *      Author: scott.cgi
  */
 #include <string.h>
-
 #include "Engine/Graphics/Graphics.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 #include "Engine/Graphics/OpenGL/Mesh.h"
 #include "Engine/Toolkit/Platform/Log.h"
+
 
 static inline void InitSubMesh(SubMesh* subMesh, float width, float height)
 {
@@ -57,7 +57,6 @@ static SubMesh* CreateWithData(Array(float)* positionArr, Array(float)* uvArr, A
 	subMesh->indexArr->data      = (char*) subMesh->positionArr->data + positionLength;
 	memcpy(subMesh->indexArr->data, indexArr->data, indexLength);
 
-
 //--------------------------------------------------------------------------------------------------
 
     float* positionData = AArrayGetData(subMesh->positionArr, float);
@@ -95,6 +94,7 @@ static SubMesh* CreateWithData(Array(float)* positionArr, Array(float)* uvArr, A
 	return subMesh;
 }
 
+
 static void SetWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
 {
 	subMesh->drawable->width  = quad->width;
@@ -125,6 +125,7 @@ static void SetWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
 		subData->data       = subMesh->uvArr->data;
 	}
 }
+
 
 static SubMesh* CreateWithQuad(Texture* texture, Quad* quad)
 {
