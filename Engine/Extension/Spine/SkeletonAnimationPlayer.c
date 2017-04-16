@@ -128,7 +128,6 @@ static inline void InitSkeletonAnimationPlayer(SkeletonAnimationPlayer* player, 
 }
 
 
-
 static void Release(SkeletonAnimationPlayer* player)
 {
 	ASkeleton->Release(player->skeleton);
@@ -142,6 +141,7 @@ static void SetAnimation(SkeletonAnimationPlayer* player, const char* animationN
 	ALogA(player->curAnimationData != NULL, "SetAnimation can not find animtionData by name = %s", animationName);
 	player->curTime = 0.0f;
 }
+
 
 static void SetAnimationMix(SkeletonAnimationPlayer* player, const char* animationName, float mixDuration)
 {
@@ -163,6 +163,7 @@ static SkeletonAnimationPlayer* CreateWithData(SkeletonData* skeletonData, const
 	return player;
 }
 
+
 static SkeletonAnimationPlayer* Create(const char* filePath, const char* animationName)
 {
 	SkeletonAnimationPlayer* player = (SkeletonAnimationPlayer*) malloc(sizeof(SkeletonAnimationPlayer));
@@ -171,10 +172,12 @@ static SkeletonAnimationPlayer* Create(const char* filePath, const char* animati
 	return player;
 }
 
-static void Init(const char* filePath, const char* animationName, SkeletonAnimationPlayer* outPlayer)
+
+static void Init(const char* filePath, const char* animationName, SkeletonAnimationPlayer* out_param player)
 {
-	InitSkeletonAnimationPlayer(outPlayer, ASkeletonData->Get(filePath), animationName);
+	InitSkeletonAnimationPlayer(player, ASkeletonData->Get(filePath), animationName);
 }
+
 
 static void Render(Drawable* drawable)
 {
@@ -185,16 +188,18 @@ static void Render(Drawable* drawable)
 	AGLPrimitive->DrawPolygon(ASkeletonSlotGetBoundingBox(slot)->vertexArr);
 }
 
-static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, const char* slotName, Drawable* outDrawable)
+
+static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, const char* slotName, Drawable* out_param drawable)
 {
 	SkeletonSlot* slot = ASkeletonAnimationPlayerGetSlot(player, slotName);
 	ALogA(slot != NULL, "InitSlotBoundingBoxDrawable not found SkeletonSlot by slotName = %s", slotName);
 
-	ADrawable->Init(outDrawable);
+	ADrawable->Init(drawable);
 
-	outDrawable->userData = slot;
-	outDrawable->Render   = Render;
+	drawable->userData = slot;
+	drawable->Render   = Render;
 }
+
 
 struct ASkeletonAnimationPlayer ASkeletonAnimationPlayer[1] =
 {
@@ -209,4 +214,4 @@ struct ASkeletonAnimationPlayer ASkeletonAnimationPlayer[1] =
 	SetAnimationMix,
 
 	InitSlotBoundingBoxDrawable,
-};
+ };

@@ -11,10 +11,11 @@
 #include "Engine/Extension/Spine/SkeletonData.h"
 #include "Engine/Graphics/Draw/Drawable.h"
 
+
 typedef struct
 {
-	Drawable          drawable[1];
-	SkeletonBoneData* boneData;
+	Drawable                    drawable[1];
+	SkeletonBoneData*  get_only boneData;
 }
 SkeletonBone;
 
@@ -22,12 +23,16 @@ SkeletonBone;
 struct ASkeletonBone
 {
 	SkeletonBone* (*Create)        (SkeletonBoneData* boneData);
-	void          (*Init)          (SkeletonBoneData* boneData, SkeletonBone* outBone);
+	void          (*Init)          (SkeletonBoneData* boneData, SkeletonBone* out_param bone);
 
-	/** Set bone to setup pose */
+	/**
+	 * Set bone to setup pose
+	 */
 	void          (*SetToSetupPose)(SkeletonBone* bone);
 };
 
+
 extern struct ASkeletonBone ASkeletonBone[1];
+
 
 #endif

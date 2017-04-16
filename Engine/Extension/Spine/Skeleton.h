@@ -12,25 +12,28 @@
 #include "Engine/Extension/Spine/SkeletonData.h"
 #include "Engine/Extension/Spine/SkeletonBone.h"
 
+
 typedef struct Skeleton Skeleton;
 struct  Skeleton
 {
 	/**
 	 * Has been implemented render if override must call the original
 	 */
-	Drawable                             drawable[1];
-	ArrayStrMap(boneName, SkeletonBone*) boneMap [1];
-	ArrayStrMap(slotName, SkeletonSlot*) slotMap [1];
+	Drawable                                      drawable[1];
+	ArrayStrMap(boneName, SkeletonBone*) get_only boneMap [1];
+	ArrayStrMap(slotName, SkeletonSlot*) get_only slotMap [1];
 
-	SkeletonData*                        skeletonData;
-	SkeletonSkinData*                    curSkinData;
-	Array(SkeletonBone)*                 boneArr;
-	Array(SkeletonSlot)*                 slotArr;
-	Array(SkeletonSlot*)*                slotOrderArr;
+	SkeletonData*                        get_only skeletonData;
+	SkeletonSkinData*                    get_only curSkinData;
+	Array(SkeletonBone)*                 get_only boneArr;
+	Array(SkeletonSlot)*                 get_only slotArr;
+	Array(SkeletonSlot*)*                get_only slotOrderArr;
 
-	ArrayList(Mesh)                      meshList[1];
+	ArrayList(Mesh)                      get_only meshList[1];
 
-	/** If not NULL, callback when SkeletonEvent fire */
+	/**
+	 * If not NULL, callback when SkeletonEvent fire
+	 */
 	void (*FireSkeletonEvent)(Skeleton* skeleton, SkeletonEventData* eventData, float mixPersent);
 };
 
@@ -38,7 +41,7 @@ struct  Skeleton
 struct ASkeleton
 {
 	Skeleton*               (*Create)              (SkeletonData* skeletonData);
-	void                    (*Init)                (SkeletonData* skeletonData, Skeleton* outSkeleton);
+	void                    (*Init)                (SkeletonData* skeletonData, Skeleton* out_param skeleton);
 	void                    (*Release)             (Skeleton*     skeleton);
 	void                    (*SetSkin)             (Skeleton* skeleton, const char* skinName);
 
@@ -72,6 +75,7 @@ struct ASkeleton
 	 */
 	void                     (*Apply)              (Skeleton* skeleton, SkeletonAnimationData* animationData, float time, float mixPercent);
 };
+
 
 extern struct ASkeleton ASkeleton[1];
 
@@ -112,5 +116,6 @@ static inline float ASkeletonGetHeight(Skeleton* skeleton)
 {
     return skeleton->skeletonData->height;
 }
+
 
 #endif

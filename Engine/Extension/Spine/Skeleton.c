@@ -169,6 +169,7 @@ static void ResetBones(Skeleton* skeleton)
 	}
 }
 
+
 static void ResetSlots(Skeleton* skeleton)
 {
 	for (int i = 0; i < skeleton->slotOrderArr->length; i++)
@@ -202,6 +203,7 @@ static SkeletonAttachmentData* GetAttachmentData(Skeleton* skeleton, const char*
 	return attachmentData;
 }
 
+
 static void Release(Skeleton* skeleton)
 {
 	free(skeleton->boneArr);
@@ -223,6 +225,7 @@ static void Release(Skeleton* skeleton)
 	AArrayStrMap->Release(skeleton->slotMap);
 }
 
+
 static void Apply(Skeleton* skeleton, SkeletonAnimationData* animationData, float time, float mixPercent)
 {
 	for (int i = 0; i < animationData->timelineArr->size; i++)
@@ -231,6 +234,7 @@ static void Apply(Skeleton* skeleton, SkeletonAnimationData* animationData, floa
 		timeline->Apply(timeline, skeleton, time, mixPercent);
 	}
 }
+
 
 static void Draw(Drawable* drawable)
 {
@@ -398,22 +402,22 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 }
 
 
-static void Init(SkeletonData* skeletonData, Skeleton* outSkeleton)
+static void Init(SkeletonData* skeletonData, Skeleton* out_param skeleton)
 {
-	ADrawable->Init(outSkeleton->drawable);
+	ADrawable->Init(skeleton->drawable);
 
-	outSkeleton->drawable->Draw     = Draw;
-	outSkeleton->drawable->width    = skeletonData->width;
-	outSkeleton->drawable->height   = skeletonData->height;
-	outSkeleton->skeletonData       = skeletonData;
-	outSkeleton->curSkinData        = outSkeleton->skeletonData->skinDataDefault;
-	outSkeleton->FireSkeletonEvent  = NULL;
+	skeleton->drawable->Draw     = Draw;
+	skeleton->drawable->width    = skeletonData->width;
+	skeleton->drawable->height   = skeletonData->height;
+	skeleton->skeletonData       = skeletonData;
+	skeleton->curSkinData        = skeleton->skeletonData->skinDataDefault;
+	skeleton->FireSkeletonEvent  = NULL;
 
-	InitMeshList(outSkeleton, skeletonData);
-	InitBone    (outSkeleton, skeletonData);
-	InitSlot    (outSkeleton, skeletonData);
+	InitMeshList(skeleton, skeletonData);
+	InitBone    (skeleton, skeletonData);
+	InitSlot    (skeleton, skeletonData);
 
-	//	Release(outSkeleton);
+	//	Release(skeleton);
 	//	ALogA(0, "stop");
 }
 
@@ -425,6 +429,7 @@ static Skeleton* Create(SkeletonData* skeletonData)
 
 	return skeleton;
 }
+
 
 struct ASkeleton ASkeleton[1] =
 {

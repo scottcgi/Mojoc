@@ -13,12 +13,14 @@
 #include "Engine/Extension/Spine/Skeleton.h"
 #include "Engine/Extension/Spine/SkeletonSlot.h"
 
+
 typedef struct SkeletonAnimationPlayer SkeletonAnimationPlayer;
 typedef void (*SkeletonAnimationPlayerOnActionOver)(SkeletonAnimationPlayer* player);
 
+
 struct  SkeletonAnimationPlayer
 {
-	Skeleton              skeleton[1];
+	Skeleton                        skeleton[1];
 
 	/**
 	 * Default -1
@@ -26,20 +28,30 @@ struct  SkeletonAnimationPlayer
 	 * if a positive will loop count to 0
 	 * if loop to 0 animation stop forever
 	 */
-	int                    loop;
+	int                             loop;
 
-	SkeletonAnimationData* curAnimationData;
-	SkeletonAnimationData* preAnimationData;
+	SkeletonAnimationData* get_only curAnimationData;
+	SkeletonAnimationData* get_only preAnimationData;
 
-	/** curAnimationData current time */
-	float                  curTime;
-	/** preAnimationData current time */
-	float                  preTime;
+	/**
+	 * curAnimationData current time
+	 */
+	float                  get_only curTime;
 
-	/** The preAnimationData mix to preAnimationData current time */
-	float                  mixTime;
-	/** The preAnimationData mix to preAnimationData duration time */
-	float                  mixDuration;
+	/**
+	 * preAnimationData current time
+	 */
+	float                  get_only preTime;
+
+	/** T
+	 * he preAnimationData mix to preAnimationData current time
+	 */
+	float                  get_only mixTime;
+
+	/**
+	 * The preAnimationData mix to preAnimationData duration time
+	 */
+	float                  get_only mixDuration;
 
 	/**
 	 * Callback when action over
@@ -52,7 +64,7 @@ struct ASkeletonAnimationPlayer
 {
 	SkeletonAnimationPlayer* (*Create)                     (const char*              filePath,     const char* animationName);
 	SkeletonAnimationPlayer* (*CreateWithData)             (SkeletonData*            skeletonData, const char* animationName);
-	void                     (*Init)                       (const char*              filePath,     const char* animationName, SkeletonAnimationPlayer* outPlayer);
+	void                     (*Init)                       (const char*              filePath,     const char* animationName, SkeletonAnimationPlayer* out_param player);
 	void                     (*Release)                    (SkeletonAnimationPlayer* player);
 
     /**
@@ -74,11 +86,11 @@ struct ASkeletonAnimationPlayer
 	/**
 	 * Initialize Drawable that can render slot bounding box with primitive call
 	 */
-	void                     (*InitSlotBoundingBoxDrawable)(SkeletonAnimationPlayer* player, const char* slotName, Drawable* outDrawable);
+	void                     (*InitSlotBoundingBoxDrawable)(SkeletonAnimationPlayer* player, const char* slotName, Drawable* out_param drawable);
 };
 
-extern struct ASkeletonAnimationPlayer ASkeletonAnimationPlayer[1];
 
+extern struct ASkeletonAnimationPlayer ASkeletonAnimationPlayer[1];
 
 
 static inline SkeletonBone* ASkeletonAnimationPlayerGetBone(SkeletonAnimationPlayer* player, const char* boneName)
@@ -98,34 +110,41 @@ static inline Drawable* ASkeletonAnimationPlayerGetDrawable(SkeletonAnimationPla
 	return player->skeleton->drawable;
 }
 
+
 static inline void ASkeletonAnimationPlayerUpdate(SkeletonAnimationPlayer* player, float deltaTime)
 {
 	ASkeletonAnimationPlayer->Update(player, deltaTime);
 }
+
 
 static inline SkeletonData* ASkeletonAnimationPlayerGetSkeletonData(SkeletonAnimationPlayer* player)
 {
 	return player->skeleton->skeletonData;
 }
 
+
 static inline const char* ASkeletonAnimationPlayerGetPath(SkeletonAnimationPlayer* player)
 {
 	return player->skeleton->skeletonData->filePath;
 }
+
 
 static inline SubMesh* ASkeletonAnimationPlayerGetSubMesh(SkeletonAnimationPlayer* player, const char* slotName, const char* attachmentName)
 {
     return ASkeletonGetSubMesh(player->skeleton, slotName, attachmentName);
 }
 
+
 static inline float ASkeletonAnimationPlayerGetWidth(SkeletonAnimationPlayer* player)
 {
     return ASkeletonGetWidth(player->skeleton);
 }
 
+
 static inline float ASkeletonAnimationPlayerGetHeight(SkeletonAnimationPlayer* player)
 {
     return ASkeletonGetHeight(player->skeleton);
 }
+
 
 #endif

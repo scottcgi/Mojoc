@@ -14,10 +14,10 @@
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Extension/Spine/SkeletonTimeline.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
-#include "Engine/Toolkit/Head/MacroDefine.h"
 
 
 static ArrayStrMap(filePath, SkeletonData*) skeletonDataMap[1] = AArrayStrMapInit(SkeletonData*, 20);
+
 
 static void Release(SkeletonData* skeletonData)
 {
@@ -132,6 +132,7 @@ static SkeletonAttachmentData* GetAttachmentDataBySkinData(SkeletonSkinData* ski
 	return AArrayStrMapGet(attachmentDataMap, attachmentName, SkeletonAttachmentData*);
 }
 
+
 /**
  * return slot index in slotDataOrderArr or -1 not found
  */
@@ -152,6 +153,7 @@ static inline int FindSlotIndex(SkeletonData* skeletonData, const char* slotName
 
 	return slotIndex;
 }
+
 
 static inline void ReadBoneData(JsonObject* root, SkeletonData* skeletonData)
 {
@@ -308,7 +310,6 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 		}
 		break;
 
-
 		case skeleton_attachment_boundingbox:
 		{
 			SkeletonBoundingboxAttachmentData* boundingboxAttachmentData = (SkeletonBoundingboxAttachmentData*)
@@ -320,7 +321,6 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 		}
 		break;
 
-
 		case skeleton_attachment_mesh:
 		{
 			SkeletonMeshAttachmentData* meshAttachmentData = (SkeletonMeshAttachmentData*) malloc(sizeof(SkeletonMeshAttachmentData) + length);
@@ -330,8 +330,6 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 		}
 		break;
 
-
-
 		case skeleton_attachment_skinned_mesh:
 		{
 			SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData = (SkeletonSkinnedMeshAttachmentData*) malloc(sizeof(SkeletonSkinnedMeshAttachmentData) + length);
@@ -340,13 +338,13 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 
 		}
 		break;
-
 	}
 
 	attachmentData->type = attachmentDataType;
 
 	return attachmentData;
 }
+
 
 static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentDataMapObject)
 {
@@ -525,11 +523,8 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 									                      +  uvsByte
 			                                              +  trianglesByte;
 
-
-
 			attachmentData                                 = CreateAttachmentData(length + nameLength, skeleton_attachment_skinned_mesh);
 			length                                        += sizeof(SkeletonSkinnedMeshAttachmentData);
-
 
 			SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData
 			                                               = (SkeletonSkinnedMeshAttachmentData*) attachmentData->subPtr;
@@ -613,6 +608,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 	return attachmentDataMap;
 }
 
+
 static inline void ReadSkinDataSlot(JsonObject* skinSlot, SkeletonSkinData* skinData)
 {
 	ArrayStrMap* slotAttachmentMap = skinData->slotAttachmentMap;
@@ -630,6 +626,7 @@ static inline void ReadSkinDataSlot(JsonObject* skinSlot, SkeletonSkinData* skin
 		AArrayStrMapPut(slotAttachmentMap, slotName, attachmentDataMap);
 	}
 }
+
 
 static inline void ReadSkinData(JsonObject* root, SkeletonData* skeletonData)
 {
@@ -661,6 +658,7 @@ static inline void ReadSkinData(JsonObject* root, SkeletonData* skeletonData)
 	}
 
 }
+
 
 static inline void ReadCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, JsonObject* jsonTimeline)
 {
@@ -826,6 +824,7 @@ static inline void ReadAnimationBones
 	}
 
 }
+
 
 static inline void ReadAnimationSlots
 (
@@ -1191,6 +1190,7 @@ static inline void ReadAnimationDeform
 	}
 }
 
+
 static inline void ReadAnimationData(JsonObject* root, SkeletonData* skeletonData)
 {
 	JsonObject*  animationDataObject = AJsonObject->GetObject(root, "animations");
@@ -1326,6 +1326,7 @@ static inline void ReadSkeletonData(JsonObject* root, SkeletonData* skeletonData
 	}
 }
 
+
 static inline void Parse(SkeletonData* skeletonData, const char* jsonPath)
 {
 	JsonValue*  value = AJson->ParseWithFile(jsonPath);
@@ -1447,6 +1448,7 @@ static inline void InitAtlas(SkeletonData* skeletonData, const char* atlasPath)
 	}
 }
 
+
 static SkeletonData* Get(const char* filePath)
 {
 	SkeletonData* skeletonData = AArrayStrMapGet(skeletonDataMap, filePath, SkeletonData*);
@@ -1477,7 +1479,6 @@ static SkeletonData* Get(const char* filePath)
 }
 
 
-
 struct ASkeletonData ASkeletonData[1] =
 {
 	1.0f,
@@ -1494,10 +1495,10 @@ SkeletonAttachmentMeshOffset skeletonAttachmentMeshOffset[3] =
 	skeleton_attachment_skinned_mesh_mesh_index,
 };
 
+
 SkeletonAttachmentSubMeshOffset skeletonAttachmentSubMeshOffset[3] =
 {
 	skeleton_attachment_region_sub_mesh_index,
 	skeleton_attachment_mesh_sub_mesh_index,
 	skeleton_attachment_skinned_mesh_sub_mesh_index,
 };
-

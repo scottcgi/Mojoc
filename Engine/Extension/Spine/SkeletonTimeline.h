@@ -26,7 +26,7 @@ SkeletonCurveType;
 
 typedef struct
 {
-	Array(float)* curveArr;
+	Array(float)* get_only curveArr;
 }
 SkeletonCurveTimeline;
 
@@ -49,33 +49,42 @@ struct  SkeletonTimeline
 	/**
 	 * Subclass pointer which inheritance SkeletonTimeline
 	 */
-	void* subPtr;
+	void* get_only subPtr;
 };
 
 
 typedef struct
 {
-	SkeletonCurveTimeline curveTimeline   [1];
-	SkeletonTimeline      skeletonTimeline[1];
+	SkeletonCurveTimeline get_only curveTimeline   [1];
+	SkeletonTimeline      get_only skeletonTimeline[1];
 
-	/** Each group has time, angle */
-	Array(float)*         frameArr;
-	/** Index in SkeletonData's boneDataOrderArr */
-	int                   boneIndex;
+	/**
+	 * Each group has time, angle
+	 */
+	Array(float)*         get_only frameArr;
+
+	/**
+	 * Index in SkeletonData's boneDataOrderArr
+	 */
+	int                   get_only boneIndex;
 }
 SkeletonRotateTimeline;
 
 
 typedef struct
 {
-	SkeletonCurveTimeline curveTimeline   [1];
-	SkeletonTimeline      skeletonTimeline[1];
+	SkeletonCurveTimeline get_only curveTimeline   [1];
+	SkeletonTimeline      get_only skeletonTimeline[1];
 
-	/** Each group has time, x, y */
-	Array(float)*         frameArr;
+	/**
+	 * Each group has time, x, y
+	 */
+	Array(float)*         get_only frameArr;
 
-	/** Index in SkeletonData's boneDataOrderArr */
-	int                   boneIndex;
+	/**
+	 * Index in SkeletonData's boneDataOrderArr
+	 */
+	int                   get_only boneIndex;
 }
 SkeletonTranslateTimeline;
 
@@ -83,7 +92,7 @@ SkeletonTranslateTimeline;
 
 typedef struct
 {
-	SkeletonTranslateTimeline translateTimeline[1];
+	SkeletonTranslateTimeline get_only translateTimeline[1];
 }
 SkeletonScaleTimeline;
 
@@ -91,14 +100,18 @@ SkeletonScaleTimeline;
 
 typedef struct
 {
-	SkeletonCurveTimeline curveTimeline   [1];
-	SkeletonTimeline      skeletonTimeline[1];
+	SkeletonCurveTimeline get_only curveTimeline   [1];
+	SkeletonTimeline      get_only skeletonTimeline[1];
 
-	/** Each group has time, r, g, b, a */
-	Array(float)*         frameArr;
+	/**
+	 * Each group has time, r, g, b, a
+	 */
+	Array(float)*         get_only frameArr;
 
-	/** Index in SkeletonData's slotDataOrderArr */
-	int                   slotIndex;
+	/**
+	 * Index in SkeletonData's slotDataOrderArr
+	 */
+	int                   get_only slotIndex;
 }
 SkeletonColorTimeline;
 
@@ -106,14 +119,19 @@ SkeletonColorTimeline;
 
 typedef struct
 {
-	SkeletonTimeline skeletonTimeline[1];
+	SkeletonTimeline get_only skeletonTimeline[1];
 
-	/** Each group has time */
-	Array(float)*    frameArr;
-	Array(char*)*    attachmentNameArr;
-	/** Index in SkeletonData's slotDataOrderArr */
-	int              slotIndex;
-	int              preFrameIndex;
+	/**
+	 * Each group has time
+	 */
+	Array(float)*    get_only frameArr;
+	Array(char*)*    get_only attachmentNameArr;
+
+	/**
+	 * Index in SkeletonData's slotDataOrderArr
+	 */
+	int              get_only slotIndex;
+	int              get_only preFrameIndex;
 }
 SkeletonAttachmentTimeline;
 
@@ -121,12 +139,14 @@ SkeletonAttachmentTimeline;
 
 typedef struct
 {
-	SkeletonTimeline            skeletonTimeline[1];
+	SkeletonTimeline            get_only skeletonTimeline[1];
 
-	/** Each group has time */
-	Array(float)*               frameArr;
-	Array(SkeletonEventData*)*  eventArr;
-	int                         preFrameIndex;
+	/**
+	 * Each group has time
+	 */
+	Array(float)*               get_only frameArr;
+	Array(SkeletonEventData*)*  get_only eventArr;
+	int                         get_only preFrameIndex;
 }
 SkeletonEventTimeline;
 
@@ -134,13 +154,18 @@ SkeletonEventTimeline;
 
 typedef struct
 {
-	SkeletonTimeline    skeletonTimeline[1];
+	SkeletonTimeline    get_only skeletonTimeline[1];
 
-	/** Each group has time */
-	Array(float)*       frameArr;
-	/** Each frame has new drawOrder */
-	Array(Array(int)*)* drawOrderArr;
-	int                 preFrameIndex;
+	/**
+	 * Each group has time
+	 */
+	Array(float)*       get_only frameArr;
+
+	/**
+	 * Each frame has new drawOrder
+	 */
+	Array(Array(int)*)* get_only drawOrderArr;
+	int                 get_only preFrameIndex;
 }
 SkeletonDrawOrderTimeline;
 
@@ -148,20 +173,27 @@ SkeletonDrawOrderTimeline;
 
 typedef struct
 {
-	SkeletonCurveTimeline   curveTimeline   [1];
-	SkeletonTimeline        skeletonTimeline[1];
+	SkeletonCurveTimeline   get_only curveTimeline   [1];
+	SkeletonTimeline        get_only skeletonTimeline[1];
 
-	/** Each group has time ... */
-	Array(float)*           frameArr;
-	/** Each frame has new vertices */
-	Array(Array(float)*)*   vertexArr;
-	/** Index in SkeletonData's slotDataOrderArr */
-	int                     slotIndex;
+	/**
+	 * Each group has time ...
+	 */
+	Array(float)*           get_only frameArr;
 
-	SkeletonAttachmentData* attachmentData;
+	/**
+	 * Each frame has new vertices
+	 */
+	Array(Array(float)*)*   get_only vertexArr;
+
+	/**
+	 * Index in SkeletonData's slotDataOrderArr
+	 */
+	int                     get_only slotIndex;
+
+	SkeletonAttachmentData* get_only attachmentData;
 }
 SkeletonDeformTimeline;
-
 
 
 struct ASkeletonTimeline
@@ -201,6 +233,8 @@ struct ASkeletonTimeline
 	void                        (*SetDeformFrame)    (SkeletonDeformTimeline*     deformTimeline,     int frameIndex, float time, Array(float)*      vertices);
 };
 
+
 extern struct ASkeletonTimeline ASkeletonTimeline[1];
+
 
 #endif

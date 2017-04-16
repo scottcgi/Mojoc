@@ -19,12 +19,13 @@ static void SetToSetupPose(SkeletonBone* bone)
 }
 
 
-static void Init(SkeletonBoneData* boneData, SkeletonBone* outBone)
+static void Init(SkeletonBoneData* boneData, SkeletonBone* out_param bone)
 {
-	ADrawable->Init(outBone->drawable);
-	outBone->boneData = boneData;
-	SetToSetupPose(outBone);
+	ADrawable->Init(bone->drawable);
+	bone->boneData = boneData;
+	SetToSetupPose(bone);
 }
+
 
 static SkeletonBone* Create(SkeletonBoneData* boneData)
 {
@@ -33,6 +34,7 @@ static SkeletonBone* Create(SkeletonBoneData* boneData)
 
 	return bone;
 }
+
 
 struct ASkeletonBone ASkeletonBone[1] =
 {

@@ -9,6 +9,7 @@
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 #include "Engine/Extension/Spine/SkeletonSlot.h"
 
+
 static inline void SetAttachmentToBone(SkeletonSlot* slot)
 {
 	SkeletonAttachmentData* attachmentData = slot->attachmentData;
@@ -164,14 +165,14 @@ static void SetToSetupPose(SkeletonSlot* slot)
 }
 
 
-static void Init(SkeletonSlotData* slotData, Skeleton* skeleton, SkeletonSlot* outSlot)
+static void Init(SkeletonSlotData* slotData, Skeleton* skeleton, SkeletonSlot* out_param slot)
 {
-	outSlot->slotData       = slotData;
-	outSlot->skeleton       = skeleton;
-	outSlot->attachmentData = NULL;
-	outSlot->bone           = AArrayStrMapGet(skeleton->boneMap, slotData->boneData->name, SkeletonBone*);
+	slot->slotData       = slotData;
+	slot->skeleton       = skeleton;
+	slot->attachmentData = NULL;
+	slot->bone           = AArrayStrMapGet(skeleton->boneMap, slotData->boneData->name, SkeletonBone*);
 
-	SetToSetupPose(outSlot);
+	SetToSetupPose(slot);
 }
 
 
@@ -182,6 +183,7 @@ static SkeletonSlot* Create(SkeletonSlotData* slotData, Skeleton* skeleton)
 
 	return slot;
 }
+
 
 struct ASkeletonSlot ASkeletonSlot[1] =
 {
