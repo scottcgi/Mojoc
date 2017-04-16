@@ -12,6 +12,7 @@
 #include "Engine/Toolkit/Head/Struct.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 
+
 static void Restart(ParticleEmitter* emitter)
 {
 	emitter->delayTimer                = 0.0f;
@@ -180,6 +181,7 @@ static inline void ActivateParticle(ParticleEmitter* emitter, Particle* particle
 	ADrawableSetVisible  (drawable);
 }
 
+
 static inline void AddParticles(ParticleEmitter* emitter, int count)
 {
 	emitter->activeCount += count;
@@ -200,9 +202,10 @@ static inline void AddParticles(ParticleEmitter* emitter, int count)
 	}
 }
 
-static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, float deltatTime)
+
+static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, float deltaTime)
 {
-	particle->currentLife -= deltatTime;
+	particle->currentLife -= deltaTime;
 	Drawable* drawable     = particle->subMesh->drawable;
 
 	if (particle->currentLife < 0)
@@ -230,7 +233,7 @@ static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, 
 	if (velocityValue->rangedValue->isActive)
 	{
 	    // velocity is in one second
-		float velocity  = (particle->velocity + particle->velocityDiff * AParticleEmitterData->GetScale(velocityValue, percent)) * deltatTime;
+		float velocity  = (particle->velocity + particle->velocityDiff * AParticleEmitterData->GetScale(velocityValue, percent)) * deltaTime;
 		float velocityX = velocity;
 		float velocityY = velocity;
 
@@ -246,13 +249,13 @@ static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, 
 		ParticleScaledValue* windValue = emitterData->windValue;
 		if (windValue->rangedValue->isActive)
 		{
-			velocityX += (particle->wind + particle->windDiff * AParticleEmitterData->GetScale(windValue, percent)) * deltatTime;
+			velocityX += (particle->wind + particle->windDiff * AParticleEmitterData->GetScale(windValue, percent)) * deltaTime;
 		}
 
 		ParticleScaledValue* gravityValue = emitterData->gravityValue;
 		if (gravityValue->rangedValue->isActive)
 		{
-			velocityY += (particle->gravity + particle->gravityDiff * AParticleEmitterData->GetScale(gravityValue, percent)) * deltatTime;
+			velocityY += (particle->gravity + particle->gravityDiff * AParticleEmitterData->GetScale(gravityValue, percent)) * deltaTime;
 		}
 
 		ADrawableSetPosition2
@@ -393,16 +396,17 @@ static void Release(ParticleEmitter* emitter)
 	emitter->particleArr = NULL;
 }
 
-static void Init(ParticleEmitterData* emitterData, Texture* texture, ParticleEmitter* outEmitter)
+
+static void Init(ParticleEmitterData* emitterData, Texture* texture, ParticleEmitter* out_param emitter)
 {
-	outEmitter->emitterData   = emitterData;
-	outEmitter->activeCount   = 0;
+	emitter->emitterData   = emitterData;
+	emitter->activeCount   = 0;
 
-	outEmitter->emissionX     = 0.0f;
-	outEmitter->emissionY     = 0.0f;
-	outEmitter->emissionAngle = 0.0f;
+	emitter->emissionX     = 0.0f;
+	emitter->emissionY     = 0.0f;
+	emitter->emissionAngle = 0.0f;
 
-	Mesh* mesh                = outEmitter->mesh;
+	Mesh* mesh                = emitter->mesh;
 
 	AMesh->Init(texture, mesh);
 	mesh->drawable->Render    = Render;
@@ -411,7 +415,7 @@ static void Init(ParticleEmitterData* emitterData, Texture* texture, ParticleEmi
 	ArrayList*  children      = mesh->children;
 
 	AArrayList->SetCapacity(children, max);
-	outEmitter->particleArr   = AArray->Create(sizeof(Particle), max);
+	emitter->particleArr   = AArray->Create(sizeof(Particle), max);
 
 	for (int i = 0; i < max; i++)
 	{
@@ -421,13 +425,13 @@ static void Init(ParticleEmitterData* emitterData, Texture* texture, ParticleEmi
 		AParticle->Init
         (
              AMesh->AddChildWithQuad(mesh, quad),
-             AArrayGetPtr(outEmitter->particleArr, i, Particle)
+             AArrayGetPtr(emitter->particleArr, i, Particle)
         );
 	}
 
 	AMesh->GenerateBuffer(mesh);
 
-	Restart(outEmitter);
+	Restart(emitter);
 }
 
 

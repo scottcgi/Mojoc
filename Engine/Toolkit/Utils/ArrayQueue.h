@@ -13,12 +13,12 @@
 
 typedef struct
 {
-	ArrayList    arrayList[1];
+	ArrayList get_only arrayList[1];
 
 	/**
 	 * ArrayQueue top element index
 	 */
-	int get_only topIndex;
+	int       get_only topIndex;
 }
 ArrayQueue;
 

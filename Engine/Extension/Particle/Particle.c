@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "Engine/Extension/Particle/Particle.h"
 
+
 static void Reset(Particle* particle)
 {
 	Drawable* drawable = particle->subMesh->drawable;
@@ -17,26 +18,18 @@ static void Reset(Particle* particle)
 	ADrawableSetRotationZ(drawable, 0.0f);
 }
 
-static void Init(SubMesh* subMesh, Particle* outParticle)
+
+static void Init(SubMesh* subMesh, Particle* out_param particle)
 {
-	outParticle->isActive = false;
-	outParticle->subMesh  = subMesh;
+	particle->isActive = false;
+	particle->subMesh  = subMesh;
 
 	ADrawableSetInVisible(subMesh->drawable);
-}
-
-static Particle* Create(SubMesh* subMesh)
-{
-	Particle* particle = (Particle*) malloc(sizeof(Particle));
-	Init(subMesh, particle);
-
-	return particle;
 }
 
 
 struct AParticle AParticle[1] =
 {
-	Create,
 	Init,
 	Reset,
 };

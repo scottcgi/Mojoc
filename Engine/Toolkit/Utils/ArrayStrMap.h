@@ -32,12 +32,12 @@ ArrayStrMapElement;
 
 typedef struct
 {
-	ArrayList    arrayList[1];
+	ArrayList get_only arrayList[1];
 
 	/**
 	 * ArrayStrMap value type sizeof
 	 */
-	int get_only typeSize;
+	int       get_only typeSize;
 }
 ArrayStrMap;
 

@@ -22,10 +22,12 @@
 
 
 /**
- * Marked variable can only get value
+ * Marked variable can only get value or call get moethod
  *
  * the variable can not set directly
  * use function or macro to instead of set value
+ *
+ * if variable is struct object each property value also get_only
  *
  * the marker effect use data structure variable
  * if construct data structure variable not follow the rule

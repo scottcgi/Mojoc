@@ -9,8 +9,8 @@
 #define particle_emitter_data_h
 
 #include <stdbool.h>
-
 #include "Engine/Toolkit/Utils/Array.h"
+
 
 typedef struct
 {
@@ -32,6 +32,7 @@ typedef struct
 }
 ParticleScaledValue;
 
+
 typedef struct
 {
 	Array(float)* rgbArr;
@@ -39,52 +40,62 @@ typedef struct
 }
 ParticleRGBValue;
 
+
 typedef struct
 {
-	ParticleRangedValue delayValue       [1];
-	ParticleScaledValue lifeOffsetValue  [1];
-	ParticleRangedValue durationValue    [1];
-	ParticleScaledValue lifeValue        [1];
-	ParticleScaledValue emissionValue    [1];
-	ParticleScaledValue scaleValue       [1];
-	ParticleScaledValue rotationValue    [1];
-	ParticleScaledValue velocityValue    [1];
-	ParticleScaledValue angleValue       [1];
-	ParticleScaledValue windValue        [1];
-	ParticleScaledValue gravityValue     [1];
-	ParticleScaledValue transparencyValue[1];
-	ParticleScaledValue xOffsetValue     [1];
-	ParticleScaledValue yOffsetValue     [1];
-	ParticleScaledValue spawnWidthValue  [1];
-	ParticleScaledValue spawnHeightValue [1];
-	ParticleRGBValue    rgbValue         [1];
+	ParticleRangedValue get_only delayValue       [1];
+	ParticleScaledValue get_only lifeOffsetValue  [1];
+	ParticleRangedValue get_only durationValue    [1];
+	ParticleScaledValue get_only lifeValue        [1];
+	ParticleScaledValue get_only emissionValue    [1];
+	ParticleScaledValue get_only scaleValue       [1];
+	ParticleScaledValue get_only rotationValue    [1];
+	ParticleScaledValue get_only velocityValue    [1];
+	ParticleScaledValue get_only angleValue       [1];
+	ParticleScaledValue get_only windValue        [1];
+	ParticleScaledValue get_only gravityValue     [1];
+	ParticleScaledValue get_only transparencyValue[1];
+	ParticleScaledValue get_only xOffsetValue     [1];
+	ParticleScaledValue get_only yOffsetValue     [1];
+	ParticleScaledValue get_only spawnWidthValue  [1];
+	ParticleScaledValue get_only spawnHeightValue [1];
+	ParticleRGBValue    get_only rgbValue         [1];
 
-	int                 minParticleCount;
-	int                 maxParticleCount;
+	int                 get_only  minParticleCount;
+	int                 get_only  maxParticleCount;
 
-	/** emitter restart when timeover */
-	bool                isContinuous;
+	/**
+	 * The emitter restart when timeover
+	 */
+	bool                get_only  isContinuous;
 
-	/** particle angle is added to the rotation */
-	bool                isAligned;
+	/**
+	 * The particle angle is added to the rotation
+	 */
+	bool                 get_only isAligned;
 
-	/**  color blend additive */
-	bool                isAdditive;
+	/**
+	 * The color blend additive
+	 */
+	bool                 get_only isAdditive;
 }
 ParticleEmitterData;
+
 
 struct AParticleEmitterData
 {
 	ParticleEmitterData* (*Create)         (const char* filePath);
-    void                 (*Init)           (const char* filePath, ParticleEmitterData* outParticleEmitterData);
+    void                 (*Init)           (const char* filePath, ParticleEmitterData* out_param particleEmitterData);
     void                 (*Release)        (ParticleEmitterData*  particleEmitterData);
 
     float                (*RandomLowValue) (ParticleRangedValue*  rangedValue);
     float                (*RandomHighValue)(ParticleScaledValue*  scaledValue);
     float                (*GetScale)       (ParticleScaledValue*  scaledValue, float percent);
-    void                 (*GetRGB)         (ParticleRGBValue*     rgbValue,    float percent, float outRGB[3]);
+    void                 (*GetRGB)         (ParticleRGBValue*     rgbValue,    float percent, float out_param rgb[3]);
 };
 
+
 extern struct AParticleEmitterData AParticleEmitterData[1];
+
 
 #endif

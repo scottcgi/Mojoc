@@ -10,7 +10,6 @@
 
 
 #include <stdbool.h>
-
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 
 
@@ -49,21 +48,18 @@ Particle;
 struct AParticle
 {
 	/**
-	 * Create new Particle that allocate memory and need to free it manually
-	 */
-	Particle* (*Create)(SubMesh* subMesh);
-
-	/**
 	 * Initialize Particle that memory has already allocated
 	 */
-	void      (*Init)  (SubMesh* subMesh, Particle* outParticle);
+	void      (*Init) (SubMesh* subMesh, Particle* out_param particle);
 
 	/**
 	 * Reset Particle property values to the born
 	 */
-	void      (*Reset) (Particle* particle);
+	void      (*Reset)(Particle* particle);
 };
 
+
 extern struct AParticle AParticle[1];
+
 
 #endif

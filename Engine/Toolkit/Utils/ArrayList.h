@@ -23,7 +23,7 @@ typedef struct
 	 * if increase capacity, memory data will realloc
 	 * so the data address may changed
 	 */
-	Array          array[1];
+	Array get_only array[1];
 
 	/**
 	 * The sizeof element type

@@ -142,7 +142,9 @@ struct  Drawable
 {
 	 void*     userData;
 
-	 /** Default 0.0f */
+	 /**
+	  * Default 0.0f
+	  */
 	 float     width;
 	 float     height;
 
