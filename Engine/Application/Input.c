@@ -9,7 +9,9 @@
 #define finger_count 10
 static  InputTouch touches[finger_count];
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 static InputTouch* SetTouch(int fingerId, float x, float y, InputTouchType type)
 {
@@ -22,6 +24,7 @@ static InputTouch* SetTouch(int fingerId, float x, float y, InputTouchType type)
 
     return touch;
 }
+
 
 static InputTouch* GetTouch(int fingerId)
 {

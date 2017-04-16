@@ -7,7 +7,9 @@
 
 #include <stdbool.h>
 
+
 typedef struct AudioPlayer AudioPlayer;
+
 
 struct AAudio
 {
@@ -48,6 +50,8 @@ struct AAudio
     bool         (*IsPlaying)       (AudioPlayer* player);
 };
 
+
 extern struct AAudio AAudio[1];
+
 
 #endif

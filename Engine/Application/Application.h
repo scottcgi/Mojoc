@@ -8,7 +8,9 @@
 #ifndef application_h
 #define application_h
 
+
 #include "Engine/Application/Component.h"
+
 
 /**
  * AApplication receive this type of subject message
@@ -26,31 +28,47 @@ enum
 	application_msg_on_touch,
 };
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 typedef struct
 {
-	/** Called when application window ready, openGL ready */
+	/**
+	 * Called when application window ready, openGL ready
+	 */
 	void (*OnReady)      ();
 
-	/** Called when application going into the background */
+	/**
+	 * Called when application going into the background
+	 */
 	void (*OnPause)      ();
 
-	/** Called when application going into the foreground */
+	/**
+	 * Called when application going into the foreground
+	 */
 	void (*OnResume)     ();
 
-	/** Called when application surface size changed */
+	/**
+	 * Called when application surface size changed
+	 */
 	void (*OnResized)    (int width, int height);
 
-    /** Called when application request save persistent data */
-    void (*OnGetSaveData)(void** outSaveData, int* outLength);
+    /**
+     * Called when application request save persistent data
+     */
+    void (*OnGetSaveData)(void** out_param saveData, int* out_param length);
 
-    /** Called when application start then set saved persistent data */
+    /**
+     * Called when application start then set saved persistent data
+     */
     void (*OnSetSaveData)(void*  savedData,   int  length);
 }
 ApplicationCallbacks;
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 struct AApplication
 {
@@ -64,9 +82,11 @@ struct AApplication
 	 */
 	ApplicationCallbacks  callbacks[1];
 
-//--------------------------------------------------------------------------------------------------
-// These functions called in target platform
-//--------------------------------------------------------------------------------------------------
+/*
+----------------------------------------------------------------------------------------------------
+    These functions called in target platform
+----------------------------------------------------------------------------------------------------
+*/
 
 	/**
 	 * Initialize each modules
@@ -104,6 +124,7 @@ struct AApplication
     void (*Touch)  (Array(InputTouch*)* touchData);
 };
 
+
 extern struct AApplication AApplication[1];
 
 
@@ -111,7 +132,7 @@ extern struct AApplication AApplication[1];
  * This function must implement ApplicationCallbacks method
  * called on very first entry
  */
-extern void ApplicationMain();
+extern void set_required ApplicationMain();
 
 
 static inline void AApplicationAppendChild(Component* child)

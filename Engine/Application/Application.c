@@ -18,8 +18,10 @@
 #include "Engine/Toolkit/Utils/Coroutine.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
+
 static struct timespec now;
 static struct timespec last;
+
 
 static void Init()
 {

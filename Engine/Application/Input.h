@@ -5,6 +5,10 @@
 #ifndef input_h
 #define input_h
 
+
+#include "Engine/Toolkit/Head/MacroDefine.h"
+
+
 typedef enum
 {
     input_touch_up     = 1,
@@ -14,20 +18,22 @@ typedef enum
 }
 InputTouchType;
 
+
 typedef struct
 {
     /** OpenGL coordinate */
-    float          x;
-    float          y;
+    float          get_only x;
+    float          get_only y;
 
     /**
      * Identify touch point
      * 0-9 corresponding 10 fingers
      */
-    int            fingerId;
-    InputTouchType type;
+    int            get_only fingerId;
+    InputTouchType get_only type;
 }
 InputTouch;
+
 
 struct AInput
 {
@@ -43,6 +49,8 @@ struct AInput
     InputTouch* (*GetTouch)(int fingerId);
 };
 
+
 extern struct AInput AInput[1];
+
 
 #endif

@@ -9,26 +9,25 @@
 
 #include "Engine/Application/Component.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Toolkit/Head/MacroDefine.h"
 
 
-static void Init(Component* outComponent)
+static void Init(Component* out_param component)
 {
-	outComponent->userData      = NULL;
-	outComponent->order         = 0;
-	outComponent->increaseOrder = 50;
-	outComponent->parent        = NULL;
-	outComponent->isActive      = true;
+	component->userData      = NULL;
+	component->order         = 0;
+	component->increaseOrder = 50;
+	component->parent        = NULL;
+	component->isActive      = true;
 
-	AArrayIntMap->Init(sizeof(Component*), outComponent->childMap);
-	AArrayIntMap->Init(sizeof(Component*), outComponent->observerMap);
+	AArrayIntMap->Init(sizeof(Component*), component->childMap);
+	AArrayIntMap->Init(sizeof(Component*), component->observerMap);
 
-	AArrayIntMap->InitWithCapacity(sizeof(ComponentState*), 1, outComponent->stateMap);
-	AArrayIntMapSetIncrease(outComponent->stateMap, 5);
+	AArrayIntMap->InitWithCapacity(sizeof(ComponentState*), 1, component->stateMap);
+	AArrayIntMapSetIncrease(component->stateMap, 5);
 
-	outComponent->defualtState = AComponent->AddState(outComponent, component_state_default, NULL, NULL);
-	outComponent->curState     = outComponent->defualtState;
-	outComponent->preState     = outComponent->defualtState;
+	component->defaultState = AComponent->AddState(component, component_state_default, NULL, NULL);
+	component->curState     = component->defaultState;
+	component->preState     = component->defaultState;
 }
 
 
@@ -57,6 +56,7 @@ static void Release(Component* component)
 
 
 //--------------------------------------------------------------------------------------------------
+
 
 static void AddChild(Component* parent, Component* child, int order)
 {
@@ -114,6 +114,7 @@ static void	RemoveChild(Component* parent, Component* child)
 	child->parent = NULL;
 }
 
+
 static void RemoveAllChildren(Component* parent)
 {
 	ALogA(parent != NULL, "Component removeAllChildren failed, parent can not NULL");
@@ -138,7 +139,6 @@ static int Compare(const void* a, const void* b)
 }
 
 
-
 static void ReorderAllChildren(Component* parent)
 {
 	// renew all children key
@@ -156,7 +156,6 @@ static void ReorderAllChildren(Component* parent)
 		Compare
 	);
 }
-
 
 
 static void AddObserver(Component* sender, Component* observer)
@@ -183,6 +182,7 @@ static void RemoveObserver(Component* sender, Component* observer)
 		observer
 	);
 }
+
 
 //--------------------------------------------------------------------------------------------------
 
@@ -223,6 +223,7 @@ static void Update(Component* component, float deltaTime)
 	}
 }
 
+
 static bool SendMessage(Component* component, void* sender, int subject, void* extraData)
 {
 	if (component->isActive)
@@ -247,6 +248,7 @@ static bool SendMessage(Component* component, void* sender, int subject, void* e
 	return false;
 }
 
+
 static bool SendMessageToChildren(Component* component, void* sender, int subject, void* extraData)
 {
 	if (component->isActive)
@@ -265,6 +267,7 @@ static bool SendMessageToChildren(Component* component, void* sender, int subjec
 
 	return false;
 }
+
 
 static void Notify(Component* sender, int subject, void* extraData)
 {
@@ -289,7 +292,9 @@ static void Notify(Component* sender, int subject, void* extraData)
 	}
 }
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 static void SetState(Component* component, int stateId)
 {
@@ -341,6 +346,7 @@ static void SetActive(Component* component, bool isActive)
 		AArrayIntMapGetAt(component->childMap, i, Component*)->isActive = isActive;
 	}
 }
+
 
 struct AComponent AComponent[1] =
 {

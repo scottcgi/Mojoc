@@ -17,7 +17,6 @@
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
-#include "Engine/Toolkit/Head/MacroDefine.h"
 #include "Engine/Toolkit/Platform/File.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Audio/Platform/Audio.h"
@@ -41,9 +40,11 @@ struct AudioPlayer
     SLVolumeItf volume;
 };
 
+
 static ArrayList cacheList   [1] = AArrayListInit(sizeof(AudioPlayer*), 20);
 static ArrayList destroyList [1] = AArrayListInit(sizeof(AudioPlayer*), 20);
 static ArrayList loopList    [1] = AArrayListInit(sizeof(AudioPlayer*), 5);
+
 
 //--------------------------------------------------------------------------------------------------
 
@@ -57,6 +58,7 @@ static void Update(float deltaTime)
     }
 }
 
+
 static void SetLoopPause()
 {
     for (int i = 0; i < loopList->size; i++)
@@ -65,6 +67,7 @@ static void SetLoopPause()
     }
 }
 
+
 static void SetLoopResume()
 {
     for (int i = 0; i < loopList->size; i++)
@@ -72,6 +75,7 @@ static void SetLoopResume()
         AAudio->SetPlay(AArrayListGet(loopList, i, AudioPlayer*));
     }
 }
+
 
 static void Init()
 {
@@ -100,6 +104,7 @@ static void Init()
     ALogA(result == SL_RESULT_SUCCESS, "Audio Init Realize outputMixObject failed");
 }
 
+
 static void PlayerCallback(SLPlayItf caller, void *pContext, SLuint32 event)
 {
     // play finish
@@ -110,6 +115,7 @@ static void PlayerCallback(SLPlayItf caller, void *pContext, SLuint32 event)
         (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_PAUSED);
     }
 }
+
 
 static inline void InitPlayer(const char* filePath, AudioPlayer* player)
 {
@@ -169,6 +175,7 @@ static inline void InitPlayer(const char* filePath, AudioPlayer* player)
     ALogA(result == SL_RESULT_SUCCESS, "Audio CreatePlayer GetInterface volume failed");
 }
 
+
 static void SetLoop(AudioPlayer* player, bool isLoop)
 {
     SLresult result = (*player->seek)->SetLoop(player->seek, (SLboolean) isLoop, 0, SL_TIME_UNKNOWN);
@@ -192,6 +199,7 @@ static void SetLoop(AudioPlayer* player, bool isLoop)
     }
 }
 
+
 static void SetVolume(AudioPlayer* player, int volume)
 {
     ALogA(volume >= 0 && volume <= 100, "Audio SetVolume volume %d not in [0, 100]", volume);
@@ -200,6 +208,7 @@ static void SetVolume(AudioPlayer* player, int volume)
     ALogA(result == SL_RESULT_SUCCESS, "Audio SetVolume failed");
 }
 
+
 static void SetPlay(AudioPlayer* player)
 {
     // set the player's state
@@ -207,12 +216,14 @@ static void SetPlay(AudioPlayer* player)
     ALogA(result == SL_RESULT_SUCCESS, "Audio SetPlay failed");
 }
 
+
 static void SetPause(AudioPlayer* player)
 {
     // set the player's state
     SLresult result = (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_PAUSED);
     ALogA(result == SL_RESULT_SUCCESS, "Audio SetPause failed");
 }
+
 
 static bool IsPlaying(AudioPlayer* player)
 {
@@ -233,6 +244,7 @@ static bool IsPlaying(AudioPlayer* player)
     }
 }
 
+
 static AudioPlayer* GetPlayer(const char* filePath)
 {
     AudioPlayer* player = AArrayListPop(cacheList, AudioPlayer*);
@@ -246,6 +258,7 @@ static AudioPlayer* GetPlayer(const char* filePath)
 
     return player;
 }
+
 
 struct AAudio AAudio[1] =
 {

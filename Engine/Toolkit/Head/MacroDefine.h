@@ -22,29 +22,15 @@
 
 
 /**
- * Marked variable can only get value or call get moethod
+ * Marked variable can only get value or call get method
  *
  * the variable can not set directly
  * use function or macro to instead of set value
  *
- * if variable is struct object each property value also get_only
- *
- * the marker effect use data structure variable
- * if construct data structure variable not follow the rule
+ * if variable is struct object (not ptr) each property value also get_only
+ * if construct struct object variable not follow the rule
  */
 #define get_only
-
-
-/**
- * Marked variable can only set value or call set method
- *
-   the variable can not get directly
- * use function or macro to instead of get value
- *
- * the marker effect use data structure variable
- * if construct data structure variable not follow the rule
- */
-#define set_only
 
 
 /**

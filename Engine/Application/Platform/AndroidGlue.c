@@ -22,12 +22,14 @@
 #include "Engine/Graphics/OpenGL/Platform/EGLTool.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Application/Application.h"
-#include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Application/Input.h"
+
 
 static const char* saveDataFileName = "NDKSaveDataFile";
 
+
 ANativeActivity* nativeActivity;
+
 
 enum
 {
@@ -48,7 +50,9 @@ typedef volatile enum
 }
 MainThreadCallback;
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 static struct
 {
@@ -73,6 +77,7 @@ AData[1] =
 		.mainThreadCallback = main_thread_on_wait,
 	}
 };
+
 
 //--------------------------------------------------------------------------------------------------
 
@@ -245,6 +250,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
     return 0;
 }
 
+
 static int LooperOnInputEvent(int fd, int events, void* data)
 {
 	AInputEvent* event;
@@ -333,7 +339,9 @@ static void* ThreadRun(void* param)
 	return NULL;
 }
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 static inline void SaveData(ANativeActivity* activity)
 {
@@ -357,19 +365,22 @@ static void OnStart(ANativeActivity* activity)
 	ALogD("NativeActivity OnStart");
 }
 
+
 static void OnResume(ANativeActivity* activity)
 {
 	ALogD("NativeActivity OnResume");
     AData->mainThreadCallback = main_thread_on_resume;
 }
 
-static void* OnSaveInstanceState(ANativeActivity* activity, size_t* outSize)
+
+static void* OnSaveInstanceState(ANativeActivity* activity, size_t* out_param size)
 {
 	ALogD("NativeActivity OnSaveInstanceState");
     SaveData(activity);
-    *outSize = 0;
+    *size = 0;
 	return NULL;
 }
+
 
 static void OnPause(ANativeActivity* activity)
 {
@@ -377,10 +388,12 @@ static void OnPause(ANativeActivity* activity)
 	AData->mainThreadCallback = main_thread_on_pause;
 }
 
+
 static void OnStop(ANativeActivity* activity)
 {
 	ALogD("NativeActivity OnStop");
 }
+
 
 static void OnDestroy(ANativeActivity* activity)
 {
@@ -388,16 +401,19 @@ static void OnDestroy(ANativeActivity* activity)
 	AData->mainThreadCallback = main_thread_on_destroy;
 }
 
+
 static void OnWindowFocusChanged(ANativeActivity* activity, int hasFocus)
 {
 	ALogD("NativeActivity OnWindowFocusChanged");
 }
+
 
 static void OnNativeWindowCreated(ANativeActivity* activity, ANativeWindow* window)
 {
 	ALogD("NativeActivity OnNativeWindowCreated");
 	AData->window = window;
 }
+
 
 static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* window)
 {
@@ -416,11 +432,13 @@ static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* wind
 	}
 }
 
+
 static void OnNativeWindowRedrawNeeded(ANativeActivity* activity, ANativeWindow* window)
 {
 	ALogD("NativeActivity OnNativeWindowRedrawNeeded");
 	AData->mainThreadCallback = main_thread_on_null;
 }
+
 
 static void OnNativeWindowDestroyed(ANativeActivity* activity, ANativeWindow* window)
 {
@@ -428,12 +446,14 @@ static void OnNativeWindowDestroyed(ANativeActivity* activity, ANativeWindow* wi
 	AData->mainThreadCallback = main_thread_on_wait;
 }
 
+
 static void OnInputQueueCreated(ANativeActivity* activity, AInputQueue* inputQueue)
 {
 	ALogD("NativeActivity OnInputQueueCreated");
 	AData->inputQueue = inputQueue;
     AInputQueue_attachLooper(inputQueue, AData->looper, looper_id_input, LooperOnInputEvent, NULL);
 }
+
 
 static void OnInputQueueDestroyed(ANativeActivity* activity, AInputQueue* inputQueue)
 {
@@ -446,18 +466,22 @@ static void OnContentRectChanged(ANativeActivity* activity, const ARect* rect)
 	ALogD("NativeActivity OnContentRectChanged");
 }
 
+
 static void OnConfigurationChanged(ANativeActivity* activity)
 {
 	ALogD("NativeActivity OnConfigurationChanged");
     AConfiguration_fromAssetManager(AData->assetConfig, activity->assetManager);
 }
 
+
 static void OnLowMemory(ANativeActivity* activity)
 {
 	ALogD("NativeActivity OnLowMemory");
 }
 
+
 //--------------------------------------------------------------------------------------------------
+
 
 void ANativeActivityOnCreate(ANativeActivity* activity, void* savedState, size_t savedStateSize)
 {

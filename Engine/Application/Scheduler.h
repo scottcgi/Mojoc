@@ -9,33 +9,31 @@
 #ifndef scheduler_h
 #define scheduler_h
 
-#include <stdbool.h>
 
+#include <stdbool.h>
+#include "Engine/Toolkit/Head/MacroDefine.h"
 
 
 typedef struct Scheduler Scheduler;
 struct  Scheduler
 {
-	/**
-	 * Bind data can not get from context
-	 */
-	void* userData;
+	void*          userData;
 
 	/**
 	 * Schedule interval time for update method called
 	 */
-	float intervalTime;
+	float          intervalTime;
 
 	/**
 	 * Whether cancel scheduler default false
 	 * once isCancel set true scheduler will remove and free
 	 */
-	bool  isCancel;
+	bool           isCancel;
 
 	/**
 	 * Current schedule time
 	 */
-	float currentTime;
+	float get_only currentTime;
 
 	/**
 	 * Called per frame
@@ -65,6 +63,8 @@ struct AScheduler
 	void       (*Update)      (float deltaTime);
 };
 
+
 extern struct AScheduler AScheduler[1];
+
 
 #endif

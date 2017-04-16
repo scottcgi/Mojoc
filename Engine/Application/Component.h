@@ -7,70 +7,71 @@
 #ifndef component_h
 #define component_h
 
+
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
+
 
 typedef struct Component      Component;
 typedef struct ComponentState ComponentState;
 
+
 struct Component
 {
-	/**
-	 * Bind data can not get from context
-	 */
-	void*                                      userData;
+	void*                                              userData;
 
 	/**
 	 * If isActive false Component will not change state, update state, handle and send message
 	 */
-	bool                                       isActive;
+	bool                                      get_only isActive;
 
 	/**
 	 * Order in parent children list when add in
 	 * changed it and reorderAllChildren will sort by order
 	 */
-	int                                        order;
+	int                                                order;
 
 	/**
 	 * When append child order auto increase by increaseOrder add last child order
 	 * default 50
 	 */
-	int                                        increaseOrder;
+	int                                                increaseOrder;
 
 	/**
 	 * Component's parent in a tree structure
 	 */
-	Component*                                 parent;
+	Component*                                get_only parent;
 
 	/**
 	 * Current active state, default empty state with stateId 0
 	 */
-	ComponentState*                            curState;
+	ComponentState*                           get_only curState;
 
 	/**
 	 * Previous active state, default empty state with stateId 0
 	 */
-	ComponentState*                            preState;
+	ComponentState*                           get_only preState;
 
 	/**
 	 * Default state when Component created with stateId 0
 	 */
-	ComponentState*                            defualtState;
+	ComponentState*                           get_only defaultState;
 
 	/**
 	 * Children mapped by Component order
 	 */
-	ArrayIntMap(order,        Component*)      childMap   [1];
+	ArrayIntMap(order,        Component*)     get_only childMap   [1];
 
 	/**
 	 * Component notification observers
 	 */
-	ArrayIntMap(componentPtr, Component*)      observerMap[1];
+	ArrayIntMap(componentPtr, Component*)     get_only observerMap[1];
 
 	/**
 	 * All ComponentStates mapped by ComponentState's id
 	 */
-	ArrayIntMap(stateId,      ComponentState*) stateMap   [1];
+	ArrayIntMap(stateId,      ComponentState*) get_only stateMap  [1];
 };
+
 
 enum
 {
@@ -103,15 +104,12 @@ enum
 
 struct ComponentState
 {
-	/**
-	 * Bind data can not get from context
-	 */
-    void* userData;
+    void*         userData;
 
     /**
      * Key in Component's stateMap
      */
-	int   id;
+	int get_only  id;
 
 	/**
 	 * Active ComponentState called per frame
@@ -130,8 +128,10 @@ struct ComponentState
 	bool (*OnMessage)   (Component* component, void* sender, int subject, void* extraData);
 };
 
+
 typedef void (*ComponentStateUpdate)   (Component* component, float deltaTime);
 typedef bool (*ComponentStateOnMessage)(Component* component, void* sender, int subject, void* extraData);
+
 
 struct AComponent
 {
@@ -143,7 +143,7 @@ struct AComponent
 	/**
 	 * Initialize Component that memory has already allocated
 	 */
-	void            (*Init)                 (Component* outComponent);
+	void            (*Init)                 (Component* out_param component);
 
 	/**
 	 * Free members memory that allocate by malloc and reset some property values
@@ -224,6 +224,7 @@ struct AComponent
 	void            (*SetActive)            (Component* component, bool isActive);
 };
 
+
 extern struct AComponent AComponent[1];
 
 
@@ -232,10 +233,12 @@ static inline int AComponentGetChildCount(Component* component)
 	return component->childMap->arrayList->size;
 }
 
+
 static inline int AComponentGetCurStateId(Component* component)
 {
 	return component->curState->id;
 }
+
 
 /**
  * How many capacity increase when stateMap full

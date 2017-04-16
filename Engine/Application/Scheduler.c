@@ -13,7 +13,7 @@
 
 
 static ArrayList(Scheduler*) schedulerRun [1] = AArrayListInit(Scheduler*, 30);
-static ArrayList(Scheduler*) schedulerList[1] = AArrayListInit  (Scheduler*, 30);
+static ArrayList(Scheduler*) schedulerList[1] = AArrayListInit(Scheduler*, 30);
 
 
 static inline Scheduler* GetScheduler(SchedulerUpdate Update, float intervalTime, void* userData)
@@ -37,6 +37,7 @@ static inline Scheduler* GetScheduler(SchedulerUpdate Update, float intervalTime
     return scheduler;
 }
 
+
 static Scheduler* Schedule(SchedulerUpdate Update, float intervalTime, void* userData)
 {
     Scheduler* scheduler = GetScheduler(Update, intervalTime, userData);
@@ -44,12 +45,14 @@ static Scheduler* Schedule(SchedulerUpdate Update, float intervalTime, void* use
     return scheduler;
 }
 
+
 static Scheduler* ScheduleOnce(SchedulerUpdate Update, float intervalTime, void* userData)
 {
     Scheduler* scheduler = GetScheduler(Update, intervalTime, userData);
     scheduler->isCancel  = true;
     return scheduler;
 }
+
 
 static void Update(float deltaTime)
 {
