@@ -5,9 +5,7 @@
  *      Author: scott.cgi
  */
 
-
 #include "Engine/Extension/Extension.h"
-
 
 
 static void Init()

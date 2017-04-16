@@ -5,7 +5,6 @@
 #include "Engine/Extension/DrawAtlas.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 #include "Engine/Toolkit/Head/Struct.h"
-#include "Engine/Toolkit/Head/MacroDefine.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
 
@@ -97,6 +96,7 @@ static void Reuse(DrawAtlas* drawAtlas)
     AArrayListAdd(drawAtlasList, drawAtlas);
 }
 
+
 static void ReuseQuad(DrawAtlas* drawAtlas, Drawable* drawable)
 {
     SubMesh* subMesh = AStructGetParent2(drawable, SubMesh);
@@ -111,6 +111,7 @@ static void ReuseQuad(DrawAtlas* drawAtlas, Drawable* drawable)
     ADrawableSetInVisible(drawable);
     AArrayListAdd(drawAtlas->quadList, drawable);
 }
+
 
 struct ADrawAtlas ADrawAtlas[1] =
 {

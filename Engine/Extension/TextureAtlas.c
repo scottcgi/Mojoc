@@ -19,6 +19,7 @@
 
 static ArrayStrMap(filePath, TextureAtlas*) textureAtlasMap[1] = AArrayStrMapInit(TextureAtlas*, 10);
 
+
 static inline void ReadFind(char* buffer, ArrayRange* range, ArrayRange* line, const char* str)
 {
 	ABufferReader->ReadLine(buffer, range, line);
@@ -26,12 +27,14 @@ static inline void ReadFind(char* buffer, ArrayRange* range, ArrayRange* line, c
 	ALogA(isFound, "Can't find string = %s", str);
 }
 
+
 #define Read(str) ReadFind(buffer, range, line, str)
 
-static void Init(const char* filePath, TextureAtlas* outTextureAtlas)
+
+static void Init(const char* filePath, TextureAtlas* out_param textureAtlas)
 {
-	AArrayStrMap->InitWithCapacity(sizeof(TextureAtlasQuad),   20, outTextureAtlas->quadMap);
-	AArrayList  ->InitWithCapacity(sizeof(Texture*),           5,  outTextureAtlas->textureList);
+	AArrayStrMap->InitWithCapacity(sizeof(TextureAtlasQuad), 20, textureAtlas->quadMap);
+	AArrayList  ->InitWithCapacity(sizeof(Texture*),         5,  textureAtlas->textureList);
 
 	long  size;
 	char* buffer = AFileTool->ReadBufferPlatform(filePath, &size);
@@ -61,7 +64,7 @@ static void Init(const char* filePath, TextureAtlas* outTextureAtlas)
 		ALogD("texture atlas image = %s", path);
 
 		Texture* texture = ATexture->Get(path);
-		AArrayListAdd(outTextureAtlas->textureList, texture);
+		AArrayListAdd(textureAtlas->textureList, texture);
 
 		Read("size");
 		Read("format");
@@ -123,20 +126,22 @@ static void Init(const char* filePath, TextureAtlas* outTextureAtlas)
 			TextureAtlasQuad atlasQuad[1];
 			AQuad->Init(AGLToolToGLWidth(width), AGLToolToGLHeight(height), atlasQuad->quad);
 
-            atlasQuad->textureIndex         = outTextureAtlas->textureList->size - 1;
+            atlasQuad->textureIndex         = textureAtlas->textureList->size - 1;
             atlasQuad->quad->offsetTextureX = AGLToolToGLWidth (x);
             atlasQuad->quad->offsetTextureY = AGLToolToGLHeight(y);
-            atlasQuad->atlas                = outTextureAtlas;
+            atlasQuad->atlas                = textureAtlas;
 
-			AArrayStrMap->Put(outTextureAtlas->quadMap, textureQuadName, atlasQuad);
+			AArrayStrMap->Put(textureAtlas->quadMap, textureQuadName, atlasQuad);
 		}
 	}
 
-	AArrayList->Shrink(outTextureAtlas->quadMap->arrayList);
-	AArrayList->Shrink(outTextureAtlas->textureList);
+	AArrayList->Shrink(textureAtlas->quadMap->arrayList);
+	AArrayList->Shrink(textureAtlas->textureList);
 }
 
+
 #undef Read
+
 
 static void Release(TextureAtlas* textureAtlas)
 {
@@ -167,6 +172,7 @@ static TextureAtlas* Get(const char* filePath)
 
     return textureAtlas;
 }
+
 
 struct ATextureAtlas ATextureAtlas[1] =
 {

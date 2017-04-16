@@ -34,7 +34,7 @@
 
 
 /**
- * Marked variable can only set value
+ * Marked variable can only set value or call set method
  *
    the variable can not get directly
  * use function or macro to instead of get value

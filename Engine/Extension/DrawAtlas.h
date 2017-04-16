@@ -11,9 +11,9 @@
 
 typedef struct
 {
-    TextureAtlas*        textureAtlas;
-    Mesh                 mesh    [1];
-    ArrayList(Drawable*) quadList[1];
+    TextureAtlas*        get_only textureAtlas;
+    Mesh                 get_only mesh    [1];
+    ArrayList(Drawable*) get_only quadList[1];
 }
 DrawAtlas;
 
@@ -27,6 +27,7 @@ struct ADrawAtlas
     void       (*ReuseQuad)    (DrawAtlas*  drawAtlas, Drawable* drawable);
 };
 
+
 extern struct ADrawAtlas ADrawAtlas[1];
 
 
@@ -35,9 +36,11 @@ static inline void ADrawAtlasDraw(DrawAtlas* drawAtlas)
     AMeshDraw(drawAtlas->mesh);
 }
 
+
 static inline Drawable* ADrawAtlasGetDrawable(DrawAtlas* drawAtlas)
 {
     return drawAtlas->mesh->drawable;
 }
+
 
 #endif

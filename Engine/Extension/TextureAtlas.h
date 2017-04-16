@@ -14,21 +14,29 @@
 
 typedef struct
 {
-	/** Texture atlas quad info from file */
-	ArrayStrMap(atlasQuadName, TextureAtlasQuad) quadMap[1];
-	/** Textures in texture atlas */
-	ArrayList  (Texture*)                        textureList[1];
+	/**
+	 * Texture atlas quad info from file
+	 */
+	ArrayStrMap(atlasQuadName, TextureAtlasQuad) get_only quadMap[1];
 
-	const char*                                  filePath;
+	/**
+	 * Textures in texture atlas
+	 */
+	ArrayList  (Texture*)                        get_only  textureList[1];
+
+    /**
+     * Texture file path be key cached in ArrayStrMap which collect all TextureAtlas
+     */
+	const char*                                  get_only  filePath;
 }
 TextureAtlas;
 
 
 typedef struct
 {
-    TextureAtlas* atlas;
-    Quad          quad[1];
-    int           textureIndex;
+    TextureAtlas* get_only atlas;
+    Quad          get_only quad[1];
+    int           get_only textureIndex;
 }
 TextureAtlasQuad;
 
@@ -39,6 +47,7 @@ struct ATextureAtlas
 	void          (*Release)(TextureAtlas* textureAtlas);
 };
 
+
 extern struct ATextureAtlas ATextureAtlas[1];
 
 
@@ -46,6 +55,7 @@ static TextureAtlasQuad* ATextureAtlasGetQuad(TextureAtlas* atlas, const char* q
 {
     return AArrayStrMapGetPtr(atlas->quadMap, quadName, TextureAtlasQuad);
 }
+
 
 static Texture* ATextureAtlasGetQuadTexture(TextureAtlasQuad* atlasQuad)
 {

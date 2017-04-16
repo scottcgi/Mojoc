@@ -8,11 +8,14 @@
 
 #include "Engine/Toolkit/Toolkit.h"
 
+
 struct AExtension
 {
 	void (*Init)();
 };
 
+
 extern struct AExtension AExtension[1];
+
 
 #endif

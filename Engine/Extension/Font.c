@@ -12,7 +12,6 @@
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
 #include "Engine/Extension/Font.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Toolkit/Head/MacroDefine.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 
 
@@ -57,7 +56,6 @@ static Font* Get(const char* filePath)
 
 	return font;
 }
-
 
 
 static FontText* GetText(Font* font)
@@ -113,6 +111,7 @@ static inline TextureAtlasQuad* GetAtlasQuad(FontText* text, const char* str, in
 
     return atlasQuad;
 }
+
 
 static inline void SetNewChar(FontText* text, const char* str, int len)
 {
@@ -284,6 +283,7 @@ static void SetString(FontText* text, const char* str)
     }
 }
 
+
 static void SetInt(FontText* text, int num)
 {
 	// max int digits count
@@ -292,6 +292,7 @@ static void SetInt(FontText* text, int num)
 	AFont->SetString(text, buff);
 }
 
+
 static void SetFloat(FontText* text, float num)
 {
 	// max float digits count
@@ -299,6 +300,7 @@ static void SetFloat(FontText* text, float num)
     sprintf(buff,  "%.1f", num);
 	AFont->SetString(text, buff);
 }
+
 
 static void Reuse(Font* font)
 {

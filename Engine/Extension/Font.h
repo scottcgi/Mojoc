@@ -15,10 +15,10 @@
 
 typedef struct
 {
-	TextureAtlas*                       textureAtlas;
-	Mesh                                mesh             [1];
-    ArrayIntMap(fontTextPtr, FontText*) fontTextMap      [1];
-	ArrayList  (SubMesh*)               unusedSubMeshList[1];
+	TextureAtlas*                       get_only textureAtlas;
+	Mesh                                get_only mesh             [1];
+    ArrayIntMap(fontTextPtr, FontText*) get_only fontTextMap      [1];
+	ArrayList  (SubMesh*)               get_only unusedSubMeshList[1];
 }
 Font;
 
@@ -35,13 +35,20 @@ FontTextAlignment;
 
 typedef struct
 {
-	Font*               font;
-    /** Default font_text_alignment_horizontal_left */
-    FontTextAlignment   alignment;
-	/** Default 0 */
-    float               charSpacing;
-	Drawable            drawable       [1];
-	ArrayList(SubMesh*) usedSubMeshList[1];
+	Font*               get_only font;
+
+    /**
+     * Default font_text_alignment_horizontal_left
+     */
+    FontTextAlignment            alignment;
+
+	/**
+	 * Default 0
+	 */
+    float                        charSpacing;
+
+	Drawable                     drawable       [1];
+	ArrayList(SubMesh*) get_only usedSubMeshList[1];
 }
 FontText;
 
@@ -68,6 +75,8 @@ struct AFont
 	void      (*ReuseText)     (FontText* text);
 };
 
+
 extern struct AFont AFont[1];
+
 
 #endif

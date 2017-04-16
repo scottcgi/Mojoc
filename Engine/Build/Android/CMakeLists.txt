@@ -109,7 +109,6 @@ add_library(
 	../../Extension/Spine/SkeletonSlot.c
 	../../Extension/Spine/SkeletonAnimationPlayer.c
 
-	../../Extension/TiledMap/TiledMap.c
 	../../Extension/TextureAtlas.c
 	../../Extension/Font.c
 	../../Extension/DrawAtlas.c
