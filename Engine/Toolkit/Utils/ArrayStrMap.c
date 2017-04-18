@@ -1,8 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-5-20
- *      Author: scott.cgi
+ * Since  : 2013-5-20
+ * Author : scott.cgi
  */
 
 #include <string.h>
@@ -237,18 +237,18 @@ static void Release(ArrayStrMap* arrayStrMap)
 }
 
 
-static void InitWithCapacity(int typeSize, int capacity, ArrayStrMap* out_param arrayStrMap)
+static void InitWithCapacity(int typeSize, int capacity, ArrayStrMap* outArrayStrMap)
 {
 	if (capacity == 0)
 	{
-		AArrayList->Init(sizeof(ArrayStrMapElement*), arrayStrMap->arrayList);
+		AArrayList->Init(sizeof(ArrayStrMapElement*), outArrayStrMap->arrayList);
 	}
 	else
 	{
-		AArrayList->InitWithCapacity(sizeof(ArrayStrMapElement*), capacity, arrayStrMap->arrayList);
+		AArrayList->InitWithCapacity(sizeof(ArrayStrMapElement*), capacity, outArrayStrMap->arrayList);
 	}
 
-	arrayStrMap->typeSize = typeSize;
+	outArrayStrMap->typeSize = typeSize;
 }
 
 
@@ -261,9 +261,9 @@ static ArrayStrMap* CreateWithCapacity(int typeSize, int capacity)
 }
 
 
-static void Init(int typeSize, ArrayStrMap* out_param arrayStrMap)
+static void Init(int typeSize, ArrayStrMap* outArrayStrMap)
 {
-	InitWithCapacity(typeSize, 0, arrayStrMap);
+	InitWithCapacity(typeSize, 0, outArrayStrMap);
 }
 
 

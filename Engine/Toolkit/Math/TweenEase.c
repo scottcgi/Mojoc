@@ -1,7 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *  Created on: 2013-11-5
- *      Author: scott.cgi
+ * Since  : 2013-11-5
+ * Author : scott.cgi
  */
 
 #include "Engine/Toolkit/Math/TweenEase.h"

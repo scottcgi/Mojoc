@@ -28,96 +28,146 @@ typedef enum
 {
 	drawable_state_null                = 0,
 
-	/** Whether drawable is invisible */
+	/**
+	 * Whether drawable is invisible
+	 */
 	drawable_state_is_invisible        = 1,
 
-	/** Whether drawable mvp matrix need update */
+	/**
+	 * Whether drawable mvp matrix need update
+	 */
 	drawable_state_is_update_mvp       = 1 << 1,
 
-	/** Whether drawable calculate blendColor by parent */
+	/**
+	 * Whether drawable calculate blendColor by parent
+	 */
 	drawable_state_is_blend_color      = 1 << 2,
 
 //--------------------------------------------------------------------------------------------------
 
-	/** Flag drawable inverse matrix need update */
+	/**
+	 * Flag drawable inverse matrix need update
+	 */
 	drawable_state_update_inverse      = 1 << 3,
 
 //--------------------------------------------------------------------------------------------------
 
-	/** Flag drawable transform has changed */
+	/**
+	 * Flag drawable transform has changed
+	 */
 	drawable_state_transform_ed        = 1 << 4,
 
-	/** Flag drawable rgb has changed */
+	/**
+	 * Flag drawable rgb has changed
+	 */
 	drawable_state_rgb_ed              = 1 << 5,
 
-	/** Flag drawable opacity has changed */
+	/**
+	 * Flag drawable opacity has changed
+	 */
 	drawable_state_opacity_ed          = 1 << 6,
 
-	/** Flag drawable has been drawn */
+	/**
+	 * Flag drawable has been drawn
+	 */
 	drawable_state_draw_ed             = 1 << 7,
 
-	/** Flag drawable color has changed */
+	/**
+	 * Flag drawable color has changed
+	 */
 	drawable_state_color_ed            = drawable_state_rgb_ed  | drawable_state_opacity_ed,
 
 //--------------------------------------------------------------------------------------------------
 
-	/** Flag drawable parent change */
+	/**
+	 * Flag drawable parent change
+	 */
 	drawable_state_parent              = 1 << 8,
 
 //--------------------------------------------------------------------------------------------------
 
-	/** Flag drawable position x change */
+	/**
+	 * Flag drawable position x change
+	 */
 	drawable_state_position_x          = 1 << 9,
 
-	/** Flag drawable position y change */
+	/**
+	 * Flag drawable position y change
+	 */
 	drawable_state_position_y          = 1 << 10,
 
-	/** Flag drawable position z change */
+	/**
+	 * Flag drawable position z change
+	 */
 	drawable_state_position_z          = 1 << 11,
 
-	/** Flag drawable position x and y change */
+	/**
+	 * Flag drawable position x and y change
+	 */
 	drawable_state_position2           = drawable_state_position_x | drawable_state_position_y,
 
 //--------------------------------------------------------------------------------------------------
 
-	/** Flag drawable scale x change */
+	/**
+	 * Flag drawable scale x change
+	 */
 	drawable_state_scale_x             = 1 << 12,
 
-	/** Flag drawable scale y change */
+	/**
+	 * Flag drawable scale y change
+	 */
 	drawable_state_scale_y             = 1 << 13,
 
-	/** Flag drawable scale z change */
+	/**
+	 * Flag drawable scale z change
+	 */
 	drawable_state_scale_z             = 1 << 14,
 
-	/** Flag drawable scale x and y change*/
+	/**
+	 * Flag drawable scale x and y change
+	 */
 	drawable_state_scale2              = drawable_state_scale_x | drawable_state_scale_y,
 
 //--------------------------------------------------------------------------------------------------
 
-	/** Flag drawable rotation x change */
+	/**
+	 * Flag drawable rotation x change
+	 */
 	drawable_state_rotation_x          = 1 << 15,
 
-	/** Flag drawable rotation x change */
+	/**
+	 * Flag drawable rotation x change
+	 */
 	drawable_state_rotation_y          = 1 << 16,
 
-	/** Flag drawable rotation x change */
+	/**
+	 * Flag drawable rotation x change
+	 */
 	drawable_state_rotation_z          = 1 << 17,
 
 //--------------------------------------------------------------------------------------------------
 
-	/** Flag drawable rgb change */
+	/**
+	 * Flag drawable rgb change
+	 */
 	drawable_state_rgb                 = 1 << 18,
 
-	/** Flag drawable opacity change */
+	/**
+	 * Flag drawable opacity change
+	 */
 	drawable_state_opacity             = 1 << 19,
 
-	/** Flag drawable color change */
+	/**
+	 * Flag drawable color change
+	 */
 	drawable_state_color               = drawable_state_rgb | drawable_state_opacity,
 
 //--------------------------------------------------------------------------------------------------
 
 
-	/** Flag drawable position scale rotate translate parent change */
+	/**
+	 * Flag drawable position scale rotate translate parent change
+	 */
 	drawable_state_transform           = drawable_state_parent     |
 			  	  	  	  	  	  	  	 drawable_state_position_x |
 										 drawable_state_position_y |
@@ -129,7 +179,9 @@ typedef enum
 										 drawable_state_rotation_y |
 										 drawable_state_rotation_z,
 
-	/** Flag drawable state change */
+	/**
+	 * Flag drawable state change
+	 */
 	drawable_state_change              = drawable_state_transform |
 								         drawable_state_color,
 }
@@ -178,7 +230,7 @@ struct  Drawable
 	 /**
 	  * Each [0.0f, 1.0f], default (1.0f, 1.0f, 1.0f, 1.0f)
 	  */
-	 Color     get_only color[1];
+	 Color     get_only color        [1];
 
 	 /**
 	  * If set drawable_state_is_blend_color

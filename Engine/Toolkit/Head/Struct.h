@@ -1,12 +1,13 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2014-12-22
- *      Author: scott.cgi
+ * Since  : 2014-12-22
+ * Author : scott.cgi
  */
 
 #ifndef struct_h
 #define struct_h
+
 
 #include <stddef.h>
 

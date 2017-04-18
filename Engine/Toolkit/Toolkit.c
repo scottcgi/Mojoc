@@ -1,12 +1,11 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *  Created on: 2014-9-8-
- *      Author: scott.cgi
+ * Since  : 2014-9-8
+ * Author : scott.cgi
  */
 
-
 #include <stdbool.h>
-
 #include "Engine/Toolkit/Toolkit.h"
 #include "Engine/Toolkit/Platform/Log.h"
 

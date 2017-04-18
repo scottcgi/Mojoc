@@ -1,8 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-08-29
- *      Author: scott.cgi
+ * Since  : 2013-08-29
+ * Author : scott.cgi
  */
 
 #include "Engine/Toolkit/Platform/Platform.h"
@@ -21,7 +21,7 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-static File* Open(const char* filePath)
+static File* Open(char* filePath)
 {
     NSString* fpath = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:filePath] ofType:@""];
     FILE*     file  = fopen([fpath cStringUsingEncoding:NSMacOSRomanStringEncoding], "rb");
@@ -32,7 +32,7 @@ static File* Open(const char* filePath)
 }
 
 
-static int OpenFileDescriptor(const char* filePath, long* out_param start, long* out_param length)
+static int OpenFileDescriptor(char* filePath, long* outStart, long* outLength)
 {
     ALogA(NULL, "AFile OpenFileDescriptor not supported !");
     return 0;

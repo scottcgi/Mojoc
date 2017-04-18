@@ -22,14 +22,14 @@ TweenActionValueGetSet;
 
 struct ATweenActionValueGetSetImpl
 {
-    TweenActionValueGetSet set_required moveX  [1];
-    TweenActionValueGetSet set_required moveY  [1];
+    TweenActionValueGetSet moveX  [1];
+    TweenActionValueGetSet moveY  [1];
 
-    TweenActionValueGetSet set_required scaleX [1];
-    TweenActionValueGetSet set_required scaleY [1];
+    TweenActionValueGetSet scaleX [1];
+    TweenActionValueGetSet scaleY [1];
 
-    TweenActionValueGetSet set_required rotateZ[1];
-    TweenActionValueGetSet set_required fadeTo [1];
+    TweenActionValueGetSet rotateZ[1];
+    TweenActionValueGetSet fadeTo [1];
 };
 
 
@@ -89,7 +89,7 @@ struct ATweenTool
 	/**
 	 * Get TweenAction in current context
 	 */
-	struct ATweenTool* (*GetAction)    (TweenAction** out_param actionPtr);
+	struct ATweenTool* (*GetAction)    (TweenAction**           outActionPtr);
 
 
 /*

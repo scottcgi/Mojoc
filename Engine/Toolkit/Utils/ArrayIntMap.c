@@ -1,8 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-5-20
- *      Author: scott.cgi
+ * Since  : 2013-5-20
+ * Author : scott.cgi
  */
 
 #include <string.h>
@@ -15,6 +15,7 @@
 
 #define CheckIndex(tag) \
 	ALogA(index >= 0 && index <  arrayIntMap->arrayList->size, "ArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->arrayList->size);
+
 
 #define CheckInsertIndex(tag) \
 	ALogA(index >= 0 && index <= arrayIntMap->arrayList->size, "ArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->arrayList->size);
@@ -216,18 +217,18 @@ static void Release(ArrayIntMap* arrayIntMap)
 }
 
 
-static void InitWithCapacity(int typeSize, int capacity, ArrayIntMap* out_param arrayIntMap)
+static void InitWithCapacity(int typeSize, int capacity, ArrayIntMap* outArrayIntMap)
 {
 	if (capacity == 0)
 	{
-		AArrayList->Init(sizeof(ArrayIntMapElement*), arrayIntMap->arrayList);
+		AArrayList->Init(sizeof(ArrayIntMapElement*), outArrayIntMap->arrayList);
 	}
 	else
 	{
-		AArrayList->InitWithCapacity(sizeof(ArrayIntMapElement*), capacity, arrayIntMap->arrayList);
+		AArrayList->InitWithCapacity(sizeof(ArrayIntMapElement*), capacity, outArrayIntMap->arrayList);
 	}
 
-	arrayIntMap->typeSize = typeSize;
+	outArrayIntMap->typeSize = typeSize;
 }
 
 

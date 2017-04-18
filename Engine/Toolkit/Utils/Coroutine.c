@@ -1,6 +1,9 @@
-//
-// Created by scottcgi on 2016/11/13.
-//
+/*
+ * Copyright (C) scott.cgi All Rights Reserved.
+ *
+ * Since  : 2016/11/13
+ * Author : scott.cgi
+ */
 
 #include <stdlib.h>
 #include "Engine/Toolkit/Head/MacroDefine.h"

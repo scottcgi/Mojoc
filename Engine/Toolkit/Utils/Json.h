@@ -1,8 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-5-29
- *      Author: scott-cgi
+ * Since  : 2013-1-26
+ * Author : scott.cgi
  */
 
 #ifndef json_h
@@ -40,29 +40,29 @@ JsonArray;
 
 typedef struct
 {
-	JsonType get_only type;
+	JsonType type;
 
 	union
 	{
 		/**
 		 * json_string
 		 */
-		char*       get_only  stringValue;
+		char*       stringValue;
 
 		/**
 		 * json_object
 		 */
-		JsonObject* get_only  object;
+		JsonObject* object;
 
 		/**
 		 * json_array
 		 */
-		JsonArray*  get_only  array;
+		JsonArray*  array;
 
 		/**
 		 * json_float
 		 */
-		float       get_only  floatValue;
+		float       floatValue;
 	};
 }
 JsonValue;
@@ -70,25 +70,25 @@ JsonValue;
 
 struct AJsonObject
 {
-	bool        (*GetBool)         (JsonObject* object, const char* key, bool  defaultValue);
-	int         (*GetInt)          (JsonObject* object, const char* key, int   defaultValue);
-	float       (*GetFloat)        (JsonObject* object, const char* key, float defaultValue);
-	JsonType    (*GetType)         (JsonObject* object, const char* key);
+	bool        (*GetBool)         (JsonObject* object, char* key, bool  defaultValue);
+	int         (*GetInt)          (JsonObject* object, char* key, int   defaultValue);
+	float       (*GetFloat)        (JsonObject* object, char* key, float defaultValue);
+	JsonType    (*GetType)         (JsonObject* object, char* key);
 
 	/**
 	 * When JsonValue released string value will free
 	 */
-    const char* (*GetString)       (JsonObject* object, const char* key, char* defaultValue);
+    const char* (*GetString)       (JsonObject* object, char* key, char* defaultValue);
 
 	/**
 	 * Not found return NULL
 	 */
-	JsonObject* (*GetObject)       (JsonObject* object, const char* key);
+	JsonObject* (*GetObject)       (JsonObject* object, char* key);
 
 	/**
 	 * Not found return NULL
 	 */
-	JsonArray*  (*GetArray)        (JsonObject* object, const char* key);
+	JsonArray*  (*GetArray)        (JsonObject* object, char* key);
 
     /**
      * Get JsonObject key
@@ -135,12 +135,12 @@ struct AJson
 	/**
 	 * Parse with Json string, return root JsonValue
 	 */
-	JsonValue* (*Parse)         (const char* jsonString);
+	JsonValue* (*Parse)         (char* jsonString);
 
 	/**
 	 * Parse with Json file, return root JsonValue
 	 */
-	JsonValue* (*ParseWithFile) (const char* jsonPath);
+	JsonValue* (*ParseWithFile) (char* jsonPath);
 
 	/**
 	 * Release JsonValue member memory space and free itself

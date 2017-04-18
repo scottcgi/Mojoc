@@ -1,8 +1,8 @@
-/**
+/*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- * Created on: 2012-12-20
- * Author: scott.cgi
+ * Since  : 2012-12-20
+ * Author : scott.cgi
  */
 
 #ifndef log_h

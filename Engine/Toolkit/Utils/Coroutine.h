@@ -1,9 +1,13 @@
-//
-// Created by scott.cgi on 2016-11-13.
-//
+/*
+ * Copyright (C) scott.cgi All Rights Reserved.
+ *
+ * Since  : 2016-11-13
+ * Author : scott.cgi
+ */
 
 #ifndef coroutine_h
 #define coroutine_h
+
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Toolkit/Head/MacroDefine.h"
@@ -63,43 +67,43 @@ struct Coroutine
     /**
      * Record coroutine run step
      */
-    void*             get_only  step;
+    void*                 step;
 
     /**
      * Coroutine implement function
      */
-    CoroutineRun      get_only  Run;
+    CoroutineRun          Run;
 
     /**
      * Coroutine current state
      */
-    CoroutineState    get_only  state;
+    CoroutineState        state;
 
     /**
      * Coroutine wait value to execute
      */
-    float             get_only  waitValue;
+    float                 waitValue;
 
     /**
      * Record wait progress
      */
-    float             get_only  curWaitValue;
+    float                 curWaitValue;
 
     /**
-     * Coroutine wait types
+     * Coroutine wait type
      */
-    CoroutineWaitType get_only  waitType;
+    CoroutineWaitType     waitType;
 
     /**
      * Hold params for CoroutineRun to get
      * when coroutine finish clear but the param create memory control yourself
      */
-    ArrayList(void*)            params[1];
+    ArrayList(void*)      params[1];
 
     /**
      * Hold Coroutines wait for this Coroutine to finish
      */
-    ArrayList(Coroutine*)       waits [1];
+    ArrayList(Coroutine*) waits [1];
 };
 
 
@@ -115,6 +119,7 @@ struct ACoroutine
      */
     void       (*Update)        (float deltaTime);
 };
+
 
 extern struct ACoroutine ACoroutine[1];
 
@@ -156,6 +161,11 @@ extern struct ACoroutine ACoroutine[1];
     coroutine->state = coroutine_state_finish
 
 
+/**
+ * Called between ACoroutineBegin and ACoroutineEnd
+ *
+ * waitFrameCount: CoroutineRun wait frames and running again
+ */
 #define ACoroutineYieldFrame(waitFrameCount)               \
     coroutine->waitValue    = waitFrameCount;              \
     coroutine->curWaitValue = 0.0f;                        \
@@ -165,6 +175,11 @@ extern struct ACoroutine ACoroutine[1];
     ACoroutineLabel(__LINE__):
 
 
+/**
+ * Called between ACoroutineBegin and ACoroutineEnd
+ *
+ * waitSecond: CoroutineRun wait seconds and running again
+ */
 #define ACoroutineYieldSecond(waitSecond)                  \
     coroutine->waitValue    = waitSecond;                  \
     coroutine->curWaitValue = 0.0f;                        \
@@ -174,6 +189,11 @@ extern struct ACoroutine ACoroutine[1];
     ACoroutineLabel(__LINE__):
 
 
+/**
+ * Called between ACoroutineBegin and ACoroutineEnd
+ *
+ * waitCoroutine: CoroutineRun wait other Coroutine finished and running again
+ */
 #define ACoroutineYieldCoroutine(waitCoroutine)            \
     coroutine->waitValue    = 0.0f;                        \
     coroutine->curWaitValue = 0.0f;                        \
@@ -184,6 +204,10 @@ extern struct ACoroutine ACoroutine[1];
     ACoroutineLabel(__LINE__):
 
 
+/**
+ * Called between ACoroutineBegin and ACoroutineEnd
+ * sotp coroutine running
+ */
 #define ACoroutineYieldBreak()                 \
     coroutine->state = coroutine_state_finish; \
     return

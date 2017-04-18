@@ -1,12 +1,13 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-2-4
- *  Author: scott.cgi
+ * Since  : 2013-2-4
+ * Author : scott.cgi
  */
 
 #ifndef array_list_h
 #define array_list_h
+
 
 #include "Engine/Toolkit/Utils/Array.h"
 
@@ -16,24 +17,24 @@ typedef struct
 	/**
 	 * Increase memory space, default 10
 	 */
-	int            increase;
+	int    increase;
 
 	/**
 	 * Hold memory data, the length is memory capacity
 	 * if increase capacity, memory data will realloc
 	 * so the data address may changed
 	 */
-	Array get_only array[1];
+	Array  array[1];
 
 	/**
 	 * The sizeof element type
 	 */
-	int	  get_only typeSize;
+	int	   typeSize;
 
 	/**
 	 * Element count
 	 */
-	int   get_only size;
+	int    size;
 }
 ArrayList;
 
@@ -41,17 +42,14 @@ ArrayList;
 struct AArrayList
 {
 	ArrayList* (*Create)            (int typeSize);
-	void       (*Init)              (int typeSize, ArrayList* out_param arrayList);
+	void       (*Init)              (int typeSize, ArrayList* outArrayList);
 
 	ArrayList* (*CreateWithSize)    (int typeSize, int size);
-	void       (*InitWithSize)      (int typeSize, int size, ArrayList* out_param arrayList);
+	void       (*InitWithSize)      (int typeSize, int size, ArrayList* outArrayList);
 
 	ArrayList* (*CreateWithCapacity)(int typeSize, int capacity);
-	void       (*InitWithCapacity)  (int typeSize, int capacity, ArrayList* out_param arrayList);
+	void       (*InitWithCapacity)  (int typeSize, int capacity, ArrayList* outArrayList);
 
-	/**
-	 * Release member memory space
-	 */
 	void       (*Release)           (ArrayList*  arrayList);
 
 	/**
@@ -64,14 +62,16 @@ struct AArrayList
 	 * Increase one element memory (typeSize data) at the index
 	 * and move index behind elements one position
 	 *
-	 * index is which in [0, size - 1]
+	 * index: range in [0, size - 1]
+	 *
 	 * return elementPtr point the increase element
 	 */
 	void*      (*GetInsert)         (ArrayList* arrayList, int index);
 
 	/**
 	 * Copy element data into getAdd memory
-	 * elementPtr point to element
+	 *
+	 * elementPtr: point to element
 	 *
 	 * return elementPtr in ArrayList
 	 */
@@ -79,7 +79,8 @@ struct AArrayList
 
 	/**
 	 * Copy element data into getInsert memory
-	 * elementPtr point to element
+	 *
+	 * elementPtr: point to element
 	 *
 	 * return elementPtr in ArrayList
 	 */
@@ -138,13 +139,15 @@ extern struct AArrayList AArrayList[1];
 
 
 /**
- * The type is the ArrayList element type
+ * Marked ArrayList element type
+ *
+ * type: element data type
  */
 #define ArrayList(type) ArrayList
 
 
 /**
- * Initialize constant ArrayList, macro can use type parameter
+ * Initialize constant ArrayList
  */
 #define AArrayListInit(type, increase) \
 	{                                  \

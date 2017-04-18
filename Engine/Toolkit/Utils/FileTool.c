@@ -13,7 +13,7 @@
 #include "Engine/Toolkit/Platform/File.h"
 
 
-static FILE* Open(const char* filePath)
+static FILE* Open(char* filePath)
 {
     FILE* file = fopen(filePath, "rb");
     ALogA(file != NULL, "AFileTool open error, file path = %s", filePath);
@@ -50,7 +50,7 @@ static int Seek(FILE* file, long offset, int whence)
 }
 
 
-static char* ReadBuffer(const char* filePath, long* outLength)
+static char* ReadBuffer(char* filePath, long* outLength)
 {
     void* file   = Open(filePath);
     long  length = GetLength(file);
@@ -64,7 +64,7 @@ static char* ReadBuffer(const char* filePath, long* outLength)
 }
 
 
-static char* ReadString(const char* filePath)
+static char* ReadString(char* filePath)
 {
     void* file     = Open(filePath);
     long  length   = GetLength(file);
@@ -78,7 +78,7 @@ static char* ReadString(const char* filePath)
 }
 
 
-static int GetDirLength(const char* filePath)
+static int GetDirLength(char* filePath)
 {
     char* lastForwardSlash  = strrchr(filePath, '/');
     char* lastBackwardSlash = strrchr(filePath, '\\');
@@ -99,7 +99,7 @@ static int GetDirLength(const char* filePath)
 //--------------------------------------------------------------------------------------------------
 
 
-static char* ReadBufferPlatform(const char* filePath, long* outLength)
+static char* ReadBufferPlatform(char* filePath, long* outLength)
 {
     File* file   = AFile->Open(filePath);
     long  length = AFile->GetLength(file);
@@ -113,7 +113,7 @@ static char* ReadBufferPlatform(const char* filePath, long* outLength)
 }
 
 
-static char* ReadStringPlatform(const char* filePath)
+static char* ReadStringPlatform(char* filePath)
 {
     File* file     = AFile->Open(filePath);
     long  length   = AFile->GetLength(file);

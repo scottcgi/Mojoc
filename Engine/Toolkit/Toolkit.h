@@ -1,8 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2014-9-8
- *      Author: scott.cgi
+ * Since  : 2014-9-8
+ * Author : scott.cgi
  */
 
 #ifndef tool_kit_h

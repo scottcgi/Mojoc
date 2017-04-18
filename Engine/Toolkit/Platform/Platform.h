@@ -1,8 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2015-5-6
- *      Author: scott.cgi
+ * Since  : 2015-5-6
+ * Author : scott.cgi
  */
 
 #ifndef platform_h

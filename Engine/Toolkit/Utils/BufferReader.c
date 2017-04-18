@@ -1,8 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-4-6
- *      Author: scott.cgi
+ * Since  : 2013-4-6
+ * Author : scott.cgi
  */
 
 #include "Engine/Toolkit/Utils/BufferReader.h"

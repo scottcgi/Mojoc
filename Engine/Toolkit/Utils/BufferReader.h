@@ -1,12 +1,13 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-4-6
- *      Author: scott.cgi
+ * Since  : 2013-4-6
+ * Author : scott.cgi
  */
 
 #ifndef buffer_reader_h
 #define buffer_reader_h
+
 
 #include <stdbool.h>
 #include <stdint.h>

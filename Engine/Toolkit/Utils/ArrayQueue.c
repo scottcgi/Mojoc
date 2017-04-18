@@ -1,7 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *  Created on: 2015-6-5
- *      Author: scott.cgi
+ * Since  : 2015-6-5
+ * Author : scott.cgi
  */
 
 #include <stdlib.h>
@@ -52,18 +53,18 @@ static void Release(ArrayQueue* arrayQueue)
 }
 
 
-static void InitWithCapacity(int typeSize, int capacity, ArrayQueue* out_param arrayQueue)
+static void InitWithCapacity(int typeSize, int capacity, ArrayQueue* outArrayQueue)
 {
 	if (capacity == 0)
 	{
-		AArrayList->Init(typeSize, arrayQueue->arrayList);
+		AArrayList->Init(typeSize, outArrayQueue->arrayList);
 	}
 	else
 	{
-		AArrayList->InitWithCapacity(typeSize, capacity, arrayQueue->arrayList);
+		AArrayList->InitWithCapacity(typeSize, capacity, outArrayQueue->arrayList);
 	}
 
-	arrayQueue->topIndex = 0;
+	outArrayQueue->topIndex = 0;
 }
 
 
@@ -76,9 +77,9 @@ static ArrayQueue* CreateWithCapacity(int typeSize, int capacity)
 }
 
 
-static void Init(int typeSize, ArrayQueue* out_param arrayQueue)
+static void Init(int typeSize, ArrayQueue* outArrayQueue)
 {
-	InitWithCapacity(typeSize, 0, arrayQueue);
+	InitWithCapacity(typeSize, 0, outArrayQueue);
 }
 
 

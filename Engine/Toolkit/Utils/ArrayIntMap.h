@@ -1,43 +1,46 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-5-27
- *      Author: scott.cgi
+ * Since  : 2013-5-27
+ * Author : scott.cgi
  */
 
 #ifndef array_int_map_h
 #define array_int_map_h
 
+
 #include <stdbool.h>
 #include <stdint.h>
-
 #include "Engine/Toolkit/Utils/ArrayList.h"
 
 
 typedef struct
 {
 	/**
-	 * Can use pointer be key
+	 * Identity and search ArrayIntMap value
 	 */
-	intptr_t get_only key;
+	intptr_t key;
 
 	/**
 	 * ArrayIntMap value pointer
-	 * value data copy into ArrayIntMapElement
+	 * value data copy into ArrayIntMapElement memory space
 	 */
-	void*    get_only valuePtr;
+	void*    valuePtr;
 }
 ArrayIntMapElement;
 
 
 typedef struct
 {
-	ArrayList get_only arrayList[1];
+    /**
+     * Hold all ArrayIntMapElement
+     */
+	ArrayList arrayList[1];
 
 	/**
-	 * ArrayIntMap value type's sizeof
+	 * sizeof ArrayIntMap value type
 	 */
-	int       get_only typeSize;
+	int       typeSize;
 }
 ArrayIntMap;
 
@@ -45,20 +48,18 @@ ArrayIntMap;
 struct AArrayIntMap
 {
 	ArrayIntMap* (*Create)            (int typeSize);
-	void         (*Init)              (int typeSize, ArrayIntMap* out_param arrayIntMap);
+	void         (*Init)              (int typeSize, ArrayIntMap* outArrayIntMap);
 
 	ArrayIntMap* (*CreateWithCapacity)(int typeSize, int capacity);
-	void         (*InitWithCapacity)  (int typeSize, int capacity, ArrayIntMap* out_param arrayIntMap);
+	void         (*InitWithCapacity)  (int typeSize, int capacity, ArrayIntMap* outArrayIntMap);
 
-	/**
-	 * Release member memory space
-	 */
 	void         (*Release)           (ArrayIntMap*  arrayIntMap);
 
 	/**
 	 * Put key and value from valuePtr into ArrayIntMap
 	 *
-	 * valuePtr point to value
+	 * valuePtr: point to value, value data copy in ArrayIntMapElement
+	 *
 	 * return valuePtr in ArrayIntMap
 	 */
 	void*        (*Put)               (ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr);
@@ -145,13 +146,13 @@ static inline void AArrayIntMapSetIncrease(ArrayIntMap* arrayIntMap, int increas
 
 
 /**
- * The type is the ArrayIntMap value type *
+ * Marked ArrayIntMap key and value
  */
 #define ArrayIntMap(keyName, valueType) ArrayIntMap
 
 
 /**
- * Initialize constant ArrayIntMap, macro can use type parameter
+ * Initialize constant ArrayIntMap
  * use like ArrayIntMap map[1] = AArrayIntMapInit(type, increase)
  */
 #define AArrayIntMapInit(type, increase)                    \
@@ -221,5 +222,6 @@ static inline void AArrayIntMapSetIncrease(ArrayIntMap* arrayIntMap, int increas
  */
 #define AArrayIntMapSetAt(arrayIntMap, index, value) \
 	AArrayIntMap->SetAt(arrayIntMap, index, &(value))
+
 
 #endif

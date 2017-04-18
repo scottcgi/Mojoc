@@ -1,8 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2017-03-20
- *      Author: scott.cgi
+ * Since  : 2017-03-20
+ * Author : scott.cgi
  */
 
 #ifndef file_tool_h
@@ -18,7 +18,7 @@ struct AFileTool
 	/**
 	 * The filePath is absolute path
 	 */
-    FILE* (*Open)              (const char* filePath);
+    FILE* (*Open)              (char* filePath);
 
 	/**
 	 * Close an opened file connection, free any related resources
@@ -48,7 +48,7 @@ struct AFileTool
 	 * read all file data into buffer with it length, with close file
 	 * return buffer pointer
 	 */
-	char* (*ReadBuffer)        (const char* filePath, long* outLength);
+	char* (*ReadBuffer)        (char* filePath, long* outLength);
 
 	/**
 	 * The filePath is absolute path
@@ -56,13 +56,13 @@ struct AFileTool
 	 * read all file data into buffer with '\0' end with close file
 	 * return buffer pointer
 	 */
-	char* (*ReadString)        (const char* filePath);
+	char* (*ReadString)        (char* filePath);
 
 	/**
 	 * Get file directory length in file path, include last slash '/' or '\\'
 	 * if no directory return 0
 	 */
-	int   (*GetDirLength)      (const char* filePath);
+	int   (*GetDirLength)      (char* filePath);
 
 //--------------------------------------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ struct AFileTool
      * read all file data into buffer with it length, with close file
      * return buffer pointer
      */
-    char* (*ReadBufferPlatform)(const char* filePath, long* outLength);
+    char* (*ReadBufferPlatform)(char* filePath, long* outLength);
 
     /**
      * The filePath is relative path, indirect use AFile
@@ -80,7 +80,7 @@ struct AFileTool
      * read all file data into buffer with '\0' end with close file
      * return buffer pointer
      */
-    char* (*ReadStringPlatform)(const char* filePath);
+    char* (*ReadStringPlatform)(char* filePath);
 };
 
 

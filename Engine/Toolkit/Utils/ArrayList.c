@@ -1,10 +1,9 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-2-4
- *  Author: scott.cgi
+ * Since  : 2013-2-4
+ * Author : scott.cgi
  */
-
 
 #include <string.h>
 #include <stdlib.h>
@@ -15,6 +14,7 @@
 
 #define CheckIndex(tag, index) \
 	ALogA(((index) < arrayList->size && (index) >= 0),  "ArrayList " tag " error, " #index " = %d, size = %d", index, arrayList->size);
+
 
 #define CheckInsertIndex(tag) \
 	ALogA(((index) <= arrayList->size && (index) >= 0), "ArrayList " tag " error, index = %d, size = %d", index, arrayList->size);
@@ -105,7 +105,7 @@ static void* Get(ArrayList* arrayList, int index)
 */
 
 
-/*-
+/*
 ----------------------------------------------------------------------------------------------------
 // use macro instead
 static void Set(ArrayList* arrayList, int index, void* elementPtr)
@@ -332,9 +332,9 @@ static ArrayList* Create(int typeSize)
 }
 
 
-static void init(int typeSize, ArrayList* out_param arrayList)
+static void init(int typeSize, ArrayList* outArrayList)
 {
-	InitArrayList(typeSize, arrayList);
+	InitArrayList(typeSize, outArrayList);
 }
 
 
@@ -347,10 +347,10 @@ static ArrayList* CreateWithSize(int typeSize, int size)
 }
 
 
-static void InitWithSize(int typeSize, int size, ArrayList* out_param arrayList)
+static void InitWithSize(int typeSize, int size, ArrayList* outArrayList)
 {
-	InitArrayList(typeSize, arrayList);
-	SetSize(arrayList, size);
+	InitArrayList(typeSize, outArrayList);
+	SetSize(outArrayList, size);
 }
 
 

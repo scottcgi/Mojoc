@@ -1,12 +1,13 @@
 /*
- * Tween.h
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *  Created on: 2016-6-8
- *      Author: scott.cgi
+ * Since  : 2016-6-8
+ * Author : scott.cgi
  */
 
 #ifndef tween_h
 #define tween_h
+
 
 #include <stddef.h>
 #include <stdbool.h>
@@ -21,43 +22,43 @@ typedef void  (*TweenActionValueOnSet)(void* target, float value);
 
 typedef struct
 {
-	void*                              userData;
+	void*                 userData;
 
     /**
      * The action will reach to this value
      * depend on isRelative
      */
-	float                              value;
+	float                 value;
 
     /**
      * The action start from this value
      */
-	float  get_only                    fromValue;
+	float                 fromValue;
 
     /**
      * The final value action will reach to
      */
-	float  get_only                    toValue;
+	float                 toValue;
 
 	/**
 	 * When TweenAction's target value need to be get
 	 */
-	TweenActionValueOnGet set_required OnGet;
+	TweenActionValueOnGet OnGet;
 
 	/**
 	 * When TweenAction's target value need to be set
 	 */
-	TweenActionValueOnSet set_required OnSet;
+	TweenActionValueOnSet OnSet;
 
 	/**
 	 * The motion is relative or absolute default true
 	 */
-	bool                               isRelative;
+	bool                  isRelative;
 
 	/**
 	 * Default tween_ease_linear
 	 */
-	TweenEaseType                      easeType;
+	TweenEaseType         easeType;
 }
 TweenActionValue;
 

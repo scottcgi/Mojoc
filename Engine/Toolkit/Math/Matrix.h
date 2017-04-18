@@ -1,8 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-1-6
- *  Author: scott.cgi
+ * Since  : 2013-1-6
+ * Author : scott.cgi
  */
 
 #ifndef matrix_h
@@ -42,30 +42,30 @@ Matrix4;
 struct AMatrix
 {
 	/**
-     * Multiply left and right matrix4 into matrix4
+     * Multiply left and right matrix4 into outMatrix4
      */
-    void  (*MultiplyMM)      (Matrix4* left, Matrix4* right, Matrix4* out_param matrix4);
+    void  (*MultiplyMM)      (Matrix4* left, Matrix4* right, Matrix4* outMatrix4);
 
 	/**
-     * Multiply m2 and m3  into m23
-     * Multiply m1 and m23 into m231
+     * Multiply m2 and m3  into outM23
+     * Multiply m1 and m23 into outM231
      */
-    void  (*MultiplyMMM)     (Matrix4* m1, Matrix4* m2, Matrix4* m3, Matrix4* out_param m23, Matrix4* out_param m231);
+    void  (*MultiplyMMM)     (Matrix4* m1, Matrix4* m2, Matrix4* m3, Matrix4* outM23, Matrix4* outM231);
 
     /**
-     * Multiply matrix4 * vector4 into vector4
+     * Multiply matrix4 * vector4 into outVector4
      */
-    void  (*MultiplyMV4)     (Matrix4* matrix4, float x, float y, float z, float w, Vector4* out_param vector4);
+    void  (*MultiplyMV4)     (Matrix4* matrix4, float x, float y, float z, float w, Vector4* outVector4);
 
     /**
-     * Multiply matrix4 * vector3, w default 1.0f into vector3
+     * Multiply matrix4 * vector3, w default 1.0f into outVector3
      */
-    void  (*MultiplyMV3)     (Matrix4* matrix4, float x, float y, float z, Vector3* out_param vector3);
+    void  (*MultiplyMV3)     (Matrix4* matrix4, float x, float y, float z, Vector3* outVector3);
 
     /**
-     * Multiply matrix4 * vector2, z and w default 1.0f into vector2
+     * Multiply matrix4 * vector2, z and w default 1.0f into outVector2
      */
-    void  (*MultiplyMV2)     (Matrix4* matrix4, float x, float y, Vector2* out_param vector2);
+    void  (*MultiplyMV2)     (Matrix4* matrix4, float x, float y, Vector2* outVector2);
 
     /**
      * Multiply matrix4 * x, return transformed x
@@ -108,51 +108,51 @@ struct AMatrix
     void  (*Scale)           (Matrix4* matrix4, float x, float y, float z);
 
     /**
-     *  Invert matrix4 into inverse
+     *  Invert matrix4 into outInverse
      */
-    void  (*Inverse)         (Matrix4* matrix4, Matrix4* out_param inverse);
+    void  (*Inverse)         (Matrix4* matrix4, Matrix4* outInverse);
 
     /**
-     * Transpose matrix4 into transpose
+     * Transpose matrix4 into outTranspose
      */
-    void  (*Transpose)       (Matrix4* matrix4, Matrix4* out_param transpose);
+    void  (*Transpose)       (Matrix4* matrix4, Matrix4* outTranspose);
 
     /**
-     * Invert transpose matrix4 into inverseTranspose
+     * Invert transpose matrix4 into outInverseTranspose
      */
-    void  (*InverseTranspose)(Matrix4* matrix4, Matrix4* out_param inverseTranspose);
+    void  (*InverseTranspose)(Matrix4* matrix4, Matrix4* outInverseTranspose);
 
     /**
      * Computes an orthogonal projection matrix4
      */
     void  (*Ortho)           (
-                                float              left,
-                                float              right,
-                                float              bottom,
-                                float              top,
-                                float              near,
-                                float              far,
-                                Matrix4* out_param projection
+                                float    left,
+                                float    right,
+                                float    bottom,
+                                float    top,
+                                float    near,
+                                float    far,
+                                Matrix4* outProjection
                              );
 
     /**
      * Define a projection matrix4 in terms of six clip planes
      */
     void  (*Frustum)         (
-                                float              left,
-                                float              right,
-                                float              bottom,
-                                float              top,
-                                float              near,
-                                float              far,
-                                Matrix4* out_param projection
+                                float    left,
+                                float    right,
+                                float    bottom,
+                                float    top,
+                                float    near,
+                                float    far,
+                                Matrix4* outProjection
                               );
 
 	/**
 	 * Define a projection matrix in terms of a field of view angle
      * an aspect ratio, and z clip planes
 	 */
-	void  (*Perspective)     (float fovy, float aspect, float near, float far, Matrix4* out_param projection);
+	void  (*Perspective)     (float fovy, float aspect, float near, float far, Matrix4* outProjection);
 
     /**
      * Define a viewing transformation in terms of an eye point, a center of view, and an up vector
@@ -161,7 +161,7 @@ struct AMatrix
                                 float    eyeX,     float eyeY,    float eyeZ,
 						        float    centerX,  float centerY, float centerZ,
 						        float    upX,      float upY,     float upZ,
-                                Matrix4* out_param view
+                                Matrix4* outView
                              );
 };
 

@@ -1,8 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-08-29
- *      Author: scott.cgi
+ * Since  : 2013-08-29
+ * Author : scott.cgi
  */
 
 #include "Engine/Toolkit/Platform/Platform.h"
@@ -20,7 +20,7 @@
 extern ANativeActivity* nativeActivity;
 
 
-static File* Open(const char* filePath)
+static File* Open(char* filePath)
 {
 	AAsset* asset = AAssetManager_open(nativeActivity->assetManager, filePath, AASSET_MODE_UNKNOWN);
 	ALogA(asset != NULL, "AFile open error, file path = %s", filePath);
@@ -30,12 +30,12 @@ static File* Open(const char* filePath)
 }
 
 
-static int OpenFileDescriptor(const char* filePath, long* out_param start, long* out_param length)
+static int OpenFileDescriptor(char* filePath, long* outStart, long* outLength)
 {
     AAsset* asset = AAssetManager_open(nativeActivity->assetManager, filePath, AASSET_MODE_UNKNOWN);
 
     // open asset as file descriptor
-    int fd = AAsset_openFileDescriptor(asset, start, length);
+    int fd = AAsset_openFileDescriptor(asset, outStart, outLength);
     ALogA(fd >= 0, "AFile OpenFileDescriptor error");
     AAsset_close(asset);
 

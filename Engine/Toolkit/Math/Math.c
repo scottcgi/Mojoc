@@ -1,10 +1,11 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-1-24
- *  Author: scott.cgi
+ * Since  : 2013-1-24
+ * Author : scott.cgi
  */
 
+#include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Math/Math.h"
 
 
@@ -41,14 +42,14 @@ static bool TestPolygonPoint(Array(float)* vertexArr, float x, float y)
 }
 
 
-static void RotatePoints2(Array(float)* pointArr, float angle, Array(float)* out_param rotatedPointArr)
+static void RotatePoints2(Array(float)* pointArr, float angle, Array(float)* outRotatedPointArr)
 {
-	ALogA(rotatedPointArr->length >= pointArr->length, "rotatedPointArr length must larger than pointArr");
+	ALogA(outRotatedPointArr->length >= pointArr->length, "outRotatedPointArr length must larger than pointArr");
 
 	float  cos  = AMathCos(angle);
 	float  sin  = AMathSin(angle);
 	float* arr1 = (float*) pointArr->data;
-	float* arr2 = (float*) rotatedPointArr->data;
+	float* arr2 = (float*) outRotatedPointArr->data;
 
 	for (int i = 0; i < pointArr->length; i += 2)
 	{

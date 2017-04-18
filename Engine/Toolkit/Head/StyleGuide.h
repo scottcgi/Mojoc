@@ -1,12 +1,13 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-1-26
- *  Author: scott.cgi
+ * Since  : 2013-1-26
+ * Author : scott.cgi
  */
 
 #ifndef style_guide_h
 #define style_guide_h
+
 
 /*
 ----------------------------------------------------------------------------------------------------
@@ -60,6 +61,8 @@
   The function return boolean which show operation result named with prefix 'Try'.
 
   The function return boolean which show result named with prefix 'Is'.
+
+  The function get out argument named with prefix 'out'.
 
 //--------------------------------------------------------------------------------------------------
 

@@ -1,8 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-5-29
- *      Author: scott-cgi
+ * Since  : 2013-5-29
+ * Author : scott.cgi
  */
 
 #include <string.h>
@@ -103,14 +103,14 @@ static inline JsonValue* CreateJsonValue(void* data, size_t valueSize, JsonType 
 //--------------------------------------------------------------------------------------------------
 
 
-static bool ObjectGetBool(JsonObject* object, const char* key, bool defaultValue)
+static bool ObjectGetBool(JsonObject* object, char* key, bool defaultValue)
 {
 	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
 	return jsonValue != NULL ? strcmp(jsonValue->stringValue, "true") == 0 : defaultValue;
 }
 
 
-static int ObjectGetInt(JsonObject* object, const char* key, int defaultValue)
+static int ObjectGetInt(JsonObject* object, char* key, int defaultValue)
 {
 	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
 	
@@ -123,7 +123,7 @@ static int ObjectGetInt(JsonObject* object, const char* key, int defaultValue)
 }
 
 
-static float ObjectGetFloat(JsonObject* object, const char* key, float defaultValue)
+static float ObjectGetFloat(JsonObject* object, char* key, float defaultValue)
 {
 	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
 	
@@ -136,28 +136,28 @@ static float ObjectGetFloat(JsonObject* object, const char* key, float defaultVa
 }
 
 
-static const char* ObjectGetString(JsonObject* object, const char* key, char* defaultValue)
+static char* ObjectGetString(JsonObject* object, char* key, char* defaultValue)
 {
 	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
 	return jsonValue != NULL ? jsonValue->stringValue : defaultValue;
 }
 
 
-static JsonObject* ObjectGetObject(JsonObject* object, const char* key)
+static JsonObject* ObjectGetObject(JsonObject* object, char* key)
 {
 	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
 	return jsonValue != NULL ? jsonValue->object : NULL;
 }
 
 
-static JsonArray* ObjectGetArray(JsonObject* object, const char* key)
+static JsonArray* ObjectGetArray(JsonObject* object, char* key)
 {
 	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
 	return jsonValue != NULL ? jsonValue->array : NULL;
 }
 
 
-static JsonType ObjectGetType(JsonObject* object, const char* key)
+static JsonType ObjectGetType(JsonObject* object, char* key)
 {
 	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
 
@@ -170,7 +170,7 @@ static JsonType ObjectGetType(JsonObject* object, const char* key)
 }
 
 
-static const char* ObjectGetKey(JsonObject* object, int index)
+static char* ObjectGetKey(JsonObject* object, int index)
 {
 	return AArrayStrMap->GetKey(object->arrayStrMap, index);
 }
@@ -223,7 +223,7 @@ static float ArrayGetFloat(JsonArray* array, int index)
 }
 
 
-static const char* ArrayGetString(JsonArray* array, int index)
+static char* ArrayGetString(JsonArray* array, int index)
 {
 	return AArrayListGet(array->arrayList, index, JsonValue*)->stringValue;
 }
@@ -268,9 +268,9 @@ struct AJsonArray AJsonArray[1] =
 
 
 // skip whitespace and CR/LF
-static inline void SkipWhiteSpace(const char** jsonPtr)
+static inline void SkipWhiteSpace(char** jsonPtr)
 {
-	const char* json = *jsonPtr;
+	char* json = *jsonPtr;
 
 	while (*json == ' ' || *json == '\t' || *json == '\n' || *json == '\r')
 	{
@@ -287,7 +287,7 @@ static inline void SkipWhiteSpace(const char** jsonPtr)
 #ifdef  parse_nubmer_validate_by_strtof
 
 
-static inline void* ParseNumber(const char** jsonPtr)
+static inline void* ParseNumber(char** jsonPtr)
 {
 	char* endPtr;
 
@@ -313,7 +313,7 @@ static inline void* ParseNumber(const char** jsonPtr)
 #else
 
 
-static inline void* ParseNumber(const char** jsonPtr)
+static inline void* ParseNumber(char** jsonPtr)
 {
     char* json = (char*) *jsonPtr;
 	char  c;
@@ -343,7 +343,7 @@ static inline void* ParseNumber(const char** jsonPtr)
 #undef parse_nubmer_validate_by_strtof
 
 
-static inline int SkipString(const char** jsonPtr)
+static inline int SkipString(char** jsonPtr)
 {
 	// skip '\"'
 	(*jsonPtr)++;
@@ -375,7 +375,7 @@ static inline int SkipString(const char** jsonPtr)
 }
 
 
-static inline JsonValue* ParseString(const char** jsonPtr)
+static inline JsonValue* ParseString(char** jsonPtr)
 {
 	int        count          = SkipString(jsonPtr);
 	JsonValue* value          = CreateJsonValue((void*) (*jsonPtr), (count + 1) * sizeof(char), json_string);
@@ -392,10 +392,10 @@ static inline JsonValue* ParseString(const char** jsonPtr)
 
 
 // predefine
-static inline JsonValue* ParseValue(const char** jsonPtr);
+static inline JsonValue* ParseValue(char** jsonPtr);
 
 
-static inline JsonValue* ParseArray(const char** jsonPtr)
+static inline JsonValue* ParseArray(char** jsonPtr)
 {
 	JsonValue* jsonValue = CreateJsonValue(NULL, sizeof(JsonArray), json_array);
 	ArrayList* list      = jsonValue->array->arrayList;
@@ -451,7 +451,7 @@ static inline JsonValue* ParseArray(const char** jsonPtr)
 }
 
 
-static inline JsonValue* ParseObject(const char** jsonPtr)
+static inline JsonValue* ParseObject(char** jsonPtr)
 {
 	JsonValue*   jsonValue = CreateJsonValue(NULL, sizeof(JsonObject), json_object);
 	ArrayStrMap* map       = jsonValue->object->arrayStrMap;
@@ -534,7 +534,7 @@ static inline JsonValue* ParseObject(const char** jsonPtr)
 /**
  * ParseValue changed the *jsonPtr, so if *jsonPtr is direct malloc will cause error
  */
-static inline JsonValue* ParseValue(const char** jsonPtr)
+static inline JsonValue* ParseValue(char** jsonPtr)
 {
 	SkipWhiteSpace(jsonPtr);
 
@@ -597,13 +597,13 @@ static inline JsonValue* ParseValue(const char** jsonPtr)
 }
 
 
-static JsonValue* Parse(const char* jsonString)
+static JsonValue* Parse(char* jsonString)
 {
 	return ParseValue(&jsonString);
 }
 
 
-static JsonValue* ParseWithFile(const char* jsonPath)
+static JsonValue* ParseWithFile(char* jsonPath)
 {
 	char*        jsonString = AFileTool->ReadStringPlatform(jsonPath);
 	JsonValue*   value      = Parse(jsonString);

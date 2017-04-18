@@ -1,8 +1,8 @@
 /*
- * Tween.c
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *  Created on: 2016-6-8
- *      Author: scott.cgi
+ * Since  : 2016-6-8
+ * Author : scott.cgi
  */
 
 #include "Engine/Toolkit/Utils/Tween.h"

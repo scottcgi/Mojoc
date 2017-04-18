@@ -1,24 +1,28 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2015-6-5
- *      Author: scott.cgi
+ * Since  : 2015-6-5
+ * Author : scott.cgi
  */
 
 #ifndef array_queue_h
 #define array_queue_h
+
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
 
 
 typedef struct
 {
-	ArrayList get_only arrayList[1];
+    /**
+     * Holde all elements
+     */
+	ArrayList arrayList[1];
 
 	/**
 	 * ArrayQueue top element index
 	 */
-	int       get_only topIndex;
+	int       topIndex;
 }
 ArrayQueue;
 
@@ -26,17 +30,18 @@ ArrayQueue;
 struct AArrayQueue
 {
 	ArrayQueue* (*Create)            (int typeSize);
-	void        (*Init)              (int typeSize, ArrayQueue* out_param arrayQueue);
+	void        (*Init)              (int typeSize, ArrayQueue* outArrayQueue);
 
 	ArrayQueue* (*CreateWithCapacity)(int typeSize, int capacity);
-	void        (*InitWithCapacity)  (int typeSize, int capacity, ArrayQueue* out_param arrayQueue);
+	void        (*InitWithCapacity)  (int typeSize, int capacity, ArrayQueue* outArrayQueue);
 
 	void        (*Release)           (ArrayQueue*   arrayQueue);
 
 	/**
 	 * Push element from elementPtr into ArrayQueue
 	 *
-	 * elementPtr point to element
+	 * elementPtr: point to element
+	 *
 	 * return elementPtr in ArrayQueue
 	 */
 	void*       (*Push)              (ArrayQueue* arrayQueue, void* elementPtr);
@@ -69,13 +74,15 @@ static inline void AArrayQueueSetIncrease(ArrayQueue* arrayQueue, int increase)
 
 
 /**
- * The type is the ArrayQueue value type
+ * Marked ArrayQueue element type
+ *
+ * type: element data type
  */
-#define ArrayQueue(valueType) ArrayQueue
+#define ArrayQueue(type) ArrayQueue
 
 
 /**
- * Initialize constant ArrayQueue, macro can use type parameter
+ * Initialize constant ArrayQueue
  * use like ArrayQueue queue[1] = AArrayQueueInit(type, increase)
  */
 #define AArrayQueueInit(type, increase)      \

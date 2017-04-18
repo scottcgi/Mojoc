@@ -1,8 +1,8 @@
 /*
- * Def.h
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *  Created on: 2016-10-2
- *      Author: scott.cgi
+ * Since  : 2016-10-2
+ * Author : scott.cgi
  */
 
 #ifndef marco_define_h
@@ -24,11 +24,9 @@
 /**
  * Marked variable can only get value or call get method
  *
- * the variable can not set directly
- * use function or macro to instead of set value
- *
+ * use function or macro to instead of set value directly
  * if variable is struct object (not ptr) each property value also get_only
- * if construct struct object variable not follow the rule
+ * if construct struct object variable, the property not follow the rule
  */
 #define get_only
 

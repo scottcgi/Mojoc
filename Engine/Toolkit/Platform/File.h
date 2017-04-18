@@ -1,8 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-08-27
- *      Author: scott.cgi
+ * Since  : 2013-08-27
+ * Author : scott.cgi
  */
 
 #ifndef file_h
@@ -25,7 +25,7 @@ struct AFile
 	/**
 	 * The filePath is relative to platform directory
 	 */
-    File* (*Open)             (const char* filePath);
+    File* (*Open)             (char* filePath);
 
     /**
      * Open a new file descriptor that can be used to read the asset data
@@ -34,7 +34,7 @@ struct AFile
      *
      * returns < 0 if direct fd access is not possible (for example, if the asset is compressed)
      */
-    int   (*OpenFileDescriptor)(const char* filePath, long* out_param start, long* out_param length);
+    int   (*OpenFileDescriptor)(char* filePath, long* outStart, long* outLength);
 
 	/**
 	 * Close an opened file connection, free any related resources

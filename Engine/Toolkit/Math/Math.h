@@ -1,8 +1,8 @@
 /*
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-1-24
- *  Author: scott.cgi
+ * Since  : 2013-1-24
+ * Author : scott.cgi
  */
 
 #ifndef math_h
@@ -28,7 +28,7 @@ struct AMath
 	/**
 	 * Rotate 2D point pair of x, y by angle
 	 */
-	void  (*RotatePoints2)   (Array(float)* pointArr, float angle, Array(float)* out_param rotatedPointArr);
+	void  (*RotatePoints2)   (Array(float)* pointArr, float angle, Array(float)* outRotatedPointArr);
 };
 
 
@@ -40,15 +40,24 @@ extern struct AMath AMath[1];
 
 #define golden_ratio     0.618033988749894
 
-/**  PI / 180.0 */
+
+/**
+ * PI / 180.0
+ */
 #define degree_to_radian 0.017453292519943
 
-/** 180.0f / PI */
+
+/**
+ * 180.0f / PI
+ */
 #define radian_to_degree 57.29577951308232
+
 
 #define	math_pi		     3.141592653589793
 
+
 #define math_2pi         6.283185307179586
+
 
 #define math_pi2         1.570796326794897
 

@@ -1,8 +1,8 @@
 /*
- * TweenTool.c
+ * Copyright (C) scott.cgi All Rights Reserved.
  *
- *  Created on: 2016-6-24
- *      Author: scott.cgi
+ * Since  : 2016-6-24
+ * Author : scott.cgi
  */
 
 #include "Engine/Toolkit/Utils/TweenTool.h"
@@ -261,10 +261,10 @@ static struct ATweenTool* SetTarget(void* target)
 }
 
 
-static struct ATweenTool* GetAction(TweenAction** out_param actionPtr)
+static struct ATweenTool* GetAction(TweenAction** outActionPtr)
 {
 	CheckAction("GetAction");
-	*actionPtr = action;
+	*outActionPtr = action;
 
 	return ATweenTool;
 }
