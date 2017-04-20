@@ -1,12 +1,13 @@
 /*
- * Font.h
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *  Created on: 2016-7-27
- *      Author: scott.cgi
+ * Since  : 2016-7-27
+ * Author : scott.cgi
  */
 
 #ifndef font_h
 #define font_h
+
 
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
 #include "Engine/Extension/TextureAtlas.h"
@@ -15,10 +16,25 @@
 
 typedef struct
 {
-	TextureAtlas*                       get_only textureAtlas;
-	Mesh                                get_only mesh             [1];
-    ArrayIntMap(fontTextPtr, FontText*) get_only fontTextMap      [1];
-	ArrayList  (SubMesh*)               get_only unusedSubMeshList[1];
+    /**
+     * Font used TextureAtlas
+     */
+	TextureAtlas*                       textureAtlas;
+
+    /**
+     * Font TextureAtlas used Mesh
+     */
+	Mesh                                mesh             [1];
+
+    /**
+     * Cahce FontText in map
+     */
+    ArrayIntMap(fontTextPtr, FontText*) fontTextMap      [1];
+
+    /**
+     * Font Mesh unused SubMesh list
+     */
+	ArrayList  (SubMesh*)               unusedSubMeshList[1];
 }
 Font;
 
@@ -35,42 +51,49 @@ FontTextAlignment;
 
 typedef struct
 {
-	Font*               get_only font;
+    Drawable             drawable       [1];
 
     /**
      * Default font_text_alignment_horizontal_left
      */
-    FontTextAlignment            alignment;
+    FontTextAlignment    alignment;
 
-	/**
-	 * Default 0
-	 */
-    float                        charSpacing;
+    /**
+     * Default 0
+     */
+    float                charSpacing;
 
-	Drawable                     drawable       [1];
-	ArrayList(SubMesh*) get_only usedSubMeshList[1];
+    /**
+     * FontText belongs Font
+     */
+	Font*                font;
+
+    /**
+     * FontText unused SubMesh list
+     */
+	ArrayList(SubMesh*)  usedSubMeshList[1];
 }
 FontText;
 
 
 struct AFont
 {
-	Font*     (*Get)           (const char* filePath);
+	Font*     (*Get)           (char* filePath);
     FontText* (*GetText)       (Font* font);
 	void      (*Draw)          (Font* font);
 
-	void      (*SetString)     (FontText* text, const char* str);
+	void      (*SetString)     (FontText* text, char* str);
 	void      (*SetInt)        (FontText* text, int   num);
 	void      (*SetFloat)      (FontText* text, float num);
 
     /**
-     * Make Font can reuse in Get
+     * Make Font can reuse in Get method
      * and release all FontText contained
      */
     void      (*Reuse)         (Font* font);
 
 	/**
-	 * make FontText can reuse in GetText
+	 * Make FontText can reuse in GetText method
 	 */
 	void      (*ReuseText)     (FontText* text);
 };

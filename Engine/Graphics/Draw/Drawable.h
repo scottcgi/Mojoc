@@ -1,15 +1,15 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-1-2
- *  Author: scott.cgi
+ * Since  :  2013-1-2
+ * Author : scott.cgi
  */
 
 #ifndef drawable_h
 #define drawable_h
 
-#include <stdbool.h>
 
+#include <stdbool.h>
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Toolkit/Math/Matrix.h"
 #include "Engine/Toolkit/Math/Matrix.h"
@@ -195,7 +195,7 @@ struct  Drawable
 	 void*     userData;
 
 	 /**
-	  * Default 0.0f
+	  * Default 0.0f, use openGL coordinate
 	  */
 	 float     width;
 	 float     height;
@@ -206,31 +206,31 @@ struct  Drawable
 	  * If has parent will render use parent modelMatrix
 	  * parent invisible child will stop rendering
 	  */
-	 Drawable* get_only parent;
+	 Drawable* parent;
 
 	 /**
 	  * Default 0.0f
 	  */
-	 float     get_only positionX;
-	 float     get_only positionY;
-	 float     get_only positionZ;
+	 float     positionX;
+	 float     positionY;
+	 float     positionZ;
 
 	 /**
 	  * Default 1.0f
 	  */
-	 float     get_only scaleX;
-	 float     get_only scaleY;
-	 float     get_only scaleZ;
+	 float     scaleX;
+	 float     scaleY;
+	 float     scaleZ;
 
 	 /**
 	  * Default0.0f Clockwise [0.0f - 360.0f]
 	  */
-	 float     get_only rotationZ;
+	 float     rotationZ;
 
 	 /**
 	  * Each [0.0f, 1.0f], default (1.0f, 1.0f, 1.0f, 1.0f)
 	  */
-	 Color     get_only color        [1];
+	 Color     color        [1];
 
 	 /**
 	  * If set drawable_state_is_blend_color
@@ -240,29 +240,29 @@ struct  Drawable
 	  *
 	  * default (1.0f, 1.0f, 1.0f, 1.0f)
 	  */
-	 Color     get_only blendColor   [1];
+	 Color     blendColor   [1];
 
 //--------------------------------------------------------------------------------------------------
 
 	 /**
 	  * Cached MVP matrix when property changed will update
 	  */
-	 Matrix4   get_only mvpMatrix    [1];
+	 Matrix4   mvpMatrix    [1];
 
 	 /**
 	  * Cached model matrix when property changed will update
 	  */
-	 Matrix4   get_only modelMatrix  [1];
+	 Matrix4   modelMatrix  [1];
 
 	 /**
 	  * Cached inverse model matrix
 	  */
-	 Matrix4   get_only inverseMatrix[1];
+	 Matrix4   inverseMatrix[1];
 
 	 /**
 	  * Identifier property has changed
 	  */
-	 int       get_only state;
+	 int       state;
 
 //--------------------------------------------------------------------------------------------------
 
@@ -282,7 +282,7 @@ struct  Drawable
 struct ADrawable
 {
 	Drawable* (*Create)                ();
-	void      (*Init)                  (Drawable* out_param drawable);
+	void      (*Init)                  (Drawable* outDrawable);
 
      /**
       * Transform model matrix and calculate mvp matrix if need
@@ -313,7 +313,7 @@ struct ADrawable
 	/**
 	 * Convert localPoint in parent coordinate to world coordinate
 	 */
-	void      (*ConvertToWorldPoint)   (Drawable* localParent, Vector2* localPoint, Vector2* out_param worldPoint);
+	void      (*ConvertToWorldPoint)   (Drawable* localParent, Vector2* localPoint, Vector2* outWorldPoint);
 
 	/**
 	 * Convert world x to local x in parent coordinate
@@ -330,7 +330,7 @@ struct ADrawable
 	/**
 	 * Convert worldPoint to localPoint in parent coordinate
 	 */
-	void      (*ConvertToLocalPoint)   (Drawable* localParent, Vector2* worldPoint, Vector2* out_param localPoint);
+	void      (*ConvertToLocalPoint)   (Drawable* localParent, Vector2* worldPoint, Vector2* outLocalPoint);
 
 	/**
 	 * Convert drawable transform to parent, will change parent and scale position rotationZ for parent coordinate
@@ -355,7 +355,7 @@ struct ADrawable
 	/**
 	 * Convert localPointA in parentA to localPointB in parentB
 	 */
-	void      (*ConvertBetweenLocal)   (Drawable* parentA, Vector2* localPointA, Drawable* parentB, Vector2* out_param localPointB);
+	void      (*ConvertBetweenLocal)   (Drawable* parentA, Vector2* localPointA, Drawable* parentB, Vector2* outLocalPointB);
 
 
 	/**

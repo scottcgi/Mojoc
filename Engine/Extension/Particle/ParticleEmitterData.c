@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-1-22
- *  Author: scott.cgi
+ * Since  : 2013-1-22
+ * Author : scott.cgi
  */
 
 #include <string.h>
@@ -96,7 +96,7 @@ static float GetScale(ParticleScaledValue* scaledValue, float percent)
 }
 
 
-static void GetRGB(ParticleRGBValue* rgbValue, float percent, float out_param rgb[3])
+static void GetRGB(ParticleRGBValue* rgbValue, float percent, float outRGB[3])
 {
     int    startIndex   =  0;
     int    endIndex     = -1;
@@ -120,9 +120,9 @@ static void GetRGB(ParticleRGBValue* rgbValue, float percent, float out_param rg
 
     float* rgbs     = AArrayGetData(rgbValue->rgbArr, float);
 
-    rgb[0]          = rgbs[startIndex];
-    rgb[1]          = rgbs[startIndex + 1];
-    rgb[2]          = rgbs[startIndex + 2];
+    outRGB[0]       = rgbs[startIndex];
+    outRGB[1]       = rgbs[startIndex + 1];
+    outRGB[2]       = rgbs[startIndex + 2];
 
     if (endIndex == -1)
     {
@@ -132,9 +132,9 @@ static void GetRGB(ParticleRGBValue* rgbValue, float percent, float out_param rg
     float ratio     = (percent - startTime) / (timelines[endIndex] - startTime);
     endIndex       *= 3;
 
-    rgb[0]         += (rgbs[endIndex]     - rgb[0]) * ratio;
-    rgb[1]         += (rgbs[endIndex + 1] - rgb[1]) * ratio;
-    rgb[2]         += (rgbs[endIndex + 2] - rgb[2]) * ratio;
+    outRGB[0]      += (rgbs[endIndex]     - outRGB[0]) * ratio;
+    outRGB[1]      += (rgbs[endIndex + 1] - outRGB[1]) * ratio;
+    outRGB[2]      += (rgbs[endIndex + 2] - outRGB[2]) * ratio;
 }
 
 
@@ -244,7 +244,7 @@ static inline void LoadRGBValue(char* buffer, ArrayRange* range, ArrayRange* lin
 #define ReadString(str) ReadFindString(args, str)
 
 
-static void Init(const char* filePath, ParticleEmitterData* out_param emitterData)
+static void Init(const char* filePath, ParticleEmitterData* outEmitterData)
 {
 	long  size;
 	char* buffer = AFileTool->ReadBufferPlatform(filePath, &size);
@@ -256,114 +256,114 @@ static void Init(const char* filePath, ParticleEmitterData* out_param emitterDat
 
 	ALogD("delayValue");
 	ReadString("Delay");
-	LoadRangedValue(args, emitterData->delayValue, ReadActive());
+	LoadRangedValue(args, outEmitterData->delayValue, ReadActive());
 
 	// use second
-	emitterData->delayValue->lowMax /= 1000.0f;
-	emitterData->delayValue->lowMin /= 1000.0f;
+	outEmitterData->delayValue->lowMax /= 1000.0f;
+	outEmitterData->delayValue->lowMin /= 1000.0f;
 
 
 	ALogD("durationValue");
 	ReadString("Duration");
-	LoadRangedValue(args, emitterData->durationValue, true);
+	LoadRangedValue(args, outEmitterData->durationValue, true);
 
 	// use second
-	emitterData->durationValue->lowMax /= 1000.0f;
-	emitterData->durationValue->lowMin /= 1000.0f;
+	outEmitterData->durationValue->lowMax /= 1000.0f;
+	outEmitterData->durationValue->lowMin /= 1000.0f;
 
 	ReadString("Count");
-	emitterData->minParticleCount = ReadInt(args, "min:");
-	emitterData->maxParticleCount = ReadInt(args, "max:");
+	outEmitterData->minParticleCount = ReadInt(args, "min:");
+	outEmitterData->maxParticleCount = ReadInt(args, "max:");
 	ALogD
 	(
 		"countValue min = %d, max = %d",
-		 emitterData->minParticleCount,
-		 emitterData->maxParticleCount
+		 outEmitterData->minParticleCount,
+		 outEmitterData->maxParticleCount
 	);
 
 	ALogD("emissionValue");
 	ReadString("Emission");
-	LoadScaledValue(args, emitterData->emissionValue, true);
+	LoadScaledValue(args, outEmitterData->emissionValue, true);
 
 	ALogD("lifeValue");
 	ReadString("Life");
-	LoadScaledValue(args, emitterData->lifeValue, true);
+	LoadScaledValue(args, outEmitterData->lifeValue, true);
 
 	// use second
-	emitterData->lifeValue->highMax /= 1000.0f;
-	emitterData->lifeValue->highMin /= 1000.0f;
+	outEmitterData->lifeValue->highMax /= 1000.0f;
+	outEmitterData->lifeValue->highMin /= 1000.0f;
 
 	ALogD("lifeOffsetValue");
 	ReadString("Life Offset");
-	LoadScaledValue(args, emitterData->lifeOffsetValue, ReadActive());
+	LoadScaledValue(args, outEmitterData->lifeOffsetValue, ReadActive());
 
 	// use second
-	emitterData->lifeOffsetValue->highMax /= 1000.0f;
-	emitterData->lifeOffsetValue->highMin /= 1000.0f;
+	outEmitterData->lifeOffsetValue->highMax /= 1000.0f;
+	outEmitterData->lifeOffsetValue->highMin /= 1000.0f;
 
 	ALogD("xOffsetValue");
 	ReadString("X Offset");
-	LoadScaledValue(args, emitterData->xOffsetValue, ReadActive());
+	LoadScaledValue(args, outEmitterData->xOffsetValue, ReadActive());
 
 	ALogD("yOffsetValue");
 	ReadString("Y Offset");
-	LoadScaledValue(args, emitterData->yOffsetValue, ReadActive());
+	LoadScaledValue(args, outEmitterData->yOffsetValue, ReadActive());
 
 	ReadString("Spawn Shape");
 	ReadString("shape:");
 
 	ALogD("spawnWidthValue");
 	ReadString("Spawn Width");
-	LoadScaledValue(args, emitterData->spawnWidthValue, true);
+	LoadScaledValue(args, outEmitterData->spawnWidthValue, true);
 
 	ALogD("spawnHeightValue");
 	ReadString("Spawn Height");
-	LoadScaledValue(args, emitterData->spawnHeightValue, true);
+	LoadScaledValue(args, outEmitterData->spawnHeightValue, true);
 
 	ALogD("scaleValue");
 	ReadString("Scale");
-	LoadScaledValue(args, emitterData->scaleValue, true);
+	LoadScaledValue(args, outEmitterData->scaleValue, true);
 
 	ALogD("velocityValue");
 	ReadString("Velocity");
-	LoadScaledValue(args, emitterData->velocityValue, ReadActive());
+	LoadScaledValue(args, outEmitterData->velocityValue, ReadActive());
 
 	ALogD("angleValue");
 	ReadString("Angle");
-	LoadScaledValue(args, emitterData->angleValue, ReadActive());
+	LoadScaledValue(args, outEmitterData->angleValue, ReadActive());
 
 	ALogD("rotationValue");
 	ReadString("Rotation");
-	LoadScaledValue(args, emitterData->rotationValue, ReadActive());
+	LoadScaledValue(args, outEmitterData->rotationValue, ReadActive());
 
 	ALogD("windValue");
 	ReadString("Wind");
-	LoadScaledValue(args, emitterData->windValue, ReadActive());
+	LoadScaledValue(args, outEmitterData->windValue, ReadActive());
 
 	ALogD("gravityValue");
 	ReadString("Gravity");
-	LoadScaledValue(args, emitterData->gravityValue, ReadActive());
+	LoadScaledValue(args, outEmitterData->gravityValue, ReadActive());
 
 	ALogD("ParticleRGBValue");
 	ReadString("Tint");
-	LoadRGBValue(args, emitterData->rgbValue);
+	LoadRGBValue(args, outEmitterData->rgbValue);
 
 	ALogD("transparencyValue");
 	ReadString("Transparency");
-	LoadScaledValue(args, emitterData->transparencyValue, true);
+	LoadScaledValue(args, outEmitterData->transparencyValue, true);
 
 	ReadString("Options");
 	ALogD("attached = %d", ReadBool(args, "attached:"));
 
-	emitterData->isContinuous = ReadBool(args, "continuous:");
-	emitterData->isAligned    = ReadBool(args, "aligned:");
-	emitterData->isAdditive   = ReadBool(args, "additive:");
+	outEmitterData->isContinuous = ReadBool(args, "continuous:");
+	outEmitterData->isAligned    = ReadBool(args, "aligned:");
+	outEmitterData->isAdditive   = ReadBool(args, "additive:");
 	ALogD
 	(
 		"continuous = %d, aligned = %d, additive = %d",
-		emitterData->isContinuous,
-		emitterData->isAligned,
-		emitterData->isAdditive
+		outEmitterData->isContinuous,
+		outEmitterData->isAligned,
+		outEmitterData->isAdditive
 	);
 
 	ReadBool(args, "behind:");

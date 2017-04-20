@@ -1,6 +1,9 @@
-//
-// Created by scott.cgi on 2017/1/5.
-//
+/*
+ * Copyright (c) scott.cgi All Rights Reserved.
+ *
+ * Since  : 2017-1-2017
+ * Author : scott.cgi
+ */
 
 #include "Engine/Extension/DrawAtlas.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
@@ -11,7 +14,7 @@
 static ArrayList(DrawAtlas*) drawAtlasList[1] = AArrayListInit(DrawAtlas*, 10);
 
 
-static DrawAtlas* Get(const char* filePath)
+static DrawAtlas* Get(char* filePath)
 {
     TextureAtlas* textureAtlas = ATextureAtlas->Get(filePath);
 
@@ -52,7 +55,7 @@ static DrawAtlas* Get(const char* filePath)
 }
 
 
-static Drawable* GetQuad(DrawAtlas* drawAtlas, const char* quadName)
+static Drawable* GetQuad(DrawAtlas* drawAtlas, char* quadName)
 {
     TextureAtlasQuad* atlasQuad = ATextureAtlasGetQuad(drawAtlas->textureAtlas, quadName);
     ALogA(atlasQuad != NULL, "DrawAtlas GetQuad not found quadName = %s", quadName);
@@ -78,6 +81,7 @@ static Drawable* GetQuad(DrawAtlas* drawAtlas, const char* quadName)
 
     return drawable;
 }
+
 
 static void Reuse(DrawAtlas* drawAtlas)
 {

@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-7-28
- *      Author: scott.cgi
+ * Since  : 2013-7-28
+ * Author : scott.cgi
  */
 
 #ifndef skeleton_animation_player_h
@@ -20,7 +20,7 @@ typedef void (*SkeletonAnimationPlayerOnActionOver)(SkeletonAnimationPlayer* pla
 
 struct  SkeletonAnimationPlayer
 {
-	Skeleton                        skeleton[1];
+	Skeleton              skeleton[1];
 
 	/**
 	 * Default -1
@@ -28,30 +28,30 @@ struct  SkeletonAnimationPlayer
 	 * if a positive will loop count to 0
 	 * if loop to 0 animation stop forever
 	 */
-	int                             loop;
+	int                    loop;
 
-	SkeletonAnimationData* get_only curAnimationData;
-	SkeletonAnimationData* get_only preAnimationData;
+	SkeletonAnimationData* curAnimationData;
+	SkeletonAnimationData* preAnimationData;
 
 	/**
 	 * curAnimationData current time
 	 */
-	float                  get_only curTime;
+	float                  curTime;
 
 	/**
 	 * preAnimationData current time
 	 */
-	float                  get_only preTime;
+	float                  preTime;
 
 	/** T
 	 * he preAnimationData mix to preAnimationData current time
 	 */
-	float                  get_only mixTime;
+	float                  mixTime;
 
 	/**
 	 * The preAnimationData mix to preAnimationData duration time
 	 */
-	float                  get_only mixDuration;
+	float                  mixDuration;
 
 	/**
 	 * Callback when action over
@@ -62,9 +62,9 @@ struct  SkeletonAnimationPlayer
 
 struct ASkeletonAnimationPlayer
 {
-	SkeletonAnimationPlayer* (*Create)                     (const char*              filePath,     const char* animationName);
-	SkeletonAnimationPlayer* (*CreateWithData)             (SkeletonData*            skeletonData, const char* animationName);
-	void                     (*Init)                       (const char*              filePath,     const char* animationName, SkeletonAnimationPlayer* out_param player);
+	SkeletonAnimationPlayer* (*Create)                     (char*                    filePath,     char* animationName);
+	SkeletonAnimationPlayer* (*CreateWithData)             (SkeletonData*            skeletonData, char* animationName);
+	void                     (*Init)                       (char*                    filePath,     char* animationName, SkeletonAnimationPlayer* outPlayer);
 	void                     (*Release)                    (SkeletonAnimationPlayer* player);
 
     /**
@@ -75,31 +75,31 @@ struct ASkeletonAnimationPlayer
 	/**
 	 * Set player's animationData in Skeleton
 	 */
-	void                     (*SetAnimation)               (SkeletonAnimationPlayer* player, const char* animationName);
+	void                     (*SetAnimation)               (SkeletonAnimationPlayer* player, char* animationName);
 
 	/**
 	 * Set player's animationData in Skeleton, Skeleton will from preAnimation mix to this animation
 	 * the mixDuration is cross fade time in second
 	 */
-	void                     (*SetAnimationMix)            (SkeletonAnimationPlayer* player, const char* animationName, float mixDuration);
+	void                     (*SetAnimationMix)            (SkeletonAnimationPlayer* player, char* animationName, float mixDuration);
 
 	/**
 	 * Initialize Drawable that can render slot bounding box with primitive call
 	 */
-	void                     (*InitSlotBoundingBoxDrawable)(SkeletonAnimationPlayer* player, const char* slotName, Drawable* out_param drawable);
+	void                     (*InitSlotBoundingBoxDrawable)(SkeletonAnimationPlayer* player, char* slotName, Drawable* outDrawable);
 };
 
 
 extern struct ASkeletonAnimationPlayer ASkeletonAnimationPlayer[1];
 
 
-static inline SkeletonBone* ASkeletonAnimationPlayerGetBone(SkeletonAnimationPlayer* player, const char* boneName)
+static inline SkeletonBone* ASkeletonAnimationPlayerGetBone(SkeletonAnimationPlayer* player, char* boneName)
 {
 	return AArrayStrMapGet(player->skeleton->boneMap, boneName, SkeletonBone*);
 }
 
 
-static inline SkeletonSlot* ASkeletonAnimationPlayerGetSlot(SkeletonAnimationPlayer* player, const char* slotName)
+static inline SkeletonSlot* ASkeletonAnimationPlayerGetSlot(SkeletonAnimationPlayer* player, char* slotName)
 {
 	return AArrayStrMapGet(player->skeleton->slotMap, slotName, SkeletonSlot*);
 }
@@ -129,7 +129,7 @@ static inline const char* ASkeletonAnimationPlayerGetPath(SkeletonAnimationPlaye
 }
 
 
-static inline SubMesh* ASkeletonAnimationPlayerGetSubMesh(SkeletonAnimationPlayer* player, const char* slotName, const char* attachmentName)
+static inline SubMesh* ASkeletonAnimationPlayerGetSubMesh(SkeletonAnimationPlayer* player, char* slotName, char* attachmentName)
 {
     return ASkeletonGetSubMesh(player->skeleton, slotName, attachmentName);
 }

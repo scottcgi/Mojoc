@@ -1,5 +1,5 @@
 /*
- * Copyright (C) scott.cgi All Rights Reserved.
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
  * Since  : 2016-11-13
  * Author : scott.cgi
@@ -166,8 +166,8 @@ extern struct ACoroutine ACoroutine[1];
  *
  * waitFrameCount: CoroutineRun wait frames and running again
  */
-#define ACoroutineYieldFrame(waitFrameCount)               \
-    coroutine->waitValue    = waitFrameCount;              \
+#define ACoroutineYieldFrame(waitFrames)                   \
+    coroutine->waitValue    = waitFrames;                  \
     coroutine->curWaitValue = 0.0f;                        \
     coroutine->waitType     = coroutine_wait_frame;        \
     coroutine->step         = &&ACoroutineLabel(__LINE__); \
@@ -180,8 +180,8 @@ extern struct ACoroutine ACoroutine[1];
  *
  * waitSecond: CoroutineRun wait seconds and running again
  */
-#define ACoroutineYieldSecond(waitSecond)                  \
-    coroutine->waitValue    = waitSecond;                  \
+#define ACoroutineYieldSecond(waitSeconds)                 \
+    coroutine->waitValue    = waitSeconds;                 \
     coroutine->curWaitValue = 0.0f;                        \
     coroutine->waitType     = coroutine_wait_second;       \
     coroutine->step         = &&ACoroutineLabel(__LINE__); \

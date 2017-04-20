@@ -1,6 +1,9 @@
-//
-// Created by scott.cgi on 2017/1/5.
-//
+/*
+ * Copyright (c) scott.cgi All Rights Reserved.
+ *
+ * Since  : 2017-1-5
+ * Author : scott.cgi
+ */
 
 #ifndef draw_atlas_h
 #define draw_atlas_h
@@ -11,20 +14,38 @@
 
 typedef struct
 {
-    TextureAtlas*        get_only textureAtlas;
-    Mesh                 get_only mesh    [1];
-    ArrayList(Drawable*) get_only quadList[1];
+    /**
+     * DrawAtlas used TextureAtlas
+     */
+    TextureAtlas*        textureAtlas;
+
+    /**
+     * TextureAtlas used mesh
+     */
+    Mesh                 mesh    [1];
+
+    /**
+     * Quad in mesh texture
+     */
+    ArrayList(Drawable*) quadList[1];
 }
 DrawAtlas;
 
 
 struct ADrawAtlas
 {
-    DrawAtlas* (*Get)          (const char* filePath);
-    Drawable*  (*GetQuad)      (DrawAtlas*  drawAtlas, const char* quadName);
+    DrawAtlas* (*Get)          (char*       filePath);
+    Drawable*  (*GetQuad)      (DrawAtlas*  drawAtlas, char*     quadName);
 
+    /**
+     * Make drawAtlas can reuse in Get method
+     */
     void       (*Reuse)        (DrawAtlas*  drawAtlas);
-    void       (*ReuseQuad)    (DrawAtlas*  drawAtlas, Drawable* drawable);
+
+    /**
+     * Make quad can reuse in GetQuad method
+     */
+    void       (*ReuseQuad)    (DrawAtlas* drawAtlas, Drawable* drawable);
 };
 
 

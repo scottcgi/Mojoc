@@ -1,8 +1,8 @@
 /*
- * SubMesh.h
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *  Created on: 2016-8-7
- *      Author: scott.cgi
+ * Since  : 2016-8-7
+ * Author : scott.cgi
  */
 
 #ifndef sub_mesh_h
@@ -20,40 +20,40 @@ struct SubMesh
      * if regenerate, the drawable parent must visible
      * or parent property will lost
      */
-	Drawable              drawable[1];
+	Drawable     drawable[1];
 
 	/**
 	 * SubMesh coordinate under parent Mesh drawable matrix
 	 * if SubMesh drawable has own parent, equivalent to the parent under Mesh drawable matrix
 	 * so let parent Mesh coordinate equal world space will make SubMesh own parent coordinate understandable
 	 */
-    Mesh*         get_only parent;
+    Mesh*         parent;
 
 	/**
 	 * Index in Mesh for Mesh ReorderChildren
 	 */
-	int           get_only index;
+	int           index;
 
 //--------------------------------------------------------------------------------------------------
 
-	Array(float*) get_only positionArr[1];
-	Array(float*) get_only uvArr      [1];
+	Array(float*) positionArr[1];
+	Array(float*) uvArr      [1];
 
 	/**
 	 * Careful 4 byte aligned
 	 */
-	Array(short*) get_only indexArr   [1];
+	Array(short*) indexArr   [1];
 
 //--------------------------------------------------------------------------------------------------
 
-	int           get_only vertexCount;
-	int           get_only indexOffset;
+	int           vertexCount;
+	int           indexOffset;
 
-	int           get_only positionDataOffset;
-	int           get_only uvDataOffset;
-	int           get_only rgbDataOffset;
-	int           get_only opacityDataOffset;
-	int           get_only indexDataOffset;
+	int           positionDataOffset;
+	int           uvDataOffset;
+	int           rgbDataOffset;
+	int           opacityDataOffset;
+	int           indexDataOffset;
 };
 
 

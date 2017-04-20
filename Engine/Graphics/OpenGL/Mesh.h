@@ -1,8 +1,8 @@
 /*
- * Mesh.h
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *  Created on: 2016-8-5
- *      Author: scott.cgi
+ * Since  : 2016-8-5
+ * Author : scott.cgi
  */
 
 #ifndef mesh_h
@@ -33,78 +33,82 @@ VBOSubData;
 
 struct Mesh
 {
+    Drawable             drawable      [1];
+
+    /**
+     * Mesh render texture
+     */
+    Texture*             texture;
+
 	/**
 	 * Draw from index, default first in children
 	 */
-	int                              fromIndex;
+	int                  fromIndex;
 
 	/**
 	 * Draw to index, default last in children
 	 */
-	int                              toIndex;
+	int                  toIndex;
 
 	/**
 	 * Pair of from and to index SubMesh to draw
 	 * if no range will default draw fromIndex to toIndex
 	 */
-	ArrayQueue(int)        get_only  drawRangeQueue[1];
+	ArrayQueue(int)      drawRangeQueue[1];
 
 	/**
 	 * Sometimes use fixed index for get child in children
 	 * so can not change children order instead of use SubMesh index for sorting
 	 */
-	ArrayList(SubMesh*)    get_only  children      [1];
-
-	Drawable                         drawable      [1];
-	Texture*                         texture;
+	ArrayList(SubMesh*)  children      [1];
 
 //--------------------------------------------------------------------------------------------------
 
     /**
      * All vertex data, every vertex has position, uv, color
      */
-	Array(float)*          get_only   vertexArr;
+	Array(float)*         vertexArr;
 
 	/**
 	 * All vertex index data
 	 */
-	Array(short)*          get_only   indexArr;
+	Array(short)*         indexArr;
 
 	/**
 	 * If use VBO is array buffer id
 	 */
-	GLuint                 get_only   vboIds[mesh_buffer_num];
+	GLuint                vboIds[mesh_buffer_num];
 
     /**
      * If use VAO is generated id else 0
      */
-    GLuint                 get_only   vaoId;
+    GLuint                vaoId;
 
 	/**
 	 * If use VBO update to buffer
 	 */
-	ArrayList(VBOSubData)  get_only   vboSubDataList[1];
+	ArrayList(VBOSubData) vboSubDataList[1];
 
 //--------------------------------------------------------------------------------------------------
 
-    int                    get_only   uvDataOffset;
-	int                    get_only   rgbDataOffset;
-	int                    get_only   opacityDataOffset;
-    int                    get_only   vertexCountOffset;
+    int                   uvDataOffset;
+	int                   rgbDataOffset;
+	int                   opacityDataOffset;
+    int                   vertexCountOffset;
 
-    int                    get_only   positionDataLength;
-    int                    get_only   uvDataLength;
-    int                    get_only   rgbDataLength;
-    int                    get_only   opacityDataLength;
-    int                    get_only   indexDataLength;
+    int                   positionDataLength;
+    int                   uvDataLength;
+    int                   rgbDataLength;
+    int                   opacityDataLength;
+    int                   indexDataLength;
 };
 
 
 struct AMesh
 {
 	Mesh*     (*Create)            (Texture* texture);
-	void      (*Init)              (Texture* texture,  Mesh* out_param mesh);
-	void      (*InitWithCapacity)  (Texture* texture,  int capacity, Mesh* out_param mesh);
+	void      (*Init)              (Texture* texture,  Mesh* outMesh);
+	void      (*InitWithCapacity)  (Texture* texture,  int capacity, Mesh* outMesh);
 
 	/**
 	 * Call Mesh member's Release and free all SubMesh memory

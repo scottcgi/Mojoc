@@ -1,15 +1,15 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-6-27
- *      Author: scott.cgi
+ * Since  : 2013-6-27
+ * Author : scott.cgi
  */
 
 #ifndef skeleton_data_h
 #define skeleton_data_h
 
-#include <stdbool.h>
 
+#include <stdbool.h>
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"
 #include "Engine/Graphics/Draw/Color.h"
 #include "Engine/Graphics/OpenGL/Mesh.h"
@@ -19,51 +19,50 @@
 typedef struct SkeletonBoneData SkeletonBoneData;
 struct  SkeletonBoneData
 {
-	SkeletonBoneData* get_only parent;
-	const char*       get_only name;
-	float             get_only length;
-	float             get_only x;
-	float             get_only y;
-	float             get_only rotationZ;
-	float             get_only scaleX;
-	float             get_only scaleY;
-	bool              get_only isInheritScale;
-	bool              get_only isInheritRotation;
+	SkeletonBoneData* parent;
+	char*             name;
+	float             length;
+	float             x;
+	float             y;
+	float             rotationZ;
+	float             scaleX;
+	float             scaleY;
+	bool              isInheritScale;
+	bool              isInheritRotation;
 };
 
 
 typedef struct
 {
-	Color                               get_only color[1];
-
-	const char*                         get_only name;
-	const char*                         get_only attachmentName;
-	bool                                get_only isAdditiveBlending;
-	SkeletonBoneData*                   get_only boneData;
+	char*                               name;
+	char*                               attachmentName;
+	bool                                isAdditiveBlending;
+	SkeletonBoneData*                   boneData;
+    Color                               color[1];
 
 	/**
 	 * Each skin corresponding SkeletonAttachmentData may not exits
 	 */
-	ArrayList(SkeletonAttachmentData*)* get_only attachmentDataList;
+	ArrayList(SkeletonAttachmentData*)* attachmentDataList;
 }
 SkeletonSlotData;
 
 
 typedef struct
 {
-	char* get_only name;
-	char* get_only stringValue;
-	int   get_only intValue;
-	float get_only floatValue;
+	char* name;
+	char* stringValue;
+	int   intValue;
+	float floatValue;
 }
 SkeletonEventData;
 
 
 typedef struct
 {
-	ArrayList(SkeletonTimeline*) get_only timelineArr[1];
-	const char*                  get_only name;
-	float                        get_only duration;
+	char*                        name;
+	float                        duration;
+    ArrayList(SkeletonTimeline*) timelineArr[1];
 }
 SkeletonAnimationData;
 
@@ -80,7 +79,8 @@ typedef struct
         ArrayStrMap(attachmentName, SkeletonAttachmentData*)*
     )
     slotAttachmentMap[1];
-	const char* name;
+
+	char* name;
 }
 SkeletonSkinData;
 
@@ -103,98 +103,97 @@ typedef struct
 	/**
 	 * Attachment actual name
 	 */
-	const char*                get_only name;
+	char*                      name;
 
 	/**
 	 * Subclass attachment pointer
 	 */
-	void*                      get_only subPtr;
-	SkeletonAttachmentDataType get_only type;
+	void*                      subPtr;
+	SkeletonAttachmentDataType type;
 }
 SkeletonAttachmentData;
 
 
 typedef struct
 {
-	SkeletonAttachmentData get_only attachmentData[1];
-	float                  get_only x;
-	float                  get_only y;
-	float                  get_only rotationZ;
-	float                  get_only scaleX;
-	float                  get_only scaleY;
-	float                  get_only width;
-	float                  get_only height;
+	float                  x;
+	float                  y;
+	float                  rotationZ;
+	float                  scaleX;
+	float                  scaleY;
+	float                  width;
+	float                  height;
+    SkeletonAttachmentData attachmentData[1];
 
 	/**
 	 * Index in meshList from Skeleton
 	 */
-	int                    get_only meshIndex;
+	int                    meshIndex;
 
 	/**
 	 * Index in Mesh from meshList
 	 */
-	int                    get_only subMeshIndex;
+	int                    subMeshIndex;
 
 	/**
 	 * Texture atlas quad info
 	 */
-	Quad*                  get_only quad;
+	Quad*                  quad;
 }
 SkeletonRegionAttachmentData;
 
 
 typedef struct
 {
-	SkeletonAttachmentData get_only attachmentData[1];
-	Array(float)           get_only vertexArr     [1];
+	SkeletonAttachmentData attachmentData[1];
+	Array(float)           vertexArr     [1];
 }
 SkeletonBoundingboxAttachmentData;
 
 
 typedef struct
 {
-	SkeletonAttachmentData get_only attachmentData[1];
+    float                  width;
+    float                  height;
+	SkeletonAttachmentData attachmentData[1];
 
-	Array(float)           get_only vertexArr  [1];
-	Array(float)           get_only uvArr      [1];
+	Array(float)           vertexArr     [1];
+	Array(float)           uvArr         [1];
 
 	/**
 	 * Careful 4 byte aligned
 	 */
-	Array(short)           get_only triangleArr[1];
+	Array(short)           triangleArr   [1];
 
 	/**
 	 * Index in meshList from Skeleton
 	 */
-	int                    get_only meshIndex;
+	int                    meshIndex;
 
 	/**
 	 * Index in Mesh from meshList
 	 */
-	int                    get_only subMeshIndex;
+	int                    subMeshIndex;
 
 	/**
 	 * Texture atlas quad info
 	 */
-	Quad*                  get_only quad;
-
-	float                  get_only width;
-	float                  get_only height;
+	Quad*                  quad;
 
 	/**
 	 * Whether convert uv data into TextureAtlas
 	 */
-	bool                   get_only isUVMappedInTexture;
+	bool                   isUVMappedInTexture;
 }
 SkeletonMeshAttachmentData;
 
 
 typedef struct
 {
-	SkeletonMeshAttachmentData get_only meshAttachmentData[1];
-	Array(int)                 get_only boneArr           [1];
-	Array(float)               get_only weightArr         [1];
-	Array(float)               get_only weightVertexArr   [1];
+	Array(int)                 boneArr           [1];
+	Array(float)               weightArr         [1];
+	Array(float)               weightVertexArr   [1];
+    SkeletonMeshAttachmentData meshAttachmentData[1];
 }
 SkeletonSkinnedMeshAttachmentData;
 
@@ -228,33 +227,32 @@ extern SkeletonAttachmentSubMeshOffset skeletonAttachmentSubMeshOffset[3];
 
 typedef struct
 {
-	ArrayStrMap(boneName,      SkeletonBoneData*)         get_only boneDataMap     [1];
-	ArrayStrMap(slotName,      SkeletonSlotData*)         get_only slotDataMap     [1];
-	ArrayStrMap(skinName,      SkeletonSkinData*)         get_only skinDataMap     [1];
-	ArrayStrMap(animationName, SkeletonAnimationDataMap*) get_only animationDataMap[1];
-	ArrayStrMap(eventName,     SkeletonEventDataMap*)     get_only eventDataMap    [1];
+    float                                                 width;
+    float                                                 height;
+    char*                                                 filePath;
+    TextureAtlas*                                         textureAtlas;
+    SkeletonSkinData*                                     skinDataDefault;
 
-	SkeletonSkinData*                      get_only skinDataDefault;
+	ArrayStrMap(boneName,      SkeletonBoneData*)         boneDataMap     [1];
+	ArrayStrMap(slotName,      SkeletonSlotData*)         slotDataMap     [1];
+	ArrayStrMap(skinName,      SkeletonSkinData*)         skinDataMap     [1];
+	ArrayStrMap(animationName, SkeletonAnimationDataMap*) animationDataMap[1];
+	ArrayStrMap(eventName,     SkeletonEventDataMap*)     eventDataMap    [1];
 
 	/**
 	 * All SkeletonBoneData order same as in JOSN
 	 */
-	Array(SkeletonBoneData*)*              get_only boneDataOrderArr;
+	Array(SkeletonBoneData*)*                             boneDataOrderArr;
 
 	/**
 	 * All SkeletonSlotData order same as in JOSN
 	 */
-	Array(SkeletonSlotData*)*              get_only slotDataOrderArr;
+	Array(SkeletonSlotData*)*                             slotDataOrderArr;
 
 	/**
 	 * All slot attachments
 	 */
-	ArrayList(SkeletonAttachmentData*)     get_only attachmentDataList[1];
-
-	TextureAtlas*                          get_only textureAtlas;
-	float                                  get_only width;
-	float                                  get_only height;
-	const char*                            get_only filePath;
+	ArrayList(SkeletonAttachmentData*)                    attachmentDataList[1];
 }
 SkeletonData;
 
@@ -269,9 +267,9 @@ struct ASkeletonData
 	/**
 	 * Get SkeletonData by filePath, not found will create one
 	 */
-	SkeletonData*           (*Get)                        (const char*       filePath);
+	SkeletonData*           (*Get)                        (char*             filePath);
 	void                    (*Release)                    (SkeletonData*     skeletonData);
-	SkeletonAttachmentData* (*GetAttachmentDataBySkinData)(SkeletonSkinData* skinData, const char* slotName, const char* attachmentName);
+	SkeletonAttachmentData* (*GetAttachmentDataBySkinData)(SkeletonSkinData* skinData, char* slotName, char* attachmentName);
 };
 
 

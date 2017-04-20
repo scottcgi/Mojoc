@@ -1,12 +1,11 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-1-2
- *  Author: scott.cgi
+ * Since  : 2013-1-2
+ * Author : scott.cgi
  */
 
 #include <stdlib.h>
-
 #include "Engine/Graphics/OpenGL/Texture.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"
@@ -27,7 +26,7 @@ static void Release(Texture* texture)
 }
 
 
-static Texture* Get(const char* filePath)
+static Texture* Get(char* filePath)
 {
 	Texture* texture = AArrayStrMapGet(textureMap, filePath, Texture*);
 

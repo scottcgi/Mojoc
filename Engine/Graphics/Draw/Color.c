@@ -1,11 +1,11 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *  Created on: 2013-11-17
- *      Author: scott.cgi
+ * Since  : 2013-11-17
+ * Author : scott.cgi
  */
 
 #include <stdio.h>
-
 #include "Engine/Graphics/Draw/Color.h"
 
 

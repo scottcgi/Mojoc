@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2012-12-25
- *  Author: scott.cgi
+ * Since  : 2012-12-25
+ * Author : scott.cgi
  */
 
 #include <string.h>
@@ -12,16 +12,16 @@
 #include "Engine/Graphics/OpenGL/GLTool.h"
 
 
-static void Init(float width, float height, Quad* out_param quad)
+static void Init(float width, float height, Quad* outQuad)
 {
-	quad->width          =  width;
-	quad->height         =  height;
+	outQuad->width          =  width;
+	outQuad->height         =  height;
 	
-	quad->offsetCenterX  = -width  / 2;
-	quad->offsetCenterY  =  height / 2;
+	outQuad->offsetCenterX  = -width  / 2;
+	outQuad->offsetCenterY  =  height / 2;
 	
-	quad->offsetTextureX =  0.0f;
-	quad->offsetTextureY =  0.0f;
+	outQuad->offsetTextureX =  0.0f;
+	outQuad->offsetTextureY =  0.0f;
 }
 
 
@@ -34,7 +34,7 @@ static Quad* Create(float width, float height)
 }
 
 
-static void MaxSize(Array(Quad)* quadArr,  float* out_param width, float* out_param height)
+static void MaxSize(Array(Quad)* quadArr,  float* outWidth, float* outHeight)
 {
 	Quad* quads  = AArrayGetData(quadArr, Quad);
     Quad* quad   = quads;
@@ -79,12 +79,12 @@ static void MaxSize(Array(Quad)* quadArr,  float* out_param width, float* out_pa
         }
     }
 
-    *width  = rightX - leftX;
-    *height = leftY  - rightY;
+    *outWidth  = rightX - leftX;
+    *outHeight = leftY  - rightY;
 }
 
 
-static void GetQuadVertex(Quad* quad, Texture* texture, float out_param vertexData[quad_vertex_num])
+static void GetQuadVertex(Quad* quad, Texture* texture, float outVertexData[quad_vertex_num])
 {
     float qx = quad->offsetCenterX;
     float qy = quad->offsetCenterY;
@@ -100,7 +100,7 @@ static void GetQuadVertex(Quad* quad, Texture* texture, float out_param vertexDa
 
     memcpy
 	(
-		vertexData,
+		outVertexData,
         (
             (float[])
             {
@@ -122,7 +122,7 @@ static void GetQuadVertex(Quad* quad, Texture* texture, float out_param vertexDa
 }
 
 
-static void GetQuadPosition3(Quad* quad, float out_param bornPositionData[quad_position3_num])
+static void GetQuadPosition3(Quad* quad, float outBornPositionData[quad_position3_num])
 {
     float qx = quad->offsetCenterX;
     float qy = quad->offsetCenterY;
@@ -132,7 +132,7 @@ static void GetQuadPosition3(Quad* quad, float out_param bornPositionData[quad_p
 
     memcpy
 	(
-		bornPositionData,
+		outBornPositionData,
         (
             (float[])
             {
@@ -150,7 +150,7 @@ static void GetQuadPosition3(Quad* quad, float out_param bornPositionData[quad_p
 }
 
 
-static void GetQuadUV(Quad* quad, Texture* texture, float out_param uvData[quad_uv_num])
+static void GetQuadUV(Quad* quad, Texture* texture, float outUVData[quad_uv_num])
 {
     float tx = AGLToolToUVWidth (quad->offsetTextureX, texture->width);
     float ty = AGLToolToUVHeight(quad->offsetTextureY, texture->height);
@@ -160,7 +160,7 @@ static void GetQuadUV(Quad* quad, Texture* texture, float out_param uvData[quad_
 
     memcpy
 	(
-		uvData,
+		outUVData,
 		(
             (float[])
             {
@@ -178,11 +178,11 @@ static void GetQuadUV(Quad* quad, Texture* texture, float out_param uvData[quad_
 }
 
 
-static void GetQuadIndex(int vertexNumBefore, short out_param indexData[quad_index_num])
+static void GetQuadIndex(int vertexNumBefore, short outIndexData[quad_index_num])
 {
     memcpy
 	(
-		indexData,
+		outIndexData,
 		((short[])
 		{
 			(short) (0 + vertexNumBefore),

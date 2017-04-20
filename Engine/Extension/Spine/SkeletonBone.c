@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-7-2
- *      Author: scott.cgi
+ * Since  : 2013-7-2
+ * Author : scott.cgi
  */
 
 #include "Engine/Extension/Spine/SkeletonBone.h"
@@ -19,11 +19,11 @@ static void SetToSetupPose(SkeletonBone* bone)
 }
 
 
-static void Init(SkeletonBoneData* boneData, SkeletonBone* out_param bone)
+static void Init(SkeletonBoneData* boneData, SkeletonBone* outBone)
 {
-	ADrawable->Init(bone->drawable);
-	bone->boneData = boneData;
-	SetToSetupPose(bone);
+	ADrawable->Init(outBone->drawable);
+	outBone->boneData = boneData;
+	SetToSetupPose(outBone);
 }
 
 

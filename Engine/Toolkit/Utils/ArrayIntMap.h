@@ -1,5 +1,5 @@
 /*
- * Copyright (C) scott.cgi All Rights Reserved.
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
  * Since  : 2013-5-27
  * Author : scott.cgi

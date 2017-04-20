@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-08-30
- *      Author: scott.cgi
+ * Since  : 2013-08-30
+ * Author : scott.cgi
  */
 
 #ifndef image_h
@@ -17,7 +17,7 @@ struct AImage
 	/**
 	 * Read png pixel data from file, caller must be free it
 	 */
-     void* (*CreatePixelDataFromPng)(const char* filePath, float* out_param width, float* out_param height);
+     void* (*CreatePixelDataFromPng)(const char* filePath, float* outWidth, float* outHeight);
 };
 
 

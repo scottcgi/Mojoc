@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-1-21
- *  Author: scott.cgi
+ * Since  : 2013-1-21
+ * Author : scott.cgi
  */
 
 #ifndef particle_h
@@ -50,7 +50,7 @@ struct AParticle
 	/**
 	 * Initialize Particle that memory has already allocated
 	 */
-	void      (*Init) (SubMesh* subMesh, Particle* out_param particle);
+	void      (*Init) (SubMesh* subMesh, Particle* outParticle);
 
 	/**
 	 * Reset Particle property values to the born

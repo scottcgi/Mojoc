@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-7-7
- *      Author: scott.cgi
+ * Since  : 2013-7-7
+ * Author : scott.cgi
  */
 
 #include <string.h>
@@ -152,7 +152,7 @@ static void SetAttachmentData(SkeletonSlot* slot, SkeletonAttachmentData* attach
 
 static void SetToSetupPose(SkeletonSlot* slot)
 {
-	const char* attachmentName = slot->slotData->attachmentName;
+	char* attachmentName = slot->slotData->attachmentName;
 
 	if (attachmentName != NULL)
 	{
@@ -165,14 +165,14 @@ static void SetToSetupPose(SkeletonSlot* slot)
 }
 
 
-static void Init(SkeletonSlotData* slotData, Skeleton* skeleton, SkeletonSlot* out_param slot)
+static void Init(SkeletonSlotData* slotData, Skeleton* skeleton, SkeletonSlot* outSlot)
 {
-	slot->slotData       = slotData;
-	slot->skeleton       = skeleton;
-	slot->attachmentData = NULL;
-	slot->bone           = AArrayStrMapGet(skeleton->boneMap, slotData->boneData->name, SkeletonBone*);
+	outSlot->slotData       = slotData;
+	outSlot->skeleton       = skeleton;
+	outSlot->attachmentData = NULL;
+	outSlot->bone           = AArrayStrMapGet(skeleton->boneMap, slotData->boneData->name, SkeletonBone*);
 
-	SetToSetupPose(slot);
+	SetToSetupPose(outSlot);
 }
 
 

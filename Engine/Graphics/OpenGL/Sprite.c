@@ -176,11 +176,11 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 }
 
 
-static void Init(Texture* texture, Sprite* out_param sprite)
+static void Init(Texture* texture, Sprite* outSprite)
 {
 	Quad quad[1];
 	AQuad->Init(texture->width, texture->height, quad);
-	InitSprite(sprite, texture, (Array[]) {quad, 1});
+	InitSprite(outSprite, texture, (Array[]) {quad, 1});
 }
 
 
@@ -193,9 +193,9 @@ static Sprite* Create(Texture* texture)
 }
 
 
-static void InitWithQuad(Texture* texture, Quad* quad, Sprite* out_param sprite)
+static void InitWithQuad(Texture* texture, Quad* quad, Sprite* outSprite)
 {
-	InitSprite(sprite, texture, (Array[]) {quad, 1});
+	InitSprite(outSprite, texture, (Array[]) {quad, 1});
 }
 
 
@@ -217,9 +217,9 @@ static Sprite* CreateWithQuadArray(Texture* texture, Array(Quad)* quadArr)
 }
 
 
-static void InitWithQuadArray(Texture* texture, Array(Quad)* quadArr, Sprite* out_param sprite)
+static void InitWithQuadArray(Texture* texture, Array(Quad)* quadArr, Sprite* outSprite)
 {
-	InitSprite(sprite, texture, quadArr);
+	InitSprite(outSprite, texture, quadArr);
 }
 
 
@@ -229,9 +229,9 @@ static Sprite* CreateWithFile(const char* filePath)
 }
 
 
-static void InitWithFile(const char* filePath, Sprite* out_param sprite)
+static void InitWithFile(const char* filePath, Sprite* outSprite)
 {
-	Init(ATexture->Get(filePath), sprite);
+	Init(ATexture->Get(filePath), outSprite);
 }
 
 

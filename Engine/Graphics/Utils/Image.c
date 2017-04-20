@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-08-30
- *      Author: scott.cgi
+ * Since  : 2013-08-30
+ * Author : scott.cgi
  */
 
 #include <stdbool.h>
@@ -22,7 +22,7 @@ static void ReadPngData(png_structp pngPtr, png_bytep data, png_size_t length)
 }
 
 
-static void* CreatePixelDataFromPng(const char* filePath, float* out_param width, float* out_param height)
+static void* CreatePixelDataFromPng(const char* filePath, float* outWidth, float* outHeight)
 {
 	void* pixelData = NULL;
 	File* file      = NULL;
@@ -93,7 +93,7 @@ static void* CreatePixelDataFromPng(const char* filePath, float* out_param width
 		png_read_info(pngPtr, infoPtr);
 
 		// note that png_get_IHDR() returns 32-bit data into
-		// the application's width and height variables
+		// the application's outWidth and outHeight variables
 		// This is an unsafe situation if these are 16-bit variables
 		png_uint_32 pngWidth  = png_get_image_width (pngPtr, infoPtr);
 		png_uint_32 pngHeight = png_get_image_height(pngPtr, infoPtr);
@@ -101,10 +101,10 @@ static void* CreatePixelDataFromPng(const char* filePath, float* out_param width
 		int         bitDepth  = png_get_bit_depth (pngPtr, infoPtr);
 		int         colorType = png_get_color_type(pngPtr, infoPtr);
 
-		*width             = (float) pngWidth;
-		*height            = (float) pngHeight;
+		*outWidth             = (float) pngWidth;
+		*outHeight            = (float) pngHeight;
 
-		ALogD("PNG width = %f, height = %f", *width, *height);
+		ALogD("PNG outWidth = %f, outHeight = %f", *outWidth, *outHeight);
 		ALogD("PNG bitDepth = %d, colorType = %d", bitDepth, colorType);
 
 		// force palette images to be expanded to 24-bit RGB

@@ -1,8 +1,8 @@
 /*
- * TweenDrawable.c
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *  Created on: 2016-6-17
- *      Author: scott.cgi
+ * Since  : 2016-6-17
+ * Author : scott.cgi
  */
 
 #include "Engine/Graphics/Draw/Drawable.h"

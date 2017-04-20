@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2012-12-22
- *  Author: scott.cgi
+ * Since  : 2012-12-22
+ * Author : scott.cgi
  */
 
 #include <string.h>
@@ -162,20 +162,20 @@ GLuint LoadProgramByFile(const char* vertexShaderPath, const char* fragmentShade
 }
 
 
-static void LoadTexture(const char* filePath, Texture* texture)
+static void LoadTexture(const char* filePath, Texture* outTexture)
 {
 	 GLuint textureId;
 
 	 // use tightly packed data
 	 // glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-	 // Generate a texture object
+	 // generate a outTexture object
 	 glGenTextures(1, &textureId);
 
-	 // Bind to the texture in OpenGL
+	 // bind to the outTexture in OpenGL
 	 glBindTexture(GL_TEXTURE_2D, textureId);
 
-	 texture->id = textureId;
+	 outTexture->id = textureId;
 
 	 // set filtering
 	 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -191,11 +191,11 @@ static void LoadTexture(const char* filePath, Texture* texture)
 	 void* pixels = AImage->CreatePixelDataFromPng(filePath, &width, &height);
 	 ALogA(pixels != NULL, "LoadTexture failed, no pixls data");
 
-	 // load the data into the bound texture
+	 // load the data into the bound outTexture
 	 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei) width, (GLsizei) height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 
-	 texture->width  = AGLToolToGLWidth (width);
-	 texture->height = AGLToolToGLHeight(height);
+	 outTexture->width  = AGLToolToGLWidth (width);
+	 outTexture->height = AGLToolToGLHeight(height);
 
 	 free(pixels);
 }

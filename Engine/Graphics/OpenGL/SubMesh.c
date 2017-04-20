@@ -1,9 +1,10 @@
 /*
- * SubMesh.c
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *  Created on: 2016-8-7
- *      Author: scott.cgi
+ * Since  : 2016-8-7
+ * Author : scott.cgi
  */
+
 #include <string.h>
 #include "Engine/Graphics/Graphics.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"

@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-7-28
- *      Author: scott.cgi
+ * Since  : 2013-7-28
+ * Author : scott.cgi
  */
 
 #include <math.h>
@@ -109,7 +109,7 @@ static void Update(SkeletonAnimationPlayer* player, float deltaTime)
 }
 
 
-static inline void InitSkeletonAnimationPlayer(SkeletonAnimationPlayer* player, SkeletonData* skeletonData, const char* animationName)
+static inline void InitSkeletonAnimationPlayer(SkeletonAnimationPlayer* player, SkeletonData* skeletonData, char* animationName)
 {
 	ASkeleton->Init(skeletonData, player->skeleton);
 	player->preAnimationData      = NULL;
@@ -134,7 +134,7 @@ static void Release(SkeletonAnimationPlayer* player)
 }
 
 
-static void SetAnimation(SkeletonAnimationPlayer* player, const char* animationName)
+static void SetAnimation(SkeletonAnimationPlayer* player, char* animationName)
 {
 	player->curAnimationData = ASkeletonGetAnimationData(player->skeleton,  animationName);
 
@@ -143,7 +143,7 @@ static void SetAnimation(SkeletonAnimationPlayer* player, const char* animationN
 }
 
 
-static void SetAnimationMix(SkeletonAnimationPlayer* player, const char* animationName, float mixDuration)
+static void SetAnimationMix(SkeletonAnimationPlayer* player, char* animationName, float mixDuration)
 {
 	player->preAnimationData = player->curAnimationData;
 	player->preTime          = player->curTime;
@@ -155,7 +155,7 @@ static void SetAnimationMix(SkeletonAnimationPlayer* player, const char* animati
 }
 
 
-static SkeletonAnimationPlayer* CreateWithData(SkeletonData* skeletonData, const char* animationName)
+static SkeletonAnimationPlayer* CreateWithData(SkeletonData* skeletonData, char* animationName)
 {
 	SkeletonAnimationPlayer* player = (SkeletonAnimationPlayer*) malloc(sizeof(SkeletonAnimationPlayer));
 	InitSkeletonAnimationPlayer(player, skeletonData, animationName);
@@ -164,7 +164,7 @@ static SkeletonAnimationPlayer* CreateWithData(SkeletonData* skeletonData, const
 }
 
 
-static SkeletonAnimationPlayer* Create(const char* filePath, const char* animationName)
+static SkeletonAnimationPlayer* Create(char* filePath, char* animationName)
 {
 	SkeletonAnimationPlayer* player = (SkeletonAnimationPlayer*) malloc(sizeof(SkeletonAnimationPlayer));
 	InitSkeletonAnimationPlayer(player, ASkeletonData->Get(filePath), animationName);
@@ -173,9 +173,9 @@ static SkeletonAnimationPlayer* Create(const char* filePath, const char* animati
 }
 
 
-static void Init(const char* filePath, const char* animationName, SkeletonAnimationPlayer* out_param player)
+static void Init(char* filePath, char* animationName, SkeletonAnimationPlayer* outPlayer)
 {
-	InitSkeletonAnimationPlayer(player, ASkeletonData->Get(filePath), animationName);
+	InitSkeletonAnimationPlayer(outPlayer, ASkeletonData->Get(filePath), animationName);
 }
 
 
@@ -189,15 +189,15 @@ static void Render(Drawable* drawable)
 }
 
 
-static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, const char* slotName, Drawable* out_param drawable)
+static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, char* slotName, Drawable* outDrawable)
 {
 	SkeletonSlot* slot = ASkeletonAnimationPlayerGetSlot(player, slotName);
 	ALogA(slot != NULL, "InitSlotBoundingBoxDrawable not found SkeletonSlot by slotName = %s", slotName);
 
-	ADrawable->Init(drawable);
+	ADrawable->Init(outDrawable);
 
-	drawable->userData = slot;
-	drawable->Render   = Render;
+	outDrawable->userData = slot;
+	outDrawable->Render   = Render;
 }
 
 

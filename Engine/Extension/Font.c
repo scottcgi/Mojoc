@@ -1,8 +1,8 @@
 /*
- * Font.c
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *  Created on: 2016-7-27
- *      Author: scott.cgi
+ * Since  : 2016-7-27
+ * Author : scott.cgi
  */
 
 #include <stdio.h>
@@ -19,7 +19,7 @@ static ArrayList(Font*)     fontList[1] = AArrayListInit(sizeof(Font*),     5);
 static ArrayList(FontText*) textList[1] = AArrayListInit(sizeof(FontText*), 30);
 
 
-static Font* Get(const char* filePath)
+static Font* Get(char* filePath)
 {
     TextureAtlas* textureAtlas = ATextureAtlas->Get(filePath);
 
@@ -99,7 +99,7 @@ static void Draw(Font* font)
 }
 
 
-static inline TextureAtlasQuad* GetAtlasQuad(FontText* text, const char* str, int index)
+static inline TextureAtlasQuad* GetAtlasQuad(FontText* text, char* str, int index)
 {
     TextureAtlasQuad* atlasQuad = ATextureAtlasGetQuad
                                   (
@@ -113,7 +113,7 @@ static inline TextureAtlasQuad* GetAtlasQuad(FontText* text, const char* str, in
 }
 
 
-static inline void SetNewChar(FontText* text, const char* str, int len)
+static inline void SetNewChar(FontText* text, char* str, int len)
 {
     // set text new char
     for (int i = 0; i < len; i++)
@@ -131,7 +131,7 @@ static inline void SetNewChar(FontText* text, const char* str, int len)
 }
 
 
-static void SetString(FontText* text, const char* str)
+static void SetString(FontText* text, char* str)
 {
 	ArrayList* children    = text->font->mesh->children;
 	int        len         = strlen(str);

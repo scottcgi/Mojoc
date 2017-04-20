@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-1-27
- *  Author: scott.cgi
+ * Since  : 2013-1-27
+ * Author : scott.cgi
  */
 
 #ifndef particle_emitter_h
@@ -33,27 +33,26 @@ typedef struct
      */
     float                emissionAngle;
 
-    Mesh                 get_only mesh[1];
+	int                  emission;
+	int                  emissionDiff;
+	float                emissionDelta;
 
-	int                  get_only emission;
-	int                  get_only emissionDiff;
-	float                get_only emissionDelta;
+	float                lifeOffset;
+	float                lifeOffsetDiff;
 
-	float                get_only lifeOffset;
-	float                get_only lifeOffsetDiff;
+	float                life;
+	float                lifeDiff;
 
-	float                get_only life;
-	float                get_only lifeDiff;
+	float                duration;
+	float                durationTimer;
 
-	float                get_only duration;
-	float                get_only durationTimer;
+	float                delay;
+	float                delayTimer;
 
-	float                get_only delay;
-	float                get_only delayTimer;
-
-	int                  get_only activeCount;
-	Array(Particle)*     get_only particleArr;
-	ParticleEmitterData* get_only emitterData;
+	int                  activeCount;
+	Array(Particle)*     particleArr;
+	ParticleEmitterData* emitterData;
+    Mesh                 mesh[1];
 }
 ParticleEmitter;
 
@@ -68,7 +67,7 @@ struct AParticleEmitter
 	/**
 	 * Initialize ParticleEmitter that memory has already allocated
 	 */
-	void             (*Init)     (ParticleEmitterData* emitterData, Texture* texture, ParticleEmitter* out_param particleEmitter);
+	void             (*Init)     (ParticleEmitterData* emitterData, Texture* texture, ParticleEmitter* outParticleEmitter);
 
 	/**
 	 * Free members memory that allocate by malloc and reset some property values

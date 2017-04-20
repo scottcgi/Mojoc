@@ -1,6 +1,8 @@
 /*
- *  Created on: 2014-5-4
- *      Author: scott.cgi
+ * Copyright (c) scott.cgi All Rights Reserved.
+ *
+ * Since  : 2014-5-4
+ * Author : scott.cgi
  */
 
 #ifndef extension_h

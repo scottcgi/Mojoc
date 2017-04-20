@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2014-7-23
- *      Author: scott.cgi
+ * Since  : 2014-7-23
+ * Author : scott.cgi
  */
 
 #ifndef physics_collision_h

@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2014-5-4
- *      Author: scott.cgi
+ * Since  : 2014-5-4
+ * Author : scott.cgi
  */
 
 #include "Engine/Extension/Extension.h"

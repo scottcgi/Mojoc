@@ -1,8 +1,8 @@
 /*
- * Mesh.c
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *  Created on: 2016-8-5
- *      Author: scott.cgi
+ * Since  : 2016-8-5
+ * Author : scott.cgi
  */
 
 #include <string.h>
@@ -443,12 +443,12 @@ static void Render(Drawable* drawable)
 }
 
 
-static void Init(Texture* texture, Mesh* out_param mesh)
+static void Init(Texture* texture, Mesh* outMesh)
 {
 	Quad quad[1];
 	AQuad->Init(texture->width, texture->height, quad);
 
-	Drawable* drawable               = mesh->drawable;
+	Drawable* drawable               = outMesh->drawable;
 	ADrawable->Init(drawable);
 
 	// override
@@ -457,25 +457,25 @@ static void Init(Texture* texture, Mesh* out_param mesh)
 
 	ADrawableSetState(drawable, drawable_state_is_update_mvp);
 
-	mesh->texture                    = texture;
-	mesh->vboIds[mesh_buffer_index]  = 0;
-    mesh->vboIds[mesh_buffer_vertex] = 0;
+	outMesh->texture                    = texture;
+	outMesh->vboIds[mesh_buffer_index]  = 0;
+    outMesh->vboIds[mesh_buffer_vertex] = 0;
 
-    mesh->vaoId                      = 0;
-	mesh->vertexArr                  = NULL;
-	mesh->indexArr                   = NULL;
+    outMesh->vaoId                      = 0;
+	outMesh->vertexArr                  = NULL;
+	outMesh->indexArr                   = NULL;
 
-	mesh->vertexCountOffset          = 0;
-    mesh->positionDataLength         = 0;
-    mesh->uvDataLength               = 0;
-    mesh->rgbDataLength              = 0;
-    mesh->opacityDataLength          = 0;
-    mesh->indexDataLength            = 0;
+	outMesh->vertexCountOffset          = 0;
+    outMesh->positionDataLength         = 0;
+    outMesh->uvDataLength               = 0;
+    outMesh->rgbDataLength              = 0;
+    outMesh->opacityDataLength          = 0;
+    outMesh->indexDataLength            = 0;
 
-	AArrayQueue->Init(sizeof(int),             mesh->drawRangeQueue);
-	AArrayList ->Init(sizeof(SubMesh*),        mesh->children);
-	AArrayList ->Init(sizeof(VBOSubData),      mesh->vboSubDataList);
-    mesh->vboSubDataList->increase = mesh->children->increase * 4;
+	AArrayQueue->Init(sizeof(int),             outMesh->drawRangeQueue);
+	AArrayList ->Init(sizeof(SubMesh*),        outMesh->children);
+	AArrayList ->Init(sizeof(VBOSubData),      outMesh->vboSubDataList);
+    outMesh->vboSubDataList->increase = outMesh->children->increase * 4;
 }
 
 static inline void InitBuffer(Mesh* mesh)
@@ -506,10 +506,10 @@ static inline void InitBuffer(Mesh* mesh)
 }
 
 
-static void InitWithCapacity(Texture* texture, int capacity, Mesh* out_param mesh)
+static void InitWithCapacity(Texture* texture, int capacity, Mesh* outMesh)
 {
-	Init(texture, mesh);
-	AArrayList->SetCapacity(mesh->children, capacity);
+	Init(texture, outMesh);
+	AArrayList->SetCapacity(outMesh->children, capacity);
 }
 
 

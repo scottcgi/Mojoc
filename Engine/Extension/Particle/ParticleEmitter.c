@@ -1,10 +1,9 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-1-27
- *  Author: scott.cgi
+ * Since  : 2013-1-27
+ * Author : scott.cgi
  */
-
 
 #include <math.h>
 
@@ -397,16 +396,16 @@ static void Release(ParticleEmitter* emitter)
 }
 
 
-static void Init(ParticleEmitterData* emitterData, Texture* texture, ParticleEmitter* out_param emitter)
+static void Init(ParticleEmitterData* emitterData, Texture* texture, ParticleEmitter* outEmitter)
 {
-	emitter->emitterData   = emitterData;
-	emitter->activeCount   = 0;
+	outEmitter->emitterData   = emitterData;
+	outEmitter->activeCount   = 0;
 
-	emitter->emissionX     = 0.0f;
-	emitter->emissionY     = 0.0f;
-	emitter->emissionAngle = 0.0f;
+	outEmitter->emissionX     = 0.0f;
+	outEmitter->emissionY     = 0.0f;
+	outEmitter->emissionAngle = 0.0f;
 
-	Mesh* mesh                = emitter->mesh;
+	Mesh* mesh                = outEmitter->mesh;
 
 	AMesh->Init(texture, mesh);
 	mesh->drawable->Render    = Render;
@@ -415,7 +414,7 @@ static void Init(ParticleEmitterData* emitterData, Texture* texture, ParticleEmi
 	ArrayList*  children      = mesh->children;
 
 	AArrayList->SetCapacity(children, max);
-	emitter->particleArr   = AArray->Create(sizeof(Particle), max);
+	outEmitter->particleArr   = AArray->Create(sizeof(Particle), max);
 
 	for (int i = 0; i < max; i++)
 	{
@@ -425,13 +424,13 @@ static void Init(ParticleEmitterData* emitterData, Texture* texture, ParticleEmi
 		AParticle->Init
         (
              AMesh->AddChildWithQuad(mesh, quad),
-             AArrayGetPtr(emitter->particleArr, i, Particle)
+             AArrayGetPtr(outEmitter->particleArr, i, Particle)
         );
 	}
 
 	AMesh->GenerateBuffer(mesh);
 
-	Restart(emitter);
+	Restart(outEmitter);
 }
 
 

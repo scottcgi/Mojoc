@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-7-3
- *      Author: scott.cgi
+ * Since  : 2013-7-3
+ * Author : scott.cgi
  */
 
 #include <stdbool.h>
@@ -745,7 +745,7 @@ static void AttachmentApply(SkeletonTimeline* skeletonTimeline, Skeleton* skelet
 	}
 
 	SkeletonSlot*           slot           = AArrayGetPtr(skeleton->slotArr,                  attachmentTimeline->slotIndex, SkeletonSlot);
-	const char*             attachmentName = AArrayGet(attachmentTimeline->attachmentNameArr, frameIndex,                    const char*);
+	char*                   attachmentName = AArrayGet(attachmentTimeline->attachmentNameArr, frameIndex,                    char*);
 	SkeletonAttachmentData* attachmentData = ASkeleton->GetAttachmentData(slot->skeleton,      slot->slotData->name,         attachmentName);
 
 	ASkeletonSlot->SetAttachmentData(slot, attachmentData);

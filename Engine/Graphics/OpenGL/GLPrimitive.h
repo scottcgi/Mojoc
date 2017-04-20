@@ -1,10 +1,9 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2014-2-26
- *      Author: scott.cgi
+ * Since  : 2014-2-26
+ * Author : scott.cgi
  */
-
 
 #ifndef gl_primitive_h
 #define gl_primitive_h

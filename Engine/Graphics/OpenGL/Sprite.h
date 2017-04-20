@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-4-20
- *      Author: scott.cgi
+ * Since  : 2013-4-20
+ * Author : scott.cgi
  */
 
 #ifndef sprite_h
@@ -17,33 +17,37 @@
 
 typedef struct
 {
-	Drawable               drawable[1];
-	Texture*               texture;
+	Drawable      drawable[1];
+
+    /**
+     * Sprite render texture
+     */
+	Texture*      texture;
 
 	/**
 	 * All vertex index count
 	 */
-	int           get_only indexCount;
+	int           indexCount;
 
 	/**
 	 * If use VBO is NULL else buffer all vertex data
 	 */
-	Array(float)* get_only vertexArr;
+	Array(float)* vertexArr;
 
 	/**
 	 * If use VBO is NULL else buffer all index data
 	 */
-	Array(short)* get_only indexArr;
+	Array(short)* indexArr;
 
 	/**
 	 * If use VBO is array buffer id
 	 */
-	GLuint        get_only vboIds[mesh_buffer_num];
+	GLuint        vboIds[mesh_buffer_num];
 
 	/**
 	 * If use VAO is generated id else 0
 	 */
-	GLuint        get_only vaoId;
+	GLuint        vaoId;
 }
 Sprite;
 
@@ -51,17 +55,17 @@ Sprite;
 struct ASprite
 {
 	Sprite* (*Create)             (Texture*    texture);
-	void    (*Init)               (Texture*    texture,  Sprite* out_param sprite);
+	void    (*Init)               (Texture*    texture,  Sprite* outSprite);
 
 	Sprite* (*CreateWithFile)     (const char* filePath);
-	void    (*InitWithFile)       (const char* filePath, Sprite* out_param sprite);
+	void    (*InitWithFile)       (const char* filePath, Sprite* outSprite);
 
 	Sprite* (*CreateWithQuad)     (Texture*    texture,  Quad*   quad);
-	void    (*InitWithQuad)       (Texture*    texture,  Quad*   quad, Sprite* out_param sprite);
+	void    (*InitWithQuad)       (Texture*    texture,  Quad*   quad, Sprite* outSprite);
 
 
 	Sprite* (*CreateWithQuadArray)(Texture*    texture, Array(Quad)* quadArr);
-	void    (*InitWithQuadArray)  (Texture*    texture, Array(Quad)* quadArr, Sprite* out_param sprite);
+	void    (*InitWithQuadArray)  (Texture*    texture, Array(Quad)* quadArr, Sprite* outSprite);
 
 	void    (*Release)            (Sprite*     sprite);
 

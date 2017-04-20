@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-7-7
- *      Author: scott.cgi
+ * Since  : 2013-7-7
+ * Author : scott.cgi
  */
 
 #ifndef skeleton_slot_h
@@ -16,11 +16,11 @@
 
 typedef struct
 {
-	Color                   get_only color[1];
-	SkeletonSlotData*       get_only slotData;
-	Skeleton*               get_only skeleton;
-	SkeletonBone*           get_only bone;
-	SkeletonAttachmentData* get_only attachmentData;
+	Color                   color[1];
+    SkeletonBone*           bone;
+	SkeletonSlotData*       slotData;
+	Skeleton*               skeleton;
+	SkeletonAttachmentData* attachmentData;
 }
 SkeletonSlot;
 
@@ -28,7 +28,7 @@ SkeletonSlot;
 struct ASkeletonSlot
 {
 	SkeletonSlot* (*Create)           (SkeletonSlotData* slotData, Skeleton* skeleton);
-	void          (*Init)             (SkeletonSlotData* slotData, Skeleton* skeleton, SkeletonSlot* out_param slot);
+	void          (*Init)             (SkeletonSlotData* slotData, Skeleton* skeleton, SkeletonSlot* outSlot);
 
 	void          (*SetAttachmentData)(SkeletonSlot* slot, SkeletonAttachmentData* attachmentData);
 	void          (*SetToSetupPose)   (SkeletonSlot* slot);

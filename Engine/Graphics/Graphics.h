@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-9-8
- *      Author: scott.cgi
+ * Since  : 2013-9-8
+ * Author : scott.cgi
  */
 
 #ifndef graphics_h

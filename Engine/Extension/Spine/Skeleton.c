@@ -1,17 +1,17 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-7-3
- *      Author: scott.cgi
+ * Since  : 2013-7-3
+ * Author : scott.cgi
  */
 
 #include "Engine/Extension/Spine/Skeleton.h"
-
 #include "Engine/Toolkit/Head/Struct.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Head/MacroDefine.h"
 #include "Engine/Extension/Spine/SkeletonTimeline.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
+
 
 static inline SubMesh* GetAttachmentSubMesh(Skeleton* skeleton, SkeletonAttachmentData* skeletonAttachmentData)
 {
@@ -90,7 +90,7 @@ static inline void InitSlot(Skeleton* skeleton, SkeletonData* skeletonData)
 }
 
 
-static void SetSkin(Skeleton* skeleton, const char* skinName)
+static void SetSkin(Skeleton* skeleton, char* skinName)
 {
 	ArrayStrMap*      skinDataMap = skeleton->skeletonData->skinDataMap;
 	SkeletonSkinData* skinData    = AArrayStrMapGet(skinDataMap, skinName, SkeletonSkinData*);
@@ -181,7 +181,8 @@ static void ResetSlots(Skeleton* skeleton)
 	}
 }
 
-static SkeletonAttachmentData* GetAttachmentData(Skeleton* skeleton, const char* slotName, const char* attachmentName)
+
+static SkeletonAttachmentData* GetAttachmentData(Skeleton* skeleton, char* slotName, char* attachmentName)
 {
 	SkeletonAttachmentData* attachmentData = ASkeletonData->GetAttachmentDataBySkinData
 			                                 (
@@ -402,22 +403,22 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 }
 
 
-static void Init(SkeletonData* skeletonData, Skeleton* out_param skeleton)
+static void Init(SkeletonData* skeletonData, Skeleton* outSkeleton)
 {
-	ADrawable->Init(skeleton->drawable);
+	ADrawable->Init(outSkeleton->drawable);
 
-	skeleton->drawable->Draw     = Draw;
-	skeleton->drawable->width    = skeletonData->width;
-	skeleton->drawable->height   = skeletonData->height;
-	skeleton->skeletonData       = skeletonData;
-	skeleton->curSkinData        = skeleton->skeletonData->skinDataDefault;
-	skeleton->FireSkeletonEvent  = NULL;
+	outSkeleton->drawable->Draw     = Draw;
+	outSkeleton->drawable->width    = skeletonData->width;
+	outSkeleton->drawable->height   = skeletonData->height;
+	outSkeleton->skeletonData       = skeletonData;
+	outSkeleton->curSkinData        = outSkeleton->skeletonData->skinDataDefault;
+	outSkeleton->FireSkeletonEvent  = NULL;
 
-	InitMeshList(skeleton, skeletonData);
-	InitBone    (skeleton, skeletonData);
-	InitSlot    (skeleton, skeletonData);
+	InitMeshList(outSkeleton, skeletonData);
+	InitBone    (outSkeleton, skeletonData);
+	InitSlot    (outSkeleton, skeletonData);
 
-	//	Release(skeleton);
+	//	Release(outSkeleton);
 	//	ALogA(0, "stop");
 }
 

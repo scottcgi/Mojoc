@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2014-6-3
- *      Author: scott.cgi
+ * Since  : 2014-6-3
+ * Author : scott.cgi
  */
 
 #ifndef physics_body_h
@@ -74,35 +74,46 @@ PhysicsBodyState;
 typedef struct PhysicsBody PhysicsBody;
 struct  PhysicsBody
 {
-	void*                 userData;
+	void*        userData;
 
 	/**
-	 * Default -1 used to identify PhysicsBody*
+	 * Default -1 used to identify PhysicsBody
 	 */
-	int                   userId;
+	int          userId;
 
-	float                 positionX;
-	float                 positionY;
-	float                 velocityX;
-	float                 velocityY;
-	float                 accelerationX;
-	float                 accelerationY;
-	float                 rotationZ;
+	float        positionX;
+	float        positionY;
+	float        velocityX;
+	float        velocityY;
+	float        accelerationX;
+	float        accelerationY;
+	float        rotationZ;
 
-	PhysicsShape get_only shape;
-	Array(float) get_only vertexArr   [1];
+    /**
+     *
+     */
+	PhysicsShape shape;
+
+    /**
+     * Hold born vertices, not modify
+     */
+	Array(float) vertexArr   [1];
 
 	/**
 	 * The vertices after transformed
 	 */
-	Array(float) get_only  positionArr[1];
-	int          get_only  state;
+	Array(float) positionArr[1];
+
+    /**
+     * Hold PhysicsBodyState
+     */
+    int          state;
 
 	/**
 	 * Pow of 2, default 0
 	 * body can collision between different collisionGroup
 	 */
-	int          get_only  collisionGroup;
+	int          collisionGroup;
 
     /**
      * When body collision callback

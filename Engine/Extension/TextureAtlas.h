@@ -1,12 +1,13 @@
 /*
- * TextureAtlas.h
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *  Created on: 2016-7-22
- *      Author: scott.cgi
+ * Since  : 2016-7-22
+ * Author : scott.cgi
  */
 
 #ifndef texture_atlas_h
 #define texture_atlas_h
+
 
 #include "Engine/Graphics/Draw/Quad.h"
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"
@@ -17,33 +18,44 @@ typedef struct
 	/**
 	 * Texture atlas quad info from file
 	 */
-	ArrayStrMap(atlasQuadName, TextureAtlasQuad) get_only quadMap[1];
+	ArrayStrMap(atlasQuadName, TextureAtlasQuad) quadMap[1];
 
 	/**
 	 * Textures in texture atlas
 	 */
-	ArrayList  (Texture*)                        get_only  textureList[1];
+	ArrayList  (Texture*)                        textureList[1];
 
     /**
      * Texture file path be key cached in ArrayStrMap which collect all TextureAtlas
      */
-	const char*                                  get_only  filePath;
+	char*                                        filePath;
 }
 TextureAtlas;
 
 
 typedef struct
 {
-    TextureAtlas* get_only atlas;
-    Quad          get_only quad[1];
-    int           get_only textureIndex;
+    /**
+     * Quad's texture belongs TextureAtlas
+     */
+    TextureAtlas* atlas;
+
+    /**
+     * Quad data in texture
+     */
+    Quad          quad[1];
+
+    /**
+     * Quad's texture index in TextureAtlas
+     */
+    int           textureIndex;
 }
 TextureAtlasQuad;
 
 
 struct ATextureAtlas
 {
-    TextureAtlas* (*Get)    (const char*   filePath);
+    TextureAtlas* (*Get)    (char*         filePath);
 	void          (*Release)(TextureAtlas* textureAtlas);
 };
 
@@ -51,7 +63,7 @@ struct ATextureAtlas
 extern struct ATextureAtlas ATextureAtlas[1];
 
 
-static TextureAtlasQuad* ATextureAtlasGetQuad(TextureAtlas* atlas, const char* quadName)
+static TextureAtlasQuad* ATextureAtlasGetQuad(TextureAtlas* atlas, char* quadName)
 {
     return AArrayStrMapGetPtr(atlas->quadMap, quadName, TextureAtlasQuad);
 }

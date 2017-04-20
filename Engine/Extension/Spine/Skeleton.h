@@ -1,12 +1,13 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-7-2
- *      Author: scott.cgi
+ * Since  : 2013-7-2
+ * Author : scott.cgi
  */
 
 #ifndef skeleton_h
 #define skeleton_h
+
 
 #include "Engine/Toolkit/Head/MacroDefine.h"
 #include "Engine/Extension/Spine/SkeletonData.h"
@@ -19,31 +20,34 @@ struct  Skeleton
 	/**
 	 * Has been implemented render if override must call the original
 	 */
-	Drawable                                      drawable[1];
-	ArrayStrMap(boneName, SkeletonBone*) get_only boneMap [1];
-	ArrayStrMap(slotName, SkeletonSlot*) get_only slotMap [1];
+	Drawable                             drawable[1];
+	ArrayStrMap(boneName, SkeletonBone*) boneMap [1];
+	ArrayStrMap(slotName, SkeletonSlot*) slotMap [1];
 
-	SkeletonData*                        get_only skeletonData;
-	SkeletonSkinData*                    get_only curSkinData;
-	Array(SkeletonBone)*                 get_only boneArr;
-	Array(SkeletonSlot)*                 get_only slotArr;
-	Array(SkeletonSlot*)*                get_only slotOrderArr;
+	SkeletonData*                        skeletonData;
+	SkeletonSkinData*                    curSkinData;
+	Array(SkeletonBone)*                 boneArr;
+	Array(SkeletonSlot)*                 slotArr;
+	Array(SkeletonSlot*)*                slotOrderArr;
 
-	ArrayList(Mesh)                      get_only meshList[1];
+    /**
+     * Skeleton used Mesh list
+     */
+	ArrayList(Mesh)                      meshList[1];
 
 	/**
 	 * If not NULL, callback when SkeletonEvent fire
 	 */
-	void (*FireSkeletonEvent)(Skeleton* skeleton, SkeletonEventData* eventData, float mixPersent);
+	void (*FireSkeletonEvent)(Skeleton* skeleton, SkeletonEventData* eventData, float mixPercent);
 };
 
 
 struct ASkeleton
 {
 	Skeleton*               (*Create)              (SkeletonData* skeletonData);
-	void                    (*Init)                (SkeletonData* skeletonData, Skeleton* out_param skeleton);
+	void                    (*Init)                (SkeletonData* skeletonData, Skeleton* outSkeleton);
 	void                    (*Release)             (Skeleton*     skeleton);
-	void                    (*SetSkin)             (Skeleton* skeleton, const char* skinName);
+	void                    (*SetSkin)             (Skeleton*     skeleton,     char*     skinName);
 
 	/**
 	 * Reset Skeleton bones to setup pose
@@ -56,8 +60,10 @@ struct ASkeleton
 	void                    (*ResetSlots)          (Skeleton* skeleton);
 
 
-	/** Find by curSkinData, if not found will find by default SkinData, not found then return NULL  */
-	SkeletonAttachmentData* (*GetAttachmentData)   (Skeleton* skeleton, const char* slotName, const char* attachmentName);
+	/**
+	 * Find by curSkinData, if not found will find by default SkinData, not found then return NULL
+	 */
+	SkeletonAttachmentData* (*GetAttachmentData)   (Skeleton* skeleton, char* slotName, char* attachmentName);
 
 	/**
 	 * Get SubMesh in Mesh bind in SkeletonAttachmentData
@@ -86,7 +92,7 @@ static inline void ASkeletonDraw(Skeleton* skeleton)
 }
 
 
-static inline SkeletonAnimationData* ASkeletonGetAnimationData(Skeleton* skeleton, const char* animationName)
+static inline SkeletonAnimationData* ASkeletonGetAnimationData(Skeleton* skeleton, char* animationName)
 {
     return AArrayStrMapGet
            (
@@ -97,7 +103,7 @@ static inline SkeletonAnimationData* ASkeletonGetAnimationData(Skeleton* skeleto
 }
 
 
-static inline SubMesh* ASkeletonGetSubMesh(Skeleton* skeleton, const char* slotName, const char* attachmentName)
+static inline SubMesh* ASkeletonGetSubMesh(Skeleton* skeleton, char* slotName, char* attachmentName)
 {
     return ASkeleton->GetAttachmentSubMesh
            (
@@ -105,6 +111,7 @@ static inline SubMesh* ASkeletonGetSubMesh(Skeleton* skeleton, const char* slotN
                ASkeleton->GetAttachmentData(skeleton, slotName, attachmentName)
            );
 }
+
 
 static inline float ASkeletonGetWidth(Skeleton* skeleton)
 {

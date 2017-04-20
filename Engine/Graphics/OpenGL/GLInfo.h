@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-4-17
- *      Author: scott.cgi
+ * Since  : 2013-4-17
+ * Author : scott.cgi
  */
 
 #ifndef gl_info_h
@@ -16,19 +16,19 @@
 
 struct AGLInfo
 {
-	GLfloat get_only pointSizeRange[2];
-	GLfloat get_only lineWidthRange[2];
+	GLfloat pointSizeRange[2];
+	GLfloat lineWidthRange[2];
 
-	GLint   get_only maxVertexAttribs;
-	GLint   get_only maxVertexUniformVectors;
-	GLint   get_only maxVertexTextureImageUnits;
-	GLint   get_only maxFragmentUniformVectors;
-	GLint   get_only maxVaryingVectors;
-	GLint   get_only maxCombinedTextureImageUnits;
-	GLint   get_only maxTextureImageUnits;
+	GLint   maxVertexAttribs;
+	GLint   maxVertexUniformVectors;
+	GLint   maxVertexTextureImageUnits;
+	GLint   maxFragmentUniformVectors;
+	GLint   maxVaryingVectors;
+	GLint   maxCombinedTextureImageUnits;
+	GLint   maxTextureImageUnits;
 
-	bool    get_only isSupportVAO;
-	float   get_only version;
+	bool    isSupportVAO;
+	float   version;
 
 	void (*Init)();
 };

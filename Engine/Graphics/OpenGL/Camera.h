@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-1-10
- *  Author: scott.cgi
+ * Since  : 2013-1-10
+ * Author : scott.cgi
  */
 
 #ifndef camera_h
@@ -47,17 +47,17 @@ struct ACamera
 	/**
 	 * Store view projection matrix
 	 */
-	Matrix4 get_only vp        [1];
+	Matrix4 vp        [1];
 
 	/**
 	 * Store the projection matrix
 	 */
-	Matrix4 get_only projection[1];
+	Matrix4 projection[1];
 
 	/**
 	 * Store the view matrix
 	 */
-	Matrix4 get_only  view     [1];
+	Matrix4  view     [1];
 
 
 	void  (*SetOrtho)     ();

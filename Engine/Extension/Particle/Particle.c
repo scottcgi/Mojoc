@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-1-21
- *  Author: scott.cgi
+ * Since  : 2013-1-21
+ * Author : scott.cgi
  */
 
 #include <stdlib.h>
@@ -19,10 +19,10 @@ static void Reset(Particle* particle)
 }
 
 
-static void Init(SubMesh* subMesh, Particle* out_param particle)
+static void Init(SubMesh* subMesh, Particle* outParticle)
 {
-	particle->isActive = false;
-	particle->subMesh  = subMesh;
+	outParticle->isActive = false;
+	outParticle->subMesh  = subMesh;
 
 	ADrawableSetInVisible(subMesh->drawable);
 }

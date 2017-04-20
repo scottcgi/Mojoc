@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-1-10
- *  Author: scott.cgi
+ * Since  : 2013-1-10
+ * Author : scott.cgi
  */
 
 #include "Engine/Graphics/OpenGL/Camera.h"

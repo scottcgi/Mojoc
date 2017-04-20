@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2012-12-29
- *  Author: scott.cgi
+ * Since  : 2012-12-29
+ * Author : scott.cgi
  */
 
 #ifndef texture_h
@@ -13,15 +13,29 @@
 #include "Engine/Toolkit/Head/MacroDefine.h"
 
 
-/**
- * Use openGL world coordinate system
- */
 typedef struct
 {
-	GLuint      get_only id;
-	float       get_only width;
-	float       get_only height;
-	const char* get_only filePath;
+    /**
+     *  The openGL generated texture id
+     */
+	GLuint id;
+
+    /**
+     * The texture width
+     */
+	float  width;
+
+    /**
+     * The texture height
+     */
+	float  height;
+
+    /**
+     * All texture chaced in ArrayStrMap by filePath
+     *
+     * filePath: ArrayStrMap's key
+     */
+	char*  filePath;
 }
 Texture;
 
@@ -34,7 +48,7 @@ struct ATexture
 	/**
 	 * Get Texture by filePath, not found will create one
 	 */
-	Texture*  (*Get)    (const char* filePath);
+	Texture*  (*Get)    (char* filePath);
 
 	/**
 	 * Release texture memory both in GPU and CPU

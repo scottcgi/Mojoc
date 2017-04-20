@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2012-12-22
- *  Author: scott.cgi
+ * Since  : 2012-12-22
+ * Author : scott.cgi
  */
 
 #ifndef gl_tool_h
@@ -20,37 +20,37 @@ struct AGLTool
 	/**
 	 * Screen pixel width
 	 */
-	float get_only screenWidth;
+	float screenWidth;
 
 	/**
 	 * Screen pixel height
 	 */
-	float get_only screenHeight;
+	float screenHeight;
 
 	/**
 	 * Screen half pixel width
 	 */
-	float get_only screenHalfWidth;
+	float screenHalfWidth;
 
 	/**
 	 * Screen half pixel height
 	 */
-	float get_only screenHalfHeight;
+	float screenHalfHeight;
 
 	/**
 	 * Screen width / height
 	 */
-	float get_only screenRatio;
+	float screenRatio;
 
 	/**
 	 * Screen ratio / halfWidth
 	 */
-	float get_only ratioDivideHalfWidth;
+	float ratioDivideHalfWidth;
 
 	/**
 	 * Screen halfWidth / ratio
 	 */
-	float get_only halfWidthDivideRatio;
+	float halfWidthDivideRatio;
 
 	/**
 	 * When screen changed called
@@ -86,7 +86,7 @@ struct AGLTool
 	/**
 	 * Load texture from file
 	 */
-	void (*LoadTexture)            (const char* filePath, Texture* texture);
+	void (*LoadTexture)            (const char* filePath, Texture* outTexture);
 };
 
 
