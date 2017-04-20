@@ -1,10 +1,9 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2014-1-16
- *      Author: scott.cgi
+ * Since  : 2014-1-16
+ * Author : scott.cgi
  */
-
 
 #ifndef scheduler_h
 #define scheduler_h
@@ -17,23 +16,23 @@
 typedef struct Scheduler Scheduler;
 struct  Scheduler
 {
-	void*          userData;
+	void* userData;
 
 	/**
 	 * Schedule interval time for update method called
 	 */
-	float          intervalTime;
+	float intervalTime;
 
 	/**
 	 * Whether cancel scheduler default false
 	 * once isCancel set true scheduler will remove and free
 	 */
-	bool           isCancel;
+	bool  isCancel;
 
 	/**
 	 * Current schedule time
 	 */
-	float get_only currentTime;
+	float currentTime;
 
 	/**
 	 * Called per frame

@@ -1,9 +1,9 @@
-/**
+/*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *  Created on: 2013-9-4
- *  Author: scott.cgi
+ * Since  : 2013-9-4
+ * Author : scott.cgi
  */
-
 
 #include "Engine/Audio/Platform/Audio.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"

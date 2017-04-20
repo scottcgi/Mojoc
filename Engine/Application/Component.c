@@ -1,7 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *  Created on: 2015-8-19
- *      Author: scott.cgi
+ * Since  : 2015-8-19
+ * Author : scott.cgi
  */
 
 #include <string.h>
@@ -11,23 +12,23 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-static void Init(Component* out_param component)
+static void Init(Component* outComponent)
 {
-	component->userData      = NULL;
-	component->order         = 0;
-	component->increaseOrder = 50;
-	component->parent        = NULL;
-	component->isActive      = true;
+	outComponent->userData      = NULL;
+	outComponent->order         = 0;
+	outComponent->increaseOrder = 50;
+	outComponent->parent        = NULL;
+	outComponent->isActive      = true;
 
-	AArrayIntMap->Init(sizeof(Component*), component->childMap);
-	AArrayIntMap->Init(sizeof(Component*), component->observerMap);
+	AArrayIntMap->Init(sizeof(Component*), outComponent->childMap);
+	AArrayIntMap->Init(sizeof(Component*), outComponent->observerMap);
 
-	AArrayIntMap->InitWithCapacity(sizeof(ComponentState*), 1, component->stateMap);
-	AArrayIntMapSetIncrease(component->stateMap, 5);
+	AArrayIntMap->InitWithCapacity(sizeof(ComponentState*), 1, outComponent->stateMap);
+	AArrayIntMapSetIncrease(outComponent->stateMap, 5);
 
-	component->defaultState = AComponent->AddState(component, component_state_default, NULL, NULL);
-	component->curState     = component->defaultState;
-	component->preState     = component->defaultState;
+	outComponent->defaultState = AComponent->AddState(outComponent, component_state_default, NULL, NULL);
+	outComponent->curState     = outComponent->defaultState;
+	outComponent->preState     = outComponent->defaultState;
 }
 
 

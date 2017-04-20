@@ -1,10 +1,12 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *  Created on: 2017-2-16
- *      Author: scott.cgi
+ * Since  : 2017-2-16
+ * Author : scott.cgi
  */
 
 #include "Engine/Toolkit/Platform/Platform.h"
+
 
 //--------------------------------------------------------------------------------------------------
 #ifdef is_platform_android
@@ -117,7 +119,7 @@ static void PlayerCallback(SLPlayItf caller, void *pContext, SLuint32 event)
 }
 
 
-static inline void InitPlayer(const char* filePath, AudioPlayer* player)
+static inline void InitPlayer(char* filePath, AudioPlayer* player)
 {
     off_t start;
     off_t length;
@@ -245,7 +247,7 @@ static bool IsPlaying(AudioPlayer* player)
 }
 
 
-static AudioPlayer* GetPlayer(const char* filePath)
+static AudioPlayer* GetPlayer(char* filePath)
 {
     AudioPlayer* player = AArrayListPop(cacheList, AudioPlayer*);
 
@@ -268,8 +270,9 @@ struct AAudio AAudio[1] =
     SetLoopResume,
     GetPlayer,
 
-    SetLoop,
     SetVolume,
+    SetLoop,
+
     SetPlay,
     SetPause,
     IsPlaying,

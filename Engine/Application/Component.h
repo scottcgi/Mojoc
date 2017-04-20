@@ -1,9 +1,10 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2015-8-19
- *      Author: scott.cgi
+ * Since  : 2015-8-19
+ * Author : scott.cgi
  */
+
 #ifndef component_h
 #define component_h
 
@@ -17,59 +18,59 @@ typedef struct ComponentState ComponentState;
 
 struct Component
 {
-	void*                                              userData;
+	void*                                      userData;
 
 	/**
 	 * If isActive false Component will not change state, update state, handle and send message
 	 */
-	bool                                      get_only isActive;
+	bool                                       isActive;
 
 	/**
 	 * Order in parent children list when add in
 	 * changed it and reorderAllChildren will sort by order
 	 */
-	int                                                order;
+	int                                        order;
 
 	/**
 	 * When append child order auto increase by increaseOrder add last child order
 	 * default 50
 	 */
-	int                                                increaseOrder;
+	int                                        increaseOrder;
 
 	/**
 	 * Component's parent in a tree structure
 	 */
-	Component*                                get_only parent;
+	Component*                                 parent;
 
 	/**
 	 * Current active state, default empty state with stateId 0
 	 */
-	ComponentState*                           get_only curState;
+	ComponentState*                            curState;
 
 	/**
 	 * Previous active state, default empty state with stateId 0
 	 */
-	ComponentState*                           get_only preState;
+	ComponentState*                            preState;
 
 	/**
 	 * Default state when Component created with stateId 0
 	 */
-	ComponentState*                           get_only defaultState;
+	ComponentState*                            defaultState;
 
 	/**
 	 * Children mapped by Component order
 	 */
-	ArrayIntMap(order,        Component*)     get_only childMap   [1];
+	ArrayIntMap(order,        Component*)      childMap   [1];
 
 	/**
 	 * Component notification observers
 	 */
-	ArrayIntMap(componentPtr, Component*)     get_only observerMap[1];
+	ArrayIntMap(componentPtr, Component*)      observerMap[1];
 
 	/**
 	 * All ComponentStates mapped by ComponentState's id
 	 */
-	ArrayIntMap(stateId,      ComponentState*) get_only stateMap  [1];
+	ArrayIntMap(stateId,      ComponentState*) stateMap  [1];
 };
 
 
@@ -86,7 +87,7 @@ enum
 /**
  * Component's any ComponentState may receive this type of subject message
  * then 'OnMessage' called for handle
- * the sender is AComponent
+ * and the sender is AComponent
  */
 enum
 {
@@ -104,12 +105,12 @@ enum
 
 struct ComponentState
 {
-    void*         userData;
+    void* userData;
 
     /**
      * Key in Component's stateMap
      */
-	int get_only  id;
+	int   id;
 
 	/**
 	 * Active ComponentState called per frame
@@ -143,7 +144,7 @@ struct AComponent
 	/**
 	 * Initialize Component that memory has already allocated
 	 */
-	void            (*Init)                 (Component* out_param component);
+	void            (*Init)                 (Component* outComponent);
 
 	/**
 	 * Free members memory that allocate by malloc and reset some property values

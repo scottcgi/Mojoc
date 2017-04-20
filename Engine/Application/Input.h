@@ -1,6 +1,9 @@
-//
-// Created by scott.cgi on 2017/3/24.
-//
+/*
+ * Copyright (c) scott.cgi All Rights Reserved.
+ *
+ * Since  : 2017-3-24
+ * Author : scott.cgi
+ */
 
 #ifndef input_h
 #define input_h
@@ -21,16 +24,18 @@ InputTouchType;
 
 typedef struct
 {
-    /** OpenGL coordinate */
-    float          get_only x;
-    float          get_only y;
+    /**
+     * Use openGL coordinate
+     */
+    float          x;
+    float          y;
 
     /**
      * Identify touch point
      * 0-9 corresponding 10 fingers
      */
-    int            get_only fingerId;
-    InputTouchType get_only type;
+    int            fingerId;
+    InputTouchType type;
 }
 InputTouch;
 

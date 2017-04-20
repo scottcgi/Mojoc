@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-09-04
- *      Author: scott.cgi
+ * Since  : 2013-09-04
+ * Author : scott.cgi
  */
 
 #ifndef application_h
@@ -15,7 +15,7 @@
 /**
  * AApplication receive this type of subject message
  * then 'OnMessage' called for handle
- * the sender is AApplication
+ * and the sender is AApplication
  *
  * these messages callback from target platform
  */
@@ -57,7 +57,7 @@ typedef struct
     /**
      * Called when application request save persistent data
      */
-    void (*OnGetSaveData)(void** out_param saveData, int* out_param length);
+    void (*OnGetSaveData)(void** outSaveData, int* outLength);
 
     /**
      * Called when application start then set saved persistent data
