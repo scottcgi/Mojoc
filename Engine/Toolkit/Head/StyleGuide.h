@@ -84,9 +84,14 @@
 
 //--------------------------------------------------------------------------------------------------
 
-  The non-boolean value use conditional expressions in conditional judgments
+  The non-boolean value use conditional expressions in conditional judgments.
 
-  Use this '/------------------------' for split line
+  Use this '/------------------------' for split line.
+
+//--------------------------------------------------------------------------------------------------
+
+  Empty Two lines between method and block comment and type define.
+  Empty one line  between struct property and split line
 
 ----------------------------------------------------------------------------------------------------
 */

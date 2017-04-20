@@ -65,7 +65,7 @@ static void Loop()
 	AAudio       ->Update(deltaSeconds);
 
 	// root update
-	AComponent   ->Update(AApplication->component, deltaSeconds);
+	AComponent->Update(AApplication->component, deltaSeconds);
 
 	// rendering
 	ADrawable->RenderQueue();
