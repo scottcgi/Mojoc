@@ -118,7 +118,7 @@ struct  PhysicsBody
     /**
      * When body collision callback
      */
-	void (*OnCollision)(PhysicsBody* self, PhysicsBody* other, float deltaTime);
+	void (*OnCollision)(PhysicsBody* self, PhysicsBody* other, float deltaSeconds);
 };
 
 
@@ -133,7 +133,7 @@ struct APhysicsBody
 	/**
 	 * Update body shape motion
 	 */
-	void         (*UpdateMotion)(PhysicsBody* body, float deltaTime);
+	void         (*UpdateMotion)(PhysicsBody* body, float deltaSeconds);
 
 };
 

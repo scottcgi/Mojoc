@@ -17,7 +17,7 @@ static ArrayIntMap(bodyPtr, PhysicsBody*) bodyMap[1] = AArrayIntMapInit(PhysicsB
 //--------------------------------------------------------------------------------------------------
 
 
-static inline void UpdateMotion(PhysicsBody* body, float deltaTime)
+static inline void UpdateMotion(PhysicsBody* body, float deltaSeconds)
 {
 	// cache v0
 	float vx         = body->velocityX;
@@ -25,13 +25,13 @@ static inline void UpdateMotion(PhysicsBody* body, float deltaTime)
 
 	// get final velocity in x and y direction
 	// v1 = at + v0
-	body->velocityX += (body->accelerationX + APhysicsWorld->gravity.x) * deltaTime;
-	body->velocityY += (body->accelerationY + APhysicsWorld->gravity.y) * deltaTime;
+	body->velocityX += (body->accelerationX + APhysicsWorld->gravity.x) * deltaSeconds;
+	body->velocityY += (body->accelerationY + APhysicsWorld->gravity.y) * deltaSeconds;
 
 	// get delta distance in x and y indirection
 	// s = (v0 + v1) * t / 2
-	float dx         = (body->velocityX + vx) * deltaTime * 0.5f;
-	float dy         = (body->velocityY + vy) * deltaTime * 0.5f;
+	float dx         = (body->velocityX + vx) * deltaSeconds * 0.5f;
+	float dy         = (body->velocityY + vy) * deltaSeconds * 0.5f;
 
 	// increase x and y distance
 	body->positionX += dx;
@@ -39,7 +39,7 @@ static inline void UpdateMotion(PhysicsBody* body, float deltaTime)
 
 	body->rotationZ  = AMathAtan2(dx, dy);
 
-	APhysicsBody->UpdateMotion(body, deltaTime);
+	APhysicsBody->UpdateMotion(body, deltaSeconds);
 
 	if (AMathTestFloatEqual(body->velocityX, 0.0f) && AMathTestFloatEqual(body->velocityY, 0.0f))
 	{
@@ -48,7 +48,7 @@ static inline void UpdateMotion(PhysicsBody* body, float deltaTime)
 }
 
 
-static void Update(float deltaTime)
+static void Update(float deltaSeconds)
 {
 	for (int i = 0; i < bodyMap->arrayList->size; i++)
 	{
@@ -73,12 +73,12 @@ static void Update(float deltaTime)
 
                     if (body->OnCollision != NULL)
                     {
-                        body->OnCollision(body, otherBody, deltaTime);
+                        body->OnCollision(body, otherBody, deltaSeconds);
                     }
 
                     if (otherBody->OnCollision != NULL)
                     {
-                        otherBody->OnCollision(otherBody, body, deltaTime);
+                        otherBody->OnCollision(otherBody, body, deltaSeconds);
                     }
                 }
             }
@@ -87,7 +87,7 @@ static void Update(float deltaTime)
         if (APhysicsBodyCheckState(body, physics_body_state_no_motion) == false)
         {
             // after test collision can update motion
-            UpdateMotion(body, deltaTime);
+            UpdateMotion(body, deltaSeconds);
         }
 	}
 }

@@ -93,7 +93,7 @@ static PhysicsBody* Create(PhysicsShape shape, Array(float)* vertexArr)
 }
 
 
-static void UpdateMotion2D(PhysicsBody* body, float deltaTime)
+static void UpdateMotion2D(PhysicsBody* body, float deltaSeconds)
 {
 	float  cos       = AMathCos(body->rotationZ);
 	float  sin       = AMathSin(body->rotationZ);

@@ -49,7 +49,7 @@ static Coroutine* StartCoroutine(CoroutineRun Run)
 }
 
 
-static void Update(float deltaTime)
+static void Update(float deltaSeconds)
 {
     for (int i = coroutineMap->arrayList->size - 1; i > -1; i--)
     {
@@ -97,7 +97,7 @@ static void Update(float deltaTime)
                     break;
 
                 case coroutine_wait_second:
-                    coroutine->curWaitValue += deltaTime;
+                    coroutine->curWaitValue += deltaSeconds;
                     break;
             }
         }

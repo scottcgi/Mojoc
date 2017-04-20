@@ -54,7 +54,7 @@ static Scheduler* ScheduleOnce(SchedulerUpdate Update, float intervalTime, void*
 }
 
 
-static void Update(float deltaTime)
+static void Update(float deltaSeconds)
 {
 	for (int i = schedulerRun->size - 1; i > -1; i--)
 	{
@@ -62,11 +62,11 @@ static void Update(float deltaTime)
 
 		if (scheduler->currentTime < scheduler->intervalTime)
 		{
-			scheduler->currentTime += deltaTime;
+			scheduler->currentTime += deltaSeconds;
 		}
 		else
 		{
-			scheduler->Update(scheduler, deltaTime);
+			scheduler->Update(scheduler, deltaSeconds);
 
 			if (scheduler->isCancel)
 			{

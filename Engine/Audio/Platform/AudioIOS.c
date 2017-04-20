@@ -17,7 +17,7 @@
 #include "Engine/Audio/Platform/Audio.h"
 
 
-static void Update(float deltaTime)
+static void Update(float deltaSeconds)
 {
 
 }

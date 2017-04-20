@@ -157,7 +157,7 @@ struct ATween
     /**
      * Called every frame
      */
-	void              (*Update)               (float deltaTime);
+	void              (*Update)               (float deltaSeconds);
 };
 
 

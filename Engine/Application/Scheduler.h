@@ -37,11 +37,11 @@ struct  Scheduler
 	/**
 	 * Called per frame
 	 */
-	void (*Update)(Scheduler* scheduler, float deltaTime);
+	void (*Update)(Scheduler* scheduler, float deltaSeconds);
 };
 
 
-typedef void (*SchedulerUpdate)(Scheduler* scheduler, float deltaTime);
+typedef void (*SchedulerUpdate)(Scheduler* scheduler, float deltaSeconds);
 
 
 struct AScheduler
@@ -59,7 +59,7 @@ struct AScheduler
 	/**
 	 * Update per frame calculate schedule time
 	 */
-	void       (*Update)      (float deltaTime);
+	void       (*Update)      (float deltaSeconds);
 };
 
 

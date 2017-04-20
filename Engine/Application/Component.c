@@ -188,30 +188,30 @@ static void RemoveObserver(Component* sender, Component* observer)
 //--------------------------------------------------------------------------------------------------
 
 
-static void Update(Component* component, float deltaTime)
+static void Update(Component* component, float deltaSeconds)
 {
 	if (component->isActive)
 	{
 		if (component->curState->Update != NULL)
 		{
-			component->curState->Update(component, deltaTime);
+			component->curState->Update(component, deltaSeconds);
 		}
 
         for (int i = 0;;)
         {
             while (i + 3 < component->childMap->arrayList->size)
             {
-                AComponent->Update(AArrayIntMapGetAt(component->childMap, i,     Component*), deltaTime);
-                AComponent->Update(AArrayIntMapGetAt(component->childMap, i + 1, Component*), deltaTime);
-                AComponent->Update(AArrayIntMapGetAt(component->childMap, i + 2, Component*), deltaTime);
-                AComponent->Update(AArrayIntMapGetAt(component->childMap, i + 3, Component*), deltaTime);
+                AComponent->Update(AArrayIntMapGetAt(component->childMap, i,     Component*), deltaSeconds);
+                AComponent->Update(AArrayIntMapGetAt(component->childMap, i + 1, Component*), deltaSeconds);
+                AComponent->Update(AArrayIntMapGetAt(component->childMap, i + 2, Component*), deltaSeconds);
+                AComponent->Update(AArrayIntMapGetAt(component->childMap, i + 3, Component*), deltaSeconds);
 
                 i += 4;
             }
 
             while (i < component->childMap->arrayList->size)
             {
-                AComponent->Update(AArrayIntMapGetAt(component->childMap, i++, Component*), deltaTime);
+                AComponent->Update(AArrayIntMapGetAt(component->childMap, i++, Component*), deltaSeconds);
             }
 
             break;
@@ -219,7 +219,7 @@ static void Update(Component* component, float deltaTime)
 
 		if (component->curState->UpdateAfter != NULL)
 		{
-			component->curState->UpdateAfter(component, deltaTime);
+			component->curState->UpdateAfter(component, deltaSeconds);
 		}
 	}
 }

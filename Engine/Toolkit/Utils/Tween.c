@@ -346,7 +346,7 @@ static bool HasAction(void* tweenId)
 }
 
 
-static void Update(float deltaTime)
+static void Update(float deltaSeconds)
 {
 	for (int i = dataMap->arrayList->size - 1; i > -1; i--)
 	{
@@ -397,7 +397,7 @@ static void Update(float deltaTime)
                     );
                 }
 
-                action->curTime += deltaTime;
+                action->curTime += deltaSeconds;
 			}
 			else
 			{

@@ -12,14 +12,14 @@
 #include "Engine/Graphics/OpenGL/GLPrimitive.h"
 
 
-static inline void UpdateNormal(SkeletonAnimationPlayer* player, float deltaTime)
+static inline void UpdateNormal(SkeletonAnimationPlayer* player, float deltaSeconds)
 {
 	if (player->curTime < player->curAnimationData->duration)
 	{
 		ASkeleton->Apply(player->skeleton, player->curAnimationData, player->curTime, 1.0f);
 		ASkeletonDraw   (player->skeleton);
 
-		player->curTime += deltaTime;
+		player->curTime += deltaSeconds;
 
 	}
 	else
@@ -44,12 +44,12 @@ static inline void UpdateNormal(SkeletonAnimationPlayer* player, float deltaTime
 }
 
 
-static inline void UpdateMix(SkeletonAnimationPlayer* player, float deltaTime)
+static inline void UpdateMix(SkeletonAnimationPlayer* player, float deltaSeconds)
 {
 	if (player->preTime < player->preAnimationData->duration)
 	{
         ASkeleton->Apply(player->skeleton, player->preAnimationData, player->preTime, 1.0f);
-        player->preTime += deltaTime;
+        player->preTime += deltaSeconds;
 	}
     else
     {
@@ -60,7 +60,7 @@ static inline void UpdateMix(SkeletonAnimationPlayer* player, float deltaTime)
 	float mixPercent = player->mixTime / player->mixDuration;
 	if (mixPercent < 1.0f)
 	{
-        player->mixTime += deltaTime;
+        player->mixTime += deltaSeconds;
 	}
     else
     {
@@ -74,7 +74,7 @@ static inline void UpdateMix(SkeletonAnimationPlayer* player, float deltaTime)
         ASkeleton->Apply(player->skeleton, player->curAnimationData, player->curTime, mixPercent);
         ASkeletonDraw   (player->skeleton);
 
-        player->curTime += deltaTime;
+        player->curTime += deltaSeconds;
     }
     else
     {
@@ -93,17 +93,17 @@ static inline void UpdateMix(SkeletonAnimationPlayer* player, float deltaTime)
 }
 
 
-static void Update(SkeletonAnimationPlayer* player, float deltaTime)
+static void Update(SkeletonAnimationPlayer* player, float deltaSeconds)
 {
     if (player->loop != 0)
     {
         if (player->preAnimationData == NULL)
         {
-            UpdateNormal(player, deltaTime);
+            UpdateNormal(player, deltaSeconds);
         }
         else
         {
-            UpdateMix(player, deltaTime);
+            UpdateMix(player, deltaSeconds);
         }
     }
 }

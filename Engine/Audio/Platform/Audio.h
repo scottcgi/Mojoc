@@ -24,7 +24,7 @@ struct AAudio
     /**
      * Every frame update
      */
-    void         (*Update)          (float deltaTime);
+    void         (*Update)          (float deltaSeconds);
 
     /**
      * Pause all loop AudioPlayer

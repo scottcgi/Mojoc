@@ -202,9 +202,9 @@ static inline void AddParticles(ParticleEmitter* emitter, int count)
 }
 
 
-static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, float deltaTime)
+static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, float deltaSeconds)
 {
-	particle->currentLife -= deltaTime;
+	particle->currentLife -= deltaSeconds;
 	Drawable* drawable     = particle->subMesh->drawable;
 
 	if (particle->currentLife < 0)
@@ -232,7 +232,7 @@ static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, 
 	if (velocityValue->rangedValue->isActive)
 	{
 	    // velocity is in one second
-		float velocity  = (particle->velocity + particle->velocityDiff * AParticleEmitterData->GetScale(velocityValue, percent)) * deltaTime;
+		float velocity  = (particle->velocity + particle->velocityDiff * AParticleEmitterData->GetScale(velocityValue, percent)) * deltaSeconds;
 		float velocityX = velocity;
 		float velocityY = velocity;
 
@@ -248,13 +248,13 @@ static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, 
 		ParticleScaledValue* windValue = emitterData->windValue;
 		if (windValue->rangedValue->isActive)
 		{
-			velocityX += (particle->wind + particle->windDiff * AParticleEmitterData->GetScale(windValue, percent)) * deltaTime;
+			velocityX += (particle->wind + particle->windDiff * AParticleEmitterData->GetScale(windValue, percent)) * deltaSeconds;
 		}
 
 		ParticleScaledValue* gravityValue = emitterData->gravityValue;
 		if (gravityValue->rangedValue->isActive)
 		{
-			velocityY += (particle->gravity + particle->gravityDiff * AParticleEmitterData->GetScale(gravityValue, percent)) * deltaTime;
+			velocityY += (particle->gravity + particle->gravityDiff * AParticleEmitterData->GetScale(gravityValue, percent)) * deltaSeconds;
 		}
 
 		ADrawableSetPosition2
@@ -310,26 +310,26 @@ static void Render(Drawable* drawable)
 }
 
 
-static void Update(ParticleEmitter* emitter, float deltaTime)
+static void Update(ParticleEmitter* emitter, float deltaSeconds)
 {
 	for (int i = 0; i < emitter->particleArr->length; i++)
 	{
 		Particle* particle = AArrayGetPtr(emitter->particleArr, i, Particle);
 		if (particle->isActive)
 		{
-			UpdateParticle(emitter, particle, deltaTime);
+			UpdateParticle(emitter, particle, deltaSeconds);
 		}
 	}
 
 	if (emitter->delayTimer < emitter->delay)
 	{
-		emitter->delayTimer += deltaTime;
+		emitter->delayTimer += deltaSeconds;
 		return;
 	}
 
 	if (emitter->durationTimer < emitter->duration)
 	{
-		emitter->durationTimer += deltaTime;
+		emitter->durationTimer += deltaSeconds;
 	}
 	else
 	{
@@ -358,7 +358,7 @@ static void Update(ParticleEmitter* emitter, float deltaTime)
 
 		if (emitter->emissionDelta < emissionTime)
 		{
-            emitter->emissionDelta += deltaTime;
+            emitter->emissionDelta += deltaSeconds;
 		}
         else
         {
@@ -375,7 +375,7 @@ static void Update(ParticleEmitter* emitter, float deltaTime)
 	}
     else
     {
-        emitter->emissionDelta += deltaTime;
+        emitter->emissionDelta += deltaSeconds;
     }
 
 	if (emitter->activeCount < emitter->emitterData->minParticleCount)

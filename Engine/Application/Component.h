@@ -115,12 +115,12 @@ struct ComponentState
 	/**
 	 * Active ComponentState called per frame
 	 */
-	void (*Update)      (Component* component, float deltaTime);
+	void (*Update)      (Component* component, float deltaSeconds);
 
 	/**
 	 * After Component's children updated called per frame
 	 */
-	void (*UpdateAfter) (Component* component, float deltaTime);
+	void (*UpdateAfter) (Component* component, float deltaSeconds);
 
 	/**
 	 * When message received called
@@ -130,7 +130,7 @@ struct ComponentState
 };
 
 
-typedef void (*ComponentStateUpdate)   (Component* component, float deltaTime);
+typedef void (*ComponentStateUpdate)   (Component* component, float deltaSeconds);
 typedef bool (*ComponentStateOnMessage)(Component* component, void* sender, int subject, void* extraData);
 
 
@@ -189,7 +189,7 @@ struct AComponent
 	/**
 	 * Call self and children's ComponentState update
 	 */
-	void            (*Update)               (Component* component, float deltaTime);
+	void            (*Update)               (Component* component, float deltaSeconds);
 
 	/**
 	 * Call self and children's ComponentState onMessage

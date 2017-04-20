@@ -117,7 +117,7 @@ struct ACoroutine
     /**
      * Update on every frame
      */
-    void       (*Update)        (float deltaTime);
+    void       (*Update)        (float deltaSeconds);
 };
 
 

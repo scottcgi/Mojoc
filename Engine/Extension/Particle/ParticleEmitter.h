@@ -77,7 +77,7 @@ struct AParticleEmitter
 	/**
 	 * Called per frame
 	 */
-	void             (*Update)   (ParticleEmitter*     emitter,     float    deltaTime);
+	void             (*Update)   (ParticleEmitter*     emitter,     float deltaSeconds);
 
 	/**
 	 * Restart ParticleEmitter to the initial state

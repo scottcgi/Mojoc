@@ -50,7 +50,7 @@ static ArrayList loopList    [1] = AArrayListInit(sizeof(AudioPlayer*), 5);
 
 //--------------------------------------------------------------------------------------------------
 
-static void Update(float deltaTime)
+static void Update(float deltaSeconds)
 {
     while (destroyList->size > 0)
     {

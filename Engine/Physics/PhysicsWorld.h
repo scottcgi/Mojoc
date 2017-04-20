@@ -33,7 +33,7 @@ struct APhysicsWorld
 	/**
 	 * Every frame update PhysicsBody
 	 */
-	void         (*Update)     (float deltaTime);
+	void         (*Update)     (float deltaSeconds);
 };
 
 

@@ -51,21 +51,21 @@ static void Init()
 static void Loop()
 {
     clock_gettime(CLOCK_MONOTONIC, &now);
-    float deltaTime = (now.tv_nsec - last.tv_nsec) * 0.000000001 + (now.tv_sec - last.tv_sec);
-    last            =  now;
+    float deltaSeconds = (now.tv_nsec - last.tv_nsec) * 0.000000001 + (now.tv_sec - last.tv_sec);
+    last               =  now;
 
 //--------------------------------------------------------------------------------------------------
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	AScheduler   ->Update(deltaTime);
-	ACoroutine   ->Update(deltaTime);
-	ATween       ->Update(deltaTime);
-	APhysicsWorld->Update(deltaTime);
-	AAudio       ->Update(deltaTime);
+	AScheduler   ->Update(deltaSeconds);
+	ACoroutine   ->Update(deltaSeconds);
+	ATween       ->Update(deltaSeconds);
+	APhysicsWorld->Update(deltaSeconds);
+	AAudio       ->Update(deltaSeconds);
 
 	// root update
-	AComponent   ->Update(AApplication->component, deltaTime);
+	AComponent   ->Update(AApplication->component, deltaSeconds);
 
 	// rendering
 	ADrawable->RenderQueue();

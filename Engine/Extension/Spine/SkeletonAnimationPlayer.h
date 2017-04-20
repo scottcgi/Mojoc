@@ -70,7 +70,7 @@ struct ASkeletonAnimationPlayer
     /**
      * Update skeleton apply and draw
      */
-	void                     (*Update)                     (SkeletonAnimationPlayer* player, float deltaTime);
+	void                     (*Update)                     (SkeletonAnimationPlayer* player, float deltaSeconds);
 
 	/**
 	 * Set player's animationData in Skeleton
@@ -111,9 +111,9 @@ static inline Drawable* ASkeletonAnimationPlayerGetDrawable(SkeletonAnimationPla
 }
 
 
-static inline void ASkeletonAnimationPlayerUpdate(SkeletonAnimationPlayer* player, float deltaTime)
+static inline void ASkeletonAnimationPlayerUpdate(SkeletonAnimationPlayer* player, float deltaSeconds)
 {
-	ASkeletonAnimationPlayer->Update(player, deltaTime);
+	ASkeletonAnimationPlayer->Update(player, deltaSeconds);
 }
 
 
