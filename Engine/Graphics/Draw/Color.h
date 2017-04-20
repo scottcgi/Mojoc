@@ -24,7 +24,7 @@ struct AColor
 	/**
 	 * String format 000000 - ffffffff
 	 */
-	void (*SetWithString)(const char* colorStr, Color* outColor);
+	void (*SetWithString)(char* colorStr, Color* outColor);
 };
 
 

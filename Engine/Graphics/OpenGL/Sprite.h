@@ -57,8 +57,8 @@ struct ASprite
 	Sprite* (*Create)             (Texture*    texture);
 	void    (*Init)               (Texture*    texture,  Sprite* outSprite);
 
-	Sprite* (*CreateWithFile)     (const char* filePath);
-	void    (*InitWithFile)       (const char* filePath, Sprite* outSprite);
+	Sprite* (*CreateWithFile)     (char*       filePath);
+	void    (*InitWithFile)       (char*       filePath, Sprite* outSprite);
 
 	Sprite* (*CreateWithQuad)     (Texture*    texture,  Quad*   quad);
 	void    (*InitWithQuad)       (Texture*    texture,  Quad*   quad, Sprite* outSprite);

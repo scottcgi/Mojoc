@@ -223,13 +223,13 @@ static void InitWithQuadArray(Texture* texture, Array(Quad)* quadArr, Sprite* ou
 }
 
 
-static Sprite* CreateWithFile(const char* filePath)
+static Sprite* CreateWithFile(char* filePath)
 {
 	return Create(ATexture->Get(filePath));
 }
 
 
-static void InitWithFile(const char* filePath, Sprite* outSprite)
+static void InitWithFile(char* filePath, Sprite* outSprite)
 {
 	Init(ATexture->Get(filePath), outSprite);
 }

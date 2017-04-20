@@ -60,33 +60,33 @@ struct AGLTool
 	/**
 	 * Check and print GL error
 	 */
-	void (*CheckGLError)           (const char* printMsg);
+	void (*CheckGLError)           (char* printMsg);
 
 	/**
 	 * Print GL string value
 	 */
-	void (*PrintGLString)          (const char *name, GLenum s);
+	void (*PrintGLString)          (char *name, GLenum s);
 
 	/**
 	 * Compile a shader
 	 * shaderType is GL_VERTEX_SHADER or GL_FRAGMENT_SHADER
 	 */
-	GLuint (*LoadShader)           (GLenum shaderType, const char* shaderSource);
+	GLuint (*LoadShader)           (GLenum shaderType, char* shaderSource);
 
 	/**
 	 * Load vertex and fragment shader, create a program object, link program
 	 */
-	GLuint (*LoadProgram)          (const char* vertexSource, const char* fragmentSource);
+	GLuint (*LoadProgram)          (char* vertexSource, char* fragmentSource);
 
 	/**
 	 * Create a program object by shader file path
 	 */
-	GLuint (*LoadProgramByFile)    (const char* vertexShaderPath, const char* fragmentShaderPath);
+	GLuint (*LoadProgramByFile)    (char* vertexShaderPath, char* fragmentShaderPath);
 
 	/**
 	 * Load texture from file
 	 */
-	void (*LoadTexture)            (const char* filePath, Texture* outTexture);
+	void (*LoadTexture)            (char* filePath, Texture* outTexture);
 };
 
 

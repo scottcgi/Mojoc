@@ -41,7 +41,7 @@ static void Init()
 }
 
 
-static inline void InitPlayer(const char* filePath, AudioPlayer* player)
+static inline void InitPlayer(char* filePath, AudioPlayer* player)
 {
 
 }
@@ -77,7 +77,7 @@ static bool IsPlaying(AudioPlayer* player)
 }
 
 
-static AudioPlayer* GetPlayer(const char* filePath)
+static AudioPlayer* GetPlayer(char* filePath)
 {
     return NULL;
 }

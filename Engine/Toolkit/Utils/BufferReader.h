@@ -19,22 +19,22 @@ struct ABufferReader
 	/**
 	 * Read long from buffer data, where ArrayRange in buffer
 	 */
-	int64_t (*ReadInt64)   (const char* buffer, ArrayRange* range);
+	int64_t (*ReadInt64)   (char* buffer, ArrayRange* range);
 
 	/**
 	 * Read int from buffer data, where ArrayRange in buffer
 	 */
-	int32_t (*ReadInt32)   (const char* buffer, ArrayRange* range);
+	int32_t (*ReadInt32)   (char* buffer, ArrayRange* range);
 
 	/**
 	 * Read short from buffer data, where ArrayRange in buffer
 	 */
-	int16_t (*ReadInt16)   (const char* buffer, ArrayRange* range);
+	int16_t (*ReadInt16)   (char* buffer, ArrayRange* range);
 
 	/**
 	 * Read byte from buffer data, where ArrayRange in buffer
 	 */
-	int8_t (*ReadInt8)     (const char* buffer, ArrayRange* range);
+	int8_t (*ReadInt8)     (char* buffer, ArrayRange* range);
 
 	/**
 	 * Read line from buffer data, where ArrayRange in buffer
@@ -46,7 +46,7 @@ struct ABufferReader
      * Find string in buffer and make range start after string
      * return true found string or false not found
      */
-	bool   (*TryFindString)(char* buffer, ArrayRange* range, const char* str);
+	bool   (*TryFindString)(char* buffer, ArrayRange* range, char* str);
 };
 
 

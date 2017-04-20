@@ -18,7 +18,7 @@
 
 
 
-static inline void ReadFindString(char* buffer, ArrayRange* range, ArrayRange* line, const char* name)
+static inline void ReadFindString(char* buffer, ArrayRange* range, ArrayRange* line, char* name)
 {
 	ABufferReader->ReadLine(buffer, range, line);
 	bool isFound = ABufferReader->TryFindString(buffer, line, name);
@@ -26,21 +26,21 @@ static inline void ReadFindString(char* buffer, ArrayRange* range, ArrayRange* l
 }
 
 
-static inline bool ReadBool(char* buffer, ArrayRange* range, ArrayRange* line, const char* name)
+static inline bool ReadBool(char* buffer, ArrayRange* range, ArrayRange* line, char* name)
 {
 	ReadFindString(buffer, range, line, name);
 	return ABufferReader->TryFindString(buffer, line, "true");
 }
 
 
-static inline int ReadInt(char* buffer, ArrayRange* range, ArrayRange* line, const char* name)
+static inline int ReadInt(char* buffer, ArrayRange* range, ArrayRange* line, char* name)
 {
 	ReadFindString(buffer, range, line, name);
 	return atoi(buffer + line->start);
 }
 
 
-static inline float ReadFloat(char* buffer, ArrayRange* range, ArrayRange* line, const char* name)
+static inline float ReadFloat(char* buffer, ArrayRange* range, ArrayRange* line, char* name)
 {
 	ReadFindString(buffer, range, line, name);
 	return atof(buffer + line->start);
@@ -244,7 +244,7 @@ static inline void LoadRGBValue(char* buffer, ArrayRange* range, ArrayRange* lin
 #define ReadString(str) ReadFindString(args, str)
 
 
-static void Init(const char* filePath, ParticleEmitterData* outEmitterData)
+static void Init(char* filePath, ParticleEmitterData* outEmitterData)
 {
 	long  size;
 	char* buffer = AFileTool->ReadBufferPlatform(filePath, &size);
@@ -459,7 +459,7 @@ static void Release(ParticleEmitterData* data)
 }
 
 
-static ParticleEmitterData* Create(const char* filePath)
+static ParticleEmitterData* Create(char* filePath)
 {
 	ParticleEmitterData* emitterData = (ParticleEmitterData*) malloc(sizeof(ParticleEmitterData));
 	Init(filePath, emitterData);

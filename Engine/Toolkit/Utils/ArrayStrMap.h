@@ -63,23 +63,23 @@ struct AArrayStrMap
 	 *
 	 * return valuePtr in ArrayStrMap
 	 */
-	void*        (*Put)                (ArrayStrMap* arrayStrMap, const char* key, void* valuePtr);
+	void*        (*Put)                (ArrayStrMap* arrayStrMap, char* key, void* valuePtr);
 
 	/**
 	 * Get valuePtr by key, if no key found return defaultValuePtr
 	 */
-	void*        (*Get)                (ArrayStrMap* arrayStrMap, const char* key, void* defaultValuePtr);
+	void*        (*Get)                (ArrayStrMap* arrayStrMap, char* key, void* defaultValuePtr);
 
 	/**
 	 * Set new value from valuePtr by key, return valuePtr in ArrayStrMap
 	 */
-	void*        (*Set)                (ArrayStrMap* arrayStrMap, const char* key, void* valuePtr);
+	void*        (*Set)                (ArrayStrMap* arrayStrMap, char* key, void* valuePtr);
 
 	/**
 	 * Remove value by key
      * return true success, false failed
 	 */
-	bool         (*TryRemove)          (ArrayStrMap* arrayStrMap, const char* key);
+	bool         (*TryRemove)          (ArrayStrMap* arrayStrMap, char* key);
 
 	/**
 	 * Clear all value, reset size 0, and keep memory space
@@ -90,13 +90,13 @@ struct AArrayStrMap
 	 * Insert value from valuePtr at index, the possible index may be -getIndex() - 1
 	 * return valuePtr in ArrayStrMap
 	 */
-	void*        (*InsertAt)           (ArrayStrMap* arrayStrMap, const char* key, int index, void* valuePtr);
+	void*        (*InsertAt)           (ArrayStrMap* arrayStrMap, char* key, int index, void* valuePtr);
 
 	/**
 	 * Get index of key, if negative not found then return -insertIndex - 1
 	 * so insert index is -getIndex() - 1
 	 */
-	int          (*GetIndex)           (ArrayStrMap* arrayStrMap, const char* key);
+	int          (*GetIndex)           (ArrayStrMap* arrayStrMap, char* key);
 
 	/**
 	 * Get key at index

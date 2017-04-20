@@ -85,8 +85,8 @@ ParticleEmitterData;
 
 struct AParticleEmitterData
 {
-	ParticleEmitterData* (*Create)         (const char* filePath);
-    void                 (*Init)           (const char* filePath, ParticleEmitterData* outParticleEmitterData);
+	ParticleEmitterData* (*Create)         (char* filePath);
+    void                 (*Init)           (char* filePath, ParticleEmitterData* outParticleEmitterData);
     void                 (*Release)        (ParticleEmitterData*  particleEmitterData);
 
     float                (*RandomLowValue) (ParticleRangedValue*  rangedValue);

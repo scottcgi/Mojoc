@@ -14,10 +14,10 @@
 
 static void Init()
 {
-    const char* vendor     = (char*) glGetString(GL_VENDOR);
-    const char* renderer   = (char*) glGetString(GL_RENDERER);
-    const char* version    = (char*) glGetString(GL_VERSION);
-    const char* extensions = (char*) glGetString(GL_EXTENSIONS);
+    char* vendor     = (char*) glGetString(GL_VENDOR);
+    char* renderer   = (char*) glGetString(GL_RENDERER);
+    char* version    = (char*) glGetString(GL_VERSION);
+    char* extensions = (char*) glGetString(GL_EXTENSIONS);
 
     ALogD
 	(

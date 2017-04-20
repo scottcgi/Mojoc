@@ -27,7 +27,7 @@ static void SetSize(int width, int height)
 }
 
 
-static void CheckGLError(const char* printMsg)
+static void CheckGLError(char* printMsg)
 {
     for (GLint error = glGetError(); error; error = glGetError())
     {
@@ -36,13 +36,13 @@ static void CheckGLError(const char* printMsg)
 }
 
 
-static void PrintGLString(const char *name, GLenum s)
+static void PrintGLString(char *name, GLenum s)
 {
-    ALogD("GL %s = %s", name, (const char *) glGetString(s));
+    ALogD("GL %s = %s", name, (char*) glGetString(s));
 }
 
 
-static GLuint LoadShader(GLenum shaderType, const char* shaderSource)
+static GLuint LoadShader(GLenum shaderType, char* shaderSource)
 {
 	// create the shader object
 	GLuint shader = glCreateShader(shaderType);
@@ -84,7 +84,7 @@ static GLuint LoadShader(GLenum shaderType, const char* shaderSource)
 }
 
 
-static GLuint LoadProgram(const char* vertexSource, const char* fragmentSource)
+static GLuint LoadProgram(char* vertexSource, char* fragmentSource)
 {
 	GLuint program;
 
@@ -149,11 +149,11 @@ static GLuint LoadProgram(const char* vertexSource, const char* fragmentSource)
 }
 
 
-GLuint LoadProgramByFile(const char* vertexShaderPath, const char* fragmentShaderPath)
+GLuint LoadProgramByFile(char* vertexShaderPath, char* fragmentShaderPath)
 {
-	const char* vSource = AFileTool->ReadStringPlatform(vertexShaderPath);
-	const char* fSource = AFileTool->ReadStringPlatform(fragmentShaderPath);
-	GLuint      program = AGLTool  ->LoadProgram       (vSource, fSource);
+	char*  vSource = AFileTool->ReadStringPlatform(vertexShaderPath);
+	char*  fSource = AFileTool->ReadStringPlatform(fragmentShaderPath);
+	GLuint program = AGLTool  ->LoadProgram       (vSource, fSource);
 
 	free((void*) vSource);
 	free((void*) fSource);
@@ -162,7 +162,7 @@ GLuint LoadProgramByFile(const char* vertexShaderPath, const char* fragmentShade
 }
 
 
-static void LoadTexture(const char* filePath, Texture* outTexture)
+static void LoadTexture(char* filePath, Texture* outTexture)
 {
 	 GLuint textureId;
 

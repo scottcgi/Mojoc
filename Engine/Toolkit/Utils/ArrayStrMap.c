@@ -24,7 +24,7 @@
  * Search index of key, if negative not found then return "-insertIndex - 1"
  * so insert index is "-BinarySearch() - 1"
  */
-static inline int BinarySearch(ArrayList* elements, const char* key, int keyLength)
+static inline int BinarySearch(ArrayList* elements, char* key, int keyLength)
 {
 	int high  = elements->size;
 	int low   = -1;
@@ -81,7 +81,7 @@ static inline int BinarySearch(ArrayList* elements, const char* key, int keyLeng
 //--------------------------------------------------------------------------------------------------
 
 
-static void* Put(ArrayStrMap* arrayStrMap, const char* key, void* valuePtr)
+static void* Put(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 {
 	int keyLength = (int) strlen(key) + 1;
 	int guess     = BinarySearch(arrayStrMap->arrayList, key, keyLength);
@@ -102,14 +102,14 @@ static void* Put(ArrayStrMap* arrayStrMap, const char* key, void* valuePtr)
 }
 
 
-static void* Get(ArrayStrMap* arrayStrMap, const char* key, void* defaultValuePtr)
+static void* Get(ArrayStrMap* arrayStrMap, char* key, void* defaultValuePtr)
 {
 	int guess = BinarySearch(arrayStrMap->arrayList, key, strlen(key) + 1);
 	return guess >= 0 ? AArrayListGet(arrayStrMap->arrayList, guess, ArrayStrMapElement*)->valuePtr : defaultValuePtr;
 }
 
 
-static void* Set(ArrayStrMap* arrayStrMap, const char* key, void* valuePtr)
+static void* Set(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 {
 	int guess = BinarySearch(arrayStrMap->arrayList, key, strlen(key) + 1);
 
@@ -124,7 +124,7 @@ static void* Set(ArrayStrMap* arrayStrMap, const char* key, void* valuePtr)
 }
 
 
-static bool TryRemove(ArrayStrMap* arrayStrMap, const char* key)
+static bool TryRemove(ArrayStrMap* arrayStrMap, char* key)
 {
 	int guess = BinarySearch(arrayStrMap->arrayList, key, strlen(key) + 1);
 
@@ -158,7 +158,7 @@ static void Clear(ArrayStrMap* arrayStrMap)
 }
 
 
-static void* InsertAt(ArrayStrMap* arrayStrMap, const char* key, int index, void* valuePtr)
+static void* InsertAt(ArrayStrMap* arrayStrMap, char* key, int index, void* valuePtr)
 {
 	CheckInsertIndex("InsertAt");
 
@@ -177,13 +177,13 @@ static void* InsertAt(ArrayStrMap* arrayStrMap, const char* key, int index, void
 }
 
 
-static int GetIndex(ArrayStrMap* arrayStrMap, const char* key)
+static int GetIndex(ArrayStrMap* arrayStrMap, char* key)
 {
 	return BinarySearch(arrayStrMap->arrayList, key, strlen(key) + 1);
 }
 
 
-static const char* GetKey(ArrayStrMap* arrayStrMap, int index)
+static char* GetKey(ArrayStrMap* arrayStrMap, int index)
 {
 	CheckIndex("GetKey");
 	return AArrayListGet(arrayStrMap->arrayList, index, ArrayStrMapElement*)->key;

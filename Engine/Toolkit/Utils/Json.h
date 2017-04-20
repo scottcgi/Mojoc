@@ -93,7 +93,7 @@ struct AJsonObject
     /**
      * Get JsonObject key
      */
-	const char* (*GetKey)          (JsonObject* object, int   index);
+	char* (*GetKey)                (JsonObject* object, int   index);
 
 	/**
 	 * Get JsonObject in index of JsonObject map
@@ -120,7 +120,7 @@ struct AJsonArray
 	/**
 	 * When JsonValue released string value will free
 	 */
-    const char* (*GetString)    (JsonArray* array, int index);
+    char*       (*GetString)    (JsonArray* array, int index);
 	JsonObject* (*GetObject)    (JsonArray* array, int index);
 	JsonArray*  (*GetArray)     (JsonArray* array, int index);
 

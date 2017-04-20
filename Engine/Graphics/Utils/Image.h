@@ -17,7 +17,7 @@ struct AImage
 	/**
 	 * Read png pixel data from file, caller must be free it
 	 */
-     void* (*CreatePixelDataFromPng)(const char* filePath, float* outWidth, float* outHeight);
+     void* (*CreatePixelDataFromPng)(char* filePath, float* outWidth, float* outHeight);
 };
 
 

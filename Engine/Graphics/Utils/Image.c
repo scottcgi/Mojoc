@@ -22,7 +22,7 @@ static void ReadPngData(png_structp pngPtr, png_bytep data, png_size_t length)
 }
 
 
-static void* CreatePixelDataFromPng(const char* filePath, float* outWidth, float* outHeight)
+static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outHeight)
 {
 	void* pixelData = NULL;
 	File* file      = NULL;

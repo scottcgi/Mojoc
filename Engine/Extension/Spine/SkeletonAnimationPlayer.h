@@ -123,7 +123,7 @@ static inline SkeletonData* ASkeletonAnimationPlayerGetSkeletonData(SkeletonAnim
 }
 
 
-static inline const char* ASkeletonAnimationPlayerGetPath(SkeletonAnimationPlayer* player)
+static inline char* ASkeletonAnimationPlayerGetPath(SkeletonAnimationPlayer* player)
 {
 	return player->skeleton->skeletonData->filePath;
 }

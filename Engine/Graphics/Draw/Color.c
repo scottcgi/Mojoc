@@ -9,7 +9,7 @@
 #include "Engine/Graphics/Draw/Color.h"
 
 
-static void SetWithString(const char* colorStr, Color* outColor)
+static void SetWithString(char* colorStr, Color* outColor)
 {
 	int rgba[4];
 
