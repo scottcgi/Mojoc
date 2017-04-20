@@ -363,10 +363,10 @@ static ArrayList* CreateWithCapacity(int typeSize, int capacity)
 }
 
 
-static void InitWithCapacity(int typeSize, int capacity, ArrayList* out_param arrayList)
+static void InitWithCapacity(int typeSize, int capacity, ArrayList* outArrayList)
 {
-	InitArrayList(typeSize, arrayList);
-	SetCapacity(arrayList, capacity);
+	InitArrayList(typeSize, outArrayList);
+	SetCapacity(outArrayList, capacity);
 }
 
 

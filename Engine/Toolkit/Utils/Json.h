@@ -78,7 +78,7 @@ struct AJsonObject
 	/**
 	 * When JsonValue released string value will free
 	 */
-    const char* (*GetString)       (JsonObject* object, char* key, char* defaultValue);
+    char*       (*GetString)       (JsonObject* object, char* key, char* defaultValue);
 
 	/**
 	 * Not found return NULL

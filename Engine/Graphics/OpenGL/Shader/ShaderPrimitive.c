@@ -1,10 +1,9 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2014-2-26
- *  Author: scott.cgi
+ * Since  : 2014-2-26
+ * Author : scott.cgi
  */
-
 #include <stdbool.h>
 
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
@@ -12,7 +11,6 @@
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Graphics/OpenGL/Shader/Shader.h"
-#include "Engine/Toolkit/Head/MacroDefine.h"
 
 
 static void Use(Matrix4* mvpMatrix, Color* color, GLint pointSize)

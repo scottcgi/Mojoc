@@ -1,7 +1,9 @@
-//
-// Created by scott.cgi on 2017/4/1.
-//
-
+/*
+ * Copyright (c) scott.cgi All Rights Reserved.
+ *
+ * Since  :  2017-4-1
+ * Author : scott.cgi
+ */
 
 #include <android/native_activity.h>
 #include <stdbool.h>
@@ -26,7 +28,7 @@ static inline JNIEnv* GetEnvPtr()
 }
 
 
-static inline jclass GetClass(const char *className)
+static inline jclass GetClass(char *className)
 {
     JNIEnv* envPtr                   = GetEnvPtr();
     static  jobject   classLoaderObj = NULL;
@@ -66,7 +68,7 @@ static inline jclass GetClass(const char *className)
 }
 
 
-static inline void GetJniMethodInfo(bool isStatic, const char* className, const char* methodName, const char* paramCode, JniMethodInfo* out_param jniMethodInfo)
+static inline void GetJniMethodInfo(bool isStatic, char* className, char* methodName, char* paramCode, JniMethodInfo* outJniMethodInfo)
 {
     JNIEnv*   envPtr   = GetEnvPtr();
     jclass    cls      = GetClass(className);
@@ -92,25 +94,25 @@ static inline void GetJniMethodInfo(bool isStatic, const char* className, const 
         paramCode
     );
 
-    jniMethodInfo->envPtr   = envPtr;
-    jniMethodInfo->cls      = cls;
-    jniMethodInfo->methodID = methodID;
+    outJniMethodInfo->envPtr   = envPtr;
+    outJniMethodInfo->cls      = cls;
+    outJniMethodInfo->methodID = methodID;
 }
 
 
-static void GetMethodInfo(const char* className, const char* methodName, const char* paramCode, JniMethodInfo* out_param jniMethodInfo)
+static void GetMethodInfo(char* className, char* methodName, char* paramCode, JniMethodInfo* outJniMethodInfo)
 {
-    GetJniMethodInfo(false, className, methodName, paramCode,jniMethodInfo);
+    GetJniMethodInfo(false, className, methodName, paramCode,outJniMethodInfo);
 }
 
 
-static void GetStaticMethodInfo(const char* className, const char* methodName, const char* paramCode, JniMethodInfo* out_param jniMethodInfo)
+static void GetStaticMethodInfo(char* className, char* methodName, char* paramCode, JniMethodInfo* outJniMethodInfo)
 {
-    GetJniMethodInfo(true, className, methodName, paramCode,jniMethodInfo);
+    GetJniMethodInfo(true, className, methodName, paramCode,outJniMethodInfo);
 }
 
 
-static jvalue CallObjectMethod(jobject object, const char* methodName, const char* paramCode, ...)
+static jvalue CallObjectMethod(jobject object, char* methodName, char* paramCode, ...)
 {
     JNIEnv*   envPtr    = GetEnvPtr();
     jclass    cls       = (*envPtr)->GetObjectClass(envPtr, object);
@@ -191,7 +193,7 @@ static jvalue CallObjectMethod(jobject object, const char* methodName, const cha
 }
 
 
-static inline jvalue CallClassMethodV(jclass cls, const char* methodName, const char* paramCode, va_list args)
+static inline jvalue CallClassMethodV(jclass cls, char* methodName, char* paramCode, va_list args)
 {
     JNIEnv*   envPtr    = GetEnvPtr();
     jmethodID methodId  = (*envPtr)->GetStaticMethodID(envPtr, cls, methodName, paramCode);
@@ -266,7 +268,7 @@ static inline jvalue CallClassMethodV(jclass cls, const char* methodName, const 
 }
 
 
-static inline jvalue CallClassMethod(jclass cls, const char* methodName, const char* paramCode, ...)
+static inline jvalue CallClassMethod(jclass cls, char* methodName, char* paramCode, ...)
 {
     va_list args;
     va_start(args, paramCode);
@@ -277,7 +279,7 @@ static inline jvalue CallClassMethod(jclass cls, const char* methodName, const c
 }
 
 
-static jvalue CallStaticMethod(const char* className, const char* methodName, const char* paramCode, ...)
+static jvalue CallStaticMethod(char* className, char* methodName, char* paramCode, ...)
 {
     va_list args;
     va_start(args, paramCode);

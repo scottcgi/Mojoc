@@ -84,7 +84,7 @@ struct TweenAction
     /**
      * The action running current postion in duration time
      */
-	float get_only               curTime;
+	float                        curTime;
 
 	/**
 	 * Means action running in queue or immediately default true

@@ -1,12 +1,13 @@
 /*
- * TweenTool.h
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *  Created on: 2016-6-24
- *      Author: scott.cgi
+ * Since  : 2016-6-24
+ * Author : scott.cgi
  */
 
 #ifndef tween_tool_h
 #define tween_tool_h
+
 
 #include <stdbool.h>
 #include "Engine/Toolkit/Utils/Tween.h"
@@ -131,7 +132,6 @@ struct ATweenTool
 	 * Set TweenActiveValue's easeType
 	 */
 	struct ATweenTool* (*SetEaseType)(TweenEaseType easeType);
-
 
 //--------------------------------------------------------------------------------------------------
 

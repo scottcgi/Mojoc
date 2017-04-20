@@ -21,26 +21,4 @@
 #define Stringizing(str) #str
 
 
-/**
- * Marked variable can only get value or call get method
- *
- * use function or macro to instead of set value directly
- * if variable is struct object (not ptr) each property value also get_only
- * if construct struct object variable, the property not follow the rule
- */
-#define get_only
-
-
-/**
- * Marked function argument for get value out
- */
-#define out_param
-
-
-/**
- * Marked variable must set, or may cause crash, or running incorrectly
- */
-#define set_required
-
-
 #endif

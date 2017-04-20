@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2013-5-20
- *      Author: scott.cgi
+ * Since  : 2013-5-20
+ * Author : scott.cgi
  */
 
 #ifndef array_str_map_h
@@ -101,7 +101,7 @@ struct AArrayStrMap
 	/**
 	 * Get key at index
 	 */
-	const char*  (*GetKey)             (ArrayStrMap* arrayStrMap, int index);
+	char*        (*GetKey)             (ArrayStrMap* arrayStrMap, int index);
 
 	/**
 	 * Get valuePtr at index

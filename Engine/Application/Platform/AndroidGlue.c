@@ -1,15 +1,17 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2016-1-28
- *      Author: scott.cgi
+ * Since  : 2016-1-28
+ * Author : scott.cgi
  */
 
 #include "Engine/Toolkit/Platform/Platform.h"
 
+
 //--------------------------------------------------------------------------------------------------
 #ifdef is_platform_android
 //--------------------------------------------------------------------------------------------------
+
 
 #include <pthread.h>
 #include <android/asset_manager.h>
@@ -373,11 +375,11 @@ static void OnResume(ANativeActivity* activity)
 }
 
 
-static void* OnSaveInstanceState(ANativeActivity* activity, size_t* out_param size)
+static void* OnSaveInstanceState(ANativeActivity* activity, size_t* outSize)
 {
 	ALogD("NativeActivity OnSaveInstanceState");
     SaveData(activity);
-    *size = 0;
+    *outSize = 0;
 	return NULL;
 }
 
@@ -460,6 +462,7 @@ static void OnInputQueueDestroyed(ANativeActivity* activity, AInputQueue* inputQ
 	ALogD("NativeActivity OnInputQueueDestroyed");
     AInputQueue_detachLooper(inputQueue);
 }
+
 
 static void OnContentRectChanged(ANativeActivity* activity, const ARect* rect)
 {

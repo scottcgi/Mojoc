@@ -241,9 +241,9 @@ static ArrayIntMap* CreateWithCapacity(int typeSize, int capacity)
 }
 
 
-static void Init(int typeSize, ArrayIntMap* out_param arrayIntMap)
+static void Init(int typeSize, ArrayIntMap* outArrayIntMap)
 {
-	InitWithCapacity(typeSize, 0, arrayIntMap);
+	InitWithCapacity(typeSize, 0, outArrayIntMap);
 }
 
 

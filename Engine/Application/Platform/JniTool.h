@@ -1,9 +1,13 @@
-//
-// Created by scott.cgi on 2017/4/1.
-//
+/*
+ * Copyright (c) scott.cgi All Rights Reserved.
+ *
+ * Since  : 2017-4-1
+ * Author : scott.cgi
+ */
 
 #ifndef jni_tool_h
 #define jni_tool_h
+
 
 #include <jni.h>
 #include "Engine/Toolkit/Head/MacroDefine.h"
@@ -11,9 +15,9 @@
 
 typedef struct
 {
-    JNIEnv*   get_only envPtr;
-    jclass    get_only cls;
-    jmethodID get_only methodID;
+    JNIEnv*   envPtr;
+    jclass    cls;
+    jmethodID methodID;
 }
 JniMethodInfo;
 
@@ -25,25 +29,25 @@ struct AJniTool
 Must Called in same thread with OpenGL
 
 className:
-pass to FindClass which is java class name with package like "java/lang/ClassLoader"
+    pass to FindClass which is java class name with package like "java/lang/ClassLoader"
 
 methodName:
-java class method name like "getClassLoader"
+    java class method name like "getClassLoader"
 
 paramCode:
-java class method arguments like "()Ljava/lang/ClassLoader;"
+    java class method arguments like "()Ljava/lang/ClassLoader;"
 
 ...:
-varargs parameter which are method arguments
+    varargs parameter which are method arguments
 ----------------------------------------------------------------------------------------------------
 */
 
-    void   (*GetMethodInfo)      (const char*   className, const char* methodName, const char* paramCode, JniMethodInfo* out_param jniMethodInfo);
-    void   (*GetStaticMethodInfo)(const char*   className, const char* methodName, const char* paramCode, JniMethodInfo* out_param jniMethodInfo);
+    void   (*GetMethodInfo)      (char*   className, char* methodName, char* paramCode, JniMethodInfo* outJniMethodInfo);
+    void   (*GetStaticMethodInfo)(char*   className, char* methodName, char* paramCode, JniMethodInfo* outJniMethodInfo);
 
-    jvalue (*CallStaticMethod)   (const char*   className, const char* methodName, const char* paramCode, ...);
-    jvalue (*CallObjectMethod)   (jobject       object,    const char* methodName, const char* paramCode, ...);
-    jvalue (*CallClassMethod)    (jclass        cls,       const char* methodName, const char* paramCode, ...);
+    jvalue (*CallStaticMethod)   (char*   className, char* methodName, char* paramCode, ...);
+    jvalue (*CallObjectMethod)   (jobject object,    char* methodName, char* paramCode, ...);
+    jvalue (*CallClassMethod)    (jclass  cls,       char* methodName, char* paramCode, ...);
 
     /**
      * Get has code from apk signature

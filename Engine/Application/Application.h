@@ -132,7 +132,7 @@ extern struct AApplication AApplication[1];
  * This function must implement ApplicationCallbacks method
  * called on very first entry
  */
-extern void set_required ApplicationMain();
+extern void ApplicationMain();
 
 
 static inline void AApplicationAppendChild(Component* child)

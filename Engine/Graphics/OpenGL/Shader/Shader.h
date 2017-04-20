@@ -1,8 +1,8 @@
 /*
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
- *
- *  Created on: 2015-4-20
- *      Author: scott.cgi
+ * Since  : 2015-4-20
+ * Author : scott.cgi
  */
 
 #ifndef shader_h
