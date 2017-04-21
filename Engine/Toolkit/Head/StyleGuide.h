@@ -20,6 +20,8 @@
 
   The enum lower case words separated by '_'.
 
+  The const lower case words separated by '_'.
+
   The goto label lower case words separated by '_'
 
   The define head macro lower case words separated by '_' and end with 'h'

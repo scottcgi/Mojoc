@@ -19,14 +19,14 @@
 
 
 /**
- * If use VBO update to buffer
+ * Hold VBO data update to buffer
  */
 typedef struct
 {
-	GLenum        target;
-	GLintptr      offset;
-	GLsizeiptr    length;
-	const GLvoid* data;
+	GLenum     target;
+	GLintptr   offset;
+	GLsizeiptr length;
+	GLvoid*    data;
 }
 VBOSubData;
 

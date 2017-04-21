@@ -95,8 +95,8 @@ static void Init()
     result = (*engineObject)->GetInterface(engineObject, SL_IID_ENGINE, &engineEngine);
     ALogA(result == SL_RESULT_SUCCESS, "Audio Init GetInterface failed");
 
-    const SLInterfaceID ids[0];
-    const SLboolean     req[0];
+    SLInterfaceID ids[0];
+    SLboolean     req[0];
 
     result = (*engineEngine)->CreateOutputMix(engineEngine, &outputMixObject, 0, ids, req);
     ALogA(result == SL_RESULT_SUCCESS, "Audio Init CreateOutputMix failed");
@@ -135,8 +135,8 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
     SLDataSink              audioSnk   = {&locOutMix, NULL};
 
     // create audio player
-    const SLInterfaceID     ids[3]     = {SL_IID_SEEK,     SL_IID_PLAY,     SL_IID_VOLUME};
-    const SLboolean         req[3]     = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE};
+    SLInterfaceID           ids[3]     = {SL_IID_SEEK,     SL_IID_PLAY,     SL_IID_VOLUME};
+    SLboolean               req[3]     = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE};
 
     SLresult                result     = (*engineEngine)->CreateAudioPlayer
                                                           (

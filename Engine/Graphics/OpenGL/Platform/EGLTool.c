@@ -36,18 +36,18 @@ void CreateEGL(EGLNativeWindowType window, EGLDisplay* outDisplay, EGLContext* o
     // here specify the attributes of the desired configuration.
     // below, we select an EGLConfig with at least 8 bits per color
     // component compatible with on-screen windows
-    const EGLint configAttribs[] =
-            {
-                EGL_DEPTH_SIZE,      16,
-                EGL_RED_SIZE,        8,   //   5,
-                EGL_GREEN_SIZE,      8,   //   6,
-                EGL_BLUE_SIZE,       8,   //   5,
-                EGL_ALPHA_SIZE,      8,   //   0,
-                EGL_STENCIL_SIZE,    8,
-                EGL_SURFACE_TYPE,    EGL_WINDOW_BIT,
-                EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-                EGL_NONE
-            };
+    EGLint configAttribs[] =
+    {
+        EGL_DEPTH_SIZE,      16,
+        EGL_RED_SIZE,        8,   //   5,
+        EGL_GREEN_SIZE,      8,   //   6,
+        EGL_BLUE_SIZE,       8,   //   5,
+        EGL_ALPHA_SIZE,      8,   //   0,
+        EGL_STENCIL_SIZE,    8,
+        EGL_SURFACE_TYPE,    EGL_WINDOW_BIT,
+        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+        EGL_NONE
+    };
 
     // here, the application chooses the configuration it desires. In this
     // sample, we have a very simplified selection process, where we pick
@@ -59,12 +59,12 @@ void CreateEGL(EGLNativeWindowType window, EGLDisplay* outDisplay, EGLContext* o
         ALogA(false, "CreateEGL failed no config match eglChooseConfig");
     }
 
-    const EGLint surfaceAttrs[] =
-            {
-                    EGL_RENDER_BUFFER,
-                    EGL_BACK_BUFFER,
-                    EGL_NONE
-            };
+    EGLint surfaceAttrs[] =
+    {
+            EGL_RENDER_BUFFER,
+            EGL_BACK_BUFFER,
+            EGL_NONE
+    };
 
     *outSurface = eglCreateWindowSurface(*outDisplay, *outConfig, window, surfaceAttrs);
     if (*outSurface == EGL_NO_SURFACE)
@@ -72,11 +72,11 @@ void CreateEGL(EGLNativeWindowType window, EGLDisplay* outDisplay, EGLContext* o
         ALogA(false, "CreateEGL failed EGL unable to eglCreateWindowSurface");
     }
 
-    const EGLint contextAttribs[] =
-            {
-                    EGL_CONTEXT_CLIENT_VERSION, 2,
-                    EGL_NONE
-            };
+    EGLint contextAttribs[] =
+    {
+        EGL_CONTEXT_CLIENT_VERSION, 2,
+        EGL_NONE
+    };
 
     *outContext = eglCreateContext(*outDisplay, *outConfig, EGL_NO_CONTEXT, contextAttribs);
     if (*outContext == EGL_NO_CONTEXT)
@@ -124,12 +124,12 @@ static void ResetSurface(EGLNativeWindowType window, EGLDisplay display, EGLCont
         eglDestroySurface(display, *surface);
     }
 
-    const EGLint surfaceAttrs[] =
-            {
-                    EGL_RENDER_BUFFER,
-                    EGL_BACK_BUFFER,
-                    EGL_NONE
-            };
+    EGLint surfaceAttrs[] =
+    {
+        EGL_RENDER_BUFFER,
+        EGL_BACK_BUFFER,
+        EGL_NONE
+    };
 
     *surface = eglCreateWindowSurface(display, config, window, surfaceAttrs);
 

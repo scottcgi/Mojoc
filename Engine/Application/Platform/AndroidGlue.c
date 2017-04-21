@@ -27,7 +27,7 @@
 #include "Engine/Application/Input.h"
 
 
-static const char* saveDataFileName = "NDKSaveDataFile";
+static const char* save_data_file_name = "NDKSaveDataFile";
 
 
 ANativeActivity* nativeActivity;
@@ -354,7 +354,7 @@ static inline void SaveData(ANativeActivity* activity)
 //--------------------------------------------------------------------------------------------------
 
     char filePath[100];
-    sprintf(filePath, "%s/%s", activity->internalDataPath, saveDataFileName);
+    sprintf(filePath, "%s/%s", activity->internalDataPath, save_data_file_name);
 
     FILE* f = fopen(filePath, "wb");
     fwrite(outSaveData, outSize, 1, f);
@@ -513,7 +513,7 @@ void ANativeActivityOnCreate(ANativeActivity* activity, void* savedState, size_t
 //--------------------------------------------------------------------------------------------------
 
     char filePath[100];
-    sprintf(filePath, "%s/%s", activity->internalDataPath, saveDataFileName);
+    sprintf(filePath, "%s/%s", activity->internalDataPath, save_data_file_name);
 
     FILE* f = fopen(filePath, "rb");
     if (f != NULL)

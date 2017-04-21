@@ -90,18 +90,18 @@ static inline int BinarySearch(float* values, int valuesLength, float target)
 
 
 #define bezier_segments 12
-static const int bezierSize = (bezier_segments + 1) * 2 - 1;
+static const int bezier_size = (bezier_segments + 1) * 2 - 1;
 
 
 static inline void SetLinear(SkeletonCurveTimeline* curveTimeline, int frameIndex)
 {
-	AArraySet(curveTimeline->curveArr, frameIndex * bezierSize, skeleton_curve_linear, float);
+	AArraySet(curveTimeline->curveArr, frameIndex * bezier_size, skeleton_curve_linear, float);
 }
 
 
 static inline void SetStepped(SkeletonCurveTimeline* curveTimeline, int frameIndex)
 {
-	AArraySet(curveTimeline->curveArr, frameIndex * bezierSize, skeleton_curve_stepped, float);
+	AArraySet(curveTimeline->curveArr, frameIndex * bezier_size, skeleton_curve_stepped, float);
 }
 
 
@@ -110,13 +110,13 @@ static inline void SetStepped(SkeletonCurveTimeline* curveTimeline, int frameInd
 
 static inline int GetFrameCount(SkeletonCurveTimeline* curveTimeline)
 {
-	return curveTimeline->curveArr->length / bezierSize;
+	return curveTimeline->curveArr->length / bezier_size;
 }
 
 
 static inline SkeletonCurveType GetCurveType(SkeletonCurveTimeline* curveTimeline, int frameIndex)
 {
-	int index = frameIndex * bezierSize;
+	int index = frameIndex * bezier_size;
 
 	if (index == curveTimeline->curveArr->length)
 	{
@@ -167,13 +167,13 @@ static void SetCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, float
 	float  dfy    = cy1 * pre_1 + tmpy * pre_2 + dddfy * sub_div_pre;
 
 	float* curves = AArrayGetData(curveTimeline->curveArr, float);
-	int    i      = frameIndex * bezierSize;
+	int    i      = frameIndex * bezier_size;
 	curves[i++]   = skeleton_curve_bezier;
 
 	float  x      = dfx;
 	float  y      = dfy;
 
-	for (int n = i + bezierSize - 1; i < n; i += 2)
+	for (int n = i + bezier_size - 1; i < n; i += 2)
 	{
 		curves[i]     = x;
 		curves[i + 1] = y;
@@ -191,7 +191,7 @@ static void SetCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, float
 
 static inline float GetCurvePercent(SkeletonCurveTimeline* curveTimeline, int frameIndex, float percent)
 {
-	int    i      = frameIndex * bezierSize;
+	int    i      = frameIndex * bezier_size;
 	float* curves = AArrayGetData(curveTimeline->curveArr, float);
 	float  dfx    = curves[i];
 
@@ -207,7 +207,7 @@ static inline float GetCurvePercent(SkeletonCurveTimeline* curveTimeline, int fr
 
 			float x;
 
-			for (int start = i, n = i + bezierSize - 1; i < n; i += 2)
+			for (int start = i, n = i + bezier_size - 1; i < n; i += 2)
 			{
 				x = curves[i];
 
@@ -254,7 +254,7 @@ static inline void CurveRelease(SkeletonCurveTimeline* curveTimeline)
 
 static inline void CurveTimelineInit(SkeletonCurveTimeline* curveTimeline, int frameCount)
 {
-	curveTimeline->curveArr = AArray->Create(sizeof(float), frameCount * bezierSize);
+	curveTimeline->curveArr = AArray->Create(sizeof(float), frameCount * bezier_size);
 }
 
 

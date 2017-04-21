@@ -217,7 +217,7 @@ static inline void BindVBO(Mesh* mesh)
         GL_FLOAT,
         false,
         mesh_vertex_uv_stride,
-        (const void*) mesh->uvDataOffset
+        (GLvoid*) mesh->uvDataOffset
     );
 
     // load the opacity
@@ -228,7 +228,7 @@ static inline void BindVBO(Mesh* mesh)
         GL_FLOAT,
         false,
         mesh_vertex_opacity_stride,
-        (const void*) mesh->opacityDataOffset
+        (GLvoid*) mesh->opacityDataOffset
     );
 
     // load the rgb
@@ -239,7 +239,7 @@ static inline void BindVBO(Mesh* mesh)
         GL_FLOAT,
         false,
         mesh_vertex_rgb_stride,
-        (const void*) mesh->rgbDataOffset
+        (GLvoid*) mesh->rgbDataOffset
     );
 }
 
