@@ -84,10 +84,10 @@ static TweenAction* GetAction()
 		AArrayList->Clear(action->actionValueList);
 	}
 
+    AUserDataInit(action->userData);
 	action->curTime    = 0.0f;
 	action->duration   = 0.0f;
 	action->OnComplete = NULL;
-	action->userData   = NULL;
 	action->isQueue    = true;
 	action->target     = NULL;
 
@@ -99,14 +99,13 @@ static TweenActionValue* AddTweenActionValue(TweenAction* action)
 {
 	TweenActionValue* actionValue = AArrayListGetPtrAdd(action->actionValueList, TweenActionValue);
 
-	actionValue->userData   = NULL;
-	actionValue->value      = 0.0f;
-	actionValue->fromValue  = 0.0f;
-	actionValue->toValue    = 0.0f;
-	actionValue->OnGet      = NULL;
-	actionValue->OnSet      = NULL;
-	actionValue->isRelative = true;
-	actionValue->easeType   = tween_ease_linear;
+	actionValue->value            = 0.0f;
+	actionValue->fromValue        = 0.0f;
+	actionValue->toValue          = 0.0f;
+	actionValue->OnGet            = NULL;
+	actionValue->OnSet            = NULL;
+	actionValue->isRelative       = true;
+	actionValue->easeType         = tween_ease_linear;
 
 	return actionValue;
 }
@@ -284,7 +283,7 @@ static inline void SetActionComplete(TweenAction* action, bool isFireOnComplete)
 
     if (isFireOnComplete && action->OnComplete != NULL)
     {
-        action->OnComplete(action, action->userData);
+        action->OnComplete(action);
     }
 }
 
@@ -417,7 +416,7 @@ static void Update(float deltaSeconds)
                 // action complete
                 if (action->OnComplete != NULL)
                 {
-                    action->OnComplete(action, action->userData);
+                    action->OnComplete(action);
                 }
 
                 if (tweenData->currentAction == action)

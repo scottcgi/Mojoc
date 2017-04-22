@@ -6,6 +6,7 @@
  */
 
 #include <math.h>
+#include <Engine/Toolkit/Head/UserData.h>
 
 #include "Engine/Extension/Spine/SkeletonAnimationPlayer.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -181,7 +182,7 @@ static void Init(char* filePath, char* animationName, SkeletonAnimationPlayer* o
 
 static void Render(Drawable* drawable)
 {
-	SkeletonSlot* slot        = (SkeletonSlot*) drawable->userData;
+	SkeletonSlot* slot        = (SkeletonSlot*) drawable->userData->slot0->ptrValue;
 	*AGLPrimitive->color      = *slot->color;
 	AGLPrimitive->modelMatrix = slot->bone->drawable->modelMatrix;
 
@@ -196,8 +197,8 @@ static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, char* s
 
 	ADrawable->Init(outDrawable);
 
-	outDrawable->userData = slot;
-	outDrawable->Render   = Render;
+	outDrawable->userData->slot0->ptrValue = slot;
+	outDrawable->Render                     = Render;
 }
 
 

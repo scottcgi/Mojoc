@@ -12,6 +12,7 @@
 #include "Engine/Toolkit/Math/Matrix.h"
 #include "Engine/Toolkit/Head/Bitwise.h"
 #include "Engine/Toolkit/Utils/Array.h"
+#include "Engine/Toolkit/Head/UserData.h"
 
 
 typedef enum
@@ -74,7 +75,7 @@ PhysicsBodyState;
 typedef struct PhysicsBody PhysicsBody;
 struct  PhysicsBody
 {
-	void*        userData;
+    UserData     userData[1];
 
 	/**
 	 * Default -1 used to identify PhysicsBody

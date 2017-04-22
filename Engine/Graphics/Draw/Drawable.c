@@ -574,7 +574,7 @@ static float GetFlipRotationZ(Drawable* drawable, float rotationZ)
 
 static void Init(Drawable* outDrawable)
 {
-	outDrawable->userData      = NULL;
+    AUserDataInit(outDrawable->userData);
 	outDrawable->width         = 0.0f;
 	outDrawable->height        = 0.0f;
 

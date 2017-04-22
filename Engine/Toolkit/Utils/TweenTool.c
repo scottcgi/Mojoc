@@ -5,8 +5,11 @@
  * Author : scott.cgi
  */
 
+#include <string.h>
+#include <Engine/Toolkit/Head/UserData.h>
 #include "Engine/Toolkit/Utils/TweenTool.h"
 #include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Toolkit/Head/UserData.h"
 
 
 #define action_length 30
@@ -225,12 +228,131 @@ static struct ATweenTool* AddFadeTo(float fadeTo, float duration)
 //--------------------------------------------------------------------------------------------------
 
 
-static struct ATweenTool* SetUserData(void* userData)
+static struct ATweenTool* SetUserData0Int(int userData)
 {
-	CheckAction("SetUserData");
-	action->userData = userData;
+    CheckAction("SetUserData0Int");
+    action->userData->slot0->intValue = userData;
+    return ATweenTool;
+}
 
-	return ATweenTool;
+
+static struct ATweenTool* SetUserData0Float(float userData)
+{
+    CheckAction("SetUserData0Float");
+    action->userData->slot0->floatValue = userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData0Ptr(void* userData)
+{
+    CheckAction("SetUserData0Ptr");
+    action->userData->slot0->ptrValue = userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData0String(char* userData)
+{
+    CheckAction("SetUserData0String");
+    action->userData->slot0->stringValue= userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData1Int(int userData)
+{
+    CheckAction("SetUserData1Int");
+    action->userData->slot1->intValue = userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData1Float(float userData)
+{
+    CheckAction("SetUserData1Float");
+    action->userData->slot1->floatValue = userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData1Ptr(void* userData)
+{
+    CheckAction("SetUserData1Ptr");
+    action->userData->slot1->ptrValue = userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData1String(char* userData)
+{
+    CheckAction("SetUserData1String");
+    action->userData->slot1->stringValue= userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData2Int(int userData)
+{
+    CheckAction("SetUserData2Int");
+    action->userData->slot2->intValue = userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData2Float(float userData)
+{
+    CheckAction("SetUserData2Float");
+    action->userData->slot2->floatValue = userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData2Ptr(void* userData)
+{
+    CheckAction("SetUserData2Ptr");
+    action->userData->slot2->ptrValue = userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData2String(char* userData)
+{
+    CheckAction("SetUserData2String");
+    action->userData->slot2->stringValue= userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData3Int(int userData)
+{
+    CheckAction("SetUserData3Int");
+    action->userData->slot3->intValue = userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData3Float(float userData)
+{
+    CheckAction("SetUserData3Float");
+    action->userData->slot3->floatValue = userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData3Ptr(void* userData)
+{
+    CheckAction("SetUserData3Ptr");
+    action->userData->slot3->ptrValue = userData;
+    return ATweenTool;
+}
+
+
+static struct ATweenTool* SetUserData3String(char* userData)
+{
+    CheckAction("SetUserData3String");
+    action->userData->slot3->stringValue= userData;
+    return ATweenTool;
 }
 
 
@@ -421,10 +543,25 @@ struct ATweenTool ATweenTool[1] =
     AddFadeTo,
 
 	SetDuration,
-	SetUserData,
 	SetQueue,
 	SetOnComplete,
 	SetTarget,
+    SetUserData0Int,
+    SetUserData0Float,
+    SetUserData0Ptr,
+    SetUserData0String,
+    SetUserData1Int,
+    SetUserData1Float,
+    SetUserData1Ptr,
+    SetUserData1String,
+    SetUserData2Int,
+    SetUserData2Float,
+    SetUserData2Ptr,
+    SetUserData2String,
+    SetUserData3Int,
+    SetUserData3Float,
+    SetUserData3Ptr,
+    SetUserData3String,
 	GetAction,
 
     SetMoveX,

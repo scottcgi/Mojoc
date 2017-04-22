@@ -81,16 +81,35 @@ struct ATweenTool
 ----------------------------------------------------------------------------------------------------
 */
 
-	struct ATweenTool* (*SetDuration)  (float                   duration);
-	struct ATweenTool* (*SetUserData)  (void*                   userData);
-	struct ATweenTool* (*SetQueue)     (bool                    isQueue);
-	struct ATweenTool* (*SetOnComplete)(TweenActionOnComplete   OnComplete);
-	struct ATweenTool* (*SetTarget)    (void*                   target);
+	struct ATweenTool* (*SetDuration)           (float                   duration);
+	struct ATweenTool* (*SetQueue)              (bool                    isQueue);
+	struct ATweenTool* (*SetOnComplete)         (TweenActionOnComplete   OnComplete);
+	struct ATweenTool* (*SetTarget)             (void*                   target);
+
+    struct ATweenTool* (*SetUserData0Int)       (int                     userData);
+    struct ATweenTool* (*SetUserData0Float)     (float                   userData);
+    struct ATweenTool* (*SetUserData0Ptr)       (void*                   userData);
+    struct ATweenTool* (*SetUserData0String)    (char*                   userData);
+
+    struct ATweenTool* (*SetUserData1Int)       (int                     userData);
+    struct ATweenTool* (*SetUserData1Float)     (float                   userData);
+    struct ATweenTool* (*SetUserData1Ptr)       (void*                   userData);
+    struct ATweenTool* (*SetUserData1String)    (char*                   userData);
+
+    struct ATweenTool* (*SetUserData2Int)       (int                     userData);
+    struct ATweenTool* (*SetUserData2Float)     (float                   userData);
+    struct ATweenTool* (*SetUserData2Ptr)       (void*                   userData);
+    struct ATweenTool* (*SetUserData2String)    (char*                   userData);
+
+    struct ATweenTool* (*SetUserData3Int)       (int                     userData);
+    struct ATweenTool* (*SetUserData3Float)     (float                   userData);
+    struct ATweenTool* (*SetUserData3Ptr)       (void*                   userData);
+    struct ATweenTool* (*SetUserData3String)    (char*                   userData);
 
 	/**
 	 * Get TweenAction in current context
 	 */
-	struct ATweenTool* (*GetAction)    (TweenAction**           outActionPtr);
+	struct ATweenTool* (*GetAction)             (TweenAction**           outActionPtr);
 
 
 /*

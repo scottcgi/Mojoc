@@ -18,6 +18,7 @@
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Graphics/Draw/Color.h"
 #include "Engine/Toolkit/Math/Vector.h"
+#include "Engine/Toolkit/Head/UserData.h"
 
 
 /**
@@ -192,7 +193,7 @@ DrawableState;
 typedef struct Drawable Drawable;
 struct  Drawable
 {
-	 void*     userData;
+     UserData  userData[1];
 
 	 /**
 	  * Default 0.0f, use openGL coordinate

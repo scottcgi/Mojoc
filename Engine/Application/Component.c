@@ -14,7 +14,8 @@
 
 static void Init(Component* outComponent)
 {
-	outComponent->userData      = NULL;
+    AUserDataInit(outComponent->userData);
+
 	outComponent->order         = 0;
 	outComponent->increaseOrder = 50;
 	outComponent->parent        = NULL;
@@ -327,10 +328,11 @@ static ComponentState* AddState(Component* component, int stateId, ComponentStat
 	ALogA(index < 0, "Component addState fail, stateId = %d already exist", stateId);
 
 	ComponentState* state = (ComponentState*) malloc(sizeof(ComponentState));
-    memset(state, 0, sizeof(ComponentState));
     state->id             = stateId;
-    state->OnMessage      = onMessage;
     state->Update         = update;
+    state->UpdateAfter    = NULL;
+    state->OnMessage      = onMessage;
+    AUserDataInit(state->userData);
 
 	AArrayIntMapInsertAt(component->stateMap, stateId, -index - 1, state);
 

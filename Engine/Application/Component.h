@@ -10,6 +10,7 @@
 
 
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
+#include "Engine/Toolkit/Head/UserData.h"
 
 
 typedef struct Component      Component;
@@ -18,7 +19,7 @@ typedef struct ComponentState ComponentState;
 
 struct Component
 {
-	void*                                      userData;
+    UserData                                   userData[1];
 
 	/**
 	 * If isActive false Component will not change state, update state, handle and send message
@@ -105,12 +106,12 @@ enum
 
 struct ComponentState
 {
-    void* userData;
+    UserData  userData[1];
 
     /**
      * Key in Component's stateMap
      */
-	int   id;
+	int       id;
 
 	/**
 	 * Active ComponentState called per frame

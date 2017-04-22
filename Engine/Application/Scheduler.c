@@ -16,7 +16,7 @@ static ArrayList(Scheduler*) schedulerRun [1] = AArrayListInit(Scheduler*, 30);
 static ArrayList(Scheduler*) schedulerList[1] = AArrayListInit(Scheduler*, 30);
 
 
-static inline Scheduler* GetScheduler(SchedulerUpdate Update, float intervalTime, void* userData)
+static inline Scheduler* GetScheduler(SchedulerUpdate Update, float intervalTime)
 {
     ALogA(Update != NULL, "schedule SchedulerUpdateFunction must not NULL");
 
@@ -27,7 +27,7 @@ static inline Scheduler* GetScheduler(SchedulerUpdate Update, float intervalTime
         scheduler = (Scheduler*) malloc(sizeof(Scheduler));
     }
 
-    scheduler->userData     = userData;
+    AUserDataInit(scheduler->userData);
     scheduler->currentTime  = 0.0f;
     scheduler->intervalTime = intervalTime;
     scheduler->Update       = Update;
@@ -38,17 +38,17 @@ static inline Scheduler* GetScheduler(SchedulerUpdate Update, float intervalTime
 }
 
 
-static Scheduler* Schedule(SchedulerUpdate Update, float intervalTime, void* userData)
+static Scheduler* Schedule(SchedulerUpdate Update, float intervalTime)
 {
-    Scheduler* scheduler = GetScheduler(Update, intervalTime, userData);
+    Scheduler* scheduler = GetScheduler(Update, intervalTime);
     scheduler->isCancel  = false;
     return scheduler;
 }
 
 
-static Scheduler* ScheduleOnce(SchedulerUpdate Update, float intervalTime, void* userData)
+static Scheduler* ScheduleOnce(SchedulerUpdate Update, float intervalTime)
 {
-    Scheduler* scheduler = GetScheduler(Update, intervalTime, userData);
+    Scheduler* scheduler = GetScheduler(Update, intervalTime);
     scheduler->isCancel  = true;
     return scheduler;
 }

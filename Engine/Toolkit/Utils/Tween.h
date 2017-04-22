@@ -14,6 +14,7 @@
 
 #include "Engine/Toolkit/Math/TweenEase.h"
 #include "Engine/Toolkit/Utils/ArrayList.h"
+#include "Engine/Toolkit/Head/UserData.h"
 
 
 typedef float (*TweenActionValueOnGet)(void* target);
@@ -22,8 +23,6 @@ typedef void  (*TweenActionValueOnSet)(void* target, float value);
 
 typedef struct
 {
-	void*                 userData;
-
     /**
      * The action will reach to this value
      * depend on isRelative
@@ -64,12 +63,12 @@ TweenActionValue;
 
 
 typedef struct TweenAction TweenAction;
-typedef void   (*TweenActionOnComplete)(TweenAction* action, void* userData);
+typedef void   (*TweenActionOnComplete)(TweenAction* action);
 
 
 struct TweenAction
 {
-	void*                        userData;
+    UserData                     userData[1];
 
 	/**
 	 * Target execute TweenAction

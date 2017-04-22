@@ -11,28 +11,29 @@
 
 #include <stdbool.h>
 #include "Engine/Toolkit/Head/MacroDefine.h"
+#include "Engine/Toolkit/Head/UserData.h"
 
 
 typedef struct Scheduler Scheduler;
 struct  Scheduler
 {
-	void* userData;
+    UserData  userData[1];
 
 	/**
 	 * Schedule interval time for update method called
 	 */
-	float intervalTime;
+	float     intervalTime;
 
 	/**
 	 * Whether cancel scheduler default false
 	 * once isCancel set true scheduler will remove and free
 	 */
-	bool  isCancel;
+	bool      isCancel;
 
 	/**
 	 * Current schedule time
 	 */
-	float currentTime;
+	float     currentTime;
 
 	/**
 	 * Called per frame
@@ -49,12 +50,12 @@ struct AScheduler
 	/**
 	 * Scheduler to be scheduled by intervalTime
 	 */
-	Scheduler* (*Schedule)    (SchedulerUpdate Update, float intervalTime, void* userData);
+	Scheduler* (*Schedule)    (SchedulerUpdate Update, float intervalTime);
 
 	/**
 	 * Only schedule once by intervalTime
 	 */
-	Scheduler* (*ScheduleOnce)(SchedulerUpdate Update, float intervalTime, void* userData);
+	Scheduler* (*ScheduleOnce)(SchedulerUpdate Update, float intervalTime);
 
 	/**
 	 * Update per frame calculate schedule time
