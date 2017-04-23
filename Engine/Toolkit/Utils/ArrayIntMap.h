@@ -35,7 +35,7 @@ typedef struct
     /**
      * Hold all ArrayIntMapElement
      */
-	ArrayList arrayList[1];
+	ArrayList elementList[1];
 
 	/**
 	 * sizeof ArrayIntMap value type
@@ -68,7 +68,7 @@ struct AArrayIntMap
 	/**
 	 * Get valuePtr by key, if no key found return defaultValutPtr
 	 */
-	void*        (*Get)               (ArrayIntMap* arrayIntMap, intptr_t key, void* defaultValutPtr);
+	void*        (*Get)               (ArrayIntMap* arrayIntMap, intptr_t key, void* defaultValuePtr);
 
 
 	/**
@@ -131,18 +131,6 @@ struct AArrayIntMap
 
 
 extern struct AArrayIntMap AArrayIntMap[1];
-
-
-static inline int AArrayIntMapGetSize(ArrayIntMap* arrayIntMap)
-{
-	return arrayIntMap->arrayList->size;
-}
-
-
-static inline void AArrayIntMapSetIncrease(ArrayIntMap* arrayIntMap, int increase)
-{
-	arrayIntMap->arrayList->increase = increase;
-}
 
 
 /**

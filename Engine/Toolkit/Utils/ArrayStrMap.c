@@ -13,11 +13,11 @@
 
 
 #define CheckIndex(tag) \
-	ALogA(index >= 0 && index < arrayStrMap->arrayList->size, "ArrayStrMap "  tag " index = %d, size = %d, invalid", index, arrayStrMap->arrayList->size)
+	ALogA(index >= 0 && index < arrayStrMap->elementList->size, "ArrayStrMap "  tag " index = %d, size = %d, invalid", index, arrayStrMap->elementList->size)
 
 
 #define CheckInsertIndex(tag) \
-	ALogA(index >= 0 && index <= arrayStrMap->arrayList->size, "ArrayStrMap " tag " index = %d, size = %d, invalid", index, arrayStrMap->arrayList->size)
+	ALogA(index >= 0 && index <= arrayStrMap->elementList->size, "ArrayStrMap " tag " index = %d, size = %d, invalid", index, arrayStrMap->elementList->size)
 
 
 /**
@@ -84,7 +84,7 @@ static inline int BinarySearch(ArrayList* elements, char* key, int keyLength)
 static void* Put(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 {
 	int keyLength = (int) strlen(key) + 1;
-	int guess     = BinarySearch(arrayStrMap->arrayList, key, keyLength);
+	int guess     = BinarySearch(arrayStrMap->elementList, key, keyLength);
 
 	ALogA(guess < 0, "ArrayStrMap put key = %s, has already exist", key);
 
@@ -96,7 +96,7 @@ static void* Put(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 	element->key                 = (char*) element->valuePtr + typeSize;
 	memcpy((void*) element->key, key, keyLength);
 
-	AArrayListInsert(arrayStrMap->arrayList, -guess - 1, element);
+	AArrayListInsert(arrayStrMap->elementList, -guess - 1, element);
 
     return memcpy(element->valuePtr, valuePtr, typeSize);
 }
@@ -104,20 +104,20 @@ static void* Put(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 
 static void* Get(ArrayStrMap* arrayStrMap, char* key, void* defaultValuePtr)
 {
-	int guess = BinarySearch(arrayStrMap->arrayList, key, strlen(key) + 1);
-	return guess >= 0 ? AArrayListGet(arrayStrMap->arrayList, guess, ArrayStrMapElement*)->valuePtr : defaultValuePtr;
+	int guess = BinarySearch(arrayStrMap->elementList, key, strlen(key) + 1);
+	return guess >= 0 ? AArrayListGet(arrayStrMap->elementList, guess, ArrayStrMapElement*)->valuePtr : defaultValuePtr;
 }
 
 
 static void* Set(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 {
-	int guess = BinarySearch(arrayStrMap->arrayList, key, strlen(key) + 1);
+	int guess = BinarySearch(arrayStrMap->elementList, key, strlen(key) + 1);
 
 	ALogA(guess >= 0, "ArrayStrMap set key = %s, has not exist", key);
 
 	return memcpy
 		   (
-			   AArrayListGet(arrayStrMap->arrayList, guess, ArrayStrMapElement*)->valuePtr,
+			   AArrayListGet(arrayStrMap->elementList, guess, ArrayStrMapElement*)->valuePtr,
 			   valuePtr,
 			   arrayStrMap->typeSize
 		   );
@@ -126,16 +126,16 @@ static void* Set(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 
 static bool TryRemove(ArrayStrMap* arrayStrMap, char* key)
 {
-	int guess = BinarySearch(arrayStrMap->arrayList, key, strlen(key) + 1);
+	int guess = BinarySearch(arrayStrMap->elementList, key, strlen(key) + 1);
 
 	if (guess >= 0)
 	{
 		free
 		(
-			AArrayListGet(arrayStrMap->arrayList, guess, ArrayStrMapElement*)
+			AArrayListGet(arrayStrMap->elementList, guess, ArrayStrMapElement*)
 		);
 
-		AArrayList->Remove(arrayStrMap->arrayList, guess);
+		AArrayList->Remove(arrayStrMap->elementList, guess);
 
 		return true;
 	}
@@ -146,15 +146,15 @@ static bool TryRemove(ArrayStrMap* arrayStrMap, char* key)
 
 static void Clear(ArrayStrMap* arrayStrMap)
 {
-	for (int i = 0; i < arrayStrMap->arrayList->size; i++)
+	for (int i = 0; i < arrayStrMap->elementList->size; i++)
 	{
 		free
 		(
-			AArrayListGet(arrayStrMap->arrayList, i, ArrayStrMapElement*)
+			AArrayListGet(arrayStrMap->elementList, i, ArrayStrMapElement*)
 		);
 	}
 
-	AArrayList->Clear(arrayStrMap->arrayList);
+	AArrayList->Clear(arrayStrMap->elementList);
 }
 
 
@@ -171,7 +171,7 @@ static void* InsertAt(ArrayStrMap* arrayStrMap, char* key, int index, void* valu
 	element->key                = (char*) element->valuePtr + typeSize;
 	memcpy((void*) element->key, key, keyLength);
 
-	AArrayListInsert( arrayStrMap->arrayList, index, element);
+	AArrayListInsert( arrayStrMap->elementList, index, element);
 
 	return memcpy(element->valuePtr, valuePtr, typeSize);
 }
@@ -179,21 +179,21 @@ static void* InsertAt(ArrayStrMap* arrayStrMap, char* key, int index, void* valu
 
 static int GetIndex(ArrayStrMap* arrayStrMap, char* key)
 {
-	return BinarySearch(arrayStrMap->arrayList, key, strlen(key) + 1);
+	return BinarySearch(arrayStrMap->elementList, key, strlen(key) + 1);
 }
 
 
 static char* GetKey(ArrayStrMap* arrayStrMap, int index)
 {
 	CheckIndex("GetKey");
-	return AArrayListGet(arrayStrMap->arrayList, index, ArrayStrMapElement*)->key;
+	return AArrayListGet(arrayStrMap->elementList, index, ArrayStrMapElement*)->key;
 }
 
 
 static void* GetAt(ArrayStrMap* arrayStrMap, int index)
 {
 	CheckIndex("GetAt");
-	return AArrayListGet(arrayStrMap->arrayList, index, ArrayStrMapElement*)->valuePtr;
+	return AArrayListGet(arrayStrMap->elementList, index, ArrayStrMapElement*)->valuePtr;
 }
 
 
@@ -203,7 +203,7 @@ static void* SetAt(ArrayStrMap* arrayStrMap, int index, void* valuePtr)
 
 	return memcpy
 		   (
-			   AArrayListGet(arrayStrMap->arrayList, index, ArrayStrMapElement*)->valuePtr,
+			   AArrayListGet(arrayStrMap->elementList, index, ArrayStrMapElement*)->valuePtr,
 			   valuePtr,
 			   arrayStrMap->typeSize
 		   );
@@ -216,24 +216,24 @@ static void RemoveAt(ArrayStrMap* arrayStrMap, int index)
 
 	free
 	(
-		AArrayListGet(arrayStrMap->arrayList, index, ArrayStrMapElement*)
+		AArrayListGet(arrayStrMap->elementList, index, ArrayStrMapElement*)
 	);
 
-	AArrayList->Remove(arrayStrMap->arrayList, index);
+	AArrayList->Remove(arrayStrMap->elementList, index);
 }
 
 
 static void Release(ArrayStrMap* arrayStrMap)
 {
-	for (int i = 0; i < arrayStrMap->arrayList->size; i++)
+	for (int i = 0; i < arrayStrMap->elementList->size; i++)
 	{
 		free
 		(
-			AArrayListGet(arrayStrMap->arrayList, i, ArrayStrMapElement*)
+			AArrayListGet(arrayStrMap->elementList, i, ArrayStrMapElement*)
 		);
 	}
 
-	AArrayList->Release(arrayStrMap->arrayList);
+	AArrayList->Release(arrayStrMap->elementList);
 }
 
 
@@ -241,11 +241,11 @@ static void InitWithCapacity(int typeSize, int capacity, ArrayStrMap* outArraySt
 {
 	if (capacity == 0)
 	{
-		AArrayList->Init(sizeof(ArrayStrMapElement*), outArrayStrMap->arrayList);
+		AArrayList->Init(sizeof(ArrayStrMapElement*), outArrayStrMap->elementList);
 	}
 	else
 	{
-		AArrayList->InitWithCapacity(sizeof(ArrayStrMapElement*), capacity, outArrayStrMap->arrayList);
+		AArrayList->InitWithCapacity(sizeof(ArrayStrMapElement*), capacity, outArrayStrMap->elementList);
 	}
 
 	outArrayStrMap->typeSize = typeSize;

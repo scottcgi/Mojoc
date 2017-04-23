@@ -17,7 +17,7 @@ typedef struct
     /**
      * Holde all elements
      */
-	ArrayList arrayList[1];
+	ArrayList elementList[1];
 
 	/**
 	 * ArrayQueue top element index
@@ -65,12 +65,6 @@ struct AArrayQueue
 
 
 extern struct AArrayQueue AArrayQueue[1];
-
-
-static inline void AArrayQueueSetIncrease(ArrayQueue* arrayQueue, int increase)
-{
-	arrayQueue->arrayList->increase = increase;
-}
 
 
 /**

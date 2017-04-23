@@ -50,14 +50,14 @@ static inline void UpdateMotion(PhysicsBody* body, float deltaSeconds)
 
 static void Update(float deltaSeconds)
 {
-	for (int i = 0; i < bodyMap->arrayList->size; i++)
+	for (int i = 0; i < bodyMap->elementList->size; i++)
 	{
 		PhysicsBody* body = AArrayIntMapGetAt(bodyMap, i, PhysicsBody*);
 
         if (APhysicsBodyCheckState(body, physics_body_state_no_collision) == false)
         {
             // test collision
-            for (int fromIndex = i + 1; fromIndex < bodyMap->arrayList->size; fromIndex++)
+            for (int fromIndex = i + 1; fromIndex < bodyMap->elementList->size; fromIndex++)
             {
                 PhysicsBody* otherBody = AArrayIntMapGetAt(bodyMap, fromIndex, PhysicsBody*);
 

@@ -24,13 +24,13 @@ static inline void AddCapacity(ArrayList* arrayList, int increase)
 {
 	ALogA(increase > 0, "ArrayList error, increase = %d can not <= 0", increase);
 
-	void* data = realloc(arrayList->array->data, (increase + arrayList->array->length) * arrayList->typeSize);
+	void* data = realloc(arrayList->elementArray->data, (increase + arrayList->elementArray->length) * arrayList->typeSize);
 
 	ALogA
 	(
 	    data != NULL,
 		"ArrayList error, unable to realloc memory, size = %d, length = %d, increase = %d",
-		arrayList->size, arrayList->array->length, increase
+		arrayList->size, arrayList->elementArray->length, increase
 	);
 
 /*
@@ -45,19 +45,19 @@ static inline void AddCapacity(ArrayList* arrayList, int increase)
 ----------------------------------------------------------------------------------------------------
 */
 
-	arrayList->array->data    = data;
-	arrayList->array->length += increase;
+	arrayList->elementArray->data    = data;
+	arrayList->elementArray->length += increase;
 }
 
 
 static void* GetAdd(ArrayList* arrayList)
 {
-	if (arrayList->size == arrayList->array->length)
+	if (arrayList->size == arrayList->elementArray->length)
 	{
 		AddCapacity(arrayList, arrayList->increase);
 	}
 
-    return (char*) arrayList->array->data + arrayList->typeSize * (arrayList->size++);
+    return (char*) arrayList->elementArray->data + arrayList->typeSize * (arrayList->size++);
 }
 
 
@@ -66,13 +66,13 @@ static void* GetInsert(ArrayList* arrayList, int index)
 	// insert index can equal size
 	CheckInsertIndex("GetInsert");
 
-	if (arrayList->size == arrayList->array->length)
+	if (arrayList->size == arrayList->elementArray->length)
 	{
 		AddCapacity(arrayList, arrayList->increase);
 	}
 
-	void* from  = (char*) arrayList->array->data + arrayList->typeSize * index;
-	void* to    = (char*) from                   + arrayList->typeSize;
+	void* from  = (char*) arrayList->elementArray->data + arrayList->typeSize * index;
+	void* to    = (char*) from                          + arrayList->typeSize;
 
 	memmove(to, from, arrayList->typeSize * (arrayList->size - index));
 	arrayList->size++;
@@ -122,7 +122,7 @@ static void* Pop(ArrayList* arrayList, void* defaultElementPtr)
 	if (arrayList->size > 0)
 	{
 		// now size equal last index
-		return (char*) arrayList->array->data + arrayList->typeSize * (--arrayList->size);
+		return (char*) arrayList->elementArray->data + arrayList->typeSize * (--arrayList->size);
 	}
 	else
 	{
@@ -141,7 +141,7 @@ static void AddArray(ArrayList* arrayList, void* data, int length, int typeSize)
         typeSize
     );
 
-    int n = arrayList->array->length - arrayList->size - length;
+    int n = arrayList->elementArray->length - arrayList->size - length;
 
     if (n < 0)
     {
@@ -150,7 +150,7 @@ static void AddArray(ArrayList* arrayList, void* data, int length, int typeSize)
 
     memcpy
     (
-        (char*) arrayList->array->data + arrayList->typeSize * arrayList->size,
+        (char*) arrayList->elementArray->data + arrayList->typeSize * arrayList->size,
         data,
         arrayList->typeSize * length
     );
@@ -168,8 +168,8 @@ static void Remove(ArrayList* arrayList, int index)
 
 	if (index != arrayList->size)
 	{
-		void* to   = (char*) arrayList->array->data + arrayList->typeSize * index;
-		void* from = (char*) to                     + arrayList->typeSize;
+		void* to   = (char*) arrayList->elementArray->data + arrayList->typeSize * index;
+		void* from = (char*) to                            + arrayList->typeSize;
 
 		// move between index and last index element
 		memmove(to, from, arrayList->typeSize * (arrayList->size - index));
@@ -202,8 +202,8 @@ static void RemoveRange(ArrayList* arrayList, int fromIndex, int toIndex)
 
 	if (toIndex != lastIndex)
 	{
-		void* to    = (char*) arrayList->array->data + arrayList->typeSize * fromIndex;
-		void* from  = (char*) to                     + arrayList->typeSize * num;
+		void* to    = (char*) arrayList->elementArray->data + arrayList->typeSize * fromIndex;
+		void* from  = (char*) to                            + arrayList->typeSize * num;
 
 		// move between lastIndex and toIndex element
 		memmove(to, from, arrayList->typeSize * (lastIndex - toIndex));
@@ -235,8 +235,8 @@ static void RemoveByLast(ArrayList* arrayList, int index)
 	{
 		memcpy
 		(
-			(char*) arrayList->array->data + arrayList->typeSize * index,
-			(char*) arrayList->array->data + arrayList->typeSize * arrayList->size,
+			(char*) arrayList->elementArray->data + arrayList->typeSize * index,
+			(char*) arrayList->elementArray->data + arrayList->typeSize * arrayList->size,
 			arrayList->typeSize
 		);
 	}
@@ -265,27 +265,27 @@ static void Shrink(ArrayList* arrayList)
 {
 	if (arrayList->size == 0)
 	{
-		arrayList->array->length = 0;
-		free(arrayList->array->data);
-		arrayList->array->data   = NULL;
+		arrayList->elementArray->length = 0;
+		free(arrayList->elementArray->data);
+		arrayList->elementArray->data   = NULL;
 	}
 	else
 	{
-		void* data = realloc(arrayList->array->data, arrayList->size * arrayList->typeSize);
+		void* data = realloc(arrayList->elementArray->data, arrayList->size * arrayList->typeSize);
 		ALogA(data, "ArrayList Shrink error, size = %d ", arrayList->size);
 
-		arrayList->array->data   = data;
-		arrayList->array->length = arrayList->size;
+		arrayList->elementArray->data   = data;
+		arrayList->elementArray->length = arrayList->size;
 	}
 }
 
 
 static void Release(ArrayList* arrayList)
 {
-	arrayList->size          = 0;
-	arrayList->array->length = 0;
-	free(arrayList->array->data);
-	arrayList->array->data   = NULL;
+	arrayList->size                 = 0;
+	arrayList->elementArray->length = 0;
+	free(arrayList->elementArray->data);
+	arrayList->elementArray->data   = NULL;
 }
 
 
@@ -293,33 +293,33 @@ static void SetSize(ArrayList* arrayList, int size)
 {
 	arrayList->size = size;
 
-	if (arrayList->array->length >= size)
+	if (arrayList->elementArray->length >= size)
 	{
 		return;
 	}
 
-	AddCapacity(arrayList, size - arrayList->array->length);
+	AddCapacity(arrayList, size - arrayList->elementArray->length);
 }
 
 
 static void SetCapacity(ArrayList* arrayList, int capacity)
 {
-	if (arrayList->array->length >= capacity)
+	if (arrayList->elementArray->length >= capacity)
 	{
 		return;
 	}
 	
-	AddCapacity(arrayList, capacity - arrayList->array->length);
+	AddCapacity(arrayList, capacity - arrayList->elementArray->length);
 }
 
 
 static inline void InitArrayList(int typeSize, ArrayList* arrayList)
 {
-	arrayList->array->length = 0;
-	arrayList->array->data   = NULL;
-	arrayList->typeSize      = typeSize;
-	arrayList->size          = 0;
-	arrayList->increase      = 20;
+	arrayList->elementArray->length = 0;
+	arrayList->elementArray->data   = NULL;
+	arrayList->typeSize             = typeSize;
+	arrayList->size                 = 0;
+	arrayList->increase             = 20;
 }
 
 

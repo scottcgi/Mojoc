@@ -411,7 +411,7 @@ static void Init(ParticleEmitterData* emitterData, Texture* texture, ParticleEmi
 	mesh->drawable->Render    = Render;
 
 	int max                   = emitterData->maxParticleCount;
-	ArrayList*  children      = mesh->children;
+	ArrayList*  children      = mesh->childList;
 
 	AArrayList->SetCapacity(children, max);
 	outEmitter->particleArr   = AArray->Create(sizeof(Particle), max);

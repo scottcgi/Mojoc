@@ -232,7 +232,7 @@ extern struct AComponent AComponent[1];
 
 static inline int AComponentGetChildCount(Component* component)
 {
-	return component->childMap->arrayList->size;
+	return component->childMap->elementList->size;
 }
 
 
@@ -247,7 +247,7 @@ static inline int AComponentGetCurStateId(Component* component)
  */
 static inline void AComponentSetStateIncrease(Component *component, int increase)
 {
-	component->stateMap->arrayList->increase = increase;
+	component->stateMap->elementList->increase = increase;
 }
 
 

@@ -15,7 +15,7 @@
 
 static void ReorderChildren(Mesh* mesh)
 {
-	ArrayList* children        = mesh->children;
+	ArrayList* children        = mesh->childList;
 	// SubMesh keep original indexDataOffset
 	int        indexDataOffset = 0;
 
@@ -58,9 +58,9 @@ static void Draw(Drawable* meshDrawable)
 	bool  isChangedOpacity = ADrawableCheckState(meshDrawable, drawable_state_opacity_ed);
 	bool  isChangedRGB     = ADrawableCheckState(meshDrawable, drawable_state_rgb_ed);
 
-	for (int i = 0; i < mesh->children->size; i++)
+	for (int i = 0; i < mesh->childList->size; i++)
 	{
-		SubMesh* subMesh = AArrayListGet(mesh->children, i, SubMesh*);
+		SubMesh* subMesh = AArrayListGet(mesh->childList, i, SubMesh*);
 
 //--------------------------------------------------------------------------------------------------
 
@@ -248,7 +248,7 @@ static void Render(Drawable* drawable)
 {
 	Mesh* mesh = AStructGetParent2(drawable, Mesh);
 
-	if (mesh->children->size == 0)
+	if (mesh->childList->size == 0)
 	{
 		return;
 	}
@@ -256,23 +256,23 @@ static void Render(Drawable* drawable)
 	SubMesh* fromChild;
 	SubMesh* toChild;
 
-	if (mesh->drawRangeQueue->arrayList->size == 0)
+	if (mesh->drawRangeQueue->elementList->size == 0)
 	{
-		fromChild = AArrayListGet(mesh->children, mesh->fromIndex, SubMesh*);
-		toChild   = AArrayListGet(mesh->children, mesh->toIndex,   SubMesh*);
+		fromChild = AArrayListGet(mesh->childList, mesh->fromIndex, SubMesh*);
+		toChild   = AArrayListGet(mesh->childList, mesh->toIndex,   SubMesh*);
 	}
 	else
 	{
 		fromChild = AArrayListGet
 					(
-						mesh->children,
+						mesh->childList,
 						AArrayQueuePopWithDefault(mesh->drawRangeQueue, int, mesh->fromIndex),
 						SubMesh*
 					);
 
 		toChild   = AArrayListGet
 				    (
-						mesh->children,
+						mesh->childList,
 						AArrayQueuePopWithDefault(mesh->drawRangeQueue, int, mesh->toIndex),
 						SubMesh*
 					);
@@ -473,9 +473,9 @@ static void Init(Texture* texture, Mesh* outMesh)
     outMesh->indexDataLength            = 0;
 
 	AArrayQueue->Init(sizeof(int),             outMesh->drawRangeQueue);
-	AArrayList ->Init(sizeof(SubMesh*),        outMesh->children);
+	AArrayList ->Init(sizeof(SubMesh*),        outMesh->childList);
 	AArrayList ->Init(sizeof(VBOSubData),      outMesh->vboSubDataList);
-    outMesh->vboSubDataList->increase = outMesh->children->increase * 4;
+    outMesh->vboSubDataList->increase = outMesh->childList->increase * 4;
 }
 
 static inline void InitBuffer(Mesh* mesh)
@@ -489,9 +489,9 @@ static inline void InitBuffer(Mesh* mesh)
 
 	char* uvData            = (char*) mesh->vertexArr->data + mesh->uvDataOffset;
 
-	for (int i = 0; i < mesh->children->size; i++)
+	for (int i = 0; i < mesh->childList->size; i++)
 	{
-		SubMesh* subMesh = AArrayListGet(mesh->children, i, SubMesh*);
+		SubMesh* subMesh = AArrayListGet(mesh->childList, i, SubMesh*);
 
 		memcpy((char*) mesh->indexArr->data  + subMesh->indexDataOffset,    subMesh->indexArr->data,    subMesh->indexArr->length    * sizeof(short));
 		memcpy((char*) mesh->vertexArr->data + subMesh->positionDataOffset, subMesh->positionArr->data, subMesh->positionArr->length * sizeof(float));
@@ -502,14 +502,14 @@ static inline void InitBuffer(Mesh* mesh)
 	}
 
 	mesh->fromIndex = 0;
-	mesh->toIndex   = mesh->children->size - 1;
+	mesh->toIndex   = mesh->childList->size - 1;
 }
 
 
 static void InitWithCapacity(Texture* texture, int capacity, Mesh* outMesh)
 {
 	Init(texture, outMesh);
-	AArrayList->SetCapacity(outMesh->children, capacity);
+	AArrayList->SetCapacity(outMesh->childList, capacity);
 }
 
 
@@ -530,7 +530,7 @@ static inline SubMesh* AddChild(Mesh* mesh, SubMesh* subMesh)
         AArrayGet(subMesh->indexArr, i, short) += mesh->vertexCountOffset;
     }
 
-    subMesh->index              = mesh->children->size;
+    subMesh->index              = mesh->childList->size;
     subMesh->parent             = mesh;
 
     subMesh->positionDataOffset = mesh->positionDataLength * sizeof(float);
@@ -549,7 +549,7 @@ static inline SubMesh* AddChild(Mesh* mesh, SubMesh* subMesh)
     mesh->rgbDataLength        += subMesh->positionArr->length;
     mesh->indexDataLength      += subMesh->indexArr->length;
 
-    AArrayListAdd(mesh->children, subMesh);
+    AArrayListAdd(mesh->childList, subMesh);
 
     return subMesh;
 }
@@ -664,12 +664,12 @@ static void Release(Mesh* mesh)
 {
 	ReleaseBuffer(mesh);
 
-	for (int i = 0; i < mesh->children->size; i++)
+	for (int i = 0; i < mesh->childList->size; i++)
 	{
-		free(AArrayListGet(mesh->children, i, SubMesh*));
+		free(AArrayListGet(mesh->childList, i, SubMesh*));
 	}
 
-	AArrayList ->Release(mesh->children);
+	AArrayList ->Release(mesh->childList);
 	AArrayList ->Release(mesh->vboSubDataList);
     AArrayQueue->Release(mesh->drawRangeQueue);
 }
@@ -677,12 +677,12 @@ static void Release(Mesh* mesh)
 
 static void Clear(Mesh* mesh)
 {
-    for (int i = 0; i < mesh->children->size; i++)
+    for (int i = 0; i < mesh->childList->size; i++)
     {
-        free(AArrayListGet(mesh->children, i, SubMesh*));
+        free(AArrayListGet(mesh->childList, i, SubMesh*));
     }
 
-    AArrayList ->Clear(mesh->children);
+    AArrayList ->Clear(mesh->childList);
     AArrayList ->Clear(mesh->vboSubDataList);
     AArrayQueue->Clear(mesh->drawRangeQueue);
 

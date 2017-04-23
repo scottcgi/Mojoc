@@ -24,7 +24,7 @@ typedef struct
 	 * if increase capacity, memory data will realloc
 	 * so the data address may changed
 	 */
-	Array  array[1];
+	Array  elementArray[1];
 
 	/**
 	 * The sizeof element type
@@ -220,10 +220,10 @@ extern struct AArrayList AArrayList[1];
 
 
 /**
- * The type is element type
+ * Get the type ptr of elements
  */
 #define AArrayListGetData(arrayList, type) \
-	((type*) ((arrayList)->array->data))
+	((type*) ((arrayList)->elementArray->data))
 
 
 /**

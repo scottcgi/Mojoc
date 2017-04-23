@@ -26,7 +26,7 @@ static void Release(SkeletonData* skeletonData)
 
 	// bone data
 	ArrayStrMap* boneDataMap = skeletonData->boneDataMap;
-	for (int i = 0; i < boneDataMap->arrayList->size; i++)
+	for (int i = 0; i < boneDataMap->elementList->size; i++)
 	{
 		free(AArrayStrMapGetAt(boneDataMap, i, SkeletonBoneData*));
 	}
@@ -34,7 +34,7 @@ static void Release(SkeletonData* skeletonData)
 
 	// slot data
 	ArrayStrMap* slotDataMap = skeletonData->slotDataMap;
-	for (int i = 0; i < slotDataMap->arrayList->size; i++)
+	for (int i = 0; i < slotDataMap->elementList->size; i++)
 	{
 		SkeletonSlotData* slotData = AArrayStrMapGetAt(slotDataMap, i, SkeletonSlotData*);
 		if (slotData->attachmentDataList != NULL)
@@ -52,7 +52,7 @@ static void Release(SkeletonData* skeletonData)
 	ArrayStrMap* eventDataMap = skeletonData->eventDataMap;
 	if (eventDataMap != NULL)
 	{
-		for(int i = 0; i < eventDataMap->arrayList->size; i++)
+		for(int i = 0; i < eventDataMap->elementList->size; i++)
 		{
 			free(AArrayStrMapGetAt(eventDataMap, i, SkeletonEventData*));
 		}
@@ -62,16 +62,16 @@ static void Release(SkeletonData* skeletonData)
 
 	// skin data
 	ArrayStrMap* skinDataMap = skeletonData->skinDataMap;
-	for (int i = 0; i < skinDataMap->arrayList->size; i++)
+	for (int i = 0; i < skinDataMap->elementList->size; i++)
 	{
 		SkeletonSkinData* skinData          = AArrayStrMapGetAt(skinDataMap, i, SkeletonSkinData*);
 		ArrayStrMap*      slotAttachmentMap = skinData->slotAttachmentMap;
 
-		for (int j = 0; j < slotAttachmentMap->arrayList->size; j++)
+		for (int j = 0; j < slotAttachmentMap->elementList->size; j++)
 		{
 			ArrayStrMap* attachmentDataMap = AArrayStrMapGetAt(slotAttachmentMap, j, ArrayStrMap*);
 
-			for (int k = 0; k < attachmentDataMap->arrayList->size; k++)
+			for (int k = 0; k < attachmentDataMap->elementList->size; k++)
 			{
 				free(AArrayStrMapGetAt(attachmentDataMap, k, SkeletonAttachmentData*)->subPtr);
 			}
@@ -94,7 +94,7 @@ static void Release(SkeletonData* skeletonData)
 
 	// animation data
 	ArrayStrMap* animationDataMap = skeletonData->animationDataMap;
-	for (int j = 0; j < animationDataMap->arrayList->size; j++)
+	for (int j = 0; j < animationDataMap->elementList->size; j++)
 	{
 		SkeletonAnimationData* animationData = AArrayStrMapGetAt(animationDataMap, j, SkeletonAnimationData*);
 		ArrayList*             timelineList  = animationData->timelineArr;
@@ -348,9 +348,9 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 
 static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentDataMapObject)
 {
-	ArrayStrMap* attachmentDataMap = AArrayStrMap->CreateWithCapacity(sizeof(SkeletonAttachmentData*), attachmentDataMapObject->arrayStrMap->arrayList->size);
+	ArrayStrMap* attachmentDataMap = AArrayStrMap->CreateWithCapacity(sizeof(SkeletonAttachmentData*), attachmentDataMapObject->arrayStrMap->elementList->size);
 
-	for (int i = 0; i < attachmentDataMapObject->arrayStrMap->arrayList->size; i++)
+	for (int i = 0; i < attachmentDataMapObject->arrayStrMap->elementList->size; i++)
 	{
 		char* name                       = AJsonObject->GetKey          (attachmentDataMapObject, i);
 		JsonObject* attachmentDataObject = AJsonObject->GetObjectByIndex(attachmentDataMapObject, i);
@@ -612,9 +612,9 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 static inline void ReadSkinDataSlot(JsonObject* skinSlot, SkeletonSkinData* skinData)
 {
 	ArrayStrMap* slotAttachmentMap = skinData->slotAttachmentMap;
-	AArrayStrMap->InitWithCapacity(sizeof(ArrayStrMap*), skinSlot->arrayStrMap->arrayList->size, slotAttachmentMap);
+	AArrayStrMap->InitWithCapacity(sizeof(ArrayStrMap*), skinSlot->arrayStrMap->elementList->size, slotAttachmentMap);
 
-	for (int i = 0; i < skinSlot->arrayStrMap->arrayList->size; i++)
+	for (int i = 0; i < skinSlot->arrayStrMap->elementList->size; i++)
 	{
 		char* slotName = AJsonObject->GetKey(skinSlot, i);
 
@@ -632,9 +632,9 @@ static inline void ReadSkinData(JsonObject* root, SkeletonData* skeletonData)
 {
 	JsonObject*  skinDataObject  = AJsonObject->GetObject(root, "skins");
 	ArrayStrMap* skinDataMap     = skeletonData->skinDataMap;
-	AArrayStrMap->InitWithCapacity(sizeof(SkeletonSkinData*), skinDataObject->arrayStrMap->arrayList->size, skinDataMap);
+	AArrayStrMap->InitWithCapacity(sizeof(SkeletonSkinData*), skinDataObject->arrayStrMap->elementList->size, skinDataMap);
 
-	for (int i = 0; i < skinDataObject->arrayStrMap->arrayList->size; i++)
+	for (int i = 0; i < skinDataObject->arrayStrMap->elementList->size; i++)
 	{
 		char* skinName             = AJsonObject->GetKey(skinDataObject, i);
 		int   skinNameLength       = strlen(skinName) + 1;
@@ -713,7 +713,7 @@ static inline void ReadAnimationBones
 
 	ArrayStrMap* boneDataMap = skeletonData->boneDataMap;
 
-	for (int i = 0; i < jsonBones->arrayStrMap->arrayList->size; i++)
+	for (int i = 0; i < jsonBones->arrayStrMap->elementList->size; i++)
 	{
 		char*             boneName = AJsonObject->GetKey(jsonBones, i);
 		SkeletonBoneData* boneData = AArrayStrMapGet(boneDataMap, boneName, SkeletonBoneData*);
@@ -732,7 +732,7 @@ static inline void ReadAnimationBones
 		ALogA(boneIndex != -1, "readAnimationBones not found boneData = %s in boneDataOrderArr", boneName);
 
 		JsonObject* jsonBoneTimeline = AJsonObject->GetObjectByIndex(jsonBones, i);
-		for (int j = 0; j < jsonBoneTimeline->arrayStrMap->arrayList->size; j++)
+		for (int j = 0; j < jsonBoneTimeline->arrayStrMap->elementList->size; j++)
 		{
 			char* timelineType     = AJsonObject->GetKey(jsonBoneTimeline, j);
 			ALogD("bone name = %s, timeline type = %s", boneName, timelineType);
@@ -837,7 +837,7 @@ static inline void ReadAnimationSlots
 
 	ArrayStrMap* slotDataMap = skeletonData->slotDataMap;
 
-	for (int i = 0; i < jsonSlots->arrayStrMap->arrayList->size; i++)
+	for (int i = 0; i < jsonSlots->arrayStrMap->elementList->size; i++)
 	{
 		char* slotName = AJsonObject->GetKey(jsonSlots, i);
 		int  slotIndex = FindSlotIndex(skeletonData, slotName);
@@ -845,7 +845,7 @@ static inline void ReadAnimationSlots
 		ALogA(slotIndex != -1, "readAnimationBones not found slotData = %s in slotDataOrderArr", slotName);
 
 		JsonObject* jsonSlotTimeline = AJsonObject->GetObjectByIndex(jsonSlots, i);
-		for (int j = 0; j < jsonSlotTimeline->arrayStrMap->arrayList->size; j++)
+		for (int j = 0; j < jsonSlotTimeline->arrayStrMap->elementList->size; j++)
 		{
 			char* timelineType = AJsonObject->GetKey(jsonSlotTimeline, j);
 			ALogD("slot name = %s, timeline type = %s", slotName, timelineType);
@@ -1087,7 +1087,7 @@ static inline void ReadAnimationDeform
 	ArrayList*             skeletonTimelineArr
 )
 {
-	for (int i = 0; i < jsonDeform->arrayStrMap->arrayList->size; i++)
+	for (int i = 0; i < jsonDeform->arrayStrMap->elementList->size; i++)
 	{
 		char*             skinName  = AJsonObject->GetKey(jsonDeform, i);
 		SkeletonSkinData* skinData  = AArrayStrMapGet(skeletonData->skinDataMap, skinName, SkeletonSkinData*);
@@ -1095,7 +1095,7 @@ static inline void ReadAnimationDeform
 		ALogA(skinData != NULL, "Deform skin not found %s", skinName);
 
 		JsonObject* jsonSlots       = AJsonObject->GetObjectByIndex(jsonDeform, i);
-		for (int j = 0; j < jsonSlots->arrayStrMap->arrayList->size; j++)
+		for (int j = 0; j < jsonSlots->arrayStrMap->elementList->size; j++)
 		{
 			char* slotName  = AJsonObject->GetKey(jsonSlots, j);
 			int   slotIndex = FindSlotIndex(skeletonData, slotName);
@@ -1103,7 +1103,7 @@ static inline void ReadAnimationDeform
 			ALogA(slotIndex != -1, "Deform not found slot = %s in slotDataOrderArr", slotName);
 
 			JsonObject* jsonMeshs   = AJsonObject->GetObjectByIndex(jsonSlots, j);
-			for (int k = 0; k < jsonMeshs->arrayStrMap->arrayList->size; k++)
+			for (int k = 0; k < jsonMeshs->arrayStrMap->elementList->size; k++)
 			{
 				JsonArray*              jsonMeshArr    = AJsonObject->GetArrayByIndex(jsonMeshs, k);
 				char*                   meshName       = AJsonObject->GetKey         (jsonMeshs, k);
@@ -1202,11 +1202,11 @@ static inline void ReadAnimationData(JsonObject* root, SkeletonData* skeletonDat
 	AArrayStrMap->InitWithCapacity
 	(
         sizeof(SkeletonAnimationData*),
-        animationDataObject->arrayStrMap->arrayList->size,
+        animationDataObject->arrayStrMap->elementList->size,
         animationDataMap
     );
 
-	for (int i = 0; i < animationDataObject->arrayStrMap->arrayList->size; i++)
+	for (int i = 0; i < animationDataObject->arrayStrMap->elementList->size; i++)
 	{
 		char*                  animationName       = AJsonObject->GetKey(animationDataObject, i);
 		int                    animationNameLength = strlen(animationName) + 1;
@@ -1269,7 +1269,7 @@ static inline void ReadEventData(JsonObject* root, SkeletonData* skeletonData)
 	int size = 0;
 	if (eventObject != NULL)
 	{
-		size = eventObject->arrayStrMap->arrayList->size;
+		size = eventObject->arrayStrMap->elementList->size;
 	}
 
 	AArrayStrMap->InitWithCapacity(sizeof(SkeletonEventData*), size, eventDataMap);
@@ -1278,7 +1278,7 @@ static inline void ReadEventData(JsonObject* root, SkeletonData* skeletonData)
 	{
 		JsonObject* eventValue = AJsonObject->GetObjectByIndex(eventObject, i);
 
-		if (eventValue->arrayStrMap->arrayList->size == 0)
+		if (eventValue->arrayStrMap->elementList->size == 0)
 		{
 			continue;
 		}
@@ -1373,7 +1373,7 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 		slotData->attachmentDataList            = AArrayList->Create(sizeof(SkeletonAttachmentData*));
 
 		// search all skin attachment
-		for (int j = 0; j < skinDataMap->arrayList->size; j++)
+		for (int j = 0; j < skinDataMap->elementList->size; j++)
 		{
 			char*             skinName          = AArrayStrMap->GetKey(skinDataMap, j);
 			SkeletonSkinData* skinData          = AArrayStrMapGetAt(skinDataMap, j, SkeletonSkinData*);
@@ -1389,7 +1389,7 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 
 			ALogD("Skin %s Can find AttachmentMap by slot name = %s", skinName, slotData->name);
 
-			for (int k = 0; k < attachmentMap->arrayList->size; k++)
+			for (int k = 0; k < attachmentMap->elementList->size; k++)
 			{
 				char*                   attachmentName = AArrayStrMap->GetKey(attachmentMap, k);
 				SkeletonAttachmentData* attachmentData = AArrayStrMapGetAt(attachmentMap, k, SkeletonAttachmentData*);

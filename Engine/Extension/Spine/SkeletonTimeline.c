@@ -1085,7 +1085,7 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
 			SkeletonMeshAttachmentData* meshAttachment = (SkeletonMeshAttachmentData*) deformTimeline->attachmentData->subPtr;
 			SubMesh*                    subMesh        = AArrayListGet
 													     (
-															 AArrayListGetPtr(skeleton->meshList, meshAttachment->meshIndex, Mesh)->children,
+															 AArrayListGetPtr(skeleton->meshList, meshAttachment->meshIndex, Mesh)->childList,
 															 meshAttachment->subMeshIndex,
 															 SubMesh*
 														 );

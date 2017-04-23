@@ -7,6 +7,8 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <Engine/Toolkit/Utils/ArrayIntMap.h>
+#include <Engine/Toolkit/Utils/ArrayList.h>
 
 #include "Engine/Application/Component.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -21,15 +23,14 @@ static void Init(Component* outComponent)
 	outComponent->parent        = NULL;
 	outComponent->isActive      = true;
 
-	AArrayIntMap->Init(sizeof(Component*), outComponent->childMap);
-	AArrayIntMap->Init(sizeof(Component*), outComponent->observerMap);
-
+	AArrayIntMap->Init            (sizeof(Component*),         outComponent->childMap);
+	AArrayIntMap->Init            (sizeof(Component*),         outComponent->observerMap);
 	AArrayIntMap->InitWithCapacity(sizeof(ComponentState*), 1, outComponent->stateMap);
-	AArrayIntMapSetIncrease(outComponent->stateMap, 5);
 
-	outComponent->defaultState = AComponent->AddState(outComponent, component_state_default, NULL, NULL);
-	outComponent->curState     = outComponent->defaultState;
-	outComponent->preState     = outComponent->defaultState;
+    outComponent->stateMap->elementList->increase = 5;
+	outComponent->defaultState                    = AComponent->AddState(outComponent, component_state_default, NULL, NULL);
+	outComponent->curState                        = outComponent->defaultState;
+	outComponent->preState                        = outComponent->defaultState;
 }
 
 
@@ -48,7 +49,7 @@ static void Release(Component* component)
 	AArrayIntMap->Release(component->childMap);
 	AArrayIntMap->Release(component->observerMap);
 
-	for (int i = 0; i < component->stateMap->arrayList->size; i++)
+	for (int i = 0; i < component->stateMap->elementList->size; i++)
 	{
 		free(AArrayIntMapGetAt(component->stateMap, i, ComponentState*));
 	}
@@ -80,7 +81,7 @@ static void AppendChild(Component* parent, Component* child)
 
 	int order;
 
-	if (parent->childMap->arrayList->size == 0)
+	if (parent->childMap->elementList->size == 0)
 	{
 		order = parent->increaseOrder;
 	}
@@ -89,7 +90,7 @@ static void AppendChild(Component* parent, Component* child)
 		order = AArrayIntMapGetAt
                 (
                     parent->childMap,
-                    parent->childMap->arrayList->size - 1,
+                    parent->childMap->elementList->size - 1,
                     Component*
                 )
                 ->order + parent->increaseOrder;
@@ -121,7 +122,7 @@ static void RemoveAllChildren(Component* parent)
 {
 	ALogA(parent != NULL, "Component removeAllChildren failed, parent can not NULL");
 
-	for (int i = 0; i < parent->childMap->arrayList->size; i++)
+	for (int i = 0; i < parent->childMap->elementList->size; i++)
 	{
 		Component* child = AArrayIntMapGetAt(parent->childMap, i, Component*);
 		child->parent    = NULL;
@@ -144,16 +145,16 @@ static int Compare(const void* a, const void* b)
 static void ReorderAllChildren(Component* parent)
 {
 	// renew all children key
-	for (int i = 0; i < parent->childMap->arrayList->size; i++)
+	for (int i = 0; i < parent->childMap->elementList->size; i++)
 	{
-		ArrayIntMapElement* element = AArrayListGet(parent->childMap->arrayList, i, ArrayIntMapElement*);
+		ArrayIntMapElement* element = AArrayListGet(parent->childMap->elementList, i, ArrayIntMapElement*);
 		element->key                = (*(Component**) element->valuePtr)->order;
 	}
 
 	qsort
 	(
-        parent->childMap->arrayList->array->data,
-        parent->childMap->arrayList->size,
+        parent->childMap->elementList->elementArray->data,
+        parent->childMap->elementList->size,
 		sizeof(void**),
 		Compare
 	);
@@ -200,7 +201,7 @@ static void Update(Component* component, float deltaSeconds)
 
         for (int i = 0;;)
         {
-            while (i + 3 < component->childMap->arrayList->size)
+            while (i + 3 < component->childMap->elementList->size)
             {
                 AComponent->Update(AArrayIntMapGetAt(component->childMap, i,     Component*), deltaSeconds);
                 AComponent->Update(AArrayIntMapGetAt(component->childMap, i + 1, Component*), deltaSeconds);
@@ -210,7 +211,7 @@ static void Update(Component* component, float deltaSeconds)
                 i += 4;
             }
 
-            while (i < component->childMap->arrayList->size)
+            while (i < component->childMap->elementList->size)
             {
                 AComponent->Update(AArrayIntMapGetAt(component->childMap, i++, Component*), deltaSeconds);
             }
@@ -236,7 +237,7 @@ static bool SendMessage(Component* component, void* sender, int subject, void* e
 		}
 
 		// big order first
-		for (int i = component->childMap->arrayList->size - 1; i > -1 ; i--)
+		for (int i = component->childMap->elementList->size - 1; i > -1 ; i--)
 		{
 			// if in OnMessage method remove parent child more than twice
             // the i index will overflow
@@ -256,7 +257,7 @@ static bool SendMessageToChildren(Component* component, void* sender, int subjec
 	if (component->isActive)
 	{
         // big order first
-		for (int i = component->childMap->arrayList->size - 1; i > -1; i--)
+		for (int i = component->childMap->elementList->size - 1; i > -1; i--)
 		{
             // if in OnMessage method remove parent child more than twice
             // the i index will overflow
@@ -277,7 +278,7 @@ static void Notify(Component* sender, int subject, void* extraData)
 
 	if (sender->isActive)
 	{
-		for (int i = 0; i < sender->observerMap->arrayList->size; i++)
+		for (int i = 0; i < sender->observerMap->elementList->size; i++)
 		{
 			Component* observer = AArrayIntMapGetAt(sender->observerMap, i, Component*);
 
@@ -344,7 +345,7 @@ static void SetActive(Component* component, bool isActive)
 {
 	component->isActive = isActive;
 
-	for (int i = 0; i < component->childMap->arrayList->size; i++)
+	for (int i = 0; i < component->childMap->elementList->size; i++)
 	{
 		AArrayIntMapGetAt(component->childMap, i, Component*)->isActive = isActive;
 	}

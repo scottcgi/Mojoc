@@ -42,7 +42,7 @@ static void Release(JsonValue* value)
 		case json_object:
 		{
 			ArrayStrMap* map = value->object->arrayStrMap;
-			for (int i = 0; i < map->arrayList->size; i++)
+			for (int i = 0; i < map->elementList->size; i++)
 			{
 				Release(AArrayStrMapGetAt(map, i, JsonValue*));
 			}

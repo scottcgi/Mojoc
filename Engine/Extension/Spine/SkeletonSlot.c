@@ -22,7 +22,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 			SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->subPtr;
 			SubMesh*                      subMesh              = AArrayListGet
 																 (
-																	 AArrayListGetPtr(slot->skeleton->meshList, regionAttachmentData->meshIndex, Mesh)->children,
+																	 AArrayListGetPtr(slot->skeleton->meshList, regionAttachmentData->meshIndex, Mesh)->childList,
 																	 regionAttachmentData->subMeshIndex,
 																	 SubMesh*
 																 );
@@ -43,7 +43,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 			SkeletonMeshAttachmentData* meshAttachmentData = (SkeletonMeshAttachmentData*) attachmentData->subPtr;
 			SubMesh*                    subMesh            = AArrayListGet
 															 (
-																 AArrayListGetPtr(slot->skeleton->meshList, meshAttachmentData->meshIndex, Mesh)->children,
+																 AArrayListGetPtr(slot->skeleton->meshList, meshAttachmentData->meshIndex, Mesh)->childList,
 																 meshAttachmentData->subMeshIndex,
 																 SubMesh*
 															 );
@@ -61,7 +61,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 			SkeletonMeshAttachmentData*        meshAttachmentData        = skinnedMeshAttachmentData->meshAttachmentData;
 			SubMesh*                           subMesh                   = AArrayListGet
 																	   	   (
-																			 AArrayListGetPtr(slot->skeleton->meshList, meshAttachmentData->meshIndex, Mesh)->children,
+																			 AArrayListGetPtr(slot->skeleton->meshList, meshAttachmentData->meshIndex, Mesh)->childList,
 																			 meshAttachmentData->subMeshIndex,
 																			 SubMesh*
 																		   );

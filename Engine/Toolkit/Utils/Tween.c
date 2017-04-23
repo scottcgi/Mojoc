@@ -10,6 +10,8 @@
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
 #include "Engine/Toolkit/Utils/ArrayQueue.h"
+#include "ArrayQueue.h"
+#include "ArrayList.h"
 
 
 typedef struct
@@ -46,10 +48,10 @@ static inline TweenData* GetTweenData()
         tweenData = (TweenData*) malloc(sizeof(TweenData));
 
         AArrayQueue->Init(sizeof(TweenAction*), tweenData->queue);
-        AArrayQueueSetIncrease(tweenData->queue, 6);
+        tweenData->queue->elementList->increase = 6;
 
         AArrayList->Init(sizeof(TweenAction*),  tweenData->current);
-        tweenData->current->increase = 6;
+        tweenData->current->increase            = 6;
     }
     else
     {
@@ -213,9 +215,9 @@ static bool TryRemoveAction(void* tweenId, TweenAction* action)
 
 //--------------------------------------------------------------------------------------------------
 
-		for (int i = tweenData->queue->topIndex; i < tweenData->queue->arrayList->size; i++)
+		for (int i = tweenData->queue->topIndex; i < tweenData->queue->elementList->size; i++)
 		{
-			TweenAction* tweenAction = AArrayListGet(tweenData->queue->arrayList, i, TweenAction*);
+			TweenAction* tweenAction = AArrayListGet(tweenData->queue->elementList, i, TweenAction*);
 
 			if (action == tweenAction)
 			{
@@ -333,7 +335,7 @@ static bool HasAction(void* tweenId)
     {
         TweenData* tweenData = AArrayIntMapGetAt(dataMap, index, TweenData*);
 
-        if (tweenData->current->size > 0 || tweenData->queue->arrayList->size > 0)
+        if (tweenData->current->size > 0 || tweenData->queue->elementList->size > 0)
         {
             return true;
         }
@@ -347,7 +349,7 @@ static bool HasAction(void* tweenId)
 
 static void Update(float deltaSeconds)
 {
-	for (int i = dataMap->arrayList->size - 1; i > -1; i--)
+	for (int i = dataMap->elementList->size - 1; i > -1; i--)
 	{
 		TweenData* tweenData = AArrayIntMapGetAt(dataMap, i, TweenData*);
 

@@ -60,7 +60,7 @@ struct Mesh
 	 * Sometimes use fixed index for get child in children
 	 * so can not change children order instead of use SubMesh index for sorting
 	 */
-	ArrayList(SubMesh*)  children      [1];
+	ArrayList(SubMesh*)  childList     [1];
 
 //--------------------------------------------------------------------------------------------------
 
@@ -162,7 +162,7 @@ static inline void AMeshDraw(Mesh* mesh)
 
 static inline void AMeshSetIncrease(Mesh* mesh, int increase)
 {
-	mesh->children->increase = increase;
+	mesh->childList->increase = increase;
 }
 
 

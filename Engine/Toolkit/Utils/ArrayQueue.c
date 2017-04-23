@@ -8,28 +8,29 @@
 #include <stdlib.h>
 #include "Engine/Toolkit/Utils/ArrayQueue.h"
 #include "Engine/Toolkit/Platform/Log.h"
+#include "ArrayList.h"
 
 
 static void* Push(ArrayQueue* arrayQueue, void* elementPtr)
 {
-	if (arrayQueue->topIndex > 0 && arrayQueue->topIndex == arrayQueue->arrayList->array->length)
+	if (arrayQueue->topIndex > 0 && arrayQueue->topIndex == arrayQueue->elementList->elementArray->length)
 	{
-        AArrayList->RemoveRange(arrayQueue->arrayList, 0, arrayQueue->topIndex - 1);
+        AArrayList->RemoveRange(arrayQueue->elementList, 0, arrayQueue->topIndex - 1);
         arrayQueue->topIndex = 0;
 	}
 
-	return AArrayList->Add(arrayQueue->arrayList, elementPtr);
+	return AArrayList->Add(arrayQueue->elementList, elementPtr);
 }
 
 
 static void* Pop(ArrayQueue* arrayQueue, void* defaultElementPtr)
 {
-	if (arrayQueue->topIndex == arrayQueue->arrayList->size)
+	if (arrayQueue->topIndex == arrayQueue->elementList->size)
 	{
 		return defaultElementPtr;
 	}
 
-	return (char*) arrayQueue->arrayList->array->data + arrayQueue->arrayList->typeSize * (arrayQueue->topIndex++);
+	return (char*) arrayQueue->elementList->elementArray->data + arrayQueue->elementList->typeSize * (arrayQueue->topIndex++);
 }
 
 
@@ -37,19 +38,19 @@ static void RemoveAt(ArrayQueue* arrayQueue, int index)
 {
 	ALogA
 	(
-		index >= arrayQueue->topIndex && index < arrayQueue->arrayList->size,
+		index >= arrayQueue->topIndex && index < arrayQueue->elementList->size,
 		"popIndex index = %d, out of range [%d, %d]",
-		index, arrayQueue->topIndex, arrayQueue->arrayList->size - 1
+		index, arrayQueue->topIndex, arrayQueue->elementList->size - 1
 	);
 
-	AArrayList->Remove(arrayQueue->arrayList, index);
+	AArrayList->Remove(arrayQueue->elementList, index);
 }
 
 
 static void Release(ArrayQueue* arrayQueue)
 {
 	arrayQueue->topIndex = 0;
-	AArrayList->Release(arrayQueue->arrayList);
+	AArrayList->Release(arrayQueue->elementList);
 }
 
 
@@ -57,11 +58,11 @@ static void InitWithCapacity(int typeSize, int capacity, ArrayQueue* outArrayQue
 {
 	if (capacity == 0)
 	{
-		AArrayList->Init(typeSize, outArrayQueue->arrayList);
+		AArrayList->Init(typeSize, outArrayQueue->elementList);
 	}
 	else
 	{
-		AArrayList->InitWithCapacity(typeSize, capacity, outArrayQueue->arrayList);
+		AArrayList->InitWithCapacity(typeSize, capacity, outArrayQueue->elementList);
 	}
 
 	outArrayQueue->topIndex = 0;
@@ -92,7 +93,7 @@ static ArrayQueue* Create(int typeSize)
 static void Clear(ArrayQueue* arrayQueue)
 {
 	arrayQueue->topIndex = 0;
-    AArrayList->Clear(arrayQueue->arrayList);
+    AArrayList->Clear(arrayQueue->elementList);
 }
 
 

@@ -36,7 +36,7 @@ typedef struct
     /**
      * Hold all ArrayStrMapElement
      */
-	ArrayList arrayList[1];
+	ArrayList elementList[1];
 
 	/**
 	 * ArrayStrMap value type sizeof
@@ -130,18 +130,6 @@ extern struct AArrayStrMap AArrayStrMap[1];
 static inline char* AArrayStrMapGetKey(void* valuePtr, int typeSize)
 {
 	return (char*) valuePtr + typeSize;
-}
-
-
-static inline int AArrayStrMapSize(ArrayStrMap* arrayStrMap)
-{
-	return arrayStrMap->arrayList->size;
-}
-
-
-static inline void AArrayStrMapSetIncrease(ArrayStrMap* arrayStrMap, int increase)
-{
-	arrayStrMap->arrayList->increase = increase;
 }
 
 

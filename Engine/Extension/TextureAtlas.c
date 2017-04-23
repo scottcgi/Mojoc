@@ -135,7 +135,7 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 		}
 	}
 
-	AArrayList->Shrink(outTextureAtlas->quadMap->arrayList);
+	AArrayList->Shrink(outTextureAtlas->quadMap->elementList);
 	AArrayList->Shrink(outTextureAtlas->textureList);
 }
 

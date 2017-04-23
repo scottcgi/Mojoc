@@ -20,7 +20,7 @@ static inline SubMesh* GetAttachmentSubMesh(Skeleton* skeleton, SkeletonAttachme
 
 	return AArrayListGet
 		   (
-			   AArrayListGetPtr(skeleton->meshList, meshIndex, Mesh)->children,
+			   AArrayListGetPtr(skeleton->meshList, meshIndex, Mesh)->childList,
 			   subMeshIndex,
 			   SubMesh*
 		   );
@@ -105,7 +105,7 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
     if (skeleton->curSkinData != skeleton->skeletonData->skinDataDefault)
     {
         // first invisible before skin
-        for (int i = 0; i < skeleton->curSkinData->slotAttachmentMap->arrayList->size; i++)
+        for (int i = 0; i < skeleton->curSkinData->slotAttachmentMap->elementList->size; i++)
         {
             SkeletonSlot* slot = AArrayStrMapGet
                                  (
@@ -130,7 +130,7 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
 
 //--------------------------------------------------------------------------------------------------
 
-	for (int i = 0; i < skinData->slotAttachmentMap->arrayList->size; i++)
+	for (int i = 0; i < skinData->slotAttachmentMap->elementList->size; i++)
 	{
 		SkeletonSlot* slot = AArrayStrMapGet
                              (

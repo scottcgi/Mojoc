@@ -87,7 +87,7 @@ static FontText* GetText(Font* font)
 
 static void Draw(Font* font)
 {
-	for (int i = 0; i < font->fontTextMap->arrayList->size; i++)
+	for (int i = 0; i < font->fontTextMap->elementList->size; i++)
 	{
         ADrawable->Draw
         (
@@ -133,7 +133,7 @@ static inline void SetNewChar(FontText* text, char* str, int len)
 
 static void SetString(FontText* text, char* str)
 {
-	ArrayList* children    = text->font->mesh->children;
+	ArrayList* children    = text->font->mesh->childList;
 	int        len         = strlen(str);
 
 	text->drawable->height = 0.0f;
@@ -306,7 +306,7 @@ static void Reuse(Font* font)
 {
 	ALogA(font->textureAtlas != NULL, "Reuse font %p already reused", font);
 
-    for (int i = 0; i < font->fontTextMap->arrayList->size; i++)
+    for (int i = 0; i < font->fontTextMap->elementList->size; i++)
     {
         FontText* text = AArrayIntMapGetAt(font->fontTextMap, i, FontText*);
         text->font     = NULL;
