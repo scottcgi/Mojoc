@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2017-1-5
- * Author : scott.cgi
+ * Since : 2017-1-5
+ * Author: scott.cgi
  */
 
 #ifndef draw_atlas_h

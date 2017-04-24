@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2014-12-22
- * Author : scott.cgi
+ * Since : 2014-12-22
+ * Author: scott.cgi
  */
 
 #ifndef struct_h

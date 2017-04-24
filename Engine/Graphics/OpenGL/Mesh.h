@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2016-8-5
- * Author : scott.cgi
+ * Since : 2016-8-5
+ * Author: scott.cgi
  */
 
 #ifndef mesh_h

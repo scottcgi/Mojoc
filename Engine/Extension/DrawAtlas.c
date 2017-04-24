@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2017-1-2017
- * Author : scott.cgi
+ * Since : 2017-1-2017
+ * Author: scott.cgi
  */
 
 #include "Engine/Extension/DrawAtlas.h"

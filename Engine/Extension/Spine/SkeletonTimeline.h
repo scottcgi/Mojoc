@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2013-7-3
- * Author : scott.cgi
+ * Since : 2013-7-3
+ * Author: scott.cgi
  */
 
 #ifndef skeleton_timeline_h

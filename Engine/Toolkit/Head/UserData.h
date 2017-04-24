@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2017-4-21
- * Author : scott.cgi
+ * Since : 2017-4-21
+ * Author: scott.cgi
  */
 
 #ifndef user_data_h

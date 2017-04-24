@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  :  2017-4-1
- * Author : scott.cgi
+ * Since :  2017-4-1
+ * Author: scott.cgi
  */
 
 #include <android/native_activity.h>

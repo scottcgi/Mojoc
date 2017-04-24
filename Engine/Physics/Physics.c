@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2014-6-11
- * Author : scott.cgi
+ * Since : 2014-6-11
+ * Author: scott.cgi
  */
 
 #include "Engine/Physics/Physics.h"

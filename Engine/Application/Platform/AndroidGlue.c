@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2016-1-28
- * Author : scott.cgi
+ * Since : 2016-1-28
+ * Author: scott.cgi
  */
 
 #include "Engine/Toolkit/Platform/Platform.h"

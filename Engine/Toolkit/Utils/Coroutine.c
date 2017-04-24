@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2016/11/13
- * Author : scott.cgi
+ * Since : 2016/11/13
+ * Author: scott.cgi
  */
 
 #include <stdlib.h>

@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2013-7-28
- * Author : scott.cgi
+ * Since : 2013-7-28
+ * Author: scott.cgi
  */
 
 #ifndef skeleton_animation_player_h

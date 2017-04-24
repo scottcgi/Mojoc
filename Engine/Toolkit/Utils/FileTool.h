@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2017-03-20
- * Author : scott.cgi
+ * Since : 2017-03-20
+ * Author: scott.cgi
  */
 
 #ifndef file_tool_h

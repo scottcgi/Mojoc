@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2013-3-12
- * Author : scott.cgi
+ * Since : 2013-3-12
+ * Author: scott.cgi
  */
 
 #ifndef egl_tool_h

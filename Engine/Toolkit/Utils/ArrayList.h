@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2013-2-4
- * Author : scott.cgi
+ * Since : 2013-2-4
+ * Author: scott.cgi
  */
 
 #ifndef array_list_h

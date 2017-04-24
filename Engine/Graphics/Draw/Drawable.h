@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  :  2013-1-2
- * Author : scott.cgi
+ * Since :  2013-1-2
+ * Author: scott.cgi
  */
 
 #ifndef drawable_h

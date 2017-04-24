@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2013-09-04
- * Author : scott.cgi
+ * Since : 2013-09-04
+ * Author: scott.cgi
  */
 
 #ifndef application_h

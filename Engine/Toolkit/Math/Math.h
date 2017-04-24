@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2013-1-24
- * Author : scott.cgi
+ * Since : 2013-1-24
+ * Author: scott.cgi
  */
 
 #ifndef math_h

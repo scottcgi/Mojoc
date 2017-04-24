@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2014-2-26
- * Author : scott.cgi
+ * Since : 2014-2-26
+ * Author: scott.cgi
  */
 #ifndef shader_primitive_h
 #define shader_primitive_h

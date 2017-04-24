@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2017-3-24
- * Author : scott.cgi
+ * Since : 2017-3-24
+ * Author: scott.cgi
  */
 
 #include "Engine/Toolkit/Platform/Log.h"

@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2016-10-2
- * Author : scott.cgi
+ * Since : 2016-10-2
+ * Author: scott.cgi
  */
 
 #ifndef marco_define_h

@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2014-6-19
- * Author : scott.cgi
+ * Since : 2014-6-19
+ * Author: scott.cgi
  */
 
 #ifndef vector_h

@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2015-8-19
- * Author : scott.cgi
+ * Since : 2015-8-19
+ * Author: scott.cgi
  */
 
 #ifndef component_h

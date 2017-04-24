@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2013-5-27
- * Author : scott.cgi
+ * Since : 2013-5-27
+ * Author: scott.cgi
  */
 
 #ifndef array_int_map_h

@@ -1,8 +1,8 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since  : 2015-6-5
- * Author : scott.cgi
+ * Since : 2015-6-5
+ * Author: scott.cgi
  */
 
 #ifndef array_queue_h
