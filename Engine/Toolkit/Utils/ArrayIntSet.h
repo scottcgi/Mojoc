@@ -17,7 +17,7 @@ typedef struct
     /**
      * Hold all Elements
      */
-    ArrayList elementList[1];
+    ArrayList(intptr_t) elementList[1];
 }
 ArrayIntSet;
 

@@ -71,8 +71,8 @@ static void* GetInsert(ArrayList* arrayList, int index)
 		AddCapacity(arrayList, arrayList->increase);
 	}
 
-	void* from  = (char*) arrayList->elementArray->data + arrayList->elementTypeSize * index;
-	void* to    = (char*) from                          + arrayList->elementTypeSize;
+	void* from = (char*) arrayList->elementArray->data + arrayList->elementTypeSize * index;
+	void* to   = (char*) from                          + arrayList->elementTypeSize;
 
 	memmove(to, from, arrayList->elementTypeSize * (arrayList->size - index));
 	arrayList->size++;
@@ -172,7 +172,7 @@ static void Remove(ArrayList* arrayList, int index)
 		void* from = (char*) to                            + arrayList->elementTypeSize;
 
 		// move between index and last index element
-		memmove(to, from, arrayList->elementTypeSize * (arrayList->size - index));
+		memcpy(to, from, arrayList->elementTypeSize * (arrayList->size - index));
 
 		// set last element 0, but it seems not very necessary
 		// memset((char*) arrayList->array->data + arrayList->elementTypeSize * arrayList->size, 0, arrayList->elementTypeSize);
@@ -206,7 +206,7 @@ static void RemoveRange(ArrayList* arrayList, int fromIndex, int toIndex)
 		void* from  = (char*) to                            + arrayList->elementTypeSize * num;
 
 		// move between lastIndex and toIndex element
-		memmove(to, from, arrayList->elementTypeSize * (lastIndex - toIndex));
+		memcpy(to, from, arrayList->elementTypeSize * (lastIndex - toIndex));
 
 		// set last range elements 0, but it seems not very necessary
 		// memset((char*) arrayList->array->data + arrayList->elementTypeSize * arrayList->size, 0, arrayList->elementTypeSize * num);
