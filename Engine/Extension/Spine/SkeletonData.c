@@ -1468,7 +1468,7 @@ static SkeletonData* Get(char* filePath)
 		skeletonData->filePath = AArrayStrMapGetKey
 								 (
 									 AArrayStrMapPut(skeletonDataMap, filePath, skeletonData),
-									 skeletonDataMap->typeSize
+									 skeletonDataMap->valueTypeSize
 								 );
 	}
 

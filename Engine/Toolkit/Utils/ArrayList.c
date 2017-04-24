@@ -24,7 +24,7 @@ static inline void AddCapacity(ArrayList* arrayList, int increase)
 {
 	ALogA(increase > 0, "ArrayList error, increase = %d can not <= 0", increase);
 
-	void* data = realloc(arrayList->elementArray->data, (increase + arrayList->elementArray->length) * arrayList->typeSize);
+	void* data = realloc(arrayList->elementArray->data, (increase + arrayList->elementArray->length) * arrayList->elementTypeSize);
 
 	ALogA
 	(
@@ -38,9 +38,9 @@ static inline void AddCapacity(ArrayList* arrayList, int increase)
 	//set increase data to 0, but it seems not very necessary
 	memset
 	(
-	    (char*) data + arrayList->typeSize * arrayList->array->length,
+	    (char*) data + arrayList->elementTypeSize * arrayList->array->length,
 		 0,
-		 arrayList->typeSize * increase
+		 arrayList->elementTypeSize * increase
     );
 ----------------------------------------------------------------------------------------------------
 */
@@ -57,7 +57,7 @@ static void* GetAdd(ArrayList* arrayList)
 		AddCapacity(arrayList, arrayList->increase);
 	}
 
-    return (char*) arrayList->elementArray->data + arrayList->typeSize * (arrayList->size++);
+    return (char*) arrayList->elementArray->data + arrayList->elementTypeSize * (arrayList->size++);
 }
 
 
@@ -71,10 +71,10 @@ static void* GetInsert(ArrayList* arrayList, int index)
 		AddCapacity(arrayList, arrayList->increase);
 	}
 
-	void* from  = (char*) arrayList->elementArray->data + arrayList->typeSize * index;
-	void* to    = (char*) from                          + arrayList->typeSize;
+	void* from  = (char*) arrayList->elementArray->data + arrayList->elementTypeSize * index;
+	void* to    = (char*) from                          + arrayList->elementTypeSize;
 
-	memmove(to, from, arrayList->typeSize * (arrayList->size - index));
+	memmove(to, from, arrayList->elementTypeSize * (arrayList->size - index));
 	arrayList->size++;
 
 	return from;
@@ -83,13 +83,13 @@ static void* GetInsert(ArrayList* arrayList, int index)
 
 static void* Add(ArrayList* arrayList, void* elementPtr)
 {
-	return memcpy(GetAdd(arrayList), elementPtr, arrayList->typeSize);
+	return memcpy(GetAdd(arrayList), elementPtr, arrayList->elementTypeSize);
 }
 
 
 static void* Insert(ArrayList* arrayList, int index, void* elementPtr)
 {
-	return memcpy(GetInsert(arrayList, index), elementPtr, arrayList->typeSize);
+	return memcpy(GetInsert(arrayList, index), elementPtr, arrayList->elementTypeSize);
 }
 
 
@@ -99,7 +99,7 @@ static void* Insert(ArrayList* arrayList, int index, void* elementPtr)
 static void* Get(ArrayList* arrayList, int index)
 {
 	CheckIndex("Get", index);
-	return (char*) arrayList->array->data + arrayList->typeSize * index;
+	return (char*) arrayList->array->data + arrayList->elementTypeSize * index;
 }
 ----------------------------------------------------------------------------------------------------
 */
@@ -111,7 +111,7 @@ static void* Get(ArrayList* arrayList, int index)
 static void Set(ArrayList* arrayList, int index, void* elementPtr)
 {
 	CheckIndex("Set", index);
-	memcpy((char*) arrayList->array->data + arrayList->typeSize * index, elementPtr, arrayList->typeSize);
+	memcpy((char*) arrayList->array->data + arrayList->elementTypeSize * index, elementPtr, arrayList->elementTypeSize);
 }
 ----------------------------------------------------------------------------------------------------
 */
@@ -122,7 +122,7 @@ static void* Pop(ArrayList* arrayList, void* defaultElementPtr)
 	if (arrayList->size > 0)
 	{
 		// now size equal last index
-		return (char*) arrayList->elementArray->data + arrayList->typeSize * (--arrayList->size);
+		return (char*) arrayList->elementArray->data + arrayList->elementTypeSize * (--arrayList->size);
 	}
 	else
 	{
@@ -131,14 +131,14 @@ static void* Pop(ArrayList* arrayList, void* defaultElementPtr)
 }
 
 
-static void AddArray(ArrayList* arrayList, void* data, int length, int typeSize)
+static void AddArray(ArrayList* arrayList, void* data, int length, int elementTypeSize)
 {
     ALogA
     (
-        arrayList->typeSize == typeSize,
-        "AddArray ArrayList typeSize %d must equal Array typeSize %d",
-        arrayList->typeSize,
-        typeSize
+        arrayList->elementTypeSize == elementTypeSize,
+        "AddArray ArrayList elementTypeSize %d must equal Array elementTypeSize %d",
+        arrayList->elementTypeSize,
+        elementTypeSize
     );
 
     int n = arrayList->elementArray->length - arrayList->size - length;
@@ -150,9 +150,9 @@ static void AddArray(ArrayList* arrayList, void* data, int length, int typeSize)
 
     memcpy
     (
-        (char*) arrayList->elementArray->data + arrayList->typeSize * arrayList->size,
+        (char*) arrayList->elementArray->data + arrayList->elementTypeSize * arrayList->size,
         data,
-        arrayList->typeSize * length
+        arrayList->elementTypeSize * length
     );
 
     arrayList->size += length;
@@ -168,21 +168,21 @@ static void Remove(ArrayList* arrayList, int index)
 
 	if (index != arrayList->size)
 	{
-		void* to   = (char*) arrayList->elementArray->data + arrayList->typeSize * index;
-		void* from = (char*) to                            + arrayList->typeSize;
+		void* to   = (char*) arrayList->elementArray->data + arrayList->elementTypeSize * index;
+		void* from = (char*) to                            + arrayList->elementTypeSize;
 
 		// move between index and last index element
-		memmove(to, from, arrayList->typeSize * (arrayList->size - index));
+		memmove(to, from, arrayList->elementTypeSize * (arrayList->size - index));
 
 		// set last element 0, but it seems not very necessary
-		// memset((char*) arrayList->array->data + arrayList->typeSize * arrayList->size, 0, arrayList->typeSize);
+		// memset((char*) arrayList->array->data + arrayList->elementTypeSize * arrayList->size, 0, arrayList->elementTypeSize);
 	}
 /*
 ----------------------------------------------------------------------------------------------------
 	else
 	{
 		// remove the last element only set 0, but it seems not very necessary
-		// memset((char*) arrayList->array->data + arrayList->typeSize * index, 0, arrayList->typeSize);
+		// memset((char*) arrayList->array->data + arrayList->elementTypeSize * index, 0, arrayList->elementTypeSize);
 	}
 ----------------------------------------------------------------------------------------------------
 */
@@ -202,14 +202,14 @@ static void RemoveRange(ArrayList* arrayList, int fromIndex, int toIndex)
 
 	if (toIndex != lastIndex)
 	{
-		void* to    = (char*) arrayList->elementArray->data + arrayList->typeSize * fromIndex;
-		void* from  = (char*) to                            + arrayList->typeSize * num;
+		void* to    = (char*) arrayList->elementArray->data + arrayList->elementTypeSize * fromIndex;
+		void* from  = (char*) to                            + arrayList->elementTypeSize * num;
 
 		// move between lastIndex and toIndex element
-		memmove(to, from, arrayList->typeSize * (lastIndex - toIndex));
+		memmove(to, from, arrayList->elementTypeSize * (lastIndex - toIndex));
 
 		// set last range elements 0, but it seems not very necessary
-		// memset((char*) arrayList->array->data + arrayList->typeSize * arrayList->size, 0, arrayList->typeSize * num);
+		// memset((char*) arrayList->array->data + arrayList->elementTypeSize * arrayList->size, 0, arrayList->elementTypeSize * num);
 
 	}
 /*
@@ -217,7 +217,7 @@ static void RemoveRange(ArrayList* arrayList, int fromIndex, int toIndex)
 	else
 	{
 		// range reach the end, but it seems not very necessary
-		// memset((char*) arrayList->array->data + arrayList->typeSize * fromIndex, 0, arrayList->typeSize * num);
+		// memset((char*) arrayList->array->data + arrayList->elementTypeSize * fromIndex, 0, arrayList->elementTypeSize * num);
 	}
 ----------------------------------------------------------------------------------------------------
 */
@@ -235,9 +235,9 @@ static void RemoveByLast(ArrayList* arrayList, int index)
 	{
 		memcpy
 		(
-			(char*) arrayList->elementArray->data + arrayList->typeSize * index,
-			(char*) arrayList->elementArray->data + arrayList->typeSize * arrayList->size,
-			arrayList->typeSize
+			(char*) arrayList->elementArray->data + arrayList->elementTypeSize * index,
+			(char*) arrayList->elementArray->data + arrayList->elementTypeSize * arrayList->size,
+			arrayList->elementTypeSize
 		);
 	}
 /*
@@ -245,7 +245,7 @@ static void RemoveByLast(ArrayList* arrayList, int index)
 	else
 	{
 		// remove the last element only set 0, but it seems not very necessary
-		// memset((char*) arrayList->array->data + arrayList->typeSize * index, 0, arrayList->typeSize);
+		// memset((char*) arrayList->array->data + arrayList->elementTypeSize * index, 0, arrayList->elementTypeSize);
 	}
 ----------------------------------------------------------------------------------------------------
 */
@@ -257,7 +257,7 @@ static void Clear(ArrayList* arrayList)
 	arrayList->size = 0;
 
 	// set data 0, but it seems not very necessary
-	// memset(arrayList->array->data, 0, arrayList->typeSize * arrayList->size);
+	// memset(arrayList->array->data, 0, arrayList->elementTypeSize * arrayList->size);
 }
 
 
@@ -271,7 +271,7 @@ static void Shrink(ArrayList* arrayList)
 	}
 	else
 	{
-		void* data = realloc(arrayList->elementArray->data, arrayList->size * arrayList->typeSize);
+		void* data = realloc(arrayList->elementArray->data, arrayList->size * arrayList->elementTypeSize);
 		ALogA(data, "ArrayList Shrink error, size = %d ", arrayList->size);
 
 		arrayList->elementArray->data   = data;
@@ -313,59 +313,59 @@ static void SetCapacity(ArrayList* arrayList, int capacity)
 }
 
 
-static inline void InitArrayList(int typeSize, ArrayList* arrayList)
+static inline void InitArrayList(int elementTypeSize, ArrayList* arrayList)
 {
 	arrayList->elementArray->length = 0;
 	arrayList->elementArray->data   = NULL;
-	arrayList->typeSize             = typeSize;
+	arrayList->elementTypeSize      = elementTypeSize;
 	arrayList->size                 = 0;
 	arrayList->increase             = 20;
 }
 
 
-static ArrayList* Create(int typeSize)
+static ArrayList* Create(int elementTypeSize)
 {
 	ArrayList* arrayList = (ArrayList*) malloc(sizeof(ArrayList));
-	InitArrayList(typeSize, arrayList);
+	InitArrayList(elementTypeSize, arrayList);
 	
 	return arrayList;
 }
 
 
-static void init(int typeSize, ArrayList* outArrayList)
+static void init(int elementTypeSize, ArrayList* outArrayList)
 {
-	InitArrayList(typeSize, outArrayList);
+	InitArrayList(elementTypeSize, outArrayList);
 }
 
 
-static ArrayList* CreateWithSize(int typeSize, int size)
+static ArrayList* CreateWithSize(int elementTypeSize, int size)
 {
-	ArrayList* arrayList = Create(typeSize);
+	ArrayList* arrayList = Create(elementTypeSize);
 	SetSize(arrayList, size);
 
 	return arrayList;
 }
 
 
-static void InitWithSize(int typeSize, int size, ArrayList* outArrayList)
+static void InitWithSize(int elementTypeSize, int size, ArrayList* outArrayList)
 {
-	InitArrayList(typeSize, outArrayList);
+	InitArrayList(elementTypeSize, outArrayList);
 	SetSize(outArrayList, size);
 }
 
 
-static ArrayList* CreateWithCapacity(int typeSize, int capacity)
+static ArrayList* CreateWithCapacity(int elementTypeSize, int capacity)
 {
-	ArrayList* arrayList = Create(typeSize);
+	ArrayList* arrayList = Create(elementTypeSize);
 	SetCapacity(arrayList, capacity);
 	
 	return arrayList;
 }
 
 
-static void InitWithCapacity(int typeSize, int capacity, ArrayList* outArrayList)
+static void InitWithCapacity(int elementTypeSize, int capacity, ArrayList* outArrayList)
 {
-	InitArrayList(typeSize, outArrayList);
+	InitArrayList(elementTypeSize, outArrayList);
 	SetCapacity(outArrayList, capacity);
 }
 

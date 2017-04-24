@@ -33,26 +33,26 @@ ArrayStrMapElement;
 
 typedef struct
 {
+	/**
+	 * The sizeof ArrayStrMap value type
+	 */
+	int                            valueTypeSize;
+
     /**
      * Hold all ArrayStrMapElement
      */
-	ArrayList elementList[1];
-
-	/**
-	 * ArrayStrMap value type sizeof
-	 */
-	int       typeSize;
+    ArrayList(ArrayStrMapElement*) elementList[1];
 }
 ArrayStrMap;
 
 
 struct AArrayStrMap
 {
-	ArrayStrMap* (*Create)             (int typeSize);
-	void         (*Init)               (int typeSize, ArrayStrMap* outArrayStrMap);
+	ArrayStrMap* (*Create)             (int valueTypeSize);
+	void         (*Init)               (int valueTypeSize, ArrayStrMap* outArrayStrMap);
 
-	ArrayStrMap* (*CreateWithCapacity) (int typeSize, int capacity);
-	void         (*InitWithCapacity)   (int typeSize, int capacity, ArrayStrMap* outArrayStrMap);
+	ArrayStrMap* (*CreateWithCapacity) (int valueTypeSize, int capacity);
+	void         (*InitWithCapacity)   (int valueTypeSize, int capacity, ArrayStrMap* outArrayStrMap);
 
 	void         (*Release)            (ArrayStrMap*  arrayStrMap);
 
@@ -125,11 +125,11 @@ extern struct AArrayStrMap AArrayStrMap[1];
 
 
 /**
- * Get key in ArrayStrMapElement by valuePtr with typeSize
+ * Get key in ArrayStrMapElement by valuePtr with valueTypeSize
  */
-static inline char* AArrayStrMapGetKey(void* valuePtr, int typeSize)
+static inline char* AArrayStrMapGetKey(void* valuePtr, int valueTypeSize)
 {
-	return (char*) valuePtr + typeSize;
+	return (char*) valuePtr + valueTypeSize;
 }
 
 
@@ -141,13 +141,13 @@ static inline char* AArrayStrMapGetKey(void* valuePtr, int typeSize)
 
 /**
  * Initialize constant ArrayStrMap
- * use like ArrayStrMap map[1] = AArrayStrMapInit(type, increase)
+ * use like ArrayStrMap map[1] = AArrayStrMapInit(valueType, increase)
  */
-#define AArrayStrMapInit(type, increase)                   \
+#define AArrayStrMapInit(valueType, increase)              \
 	{                                                      \
 		{                                                  \
+			sizeof(valueType),                             \
 			AArrayListInit(ArrayStrMapElement*, increase), \
-			sizeof(type),                                  \
 	 	 }                                                 \
 	}
 
@@ -163,16 +163,16 @@ static inline char* AArrayStrMapGetKey(void* valuePtr, int typeSize)
  * Shortcut of AArrayStrMap->Get
  * return value
  */
-#define AArrayStrMapGet(arrayStrMap, key, type) \
-	(*(type*) AArrayStrMap->Get(arrayStrMap, key, null_ptr))
+#define AArrayStrMapGet(arrayStrMap, key, valueType) \
+	(*(valueType*) AArrayStrMap->Get(arrayStrMap, key, null_ptr))
 
 
 /**
  * Shortcut of AArrayStrMap->Get
  * return valuePtr
  */
-#define AArrayStrMapGetPtr(arrayStrMap, key, type) \
-	((type*) AArrayStrMap->Get(arrayStrMap, key, NULL))
+#define AArrayStrMapGetPtr(arrayStrMap, key, valueType) \
+	((valueType*) AArrayStrMap->Get(arrayStrMap, key, NULL))
 
 
 /**
@@ -193,16 +193,16 @@ static inline char* AArrayStrMapGetKey(void* valuePtr, int typeSize)
  * Shortcut of AArrayStrMap->GetAt
  * return value
  */
-#define AArrayStrMapGetAt(arrayStrMap, index, type) \
-	(*(type*) AArrayStrMap->GetAt(arrayStrMap, index))
+#define AArrayStrMapGetAt(arrayStrMap, index, valueType) \
+	(*(valueType*) AArrayStrMap->GetAt(arrayStrMap, index))
 
 
 /**
  * Shortcut of AArrayStrMap->GetAt
  * return valuePtr
  */
-#define AArrayStrMapGetPtrAt(arrayStrMap, index, type) \
-	((type*) AArrayStrMap->GetAt(arrayStrMap, index))
+#define AArrayStrMapGetPtrAt(arrayStrMap, index, valueType) \
+	((valueType*) AArrayStrMap->GetAt(arrayStrMap, index))
 
 
 /**

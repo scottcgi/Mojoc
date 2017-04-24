@@ -42,6 +42,7 @@ add_library(
     ../../Toolkit/Utils/ArrayList.c
     ../../Toolkit/Utils/ArrayStrMap.c
     ../../Toolkit/Utils/ArrayIntMap.c
+    ../../Toolkit/Utils/ArrayIntSet.c
     ../../Toolkit/Utils/ArrayQueue.c
     ../../Toolkit/Utils/BufferReader.c
     ../../Toolkit/Utils/Json.c

@@ -17,49 +17,49 @@ typedef struct
 	/**
 	 * Increase memory space, default 10
 	 */
-	int    increase;
-
-	/**
-	 * Hold memory data, the length is memory capacity
-	 * if increase capacity, memory data will realloc
-	 * so the data address may changed
-	 */
-	Array  elementArray[1];
+	int                increase;
 
 	/**
 	 * The sizeof element type
 	 */
-	int	   typeSize;
+	int	               elementTypeSize;
 
 	/**
 	 * Element count
 	 */
-	int    size;
+	int                size;
+
+    /**
+     * Hold memory data, the length is memory capacity
+     * if increase capacity, memory data will realloc
+     * so the data address may changed
+     */
+    Array(elementType) elementArray[1];
 }
 ArrayList;
 
 
 struct AArrayList
 {
-	ArrayList* (*Create)            (int typeSize);
-	void       (*Init)              (int typeSize, ArrayList* outArrayList);
+	ArrayList* (*Create)            (int elementTypeSize);
+	void       (*Init)              (int elementTypeSize, ArrayList* outArrayList);
 
-	ArrayList* (*CreateWithSize)    (int typeSize, int size);
-	void       (*InitWithSize)      (int typeSize, int size, ArrayList* outArrayList);
+	ArrayList* (*CreateWithSize)    (int elementTypeSize, int size);
+	void       (*InitWithSize)      (int elementTypeSize, int size, ArrayList* outArrayList);
 
-	ArrayList* (*CreateWithCapacity)(int typeSize, int capacity);
-	void       (*InitWithCapacity)  (int typeSize, int capacity, ArrayList* outArrayList);
+	ArrayList* (*CreateWithCapacity)(int elementTypeSize, int capacity);
+	void       (*InitWithCapacity)  (int elementTypeSize, int capacity, ArrayList* outArrayList);
 
-	void       (*Release)           (ArrayList*  arrayList);
+	void       (*Release)           (ArrayList* arrayList);
 
 	/**
-	 * Increase one element memory (typeSize data) appended to ArrayList
+	 * Increase one element memory (elementTypeSize data) appended to ArrayList
 	 * return elementPtr point the increase element
 	 */
 	void*      (*GetAdd)            (ArrayList* arrayList);
 
 	/**
-	 * Increase one element memory (typeSize data) at the index
+	 * Increase one element memory (elementTypeSize data) at the index
 	 * and move index behind elements one position
 	 *
 	 * index: range in [0, size - 1]
@@ -95,7 +95,7 @@ struct AArrayList
 	/**
 	 * Add copy of array data
 	 */
-	void       (*AddArray)          (ArrayList* arrayList, void* data, int length, int typeSize);
+	void       (*AddArray)          (ArrayList* arrayList, void* data, int length, int elementTypeSize);
 
 	/**
 	 * Remove index of element and move behind elements
@@ -141,35 +141,35 @@ extern struct AArrayList AArrayList[1];
 /**
  * Marked ArrayList element type
  *
- * type: element data type
+ * elementType: element data type
  */
-#define ArrayList(type) ArrayList
+#define ArrayList(elementType) ArrayList
 
 
 /**
  * Initialize constant ArrayList
  */
-#define AArrayListInit(type, increase) \
-	{                                  \
-		increase,                      \
-		{                              \
-			NULL,                      \
-			0,                         \
-		},                             \
-		sizeof(type),                  \
-		0,                             \
+#define AArrayListInit(elementType, increase) \
+	{                                         \
+		increase,                             \
+		sizeof(elementType),                  \
+		0,                                    \
+		{                                     \
+			NULL,                             \
+			0,                                \
+		},                                    \
 	}
 
 
 /**
  * Initialize constant ArrayList with fixed capacity, unable to expansion capacity
  */
-#define AArayListInitFix(type, capacity, size, ...) \
-	{                                               \
-		0,                                          \
-		AArrayInit(type, capacity, __VA_ARGS__),    \
-		sizeof(type),                               \
-		size,                                       \
+#define AArayListInitFix(elementType, capacity, size, ...) \
+	{                                                      \
+		0,                                                 \
+		sizeof(elementType),                               \
+		size,                                              \
+		AArrayInit(elementType, capacity, __VA_ARGS__),    \
 	}
 
 
@@ -177,32 +177,32 @@ extern struct AArrayList AArrayList[1];
  * Shortcut of AArrayList->GetAdd
  * return element
  */
-#define AArrayListGetAdd(arrayList, type) \
-	(*(type*) AArrayList->GetAdd(arrayList))
+#define AArrayListGetAdd(arrayList, elementType) \
+	(*(elementType*) AArrayList->GetAdd(arrayList))
 
 
 /**
  * Shortcut of AArrayList->GetAdd
  * return elementPtr
  */
-#define AArrayListGetPtrAdd(arrayList, type) \
-	((type*) AArrayList->GetAdd(arrayList))
+#define AArrayListGetPtrAdd(arrayList, elementType) \
+	((elementType*) AArrayList->GetAdd(arrayList))
 
 
 /**
  * Shortcut of AArrayList->GetInsert
  * return element
  */
-#define AArrayListGetInsert(arrayList, index, type) \
-	(*(type*) AArrayList->GetInsert(arrayList, index))
+#define AArrayListGetInsert(arrayList, index, elementType) \
+	(*(elementType*) AArrayList->GetInsert(arrayList, index))
 
 
 /**
  * Shortcut of AArrayList->GetInsert
  * return elementPtr
  */
-#define AArrayListGetPtrInsert(arrayList, index, type) \
-	((type*) AArrayList->GetInsert(arrayList, index))
+#define AArrayListGetPtrInsert(arrayList, index, elementType) \
+	((elementType*) AArrayList->GetInsert(arrayList, index))
 
 
 /**
@@ -222,47 +222,47 @@ extern struct AArrayList AArrayList[1];
 /**
  * Get the type ptr of elements
  */
-#define AArrayListGetData(arrayList, type) \
-	((type*) ((arrayList)->elementArray->data))
+#define AArrayListGetData(arrayList, elementType) \
+	((elementType*) ((arrayList)->elementArray->data))
 
 
 /**
  * Instead of AArrayList->get for quick iterate element
  * return element
  */
-#define AArrayListGet(arrayList, index, type) \
-	(AArrayListGetData(arrayList, type))[index]
+#define AArrayListGet(arrayList, index, elementType) \
+	(AArrayListGetData(arrayList, elementType))[index]
 
 
 /**
  * Instead of AArrayList->get for quick iterate element
  * return elementPtr
  */
-#define AArrayListGetPtr(arrayList, index, type) \
-	(AArrayListGetData(arrayList, type) + (index))
+#define AArrayListGetPtr(arrayList, index, elementType) \
+	(AArrayListGetData(arrayList, elementType) + (index))
 
 
 /**
  * Instead of AArrayList->set for quick set element
  */
-#define AArrayListSet(arrayList, index, element, type) \
-	AArrayListGet(arrayList, index, type) = element
+#define AArrayListSet(arrayList, index, element, elementType) \
+	AArrayListGet(arrayList, index, elementType) = element
 
 
 /**
  * Shortcut of AArrayList->Pop
  * return element
  */
-#define AArrayListPop(arrayList, type) \
-	(*(type*) AArrayList->Pop(arrayList, null_ptr))
+#define AArrayListPop(arrayList, elementType) \
+	(*(elementType*) AArrayList->Pop(arrayList, null_ptr))
 
 
 /**
  * Shortcut of AArrayList->Pop
  * return element
  */
-#define AArrayListPopWithDefault(arrayList, type, defaultValue) \
-	(*(type*) AArrayList->Pop(arrayList, &(defaultValue)))
+#define AArrayListPopWithDefault(arrayList, elementType, defaultValue) \
+	(*(elementType*) AArrayList->Pop(arrayList, &(defaultValue)))
 
 
 #endif

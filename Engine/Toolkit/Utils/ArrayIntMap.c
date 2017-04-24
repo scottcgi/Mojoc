@@ -76,13 +76,13 @@ static void* Put(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 
 	ALogA(guess < 0, "ArrayIntMap put key = %zd, has already exist", key);
 
-	ArrayIntMapElement* element = (ArrayIntMapElement*) malloc(sizeof(ArrayIntMapElement) + arrayIntMap->typeSize);
+	ArrayIntMapElement* element = (ArrayIntMapElement*) malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
 	element->key                = key;
 	element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
 
 	AArrayListInsert(arrayIntMap->elementList, -guess - 1, element);
 
-    return memcpy(element->valuePtr, valuePtr, arrayIntMap->typeSize);
+    return memcpy(element->valuePtr, valuePtr, arrayIntMap->valueTypeSize);
 }
 
 
@@ -104,7 +104,7 @@ static void* Set(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 		   (
 			   AArrayListGet(arrayIntMap->elementList, guess, ArrayIntMapElement*)->valuePtr,
 			   valuePtr,
-			   arrayIntMap->typeSize
+			   arrayIntMap->valueTypeSize
 		   );
 }
 
@@ -147,13 +147,13 @@ static void* InsertAt(ArrayIntMap* arrayIntMap, intptr_t key, int index, void* v
 {
 	CheckInsertIndex("InsertAt");
 
-	ArrayIntMapElement* element = (ArrayIntMapElement*) malloc(sizeof(ArrayIntMapElement) + arrayIntMap->typeSize);
+	ArrayIntMapElement* element = (ArrayIntMapElement*) malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
 
 	AArrayListInsert(arrayIntMap->elementList, index, element);
 	element->key                = key;
 	element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
 
-	return memcpy(element->valuePtr, valuePtr, arrayIntMap->typeSize);
+	return memcpy(element->valuePtr, valuePtr, arrayIntMap->valueTypeSize);
 }
 
 
@@ -185,7 +185,7 @@ static void* SetAt(ArrayIntMap* arrayIntMap, int index, void* valuePtr)
 		   (
 			   AArrayListGet(arrayIntMap->elementList, index, ArrayIntMapElement*)->valuePtr,
 			   valuePtr,
-			   arrayIntMap->typeSize
+			   arrayIntMap->valueTypeSize
 		   );
 }
 
@@ -217,7 +217,7 @@ static void Release(ArrayIntMap* arrayIntMap)
 }
 
 
-static void InitWithCapacity(int typeSize, int capacity, ArrayIntMap* outArrayIntMap)
+static void InitWithCapacity(int valueTypeSize, int capacity, ArrayIntMap* outArrayIntMap)
 {
 	if (capacity == 0)
 	{
@@ -228,28 +228,28 @@ static void InitWithCapacity(int typeSize, int capacity, ArrayIntMap* outArrayIn
 		AArrayList->InitWithCapacity(sizeof(ArrayIntMapElement*), capacity, outArrayIntMap->elementList);
 	}
 
-	outArrayIntMap->typeSize = typeSize;
+	outArrayIntMap->valueTypeSize = valueTypeSize;
 }
 
 
-static ArrayIntMap* CreateWithCapacity(int typeSize, int capacity)
+static ArrayIntMap* CreateWithCapacity(int valueTypeSize, int capacity)
 {
 	ArrayIntMap* arrayIntMap = (ArrayIntMap*) malloc(sizeof(ArrayIntMap));
-	InitWithCapacity(typeSize, capacity, arrayIntMap);
+	InitWithCapacity(valueTypeSize, capacity, arrayIntMap);
 
 	return arrayIntMap;
 }
 
 
-static void Init(int typeSize, ArrayIntMap* outArrayIntMap)
+static void Init(int valueTypeSize, ArrayIntMap* outArrayIntMap)
 {
-	InitWithCapacity(typeSize, 0, outArrayIntMap);
+	InitWithCapacity(valueTypeSize, 0, outArrayIntMap);
 }
 
 
-static ArrayIntMap* Create(int typeSize)
+static ArrayIntMap* Create(int valueTypeSize)
 {
-	return CreateWithCapacity(typeSize, 0);
+	return CreateWithCapacity(valueTypeSize, 0);
 }
 
 

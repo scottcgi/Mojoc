@@ -32,28 +32,28 @@ ArrayIntMapElement;
 
 typedef struct
 {
-    /**
-     * Hold all ArrayIntMapElement
-     */
-	ArrayList elementList[1];
-
 	/**
 	 * sizeof ArrayIntMap value type
 	 */
-	int       typeSize;
+	int                            valueTypeSize;
+
+    /**
+     * Hold all ArrayIntMapElement
+     */
+    ArrayList(ArrayIntMapElement*) elementList[1];
 }
 ArrayIntMap;
 
 
 struct AArrayIntMap
 {
-	ArrayIntMap* (*Create)            (int typeSize);
-	void         (*Init)              (int typeSize, ArrayIntMap* outArrayIntMap);
+	ArrayIntMap* (*Create)            (int valueTypeSize);
+	void         (*Init)              (int valueTypeSize, ArrayIntMap* outArrayIntMap);
 
-	ArrayIntMap* (*CreateWithCapacity)(int typeSize, int capacity);
-	void         (*InitWithCapacity)  (int typeSize, int capacity, ArrayIntMap* outArrayIntMap);
+	ArrayIntMap* (*CreateWithCapacity)(int valueTypeSize, int capacity);
+	void         (*InitWithCapacity)  (int valueTypeSize, int capacity, ArrayIntMap* outArrayIntMap);
 
-	void         (*Release)           (ArrayIntMap*  arrayIntMap);
+	void         (*Release)           (ArrayIntMap* arrayIntMap);
 
 	/**
 	 * Put key and value from valuePtr into ArrayIntMap
@@ -141,14 +141,14 @@ extern struct AArrayIntMap AArrayIntMap[1];
 
 /**
  * Initialize constant ArrayIntMap
- * use like ArrayIntMap map[1] = AArrayIntMapInit(type, increase)
+ * use like ArrayIntMap map[1] = AArrayIntMapInit(valueType, increase)
  */
-#define AArrayIntMapInit(type, increase)                    \
-	{                                                       \
-		{                                                   \
-			AArrayListInit(ArrayIntMapElement*, increase),  \
-			sizeof(type),                                   \
-		}                                                   \
+#define AArrayIntMapInit(valueType, increase)              \
+	{                                                      \
+		{                                                  \
+			sizeof(valueType),                             \
+			AArrayListInit(ArrayIntMapElement*, increase), \
+		}                                                  \
 	}
 
 
@@ -163,16 +163,16 @@ extern struct AArrayIntMap AArrayIntMap[1];
  * Shortcut of AArrayIntMap->Get
  * return value
  */
-#define AArrayIntMapGet(arrayIntMap, key, type) \
-	(*(type*) AArrayIntMap->Get(arrayIntMap, (intptr_t) key, null_ptr))
+#define AArrayIntMapGet(arrayIntMap, key, valueType) \
+	(*(valueType*) AArrayIntMap->Get(arrayIntMap, (intptr_t) key, null_ptr))
 
 
 /**
  * Shortcut of AArrayIntMap->Get
  * return valuePtr
  */
-#define AArrayIntMapGetPtr(arrayIntMap, key, type) \
-	((type*) AArrayIntMap->Get(arrayIntMap, (intptr_t) key, NULL))
+#define AArrayIntMapGetPtr(arrayIntMap, key, valueType) \
+	((valueType*) AArrayIntMap->Get(arrayIntMap, (intptr_t) key, NULL))
 
 
 /**
@@ -193,16 +193,16 @@ extern struct AArrayIntMap AArrayIntMap[1];
  * Shortcut of AArrayIntMap->GetAt
  * return value
  */
-#define AArrayIntMapGetAt(arrayIntMap, index, type) \
-   (*(type*) AArrayIntMap->GetAt(arrayIntMap, index))
+#define AArrayIntMapGetAt(arrayIntMap, index, valueType) \
+   (*(valueType*) AArrayIntMap->GetAt(arrayIntMap, index))
 
 
 /**
  * Shortcut of AArrayIntMap->GetAt
  * return valuePtr
  */
-#define AArrayIntMapGetPtrAt(arrayIntMap, index, type) \
-   ((type*) AArrayIntMap->GetAt(arrayIntMap, index))
+#define AArrayIntMapGetPtrAt(arrayIntMap, index, valueType) \
+   ((valueType*) AArrayIntMap->GetAt(arrayIntMap, index))
 
 
 /**

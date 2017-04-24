@@ -164,7 +164,7 @@ static TextureAtlas* Get(char* filePath)
         textureAtlas->filePath = AArrayStrMapGetKey
                                  (
                                     AArrayStrMapPut(textureAtlasMap, filePath, textureAtlas),
-                                    textureAtlasMap->typeSize
+                                    textureAtlasMap->valueTypeSize
                                  );
 
         Init(filePath, textureAtlas);

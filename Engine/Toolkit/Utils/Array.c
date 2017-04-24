@@ -9,9 +9,9 @@
 #include "Engine/Toolkit/Utils/Array.h"
 
 
-static Array* Create(int typeSize, int length)
+static Array* Create(int elementTypeSize, int length)
 {
-	Array* array  = (Array*) malloc(sizeof(Array) + typeSize * length);
+	Array* array  = (Array*) malloc (sizeof(Array) + elementTypeSize * length);
 	array->data   = (char*)  array + sizeof(Array);
 	array->length = length;
 

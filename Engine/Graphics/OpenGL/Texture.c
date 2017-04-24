@@ -38,7 +38,7 @@ static Texture* Get(char* filePath)
 		texture->filePath = AArrayStrMapGetKey
 							(
 								AArrayStrMapPut(textureMap, filePath, texture),
-								textureMap->typeSize
+								textureMap->valueTypeSize
 							);
 	}
 

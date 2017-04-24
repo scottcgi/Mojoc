@@ -30,7 +30,7 @@ static void* Pop(ArrayQueue* arrayQueue, void* defaultElementPtr)
 		return defaultElementPtr;
 	}
 
-	return (char*) arrayQueue->elementList->elementArray->data + arrayQueue->elementList->typeSize * (arrayQueue->topIndex++);
+	return (char*) arrayQueue->elementList->elementArray->data + arrayQueue->elementList->elementTypeSize * (arrayQueue->topIndex++);
 }
 
 
@@ -54,39 +54,39 @@ static void Release(ArrayQueue* arrayQueue)
 }
 
 
-static void InitWithCapacity(int typeSize, int capacity, ArrayQueue* outArrayQueue)
+static void InitWithCapacity(int elementTypeSize, int capacity, ArrayQueue* outArrayQueue)
 {
 	if (capacity == 0)
 	{
-		AArrayList->Init(typeSize, outArrayQueue->elementList);
+		AArrayList->Init(elementTypeSize, outArrayQueue->elementList);
 	}
 	else
 	{
-		AArrayList->InitWithCapacity(typeSize, capacity, outArrayQueue->elementList);
+		AArrayList->InitWithCapacity(elementTypeSize, capacity, outArrayQueue->elementList);
 	}
 
 	outArrayQueue->topIndex = 0;
 }
 
 
-static ArrayQueue* CreateWithCapacity(int typeSize, int capacity)
+static ArrayQueue* CreateWithCapacity(int elementTypeSize, int capacity)
 {
 	ArrayQueue* arrayQueue = (ArrayQueue*) malloc(sizeof(ArrayQueue));
-	InitWithCapacity(typeSize, capacity, arrayQueue);
+	InitWithCapacity(elementTypeSize, capacity, arrayQueue);
 
 	return arrayQueue;
 }
 
 
-static void Init(int typeSize, ArrayQueue* outArrayQueue)
+static void Init(int elementTypeSize, ArrayQueue* outArrayQueue)
 {
-	InitWithCapacity(typeSize, 0, outArrayQueue);
+	InitWithCapacity(elementTypeSize, 0, outArrayQueue);
 }
 
 
-static ArrayQueue* Create(int typeSize)
+static ArrayQueue* Create(int elementTypeSize)
 {
-	return CreateWithCapacity(typeSize, 0);
+	return CreateWithCapacity(elementTypeSize, 0);
 }
 
 

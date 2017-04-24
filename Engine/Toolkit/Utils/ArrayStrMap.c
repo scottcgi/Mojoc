@@ -88,17 +88,17 @@ static void* Put(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 
 	ALogA(guess < 0, "ArrayStrMap put key = %s, has already exist", key);
 
-	int                 typeSize = arrayStrMap->typeSize;
-	ArrayStrMapElement* element  = (ArrayStrMapElement*) malloc(sizeof(ArrayStrMapElement) + typeSize + keyLength);
+	int                 valueTypeSize = arrayStrMap->valueTypeSize;
+	ArrayStrMapElement* element       = (ArrayStrMapElement*) malloc(sizeof(ArrayStrMapElement) + valueTypeSize + keyLength);
 
-	element->keyLength           = keyLength;
-	element->valuePtr            = (char*) element + sizeof(ArrayStrMapElement);
-	element->key                 = (char*) element->valuePtr + typeSize;
+	element->keyLength                = keyLength;
+	element->valuePtr                 = (char*) element + sizeof(ArrayStrMapElement);
+	element->key                      = (char*) element->valuePtr + valueTypeSize;
 	memcpy((void*) element->key, key, keyLength);
 
 	AArrayListInsert(arrayStrMap->elementList, -guess - 1, element);
 
-    return memcpy(element->valuePtr, valuePtr, typeSize);
+    return memcpy(element->valuePtr, valuePtr, valueTypeSize);
 }
 
 
@@ -119,7 +119,7 @@ static void* Set(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 		   (
 			   AArrayListGet(arrayStrMap->elementList, guess, ArrayStrMapElement*)->valuePtr,
 			   valuePtr,
-			   arrayStrMap->typeSize
+			   arrayStrMap->valueTypeSize
 		   );
 }
 
@@ -162,18 +162,18 @@ static void* InsertAt(ArrayStrMap* arrayStrMap, char* key, int index, void* valu
 {
 	CheckInsertIndex("InsertAt");
 
-	int keyLength = (int) strlen(key) + 1;
-	int typeSize  = arrayStrMap->typeSize;
+	int keyLength     = (int) strlen(key) + 1;
+	int valueTypeSize = arrayStrMap->valueTypeSize;
 
-	ArrayStrMapElement* element = (ArrayStrMapElement*) malloc(sizeof(ArrayStrMapElement) + typeSize + keyLength);
+	ArrayStrMapElement* element = (ArrayStrMapElement*) malloc(sizeof(ArrayStrMapElement) + valueTypeSize + keyLength);
 	element->keyLength          = keyLength;
 	element->valuePtr           = (char*) element + sizeof(ArrayStrMapElement);
-	element->key                = (char*) element->valuePtr + typeSize;
+	element->key                = (char*) element->valuePtr + valueTypeSize;
 	memcpy((void*) element->key, key, keyLength);
 
 	AArrayListInsert( arrayStrMap->elementList, index, element);
 
-	return memcpy(element->valuePtr, valuePtr, typeSize);
+	return memcpy(element->valuePtr, valuePtr, valueTypeSize);
 }
 
 
@@ -205,7 +205,7 @@ static void* SetAt(ArrayStrMap* arrayStrMap, int index, void* valuePtr)
 		   (
 			   AArrayListGet(arrayStrMap->elementList, index, ArrayStrMapElement*)->valuePtr,
 			   valuePtr,
-			   arrayStrMap->typeSize
+			   arrayStrMap->valueTypeSize
 		   );
 }
 
@@ -237,7 +237,7 @@ static void Release(ArrayStrMap* arrayStrMap)
 }
 
 
-static void InitWithCapacity(int typeSize, int capacity, ArrayStrMap* outArrayStrMap)
+static void InitWithCapacity(int valueTypeSize, int capacity, ArrayStrMap* outArrayStrMap)
 {
 	if (capacity == 0)
 	{
@@ -248,28 +248,28 @@ static void InitWithCapacity(int typeSize, int capacity, ArrayStrMap* outArraySt
 		AArrayList->InitWithCapacity(sizeof(ArrayStrMapElement*), capacity, outArrayStrMap->elementList);
 	}
 
-	outArrayStrMap->typeSize = typeSize;
+	outArrayStrMap->valueTypeSize = valueTypeSize;
 }
 
 
-static ArrayStrMap* CreateWithCapacity(int typeSize, int capacity)
+static ArrayStrMap* CreateWithCapacity(int valueTypeSize, int capacity)
 {
 	ArrayStrMap* arrayStrMap = (ArrayStrMap*) malloc(sizeof(ArrayStrMap));
-	InitWithCapacity(typeSize, capacity, arrayStrMap);
+	InitWithCapacity(valueTypeSize, capacity, arrayStrMap);
 
 	return arrayStrMap;
 }
 
 
-static void Init(int typeSize, ArrayStrMap* outArrayStrMap)
+static void Init(int valueTypeSize, ArrayStrMap* outArrayStrMap)
 {
-	InitWithCapacity(typeSize, 0, outArrayStrMap);
+	InitWithCapacity(valueTypeSize, 0, outArrayStrMap);
 }
 
 
-static ArrayStrMap* Create(int typeSize)
+static ArrayStrMap* Create(int valueTypeSize)
 {
-	return CreateWithCapacity(typeSize, 0);
+	return CreateWithCapacity(valueTypeSize, 0);
 }
 
 

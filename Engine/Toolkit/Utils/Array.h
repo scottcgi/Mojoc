@@ -33,10 +33,10 @@ struct AArray
 	 * Array struct space and elements space in one malloc
 	 * the data ptr hold the offset of malloc return address
 	 *
-	 * typeSize: sizeof element type
-	 * length  : elements count
+	 * elementTypeSize: sizeof element type
+	 * length         : elements count
 	 */
-	Array* (*Create)(int typeSize, int length);
+	Array* (*Create)(int elementTypeSize, int length);
 };
 
 
@@ -46,82 +46,82 @@ extern struct AArray AArray[1];
 /**
  * Marked Array element type
  *
- * type: element data type
+ * elementType: element data type
  */
-#define Array(type) Array
+#define Array(elementType) Array
 
 
 /**
  * Create Array composite literal
  *
- * type  : element data type
- * length: element count
- * ...   : each element
+ * elementType: element data type
+ * length     : element count
+ * ...        : each element
  */
-#define AArrayMake(type, length, ...)    \
-	(Array[1])                           \
-	{                                    \
-		(type[length]) {__VA_ARGS__},    \
-		length,                          \
+#define AArrayMake(elementType, length, ...) \
+	(Array[1])                               \
+	{                                        \
+		(elementType[length]) {__VA_ARGS__}, \
+		length,                              \
 	}
 
 
 /**
  * Initialize constant Array
  *
- * type  : element data type
- * length: element count
- * ...   : each element
+ * elementType: element data type
+ * length     : element count
+ * ...        : each element
  */
-#define AArrayInit(type, length, ...)   \
-	{                                   \
-		(type[length]) {__VA_ARGS__},   \
-		length,                         \
+#define AArrayInit(elementType, length, ...) \
+	{                                        \
+		(elementType[length]) {__VA_ARGS__}, \
+		length,                              \
 	}
 
 
 /**
  * Get Array data patr
  *
- * array: Array ptr
- * type : element data type
+ * array      : Array ptr
+ * elementType: element data type
  */
-#define AArrayGetData(array, type) \
-	(type*) ((array)->data)
+#define AArrayGetData(array, elementType) \
+	(elementType*) ((array)->data)
 
 
 /**
  * Get element at index
  *
- * array: Array ptr
- * index: element index of array
- * type : element data type
+ * array      : Array ptr
+ * index      : element index of array
+ * elementType: element data type
  */
-#define AArrayGet(array, index, type) \
-	(AArrayGetData(array, type))[index]
+#define AArrayGet(array, index, elementType) \
+	(AArrayGetData(array, elementType))[index]
 
 
 /**
  * Get element ptr at index
  *
- * array: Array ptr
- * index: element index of array
- * type : element data type
+ * array      : Array ptr
+ * index      : element index of array
+ * elementType: element data type
  */
-#define AArrayGetPtr(array, index, type) \
-	(AArrayGetData(array, type) + (index))
+#define AArrayGetPtr(array, index, elementType) \
+	(AArrayGetData(array, elementType) + (index))
 
 
 /**
  * Set element at index
  *
- * array  : Array ptr
- * index  : element index of array
- * element: variable
- * type   : element data type
+ * array      : Array ptr
+ * index      : element index of array
+ * element    : variable
+ * elementType: element data type
  */
-#define AArraySet(array, index, element, type) \
-	AArrayGet(array, index, type) = element
+#define AArraySet(array, index, element, elementType) \
+	AArrayGet(array, index, elementType) = element
 
 
 #endif
