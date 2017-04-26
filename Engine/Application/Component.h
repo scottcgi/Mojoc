@@ -10,6 +10,7 @@
 
 
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
+#include "Engine/Toolkit/Utils/ArrayIntSet.h"
 #include "Engine/Toolkit/Head/UserData.h"
 
 
@@ -66,12 +67,12 @@ struct Component
 	/**
 	 * Component notification observers
 	 */
-	ArrayIntMap(componentPtr, Component*)      observerMap[1];
+	ArrayIntSet(Component*)                    observerSet[1];
 
 	/**
 	 * All ComponentStates mapped by ComponentState's id
 	 */
-	ArrayIntMap(stateId,      ComponentState*) stateMap  [1];
+	ArrayIntMap(stateId,      ComponentState*) stateMap   [1];
 };
 
 

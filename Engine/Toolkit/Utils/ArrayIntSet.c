@@ -143,5 +143,6 @@ struct AArrayIntSet AArrayIntSet[1] =
     Release,
     Add,
     TryRemove,
+    IsContains,
     Clear,
 };

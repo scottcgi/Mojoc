@@ -7,6 +7,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <Engine/Toolkit/Utils/ArrayIntSet.h>
 
 #include "Engine/Application/Component.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -22,7 +23,7 @@ static void Init(Component* outComponent)
 	outComponent->isActive      = true;
 
 	AArrayIntMap->Init            (sizeof(Component*),         outComponent->childMap);
-	AArrayIntMap->Init            (sizeof(Component*),         outComponent->observerMap);
+	AArrayIntSet->Init            (                            outComponent->observerSet);
 	AArrayIntMap->InitWithCapacity(sizeof(ComponentState*), 1, outComponent->stateMap);
 
     outComponent->stateMap->elementList->increase = 5;
@@ -45,7 +46,7 @@ static Component* Create()
 static void Release(Component* component)
 {
 	AArrayIntMap->Release(component->childMap);
-	AArrayIntMap->Release(component->observerMap);
+	AArrayIntSet->Release(component->observerSet);
 
 	for (int i = 0; i < component->stateMap->elementList->size; i++)
 	{
@@ -162,11 +163,7 @@ static void ReorderAllChildren(Component* parent)
 static void AddObserver(Component* sender, Component* observer)
 {
 	ALogA(sender != NULL && observer != NULL, "Component addObserver failed, sender and observer can not NULL");
-
-	int index = AArrayIntMap->GetIndex(sender->observerMap, (intptr_t) observer);
-	ALogA(index < 0, "Component addObserver failed, observer = %p already exist", observer);
-
-	AArrayIntMapInsertAt(sender->observerMap, observer, -index - 1, observer);
+    AArrayIntSet->Add(sender->observerSet, (intptr_t) observer);
 }
 
 
@@ -174,7 +171,7 @@ static void RemoveObserver(Component* sender, Component* observer)
 {
 	ALogA(sender != NULL && observer != NULL, "Component removeObserver failed, sender and observer can not NULL");
 
-	bool isRemoved = AArrayIntMap->TryRemove(sender->observerMap,  (intptr_t) observer);
+	bool isRemoved = AArrayIntSet->TryRemove(sender->observerSet,  (intptr_t) observer);
 
 	ALogA
 	(
@@ -276,9 +273,9 @@ static void Notify(Component* sender, int subject, void* extraData)
 
 	if (sender->isActive)
 	{
-		for (int i = 0; i < sender->observerMap->elementList->size; i++)
+		for (int i = 0; i < sender->observerSet->elementList->size; i++)
 		{
-			Component* observer = AArrayIntMapGetAt(sender->observerMap, i, Component*);
+			Component* observer = AArrayListGet(sender->observerSet->elementList, i, Component*);
 
 			if
 			(
