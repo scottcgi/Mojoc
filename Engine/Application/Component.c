@@ -7,9 +7,7 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include <Engine/Toolkit/Utils/ArrayIntMap.h>
-#include <Engine/Toolkit/Utils/ArrayList.h>
-
+#include "Engine/Toolkit/Utils/ArrayIntMap.h"
 #include "Engine/Application/Component.h"
 #include "Engine/Toolkit/Platform/Log.h"
 

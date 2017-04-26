@@ -8,17 +8,16 @@
 #include <stdlib.h>
 #include "Engine/Toolkit/Head/MacroDefine.h"
 #include "Engine/Toolkit/Utils/Coroutine.h"
-#include "Engine/Toolkit/Utils/ArrayIntMap.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-static ArrayIntMap(coroutinePtr, Coroutine*) coroutineMap [1] = AArrayIntMapInit(Coroutine*, 25);
-static ArrayList  (Coroutine*)               coroutineList[1] = AArrayListInit  (Coroutine*, 25);
+static ArrayList(Coroutine*) coroutineRunningList[1] = AArrayListInit(Coroutine*, 25);
+static ArrayList(Coroutine*) coroutineCacheList  [1] = AArrayListInit(Coroutine*, 25);
 
 
 static Coroutine* StartCoroutine(CoroutineRun Run)
 {
-    Coroutine* coroutine = AArrayListPop(coroutineList, Coroutine*);
+    Coroutine* coroutine = AArrayListPop(coroutineCacheList, Coroutine*);
 
     if (coroutine == NULL)
     {
@@ -43,7 +42,7 @@ static Coroutine* StartCoroutine(CoroutineRun Run)
     coroutine->waitType     = coroutine_wait_null;
     coroutine->state        = coroutine_state_ready;
 
-    AArrayIntMapPut(coroutineMap, coroutine, coroutine);
+    AArrayListAdd(coroutineRunningList, coroutine);
 
     return coroutine;
 }
@@ -51,9 +50,9 @@ static Coroutine* StartCoroutine(CoroutineRun Run)
 
 static void Update(float deltaSeconds)
 {
-    for (int i = coroutineMap->elementList->size - 1; i > -1; i--)
+    for (int i = coroutineRunningList->size - 1; i > -1; i--)
     {
-        Coroutine* coroutine = AArrayIntMapGetAt(coroutineMap, i, Coroutine*);
+        Coroutine* coroutine = AArrayListGet(coroutineRunningList, i, Coroutine*);
 
         if (coroutine->waitType == coroutine_wait_coroutine)
         {
@@ -65,10 +64,10 @@ static void Update(float deltaSeconds)
 
             if (coroutine->state == coroutine_state_finish)
             {
-                AArrayIntMap->RemoveAt(coroutineMap, i);
+                AArrayList->RemoveByLast(coroutineRunningList, i);
 
                 // add to cache
-                AArrayListAdd(coroutineList, coroutine);
+                AArrayListAdd(coroutineCacheList, coroutine);
 
                 // set waiting coroutines execute forward
                 for (int j = 0; j < coroutine->waits->size; j++)
