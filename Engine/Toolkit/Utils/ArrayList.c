@@ -265,9 +265,9 @@ static void Shrink(ArrayList* arrayList)
 {
 	if (arrayList->size == 0)
 	{
-		arrayList->elementArray->length = 0;
 		free(arrayList->elementArray->data);
 		arrayList->elementArray->data   = NULL;
+        arrayList->elementArray->length = 0;
 	}
 	else
 	{
@@ -282,10 +282,10 @@ static void Shrink(ArrayList* arrayList)
 
 static void Release(ArrayList* arrayList)
 {
-	arrayList->size                 = 0;
-	arrayList->elementArray->length = 0;
 	free(arrayList->elementArray->data);
 	arrayList->elementArray->data   = NULL;
+    arrayList->elementArray->length = 0;
+    arrayList->size                 = 0;
 }
 
 
@@ -315,8 +315,8 @@ static void SetCapacity(ArrayList* arrayList, int capacity)
 
 static inline void InitArrayList(int elementTypeSize, ArrayList* arrayList)
 {
-	arrayList->elementArray->length = 0;
 	arrayList->elementArray->data   = NULL;
+    arrayList->elementArray->length = 0;
 	arrayList->elementTypeSize      = elementTypeSize;
 	arrayList->size                 = 0;
 	arrayList->increase             = 20;

@@ -24,9 +24,9 @@
  * Search index of key, if negative not found then return "-insertIndex - 1"
  * so insert index is "-BinarySearch() - 1"
  */
-static inline int BinarySearch(ArrayList* elements, char* key, int keyLength)
+static inline int BinarySearch(ArrayList* elementList, char* key, int keyLength)
 {
-	int high  = elements->size;
+	int high  = elementList->size;
 	int low   = -1;
 	int guess = -1;
 
@@ -34,7 +34,7 @@ static inline int BinarySearch(ArrayList* elements, char* key, int keyLength)
     {
 		// not consider int overflow
 		guess                       = (high + low) >> 1;
-		ArrayStrMapElement* element = AArrayListGet(elements, guess, ArrayStrMapElement*);
+		ArrayStrMapElement* element = AArrayListGet(elementList, guess, ArrayStrMapElement*);
 
 		if (element->keyLength < keyLength)
         {

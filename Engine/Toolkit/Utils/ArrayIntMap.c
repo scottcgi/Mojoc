@@ -6,7 +6,6 @@
  */
 
 #include <string.h>
-#include <stdint.h>
 #include <stdlib.h>
 
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
@@ -26,9 +25,9 @@
  * Search index of key, if negative not found then return "-insertIndex - 1"
  * so insert index is "-BinarySearch() - 1"
  */
-static inline int BinarySearch(ArrayList* elements, intptr_t key)
+static inline int BinarySearch(ArrayList* elementList, intptr_t key)
 {
-	int high  = elements->size;
+	int high  = elementList->size;
 	int low   = -1;
 	int guess = -1;
 
@@ -36,7 +35,7 @@ static inline int BinarySearch(ArrayList* elements, intptr_t key)
 	{
 		// not consider int overflow
 		guess               = (high + low) >> 1;
-	    intptr_t elementKey = AArrayListGet(elements, guess, ArrayIntMapElement*)->key;
+	    intptr_t elementKey = AArrayListGet(elementList, guess, ArrayIntMapElement*)->key;
 
 		if (elementKey < key)
 		{
