@@ -122,13 +122,19 @@ static bool TryRemove(ArrayIntSet* arrayIntSet, intptr_t element)
 }
 
 
+static bool IsContains(ArrayIntSet* arrayIntSet, intptr_t element)
+{
+    return  BinarySearch(arrayIntSet->elementList, element) >= 0;
+}
+
+
 static void Clear(ArrayIntSet* arrayIntSet)
 {
     AArrayList->Clear(arrayIntSet->elementList);
 }
 
 
-struct AArrayIntSet AArrayIntSet =
+struct AArrayIntSet AArrayIntSet[1] =
 {
     Create,
     Init,

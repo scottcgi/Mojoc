@@ -7,11 +7,11 @@
 
 
 #include "Engine/Physics/PhysicsWorld.h"
-#include "Engine/Toolkit/Utils/ArrayIntMap.h"
+#include "Engine/Toolkit/Utils/ArrayIntSet.h"
 #include "Engine/Physics/PhysicsCollision.h"
 
 
-static ArrayIntMap(bodyPtr, PhysicsBody*) bodyMap[1] = AArrayIntMapInit(PhysicsBody*, 20);
+static ArrayIntSet(PhysicsBody*) bodySet[1] = AArrayIntSetInit(PhysicsBody*, 20);
 
 
 //--------------------------------------------------------------------------------------------------
@@ -50,16 +50,16 @@ static inline void UpdateMotion(PhysicsBody* body, float deltaSeconds)
 
 static void Update(float deltaSeconds)
 {
-	for (int i = 0; i < bodyMap->elementList->size; i++)
+	for (int i = 0; i < bodySet->elementList->size; i++)
 	{
-		PhysicsBody* body = AArrayIntMapGetAt(bodyMap, i, PhysicsBody*);
+		PhysicsBody* body = AArrayListGet(bodySet->elementList, i, PhysicsBody*);
 
         if (APhysicsBodyCheckState(body, physics_body_state_no_collision) == false)
         {
             // test collision
-            for (int fromIndex = i + 1; fromIndex < bodyMap->elementList->size; fromIndex++)
+            for (int fromIndex = i + 1; fromIndex < bodySet->elementList->size; fromIndex++)
             {
-                PhysicsBody* otherBody = AArrayIntMapGetAt(bodyMap, fromIndex, PhysicsBody*);
+                PhysicsBody* otherBody = AArrayListGet(bodySet->elementList, fromIndex, PhysicsBody*);
 
                 if
                 (
@@ -97,7 +97,7 @@ static void Update(float deltaSeconds)
 static PhysicsBody* AddBody(PhysicsShape shape, Array(float)* vertexArr)
 {
 	PhysicsBody* body = APhysicsBody->Create(shape, vertexArr);
-	AArrayIntMapPut(bodyMap, body, body);
+    AArrayIntSet->Add(bodySet, (intptr_t) body);
 
 	return body;
 }
@@ -105,7 +105,7 @@ static PhysicsBody* AddBody(PhysicsShape shape, Array(float)* vertexArr)
 
 static void DestroyBody(PhysicsBody* body)
 {
-    AArrayIntMap->TryRemove(bodyMap, (intptr_t) body);
+    AArrayIntSet->TryRemove(bodySet, (intptr_t) body);
     free(body);
 }
 
