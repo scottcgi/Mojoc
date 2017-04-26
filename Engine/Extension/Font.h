@@ -9,7 +9,7 @@
 #define font_h
 
 
-#include "Engine/Toolkit/Utils/ArrayIntMap.h"
+#include "Engine/Toolkit/Utils/ArrayIntSet.h"
 #include "Engine/Extension/TextureAtlas.h"
 #include "Engine/Graphics/OpenGL/Mesh.h"
 
@@ -27,9 +27,9 @@ typedef struct
 	Mesh                                mesh             [1];
 
     /**
-     * Cahce FontText in map
+     * Cahce FontText
      */
-    ArrayIntMap(fontTextPtr, FontText*) fontTextMap      [1];
+    ArrayIntSet(FontText*)              fontTextSet      [1];
 
     /**
      * Font Mesh unused SubMesh list

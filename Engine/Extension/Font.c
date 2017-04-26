@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <Engine/Toolkit/Utils/ArrayIntSet.h>
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Extension/Font.h"
@@ -41,12 +42,12 @@ static Font* Get(char* filePath)
             font->mesh
         );
 
-        AArrayIntMap->Init(sizeof(FontText*), font->fontTextMap);
+        AArrayIntSet->Init(font->fontTextSet);
 		AArrayList  ->Init(sizeof(SubMesh*),  font->unusedSubMeshList);
     }
     else
     {
-        AArrayIntMap->Clear(font->fontTextMap);
+        AArrayIntSet->Clear(font->fontTextSet);
         AArrayList  ->Clear(font->unusedSubMeshList);
         AMesh       ->Clear(font->mesh);
     }
@@ -78,7 +79,7 @@ static FontText* GetText(Font* font)
     text->alignment   = font_text_alignment_horizontal_left;
     text->charSpacing = 0.0f;
     text->font        = font;
-    AArrayIntMapPut(font->fontTextMap, text, text);
+    AArrayIntSet->Add(font->fontTextSet, text);
 
     return text;
 }
@@ -86,11 +87,11 @@ static FontText* GetText(Font* font)
 
 static void Draw(Font* font)
 {
-	for (int i = 0; i < font->fontTextMap->elementList->size; i++)
+	for (int i = 0; i < font->fontTextSet->elementList->size; i++)
 	{
         ADrawable->Draw
         (
-            AArrayIntMapGetAt(font->fontTextMap, i, FontText*)->drawable
+            AArrayListGet(font->fontTextSet->elementList, i, FontText*)->drawable
         );
 	}
 
@@ -305,9 +306,9 @@ static void Reuse(Font* font)
 {
 	ALogA(font->textureAtlas != NULL, "Reuse font %p already reused", font);
 
-    for (int i = 0; i < font->fontTextMap->elementList->size; i++)
+    for (int i = 0; i < font->fontTextSet->elementList->size; i++)
     {
-        FontText* text = AArrayIntMapGetAt(font->fontTextMap, i, FontText*);
+        FontText* text = AArrayListGet(font->fontTextSet->elementList, i, FontText*);
         text->font     = NULL;
         AArrayListAdd(textList, text);
     }
@@ -328,7 +329,7 @@ static void ReuseText(FontText* text)
         AArrayListAdd(text->font->unusedSubMeshList, subMesh);
 	}
 
-    AArrayIntMap->TryRemove(text->font->fontTextMap, (intptr_t) text);
+    AArrayIntSet->TryRemove(text->font->fontTextSet, (intptr_t) text);
     text->font = NULL;
 
     AArrayListAdd(textList, text);

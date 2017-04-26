@@ -134,7 +134,7 @@ static inline char* AArrayStrMapGetKey(void* valuePtr, int valueTypeSize)
 
 
 /**
- * Marked ArrayIntMap key and value
+ * Marked ArrayStrMap key and value
  */
 #define ArrayStrMap(keyName, valueType) ArrayStrMap
 
