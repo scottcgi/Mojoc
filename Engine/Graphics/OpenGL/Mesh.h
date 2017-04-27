@@ -160,12 +160,6 @@ static inline void AMeshDraw(Mesh* mesh)
 }
 
 
-static inline void AMeshSetIncrease(Mesh* mesh, int increase)
-{
-	mesh->childList->increase = increase;
-}
-
-
 /**
  * Push startIndex and endIndex into drawRangeQueue
  */

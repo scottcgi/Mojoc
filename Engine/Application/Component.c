@@ -171,7 +171,7 @@ static void RemoveObserver(Component* sender, Component* observer)
 {
 	ALogA(sender != NULL && observer != NULL, "Component removeObserver failed, sender and observer can not NULL");
 
-	bool isRemoved = AArrayIntSet->TryRemove(sender->observerSet,  (intptr_t) observer);
+	bool isRemoved = AArrayIntSet->TryRemove(sender->observerSet, (intptr_t) observer);
 
 	ALogA
 	(
