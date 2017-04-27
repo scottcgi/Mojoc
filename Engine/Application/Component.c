@@ -279,9 +279,9 @@ static void Notify(Component* sender, int subject, void* extraData)
 
 			if
 			(
-			       observer->isActive                    &&
-			       observer->curState->OnMessage != NULL &&
-			       observer->curState->OnMessage(observer, sender, subject, extraData)
+               observer->isActive                    &&
+               observer->curState->OnMessage != NULL &&
+               observer->curState->OnMessage(observer, sender, subject, extraData)
 			)
 			{
 				break;
