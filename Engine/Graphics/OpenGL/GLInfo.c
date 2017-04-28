@@ -25,22 +25,18 @@ static void Init()
     	 vendor, renderer, version, extensions
 	);
 
-    if (extensions)
+    if(strstr(version, "OpenGL ES 3.") != NULL)
     {
-    	AGLInfo->isSupportVAO = strstr(extensions, "vertex_array_object") != NULL;
-    }
-    ALogD("\n isSupportVAO = %d", AGLInfo->isSupportVAO);
-
-
-    if(strstr(version, "OpenGL ES 3."))
-    {
-    	AGLInfo->version = 3.0f;
+    	AGLInfo->version      = 3.0f;
+        AGLInfo->isSupportVAO = true;
     }
     else
     {
-    	AGLInfo->version = 2.0f;
+    	AGLInfo->version      = 2.0f;
+        AGLInfo->isSupportVAO = false;
     }
     ALogD("\n version = %f", AGLInfo->version);
+    ALogD("\n isSupportVAO = %d", AGLInfo->isSupportVAO);
 
     glGetFloatv(GL_ALIASED_POINT_SIZE_RANGE, AGLInfo->pointSizeRange);
     ALogD("\n GL_ALIASED_POINT_SIZE_RANGE[%f, %f]", AGLInfo->pointSizeRange[0], AGLInfo->pointSizeRange[1]);
