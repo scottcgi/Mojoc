@@ -68,7 +68,7 @@ static void AddChild(Component* parent, Component* child, int order)
 	int index = AArrayIntMap->GetIndex(parent->childMap, order);
 	ALogA(index < 0, "Component addChild failed, order = %d already exist", order);
 
-	child->order          = order;
+	child->order          = order;	
 	child->parent         = parent;
 	AArrayIntMapInsertAt(parent->childMap, order, -index - 1, child);
 }
@@ -133,8 +133,8 @@ static void RemoveAllChildren(Component* parent)
 
 static int Compare(const void* a, const void* b)
 {
-	int keyA = (*(ArrayIntMapElement**) a)->key;
-	int keyB = (*(ArrayIntMapElement**) b)->key;
+	int keyA = (int) (*(ArrayIntMapElement**) a)->key;
+	int keyB = (int) (*(ArrayIntMapElement**) b)->key;
 	ALogA(keyA != keyB, "Component ReorderAllChildren failed ! Two child has same order = %d", keyA);
 
 	return keyA - keyB;
@@ -154,7 +154,7 @@ static void ReorderAllChildren(Component* parent)
 	(
         parent->childMap->elementList->elementArray->data,
         parent->childMap->elementList->size,
-		sizeof(void**),
+		sizeof(ArrayIntMapElement*),
 		Compare
 	);
 }

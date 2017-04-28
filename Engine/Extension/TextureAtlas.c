@@ -39,7 +39,7 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 	long  size;
 	char* buffer = AFileTool->ReadBufferPlatform(filePath, &size);
 
-	ArrayRange range[1] = {0, size - 1};
+	ArrayRange range[1] = {0, (int) size - 1};
 	ArrayRange line [1];
 
 	ABufferReader->ReadLine(buffer, range, line);

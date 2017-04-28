@@ -104,14 +104,14 @@ static void* Put(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 
 static void* Get(ArrayStrMap* arrayStrMap, char* key, void* defaultValuePtr)
 {
-	int guess = BinarySearch(arrayStrMap->elementList, key, strlen(key) + 1);
+	int guess = BinarySearch(arrayStrMap->elementList, key, (int) strlen(key) + 1);
 	return guess >= 0 ? AArrayListGet(arrayStrMap->elementList, guess, ArrayStrMapElement*)->valuePtr : defaultValuePtr;
 }
 
 
 static void* Set(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 {
-	int guess = BinarySearch(arrayStrMap->elementList, key, strlen(key) + 1);
+	int guess = BinarySearch(arrayStrMap->elementList, key, (int) strlen(key) + 1);
 
 	ALogA(guess >= 0, "ArrayStrMap set key = %s, has not exist", key);
 
@@ -126,7 +126,7 @@ static void* Set(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 
 static bool TryRemove(ArrayStrMap* arrayStrMap, char* key)
 {
-	int guess = BinarySearch(arrayStrMap->elementList, key, strlen(key) + 1);
+	int guess = BinarySearch(arrayStrMap->elementList, key, (int) strlen(key) + 1);
 
 	if (guess >= 0)
 	{
@@ -179,7 +179,7 @@ static void* InsertAt(ArrayStrMap* arrayStrMap, char* key, int index, void* valu
 
 static int GetIndex(ArrayStrMap* arrayStrMap, char* key)
 {
-	return BinarySearch(arrayStrMap->elementList, key, strlen(key) + 1);
+	return BinarySearch(arrayStrMap->elementList, key, (int) strlen(key) + 1);
 }
 
 

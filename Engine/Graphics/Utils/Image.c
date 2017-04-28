@@ -146,7 +146,7 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
 	    png_read_update_info(pngPtr, infoPtr);
 
 		// allocate the memory to hold the image using the fields of info_ptr
-		unsigned int rowBytes = png_get_rowbytes(pngPtr, infoPtr);
+		unsigned long rowBytes = png_get_rowbytes(pngPtr, infoPtr);
 		ALogD("row size: %d bytes", rowBytes);
 
 		// allocate the pixel data as a big block, to be given to openGL

@@ -79,7 +79,7 @@ static FontText* GetText(Font* font)
     text->alignment   = font_text_alignment_horizontal_left;
     text->charSpacing = 0.0f;
     text->font        = font;
-    AArrayIntSet->Add(font->fontTextSet, text);
+    AArrayIntSet->Add(font->fontTextSet, (intptr_t) text);
 
     return text;
 }
@@ -134,7 +134,7 @@ static inline void SetNewChar(FontText* text, char* str, int len)
 static void SetString(FontText* text, char* str)
 {
 	ArrayList* children    = text->font->mesh->childList;
-	int        len         = strlen(str);
+	int        len         = (int) strlen(str);
 
 	text->drawable->height = 0.0f;
 	text->drawable->width  = 0.0f;

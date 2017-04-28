@@ -178,7 +178,7 @@ static inline void ReadBoneData(JsonObject* root, SkeletonData* skeletonData)
 		}
 		
 		char* name                  =  AJsonObject->GetString(jsonBone, "name", NULL);
-		int   nameLength            =  strlen(name) + 1;
+		int   nameLength            =  (int) strlen(name) + 1;
 
 		SkeletonBoneData* boneData  = (SkeletonBoneData*) malloc(sizeof(SkeletonBoneData) + nameLength);
 		boneData->name              = (char*) boneData + sizeof(SkeletonBoneData);
