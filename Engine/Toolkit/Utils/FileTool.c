@@ -13,10 +13,10 @@
 #include "Engine/Toolkit/Platform/File.h"
 
 
-static FILE* Open(char* filePath)
+static FILE* Open(char* absoluteFilePath)
 {
-    FILE* file = fopen(filePath, "rb");
-    ALogA(file != NULL, "AFileTool open error, file path = %s", filePath);
+    FILE* file = fopen(absoluteFilePath, "rb");
+    ALogA(file != NULL, "AFileTool open error, absolute file path path = %s", absoluteFilePath);
     
 	return file;
 }
@@ -50,9 +50,9 @@ static int Seek(FILE* file, long offset, int whence)
 }
 
 
-static char* ReadBuffer(char* filePath, long* outLength)
+static char* CreateBuffer(char* absoluteFilePath, long* outLength)
 {
-    void* file   = Open(filePath);
+    void* file   = Open(absoluteFilePath);
     long  length = GetLength(file);
     char* buffer = (char*) malloc(length);
     *outLength   = length;
@@ -64,9 +64,9 @@ static char* ReadBuffer(char* filePath, long* outLength)
 }
 
 
-static char* ReadString(char* filePath)
+static char* CreateString(char* absoluteFilePath)
 {
-    void* file     = Open(filePath);
+    void* file     = Open(absoluteFilePath);
     long  length   = GetLength(file);
     char* buffer   = (char*) malloc(length + 1);
     buffer[length] = '\0';
@@ -99,9 +99,9 @@ static int GetDirLength(char* filePath)
 //--------------------------------------------------------------------------------------------------
 
 
-static char* ReadBufferPlatform(char* filePath, long* outLength)
+static char* CreateBufferRelative(char* relativeFilePath, long* outLength)
 {
-    File* file   = AFile->Open(filePath);
+    File* file   = AFile->Open(relativeFilePath);
     long  length = AFile->GetLength(file);
     char* buffer = (char*) malloc(length);
     *outLength   = length;
@@ -113,9 +113,9 @@ static char* ReadBufferPlatform(char* filePath, long* outLength)
 }
 
 
-static char* ReadStringPlatform(char* filePath)
+static char* CreateStringRelative(char* relativeFilePath)
 {
-    File* file     = AFile->Open(filePath);
+    File* file     = AFile->Open(relativeFilePath);
     long  length   = AFile->GetLength(file);
     char* buffer   = (char*) malloc(length + 1);
     buffer[length] = '\0';
@@ -134,10 +134,10 @@ struct AFileTool AFileTool[1] =
 	GetLength,
 	Read,
 	Seek,
-	ReadBuffer,
-	ReadString,
-	GetDirLength,
+    GetDirLength,
+	CreateBuffer,
+	CreateString,
 
-    ReadBufferPlatform,
-    ReadStringPlatform,
+    CreateBufferRelative,
+    CreateStringRelative,
 };

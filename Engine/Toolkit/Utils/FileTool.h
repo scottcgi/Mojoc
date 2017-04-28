@@ -16,9 +16,9 @@
 struct AFileTool
 {
 	/**
-	 * The filePath is absolute path
+	 * Open file with absolute path
 	 */
-    FILE* (*Open)              (char* filePath);
+    FILE* (*Open)              (char* absoluteFilePath);
 
 	/**
 	 * Close an opened file connection, free any related resources
@@ -42,45 +42,46 @@ struct AFileTool
 	 */
 	int   (*Seek)              (FILE* file, long offset, int whence);
 
-	/**
-	 * The filePath is absolute path
-	 *
-	 * read all file data into buffer with it length, with close file
-	 * return buffer pointer
-	 */
-	char* (*ReadBuffer)        (char* filePath, long* outLength);
+//--------------------------------------------------------------------------------------------------
+
+    /**
+     * Get file directory length in file path string, include last slash '/' or '\\'
+     *
+     * if no directory return 0
+     */
+    int   (*GetDirLength)      (char* filePath);
 
 	/**
-	 * The filePath is absolute path
+	 * Read all file data into malloc buffer, with it length, with close file
 	 *
-	 * read all file data into buffer with '\0' end with close file
-	 * return buffer pointer
+	 * return buffer pointer, needed free it when finish
 	 */
-	char* (*ReadString)        (char* filePath);
+	char* (*CreateBuffer)      (char* absoluteFilePath, long* outLength);
 
 	/**
-	 * Get file directory length in file path, include last slash '/' or '\\'
-	 * if no directory return 0
+	 * Read all file data into malloc buffer with '\0' end with close file
+	 *
+	 * return buffer pointer, needed free it when finish
 	 */
-	int   (*GetDirLength)      (char* filePath);
+	char* (*CreateString)      (char* absoluteFilePath);
 
 //--------------------------------------------------------------------------------------------------
 
     /**
-     * The filePath is relative path, indirect use AFile
+     * Indirect use AFile
+     * read all file data into malloc buffer with it length, with close file
      *
-     * read all file data into buffer with it length, with close file
-     * return buffer pointer
+     * return buffer pointer, needed free it when finish
      */
-    char* (*ReadBufferPlatform)(char* filePath, long* outLength);
+    char* (*CreateBufferRelative)(char* relativeFilePath, long* outLength);
 
     /**
-     * The filePath is relative path, indirect use AFile
+     * Indirect use AFile
+     * read all file data into malloc buffer with '\0' end with close file
      *
-     * read all file data into buffer with '\0' end with close file
-     * return buffer pointer
+     * return buffer pointer, needed free it when finish
      */
-    char* (*ReadStringPlatform)(char* filePath);
+    char* (*CreateStringRelative)(char* relativeFilePath);
 };
 
 

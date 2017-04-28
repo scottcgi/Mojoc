@@ -17,7 +17,6 @@
 #include "Engine/Toolkit/Utils/FileTool.h"
 
 
-
 static inline void ReadFindString(char* buffer, ArrayRange* range, ArrayRange* line, char* name)
 {
 	ABufferReader->ReadLine(buffer, range, line);
@@ -247,7 +246,7 @@ static inline void LoadRGBValue(char* buffer, ArrayRange* range, ArrayRange* lin
 static void Init(char* filePath, ParticleEmitterData* outEmitterData)
 {
 	long  size;
-	char* buffer = AFileTool->ReadBufferPlatform(filePath, &size);
+	char* buffer = AFileTool->CreateBufferRelative(filePath, &size);
 
 	ArrayRange range[1] = {0, (int) size - 1};
 	ArrayRange line [1];

@@ -37,7 +37,7 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 	AArrayList  ->InitWithCapacity(sizeof(Texture*),         5,  outTextureAtlas->textureList);
 
 	long  size;
-	char* buffer = AFileTool->ReadBufferPlatform(filePath, &size);
+	char* buffer = AFileTool->CreateBufferRelative(filePath, &size);
 
 	ArrayRange range[1] = {0, (int) size - 1};
 	ArrayRange line [1];
@@ -137,6 +137,7 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 
 	AArrayList->Shrink(outTextureAtlas->quadMap->elementList);
 	AArrayList->Shrink(outTextureAtlas->textureList);
+    free(buffer);
 }
 
 
