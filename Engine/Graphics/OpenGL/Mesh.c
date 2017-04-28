@@ -217,7 +217,7 @@ static inline void BindVBO(Mesh* mesh)
         GL_FLOAT,
         false,
         mesh_vertex_uv_stride,
-        (GLvoid*) mesh->uvDataOffset
+        (GLvoid*) (intptr_t) mesh->uvDataOffset
     );
 
     // load the opacity
@@ -228,7 +228,7 @@ static inline void BindVBO(Mesh* mesh)
         GL_FLOAT,
         false,
         mesh_vertex_opacity_stride,
-        (GLvoid*) mesh->opacityDataOffset
+        (GLvoid*) (intptr_t) mesh->opacityDataOffset
     );
 
     // load the rgb
@@ -239,7 +239,7 @@ static inline void BindVBO(Mesh* mesh)
         GL_FLOAT,
         false,
         mesh_vertex_rgb_stride,
-        (GLvoid*) mesh->rgbDataOffset
+        (GLvoid*) (intptr_t) mesh->rgbDataOffset
     );
 }
 
@@ -355,7 +355,7 @@ static void Render(Drawable* drawable)
             GL_TRIANGLES,
             toChild->indexOffset - fromChild->indexOffset + toChild->indexArr->length,
             GL_UNSIGNED_SHORT,
-            (void*) fromChild->indexDataOffset
+            (GLvoid*) (intptr_t) fromChild->indexDataOffset
         );
 
         // clear VAO bind
@@ -379,7 +379,7 @@ static void Render(Drawable* drawable)
             GL_TRIANGLES,
             toChild->indexOffset - fromChild->indexOffset + toChild->indexArr->length,
             GL_UNSIGNED_SHORT,
-            (void*) fromChild->indexDataOffset
+            (GLvoid*) (intptr_t) fromChild->indexDataOffset
         );
 
         // clean VBO bind

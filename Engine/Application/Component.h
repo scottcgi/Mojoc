@@ -176,7 +176,7 @@ struct AComponent
 	/**
 	 * Reorder all children after changed child's order
 	 */
-	void            (*ReorderAllChildren)   (Component* parent);
+	void            (*ReorderChildren)      (Component* parent);
 
 	/**
 	 * Add observer to sender, will receive notification by sender

@@ -141,7 +141,7 @@ static int Compare(const void* a, const void* b)
 }
 
 
-static void ReorderAllChildren(Component* parent)
+static void ReorderChildren(Component* parent)
 {
 	// renew all children key
 	for (int i = 0; i < parent->childMap->elementList->size; i++)
@@ -357,7 +357,7 @@ struct AComponent AComponent[1] =
 	AppendChild,
 	RemoveChild,
 	RemoveAllChildren,
-	ReorderAllChildren,
+	ReorderChildren,
 	AddObserver,
 	RemoveObserver,
 

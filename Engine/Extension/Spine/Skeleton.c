@@ -331,13 +331,11 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 			}
 			break;
 
-
 			SkeletonMeshAttachmentData* meshData;
-			/* no break */
 
 			case skeleton_attachment_skinned_mesh:
 				meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->subPtr)->meshAttachmentData;
-				/* no break */
+                
 			case skeleton_attachment_mesh:
 			{
 				meshData = (SkeletonMeshAttachmentData*) attachmentData->subPtr;
@@ -387,9 +385,6 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 				}
 			}
 			break;
-
-			default:
-				break;
 		}
 
 		// first born invisible

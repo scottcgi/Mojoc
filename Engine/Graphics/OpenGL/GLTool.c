@@ -54,7 +54,7 @@ static GLuint LoadShader(GLenum shaderType, char* shaderSource)
 	}
 
 	// load the shader source
-	glShaderSource(shader, 1, &shaderSource, NULL);
+	glShaderSource(shader, 1, (const GLchar**) &shaderSource, NULL);
 
 	// compile the shader
 	glCompileShader(shader);

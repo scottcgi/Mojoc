@@ -233,8 +233,8 @@ static inline void ReadSlotData(JsonObject* root, SkeletonData* skeletonData)
 
 		char* name                 = AJsonObject->GetString(jsonSlot, "name",       NULL);
 		char* attachmentName       = AJsonObject->GetString(jsonSlot, "attachment", NULL);
-		int   nameLength           = strlen(name) + 1;
-		int   attachmentNameLength = attachmentName != NULL ? (strlen(attachmentName) + 1) : 0;
+		int   nameLength           = (int) strlen(name) + 1;
+		int   attachmentNameLength = attachmentName != NULL ? ((int) strlen(attachmentName) + 1) : 0;
 
 		SkeletonSlotData* slotData = (SkeletonSlotData*) malloc(sizeof(SkeletonSlotData) + nameLength + attachmentNameLength);
 		slotData->name             = (char*) slotData + sizeof(SkeletonSlotData);
@@ -364,7 +364,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 			attachmentName = name;
 		}
 
-		nameLength = strlen(attachmentName) + 1;
+		nameLength = (int) strlen(attachmentName) + 1;
 
 		SkeletonAttachmentData* attachmentData;
 
@@ -637,7 +637,7 @@ static inline void ReadSkinData(JsonObject* root, SkeletonData* skeletonData)
 	for (int i = 0; i < skinDataObject->arrayStrMap->elementList->size; i++)
 	{
 		char* skinName             = AJsonObject->GetKey(skinDataObject, i);
-		int   skinNameLength       = strlen(skinName) + 1;
+		int   skinNameLength       = (int) strlen(skinName) + 1;
 
 		SkeletonSkinData* skinData = (SkeletonSkinData*) malloc(sizeof(SkeletonSkinData) + skinNameLength);
 		skinData->name             = (char*) skinData + sizeof(SkeletonSkinData);
@@ -834,9 +834,6 @@ static inline void ReadAnimationSlots
     ArrayList*             skeletonTimelineArr
 )
 {
-
-	ArrayStrMap* slotDataMap = skeletonData->slotDataMap;
-
 	for (int i = 0; i < jsonSlots->arrayStrMap->elementList->size; i++)
 	{
 		char* slotName = AJsonObject->GetKey(jsonSlots, i);
@@ -947,8 +944,8 @@ static inline void ReadAnimationEvents
 		float floatValue  = AJsonObject->GetFloat (eventObject, "float",  eventData->floatValue);
 		ALogD("[stringValue = %s, intValue = %d, floatValue = %f]", stringValue, intValue, floatValue);
 
-		int                eventLength  = strlen(eventName)   + 1;
-		int                valueLength  = strlen(stringValue) + 1;
+		int                eventLength  = (int) strlen(eventName)   + 1;
+		int                valueLength  = (int) strlen(stringValue) + 1;
 		SkeletonEventData* newEventData = (SkeletonEventData*)
 										   malloc(sizeof(SkeletonEventData) + eventLength + valueLength);
 
@@ -1209,7 +1206,7 @@ static inline void ReadAnimationData(JsonObject* root, SkeletonData* skeletonDat
 	for (int i = 0; i < animationDataObject->arrayStrMap->elementList->size; i++)
 	{
 		char*                  animationName       = AJsonObject->GetKey(animationDataObject, i);
-		int                    animationNameLength = strlen(animationName) + 1;
+		int                    animationNameLength = (int) strlen(animationName) + 1;
 		SkeletonAnimationData* animationData       = (SkeletonAnimationData*) malloc(sizeof(SkeletonAnimationData) + animationNameLength);
 
 		animationData->name                        = (char*) animationData + sizeof(SkeletonAnimationData);
@@ -1285,8 +1282,8 @@ static inline void ReadEventData(JsonObject* root, SkeletonData* skeletonData)
 
 		char*              stringValue = AJsonObject->GetString(eventValue,  "string", NULL);
 		char*              name        = AJsonObject->GetKey   (eventObject, i);
-		int                nameLength  = strlen(name)        + 1;
-		int                valueLength = strlen(stringValue) + 1;
+		int                nameLength  = (int) strlen(name)        + 1;
+		int                valueLength = (int) strlen(stringValue) + 1;
 
 		SkeletonEventData* eventData   = (SkeletonEventData*) malloc(sizeof(SkeletonEventData) + nameLength + valueLength);
 
@@ -1369,13 +1366,13 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 
 	for (int i = 0; i < slotDataOrderArr->length; i++)
 	{
-		SkeletonSlotData* slotData              = AArrayGet(slotDataOrderArr, i, SkeletonSlotData*);
-		slotData->attachmentDataList            = AArrayList->Create(sizeof(SkeletonAttachmentData*));
+		SkeletonSlotData* slotData   = AArrayGet(slotDataOrderArr, i, SkeletonSlotData*);
+		slotData->attachmentDataList = AArrayList->Create(sizeof(SkeletonAttachmentData*));
 
 		// search all skin attachment
 		for (int j = 0; j < skinDataMap->elementList->size; j++)
 		{
-			char*             skinName          = AArrayStrMap->GetKey(skinDataMap, j);
+			// char*          skinName          = AArrayStrMap->GetKey(skinDataMap, j);
 			SkeletonSkinData* skinData          = AArrayStrMapGetAt(skinDataMap, j, SkeletonSkinData*);
 			ArrayStrMap*      slotAttachmentMap = skinData->slotAttachmentMap;
 			ArrayStrMap*      attachmentMap     = AArrayStrMapGet(slotAttachmentMap, slotData->name, ArrayStrMap*);
@@ -1391,7 +1388,7 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 
 			for (int k = 0; k < attachmentMap->elementList->size; k++)
 			{
-				char*                   attachmentName = AArrayStrMap->GetKey(attachmentMap, k);
+				// char*                   attachmentName = AArrayStrMap->GetKey(attachmentMap, k);
 				SkeletonAttachmentData* attachmentData = AArrayStrMapGetAt(attachmentMap, k, SkeletonAttachmentData*);
 
 				if (attachmentData->type == skeleton_attachment_boundingbox)
@@ -1409,7 +1406,6 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 				TextureAtlasQuad* atlasQuad = ATextureAtlasGetQuad(skeletonData->textureAtlas, attachmentData->name);
 				ALogA(atlasQuad != NULL, "Can not find attachment in TextureAtlas by name = %s", attachmentData->name);
 
-				SubMesh* subMesh;
 				switch (attachmentData->type)
 				{
 					case skeleton_attachment_region:
@@ -1421,13 +1417,11 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 					}
 					break;
 
-
 					SkeletonMeshAttachmentData* meshData;
-					/* no break */
 
 					case skeleton_attachment_skinned_mesh:
 						meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->subPtr)->meshAttachmentData;
-						/* no break */
+
 					case skeleton_attachment_mesh:
 					{
 						meshData                        = (SkeletonMeshAttachmentData*) attachmentData->subPtr;
@@ -1436,9 +1430,6 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 						meshData->subMeshIndex          = quadCounts[atlasQuad->textureIndex]++;
 					}
 					break;
-
-					default:
-						break;
 				}
 			}
 		}
