@@ -51,7 +51,7 @@ add_library(
     ../../Toolkit/Utils/Coroutine.c
     ../../Toolkit/Utils/FileTool.c
 
-    ../../Toolkit/Platform/FileAndroid.c
+    ../../Toolkit/Platform/Android/File.c
 
 ################ MojocGraphics ################
 
@@ -93,8 +93,8 @@ add_library(
 	../../Application/Scheduler.c
 	../../Application/Component.c
     ../../Application/Input.c
-	../../Application/Platform/AndroidGlue.c
-    ../../Application/Platform/JniTool.c
+	../../Application/Platform/Android/NativeGlue.c
+    ../../Application/Platform/Android/JniTool.c
 
 ################ MojocExtension ################
 
@@ -115,7 +115,7 @@ add_library(
 	../../Extension/DrawAtlas.c
 
 ################ MojocAudio ################
-    ../../Audio/Platform/AudioAndroid.c
+    ../../Audio/Platform/Android/Audio.c
 )
 
 
