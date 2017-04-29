@@ -19,14 +19,14 @@ static void Use(Matrix4* mvpMatrix, Color* color, GLint pointSize)
 	{
 	    AShader->program = AShaderPrimitive->program;
 
-	    glUseProgram(AShaderPrimitive->program);
+	    glUseProgram             (AShaderPrimitive->program);
 	    glEnableVertexAttribArray(AShaderPrimitive->attribPosition);
 	}
 
-    // Passed matrix into shader program
-    glUniformMatrix4fv(AShaderPrimitive->uniformMVPMatrix, 1, false, mvpMatrix->m);
-    glUniform4f(AShaderPrimitive->uniformColor, color->r, color->g, color->b, color->a);
-    glUniform1f(AShaderPrimitive->uniformPointSize, pointSize);
+    // passed matrix into shader program
+    glUniformMatrix4fv(AShaderPrimitive->uniformMVPMatrix, 1,        false,    mvpMatrix->m);
+    glUniform4f       (AShaderPrimitive->uniformColor,     color->r, color->g, color->b, color->a);
+    glUniform1f       (AShaderPrimitive->uniformPointSize, pointSize);
 }
 
 
@@ -60,7 +60,7 @@ static void Init()
 		)
 	);
 
-    // Get the attribute locations
+    // get the attribute locations
 	AShaderPrimitive->attribPosition   = glGetAttribLocation(AShaderPrimitive->program,  "aPosition");
 	AShaderPrimitive->uniformMVPMatrix = glGetUniformLocation(AShaderPrimitive->program, "uMVPMatrix");
 	AShaderPrimitive->uniformColor     = glGetUniformLocation(AShaderPrimitive->program, "uColor");

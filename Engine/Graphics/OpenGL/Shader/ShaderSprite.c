@@ -24,6 +24,8 @@ static void Use(Matrix4* mvpMatrix, Color* color)
 
     glUniformMatrix4fv(AShaderSprite->uniformMVPMatrix, 1,        false,    mvpMatrix->m);
     glUniform4f       (AShaderSprite->uniformColor,     color->r, color->g, color->b, color->a);
+    // set the sampler to texture unit 0
+    glUniform1i       (AShaderSprite->uniformSampler2D, 0);
 }
 
 
@@ -61,6 +63,7 @@ static void Init()
 
 	// Get the attribute locations
 	AShaderSprite->attribPositionTexcoord = glGetAttribLocation(AShaderSprite->program,  "aPositionTexcoord");
+    
 	AShaderSprite->uniformSampler2D       = glGetUniformLocation(AShaderSprite->program, "uSampler2D");
 	AShaderSprite->uniformMVPMatrix       = glGetUniformLocation(AShaderSprite->program, "uMVPMatrix");
 	AShaderSprite->uniformColor           = glGetUniformLocation(AShaderSprite->program, "uColor");
@@ -84,8 +87,6 @@ static void Init()
 	);
 
 	glEnableVertexAttribArray(AShaderSprite->attribPositionTexcoord);
-	// set the sampler to texture unit 0
-	glUniform1i(AShaderSprite->uniformSampler2D, 0);
 }
 
 

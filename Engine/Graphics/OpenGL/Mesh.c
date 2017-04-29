@@ -289,10 +289,11 @@ static void Render(Drawable* drawable)
     {
         // load the vertex data
         glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIds[mesh_buffer_vertex]);
+
         // load the vertex index
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[mesh_buffer_index]);
 
-        // in nor vao state update sub data
+        // in no vao state update sub data
         if (AGraphics->isUseMapBuffer)
         {
             for (int i = 0; i < mesh->vboSubDataList->size; i++)
@@ -346,6 +347,7 @@ static void Render(Drawable* drawable)
     if (AGraphics->isUseVAO)
     {
         label_mesh_use_vao:
+        
 //--------------------------------------------------------------------------------------------------
 
         glBindVertexArray(mesh->vaoId);

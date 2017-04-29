@@ -22,6 +22,9 @@ static void Use(Matrix4* mvpMatrix)
 	}
 
     glUniformMatrix4fv(AShaderMesh->uniformMVPMatrix, 1, false, mvpMatrix->m);
+
+    // set the sampler to texture unit 0
+    glUniform1i       (AShaderMesh->uniformSample2D, 0);
 }
 
 
@@ -88,8 +91,6 @@ static void Init()
     glEnableVertexAttribArray(AShaderMesh->attribTexcoord);
     glEnableVertexAttribArray(AShaderMesh->attribOpacity);
     glEnableVertexAttribArray(AShaderMesh->attribRGB);
-    // set the sampler to texture unit 0
-    glUniform1i(AShaderMesh->uniformSample2D, 0);
 }
 
 
