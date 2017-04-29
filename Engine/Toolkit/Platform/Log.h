@@ -10,7 +10,6 @@
 
 
 #include "Engine/Toolkit/Platform/Platform.h"
-#include <assert.h>
 
 
 //--------------------------------------------------------------------------------------------------
@@ -19,6 +18,7 @@
 
 
 #include <android/log.h>
+#include <assert.h>
 
 
 #define ALogD(...)    // __android_log_print(ANDROID_LOG_DEBUG, "MojocLib debug", __VA_ARGS__)

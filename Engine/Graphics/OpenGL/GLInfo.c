@@ -27,43 +27,42 @@ static void Init()
 
     if(strstr(version, "OpenGL ES 3.") != NULL)
     {
-    	AGLInfo->version      = 3.0f;
-        AGLInfo->isSupportVAO = true;
+    	AGLInfo->version = 3.0f;
     }
     else
     {
-    	AGLInfo->version      = 2.0f;
-        AGLInfo->isSupportVAO = false;
+    	AGLInfo->version = 2.0f;
     }
-    ALogD("\n version = %f", AGLInfo->version);
+    
+    ALogD("\n version = %f",      AGLInfo->version);
     ALogD("\n isSupportVAO = %d", AGLInfo->isSupportVAO);
 
-    glGetFloatv(GL_ALIASED_POINT_SIZE_RANGE, AGLInfo->pointSizeRange);
-    ALogD("\n GL_ALIASED_POINT_SIZE_RANGE[%f, %f]", AGLInfo->pointSizeRange[0], AGLInfo->pointSizeRange[1]);
+    glGetFloatv(GL_ALIASED_POINT_SIZE_RANGE,             AGLInfo->pointSizeRange);
+    ALogD("\n GL_ALIASED_POINT_SIZE_RANGE[%f, %f]",      AGLInfo->pointSizeRange[0], AGLInfo->pointSizeRange[1]);
     
-    glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, AGLInfo->lineWidthRange);
-    ALogD("\n GL_ALIASED_LINE_WIDTH_RANGE[%f, %f]", AGLInfo->lineWidthRange[0], AGLInfo->lineWidthRange[1]);
+    glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE,             AGLInfo->lineWidthRange);
+    ALogD("\n GL_ALIASED_LINE_WIDTH_RANGE[%f, %f]",      AGLInfo->lineWidthRange[0], AGLInfo->lineWidthRange[1]);
     
-    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &AGLInfo->maxVertexAttribs);
-    ALogD("\n GL_MAX_VERTEX_ATTRIBS = %d", AGLInfo->maxVertexAttribs);
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS,                &AGLInfo->maxVertexAttribs);
+    ALogD("\n GL_MAX_VERTEX_ATTRIBS = %d",               AGLInfo->maxVertexAttribs);
     
-    glGetIntegerv(GL_MAX_VERTEX_UNIFORM_VECTORS, &AGLInfo->maxVertexUniformVectors);
-    ALogD("\n GL_MAX_VERTEX_UNIFORM_VECTORS = %d", AGLInfo->maxVertexUniformVectors);
+    glGetIntegerv(GL_MAX_VERTEX_UNIFORM_VECTORS,        &AGLInfo->maxVertexUniformVectors);
+    ALogD("\n GL_MAX_VERTEX_UNIFORM_VECTORS = %d",       AGLInfo->maxVertexUniformVectors);
     
-    glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_VECTORS, &AGLInfo->maxFragmentUniformVectors);
-    ALogD("\n GL_MAX_FRAGMENT_UNIFORM_VECTORS = %d", AGLInfo->maxFragmentUniformVectors);
+    glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_VECTORS,      &AGLInfo->maxFragmentUniformVectors);
+    ALogD("\n GL_MAX_FRAGMENT_UNIFORM_VECTORS = %d",     AGLInfo->maxFragmentUniformVectors);
     
-    glGetIntegerv(GL_MAX_VARYING_VECTORS, &AGLInfo->maxVaryingVectors);
-    ALogD("\n GL_MAX_VARYING_VECTORS = %d", AGLInfo->maxVaryingVectors);
+    glGetIntegerv(GL_MAX_VARYING_VECTORS,               &AGLInfo->maxVaryingVectors);
+    ALogD("\n GL_MAX_VARYING_VECTORS = %d",              AGLInfo->maxVaryingVectors);
     
-    glGetIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, &AGLInfo->maxVertexTextureImageUnits);
-    ALogD("\n GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS = %d", AGLInfo->maxVertexTextureImageUnits);
+    glGetIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS,    &AGLInfo->maxVertexTextureImageUnits);
+    ALogD("\n GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS = %d",   AGLInfo->maxVertexTextureImageUnits);
     
-    glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &AGLInfo->maxCombinedTextureImageUnits);
+    glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,  &AGLInfo->maxCombinedTextureImageUnits);
     ALogD("\n GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS = %d", AGLInfo->maxCombinedTextureImageUnits);
 
-    glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &AGLInfo->maxTextureImageUnits);
-    ALogD("\n GL_MAX_TEXTURE_IMAGE_UNITS = %d", AGLInfo->maxTextureImageUnits);
+    glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS,           &AGLInfo->maxTextureImageUnits);
+    ALogD("\n GL_MAX_TEXTURE_IMAGE_UNITS = %d",          AGLInfo->maxTextureImageUnits);
 }
 
 

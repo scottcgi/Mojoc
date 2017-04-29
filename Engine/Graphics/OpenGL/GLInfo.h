@@ -27,7 +27,6 @@ struct AGLInfo
 	GLint   maxCombinedTextureImageUnits;
 	GLint   maxTextureImageUnits;
 
-	bool    isSupportVAO;
 	float   version;
 
 	void (*Init)();

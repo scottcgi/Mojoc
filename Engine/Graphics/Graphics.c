@@ -27,7 +27,7 @@ static void Init()
 
 static void SetUseVAO(bool isUseVAO)
 {
-    if (isUseVAO && AGLInfo->isSupportVAO)
+    if (isUseVAO && AGLInfo->version > 2.0f)
     {
         AGraphics->isUseVAO = true;
         AGraphics->isUseVBO = true;

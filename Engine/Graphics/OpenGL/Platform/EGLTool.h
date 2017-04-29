@@ -11,9 +11,11 @@
 
 #include "Engine/Toolkit/Platform/Platform.h"
 
+
 //--------------------------------------------------------------------------------------------------
 #ifdef is_platform_android
 //--------------------------------------------------------------------------------------------------
+
 
 #include <stdbool.h>
 #include "Engine/Graphics/OpenGL/Platform/egl.h"
