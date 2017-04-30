@@ -71,7 +71,11 @@ struct AFileTool
      * Indirect use AFile
      * read all file data into malloc buffer with it length, with close file
      *
-     * return buffer pointer, needed free it when finish
+     * relativeFilePath:
+	 *     Android: assets
+	 * 	   IOS    : NSBUndle
+     *
+     * return buffer pointer, needed free it manually when after using
      */
     char* (*CreateBufferRelative)(char* relativeFilePath, long* outLength);
 
@@ -79,7 +83,11 @@ struct AFileTool
      * Indirect use AFile
      * read all file data into malloc buffer with '\0' end with close file
      *
-     * return buffer pointer, needed free it when finish
+     * relativeFilePath:
+	 *     Android: assets
+	 * 	   IOS    : NSBUndle
+     *
+     * return buffer pointer, needed free it manually when after using
      */
     char* (*CreateStringRelative)(char* relativeFilePath);
 };

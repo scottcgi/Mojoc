@@ -13,7 +13,7 @@
 
 
 /**
- * Related to platform private files such as
+ * Related to platform directory
  * Android: assets   files
  * IOS:     NSBundle files
  */
@@ -23,18 +23,25 @@ typedef struct File File;
 struct AFile
 {
 	/**
-	 * The filePath is relative to platform directory
+	 * Open file from platform directory with relative file path
+	 *
+	 * relativeFilePath:
+	 *     Android: assets
+	 *     IOS    : NSBUndle
 	 */
-    File* (*Open)             (char* filePath);
+    File* (*Open)             (char* relativeFilePath);
 
     /**
      * Open a new file descriptor that can be used to read the asset data
      * if the start or length cannot be represented by a 32-bit number, it will be truncated
-     * if the file is large, use AAsset_openFileDescriptor64 instead
+     *
+     * relativeFilePath:
+	 *     Android: assets
+	 * 	   IOS    : NSBUndle
      *
      * returns < 0 if direct fd access is not possible (for example, if the asset is compressed)
      */
-    int   (*OpenFileDescriptor)(char* filePath, long* outStart, long* outLength);
+    int   (*OpenFileDescriptor)(char* relativeFilePath, long* outStart, long* outLength);
 
 	/**
 	 * Close an opened file connection, free any related resources
@@ -59,6 +66,16 @@ struct AFile
 	 * return the new position on success, or -1 on error
 	 */
 	int   (*Seek)              (File* file, long offset, int whence);
+
+//--------------------------------------------------------------------------------------------------
+
+    /**
+     * The absolute path related to platform directory, read only
+     *
+     * Android: internal data directory
+     * IOS    : document data directory
+     */
+    char* (*GetAbsolutePath)   ();
 };
 
 
