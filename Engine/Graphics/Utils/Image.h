@@ -16,8 +16,10 @@ struct AImage
 {
 	/**
 	 * Read png pixel data from file, caller must be free it
+	 *
+	 * return NULL when error happened
 	 */
-     void* (*CreatePixelDataFromPng)(char* filePath, float* outWidth, float* outHeight);
+     void* (*CreatePixelDataFromPng)(char* relativeFilePath, float* outWidth, float* outHeight);
 };
 
 

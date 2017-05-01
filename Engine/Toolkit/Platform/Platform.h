@@ -17,11 +17,11 @@
 //--------------------------------------------------------------------------------------------------
 #if platform_target == platform_android
 
-#define is_platform_android
+    #define is_platform_android
 
 #elif platform_target == platform_ios
 
-#define is_platform_ios
+    #define is_platform_ios
 
 #endif
 //--------------------------------------------------------------------------------------------------

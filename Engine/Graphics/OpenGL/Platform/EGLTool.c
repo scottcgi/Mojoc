@@ -24,12 +24,12 @@ void CreateEGL(EGLNativeWindowType window, EGLDisplay* outDisplay, EGLContext* o
 
     if (*outDisplay == EGL_NO_DISPLAY)
     {
-        ALogA(false, "CreateEGL failed EGL unable to eglGetDisplay");
+        ALogA(false, "CreateEGL error EGL unable to eglGetDisplay");
     }
 
     if (!eglInitialize(*outDisplay, NULL/*major*/, NULL/*minor*/))
     {
-        ALogA(false, "CreateEGL failed EGL unable to eglInitialize");
+        ALogA(false, "CreateEGL error EGL unable to eglInitialize");
     }
 
     EGLint numConfigs;
@@ -57,20 +57,20 @@ void CreateEGL(EGLNativeWindowType window, EGLDisplay* outDisplay, EGLContext* o
 
     if (numConfigs < 1)
     {
-        ALogA(false, "CreateEGL failed no config match eglChooseConfig");
+        ALogA(false, "CreateEGL error no config match eglChooseConfig");
     }
 
     EGLint surfaceAttrs[] =
     {
-            EGL_RENDER_BUFFER,
-            EGL_BACK_BUFFER,
-            EGL_NONE
+        EGL_RENDER_BUFFER,
+        EGL_BACK_BUFFER,
+        EGL_NONE
     };
 
     *outSurface = eglCreateWindowSurface(*outDisplay, *outConfig, window, surfaceAttrs);
     if (*outSurface == EGL_NO_SURFACE)
     {
-        ALogA(false, "CreateEGL failed EGL unable to eglCreateWindowSurface");
+        ALogA(false, "CreateEGL error EGL unable to eglCreateWindowSurface");
     }
 
     EGLint contextAttribs[] =
@@ -82,12 +82,12 @@ void CreateEGL(EGLNativeWindowType window, EGLDisplay* outDisplay, EGLContext* o
     *outContext = eglCreateContext(*outDisplay, *outConfig, EGL_NO_CONTEXT, contextAttribs);
     if (*outContext == EGL_NO_CONTEXT)
     {
-        ALogA(false, "CreateEGL failed EGL unable to eglCreateContext");
+        ALogA(false, "CreateEGL error EGL unable to eglCreateContext");
     }
 
     if (!eglMakeCurrent(*outDisplay, *outSurface, *outSurface, *outContext))
     {
-        ALogA(false, "CreateEGL failed EGL unable to eglMakeCurrent");
+        ALogA(false, "CreateEGL error EGL unable to eglMakeCurrent");
     }
 
 //	eglSwapInterval(*outDisplay, 0);
@@ -136,7 +136,7 @@ static void ResetSurface(EGLNativeWindowType window, EGLDisplay display, EGLCont
 
     if (eglMakeCurrent(display, *surface, *surface, context) == false)
     {
-        ALogA(false, "ResetSurface failed EGL unable to eglMakeCurrent");
+        ALogA(false, "ResetSurface error EGL unable to eglMakeCurrent");
     }
 }
 

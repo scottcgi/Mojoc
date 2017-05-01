@@ -75,7 +75,7 @@ struct AFile
      * Android: internal data directory
      * IOS    : document data directory
      */
-    char* (*GetAbsolutePath)   ();
+    const char* (*GetAbsolutePath)();
 };
 
 

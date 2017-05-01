@@ -277,7 +277,7 @@ static inline void SkipWhiteSpace(char** jsonPtr)
 		json++;
 	}
 
-	ALogA(json != NULL, "The Json Parse failed on NULL, json is incomplete");
+	ALogA(json != NULL, "The Json Parse error on NULL, json is incomplete");
 	
 	*jsonPtr = json;
 }
@@ -478,7 +478,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
 			goto label_json_object_end;
 		}
 		
-		ALogA(**jsonPtr == '\"', "Json object Parse failed, char = %c, should be '\"' ", **jsonPtr);
+		ALogA(**jsonPtr == '\"', "Json object Parse error, char = %c, should be '\"' ", **jsonPtr);
 
 		int   keyLen = SkipString(jsonPtr);
 		char* key    = (char*) *jsonPtr;
@@ -487,7 +487,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
 		*jsonPtr += keyLen + 1;
 
 		SkipWhiteSpace(jsonPtr);
-		ALogA((**jsonPtr) == ':', "Json object Parse failed, char = %c, should be ':' ", **jsonPtr);
+		ALogA((**jsonPtr) == ':', "Json object Parse error, char = %c, should be ':' ", **jsonPtr);
 
 		// skip ':'
 		(*jsonPtr)++;

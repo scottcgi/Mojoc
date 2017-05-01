@@ -476,7 +476,7 @@ static struct ATweenTool* SetFadeTo(float fadeTo)
 
 static void RunActions(void* target)
 {
-	ALogA(target, "RunActions, target must not NULL");
+	ALogA(target != NULL, "RunActions, target must not NULL");
 
 	for (int i = 0; i < actionArr->length; i++)
 	{

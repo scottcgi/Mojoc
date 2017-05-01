@@ -58,16 +58,6 @@ struct AGLTool
 	void (*SetSize)                (int width, int height);
 
 	/**
-	 * Check and print GL error
-	 */
-	void (*CheckGLError)           (char* printMsg);
-
-	/**
-	 * Print GL string value
-	 */
-	void (*PrintGLString)          (char *name, GLenum s);
-
-	/**
 	 * Compile a shader
 	 * shaderType is GL_VERTEX_SHADER or GL_FRAGMENT_SHADER
 	 */

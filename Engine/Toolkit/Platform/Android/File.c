@@ -67,9 +67,9 @@ static int Seek(File* file, long offset, int whence)
 }
 
 
-static char* GetAbsolutePath()
+static const char* GetAbsolutePath()
 {
-	return (char*) nativeActivity->internalDataPath;
+	return nativeActivity->internalDataPath;
 }
 
 

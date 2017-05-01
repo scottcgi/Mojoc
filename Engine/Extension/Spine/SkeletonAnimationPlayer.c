@@ -115,7 +115,7 @@ static inline void InitSkeletonAnimationPlayer(SkeletonAnimationPlayer* player, 
 	ASkeleton->Init(skeletonData, player->skeleton);
 	player->preAnimationData      = NULL;
 	player->curAnimationData      = ASkeletonGetAnimationData(player->skeleton, animationName);
-	ALogA(player->curAnimationData, "SkeletonAnimationPlayer can not find animtionData by name = %s", animationName);
+	ALogA(player->curAnimationData != NULL, "SkeletonAnimationPlayer can not find animtionData by name = %s", animationName);
 
 	player->curTime               = 0.0f;
 	player->preTime               = 0.0f;

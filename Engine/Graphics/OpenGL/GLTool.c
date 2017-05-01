@@ -27,21 +27,6 @@ static void SetSize(int width, int height)
 }
 
 
-static void CheckGLError(char* printMsg)
-{
-    for (GLint error = glGetError(); error; error = glGetError())
-    {
-        ALogE("after %s() glError (0x%x)", printMsg, error);
-    }
-}
-
-
-static void PrintGLString(char *name, GLenum s)
-{
-    ALogD("GL %s = %s", name, (char*) glGetString(s));
-}
-
-
 static GLuint LoadShader(GLenum shaderType, char* shaderSource)
 {
 	// create the shader object
@@ -49,7 +34,7 @@ static GLuint LoadShader(GLenum shaderType, char* shaderSource)
 
 	if (shader == 0)
 	{
-		CheckGLError("glCreateShader");
+		ALogE("glCreateShader error !");
 		return shader;
 	}
 
@@ -68,11 +53,12 @@ static GLuint LoadShader(GLenum shaderType, char* shaderSource)
 	{
 		GLint infoLen = 0;
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
+
 		if (infoLen > 0)
 		{
 			char buf[infoLen];
 			glGetShaderInfoLog(shader, infoLen, NULL, buf);
-			ALogE("could not compile shader %d:%s", shaderType, buf);
+			ALogE("could not compile shader %d: %s", shaderType, buf);
 
 			glDeleteShader(shader);
 
@@ -109,7 +95,7 @@ static GLuint LoadProgram(char* vertexSource, char* fragmentSource)
 
 	if (program == 0)
 	{
-		CheckGLError("glCreateProgram");
+        ALogE("glCreateProgram error !");
 		return 0;
 	}
 
@@ -189,7 +175,7 @@ static void LoadTexture(char* filePath, Texture* outTexture)
 	 float height;
 
 	 void* pixels = AImage->CreatePixelDataFromPng(filePath, &width, &height);
-	 ALogA(pixels != NULL, "LoadTexture failed, no pixls data");
+	 ALogA(pixels != NULL, "LoadTexture error, no pixls data");
 
 	 // load the data into the bound outTexture
 	 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei) width, (GLsizei) height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
@@ -203,11 +189,15 @@ static void LoadTexture(char* filePath, Texture* outTexture)
 
 struct AGLTool AGLTool[1] =
 {
-	0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-	SetSize,
+	0.0f,
+    0.0f,
+    0.0f,
+    0.0f,
+    0.0f,
+    0.0f,
+    0.0f,
 
-	CheckGLError,
-	PrintGLString,
+	SetSize,
 
 	LoadShader,
 	LoadProgram,
