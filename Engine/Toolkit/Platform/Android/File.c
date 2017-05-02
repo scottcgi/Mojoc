@@ -67,7 +67,7 @@ static int Seek(File* file, long offset, int whence)
 }
 
 
-static const char* GetAbsolutePath()
+static const char* GetAbsoluteDirPath()
 {
 	return nativeActivity->internalDataPath;
 }
@@ -81,7 +81,7 @@ struct AFile AFile[1] =
 	GetLength,
 	Read,
 	Seek,
-    GetAbsolutePath,
+    GetAbsoluteDirPath,
 };
 
 

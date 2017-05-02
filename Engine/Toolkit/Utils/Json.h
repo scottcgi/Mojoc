@@ -93,7 +93,7 @@ struct AJsonObject
     /**
      * Get JsonObject key
      */
-	char* (*GetKey)                (JsonObject* object, int   index);
+	char*       (*GetKey)          (JsonObject* object, int   index);
 
 	/**
 	 * Get JsonObject in index of JsonObject map

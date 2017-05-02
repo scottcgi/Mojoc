@@ -13,77 +13,12 @@
 #include "Engine/Toolkit/Platform/File.h"
 
 
-static FILE* Open(char* absoluteFilePath)
-{
-    FILE* file = fopen(absoluteFilePath, "rb");
-    ALogA(file != NULL, "AFileTool open error, absolute file path path = %s", absoluteFilePath);
-    
-	return file;
-}
-
-
-static void Close(FILE* file)
-{
-    fclose(file);
-}
-
-
-static long GetLength(FILE* file)
-{
-    fseek(file, 0, SEEK_END);
-    long length = ftell(file);
-    fseek(file, 0, SEEK_SET);
-    
-	return length;
-}
-
-
-static int Read(FILE* file, void* buffer, size_t count)
-{
-	return (int) fread(buffer, count, 1, file);
-}
-
-
-static int Seek(FILE* file, long offset, int whence)
-{
-	return fseek(file, offset, whence);
-}
-
-
-static char* CreateBuffer(char* absoluteFilePath, long* outLength)
-{
-    void* file   = Open(absoluteFilePath);
-    long  length = GetLength(file);
-    char* buffer = (char*) malloc(length);
-    *outLength   = length;
-
-    Read (file, buffer, length);
-    Close(file);
-
-    return buffer;
-}
-
-
-static char* CreateString(char* absoluteFilePath)
-{
-    void* file     = Open(absoluteFilePath);
-    long  length   = GetLength(file);
-    char* buffer   = (char*) malloc(length + 1);
-    buffer[length] = '\0';
-    
-    Read (file, buffer, length);
-    Close(file);
-    
-    return buffer;
-}
-
-
 static int GetDirLength(char* filePath)
 {
     char* lastForwardSlash  = strrchr(filePath, '/');
     char* lastBackwardSlash = strrchr(filePath, '\\');
     char* lastSlash         = AMathMax(lastForwardSlash, lastBackwardSlash);
-    
+
     if (lastSlash != NULL)
     {
         // include last slash
@@ -96,10 +31,46 @@ static int GetDirLength(char* filePath)
 }
 
 
+static char* CreateDataFrom(char* absoluteFilePath, long* outLength)
+{
+    FILE* file   = fopen(absoluteFilePath, "rb");
+
+    fseek(file, 0, SEEK_END);
+    long  length = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    char* buffer = (char*) malloc(length);
+    *outLength   = length;
+
+    fread (buffer, length, 1, file);
+    fclose(file);
+
+    return buffer;
+}
+
+
+static char* CreateStringFrom(char* absoluteFilePath)
+{
+    FILE* file     = fopen(absoluteFilePath, "rb");
+
+    fseek(file, 0, SEEK_END);
+    long  length   = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    char* buffer   = (char*) malloc(length + 1);
+    buffer[length] = '\0';
+
+    fread (buffer, length, 1, file);
+    fclose(file);
+    
+    return buffer;
+}
+
+
 //--------------------------------------------------------------------------------------------------
 
 
-static char* CreateBufferRelative(char* relativeFilePath, long* outLength)
+static char* CreateDataFromRes(char* relativeFilePath, long* outLength)
 {
     File* file   = AFile->Open(relativeFilePath);
     long  length = AFile->GetLength(file);
@@ -113,7 +84,7 @@ static char* CreateBufferRelative(char* relativeFilePath, long* outLength)
 }
 
 
-static char* CreateStringRelative(char* relativeFilePath)
+static char* CreateStringFromRes(char* relativeFilePath)
 {
     File* file     = AFile->Open(relativeFilePath);
     long  length   = AFile->GetLength(file);
@@ -127,17 +98,76 @@ static char* CreateStringRelative(char* relativeFilePath)
 }
 
 
+//--------------------------------------------------------------------------------------------------
+
+
+static char* dir = NULL;
+static int   len = 0;
+
+
+static char* CreateDataFromDir(char* relativeFilePath, int* outLength)
+{
+    if (dir == NULL)
+    {
+        dir = AFile->GetAbsoluteDirPath();
+        len = strlen(dir);
+    }
+
+    char path[len + strlen(relativeFilePath) + 2];
+    sprintf(path, "%s/%s", dir, relativeFilePath);
+
+    FILE* f = fopen(path, "rb");
+
+    if (f != NULL)
+    {
+        fseek(f, 0, SEEK_END);
+
+        int   length = (int) ftell(f);
+        char* data   = malloc(length);
+        *outLength   = length;
+
+        fseek (f,    0,  SEEK_SET);
+        fread (data, length, 1, f);
+        fclose(f);
+
+        return data;
+    }
+    else
+    {
+        *outLength = 0;
+        return NULL;
+    }
+}
+
+
+static int WriteDataToDir(char* relativeFilePath, void* data, int length)
+{
+    ALogA(data != NULL && length > -1, "FileTool WriteDataToDir error, data == NULL or length < 0");
+
+    if (dir == NULL)
+    {
+        dir = AFile->GetAbsoluteDirPath();
+        len = strlen(dir);
+    }
+
+    char path[len + strlen(relativeFilePath) + 2];
+    sprintf(path, "%s/%s", dir, relativeFilePath);
+
+    FILE* f = fopen(path, "wb");
+    fwrite(data, length, 1, f);
+    fclose(f);
+}
+
+
 struct AFileTool AFileTool[1] =
 {
-	Open,
-	Close,
-	GetLength,
-	Read,
-	Seek,
     GetDirLength,
-	CreateBuffer,
-	CreateString,
+	CreateDataFrom,
+	CreateStringFrom,
 
-    CreateBufferRelative,
-    CreateStringRelative,
+    CreateDataFromRes,
+    CreateStringFromRes,
+
+    CreateDataFromDir,
+    WriteDataToDir,
 };

@@ -37,7 +37,7 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 	AArrayList  ->InitWithCapacity(sizeof(Texture*),         5,  outTextureAtlas->textureList);
 
 	long  size;
-	char* buffer = AFileTool->CreateBufferRelative(filePath, &size);
+	char* buffer = AFileTool->CreateDataFromRes(filePath, &size);
 
 	ArrayRange range[1] = {0, (int) size - 1};
 	ArrayRange line [1];

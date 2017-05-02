@@ -605,7 +605,7 @@ static JsonValue* Parse(char* jsonString)
 
 static JsonValue* ParseWithFile(char* jsonPath)
 {
-	char*        jsonString = AFileTool->CreateStringRelative(jsonPath);
+	char*        jsonString = AFileTool->CreateStringFromRes(jsonPath);
 	JsonValue*   value      = Parse(jsonString);
 	free(jsonString);
 

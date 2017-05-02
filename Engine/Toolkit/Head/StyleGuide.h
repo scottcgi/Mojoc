@@ -68,7 +68,7 @@
 
 //--------------------------------------------------------------------------------------------------
 
-  In function body code comment use '//', all other like struct property, function define use '/**'.
+  In function body code comment use '//', struct property and function define use '/**'.
 
   The "{" and "}" in separate line.
 
@@ -92,8 +92,12 @@
 
 //--------------------------------------------------------------------------------------------------
 
-  Empty Two lines between method and block comment and type define.
+  Empty two lines between method and block comment and type define.
   Empty one line  between struct property and split line
+
+//--------------------------------------------------------------------------------------------------
+
+   The const for variables is not modified in both user and implementor.
 
 ----------------------------------------------------------------------------------------------------
 */

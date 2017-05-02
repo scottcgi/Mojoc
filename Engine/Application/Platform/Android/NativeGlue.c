@@ -21,6 +21,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#include "Engine/Toolkit/Utils/FileTool.h"
 #include "Engine/Graphics/OpenGL/Platform/EGLTool.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Application/Application.h"
@@ -345,23 +346,6 @@ static void* ThreadRun(void* param)
 //--------------------------------------------------------------------------------------------------
 
 
-static inline void SaveData(ANativeActivity* activity)
-{
-    void* outSaveData;
-    int   outSize;
-    AApplication->callbacks->OnGetSaveData(&outSaveData, &outSize);
-
-//--------------------------------------------------------------------------------------------------
-
-    char filePath[100];
-    sprintf(filePath, "%s/%s", activity->internalDataPath, save_data_file_name);
-
-    FILE* f = fopen(filePath, "wb");
-    fwrite(outSaveData, outSize, 1, f);
-    fclose(f);
-}
-
-
 static void OnStart(ANativeActivity* activity)
 {
 	ALogD("NativeActivity OnStart");
@@ -375,11 +359,17 @@ static void OnResume(ANativeActivity* activity)
 }
 
 
-static void* OnSaveInstanceState(ANativeActivity* activity, size_t* outSize)
+static void* OnSaveInstanceState(ANativeActivity* activity, size_t* outSaveSize)
 {
 	ALogD("NativeActivity OnSaveInstanceState");
-    SaveData(activity);
-    *outSize = 0;
+
+    void* outSaveData;
+    int   outSize;
+    AApplication->callbacks->OnGetSaveData(&outSaveData, &outSize);
+
+    AFileTool->WriteDataToDir(save_data_file_name, outSaveData, outSize);
+
+    *outSaveSize = 0;
 	return NULL;
 }
 
@@ -512,22 +502,13 @@ void ANativeActivityOnCreate(ANativeActivity* activity, void* savedState, size_t
 
 //--------------------------------------------------------------------------------------------------
 
-    char filePath[100];
-    sprintf(filePath, "%s/%s", activity->internalDataPath, save_data_file_name);
+    int   length;
+    void* data = AFileTool->CreateDataFromDir(save_data_file_name, &length);
 
-    FILE* f = fopen(filePath, "rb");
-    if (f != NULL)
+    if (data != NULL)
     {
-        fseek(f, 0, SEEK_END);
-        long  length = ftell(f);
-        char* data   = malloc(length);
-        fseek(f, 0, SEEK_SET);
-
-        fread(data, length, 1, f);
         AApplication->callbacks->OnSetSaveData(data, length);
-
         free(data);
-        fclose(f);
     }
 
 //--------------------------------------------------------------------------------------------------

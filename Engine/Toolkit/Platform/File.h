@@ -27,7 +27,7 @@ struct AFile
 	 *
 	 * relativeFilePath:
 	 *     Android: assets
-	 *     IOS    : NSBUndle
+	 *     IOS    : NSBundle
 	 */
     File* (*Open)             (char* relativeFilePath);
 
@@ -37,7 +37,7 @@ struct AFile
      *
      * relativeFilePath:
 	 *     Android: assets
-	 * 	   IOS    : NSBUndle
+	 * 	   IOS    : NSBundle
      *
      * returns < 0 if direct fd access is not possible (for example, if the asset is compressed)
      */
@@ -75,7 +75,7 @@ struct AFile
      * Android: internal data directory
      * IOS    : document data directory
      */
-    const char* (*GetAbsolutePath)();
+    const char* (*GetAbsoluteDirPath)();
 };
 
 
