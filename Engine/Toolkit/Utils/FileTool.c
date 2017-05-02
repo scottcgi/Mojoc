@@ -101,8 +101,8 @@ static char* CreateStringFromRes(char* relativeFilePath)
 //--------------------------------------------------------------------------------------------------
 
 
-static char* dir = NULL;
-static int   len = 0;
+static const char* dir = NULL;
+static int         len = 0;
 
 
 static char* CreateDataFromDir(char* relativeFilePath, int* outLength)
@@ -110,7 +110,7 @@ static char* CreateDataFromDir(char* relativeFilePath, int* outLength)
     if (dir == NULL)
     {
         dir = AFile->GetAbsoluteDirPath();
-        len = strlen(dir);
+        len = (int) strlen(dir);
     }
 
     char path[len + strlen(relativeFilePath) + 2];
@@ -140,14 +140,14 @@ static char* CreateDataFromDir(char* relativeFilePath, int* outLength)
 }
 
 
-static int WriteDataToDir(char* relativeFilePath, void* data, int length)
+static void WriteDataToDir(char* relativeFilePath, void* data, int length)
 {
     ALogA(data != NULL && length > -1, "FileTool WriteDataToDir error, data == NULL or length < 0");
 
     if (dir == NULL)
     {
         dir = AFile->GetAbsoluteDirPath();
-        len = strlen(dir);
+        len = (int) strlen(dir);
     }
 
     char path[len + strlen(relativeFilePath) + 2];

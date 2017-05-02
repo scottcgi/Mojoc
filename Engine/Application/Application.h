@@ -91,37 +91,42 @@ struct AApplication
 	/**
 	 * Initialize each modules
 	 */
-	void (*Init)   ();
+	void (*Init)            ();
 
 	/**
 	 * Called every frame
 	 */
-	void (*Loop)   ();
+	void (*Loop)            ();
 
     /**
      * Called when OpenGL ready to rendering
      */
-    void (*GLReady)(int width, int height);
+    void (*GLReady)         (int width, int height);
 
     /**
      * Called when window resized
      */
-    void (*Resized)(int width, int height);
+    void (*Resized)         (int width, int height);
 
     /**
      * Called when application pause
      */
-    void (*Pause)  ();
+    void (*Pause)           ();
 
     /**
      * Called when application resume from pause
      */
-    void (*Resume) ();
+    void (*Resume)          ();
 
     /**
      * Called when receive touch event
      */
-    void (*Touch)  (Array(InputTouch*)* touchData);
+    void (*Touch)           (Array(InputTouch*)* touchData);
+
+    /**
+     * Called when application need to save data
+     */
+    void (*SaveData)        ();
 };
 
 

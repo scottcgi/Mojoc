@@ -28,9 +28,6 @@
 #include "Engine/Application/Input.h"
 
 
-static const char* save_data_file_name = "NDKSaveDataFile";
-
-
 ANativeActivity* nativeActivity;
 
 
@@ -362,14 +359,10 @@ static void OnResume(ANativeActivity* activity)
 static void* OnSaveInstanceState(ANativeActivity* activity, size_t* outSaveSize)
 {
 	ALogD("NativeActivity OnSaveInstanceState");
-
-    void* outSaveData;
-    int   outSize;
-    AApplication->callbacks->OnGetSaveData(&outSaveData, &outSize);
-
-    AFileTool->WriteDataToDir(save_data_file_name, outSaveData, outSize);
-
     *outSaveSize = 0;
+
+    AApplication->SaveData();
+
 	return NULL;
 }
 
@@ -499,17 +492,6 @@ void ANativeActivityOnCreate(ANativeActivity* activity, void* savedState, size_t
     activity->callbacks->onLowMemory                = OnLowMemory;
 
     AApplication->Init();
-
-//--------------------------------------------------------------------------------------------------
-
-    int   length;
-    void* data = AFileTool->CreateDataFromDir(save_data_file_name, &length);
-
-    if (data != NULL)
-    {
-        AApplication->callbacks->OnSetSaveData(data, length);
-        free(data);
-    }
 
 //--------------------------------------------------------------------------------------------------
 

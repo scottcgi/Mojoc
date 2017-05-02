@@ -21,20 +21,20 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-static File* Open(char* filePath)
+static File* Open(char* relativeFilePath)
 {
-    NSString* fpath = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:filePath] ofType:@""];
-    FILE*     file  = fopen([fpath cStringUsingEncoding:NSMacOSRomanStringEncoding], "rb");
+    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:relativeFilePath] ofType:nil];
+    FILE*     file = fopen([path cStringUsingEncoding:NSMacOSRomanStringEncoding], "rb");
     
-    ALogA(file != NULL, "AFile open error, file path = %s", filePath);
+    ALogA(file != NULL, "AFile open error, file path = %s", relativeFilePath);
     
 	return (File*) file;
 }
 
 
-static int OpenFileDescriptor(char* filePath, long* outStart, long* outLength)
+static int OpenFileDescriptor(char* relativeFilePath, long* outStart, long* outLength)
 {
-    ALogA(NULL, "AFile OpenFileDescriptor not supported !");
+    ALogA(false, "AFile OpenFileDescriptor not supported !");
     return 0;
 }
 
@@ -67,6 +67,22 @@ static int Seek(File* file, long offset, int whence)
 }
 
 
+static const char* GetAbsoluteDirPath()
+{
+    static char* absoluteDirPath = NULL;
+    
+    if (absoluteDirPath == NULL)
+    {
+        NSString*   str = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        absoluteDirPath = malloc(str.length);
+        
+        memcpy(absoluteDirPath, str.UTF8String, str.length);
+    }
+    
+    return absoluteDirPath;
+}
+
+
 struct AFile AFile[1] =
 {
 	Open,
@@ -75,6 +91,7 @@ struct AFile AFile[1] =
 	GetLength,
 	Read,
 	Seek,
+    GetAbsoluteDirPath,
 };
 
 

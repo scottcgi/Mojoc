@@ -17,10 +17,11 @@
 #include "Engine/Physics/PhysicsWorld.h"
 #include "Engine/Toolkit/Utils/Coroutine.h"
 #include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Toolkit/Utils/FileTool.h"
 
-
-static struct timespec now;
-static struct timespec last;
+static const char* save_data_file_name = "MojocSaveDataFile";
+static struct      timespec now;
+static struct      timespec last;
 
 
 static void Init()
@@ -42,6 +43,19 @@ static void Init()
     ALogA(AApplication->callbacks->OnResized     != NULL, "AApplication->callbacks->OnResized     must set");
     ALogA(AApplication->callbacks->OnGetSaveData != NULL, "AApplication->callbacks->OnGetSaveData must set");
     ALogA(AApplication->callbacks->OnSetSaveData != NULL, "AApplication->callbacks->OnSetSaveData must set");
+
+//--------------------------------------------------------------------------------------------------
+
+    int   length;
+    void* data = AFileTool->CreateDataFromDir((char*) save_data_file_name, &length);
+
+    if (data != NULL)
+    {
+        AApplication->callbacks->OnSetSaveData(data, length);
+        free(data);
+    }
+
+//--------------------------------------------------------------------------------------------------
 
     // start clock
     clock_gettime(CLOCK_MONOTONIC, &last);
@@ -116,6 +130,16 @@ static void Touch(Array(InputTouch*)* touchData)
 }
 
 
+static void SaveData()
+{
+    void* outSaveData;
+    int   outSize;
+    AApplication->callbacks->OnGetSaveData(&outSaveData, &outSize);
+
+    AFileTool->WriteDataToDir((char*) save_data_file_name, outSaveData, outSize);
+}
+
+
 struct AApplication AApplication[1] =
 {
 	{
@@ -131,13 +155,14 @@ struct AApplication AApplication[1] =
             }
         },
 
-		.Init    = Init,
-		.Loop    = Loop,
-        .GLReady = GLReady,
-        .Resized = Resized,
-        .Pause   = Pause,
-        .Resume  = Resume,
-        .Touch   = Touch,
+		.Init                 = Init,
+		.Loop                 = Loop,
+        .GLReady              = GLReady,
+        .Resized              = Resized,
+        .Pause                = Pause,
+        .Resume               = Resume,
+        .Touch                = Touch,
+        .SaveData             = SaveData,
 	}
 };
 
