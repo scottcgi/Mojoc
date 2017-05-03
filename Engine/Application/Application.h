@@ -37,32 +37,35 @@ typedef struct
 	/**
 	 * Called when application window ready, openGL ready
 	 */
-	void (*OnReady)      ();
+	void (*OnReady)           ();
 
 	/**
 	 * Called when application going into the background
 	 */
-	void (*OnPause)      ();
+	void (*OnPause)           ();
 
 	/**
 	 * Called when application going into the foreground
 	 */
-	void (*OnResume)     ();
+	void (*OnResume)          ();
 
 	/**
 	 * Called when application surface size changed
 	 */
-	void (*OnResized)    (int width, int height);
+	void (*OnResized)         (int width, int height);
 
     /**
      * Called when application request save persistent data
+     *
+     * outSaveData: the persistent data ptr will be saved
+     * outLength  : the persistent data bytes count
      */
-    void (*OnGetSaveData)(void** outSaveData, int* outLength);
+    void (*OnSaveData)        (void** outSaveData, int* outLength);
 
     /**
-     * Called when application start then set saved persistent data
+     * Called when application init and have saved data
      */
-    void (*OnSetSaveData)(void*  savedData,   int  length);
+    void (*OnInitWithSavedData)(void* savedData,   int  length);
 }
 ApplicationCallbacks;
 
