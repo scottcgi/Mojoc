@@ -40,25 +40,25 @@ extern struct ASkeletonSlot ASkeletonSlot[1];
 
 static inline SkeletonBoundingboxAttachmentData* ASkeletonSlotGetBoundingBox(SkeletonSlot* slot)
 {
-	return (SkeletonBoundingboxAttachmentData*) slot->attachmentData->subPtr;
+	return (SkeletonBoundingboxAttachmentData*) slot->attachmentData->childPtr;
 }
 
 
 static inline SkeletonRegionAttachmentData* ASkeletonSlotGetRegion(SkeletonSlot* slot)
 {
-	return (SkeletonRegionAttachmentData*) slot->attachmentData->subPtr;
+	return (SkeletonRegionAttachmentData*) slot->attachmentData->childPtr;
 }
 
 
 static inline SkeletonMeshAttachmentData* ASkeletonSlotGetMesh(SkeletonSlot* slot)
 {
-	return (SkeletonMeshAttachmentData*) slot->attachmentData->subPtr;
+	return (SkeletonMeshAttachmentData*) slot->attachmentData->childPtr;
 }
 
 
 static inline SkeletonSkinnedMeshAttachmentData* ASkeletonSlotGetSkinned(SkeletonSlot* slot)
 {
-	return (SkeletonSkinnedMeshAttachmentData*) slot->attachmentData->subPtr;
+	return (SkeletonSkinnedMeshAttachmentData*) slot->attachmentData->childPtr;
 }
 
 

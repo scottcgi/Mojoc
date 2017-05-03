@@ -73,7 +73,7 @@ static void Release(SkeletonData* skeletonData)
 
 			for (int k = 0; k < attachmentDataMap->elementList->size; k++)
 			{
-				free(AArrayStrMapGetAt(attachmentDataMap, k, SkeletonAttachmentData*)->subPtr);
+				free(AArrayStrMapGetAt(attachmentDataMap, k, SkeletonAttachmentData*)->childPtr);
 			}
 
 			AArrayStrMap->Release(attachmentDataMap);
@@ -103,7 +103,7 @@ static void Release(SkeletonData* skeletonData)
 		{
 			SkeletonTimeline* timeline = AArrayListGet(timelineList, i, SkeletonTimeline*);
 			timeline->Release(timeline);
-			free(timeline->subPtr);
+			free(timeline->childPtr);
 		}
 		AArrayList->Release(timelineList);
 
@@ -304,8 +304,8 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 			SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*)
 																  malloc(sizeof(SkeletonRegionAttachmentData) + length);
 
-			attachmentData         = regionAttachmentData->attachmentData;
-			attachmentData->subPtr = regionAttachmentData;
+			attachmentData           = regionAttachmentData->attachmentData;
+			attachmentData->childPtr = regionAttachmentData;
 
 		}
 		break;
@@ -315,8 +315,8 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 			SkeletonBoundingboxAttachmentData* boundingboxAttachmentData = (SkeletonBoundingboxAttachmentData*)
 																			malloc(sizeof(SkeletonBoundingboxAttachmentData) + length);
 
-			attachmentData         = boundingboxAttachmentData->attachmentData;
-			attachmentData->subPtr = boundingboxAttachmentData;
+			attachmentData           = boundingboxAttachmentData->attachmentData;
+			attachmentData->childPtr = boundingboxAttachmentData;
 
 		}
 		break;
@@ -325,7 +325,7 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 		{
 			SkeletonMeshAttachmentData* meshAttachmentData = (SkeletonMeshAttachmentData*) malloc(sizeof(SkeletonMeshAttachmentData) + length);
 			attachmentData                                 = meshAttachmentData->attachmentData;
-			attachmentData->subPtr                         = meshAttachmentData;
+			attachmentData->childPtr                       = meshAttachmentData;
 
 		}
 		break;
@@ -334,7 +334,7 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 		{
 			SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData = (SkeletonSkinnedMeshAttachmentData*) malloc(sizeof(SkeletonSkinnedMeshAttachmentData) + length);
 			attachmentData                                               = skinnedMeshAttachmentData->meshAttachmentData->attachmentData;
-			attachmentData->subPtr                                       = skinnedMeshAttachmentData;
+			attachmentData->childPtr                                     = skinnedMeshAttachmentData;
 
 		}
 		break;
@@ -374,7 +374,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 			attachmentData                                     = CreateAttachmentData(length + nameLength, skeleton_attachment_region);
 			length                                            += sizeof(SkeletonRegionAttachmentData);
 
-			SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->subPtr;
+			SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->childPtr;
 
 			regionAttachmentData->x                            = AJsonObject->GetFloat(attachmentDataObject, "x", 0.0f)        * ASkeletonData->scale;
 			regionAttachmentData->y                            = AJsonObject->GetFloat(attachmentDataObject, "y", 0.0f)        * ASkeletonData->scale;
@@ -411,7 +411,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 			attachmentData                                               = CreateAttachmentData(length + nameLength, skeleton_attachment_boundingbox);
 			length                                                      += sizeof(SkeletonBoundingboxAttachmentData);
 
-			SkeletonBoundingboxAttachmentData* boundingboxAttachmentData = (SkeletonBoundingboxAttachmentData*) attachmentData->subPtr;
+			SkeletonBoundingboxAttachmentData* boundingboxAttachmentData = (SkeletonBoundingboxAttachmentData*) attachmentData->childPtr;
 			boundingboxAttachmentData->vertexArr->length                 = jsonVertexArr->arrayList->size;
 			boundingboxAttachmentData->vertexArr->data                   = (char*) boundingboxAttachmentData + sizeof(SkeletonBoundingboxAttachmentData);
 			float* vertices                                              = AArrayGetData(boundingboxAttachmentData->vertexArr, float);
@@ -440,7 +440,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 			attachmentData                                 = CreateAttachmentData(length + nameLength, skeleton_attachment_mesh);
 			length                                        += sizeof(SkeletonMeshAttachmentData);
 
-			SkeletonMeshAttachmentData* meshAttachmentData = (SkeletonMeshAttachmentData*) attachmentData->subPtr;
+			SkeletonMeshAttachmentData* meshAttachmentData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
 
 			meshAttachmentData->isUVMappedInTexture        = false;
 			meshAttachmentData->vertexArr->length          = verticesCount;
@@ -527,7 +527,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 			length                                        += sizeof(SkeletonSkinnedMeshAttachmentData);
 
 			SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData
-			                                               = (SkeletonSkinnedMeshAttachmentData*) attachmentData->subPtr;
+			                                               = (SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr;
 
 			SkeletonMeshAttachmentData* meshAttachmentData = skinnedMeshAttachmentData->meshAttachmentData;
 
@@ -599,7 +599,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 			meshAttachmentData->height                     = AGLToolToGLHeight(meshAttachmentData->height);
 		}
 
-		attachmentData->name = ((char*) attachmentData->subPtr) + length;
+		attachmentData->name = ((char*) attachmentData->childPtr) + length;
 		memcpy(attachmentData->name, attachmentName, nameLength);
 
 		AArrayStrMapPut(attachmentDataMap, name, attachmentData);
@@ -1119,18 +1119,18 @@ static inline void ReadAnimationDeform
 					case skeleton_attachment_region:
 					case skeleton_attachment_boundingbox:
 						ALogA(false, "readAnimationDeform wrong attchmentData->attachmentDataType");
-						break;
+					break;
 
 					case skeleton_attachment_mesh:
 					{
-						meshVertices = ((SkeletonMeshAttachmentData*) attchmentData->subPtr)->vertexArr;
+						meshVertices = ((SkeletonMeshAttachmentData*) attchmentData->childPtr)->vertexArr;
 					}
 					break;
 
 
 					case skeleton_attachment_skinned_mesh:
 					{
-						meshVertices = ((SkeletonSkinnedMeshAttachmentData*) attchmentData->subPtr)->weightVertexArr;
+						meshVertices = ((SkeletonSkinnedMeshAttachmentData*) attchmentData->childPtr)->weightVertexArr;
 					}
 					break;
 				}
@@ -1410,7 +1410,7 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 				{
 					case skeleton_attachment_region:
 					{
-						SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->subPtr;
+						SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->childPtr;
 						regionAttachmentData->meshIndex                    = atlasQuad->textureIndex;
 						regionAttachmentData->quad                         = atlasQuad->quad;
 						regionAttachmentData->subMeshIndex                 = quadCounts[atlasQuad->textureIndex]++;
@@ -1420,11 +1420,11 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 					SkeletonMeshAttachmentData* meshData;
 
 					case skeleton_attachment_skinned_mesh:
-						meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->subPtr)->meshAttachmentData;
+						meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr)->meshAttachmentData;
 
 					case skeleton_attachment_mesh:
 					{
-						meshData                        = (SkeletonMeshAttachmentData*) attachmentData->subPtr;
+						meshData                        = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
 						meshData->meshIndex             = atlasQuad->textureIndex;
 						meshData->quad                  = atlasQuad->quad;
 						meshData->subMeshIndex          = quadCounts[atlasQuad->textureIndex]++;

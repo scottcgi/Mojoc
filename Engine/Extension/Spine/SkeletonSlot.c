@@ -19,7 +19,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 	{
 		case skeleton_attachment_region:
 		{
-			SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->subPtr;
+			SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->childPtr;
 			SubMesh*                      subMesh              = AArrayListGet
 																 (
 																	 AArrayListGetPtr(slot->skeleton->meshList, regionAttachmentData->meshIndex, Mesh)->childList,
@@ -40,7 +40,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 
 		case skeleton_attachment_mesh:
 		{
-			SkeletonMeshAttachmentData* meshAttachmentData = (SkeletonMeshAttachmentData*) attachmentData->subPtr;
+			SkeletonMeshAttachmentData* meshAttachmentData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
 			SubMesh*                    subMesh            = AArrayListGet
 															 (
 																 AArrayListGetPtr(slot->skeleton->meshList, meshAttachmentData->meshIndex, Mesh)->childList,
@@ -57,7 +57,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 
 		case skeleton_attachment_skinned_mesh:
 		{
-			SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData = (SkeletonSkinnedMeshAttachmentData*) attachmentData->subPtr;
+			SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData = (SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr;
 			SkeletonMeshAttachmentData*        meshAttachmentData        = skinnedMeshAttachmentData->meshAttachmentData;
 			SubMesh*                           subMesh                   = AArrayListGet
 																	   	   (

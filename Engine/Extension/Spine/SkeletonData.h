@@ -108,7 +108,7 @@ typedef struct
 	/**
 	 * Subclass attachment pointer
 	 */
-	void*                      subPtr;
+	void*                      childPtr;
 	SkeletonAttachmentDataType type;
 }
 SkeletonAttachmentData;

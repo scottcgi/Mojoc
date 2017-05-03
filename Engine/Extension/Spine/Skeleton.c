@@ -15,8 +15,8 @@
 
 static inline SubMesh* GetAttachmentSubMesh(Skeleton* skeleton, SkeletonAttachmentData* skeletonAttachmentData)
 {
-	int meshIndex    = *(int*) ((char*) (skeletonAttachmentData)->subPtr + skeletonAttachmentMeshOffset   [(skeletonAttachmentData)->type]);
-	int subMeshIndex = *(int*) ((char*) (skeletonAttachmentData)->subPtr + skeletonAttachmentSubMeshOffset[(skeletonAttachmentData)->type]);
+	int meshIndex    = *(int*) ((char*) (skeletonAttachmentData)->childPtr + skeletonAttachmentMeshOffset   [(skeletonAttachmentData)->type]);
+	int subMeshIndex = *(int*) ((char*) (skeletonAttachmentData)->childPtr + skeletonAttachmentSubMeshOffset[(skeletonAttachmentData)->type]);
 
 	return AArrayListGet
 		   (
@@ -306,7 +306,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 		{
 			case skeleton_attachment_region:
 			{
-				SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->subPtr;
+				SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->childPtr;
 				subMesh                                            =  AMesh->AddChildWithQuad
 																	  (
 																		 AArrayListGetPtr
@@ -334,11 +334,11 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 			SkeletonMeshAttachmentData* meshData;
 
 			case skeleton_attachment_skinned_mesh:
-				meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->subPtr)->meshAttachmentData;
+				meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr)->meshAttachmentData;
                 
 			case skeleton_attachment_mesh:
 			{
-				meshData = (SkeletonMeshAttachmentData*) attachmentData->subPtr;
+				meshData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
 
 				if (meshData->isUVMappedInTexture == false)
 				{

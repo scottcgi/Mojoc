@@ -49,7 +49,7 @@ struct  SkeletonTimeline
 	/**
 	 * Subclass pointer which inheritance SkeletonTimeline
 	 */
-	void* subPtr;
+	void* childPtr;
 };
 
 

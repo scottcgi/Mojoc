@@ -14,8 +14,7 @@
 
 /**
  * AApplication receive this type of subject message
- * then 'OnMessage' called for handle
- * and the sender is AApplication
+ * then 'OnMessage' called for handle and the sender is AApplication
  *
  * these messages callback from target platform
  */
