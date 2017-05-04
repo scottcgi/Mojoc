@@ -304,22 +304,22 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 			SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*)
 																  malloc(sizeof(SkeletonRegionAttachmentData) + length);
 
-			attachmentData           = regionAttachmentData->attachmentData;
-			attachmentData->childPtr = regionAttachmentData;
+			attachmentData                                     = regionAttachmentData->attachmentData;
+			attachmentData->childPtr                           = regionAttachmentData;
 
-		}
-		break;
+            break;
+        }
 
 		case skeleton_attachment_boundingbox:
 		{
 			SkeletonBoundingboxAttachmentData* boundingboxAttachmentData = (SkeletonBoundingboxAttachmentData*)
 																			malloc(sizeof(SkeletonBoundingboxAttachmentData) + length);
 
-			attachmentData           = boundingboxAttachmentData->attachmentData;
-			attachmentData->childPtr = boundingboxAttachmentData;
+			attachmentData                                               = boundingboxAttachmentData->attachmentData;
+			attachmentData->childPtr                                     = boundingboxAttachmentData;
 
-		}
-		break;
+            break;
+        }
 
 		case skeleton_attachment_mesh:
 		{
@@ -327,8 +327,8 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 			attachmentData                                 = meshAttachmentData->attachmentData;
 			attachmentData->childPtr                       = meshAttachmentData;
 
-		}
-		break;
+            break;
+        }
 
 		case skeleton_attachment_skinned_mesh:
 		{
@@ -336,8 +336,8 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 			attachmentData                                               = skinnedMeshAttachmentData->meshAttachmentData->attachmentData;
 			attachmentData->childPtr                                     = skinnedMeshAttachmentData;
 
-		}
-		break;
+            break;
+        }
 	}
 
 	attachmentData->type = attachmentDataType;
@@ -693,11 +693,9 @@ static inline void ReadCurve(SkeletonCurveTimeline* curveTimeline, int frameInde
 				AJsonArray->GetFloat(curveArr, 2),
 				AJsonArray->GetFloat(curveArr, 3)
 			);
-		}
-		break;
 
-		default:
-			break;
+            break;
+        }
 	}
 }
 
@@ -1122,17 +1120,13 @@ static inline void ReadAnimationDeform
 					break;
 
 					case skeleton_attachment_mesh:
-					{
 						meshVertices = ((SkeletonMeshAttachmentData*) attchmentData->childPtr)->vertexArr;
-					}
-					break;
+                        break;
 
 
 					case skeleton_attachment_skinned_mesh:
-					{
 						meshVertices = ((SkeletonSkinnedMeshAttachmentData*) attchmentData->childPtr)->weightVertexArr;
-					}
-					break;
+                        break;
 				}
 
 				for (int l = 0, frameIndex = 0; l < jsonMeshArr->arrayList->size; l++, frameIndex++)
@@ -1423,13 +1417,11 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 						meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr)->meshAttachmentData;
 
 					case skeleton_attachment_mesh:
-					{
 						meshData                        = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
 						meshData->meshIndex             = atlasQuad->textureIndex;
 						meshData->quad                  = atlasQuad->quad;
 						meshData->subMeshIndex          = quadCounts[atlasQuad->textureIndex]++;
-					}
-					break;
+                        break;
 				}
 			}
 		}

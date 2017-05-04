@@ -112,9 +112,9 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                             )
 						)
 					);
-				}
-				break;
 
+                    break;
+				}
 
 				// not first pointer down
 				case AMOTION_EVENT_ACTION_POINTER_DOWN:
@@ -135,9 +135,9 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                             )
 						)
 					);
-				}
-				break;
 
+                    break;
+				}
 
 				// first pinter up
 				case AMOTION_EVENT_ACTION_UP:
@@ -156,8 +156,9 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                             )
 						)
 					);
+
+                    break;
 				}
-				break;
 
 
 				// not first pointer up
@@ -179,8 +180,10 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                             )
 						)
 					);
+
+                    break;
 				}
-				break;
+
 
 				case AMOTION_EVENT_ACTION_MOVE:
 				{
@@ -204,8 +207,9 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 					(
 						(Array[]) {touches, count}
 					);
+
+                    break;
 				}
-				break;
 
 
 				case AMOTION_EVENT_ACTION_CANCEL:
@@ -230,8 +234,9 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                     (
                         (Array[]) {touches, count}
                     );
+
+                    break;
 				}
-				break;
 
 				default:
 					return 0;
@@ -241,9 +246,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 		}
 
 		case AINPUT_EVENT_TYPE_KEY:
-		{
-		}
-
+            break;
     }
 
     // default dispatching

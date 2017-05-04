@@ -72,8 +72,6 @@
 
   The "{" and "}" in separate line.
 
-  The 'break' in separate line, not in same line with '{' or '}'.
-
   Try regional vertical alignment.
 
 //--------------------------------------------------------------------------------------------------
@@ -97,7 +95,11 @@
 
 //--------------------------------------------------------------------------------------------------
 
-   The const for variables is not modified in both user and implementor.
+   The 'const' for variables is not modified in both user and implementor.
+
+   Use tab key indent which 4 spaces
+
+   The 'break' tab indent in switch case
 
 ----------------------------------------------------------------------------------------------------
 */

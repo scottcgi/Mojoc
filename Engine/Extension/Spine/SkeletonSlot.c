@@ -35,8 +35,9 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 			ADrawableSetPosition2(drawable, regionAttachmentData->x, regionAttachmentData->y);
 			ADrawableSetRotationZ(drawable, regionAttachmentData->rotationZ);
 			ADrawableSetScale2   (drawable, regionAttachmentData->scaleX, regionAttachmentData->scaleY);
+
+			break;
 		}
-		break;
 
 		case skeleton_attachment_mesh:
 		{
@@ -52,8 +53,9 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
             drawable->width                                = meshAttachmentData->width;
             drawable->height                               = meshAttachmentData->height;
 			ADrawableSetParent(drawable, slot->bone->drawable);
-		}
-		break;
+
+            break;
+        }
 
 		case skeleton_attachment_skinned_mesh:
 		{
@@ -104,8 +106,9 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 			drawable = subMesh->drawable;
 			// we compute final world coordinate, so no parent
 			ADrawableSetParent(drawable, NULL);
-		}
-		break;
+
+            break;
+        }
 
 		default:
 			return;

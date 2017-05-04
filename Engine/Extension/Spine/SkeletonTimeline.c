@@ -1093,8 +1093,8 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
 			positionArr                                = subMesh->positionArr;
 			position                                   = AArrayGetData(positionArr, float);
 
-		}
-		break;
+            break;
+        }
 
 		case skeleton_attachment_skinned_mesh:
 		{
@@ -1102,8 +1102,8 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
 			positionArr                                              = skinnedMeshAttachment->weightVertexArr;
 			position                                                 = AArrayGetData(positionArr, float);
 
-		}
-		break;
+            break;
+        }
 	}
 
 	int frameLength = deformTimeline->frameArr->length;

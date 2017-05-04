@@ -328,8 +328,9 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 					subMesh->drawable->width  = regionAttachmentData->width;
 					subMesh->drawable->height = regionAttachmentData->height;
 				}
+
+				break;
 			}
-			break;
 
 			SkeletonMeshAttachmentData* meshData;
 
@@ -383,8 +384,9 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 					subMesh->drawable->width  = meshData->width;
 					subMesh->drawable->height = meshData->height;
 				}
+
+                break;
 			}
-			break;
 		}
 
 		// first born invisible

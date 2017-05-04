@@ -214,8 +214,9 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
     		matrix4->m9  = 0.0f;
     		matrix4->m10 = 1.0f;
 
+            break;
     	}
-    	break;
+
 
     	case 4:
 		{ // x y z  1 0 0
@@ -231,8 +232,9 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
             matrix4->m9  = -s;
             matrix4->m10 = c;
 
+            break;
     	}
-    	break;
+
 
     	case 2:
 		{ // x y z  0 1 0
@@ -248,8 +250,9 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
             matrix4->m9  = 0.0f;
             matrix4->m10 = c;
 
+            break;
     	}
-    	break;
+
 
     	default:
 		{

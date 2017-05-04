@@ -36,8 +36,9 @@ static void Release(JsonValue* value)
 			}
 
 			AArrayList->Release(list);
+
+            break;
 		}
-		break;
 
 		case json_object:
 		{
@@ -48,11 +49,9 @@ static void Release(JsonValue* value)
 			}
 
 			AArrayStrMap->Release(map);
-		}
-		break;
 
-		default:
-			break;
+            break;
+		}
 	}
 
 	free(value);
@@ -70,15 +69,13 @@ static inline JsonValue* CreateJsonValue(void* data, size_t valueSize, JsonType 
 			break;
 
 	    case json_string:
-	    {
 	    	value->stringValue = memcpy
-	    			             (
-									 (char*) value + sizeof(JsonValue),
-									 data,
-									 valueSize
-								 );
-	    }
-	    break;
+                                 (
+                                     (char*) value + sizeof(JsonValue),
+                                     data,
+                                     valueSize
+                                 );
+            break;
 
 	    case json_array:
 	    	value->array = (JsonArray*) ((char*) value + sizeof(JsonValue));

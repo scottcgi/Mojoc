@@ -227,8 +227,9 @@ static void SetString(FontText* text, char* str)
                 ADrawableSetPositionX(subMesh->drawable, text->drawable->width);
                 text->drawable->width += subMesh->drawable->width + text->charSpacing;
             }
+
+            break;
         }
-        break;
 
         case font_text_alignment_horizontal_right:
         {
@@ -244,8 +245,9 @@ static void SetString(FontText* text, char* str)
                 ADrawableSetPositionX(subMesh->drawable, -text->drawable->width);
                 text->drawable->width += subMesh->drawable->width + text->charSpacing;
             }
+
+            break;
         }
-        break;
 
         case font_text_alignment_vertical_top:
         {
@@ -261,8 +263,9 @@ static void SetString(FontText* text, char* str)
                 ADrawableSetPositionY(subMesh->drawable, text->drawable->height);
                 text->drawable->height -= subMesh->drawable->height + text->charSpacing;
             }
+
+            break;
         }
-        break;
 
         case font_text_alignment_vertical_bottom:
         {
@@ -278,8 +281,9 @@ static void SetString(FontText* text, char* str)
                 ADrawableSetPositionY(subMesh->drawable, -text->drawable->height);
                 text->drawable->height -= subMesh->drawable->height + text->charSpacing;
             }
+
+            break;
         }
-        break;
     }
 }
 
