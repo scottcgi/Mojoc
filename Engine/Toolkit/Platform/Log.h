@@ -36,11 +36,11 @@
 #include <stdio.h>
 
 
-#define ALogD(...) // printf(__VA_ARGS__)
+#define ALogD(...)
 #define ALogI(...)
 #define ALogW(...)
-#define ALogE(...)
-#define ALogA(e, ...) e ? (void) 0 : printf(__VA_ARGS__);printf("\n"),  assert(e);
+#define ALogE(...)    printf(__VA_ARGS__), printf("\n");
+#define ALogA(e, ...) e ? (void) 0 : printf(__VA_ARGS__), printf("\n"),  assert(e);
 
 
 //--------------------------------------------------------------------------------------------------

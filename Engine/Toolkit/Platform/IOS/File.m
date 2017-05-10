@@ -12,7 +12,6 @@
 #ifdef is_platform_ios
 //--------------------------------------------------------------------------------------------------
 
-
 #include <stdio.h>
 #include <Foundation/Foundation.h>
 
@@ -34,8 +33,16 @@ static File* Open(char* relativeFilePath)
 
 static int OpenFileDescriptor(char* relativeFilePath, long* outStart, long* outLength)
 {
-    ALogA(false, "AFile OpenFileDescriptor not supported !");
-    return 0;
+    FILE* file = (FILE*) Open(relativeFilePath);
+    int   fd   = fileno(file);
+    
+    fseek(file, 0, SEEK_END);
+    *outLength = ftell(file);
+    
+    fseek(file, 0, SEEK_SET);
+    *outStart  = ftell(file);
+    
+    return fd;
 }
 
 
