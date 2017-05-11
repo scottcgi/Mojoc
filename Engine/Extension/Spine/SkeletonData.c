@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <Engine/Toolkit/Utils/Json.h>
+#include <Engine/Toolkit/Utils/ArrayStrMap.h>
 
 #include "Engine/Extension/Spine/SkeletonData.h"
 #include "Engine/Toolkit/Utils/Json.h"
@@ -1188,7 +1190,7 @@ static inline void ReadAnimationData(JsonObject* root, SkeletonData* skeletonDat
 	ArrayStrMap* animationDataMap    = skeletonData->animationDataMap;
 
 	ALogA(animationDataObject, "readAnimationData not found animations");
-	ALogD("AnimationData size = %d", animationDataObject->arrayStrMap->arrayList->size);
+	ALogD("AnimationData size = %d", animationDataObject->arrayStrMap->elementList->size);
 
 	AArrayStrMap->InitWithCapacity
 	(
@@ -1366,7 +1368,7 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 		// search all skin attachment
 		for (int j = 0; j < skinDataMap->elementList->size; j++)
 		{
-			// char*          skinName          = AArrayStrMap->GetKey(skinDataMap, j);
+            char*             skinName          = AArrayStrMap->GetKey(skinDataMap, j);
 			SkeletonSkinData* skinData          = AArrayStrMapGetAt(skinDataMap, j, SkeletonSkinData*);
 			ArrayStrMap*      slotAttachmentMap = skinData->slotAttachmentMap;
 			ArrayStrMap*      attachmentMap     = AArrayStrMapGet(slotAttachmentMap, slotData->name, ArrayStrMap*);

@@ -294,6 +294,7 @@ static void* ThreadRun(void* param)
             case main_thread_on_destroy:
                 // call in main thread
                 AEGLTool->DestroyEGL(&AData->display, &AData->context, &AData->surface);
+                AApplication->Destroy();
                 return NULL;
 
             case main_thread_on_pause: // sometimes before resized

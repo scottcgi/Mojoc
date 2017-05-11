@@ -48,6 +48,11 @@ typedef struct
 	 */
 	void (*OnResume)          ();
 
+    /**
+     * Called when application is being destroyed
+     */
+    void (*OnDestroy)         ();
+
 	/**
 	 * Called when application surface size changed
 	 */
@@ -75,7 +80,7 @@ ApplicationCallbacks;
 struct AApplication
 {
 	/**
-	 * Root Component when OnCreated can add child on
+	 * Root Component when OnReady can add child on
 	 */
 	Component             component[1];
 
@@ -119,6 +124,11 @@ struct AApplication
      * Called when application resume from pause
      */
     void (*Resume)          ();
+
+    /**
+     * Called when application destroyed
+     */
+    void (*Destroy)         ();
 
     /**
      * Called when receive touch event

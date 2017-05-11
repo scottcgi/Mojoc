@@ -34,8 +34,7 @@ static void Init()
     	AGLInfo->version = 2.0f;
     }
     
-    ALogD("\n version = %f",      AGLInfo->version);
-    ALogD("\n isSupportVAO = %d", AGLInfo->isSupportVAO);
+    ALogD("\n version = %f", AGLInfo->version);
 
     glGetFloatv(GL_ALIASED_POINT_SIZE_RANGE,             AGLInfo->pointSizeRange);
     ALogD("\n GL_ALIASED_POINT_SIZE_RANGE[%f, %f]",      AGLInfo->pointSizeRange[0], AGLInfo->pointSizeRange[1]);

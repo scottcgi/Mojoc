@@ -22,6 +22,11 @@ struct AAudio
     void         (*Init)            ();
 
     /**
+     * Destroy audio engine
+     */
+    void         (*Release)         ();
+
+    /**
      * Every frame update
      */
     void         (*Update)          (float deltaSeconds);

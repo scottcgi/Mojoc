@@ -18,6 +18,7 @@
 #include "Engine/Toolkit/Utils/Coroutine.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Utils/FileTool.h"
+#include "Application.h"
 
 
 static const char* save_data_file_name = "MojocSaveDataFile";
@@ -41,6 +42,7 @@ static void Init()
     ALogA(AApplication->callbacks->OnReady             != NULL, "AApplication->callbacks->OnReady             must be set");
     ALogA(AApplication->callbacks->OnPause             != NULL, "AApplication->callbacks->OnPause             must be set");
     ALogA(AApplication->callbacks->OnResume            != NULL, "AApplication->callbacks->OnResume            must be set");
+    ALogA(AApplication->callbacks->OnDestroy           != NULL, "AApplication->callbacks->OnDestroy           must be set");
     ALogA(AApplication->callbacks->OnResized           != NULL, "AApplication->callbacks->OnResized           must be set");
     ALogA(AApplication->callbacks->OnSaveData          != NULL, "AApplication->callbacks->OnSaveData          must be set");
     ALogA(AApplication->callbacks->OnInitWithSavedData != NULL, "AApplication->callbacks->OnInitWithSavedData must be set");
@@ -119,6 +121,13 @@ static void Resume()
 }
 
 
+static void Destroy()
+{
+    AAudio->Release();
+    AApplication->callbacks->OnDestroy();
+}
+
+
 static void Touch(Array(InputTouch*)* touchData)
 {
     AComponent->SendMessageToChildren
@@ -150,6 +159,7 @@ struct AApplication AApplication[1] =
                .OnReady             = NULL,
                .OnPause             = NULL,
                .OnResume            = NULL,
+               .OnDestroy           = NULL,
                .OnResized           = NULL,
                .OnSaveData          = NULL,
                .OnInitWithSavedData = NULL,
@@ -162,6 +172,7 @@ struct AApplication AApplication[1] =
         .Resized  = Resized,
         .Pause    = Pause,
         .Resume   = Resume,
+        .Destroy  = Destroy,
         .Touch    = Touch,
         .SaveData = SaveData,
 	}

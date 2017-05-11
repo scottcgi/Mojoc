@@ -264,9 +264,20 @@ static AudioPlayer* GetPlayer(char* filePath)
 }
 
 
+static void Release()
+{
+    (*engineObject)   ->Destroy(engineObject);
+    (*outputMixObject)->Destroy(outputMixObject);
+
+    engineObject    = NULL;
+    engineEngine    = NULL;
+    outputMixObject = NULL;
+}
+
 struct AAudio AAudio[1] =
 {
     Init,
+    Release,
     Update,
     SetLoopPause,
     SetLoopResume,

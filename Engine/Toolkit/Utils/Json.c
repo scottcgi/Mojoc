@@ -13,6 +13,7 @@
 #include "Engine/Toolkit/Utils/Json.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Utils/FileTool.h"
+#include "ArrayStrMap.h"
 
 
 /**
@@ -522,7 +523,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
 	label_json_object_end:
 	// skip '}'
 	(*jsonPtr)++;
-	ALogD("} JsonObject elements count = %d", map->arrayList->size);
+	ALogD("} JsonObject elements count = %d", map->elementList->size);
 
 	return jsonValue;
 }
