@@ -61,7 +61,10 @@ struct AArrayStrMap
 	 *
 	 * valuePtr: point to value
 	 *
-	 * return valuePtr in ArrayStrMap
+	 * if key not exist in ArrayStrMap
+	 *     return valuePtr in ArrayStrMap
+	 * else
+	 *     return NULL
 	 */
 	void*        (*Put)                (ArrayStrMap* arrayStrMap, char* key, void* valuePtr);
 

@@ -60,7 +60,10 @@ struct AArrayIntMap
 	 *
 	 * valuePtr: point to value, value data copy in ArrayIntMapElement
 	 *
-	 * return valuePtr in ArrayIntMap
+	 * if key not exist in ArrayIntMap
+	 *     return valuePtr in ArrayIntMap
+	 * else
+	 *     return NULL
 	 */
 	void*        (*Put)               (ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr);
 

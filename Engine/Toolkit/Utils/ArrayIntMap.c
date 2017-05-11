@@ -73,15 +73,20 @@ static void* Put(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 {
 	int guess = BinarySearch(arrayIntMap->elementList, key);
 
-	ALogA(guess < 0, "ArrayIntMap put key = %zd, has already exist", key);
+    if (guess < 0)
+    {
+        ArrayIntMapElement* element = (ArrayIntMapElement*) malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
+        element->key                = key;
+        element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
 
-	ArrayIntMapElement* element = (ArrayIntMapElement*) malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
-	element->key                = key;
-	element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
+        AArrayListInsert(arrayIntMap->elementList, -guess - 1, element);
 
-	AArrayListInsert(arrayIntMap->elementList, -guess - 1, element);
-
-    return memcpy(element->valuePtr, valuePtr, arrayIntMap->valueTypeSize);
+        return memcpy(element->valuePtr, valuePtr, arrayIntMap->valueTypeSize);
+    }
+    else
+    {
+        return NULL;
+    }
 }
 
 

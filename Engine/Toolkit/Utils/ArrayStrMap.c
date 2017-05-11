@@ -86,19 +86,24 @@ static void* Put(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 	int keyLength = (int) strlen(key) + 1;
 	int guess     = BinarySearch(arrayStrMap->elementList, key, keyLength);
 
-	ALogA(guess < 0, "ArrayStrMap put key = %s, has already exist", key);
+	if (guess < 0)
+	{
+		int                 valueTypeSize = arrayStrMap->valueTypeSize;
+		ArrayStrMapElement* element       = (ArrayStrMapElement*) malloc(sizeof(ArrayStrMapElement) + valueTypeSize + keyLength);
 
-	int                 valueTypeSize = arrayStrMap->valueTypeSize;
-	ArrayStrMapElement* element       = (ArrayStrMapElement*) malloc(sizeof(ArrayStrMapElement) + valueTypeSize + keyLength);
+		element->keyLength                = keyLength;
+		element->valuePtr                 = (char*) element + sizeof(ArrayStrMapElement);
+		element->key                      = (char*) element->valuePtr + valueTypeSize;
+		memcpy((void*) element->key, key, keyLength);
 
-	element->keyLength                = keyLength;
-	element->valuePtr                 = (char*) element + sizeof(ArrayStrMapElement);
-	element->key                      = (char*) element->valuePtr + valueTypeSize;
-	memcpy((void*) element->key, key, keyLength);
+		AArrayListInsert(arrayStrMap->elementList, -guess - 1, element);
 
-	AArrayListInsert(arrayStrMap->elementList, -guess - 1, element);
-
-    return memcpy(element->valuePtr, valuePtr, valueTypeSize);
+		return memcpy(element->valuePtr, valuePtr, valueTypeSize);
+	}
+	else
+	{
+		return NULL;
+	}
 }
 
 

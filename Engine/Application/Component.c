@@ -65,12 +65,15 @@ static void AddChild(Component* parent, Component* child, int order)
 	ALogA(parent != NULL && child != NULL, "Component addChild error, parent and child can not NULL");
 	ALogA(child->parent == NULL,           "Component addChild error, child already has parent");
 
-	int index = AArrayIntMap->GetIndex(parent->childMap, order);
-	ALogA(index < 0, "Component addChild error, order = %d already exist", order);
-
-	child->order  = order;
-	child->parent = parent;
-	AArrayIntMapInsertAt(parent->childMap, order, -index - 1, child);
+    if (AArrayIntMapPut(parent->childMap, order, child) != NULL)
+    {
+        child->order  = order;
+        child->parent = parent;
+    }
+    else
+    {
+        ALogA(false, "Component addChild error, order = %d already exist", order);
+    }
 }
 
 
