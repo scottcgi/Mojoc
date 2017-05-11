@@ -145,13 +145,7 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
         tweenData = GetTweenData();
         tweenId   = tweenData;
 
-        AArrayIntMapInsertAt
-        (
-            dataMap,
-            tweenId,
-            -AArrayIntMap->GetIndex(dataMap, (intptr_t) tweenId) - 1,
-            tweenData
-        );
+		AArrayIntMapPut(dataMap, tweenId, tweenData);
 	}
     else
     {

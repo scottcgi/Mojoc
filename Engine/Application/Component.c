@@ -68,8 +68,8 @@ static void AddChild(Component* parent, Component* child, int order)
 	int index = AArrayIntMap->GetIndex(parent->childMap, order);
 	ALogA(index < 0, "Component addChild error, order = %d already exist", order);
 
-	child->order          = order;	
-	child->parent         = parent;
+	child->order  = order;
+	child->parent = parent;
 	AArrayIntMapInsertAt(parent->childMap, order, -index - 1, child);
 }
 

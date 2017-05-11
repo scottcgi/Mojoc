@@ -399,9 +399,19 @@ static AudioPlayer* GetPlayer(char* filePath)
 }
 
 
+static void Release()
+{
+    // release context
+    alcDestroyContext(context);
+    
+    // close device
+    alcCloseDevice(device);
+}
+
 struct AAudio AAudio[1] =
 {
     Init,
+    Release,
     Update,
     SetLoopPause,
     SetLoopResume,
