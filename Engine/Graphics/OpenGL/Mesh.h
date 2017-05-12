@@ -15,7 +15,7 @@
 #include "Engine/Graphics/OpenGL/Texture.h"
 #include "Engine/Toolkit/Utils/Array.h"
 #include "Engine/Toolkit/Utils/ArrayQueue.h"
-#include "Engine/Graphics/OpenGL/MeshDef.h"
+#include "Engine/Graphics/OpenGL/MeshDefine.h"
 
 
 /**

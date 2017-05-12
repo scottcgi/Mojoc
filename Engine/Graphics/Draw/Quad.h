@@ -9,7 +9,7 @@
 #define quad_h
 
 
-#include "Engine/Graphics/OpenGL/MeshDef.h"
+#include "Engine/Graphics/OpenGL/MeshDefine.h"
 #include "Engine/Toolkit/Utils/Array.h"
 #include "Engine/Graphics/OpenGL/Texture.h"
 

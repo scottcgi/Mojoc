@@ -9,7 +9,7 @@
 #define sub_mesh_h
 
 
-#include "Engine/Graphics/OpenGL/MeshDef.h"
+#include "Engine/Graphics/OpenGL/MeshDefine.h"
 #include "Engine/Graphics/Draw/Drawable.h"
 #include "Engine/Graphics/Draw/Quad.h"
 
