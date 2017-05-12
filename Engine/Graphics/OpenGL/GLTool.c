@@ -34,7 +34,7 @@ static GLuint LoadShader(GLenum shaderType, char* shaderSource)
 
 	if (shader == 0)
 	{
-		ALogE("glCreateShader error !");
+		ALogE("glCreateShader failed !");
 		return shader;
 	}
 
@@ -95,7 +95,7 @@ static GLuint LoadProgram(char* vertexSource, char* fragmentSource)
 
 	if (program == 0)
 	{
-        ALogE("glCreateProgram error !");
+        ALogE("glCreateProgram failed !");
 		return 0;
 	}
 
@@ -175,7 +175,7 @@ static void LoadTexture(char* filePath, Texture* outTexture)
 	 float height;
 
 	 void* pixels = AImage->CreatePixelDataFromPng(filePath, &width, &height);
-	 ALogA(pixels != NULL, "LoadTexture error, no pixls data");
+	 ALogA(pixels != NULL, "AGLTool LoadTexture failed, no pixls data");
 
 	 // load the data into the bound outTexture
 	 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei) width, (GLsizei) height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);

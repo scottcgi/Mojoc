@@ -142,7 +142,7 @@ static char* CreateDataFromDir(char* relativeDirFilePath, int* outLength)
 
 static void WriteDataToDir(char* relativeDirFilePath, void* data, int length)
 {
-    ALogA(data != NULL && length > -1, "FileTool WriteDataToDir error, data == NULL or length < 0");
+    ALogA(data != NULL && length > -1, "FileTool WriteDataToDir failed, data == NULL or length < 0");
 
     if (dir == NULL)
     {

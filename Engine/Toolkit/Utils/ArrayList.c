@@ -13,23 +13,23 @@
 
 
 #define CheckIndex(tag, index) \
-	ALogA(((index) < arrayList->size && (index) >= 0),  "ArrayList " tag " error, " #index " = %d, size = %d", index, arrayList->size);
+	ALogA(((index) < arrayList->size && (index) >= 0),  "ArrayList " tag " failed index error, index = %d, size = %d", index, arrayList->size);
 
 
 #define CheckInsertIndex(tag) \
-	ALogA(((index) <= arrayList->size && (index) >= 0), "ArrayList " tag " error, index = %d, size = %d", index, arrayList->size);
+	ALogA(((index) <= arrayList->size && (index) >= 0), "ArrayList " tag " failed index error, index = %d, size = %d", index, arrayList->size);
 
 
 static inline void AddCapacity(ArrayList* arrayList, int increase)
 {
-	ALogA(increase > 0, "ArrayList error, increase = %d can not <= 0", increase);
+	ALogA(increase > 0, "ArrayList AddCapacity failed, increase = %d can not <= 0", increase);
 
 	void* data = realloc(arrayList->elementArray->data, (increase + arrayList->elementArray->length) * arrayList->elementTypeSize);
 
 	ALogA
 	(
 	    data != NULL,
-		"ArrayList error, unable to realloc memory, size = %d, length = %d, increase = %d",
+		"ArrayList AddCapacity failed, unable to realloc memory, size = %d, length = %d, increase = %d",
 		arrayList->size, arrayList->elementArray->length, increase
 	);
 

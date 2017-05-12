@@ -76,7 +76,7 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
 	    {
 		  // free all of the memory associated with the png_ptr and info_ptr
 		  png_destroy_read_struct(&pngPtr, &infoPtr, &endInfo);
-		  ALogE("readPng error during setjmp : %s", filePath);
+		  ALogE("readPng failed during setjmp : %s", filePath);
 		  break;
 	    }
 

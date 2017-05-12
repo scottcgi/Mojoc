@@ -678,7 +678,7 @@ static void Perspective(float fovy, float aspect, float near, float far, Matrix4
     ALogA
     (
         far != near,
-        "Perspective error: far == near"
+        "AMatrix Perspective failed, because far == near"
     );
 
 	float f               = 1.0f / (float) tan(fovy * (math_pi / 360.0f));
@@ -711,7 +711,7 @@ static void Ortho(float left, float right, float bottom, float top, float near, 
     ALogA
 	(
 		right != left && top != bottom && far != near,
-		"Ortho error: right == left || top == bottom || far == near"
+		"AMatrix Ortho failed because right == left || top == bottom || far == near"
 	);
 
     float width        = 1.0f / (right - left);
@@ -748,7 +748,7 @@ static void Frustum(float left, float right, float bottom, float top, float near
     ALogA
 	(
 		right != left && top != bottom && near != far && near > 0.0f && far > 0.0f,
-		"Frustum error: right == left || top == bottom || near == far || near <= 0.0f || far <= 0.0f"
+		"AMatrix Frustum failed because right == left || top == bottom || near == far || near <= 0.0f || far <= 0.0f"
 	);
 
     float width        = 1.0f / (right - left);

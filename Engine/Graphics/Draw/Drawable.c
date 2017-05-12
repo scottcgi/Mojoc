@@ -475,8 +475,8 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
 		float parentScaleX   = GetWorldScaleX(parent);
 		float parentScaleY   = GetWorldScaleY(parent);
 
-		ALogA(parentScaleX  != 0.0f, "ConvertToParent error, parent getWorldScaleX can not 0.0f");
-		ALogA(parentScaleY  != 0.0f, "ConvertToParent error, parent getWorldScaleY can not 0.0f");
+		ALogA(parentScaleX  != 0.0f, "ConvertToParent failed, parent getWorldScaleX can not 0.0f");
+		ALogA(parentScaleY  != 0.0f, "ConvertToParent failed, parent getWorldScaleY can not 0.0f");
 
 		ADrawableSetScale2(drawable, worldScaleX / parentScaleX, worldScaleY / parentScaleY);
 
