@@ -281,8 +281,8 @@ static inline void SkipWhiteSpace(char** jsonPtr)
 }
 
 
-#define parse_nubmer_validate_by_strtof
-#ifdef  parse_nubmer_validate_by_strtof
+#define parse_number_validate_by_strtof
+#ifdef  parse_number_validate_by_strtof
 
 
 static inline void* ParseNumber(char** jsonPtr)
@@ -338,7 +338,7 @@ static inline void* ParseNumber(char** jsonPtr)
 
 
 #endif
-#undef parse_nubmer_validate_by_strtof
+#undef parse_number_validate_by_strtof
 
 
 static inline int SkipString(char** jsonPtr)

@@ -22,20 +22,20 @@ static void ReadPngData(png_structp pngPtr, png_bytep data, png_size_t length)
 }
 
 
-static void* CreatePixelDataFromPng(char* relativeFilePath, float* outWidth, float* outHeight)
+static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outHeight)
 {
 	void* pixelData = NULL;
 	File* file      = NULL;
 
 	do
 	{
-		file = AFile->Open(relativeFilePath);
+		file = AFile->Open(filePath);
 
 		unsigned char head[8];
 		AFile->Read(file, head, 8);
 		if (png_sig_cmp(head, 0, 8))
 		{
-			ALogE("file %s, is not PNG", relativeFilePath);
+			ALogE("file %s, is not PNG", filePath);
 			break;
 		}
 
@@ -47,7 +47,7 @@ static void* CreatePixelDataFromPng(char* relativeFilePath, float* outWidth, flo
 		png_structp pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 		if (!pngPtr)
 		{
-			ALogE("unable to create PNG structure: %s", relativeFilePath);
+			ALogE("unable to create PNG structure: %s", filePath);
 			break;
 		}
 
@@ -57,7 +57,7 @@ static void* CreatePixelDataFromPng(char* relativeFilePath, float* outWidth, flo
 		if (infoPtr == NULL)
 		{
 			png_destroy_read_struct(&pngPtr, NULL, NULL);
-			ALogE("unable to create PNG info : %s", relativeFilePath);
+			ALogE("unable to create PNG info : %s", filePath);
 			break;
 		}
 
@@ -65,7 +65,7 @@ static void* CreatePixelDataFromPng(char* relativeFilePath, float* outWidth, flo
 	    if (endInfo == NULL)
 	    {
 	        png_destroy_read_struct(&pngPtr, &infoPtr, NULL);
-	        ALogE("unable to create PNG end info : %s", relativeFilePath);
+	        ALogE("unable to create PNG end info : %s", filePath);
 	        break;
 	    }
 
@@ -76,7 +76,7 @@ static void* CreatePixelDataFromPng(char* relativeFilePath, float* outWidth, flo
 	    {
 		  // free all of the memory associated with the png_ptr and info_ptr
 		  png_destroy_read_struct(&pngPtr, &infoPtr, &endInfo);
-		  ALogE("readPng error during setjmp : %s", relativeFilePath);
+		  ALogE("readPng error during setjmp : %s", filePath);
 		  break;
 	    }
 
@@ -150,7 +150,7 @@ static void* CreatePixelDataFromPng(char* relativeFilePath, float* outWidth, flo
 	    if (pixelData == NULL)
 	    {
 	    	png_destroy_read_struct(&pngPtr, &infoPtr, &endInfo);
-	    	ALogE("unable to allocate PNG pixel data while loading %s", relativeFilePath);
+	    	ALogE("unable to allocate PNG pixel data while loading %s", filePath);
 	    	break;
 	    }
 
