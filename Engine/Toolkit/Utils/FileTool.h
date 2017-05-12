@@ -70,7 +70,7 @@ struct AFileTool
      * Indirect use AFile's GetAbsoluteDirPath()
      * read all file data into malloc buffer, with close file
      *
-     * relativeFilePath:
+     * relativeDirFilePath:
      *     Android: internal data directory
      *     IOS    : document data directory
      *
@@ -79,20 +79,20 @@ struct AFileTool
      * else
      *     return buffer pointer, need to free it after using
      */
-    char* (*CreateDataFromDir)  (char* relativeFilePath, int* outLength);
+    char* (*CreateDataFromDir)  (char* relativeDirFilePath, int* outLength);
 
 
     /**
      * Indirect use AFile's GetAbsoluteDirPath()
      * write data into relativeFilePath, with close file
      *
-     * relativeFilePath:
+     * relativeDirFilePath:
      *     Android: internal data directory
      *     IOS    : document data directory
      *
      * if file not exist will created
      */
-     void (*WriteDataToDir)     (char* relativeFilePath, void* data, int length);
+     void (*WriteDataToDir)     (char* relativeDirFilePath, void* data, int length);
 };
 
 

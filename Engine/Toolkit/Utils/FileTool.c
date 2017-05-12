@@ -105,7 +105,7 @@ static const char* dir = NULL;
 static int         len = 0;
 
 
-static char* CreateDataFromDir(char* relativeFilePath, int* outLength)
+static char* CreateDataFromDir(char* relativeDirFilePath, int* outLength)
 {
     if (dir == NULL)
     {
@@ -113,8 +113,8 @@ static char* CreateDataFromDir(char* relativeFilePath, int* outLength)
         len = (int) strlen(dir);
     }
 
-    char path[len + strlen(relativeFilePath) + 2];
-    sprintf(path, "%s/%s", dir, relativeFilePath);
+    char path[len + strlen(relativeDirFilePath) + 2];
+    sprintf(path, "%s/%s", dir, relativeDirFilePath);
 
     FILE* f = fopen(path, "rb");
 
@@ -140,7 +140,7 @@ static char* CreateDataFromDir(char* relativeFilePath, int* outLength)
 }
 
 
-static void WriteDataToDir(char* relativeFilePath, void* data, int length)
+static void WriteDataToDir(char* relativeDirFilePath, void* data, int length)
 {
     ALogA(data != NULL && length > -1, "FileTool WriteDataToDir error, data == NULL or length < 0");
 
@@ -150,8 +150,8 @@ static void WriteDataToDir(char* relativeFilePath, void* data, int length)
         len = (int) strlen(dir);
     }
 
-    char path[len + strlen(relativeFilePath) + 2];
-    sprintf(path, "%s/%s", dir, relativeFilePath);
+    char path[len + strlen(relativeDirFilePath) + 2];
+    sprintf(path, "%s/%s", dir, relativeDirFilePath);
 
     FILE* f = fopen(path, "wb");
     fwrite(data, length, 1, f);
