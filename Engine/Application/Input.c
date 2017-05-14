@@ -32,7 +32,7 @@ static InputTouch* SetTouch(int fingerId, float x, float y, InputTouchType type)
 
 static InputTouch* GetTouch(int fingerId)
 {
-    ALogA(fingerId > -1 && fingerId < 10, "AInput GetTouch fingerId = %d invalid", fingerId);
+    ALog_A(fingerId > -1 && fingerId < 10, "AInput GetTouch fingerId = %d invalid", fingerId);
     return touches + fingerId;
 }
 

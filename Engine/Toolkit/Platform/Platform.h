@@ -1,28 +1,27 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2015-5-6
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2015-5-6
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef platform_h
-#define platform_h
+#ifndef PLATFORM_H
+#define PLATFORM_H
 
 
-#define platform_android 0
-#define platform_ios     1
-#define platform_target  platform_android
+#define PLATFORM_ANDROID 0
+#define PLATFORM_IOS     1
+#define PLATFORM_TARGET  PLATFORM_ANDROID
 
 
 //--------------------------------------------------------------------------------------------------
-#if platform_target == platform_android
-
-    #define is_platform_android
-
-#elif platform_target == platform_ios
-
-    #define is_platform_ios
-
+#if PLATFORM_TARGET == PLATFORM_ANDROID
+    #define IS_PLATFORM_ANDROID
+#elif PLATFORM_TARGET == PLATFORM_IOS
+    #define IS_PLATFORM_IOS
 #endif
 //--------------------------------------------------------------------------------------------------
 

@@ -13,20 +13,20 @@
 
 
 #define CheckIndex(tag, index) \
-	ALogA(((index) < arrayList->size && (index) >= 0),  "ArrayList " tag " failed index error, index = %d, size = %d", index, arrayList->size);
+	ALog_A(((index) < arrayList->size && (index) >= 0),  "ArrayList " tag " failed index error, index = %d, size = %d", index, arrayList->size);
 
 
 #define CheckInsertIndex(tag) \
-	ALogA(((index) <= arrayList->size && (index) >= 0), "ArrayList " tag " failed index error, index = %d, size = %d", index, arrayList->size);
+	ALog_A(((index) <= arrayList->size && (index) >= 0), "ArrayList " tag " failed index error, index = %d, size = %d", index, arrayList->size);
 
 
 static inline void AddCapacity(ArrayList* arrayList, int increase)
 {
-	ALogA(increase > 0, "ArrayList AddCapacity failed, increase = %d can not <= 0", increase);
+	ALog_A(increase > 0, "ArrayList AddCapacity failed, increase = %d can not <= 0", increase);
 
 	void* data = realloc(arrayList->elementArray->data, (increase + arrayList->elementArray->length) * arrayList->elementTypeSize);
 
-	ALogA
+	ALog_A
 	(
 	    data != NULL,
 		"ArrayList AddCapacity failed, unable to realloc memory, size = %d, length = %d, increase = %d",
@@ -133,7 +133,7 @@ static void* Pop(ArrayList* arrayList, void* defaultElementPtr)
 
 static void AddArray(ArrayList* arrayList, void* data, int length, int elementTypeSize)
 {
-    ALogA
+    ALog_A
     (
         arrayList->elementTypeSize == elementTypeSize,
         "AddArray ArrayList elementTypeSize %d must equal Array elementTypeSize %d",
@@ -193,7 +193,7 @@ static void RemoveRange(ArrayList* arrayList, int fromIndex, int toIndex)
 {
 	CheckIndex("RemoveRange", fromIndex);
 	CheckIndex("RemoveRange", toIndex);
-	ALogA     (toIndex >=     fromIndex, "ArrayList RemoveRange toIndex must more than fromIndex");
+	ALog_A     (toIndex >=     fromIndex, "ArrayList RemoveRange toIndex must more than fromIndex");
 
 	int num          = toIndex         - fromIndex + 1;
 	int lastIndex    = arrayList->size - 1;
@@ -272,7 +272,7 @@ static void Shrink(ArrayList* arrayList)
 	else
 	{
 		void* data = realloc(arrayList->elementArray->data, arrayList->size * arrayList->elementTypeSize);
-		ALogA(data, "ArrayList Shrink error, size = %d ", arrayList->size);
+		ALog_A(data, "ArrayList Shrink error, size = %d ", arrayList->size);
 
 		arrayList->elementArray->data   = data;
 		arrayList->elementArray->length = arrayList->size;

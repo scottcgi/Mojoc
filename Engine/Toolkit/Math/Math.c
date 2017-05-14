@@ -44,7 +44,7 @@ static bool TestPolygonPoint(Array(float)* vertexArr, float x, float y)
 
 static void RotatePoints2(Array(float)* pointArr, float angle, Array(float)* outRotatedPointArr)
 {
-	ALogA(outRotatedPointArr->length >= pointArr->length, "outRotatedPointArr length must larger than pointArr");
+	ALog_A(outRotatedPointArr->length >= pointArr->length, "outRotatedPointArr length must larger than pointArr");
 
 	float  cos  = AMathCos(angle);
 	float  sin  = AMathSin(angle);

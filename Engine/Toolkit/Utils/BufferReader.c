@@ -10,7 +10,7 @@
 
 
 #define CheckIndex(tag) \
-	ALogA(range->start <= range->end, "ArrayRange " tag " start[%d] > end[%d]", range->start, range->end)
+	ALog_A(range->start <= range->end, "ArrayRange " tag " start[%d] > end[%d]", range->start, range->end)
 
 
 static int64_t ReadInt64(char* buffer, ArrayRange* range)
@@ -134,7 +134,7 @@ static void ReadLine(char* buffer, ArrayRange* range, ArrayRange* outLine)
 
 	range->start = start;
 
-	ALogD("ReadLine: string = %.*s", outLine->end - outLine->start + 1, buffer + outLine->start);
+	ALog_D("ReadLine: string = %.*s", outLine->end - outLine->start + 1, buffer + outLine->start);
 }
 
 
@@ -160,7 +160,7 @@ static bool TryFindString(char* buffer, ArrayRange* range, char* str)
 			if (str[pos] == '\0')
 			{
 				isFound = true;
-				ALogD("TryFindString %s", str);
+				ALog_D("TryFindString %s", str);
 			}
 
 			break;

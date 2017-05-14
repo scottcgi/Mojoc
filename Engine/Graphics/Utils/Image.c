@@ -35,7 +35,7 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
 		AFile->Read(file, head, 8);
 		if (png_sig_cmp(head, 0, 8))
 		{
-			ALogE("file %s, is not PNG", filePath);
+			ALog_E("file %s, is not PNG", filePath);
 			break;
 		}
 
@@ -47,7 +47,7 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
 		png_structp pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 		if (!pngPtr)
 		{
-			ALogE("unable to create PNG structure: %s", filePath);
+			ALog_E("unable to create PNG structure: %s", filePath);
 			break;
 		}
 
@@ -57,7 +57,7 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
 		if (infoPtr == NULL)
 		{
 			png_destroy_read_struct(&pngPtr, NULL, NULL);
-			ALogE("unable to create PNG info : %s", filePath);
+			ALog_E("unable to create PNG info : %s", filePath);
 			break;
 		}
 
@@ -65,7 +65,7 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
 	    if (endInfo == NULL)
 	    {
 	        png_destroy_read_struct(&pngPtr, &infoPtr, NULL);
-	        ALogE("unable to create PNG end info : %s", filePath);
+	        ALog_E("unable to create PNG end info : %s", filePath);
 	        break;
 	    }
 
@@ -76,7 +76,7 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
 	    {
 		  // free all of the memory associated with the png_ptr and info_ptr
 		  png_destroy_read_struct(&pngPtr, &infoPtr, &endInfo);
-		  ALogE("readPng failed during setjmp : %s", filePath);
+		  ALog_E("readPng failed during setjmp : %s", filePath);
 		  break;
 	    }
 
@@ -104,8 +104,8 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
 		*outWidth             = (float) pngWidth;
 		*outHeight            = (float) pngHeight;
 
-		ALogD("PNG outWidth = %f, outHeight = %f", *outWidth, *outHeight);
-		ALogD("PNG bitDepth = %d, colorType = %d",  bitDepth,  colorType);
+		ALog_D("PNG outWidth = %f, outHeight = %f", *outWidth, *outHeight);
+		ALog_D("PNG bitDepth = %d, colorType = %d",  bitDepth,  colorType);
 
 		// force palette images to be expanded to 24-bit RGB
 		// it may include alpha channel
@@ -143,14 +143,14 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
 
 		// allocate the memory to hold the image using the fields of info_ptr
 		unsigned long rowBytes = png_get_rowbytes(pngPtr, infoPtr);
-		ALogD("row size: %d bytes", rowBytes);
+		ALog_D("row size: %d bytes", rowBytes);
 
 		// allocate the pixel data as a big block, to be given to openGL
 	    pixelData = png_malloc(pngPtr, rowBytes * pngHeight);
 	    if (pixelData == NULL)
 	    {
 	    	png_destroy_read_struct(&pngPtr, &infoPtr, &endInfo);
-	    	ALogE("unable to allocate PNG pixel data while loading %s", filePath);
+	    	ALog_E("unable to allocate PNG pixel data while loading %s", filePath);
 	    	break;
 	    }
 
@@ -158,7 +158,7 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
 	    // png_read_image() To see how to handle interlacing passes
 	    // see the png_read_row() method below:
 	    int numberPasses = png_set_interlace_handling(pngPtr);
-	    ALogD("interlacing passes = %d", numberPasses);
+	    ALog_D("interlacing passes = %d", numberPasses);
 
 	    for (int pass = 0; pass < numberPasses; pass++)
 	    {

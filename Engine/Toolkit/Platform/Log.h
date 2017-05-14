@@ -1,46 +1,47 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2012-12-20
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2012-12-20
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef log_h
-#define log_h
+#ifndef LOG_H
+#define LOG_H
 
 
-#include "Engine/Toolkit/Platform/Platform.h"
 #include <assert.h>
+#include "Engine/Toolkit/Platform/Platform.h"
 
 
 //--------------------------------------------------------------------------------------------------
-#ifdef is_platform_android
+#ifdef IS_PLATFORM_ANDROID
 //--------------------------------------------------------------------------------------------------
 
 
-#include <android/log.h>
+    #include <android/log.h>
 
 
-#define ALogD(...)    __android_log_print(ANDROID_LOG_DEBUG, "MojocLib debug", __VA_ARGS__)
-#define ALogI(...)    __android_log_print(ANDROID_LOG_INFO,  "MojocLib info",  __VA_ARGS__)
-#define ALogW(...)    __android_log_print(ANDROID_LOG_WARN,  "MojocLib warn",  __VA_ARGS__)
-#define ALogE(...)    __android_log_print(ANDROID_LOG_ERROR, "MojocLib error", __VA_ARGS__)
-#define ALogA(e, ...) e ? (void) 0 : ALogE(__VA_ARGS__),  assert(e);
+    #define  ALog_D(...)    __android_log_print(ANDROID_LOG_DEBUG, "Mojoc debug", __VA_ARGS__)
+    #define  ALog_W(...)    __android_log_print(ANDROID_LOG_WARN , "Mojoc warn" , __VA_ARGS__)
+    #define  ALog_E(...)    __android_log_print(ANDROID_LOG_ERROR, "Mojoc error", __VA_ARGS__)
+    #define  ALog_A(e, ...) e ? (void) 0 : ALog_E(__VA_ARGS__),  assert(e);
 
 
 //--------------------------------------------------------------------------------------------------
-#elif defined(is_platform_ios)
+#elif defined(IS_PLATFORM_IOS)
 //--------------------------------------------------------------------------------------------------
 
 
-#include <stdio.h>
+    #include <stdio.h>
 
 
-#define ALogD(...)
-#define ALogI(...)
-#define ALogW(...)
-#define ALogE(...)    printf(__VA_ARGS__), printf("\n");
-#define ALogA(e, ...) e ? (void) 0 : printf(__VA_ARGS__), printf("\n"),  assert(e);
+    #define  ALog_D(...)
+    #define  ALog_W(...)
+    #define  ALog_E(...)    printf(__VA_ARGS__), printf("\n");
+    #define  ALog_A(e, ...) e ? (void) 0 : printf(__VA_ARGS__), printf("\n"),  assert(e);
 
 
 //--------------------------------------------------------------------------------------------------

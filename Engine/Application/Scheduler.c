@@ -18,7 +18,7 @@ static ArrayList(Scheduler*) schedulerList[1] = AArrayListInit(Scheduler*, 30);
 
 static inline Scheduler* GetScheduler(SchedulerUpdate Update, float intervalTime)
 {
-    ALogA(Update != NULL, "schedule SchedulerUpdateFunction must not NULL");
+    ALog_A(Update != NULL, "schedule SchedulerUpdateFunction must not NULL");
 
     Scheduler* scheduler = AArrayListPop(schedulerList, Scheduler*);
 

@@ -75,13 +75,13 @@ static void Init()
 	AShaderMesh->uniformSample2D  = glGetUniformLocation(AShaderMesh->program, "uSampler2D");
 	AShaderMesh->uniformMVPMatrix = glGetUniformLocation(AShaderMesh->program, "uMVPMatrix");
 
-	ALogA
+	ALog_A
 	(
 		AShaderMesh->uniformSample2D != -1,
 		"AShaderMesh could not glGetUniformLocation for uniformSample2D"
 	);
 
-	ALogA
+	ALog_A
 	(
 		AShaderMesh->uniformMVPMatrix != -1,
 		"AShaderMesh could not glGetUniformLocation for uMVPMatrix"

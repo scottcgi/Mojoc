@@ -9,7 +9,7 @@
 
 
 //--------------------------------------------------------------------------------------------------
-#ifdef is_platform_android
+#ifdef IS_PLATFORM_ANDROID
 //--------------------------------------------------------------------------------------------------
 
 
@@ -349,20 +349,20 @@ static void* ThreadRun(void* param)
 
 static void OnStart(ANativeActivity* activity)
 {
-	ALogD("NativeActivity OnStart");
+	ALog_D("NativeActivity OnStart");
 }
 
 
 static void OnResume(ANativeActivity* activity)
 {
-	ALogD("NativeActivity OnResume");
+	ALog_D("NativeActivity OnResume");
     AData->mainThreadCallback = main_thread_on_resume;
 }
 
 
 static void* OnSaveInstanceState(ANativeActivity* activity, size_t* outSaveSize)
 {
-	ALogD("NativeActivity OnSaveInstanceState");
+	ALog_D("NativeActivity OnSaveInstanceState");
     *outSaveSize = 0;
 
     AApplication->SaveData();
@@ -373,40 +373,40 @@ static void* OnSaveInstanceState(ANativeActivity* activity, size_t* outSaveSize)
 
 static void OnPause(ANativeActivity* activity)
 {
-	ALogD("NativeActivity OnPause");
+	ALog_D("NativeActivity OnPause");
 	AData->mainThreadCallback = main_thread_on_pause;
 }
 
 
 static void OnStop(ANativeActivity* activity)
 {
-	ALogD("NativeActivity OnStop");
+	ALog_D("NativeActivity OnStop");
 }
 
 
 static void OnDestroy(ANativeActivity* activity)
 {
-	ALogD("NativeActivity OnDestroy");
+	ALog_D("NativeActivity OnDestroy");
 	AData->mainThreadCallback = main_thread_on_destroy;
 }
 
 
 static void OnWindowFocusChanged(ANativeActivity* activity, int hasFocus)
 {
-	ALogD("NativeActivity OnWindowFocusChanged");
+	ALog_D("NativeActivity OnWindowFocusChanged");
 }
 
 
 static void OnNativeWindowCreated(ANativeActivity* activity, ANativeWindow* window)
 {
-	ALogD("NativeActivity OnNativeWindowCreated");
+	ALog_D("NativeActivity OnNativeWindowCreated");
 	AData->window = window;
 }
 
 
 static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* window)
 {
-	ALogD("NativeActivity OnNativeWindowResized");
+	ALog_D("NativeActivity OnNativeWindowResized");
 	AData->window = window;
 
 	static bool isFirst = true;
@@ -424,21 +424,21 @@ static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* wind
 
 static void OnNativeWindowRedrawNeeded(ANativeActivity* activity, ANativeWindow* window)
 {
-	ALogD("NativeActivity OnNativeWindowRedrawNeeded");
+	ALog_D("NativeActivity OnNativeWindowRedrawNeeded");
 	AData->mainThreadCallback = main_thread_on_null;
 }
 
 
 static void OnNativeWindowDestroyed(ANativeActivity* activity, ANativeWindow* window)
 {
-	ALogD("NativeActivity OnNativeWindowDestroyed");
+	ALog_D("NativeActivity OnNativeWindowDestroyed");
 	AData->mainThreadCallback = main_thread_on_wait;
 }
 
 
 static void OnInputQueueCreated(ANativeActivity* activity, AInputQueue* inputQueue)
 {
-	ALogD("NativeActivity OnInputQueueCreated");
+	ALog_D("NativeActivity OnInputQueueCreated");
 	AData->inputQueue = inputQueue;
     AInputQueue_attachLooper(inputQueue, AData->looper, looper_id_input, LooperOnInputEvent, NULL);
 }
@@ -446,27 +446,27 @@ static void OnInputQueueCreated(ANativeActivity* activity, AInputQueue* inputQue
 
 static void OnInputQueueDestroyed(ANativeActivity* activity, AInputQueue* inputQueue)
 {
-	ALogD("NativeActivity OnInputQueueDestroyed");
+	ALog_D("NativeActivity OnInputQueueDestroyed");
     AInputQueue_detachLooper(inputQueue);
 }
 
 
 static void OnContentRectChanged(ANativeActivity* activity, const ARect* rect)
 {
-	ALogD("NativeActivity OnContentRectChanged");
+	ALog_D("NativeActivity OnContentRectChanged");
 }
 
 
 static void OnConfigurationChanged(ANativeActivity* activity)
 {
-	ALogD("NativeActivity OnConfigurationChanged");
+	ALog_D("NativeActivity OnConfigurationChanged");
     AConfiguration_fromAssetManager(AData->assetConfig, activity->assetManager);
 }
 
 
 static void OnLowMemory(ANativeActivity* activity)
 {
-	ALogD("NativeActivity OnLowMemory");
+	ALog_D("NativeActivity OnLowMemory");
 }
 
 
@@ -475,7 +475,7 @@ static void OnLowMemory(ANativeActivity* activity)
 
 void ANativeActivityOnCreate(ANativeActivity* activity, void* savedState, size_t savedStateSize)
 {
-	ALogD("ANativeActivityOnCreate Start");
+	ALog_D("ANativeActivityOnCreate Start");
 	nativeActivity                                  = activity;
 
     activity->callbacks->onStart                    = OnStart;

@@ -31,7 +31,7 @@ static inline void Init(PhysicsBody* body)
 
 static inline PhysicsBody* CreateWithPolygon(Array(float)* vertexArr)
 {
-	ALogA(vertexArr->length >= 6, "physics_shape_polygon vertex length (each contains x, y) must more than 6");
+	ALog_A(vertexArr->length >= 6, "physics_shape_polygon vertex length (each contains x, y) must more than 6");
 
 	int          size         = sizeof(float) * vertexArr->length;
 	PhysicsBody* body         = (PhysicsBody*) malloc(sizeof(PhysicsBody) + (size << 1));
@@ -53,7 +53,7 @@ static inline PhysicsBody* CreateWithPolygon(Array(float)* vertexArr)
 
 static inline PhysicsBody* CreateWithLine(Array(float)* vertexArr)
 {
-	ALogA(vertexArr->length == 4, "physics_shape_line vertex length must 4");
+	ALog_A(vertexArr->length == 4, "physics_shape_line vertex length must 4");
 
 	int          size         = sizeof(float) * vertexArr->length;
 	PhysicsBody* body         = (PhysicsBody*) malloc(sizeof(PhysicsBody) + (size << 1));
@@ -86,7 +86,7 @@ static PhysicsBody* Create(PhysicsShape shape, Array(float)* vertexArr)
 			return CreateWithLine(vertexArr);
 
 		default:
-			ALogA(false, "PhysicsBody create with unknown shape = %d", shape);
+			ALog_A(false, "PhysicsBody create with unknown shape = %d", shape);
 			break;
 	}
 

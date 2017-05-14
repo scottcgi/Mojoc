@@ -18,7 +18,7 @@ static DrawAtlas* Get(char* filePath)
 {
     TextureAtlas* textureAtlas = ATextureAtlas->Get(filePath);
 
-    ALogA
+    ALog_A
     (
         textureAtlas->textureList->size == 1,
         "DrawAtlas not support TextureAtlas has multiple texture"
@@ -58,7 +58,7 @@ static DrawAtlas* Get(char* filePath)
 static Drawable* GetQuad(DrawAtlas* drawAtlas, char* quadName)
 {
     TextureAtlasQuad* atlasQuad = ATextureAtlasGetQuad(drawAtlas->textureAtlas, quadName);
-    ALogA(atlasQuad != NULL, "DrawAtlas GetQuad not found quadName = %s", quadName);
+    ALog_A(atlasQuad != NULL, "DrawAtlas GetQuad not found quadName = %s", quadName);
 
     Drawable* drawable = AArrayListPop(drawAtlas->quadList, Drawable*);
 
@@ -85,7 +85,7 @@ static Drawable* GetQuad(DrawAtlas* drawAtlas, char* quadName)
 
 static void Reuse(DrawAtlas* drawAtlas)
 {
-    ALogA(drawAtlas->textureAtlas != NULL, "Reuse drawAtlas %p already reused", drawAtlas);
+    ALog_A(drawAtlas->textureAtlas != NULL, "Reuse drawAtlas %p already reused", drawAtlas);
 
     for (int i = 0; i < drawAtlas->quadList->size; i++)
     {
@@ -105,7 +105,7 @@ static void ReuseQuad(DrawAtlas* drawAtlas, Drawable* drawable)
 {
     SubMesh* subMesh = AStructGetParent2(drawable, SubMesh);
 
-    ALogA
+    ALog_A
     (
         drawAtlas->mesh == subMesh->parent,
         "ReuseQuad drawable %p not in this drawAtlas",

@@ -89,7 +89,7 @@ static inline JsonValue* CreateJsonValue(void* data, size_t valueSize, JsonType 
 	    	break;
 
 	    default:
-	    	ALogA(false, "CreateJsonValue unknown JsonType = %d", type);
+	    	ALog_A(false, "CreateJsonValue unknown JsonType = %d", type);
 	}
 
 	value->type = type;
@@ -275,7 +275,7 @@ static inline void SkipWhiteSpace(char** jsonPtr)
 		json++;
 	}
 
-	ALogA(json != NULL, "The Json parse error on NULL, json is incomplete");
+	ALog_A(json != NULL, "The Json parse error on NULL, json is incomplete");
 	
 	*jsonPtr = json;
 }
@@ -298,7 +298,7 @@ static inline void* ParseNumber(char** jsonPtr)
 	// insert number string end
 	*endPtr = '\0';
 
-	ALogD("Json number = %s", *jsonPtr);
+	ALog_D("Json number = %s", *jsonPtr);
 
 	// restore char after number
 	*endPtr  = c;
@@ -324,7 +324,7 @@ static inline void* ParseNumber(char** jsonPtr)
 
 	// insert number string end
 	*json = '\0';
-	ALogD("Json number = %s", *jsonPtr);
+	ALog_D("Json number = %s", *jsonPtr);
 
 	JsonValue* value  = CreateJsonValue(NULL, 0, json_float);
 	value->floatValue = atof(*jsonPtr);
@@ -383,7 +383,7 @@ static inline JsonValue* ParseString(char** jsonPtr)
 	// skip whole string include the other '\"'
 	*jsonPtr                 += count + 1;
 	
-	ALogD("Json string = %s", value->stringValue);
+	ALog_D("Json string = %s", value->stringValue);
 	
 	return value;
 }
@@ -398,7 +398,7 @@ static inline JsonValue* ParseArray(char** jsonPtr)
 	JsonValue* jsonValue = CreateJsonValue(NULL, sizeof(JsonArray), json_array);
 	ArrayList* list      = jsonValue->array->arrayList;
 
-	ALogD("Json Array: [");
+	ALog_D("Json Array: [");
 	
 	// skip '['
 	(*jsonPtr)++;
@@ -438,12 +438,12 @@ static inline JsonValue* ParseArray(char** jsonPtr)
 	while (true);
 	
 	SkipWhiteSpace(jsonPtr);
-	ALogA(**jsonPtr == ']', "Json Array not has ']', error char = %c ", **jsonPtr);
+	ALog_A(**jsonPtr == ']', "Json Array not has ']', error char = %c ", **jsonPtr);
 	
 	label_json_array_end:
 	// skip ']'
 	(*jsonPtr)++;
-	ALogD("] JsonArray element count = %d", list->size);
+	ALog_D("] JsonArray element count = %d", list->size);
 	
 	return jsonValue;
 }
@@ -454,7 +454,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
 	JsonValue*   jsonValue = CreateJsonValue(NULL, sizeof(JsonObject), json_object);
 	ArrayStrMap* map       = jsonValue->object->arrayStrMap;
 
-	ALogD("Json Object: {");
+	ALog_D("Json Object: {");
 	
 	// skip '{'
 	(*jsonPtr)++;
@@ -476,7 +476,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
 			goto label_json_object_end;
 		}
 		
-		ALogA(**jsonPtr == '\"', "Json object parse error, char = %c, should be '\"' ", **jsonPtr);
+		ALog_A(**jsonPtr == '\"', "Json object parse error, char = %c, should be '\"' ", **jsonPtr);
 
 		int   keyLen = SkipString(jsonPtr);
 		char* key    = (char*) *jsonPtr;
@@ -485,7 +485,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
 		*jsonPtr += keyLen + 1;
 
 		SkipWhiteSpace(jsonPtr);
-		ALogA((**jsonPtr) == ':', "Json object parse error, char = %c, should be ':' ", **jsonPtr);
+		ALog_A((**jsonPtr) == ':', "Json object parse error, char = %c, should be ':' ", **jsonPtr);
 
 		// skip ':'
 		(*jsonPtr)++;
@@ -495,7 +495,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
 		// make string end in json string
 		key[keyLen]       = '\0';
 
-		ALogD("Json key = %s", key);
+		ALog_D("Json key = %s", key);
 
 		// set object element
 		AArrayStrMapPut(map, key, value);
@@ -518,12 +518,12 @@ static inline JsonValue* ParseObject(char** jsonPtr)
 	while (true);
 
 	SkipWhiteSpace(jsonPtr);
-	ALogA(**jsonPtr == '}', "Json Object not has '}', error char = %c ", **jsonPtr);
+	ALog_A(**jsonPtr == '}', "Json Object not has '}', error char = %c ", **jsonPtr);
 	
 	label_json_object_end:
 	// skip '}'
 	(*jsonPtr)++;
-	ALogD("} JsonObject elements count = %d", map->elementList->size);
+	ALog_D("} JsonObject elements count = %d", map->elementList->size);
 
 	return jsonValue;
 }
@@ -556,7 +556,7 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 			}
 			else if (strncmp(*jsonPtr, "null", 4) == 0)
 			{
-				ALogD("Json null");
+				ALog_D("Json null");
 
 				(*jsonPtr) += 4;
 
@@ -566,7 +566,7 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 			}
 			else if (strncmp(*jsonPtr, "false", 5) == 0)
 			{
-				ALogD("Json false");
+				ALog_D("Json false");
 
 				(*jsonPtr) += 5;
 
@@ -576,7 +576,7 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 			}
 			else if (strncmp(*jsonPtr, "true", 4) == 0)
 			{
-				ALogD("Json true");
+				ALog_D("Json true");
 
 				(*jsonPtr) += 4;
 
@@ -585,7 +585,7 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 			}
 			else
 			{
-				ALogA(false, "Invalid json value type, error char = %c", c);
+				ALog_A(false, "Invalid json value type, error char = %c", c);
 			}
 
 		    break;

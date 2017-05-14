@@ -36,7 +36,7 @@ static void* Pop(ArrayQueue* arrayQueue, void* defaultElementPtr)
 
 static void RemoveAt(ArrayQueue* arrayQueue, int index)
 {
-	ALogA
+	ALog_A
 	(
 		index >= arrayQueue->topIndex && index < arrayQueue->elementList->size,
 		"popIndex index = %d, out of range [%d, %d]",

@@ -68,19 +68,19 @@ static void Init()
 	AShaderSprite->uniformMVPMatrix       = glGetUniformLocation(AShaderSprite->program, "uMVPMatrix");
 	AShaderSprite->uniformColor           = glGetUniformLocation(AShaderSprite->program, "uColor");
 
-	ALogA
+	ALog_A
 	(
 		AShaderSprite->uniformSampler2D != -1,
 		"AShaderSprite could not glGetUniformLocation for uniformSampler2D"
 	);
 
-	ALogA
+	ALog_A
 	(
 		AShaderSprite->uniformMVPMatrix != -1,
 		"AShaderSprite could not glGetUniformLocation for uMVPMatrix"
 	);
 
-	ALogA
+	ALog_A
 	(
 		AShaderSprite->uniformColor != -1,
 		"AShaderSprite could not glGetUniformLocation for uColor"

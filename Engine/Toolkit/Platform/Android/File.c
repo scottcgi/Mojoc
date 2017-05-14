@@ -1,15 +1,18 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2013-08-29
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-08-29
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
 //--------------------------------------------------------------------------------------------------
-#ifdef is_platform_android
+#ifdef IS_PLATFORM_ANDROID
 //--------------------------------------------------------------------------------------------------
 
 
@@ -24,7 +27,7 @@ extern ANativeActivity* nativeActivity;
 static File* Open(char* relativeFilePath)
 {
 	AAsset* asset = AAssetManager_open(nativeActivity->assetManager, relativeFilePath, AASSET_MODE_UNKNOWN);
-	ALogA(asset != NULL, "AFile open failed, relative file path = %s", relativeFilePath);
+	ALog_A(asset != NULL, "AFile open failed, relative file path = %s", relativeFilePath);
 
 	return (File*) asset;
 }
@@ -36,7 +39,7 @@ static int OpenFileDescriptor(char* relativeFilePath, long* outStart, long* outL
 
     // open asset as file descriptor
     int fd = AAsset_openFileDescriptor(asset, outStart, outLength);
-    ALogA(fd >= 0, "AFile OpenFileDescriptor failed, relative file path = %s", relativeFilePath);
+    ALog_A(fd >= 0, "AFile OpenFileDescriptor failed, relative file path = %s", relativeFilePath);
     AAsset_close(asset);
 
     return fd;

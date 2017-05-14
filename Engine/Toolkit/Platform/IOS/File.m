@@ -1,16 +1,21 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
+ * This code is licensed under the MIT License.
+ *
  * Since  : 2013-08-29
  * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
 //--------------------------------------------------------------------------------------------------
-#ifdef is_platform_ios
+#ifdef IS_PLATFORM_IOS
 //--------------------------------------------------------------------------------------------------
+
 
 #include <stdio.h>
 #include <Foundation/Foundation.h>
@@ -25,7 +30,7 @@ static File* Open(char* relativeFilePath)
     NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:relativeFilePath] ofType:nil];
     FILE*     file = fopen([path cStringUsingEncoding:NSMacOSRomanStringEncoding], "rb");
     
-    ALogA(file != NULL, "AFile open error, file path = %s", relativeFilePath);
+    ALog_A(file != NULL, "AFile open error, file path = %s", relativeFilePath);
     
 	return (File*) file;
 }

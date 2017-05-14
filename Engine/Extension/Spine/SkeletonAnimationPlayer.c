@@ -114,7 +114,7 @@ static inline void InitSkeletonAnimationPlayer(SkeletonAnimationPlayer* player, 
 	ASkeleton->Init(skeletonData, player->skeleton);
 	player->preAnimationData      = NULL;
 	player->curAnimationData      = ASkeletonGetAnimationData(player->skeleton, animationName);
-	ALogA(player->curAnimationData != NULL, "SkeletonAnimationPlayer can not find animtionData by name = %s", animationName);
+	ALog_A(player->curAnimationData != NULL, "SkeletonAnimationPlayer can not find animtionData by name = %s", animationName);
 
 	player->curTime               = 0.0f;
 	player->preTime               = 0.0f;
@@ -124,7 +124,7 @@ static inline void InitSkeletonAnimationPlayer(SkeletonAnimationPlayer* player, 
 	player->loop                  = -1;
 
 	//ASkeletonAnimationPlayer->Release(player);
-	//ALogA(0, "stop");
+	//ALog_A(0, "stop");
 }
 
 
@@ -138,7 +138,7 @@ static void SetAnimation(SkeletonAnimationPlayer* player, char* animationName)
 {
 	player->curAnimationData = ASkeletonGetAnimationData(player->skeleton,  animationName);
 
-	ALogA(player->curAnimationData != NULL, "SetAnimation can not find animtionData by name = %s", animationName);
+	ALog_A(player->curAnimationData != NULL, "SetAnimation can not find animtionData by name = %s", animationName);
 	player->curTime = 0.0f;
 }
 
@@ -151,7 +151,7 @@ static void SetAnimationMix(SkeletonAnimationPlayer* player, char* animationName
 	player->mixTime          = 0.0f;
 	player->mixDuration      = mixDuration;
 	player->curAnimationData = ASkeletonGetAnimationData(player->skeleton,  animationName);
-	ALogA(player->curAnimationData != NULL, "SetAnimationMix can not find animtionData by name = %s", animationName);
+	ALog_A(player->curAnimationData != NULL, "SetAnimationMix can not find animtionData by name = %s", animationName);
 }
 
 
@@ -192,7 +192,7 @@ static void Render(Drawable* drawable)
 static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, char* slotName, Drawable* outDrawable)
 {
 	SkeletonSlot* slot = ASkeletonAnimationPlayerGetSlot(player, slotName);
-	ALogA(slot != NULL, "InitSlotBoundingBoxDrawable not found SkeletonSlot by slotName = %s", slotName);
+	ALog_A(slot != NULL, "InitSlotBoundingBoxDrawable not found SkeletonSlot by slotName = %s", slotName);
 
 	ADrawable->Init(outDrawable);
 

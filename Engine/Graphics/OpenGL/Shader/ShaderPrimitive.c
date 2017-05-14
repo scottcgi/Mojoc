@@ -66,19 +66,19 @@ static void Init()
 	AShaderPrimitive->uniformColor     = glGetUniformLocation(AShaderPrimitive->program, "uColor");
 	AShaderPrimitive->uniformPointSize = glGetUniformLocation(AShaderPrimitive->program, "uPointSize");
 
-	ALogA
+	ALog_A
 	(
 		AShaderPrimitive->uniformMVPMatrix != -1,
 	    "AShaderPrimitive could not glGetUniformLocation for uMVPMatrix"
 	);
 
-	ALogA
+	ALog_A
 	(
 		AShaderPrimitive->uniformColor != -1,
 	    "AShaderPrimitive could not glGetUniformLocation for uColor"
 	);
 
-	ALogA
+	ALog_A
 	(
 		AShaderPrimitive->uniformPointSize != -1,
 		"AShaderPrimitive could not glGetUniformLocation for uPointSize"

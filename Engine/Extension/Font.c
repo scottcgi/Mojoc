@@ -23,7 +23,7 @@ static Font* Get(char* filePath)
 {
     TextureAtlas* textureAtlas = ATextureAtlas->Get(filePath);
 
-    ALogA
+    ALog_A
     (
         textureAtlas->textureList->size == 1,
         "Font not support TextureAtlas has multiple texture"
@@ -107,7 +107,7 @@ static inline TextureAtlasQuad* GetAtlasQuad(FontText* text, char* str, int inde
                                     (char[]) {str[index], '\0'}
                                   );
 
-    ALogA(atlasQuad != NULL, "Font SetString not found char = %c in TextureAtlas quads", str[index]);
+    ALog_A(atlasQuad != NULL, "Font SetString not found char = %c in TextureAtlas quads", str[index]);
 
     return atlasQuad;
 }
@@ -308,7 +308,7 @@ static void SetFloat(FontText* text, float num)
 
 static void Reuse(Font* font)
 {
-	ALogA(font->textureAtlas != NULL, "Reuse font %p already reused", font);
+	ALog_A(font->textureAtlas != NULL, "Reuse font %p already reused", font);
 
     for (int i = 0; i < font->fontTextSet->elementList->size; i++)
     {
@@ -324,7 +324,7 @@ static void Reuse(Font* font)
 
 static void ReuseText(FontText* text)
 {
-    ALogA(text->font != NULL, "ReuseText text %p already reused", text);
+    ALog_A(text->font != NULL, "ReuseText text %p already reused", text);
 
 	for (int i = 0; i < text->usedSubMeshList->size; i++)
 	{

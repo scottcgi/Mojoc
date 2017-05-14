@@ -39,13 +39,13 @@ static void Init()
     ApplicationMain();
 
     // check callback setting
-    ALogA(AApplication->callbacks->OnReady             != NULL, "AApplication->callbacks->OnReady             must be set");
-    ALogA(AApplication->callbacks->OnPause             != NULL, "AApplication->callbacks->OnPause             must be set");
-    ALogA(AApplication->callbacks->OnResume            != NULL, "AApplication->callbacks->OnResume            must be set");
-    ALogA(AApplication->callbacks->OnDestroy           != NULL, "AApplication->callbacks->OnDestroy           must be set");
-    ALogA(AApplication->callbacks->OnResized           != NULL, "AApplication->callbacks->OnResized           must be set");
-    ALogA(AApplication->callbacks->OnSaveData          != NULL, "AApplication->callbacks->OnSaveData          must be set");
-    ALogA(AApplication->callbacks->OnInitWithSavedData != NULL, "AApplication->callbacks->OnInitWithSavedData must be set");
+    ALog_A(AApplication->callbacks->OnReady             != NULL, "AApplication->callbacks->OnReady             must be set");
+    ALog_A(AApplication->callbacks->OnPause             != NULL, "AApplication->callbacks->OnPause             must be set");
+    ALog_A(AApplication->callbacks->OnResume            != NULL, "AApplication->callbacks->OnResume            must be set");
+    ALog_A(AApplication->callbacks->OnDestroy           != NULL, "AApplication->callbacks->OnDestroy           must be set");
+    ALog_A(AApplication->callbacks->OnResized           != NULL, "AApplication->callbacks->OnResized           must be set");
+    ALog_A(AApplication->callbacks->OnSaveData          != NULL, "AApplication->callbacks->OnSaveData          must be set");
+    ALog_A(AApplication->callbacks->OnInitWithSavedData != NULL, "AApplication->callbacks->OnInitWithSavedData must be set");
 
 //--------------------------------------------------------------------------------------------------
 

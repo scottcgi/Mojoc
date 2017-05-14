@@ -1,18 +1,21 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2014-9-8
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2014-9-8
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
 #include <stdbool.h>
+
 #include "Engine/Toolkit/Toolkit.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
 
 static void Init()
 {
-
 }
 
 

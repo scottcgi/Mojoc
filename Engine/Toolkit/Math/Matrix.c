@@ -675,7 +675,7 @@ static void InverseTranspose(Matrix4* matrix4, Matrix4* outInverseTranspose)
  */
 static void Perspective(float fovy, float aspect, float near, float far, Matrix4* outProjection)
 {
-    ALogA
+    ALog_A
     (
         far != near,
         "AMatrix Perspective failed, because far == near"
@@ -708,7 +708,7 @@ static void Perspective(float fovy, float aspect, float near, float far, Matrix4
 
 static void Ortho(float left, float right, float bottom, float top, float near, float far, Matrix4* outProjection)
 {
-    ALogA
+    ALog_A
 	(
 		right != left && top != bottom && far != near,
 		"AMatrix Ortho failed because right == left || top == bottom || far == near"
@@ -745,7 +745,7 @@ static void Ortho(float left, float right, float bottom, float top, float near, 
  */
 static void Frustum(float left, float right, float bottom, float top, float near, float far, Matrix4* outProjection)
 {
-    ALogA
+    ALog_A
 	(
 		right != left && top != bottom && near != far && near > 0.0f && far > 0.0f,
 		"AMatrix Frustum failed because right == left || top == bottom || near == far || near <= 0.0f || far <= 0.0f"

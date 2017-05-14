@@ -106,7 +106,7 @@ static void SetWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
 
 	Mesh* mesh = subMesh->parent;
 
-	ALogA(mesh != NULL, "SubMesh SetWithQuad must has parent");
+	ALog_A(mesh != NULL, "SubMesh SetWithQuad must has parent");
 
 	int uvDataLen = subMesh->uvArr->length * sizeof(float);
 

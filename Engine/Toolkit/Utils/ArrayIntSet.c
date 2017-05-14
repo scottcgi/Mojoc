@@ -102,7 +102,7 @@ static void Add(ArrayIntSet* arrayIntSet, intptr_t element)
 {
     int guess = BinarySearch(arrayIntSet->elementList, element);
 
-    ALogA(guess < 0, "ArrayIntSet put element = %zd, has already exist", element);
+    ALog_A(guess < 0, "ArrayIntSet put element = %zd, has already exist", element);
 
     AArrayListInsert(arrayIntSet->elementList, -guess - 1, element);
 }

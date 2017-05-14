@@ -24,7 +24,7 @@ static inline void ReadFind(char* buffer, ArrayRange* range, ArrayRange* line, c
 {
 	ABufferReader->ReadLine(buffer, range, line);
 	bool isFound = ABufferReader->TryFindString(buffer, line, str);
-	ALogA(isFound, "Can't find string = %s", str);
+	ALog_A(isFound, "Can't find string = %s", str);
 }
 
 
@@ -61,7 +61,7 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 			memcpy(path + fileDirLen, buffer + line->start, pathLen - fileDirLen);
 		}
 
-		ALogD("texture atlas image = %s", path);
+		ALog_D("texture atlas image = %s", path);
 
 		Texture* texture = ATexture->Get(path);
 		AArrayListAdd(outTextureAtlas->textureList, texture);
@@ -85,11 +85,11 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 			buffer[line->end]     = '\0';
 			char* textureQuadName = buffer + line->start;
 
-			ALogD("texture atlas quad = %s", textureQuadName);
+			ALog_D("texture atlas quad = %s", textureQuadName);
 
 			Read("rotate");
 			bool isRotate = ABufferReader->TryFindString(buffer, line, "true");
-			ALogA(isRotate == false, "Not support rotation");
+			ALog_A(isRotate == false, "Not support rotation");
 
 			char* str;
 
@@ -98,11 +98,11 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 			buffer[line->end] = '\0';
 
 			str               = strtok(buffer + line->start, ",");
-			ALogA(str != NULL, "Can't find x number in xy");
+			ALog_A(str != NULL, "Can't find x number in xy");
 			int x             = atoi(str);
 
 			str               = strtok(NULL, ",");
-			ALogA(str != NULL, "Can't find y number in xy");
+			ALog_A(str != NULL, "Can't find y number in xy");
 			int y             = atoi(str);
 
 			Read("size:");
@@ -110,14 +110,14 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 			buffer[line->end] = '\0';
 
 			str               = strtok(buffer + line->start, ",");
-			ALogA(str != NULL, "Can't find width number in size");
+			ALog_A(str != NULL, "Can't find width number in size");
 			int width         = atoi(str);
 
 			str               = strtok(NULL, ",");
-			ALogA(str != NULL, "Can't find height number in size");
+			ALog_A(str != NULL, "Can't find height number in size");
 			int height        = atoi(str);
 
-			ALogD("x = %d, y = %d, width = %d, height = %d", x, y, width, height);
+			ALog_D("x = %d, y = %d, width = %d, height = %d", x, y, width, height);
 
 			Read("orig");
 			Read("offset");
@@ -150,7 +150,7 @@ static void Release(TextureAtlas* textureAtlas)
 	AArrayList  ->Release(textureAtlas->textureList);
 
     bool isRemoved = AArrayStrMap->TryRemove(textureAtlasMap, textureAtlas->filePath);
-    ALogA(isRemoved, "TextureAtlas release not found %s", textureAtlas->filePath);
+    ALog_A(isRemoved, "TextureAtlas release not found %s", textureAtlas->filePath);
 
     free(textureAtlas);
 }

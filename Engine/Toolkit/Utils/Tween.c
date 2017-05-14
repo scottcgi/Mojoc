@@ -119,7 +119,7 @@ static inline void SetActionValue(TweenAction* action)
 	{
 		TweenActionValue* actionValue = AArrayListGetPtr(action->actionValueList, i, TweenActionValue);
 
-		ALogA(actionValue->OnGet != NULL && actionValue->OnSet != NULL, "TweenActionValue OnSet OnGet must not NULL");
+		ALog_A(actionValue->OnGet != NULL && actionValue->OnSet != NULL, "TweenActionValue OnSet OnGet must not NULL");
 
 		actionValue->fromValue = actionValue->OnGet(action->target);
 

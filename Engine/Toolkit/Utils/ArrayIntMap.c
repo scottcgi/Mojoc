@@ -13,11 +13,11 @@
 
 
 #define CheckIndex(tag) \
-	ALogA(index >= 0 && index <  arrayIntMap->elementList->size, "ArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
+	ALog_A(index >= 0 && index <  arrayIntMap->elementList->size, "ArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
 
 
 #define CheckInsertIndex(tag) \
-	ALogA(index >= 0 && index <= arrayIntMap->elementList->size, "ArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
+	ALog_A(index >= 0 && index <= arrayIntMap->elementList->size, "ArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
 
 
 
@@ -102,7 +102,7 @@ static void* Set(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 {
 	int guess = BinarySearch(arrayIntMap->elementList, key);
 
-	ALogA(guess >= 0, "ArrayIntMap Set key = %zd, has not exist", key);
+	ALog_A(guess >= 0, "ArrayIntMap Set key = %zd, has not exist", key);
 
 	return memcpy
 		   (

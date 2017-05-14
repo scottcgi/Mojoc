@@ -27,16 +27,16 @@ static TweenActionValue* actionValue = NULL;
 
 
 #define CheckAction(tag) \
-	ALogA(action      != NULL, "ATweenTool " tag " TweenAction not created");
+	ALog_A(action      != NULL, "ATweenTool " tag " TweenAction not created");
 
 
 #define CheckActionValue(tag) \
-	ALogA(actionValue != NULL, "ATweenTool " tag " TweenActionValue invalid");
+	ALog_A(actionValue != NULL, "ATweenTool " tag " TweenActionValue invalid");
 
 
 static struct ATweenTool* AddAction()
 {
-	ALogA
+	ALog_A
 	(
 		actionArr->length <= action_length,
 		"ATweenTool can not cache TweenActions = %d more than %d",
@@ -476,7 +476,7 @@ static struct ATweenTool* SetFadeTo(float fadeTo)
 
 static void RunActions(void* target)
 {
-	ALogA(target != NULL, "RunActions, target must not NULL");
+	ALog_A(target != NULL, "RunActions, target must not NULL");
 
 	for (int i = 0; i < actionArr->length; i++)
 	{
@@ -504,7 +504,7 @@ static void* RunTargets()
 
 		if (action->actionValueList->size > 0)
 		{
-			ALogA
+			ALog_A
 			(
 				 action->target != NULL,
 				 "RunTargets, the {%d} action has actionValue, so must set target",

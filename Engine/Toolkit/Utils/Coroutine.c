@@ -74,7 +74,7 @@ static void Update(float deltaSeconds)
                 {
                     Coroutine* wait = AArrayListGet(coroutine->waits, j, Coroutine*);
 
-                    ALogA
+                    ALog_A
                     (
                         wait->state != coroutine_state_finish,
                         "Coroutine [%p] can not finish before wait coroutine [%p] finish",

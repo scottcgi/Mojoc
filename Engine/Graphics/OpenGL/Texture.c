@@ -20,7 +20,7 @@ static void Release(Texture* texture)
 	glDeleteTextures(1, (GLuint[]) {texture->id});
 
 	bool isRemoved = AArrayStrMap->TryRemove(textureMap, texture->filePath);
-    ALogA(isRemoved, "Texture release not found %s in textureMap", texture->filePath);
+    ALog_A(isRemoved, "Texture release not found %s in textureMap", texture->filePath);
 
     free(texture);
 }

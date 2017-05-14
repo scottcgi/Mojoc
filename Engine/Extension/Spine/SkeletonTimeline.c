@@ -152,7 +152,7 @@ static const float  sub_div_pre     = sub_div_step_3 / pre_5;
 
 static void SetCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, float cx1, float cy1, float cx2, float cy2)
 {
-	ALogD("frameIndex[%d] curve[%f, %f, %f, %f]", frameIndex, cx1, cy1, cx2, cy2);
+	ALog_D("frameIndex[%d] curve[%f, %f, %f, %f]", frameIndex, cx1, cy1, cx2, cy2);
 
 	float  tmpx   = -cx1 * 2 + cx2;
 	float  tmpy   = -cy1 * 2 + cy2;
@@ -1077,7 +1077,7 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
 	{
 		case skeleton_attachment_region:
 		case skeleton_attachment_boundingbox:
-			ALogA(false, "deformApply wrong deformTimeline->attachmentData->attachmentDataType");
+			ALog_A(false, "deformApply wrong deformTimeline->attachmentData->attachmentDataType");
 			break;
 
 		case skeleton_attachment_mesh:
