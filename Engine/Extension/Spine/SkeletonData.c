@@ -146,7 +146,7 @@ static inline int FindSlotIndex(SkeletonData* skeletonData, char* slotName)
 	int  slotIndex             = -1;
 	for (int j = 0; j < skeletonData->slotDataOrderArr->length; j++)
 	{
-		if (AArrayGet(skeletonData->slotDataOrderArr, j, SkeletonSlotData*) == slotData)
+		if (AArray_Get(skeletonData->slotDataOrderArr, j, SkeletonSlotData*) == slotData)
 		{
 			slotIndex = j;
 			break;
@@ -203,8 +203,8 @@ static inline void ReadBoneData(JsonObject* root, SkeletonData* skeletonData)
 		boneData->isInheritScale    = AJsonObject->GetBool(jsonBone, "inheritScale",    true);
 		boneData->isInheritRotation = AJsonObject->GetBool(jsonBone, "inheritRotation", true);
 
-		AArrayStrMapPut(boneDataMap, boneData->name, boneData);
-		AArraySet(boneDataOrderArr, i, boneData, SkeletonBoneData*);
+		AArrayStrMapPut(boneDataMap,      boneData->name, boneData);
+		AArray_Set     (boneDataOrderArr, i, boneData,    SkeletonBoneData*);
 
 		ALog_D("BoneData name = %s", boneData->name);
 		ALog_D
@@ -283,7 +283,7 @@ static inline void ReadSlotData(JsonObject* root, SkeletonData* skeletonData)
 
 		slotData->isAdditiveBlending = AJsonObject->GetBool(jsonSlot, "additive", false);
 		AArrayStrMapPut(slotDataMap, slotData->name, slotData);
-		AArraySet(slotDataOrderArr, i, slotData, SkeletonSlotData*);
+		AArray_Set(slotDataOrderArr, i, slotData, SkeletonSlotData*);
 
 		ALog_D
 		(
@@ -416,7 +416,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 			SkeletonBoundingboxAttachmentData* boundingboxAttachmentData = (SkeletonBoundingboxAttachmentData*) attachmentData->childPtr;
 			boundingboxAttachmentData->vertexArr->length                 = jsonVertexArr->arrayList->size;
 			boundingboxAttachmentData->vertexArr->data                   = (char*) boundingboxAttachmentData + sizeof(SkeletonBoundingboxAttachmentData);
-			float* vertices                                              = AArrayGetData(boundingboxAttachmentData->vertexArr, float);
+			float* vertices                                              = AArray_GetData(boundingboxAttachmentData->vertexArr, float);
 
 			for (int j = 0; j < jsonVertexArr->arrayList->size; j += 2)
 			{
@@ -447,7 +447,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 			meshAttachmentData->isUVMappedInTexture        = false;
 			meshAttachmentData->vertexArr->length          = verticesCount;
 			meshAttachmentData->vertexArr->data            = (char*) meshAttachmentData + sizeof(SkeletonMeshAttachmentData);
-			float* vertices                                = AArrayGetData(meshAttachmentData->vertexArr, float);
+			float* vertices                                = AArray_GetData(meshAttachmentData->vertexArr, float);
 
 			for (int j = 0, k = 0; j < verticesCount; j += 3, k += 2)
 			{
@@ -460,7 +460,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 
 			meshAttachmentData->uvArr->length              = jsonUVArr->arrayList->size;
 			meshAttachmentData->uvArr->data                = (char*) vertices + verticesByte;
-			float* uvs                                     = AArrayGetData(meshAttachmentData->uvArr, float);
+			float* uvs                                     = AArray_GetData(meshAttachmentData->uvArr, float);
 			for (int j = 0; j < jsonUVArr->arrayList->size; j += 2)
 			{
 				uvs[j]     = AJsonArray->GetFloat(jsonUVArr, j);
@@ -471,7 +471,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 
 			meshAttachmentData->triangleArr->length        = jsonTriangleArr->arrayList->size;
 			meshAttachmentData->triangleArr->data          = (char*) uvs + uvsByte;
-			short* triangles                               = AArrayGetData(meshAttachmentData->triangleArr, short);
+			short* triangles                               = AArray_GetData(meshAttachmentData->triangleArr, short);
 			for (int j = 0; j < jsonTriangleArr->arrayList->size; j++)
 			{
 				triangles[j] = (short) AJsonArray->GetInt(jsonTriangleArr, j);
@@ -539,15 +539,15 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 
 			skinnedMeshAttachmentData->weightVertexArr->length = weightVerticesCount;
 			skinnedMeshAttachmentData->weightVertexArr->data   = (char*) meshAttachmentData->vertexArr->data + verticesByte;
-			float* weightVertices                              = AArrayGetData(skinnedMeshAttachmentData->weightVertexArr, float);
+			float* weightVertices                              = AArray_GetData(skinnedMeshAttachmentData->weightVertexArr, float);
 
 			skinnedMeshAttachmentData->boneArr->length         = bonesCount;
 			skinnedMeshAttachmentData->boneArr->data           = (char*) weightVertices + weightVerticesByte;
-			int*  bones                                        = AArrayGetData(skinnedMeshAttachmentData->boneArr, int);
+			int*  bones                                        = AArray_GetData(skinnedMeshAttachmentData->boneArr, int);
 
 			skinnedMeshAttachmentData->weightArr->length       = weightsCount;
 			skinnedMeshAttachmentData->weightArr->data         = (char*) bones   + bonesByte;
-			float* weights                                     = AArrayGetData(skinnedMeshAttachmentData->weightArr, float);
+			float* weights                                     = AArray_GetData(skinnedMeshAttachmentData->weightArr, float);
 
 			for (int j = 0, b = 0, w = 0, v = 0; j < jsonVertexArr->arrayList->size;)
 			{
@@ -577,7 +577,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 
 			meshAttachmentData->uvArr->length              = jsonUVArr->arrayList->size;
 			meshAttachmentData->uvArr->data                = (char*) weights + weightsByte;
-			float*    uvs                                  = AArrayGetData(meshAttachmentData->uvArr, float);
+			float*    uvs                                  = AArray_GetData(meshAttachmentData->uvArr, float);
 			for (int j = 0; j < jsonUVArr->arrayList->size; j += 2)
 			{
 				uvs[j]     = AJsonArray->GetFloat(jsonUVArr, j);
@@ -588,7 +588,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 
 			meshAttachmentData->triangleArr->length        = jsonTriangleArr->arrayList->size;
 			meshAttachmentData->triangleArr->data          = (char*) uvs + uvsByte;
-			short*     triangles                           = AArrayGetData(meshAttachmentData->triangleArr, short);
+			short*     triangles                           = AArray_GetData(meshAttachmentData->triangleArr, short);
 			for (int j = 0; j < jsonTriangleArr->arrayList->size; j++)
 			{
 				triangles[j] = (short) AJsonArray->GetInt(jsonTriangleArr, j);
@@ -722,7 +722,7 @@ static inline void ReadAnimationBones
 		int  boneIndex             = -1;
 		for (int j = 0; j < skeletonData->boneDataOrderArr->length; j++)
 		{
-			if (AArrayGet(skeletonData->boneDataOrderArr, j, SkeletonBoneData*) == boneData)
+			if (AArray_Get(skeletonData->boneDataOrderArr, j, SkeletonBoneData*) == boneData)
 			{
 				boneIndex = j;
 				break;
@@ -764,7 +764,7 @@ static inline void ReadAnimationBones
 				animationData->duration = AMathMax
 						                  (
 											  animationData->duration,
-											  AArrayGet(rotateTimeline->frameArr, rotateTimeline->frameArr->length - 2, float)
+											  AArray_Get(rotateTimeline->frameArr, rotateTimeline->frameArr->length - 2, float)
 										  );
 
 			}
@@ -810,7 +810,7 @@ static inline void ReadAnimationBones
 				animationData->duration = AMathMax
 									      (
 											animationData->duration,
-											AArrayGet(translateTimeline->frameArr, translateTimeline->frameArr->length - 3, float)
+											AArray_Get(translateTimeline->frameArr, translateTimeline->frameArr->length - 3, float)
 										  );
 
 			}
@@ -874,7 +874,7 @@ static inline void ReadAnimationSlots
 				animationData->duration = AMathMax
 										  (
 											  animationData->duration,
-											  AArrayGet(colorTimeline->frameArr, colorTimeline->frameArr->length - 5, float)
+											  AArray_Get(colorTimeline->frameArr, colorTimeline->frameArr->length - 5, float)
 										  );
 
 			}
@@ -899,7 +899,7 @@ static inline void ReadAnimationSlots
 				animationData->duration = AMathMax
 										  (
 											  animationData->duration,
-											  AArrayGet(attachmentTimeline->frameArr, attachmentTimeline->frameArr->length - 1, float)
+											  AArray_Get(attachmentTimeline->frameArr, attachmentTimeline->frameArr->length - 1, float)
 										  );
 
 			}
@@ -967,7 +967,7 @@ static inline void ReadAnimationEvents
 	animationData->duration = AMathMax
 			                  (
 								animationData->duration,
-								AArrayGet(eventTimeline->frameArr, eventTimeline->frameArr->length - 1, float)
+								AArray_Get(eventTimeline->frameArr, eventTimeline->frameArr->length - 1, float)
 							  );
 
 	ALog_D("duration = %f", animationData->duration);
@@ -1002,7 +1002,7 @@ static inline void ReadAnimationDrawOrders
 		if (offsets != NULL)
 		{
 			drawOrderArr                 = AArray->Create(sizeof(int), slotCount);
-			int*    drawOrder            = AArrayGetData(drawOrderArr, int);
+			int*    drawOrder            = AArray_GetData(drawOrderArr, int);
 
 			// set default value
 			memset(drawOrder, -1, slotCount * sizeof(int));
@@ -1068,7 +1068,7 @@ static inline void ReadAnimationDrawOrders
 	animationData->duration = AMathMax
 			                  (
 								animationData->duration,
-								AArrayGet(drawOrderTimeline->frameArr, drawOrderTimeline->frameArr->length - 1, float)
+								AArray_Get(drawOrderTimeline->frameArr, drawOrderTimeline->frameArr->length - 1, float)
 							  );
 
 	ALog_D("duration = %f", animationData->duration);
@@ -1141,7 +1141,7 @@ static inline void ReadAnimationDeform
 
 					if (jsonVertexArr != NULL)
 					{
-						float* vertexData     = AArrayGetData(vertexArr, float);
+						float* vertexData     = AArray_GetData(vertexArr, float);
 
 						// "offset" is how many entries are zeros at the start
 						// also, zeros at the end are not output
@@ -1174,7 +1174,7 @@ static inline void ReadAnimationDeform
 				animationData->duration = AMathMax
 										  (
 										  	  animationData->duration,
-											  AArrayGet(deformTimeline->frameArr, deformTimeline->frameArr->length - 1, float)
+											  AArray_Get(deformTimeline->frameArr, deformTimeline->frameArr->length - 1, float)
 										  );
 
 				ALog_D("duration = %f", animationData->duration);
@@ -1362,7 +1362,7 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 
 	for (int i = 0; i < slotDataOrderArr->length; i++)
 	{
-		SkeletonSlotData* slotData   = AArrayGet(slotDataOrderArr, i, SkeletonSlotData*);
+		SkeletonSlotData* slotData   = AArray_Get(slotDataOrderArr, i, SkeletonSlotData*);
 		slotData->attachmentDataList = AArrayList->Create(sizeof(SkeletonAttachmentData*));
 
 		// search all skin attachment

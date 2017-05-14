@@ -74,7 +74,7 @@ static void Draw(Drawable* meshDrawable)
 		{
 			if (ADrawableCheckState(subMesh->drawable, drawable_state_transform_ed))
 			{
-				float* bornData     = AArrayGetData(subMesh->positionArr, float);
+				float* bornData     = AArray_GetData(subMesh->positionArr, float);
 				float* positionData = (float*) ((char*) mesh->vertexArr->data + subMesh->positionDataOffset);
 
 				// the born position data transformed(translate, scale, rotate) by SubMesh modelMatrix
@@ -529,7 +529,7 @@ static inline SubMesh* AddChild(Mesh* mesh, SubMesh* subMesh)
     for (int i = 0; i < subMesh->indexArr->length; i++)
     {
         // each child index add before children vertex count
-        AArrayGet(subMesh->indexArr, i, short) += mesh->vertexCountOffset;
+        AArray_Get(subMesh->indexArr, i, short) += mesh->vertexCountOffset;
     }
 
     subMesh->index              = mesh->childList->size;

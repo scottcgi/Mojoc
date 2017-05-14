@@ -20,27 +20,27 @@ static inline bool TestPolygonPolygonFull(Array(float)* polygonA, Array(float)* 
 
 	for (int i = 0; i < polygonA->length; i += 2)
 	{
-		float x        = AArrayGet(polygonA, i,     float);
-		float y        = AArrayGet(polygonA, i + 1, float);
+		float x        = AArray_Get(polygonA, i,     float);
+		float y        = AArray_Get(polygonA, i + 1, float);
 
 		int   preIndex = polygonB->length - 2;
 
 		// test polygonB contains vertex
 		for (int j = 0; j < polygonB->length; j += 2)
 		{
-			float vertexY = AArrayGet(polygonB, j        + 1, float);
-			float preY    = AArrayGet(polygonB, preIndex + 1, float);
+			float vertexY = AArray_Get(polygonB, j        + 1, float);
+			float preY    = AArray_Get(polygonB, preIndex + 1, float);
 
 			if ((vertexY < y && preY >= y) || (preY < y && vertexY >= y))
 			{
-				float vertexX = AArrayGet(polygonB, j, float);
+				float vertexX = AArray_Get(polygonB, j, float);
 
 				// cross product between vector (x - vertexX, y - vertexY) and (preX - vertexX, preY - vertexY)
 				// result is (x - vertexX) * (preY - vertexY) - (y - vertexY) * (preX - vertexX)
 				// if result zero means point (x, y) on vector (preX - vertexX, preY - vertexY)
 				// if result positive means point on left  vector
 				// if result negative means point on right vector
-				if (vertexX + (y - vertexY) / (preY - vertexY) * (AArrayGet(polygonB, preIndex, float) - vertexX) <= x)
+				if (vertexX + (y - vertexY) / (preY - vertexY) * (AArray_Get(polygonB, preIndex, float) - vertexX) <= x)
 				{
 					leftCount++;
 				}
@@ -73,26 +73,26 @@ static inline bool TestPolygonPolygon(Array(float)* polygonA, Array(float)* poly
 
 	for (int i = 0; i < polygonA->length; i += 2)
 	{
-		float x        = AArrayGet(polygonA, i,     float);
-		float y        = AArrayGet(polygonA, i + 1, float);
+		float x        = AArray_Get(polygonA, i,     float);
+		float y        = AArray_Get(polygonA, i + 1, float);
 		int   preIndex = polygonB->length - 2;
 
 		// test polygonB contains vertex
 		for (int j = 0; j < polygonB->length; j += 2)
 		{
-			float vertexY = AArrayGet(polygonB, j        + 1, float);
-			float preY    = AArrayGet(polygonB, preIndex + 1, float);
+			float vertexY = AArray_Get(polygonB, j        + 1, float);
+			float preY    = AArray_Get(polygonB, preIndex + 1, float);
 
 			if ((vertexY < y && preY >= y) || (preY < y && vertexY >= y))
 			{
-				float vertexX = AArrayGet(polygonB, j, float);
+				float vertexX = AArray_Get(polygonB, j, float);
 
 				// cross product between vector (x - vertexX, y - vertexY) and (preX - vertexX, preY - vertexY)
 				// result is (x - vertexX) * (preY - vertexY) - (y - vertexY) * (preX - vertexX)
 				// if result zero means point (x, y) on vector (preX - vertexX, preY - vertexY)
 				// if result positive means point on left  vector
 				// if result negative means point on right vector
-				if (vertexX + (y - vertexY) / (preY - vertexY) * (AArrayGet(polygonB, preIndex, float) - vertexX) <= x)
+				if (vertexX + (y - vertexY) / (preY - vertexY) * (AArray_Get(polygonB, preIndex, float) - vertexX) <= x)
 				{
 					inside = !inside;
 				}
@@ -117,15 +117,15 @@ static inline bool TestPolygonPolygon(Array(float)* polygonA, Array(float)* poly
 static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
 {
 	int   flag[2]  = {0, 0};
-	float vertexX1 = AArrayGet(lineB, 0, float);
-	float vertexX2 = AArrayGet(lineB, 2, float);
-	float vertexY1 = AArrayGet(lineB, 1, float);
-	float vertexY2 = AArrayGet(lineB, 3, float);
+	float vertexX1 = AArray_Get(lineB, 0, float);
+	float vertexX2 = AArray_Get(lineB, 2, float);
+	float vertexY1 = AArray_Get(lineB, 1, float);
+	float vertexY2 = AArray_Get(lineB, 3, float);
 
 	for (int i = 0; i < 4; i += 2)
 	{
-		float x = AArrayGet(lineA, i,     float);
-		float y = AArrayGet(lineA, i + 1, float);
+		float x = AArray_Get(lineA, i,     float);
+		float y = AArray_Get(lineA, i + 1, float);
 
 		if ((vertexY1 < y && vertexY2 >= y) || (vertexY2 < y && vertexY1 >= y))
 		{
@@ -152,15 +152,15 @@ static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
 	flag[0]  = 0;
 	flag[1]  = 0;
 
-	vertexX1 = AArrayGet(lineA, 0, float);
-	vertexX2 = AArrayGet(lineA, 2, float);
-	vertexY1 = AArrayGet(lineA, 1, float);
-	vertexY2 = AArrayGet(lineA, 3, float);
+	vertexX1 = AArray_Get(lineA, 0, float);
+	vertexX2 = AArray_Get(lineA, 2, float);
+	vertexY1 = AArray_Get(lineA, 1, float);
+	vertexY2 = AArray_Get(lineA, 3, float);
 
 	for (int i = 0; i < 4; i += 2)
 	{
-		float x = AArrayGet(lineB, i,     float);
-		float y = AArrayGet(lineB, i + 1, float);
+		float x = AArray_Get(lineB, i,     float);
+		float y = AArray_Get(lineB, i + 1, float);
 
 		if ((vertexY1 < y && vertexY2 >= y) || (vertexY2 < y && vertexY1 >= y))
 		{
@@ -189,9 +189,9 @@ static inline bool TestPolygonPoint(Array(float)* polygon, Array(float)* point)
 {
 	bool   inside     = false;
 	int    preIndex   = polygon->length - 2;
-	float* vertexData = AArrayGetData(polygon, float);
-	float  x          = AArrayGet(polygon, 0,  float);
-	float  y          = AArrayGet(polygon, 1,  float);
+	float* vertexData = AArray_GetData(polygon, float);
+	float  x          = AArray_Get(polygon, 0,  float);
+	float  y          = AArray_Get(polygon, 1,  float);
 
 	for (int i = 0; i < polygon->length; i += 2)
 	{

@@ -1,12 +1,16 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2013-2-1
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-2-1
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef array_h
-#define array_h
+
+#ifndef ARRAY_H
+#define ARRAY_H
 
 
 #include "Engine/Toolkit/Head/MacroDefine.h"
@@ -58,11 +62,11 @@ extern struct AArray AArray[1];
  * length     : element count
  * ...        : each element
  */
-#define AArrayMake(elementType, length, ...) \
-	(Array[1])                               \
-	{                                        \
-		(elementType[length]) {__VA_ARGS__}, \
-		length,                              \
+#define AArray_Make(elementType, length, ...) \
+	(Array[1])                                \
+	{                                         \
+		(elementType[length]) {__VA_ARGS__},  \
+		length,                               \
 	}
 
 
@@ -73,10 +77,10 @@ extern struct AArray AArray[1];
  * length     : element count
  * ...        : each element
  */
-#define AArrayInit(elementType, length, ...) \
-	{                                        \
-		(elementType[length]) {__VA_ARGS__}, \
-		length,                              \
+#define AArray_Init(elementType, length, ...) \
+	{                                         \
+		(elementType[length]) {__VA_ARGS__},  \
+		length,                               \
 	}
 
 
@@ -86,7 +90,7 @@ extern struct AArray AArray[1];
  * array      : Array ptr
  * elementType: element data type
  */
-#define AArrayGetData(array, elementType) \
+#define AArray_GetData(array, elementType) \
 	(elementType*) ((array)->data)
 
 
@@ -97,8 +101,8 @@ extern struct AArray AArray[1];
  * index      : element index of array
  * elementType: element data type
  */
-#define AArrayGet(array, index, elementType) \
-	(AArrayGetData(array, elementType))[index]
+#define AArray_Get(array, index, elementType) \
+	(AArray_GetData(array, elementType))[index]
 
 
 /**
@@ -108,8 +112,8 @@ extern struct AArray AArray[1];
  * index      : element index of array
  * elementType: element data type
  */
-#define AArrayGetPtr(array, index, elementType) \
-	(AArrayGetData(array, elementType) + (index))
+#define AArray_GetPtr(array, index, elementType) \
+	(AArray_GetData(array, elementType) + (index))
 
 
 /**
@@ -120,8 +124,8 @@ extern struct AArray AArray[1];
  * element    : variable
  * elementType: element data type
  */
-#define AArraySet(array, index, element, elementType) \
-	AArrayGet(array, index, elementType) = element
+#define AArray_Set(array, index, element, elementType) \
+	AArray_Get(array, index, elementType) = element
 
 
 #endif

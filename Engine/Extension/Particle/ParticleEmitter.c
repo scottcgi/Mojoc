@@ -187,7 +187,7 @@ static inline void AddParticles(ParticleEmitter* emitter, int count)
 
 	for (int i = 0; i < emitter->particleArr->length; i++)
 	{
-		Particle* particle = AArrayGetPtr(emitter->particleArr, i, Particle);
+		Particle* particle = AArray_GetPtr(emitter->particleArr, i, Particle);
 		if (particle->isActive == false)
 		{
 			ActivateParticle(emitter, particle);
@@ -314,7 +314,7 @@ static void Update(ParticleEmitter* emitter, float deltaSeconds)
 {
 	for (int i = 0; i < emitter->particleArr->length; i++)
 	{
-		Particle* particle = AArrayGetPtr(emitter->particleArr, i, Particle);
+		Particle* particle = AArray_GetPtr(emitter->particleArr, i, Particle);
 		if (particle->isActive)
 		{
 			UpdateParticle(emitter, particle, deltaSeconds);
@@ -424,7 +424,7 @@ static void Init(ParticleEmitterData* emitterData, Texture* texture, ParticleEmi
 		AParticle->Init
         (
              AMesh->AddChildWithQuad(mesh, quad),
-             AArrayGetPtr(outEmitter->particleArr, i, Particle)
+             AArray_GetPtr(outEmitter->particleArr, i, Particle)
         );
 	}
 

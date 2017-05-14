@@ -62,7 +62,7 @@ static float GetScale(ParticleScaledValue* scaledValue, float percent)
 {
     int    endIndex  = -1;
     int    length    = scaledValue->timelineArr->length;
-    float* timelines = AArrayGetData(scaledValue->timelineArr, float);
+    float* timelines = AArray_GetData(scaledValue->timelineArr, float);
 
     // timeline is x axis points
     for (int i = 1; i < length; i++)
@@ -74,7 +74,7 @@ static float GetScale(ParticleScaledValue* scaledValue, float percent)
         }
     }
 
-    float* scalings = AArrayGetData(scaledValue->scalingArr, float);
+    float* scalings = AArray_GetData(scaledValue->scalingArr, float);
 
     if (endIndex == -1)
     {
@@ -100,7 +100,7 @@ static void GetRGB(ParticleRGBValue* rgbValue, float percent, float outRGB[3])
     int    startIndex   =  0;
     int    endIndex     = -1;
     int    length       = rgbValue->timelineArr->length;
-    float* timelines    = AArrayGetData(rgbValue->timelineArr, float);
+    float* timelines    = AArray_GetData(rgbValue->timelineArr, float);
 
     for (int i = 1; i < length; i++)
     {
@@ -117,7 +117,7 @@ static void GetRGB(ParticleRGBValue* rgbValue, float percent, float outRGB[3])
     float startTime = timelines[startIndex];
     startIndex     *= 3;
 
-    float* rgbs     = AArrayGetData(rgbValue->rgbArr, float);
+    float* rgbs     = AArray_GetData(rgbValue->rgbArr, float);
 
     outRGB[0]       = rgbs[startIndex];
     outRGB[1]       = rgbs[startIndex + 1];
@@ -172,7 +172,7 @@ static inline void LoadScaledValue(char* buffer, ArrayRange* range, ArrayRange* 
 		ALog_D("scalingCount = %d", length);
 
 		scaledValue->scalingArr = AArray->Create(sizeof(float), length);
-		float* scalings         = AArrayGetData(scaledValue->scalingArr, float);
+		float* scalings         = AArray_GetData(scaledValue->scalingArr, float);
 
 		char scaling[sizeof("scaling") + 4];
 		for (int i = 0; i < length; i++)
@@ -186,7 +186,7 @@ static inline void LoadScaledValue(char* buffer, ArrayRange* range, ArrayRange* 
 		ALog_D("timelineCount = %d", length);
 
 		scaledValue->timelineArr = AArray->Create(sizeof(float), length);
-		float* timelines         = AArrayGetData(scaledValue->timelineArr, float);
+		float* timelines         = AArray_GetData(scaledValue->timelineArr, float);
 
 		char timeline[sizeof("timeline") + 4];
         for (int i = 0; i < length; i++)
@@ -211,7 +211,7 @@ static inline void LoadRGBValue(char* buffer, ArrayRange* range, ArrayRange* lin
 	ALog_D("colorsCount = %d", length);
 
 	rgbValue->rgbArr = AArray->Create(sizeof(float), length);
-	float* rgbs      = AArrayGetData(rgbValue->rgbArr, float);
+	float* rgbs      = AArray_GetData(rgbValue->rgbArr, float);
 
 	char colors[sizeof("colors") + 4];
     for (int i = 0; i < length; i++)
@@ -226,7 +226,7 @@ static inline void LoadRGBValue(char* buffer, ArrayRange* range, ArrayRange* lin
 	ALog_D("timelineCount = %d", length);
 
 	rgbValue->timelineArr = AArray->Create(sizeof(float), length);
-	float* timelines      = AArrayGetData(rgbValue->timelineArr, float);
+	float* timelines      = AArray_GetData(rgbValue->timelineArr, float);
 
 	char timeline[sizeof("timeline") + 4];
     for (int i = 0; i < length; i++)

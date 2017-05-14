@@ -36,7 +36,7 @@ static Quad* Create(float width, float height)
 
 static void MaxSize(Array(Quad)* quadArr,  float* outWidth, float* outHeight)
 {
-	Quad* quads  = AArrayGetData(quadArr, Quad);
+	Quad* quads  = AArray_GetData(quadArr, Quad);
     Quad* quad   = quads;
 
     float leftX  = quad->offsetCenterX;

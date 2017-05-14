@@ -1,9 +1,13 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2013-3-11
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-3-11
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <stdlib.h>
 #include "Engine/Toolkit/Utils/Array.h"

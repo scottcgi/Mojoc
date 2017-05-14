@@ -13,7 +13,7 @@ static bool TestPolygonPoint(Array(float)* vertexArr, float x, float y)
 {
 	int    preIndex   = vertexArr->length - 2;
 	bool   inside     = false;
-	float* vertexData = AArrayGetData(vertexArr, float);
+	float* vertexData = AArray_GetData(vertexArr, float);
 
 	for (int i = 0; i < vertexArr->length; i += 2)
 	{

@@ -35,8 +35,8 @@ static inline void InitBone(Skeleton* skeleton, SkeletonData* skeletonData)
 	skeleton->boneArr              = AArray->Create(sizeof(SkeletonBone), skeletonData->boneDataOrderArr->length);
 	AArrayStrMap->InitWithCapacity(sizeof(SkeletonBone*), skeletonData->boneDataOrderArr->length, boneMap);
 
-	SkeletonBone*      bones       = AArrayGetData(skeleton->boneArr,              SkeletonBone);
-	SkeletonBoneData** boneDatas   = AArrayGetData(skeletonData->boneDataOrderArr, SkeletonBoneData*);
+	SkeletonBone*      bones       = AArray_GetData(skeleton->boneArr,              SkeletonBone);
+	SkeletonBoneData** boneDatas   = AArray_GetData(skeletonData->boneDataOrderArr, SkeletonBoneData*);
 
 	for (int i = 0; i < skeleton->boneArr->length; i++)
 	{
@@ -72,13 +72,13 @@ static inline void InitSlot(Skeleton* skeleton, SkeletonData* skeletonData)
 
 	AArrayStrMap->InitWithCapacity(sizeof(SkeletonSlot*), skeletonData->slotDataOrderArr->length, slotMap);
 
-	SkeletonSlot**     slotOrders    = AArrayGetData(skeleton->slotOrderArr,         SkeletonSlot*);
-	SkeletonSlotData** slotDatas     = AArrayGetData(skeletonData->slotDataOrderArr, SkeletonSlotData*);
+	SkeletonSlot**     slotOrders    = AArray_GetData(skeleton->slotOrderArr,         SkeletonSlot*);
+	SkeletonSlotData** slotDatas     = AArray_GetData(skeletonData->slotDataOrderArr, SkeletonSlotData*);
 
 	for (int i = 0; i < skeleton->slotArr->length; i++)
 	{
 		SkeletonSlotData* slotData   = slotDatas[i];
-		SkeletonSlot*     slot       = AArrayGetPtr(skeleton->slotArr, i, SkeletonSlot);
+		SkeletonSlot*     slot       = AArray_GetPtr(skeleton->slotArr, i, SkeletonSlot);
 
 		ASkeletonSlot->Init(slotData, skeleton, slot);
 
@@ -164,7 +164,7 @@ static void ResetBones(Skeleton* skeleton)
 	{
 		ASkeletonBone->SetToSetupPose
 		(
-			AArrayGetPtr(skeleton->boneArr, i, SkeletonBone)
+			AArray_GetPtr(skeleton->boneArr, i, SkeletonBone)
 		);
 	}
 }
@@ -176,7 +176,7 @@ static void ResetSlots(Skeleton* skeleton)
 	{
 		ASkeletonSlot->SetToSetupPose
 		(
-			AArrayGet(skeleton->slotOrderArr, i, SkeletonSlot*)
+			AArray_Get(skeleton->slotOrderArr, i, SkeletonSlot*)
 		);
 	}
 }
@@ -243,7 +243,7 @@ static void Draw(Drawable* drawable)
 
 	for (int i = 0; i < skeleton->boneArr->length; i++)
 	{
-		ADrawable->Draw(AArrayGetPtr(skeleton->boneArr, i, SkeletonBone)->drawable);
+		ADrawable->Draw(AArray_GetPtr(skeleton->boneArr, i, SkeletonBone)->drawable);
 	}
 
 	Mesh*    preMesh     = NULL;
@@ -253,7 +253,7 @@ static void Draw(Drawable* drawable)
 
 	for (int i = 0; i < skeleton->slotOrderArr->length; i++)
 	{
-		SkeletonSlot* slot = AArrayGet(skeleton->slotOrderArr, i, SkeletonSlot*);
+		SkeletonSlot* slot = AArray_Get(skeleton->slotOrderArr, i, SkeletonSlot*);
 
 		if (slot->attachmentData == NULL || slot->attachmentData->type == skeleton_attachment_boundingbox)
 		{
@@ -322,7 +322,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 				{
 					for (int l = 0; l < subMesh->positionArr->length; l++)
 					{
-						AArrayGet(subMesh->positionArr, l, float) *= ASkeletonData->scale;
+						AArray_Get(subMesh->positionArr, l, float) *= ASkeletonData->scale;
 					}
 
 					subMesh->drawable->width  = regionAttachmentData->width;
@@ -356,7 +356,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 					float  width   = texData[4] - left;
 					float  height  = texData[5] - top;
 
-					float* uvs     = AArrayGetData(meshData->uvArr, float);
+					float* uvs     = AArray_GetData(meshData->uvArr, float);
 					for (int l = 0; l < meshData->uvArr->length; l += 2)
 					{
 						uvs[l]     = left + uvs[l]     * width;

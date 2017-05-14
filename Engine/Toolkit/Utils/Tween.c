@@ -166,7 +166,7 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
 
 	for (int i = 0; i < actions->length; i++)
 	{
-		TweenAction* action = AArrayGet(actions, i, TweenAction*);
+		TweenAction* action = AArray_Get(actions, i, TweenAction*);
 
 		if (action->isQueue)
 		{

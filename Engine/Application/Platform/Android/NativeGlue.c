@@ -100,7 +100,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 				{
 					AApplication->Touch
 					(
-						AArrayMake
+						AArray_Make
 						(
 							InputTouch*, 1,
                             AInput->SetTouch
@@ -123,7 +123,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 
                     AApplication->Touch
 					(
-						AArrayMake
+						AArray_Make
 						(
 							InputTouch*, 1,
                             AInput->SetTouch
@@ -144,7 +144,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 				{
                     AApplication->Touch
 					(
-						AArrayMake
+						AArray_Make
 						(
 							InputTouch*, 1,
                             AInput->SetTouch
@@ -168,7 +168,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 
                     AApplication->Touch
 					(
-						AArrayMake
+						AArray_Make
 						(
 							InputTouch*, 1,
                             AInput->SetTouch

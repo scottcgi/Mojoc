@@ -98,8 +98,8 @@ static void UpdateMotion2D(PhysicsBody* body, float deltaSeconds)
 {
 	float  cos       = AMathCos(body->rotationZ);
 	float  sin       = AMathSin(body->rotationZ);
-	float* positions = AArrayGetData(body->positionArr, float);
-	float* vertices  = AArrayGetData(body->vertexArr,   float);
+	float* positions = AArray_GetData(body->positionArr, float);
+	float* vertices  = AArray_GetData(body->vertexArr,   float);
 
 	for (int i = 0; i < body->positionArr->length; i += 2)
 	{

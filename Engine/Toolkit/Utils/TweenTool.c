@@ -47,7 +47,7 @@ static struct ATweenTool* AddAction()
 	action      = ATween->GetAction();
 	actionValue = NULL;
 
-	AArraySet
+	AArray_Set
 	(
 		actionArr,
 		actionArr->length++,
@@ -480,7 +480,7 @@ static void RunActions(void* target)
 
 	for (int i = 0; i < actionArr->length; i++)
 	{
-		TweenAction* action = AArrayGet(actionArr, i, TweenAction*);
+		TweenAction* action = AArray_Get(actionArr, i, TweenAction*);
 
 		if (action->actionValueList->size > 0)
 		{
@@ -500,7 +500,7 @@ static void* RunTargets()
 {
 	for (int i = 0; i < actionArr->length; i++)
 	{
-		TweenAction* action = AArrayGet(actionArr, i, TweenAction*);
+		TweenAction* action = AArray_Get(actionArr, i, TweenAction*);
 
 		if (action->actionValueList->size > 0)
 		{

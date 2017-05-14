@@ -169,7 +169,7 @@ extern struct AArrayList AArrayList[1];
 		0,                                                 \
 		sizeof(elementType),                               \
 		size,                                              \
-		AArrayInit(elementType, capacity, __VA_ARGS__),    \
+		AArray_Init(elementType, capacity, __VA_ARGS__),    \
 	}
 
 

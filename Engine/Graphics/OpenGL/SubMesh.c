@@ -60,7 +60,7 @@ static SubMesh* CreateWithData(Array(float)* positionArr, Array(float)* uvArr, A
 
 //--------------------------------------------------------------------------------------------------
 
-    float* positionData = AArrayGetData(subMesh->positionArr, float);
+    float* positionData = AArray_GetData(subMesh->positionArr, float);
     float  minX         = positionData[0];
     float  maxX         = positionData[0];
     float  minY         = positionData[1];
