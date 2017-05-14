@@ -86,7 +86,7 @@ static TweenAction* GetAction()
 		AArrayList->Clear(action->actionValueList);
 	}
 
-    AUserDataInit(action->userData);
+    AUserData_Init(action->userData);
 	action->curTime    = 0.0f;
 	action->duration   = 0.0f;
 	action->OnComplete = NULL;

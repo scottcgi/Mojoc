@@ -54,7 +54,7 @@ static void ReorderChildren(Mesh* mesh)
 
 static void Draw(Drawable* meshDrawable)
 {
-	Mesh* mesh             = AStructGetParent3  (meshDrawable, Mesh, drawable);
+	Mesh* mesh             = AStruct_GetParent3  (meshDrawable, Mesh, drawable);
 	bool  isChangedOpacity = ADrawableCheckState(meshDrawable, drawable_state_opacity_ed);
 	bool  isChangedRGB     = ADrawableCheckState(meshDrawable, drawable_state_rgb_ed);
 
@@ -246,7 +246,7 @@ static inline void BindVBO(Mesh* mesh)
 
 static void Render(Drawable* drawable)
 {
-	Mesh* mesh = AStructGetParent2(drawable, Mesh);
+	Mesh* mesh = AStruct_GetParent2(drawable, Mesh);
 
 	if (mesh->childList->size == 0)
 	{

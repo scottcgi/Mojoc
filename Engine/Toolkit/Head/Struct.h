@@ -1,35 +1,32 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2014-12-22
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2014-12-22
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef struct_h
-#define struct_h
+
+#ifndef STRUCT_H
+#define STRUCT_H
 
 
 #include <stddef.h>
 
 
-/*
---------------------------------------------
-   The macro can use generic parameter
---------------------------------------------
-*/
-
-
 /**
  * Get struct pointer from member pointer
  */
-#define AStructGetParent2(memberPtr, structType) \
+#define AStruct_GetParent2(memberPtr, structType) \
 	((structType*) ((char*) memberPtr - offsetof(structType, memberPtr)))
 
 
 /**
  * Get struct pointer from member pointer with memberName
  */
-#define AStructGetParent3(memberPtr, structType, memberName) \
+#define AStruct_GetParent3(memberPtr, structType, memberName) \
 	((structType*) ((char*) memberPtr - offsetof(structType, memberName)))
 
 

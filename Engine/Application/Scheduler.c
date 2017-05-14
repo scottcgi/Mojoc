@@ -27,7 +27,7 @@ static inline Scheduler* GetScheduler(SchedulerUpdate Update, float intervalTime
         scheduler = (Scheduler*) malloc(sizeof(Scheduler));
     }
 
-    AUserDataInit(scheduler->userData);
+    AUserData_Init(scheduler->userData);
     scheduler->currentTime  = 0.0f;
     scheduler->intervalTime = intervalTime;
     scheduler->Update       = Update;

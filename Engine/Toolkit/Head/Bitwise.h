@@ -1,12 +1,16 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2013-3-14
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-3-14
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef bitwise_h
-#define bitwise_h
+
+#ifndef BITWISE_H
+#define BITWISE_H
 
 
 /*
@@ -18,23 +22,23 @@
 */
 
 
-#define ABitwiseSet(bitState,     bits) \
+#define ABitwise_Set(bitState,     bits) \
 	((bitState)  |= (bits))
 
 
-#define ABitwiseSetOnly(bitState, bits) \
+#define ABitwise_SetOnly(bitState, bits) \
     ((bitState)   = (bits))
 
 
-#define ABitwiseClear(bitState,   bits) \
+#define ABitwise_Clear(bitState,   bits) \
 	((bitState)  &= ~(bits))
 
 
-#define ABitwiseCheck(bitState,   bits) \
+#define ABitwise_Check(bitState,   bits) \
 	(((bitState) & (bits)) != 0)
 
 
-#define ABitwiseClearAndSet(bitState, clearBits, setBits) \
+#define ABitwise_ClearAndSet(bitState, clearBits, setBits) \
 	((bitState)  = ((bitState) & ~(clearBits)) | (setBits))
 
 

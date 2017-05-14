@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
  * This code is licensed under the MIT License.
  *
@@ -7,6 +7,7 @@
  * Author : scott.cgi
  * Version: 0.1
  */
+
 
 #ifndef TOOLKIT_H
 #define TOOLKIT_H

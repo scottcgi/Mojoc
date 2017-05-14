@@ -12,7 +12,7 @@
 
 static inline void Init(PhysicsBody* body)
 {
-    AUserDataInit(body->userData);
+    AUserData_Init(body->userData);
 
 	body->userId         =  -1;
 	body->positionX      =  0.0f;

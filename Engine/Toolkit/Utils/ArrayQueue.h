@@ -100,7 +100,7 @@ extern struct AArrayQueue AArrayQueue[1];
  * return element
  */
 #define AArrayQueuePop(arrayQueue, elementType) \
-	(*(elementType*) AArrayQueue->Pop(arrayQueue, null_ptr))
+	(*(elementType*) AArrayQueue->Pop(arrayQueue, NULL_PTR))
 
 
 /**

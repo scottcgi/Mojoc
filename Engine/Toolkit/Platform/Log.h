@@ -8,6 +8,7 @@
  * Version: 0.1
  */
 
+
 #ifndef LOG_H
 #define LOG_H
 

@@ -388,31 +388,31 @@ extern struct ADrawable ADrawable[1];
 
 static inline bool ADrawableCheckState(Drawable* drawable, DrawableState checkState)
 {
-	return ABitwiseCheck(drawable->state, checkState);
+	return ABitwise_Check(drawable->state, checkState);
 }
 
 
 static inline void ADrawableSetState(Drawable* drawable, DrawableState setState)
 {
-	ABitwiseSet(drawable->state, setState);
+	ABitwise_Set(drawable->state, setState);
 }
 
 
 static inline void ADrawableSetOnlyState(Drawable* drawable, DrawableState setOnlyState)
 {
-	ABitwiseSetOnly(drawable->state, setOnlyState);
+	ABitwise_SetOnly(drawable->state, setOnlyState);
 }
 
 
 static inline void ADrawableClearState(Drawable* drawable, DrawableState clearState)
 {
-	ABitwiseClear(drawable->state, clearState);
+	ABitwise_Clear(drawable->state, clearState);
 }
 
 
 static inline void ADrawableClearAndSetState(Drawable* drawable, DrawableState clearState, DrawableState setState)
 {
-	ABitwiseClearAndSet(drawable->state, clearState, setState);
+	ABitwise_ClearAndSet(drawable->state, clearState, setState);
 }
 
 

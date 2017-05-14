@@ -254,7 +254,7 @@ extern struct AArrayList AArrayList[1];
  * return element
  */
 #define AArrayListPop(arrayList, elementType) \
-	(*(elementType*) AArrayList->Pop(arrayList, null_ptr))
+	(*(elementType*) AArrayList->Pop(arrayList, NULL_PTR))
 
 
 /**

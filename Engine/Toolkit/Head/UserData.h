@@ -1,12 +1,16 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2017-4-21
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2017-4-21
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef user_data_h
-#define user_data_h
+
+#ifndef USER_DATA_H
+#define USER_DATA_H
 
 
 #include <stddef.h>
@@ -32,7 +36,7 @@ typedef struct
 UserData;
 
 
-static inline void AUserDataInit(UserData* userData)
+static inline void AUserData_Init(UserData* userData)
 {
     userData->slot0->ptrValue = NULL;
     userData->slot1->ptrValue = NULL;

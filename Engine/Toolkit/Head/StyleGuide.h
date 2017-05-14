@@ -1,12 +1,14 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2013-1-26
- * Author: scott.cgi
+ * Since  : 2013-1-26
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef style_guide_h
-#define style_guide_h
+
+#ifndef STYLE_GUIDE_H
+#define STYLE_GUIDE_H
 
 
 /*
@@ -110,5 +112,6 @@
  This is means comment few blocks of code
 ----------------------------------------------------------------------------------------------------
 */
+
 
 #endif

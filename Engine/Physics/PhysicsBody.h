@@ -144,31 +144,31 @@ extern struct APhysicsBody APhysicsBody[1];
 
 static inline bool APhysicsBodyCheckState(PhysicsBody* physicsBody, PhysicsBodyState checkState)
 {
-	return ABitwiseCheck(physicsBody->state, checkState);
+	return ABitwise_Check(physicsBody->state, checkState);
 }
 
 
 static inline void APhysicsBodySetState(PhysicsBody* physicsBody, PhysicsBodyState setState)
 {
-	ABitwiseSet(physicsBody->state, setState);
+	ABitwise_Set(physicsBody->state, setState);
 }
 
 
 static inline void APhysicsBodySetOnlyState(PhysicsBody* physicsBody, PhysicsBodyState setOnlyState)
 {
-	ABitwiseSetOnly(physicsBody->state, setOnlyState);
+	ABitwise_SetOnly(physicsBody->state, setOnlyState);
 }
 
 
 static inline void APhysicsBodyClearState(PhysicsBody* physicsBody, PhysicsBodyState clearState)
 {
-	ABitwiseClear(physicsBody->state, clearState);
+	ABitwise_Clear(physicsBody->state, clearState);
 }
 
 
 static inline void APhysicsBodyClearAndSetState(PhysicsBody* physicsBody, PhysicsBodyState clearState, PhysicsBodyState setState)
 {
-	ABitwiseClearAndSet(physicsBody->state, clearState, setState);
+	ABitwise_ClearAndSet(physicsBody->state, clearState, setState);
 }
 
 
@@ -177,25 +177,25 @@ static inline void APhysicsBodyClearAndSetState(PhysicsBody* physicsBody, Physic
 
 static inline bool APhysicsBodyCheckCollisionGroup(PhysicsBody* physicsBody,  int checkCollisionGroup)
 {
-	return ABitwiseCheck(physicsBody->collisionGroup, checkCollisionGroup);
+	return ABitwise_Check(physicsBody->collisionGroup, checkCollisionGroup);
 }
 
 
 static inline void APhysicsBodySetCollisionGroup(PhysicsBody* physicsBody,    int setCollisionGroup)
 {
-	ABitwiseSet(physicsBody->collisionGroup, setCollisionGroup);
+	ABitwise_Set(physicsBody->collisionGroup, setCollisionGroup);
 }
 
 
 static inline void APhysicsBodySetOnlyCollisionGroup(PhysicsBody* physicsBody, int setOnlycollisionGroup)
 {
-	ABitwiseSetOnly(physicsBody->collisionGroup, setOnlycollisionGroup);
+	ABitwise_SetOnly(physicsBody->collisionGroup, setOnlycollisionGroup);
 }
 
 
 static inline void APhysicsBodyClearCollisionGroup(PhysicsBody* physicsBody,   int clearCollisionGroup)
 {
-	ABitwiseClear(physicsBody->collisionGroup, clearCollisionGroup);
+	ABitwise_Clear(physicsBody->collisionGroup, clearCollisionGroup);
 }
 
 

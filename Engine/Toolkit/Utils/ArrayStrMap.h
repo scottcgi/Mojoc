@@ -167,7 +167,7 @@ static inline char* AArrayStrMapGetKey(void* valuePtr, int valueTypeSize)
  * return value
  */
 #define AArrayStrMapGet(arrayStrMap, key, valueType) \
-	(*(valueType*) AArrayStrMap->Get(arrayStrMap, key, null_ptr))
+	(*(valueType*) AArrayStrMap->Get(arrayStrMap, key, NULL_PTR))
 
 
 /**

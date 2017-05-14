@@ -1,18 +1,22 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2016-10-2
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2016-10-2
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef marco_define_h
-#define marco_define_h
+
+#ifndef MARCO_DEFINE_H
+#define MARCO_DEFINE_H
 
 
 /**
  * The pointer point NULL
  */
-#define null_ptr (void*[]) {NULL}
+#define NULL_PTR (void*[]) {NULL}
 
 
 /**

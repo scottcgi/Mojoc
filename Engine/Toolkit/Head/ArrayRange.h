@@ -1,12 +1,16 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2013-2-1
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-2-1
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef array_range_h
-#define array_range_h
+
+#ifndef ARRAY_RANGE_H
+#define ARRAY_RANGE_H
 
 
 typedef struct

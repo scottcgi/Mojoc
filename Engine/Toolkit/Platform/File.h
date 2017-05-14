@@ -8,8 +8,9 @@
  * Version: 0.1
  */
 
-#ifndef file_h
-#define file_h
+
+#ifndef FILE_H
+#define FILE_H
 
 
 #include <stddef.h>

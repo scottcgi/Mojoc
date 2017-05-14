@@ -293,8 +293,8 @@ static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, 
 
 static void Render(Drawable* drawable)
 {
-	Mesh*            mesh    = AStructGetParent2(drawable, Mesh);
-	ParticleEmitter* emitter = AStructGetParent2(mesh,     ParticleEmitter);
+	Mesh*            mesh    = AStruct_GetParent2(drawable, Mesh);
+	ParticleEmitter* emitter = AStruct_GetParent2(mesh,     ParticleEmitter);
 
 	if (emitter->emitterData->isAdditive)
 	{

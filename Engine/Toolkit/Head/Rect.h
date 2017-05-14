@@ -1,12 +1,16 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2013-2-1
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-2-1
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef rect_h
-#define rect_h
+
+#ifndef RECT_H
+#define RECT_H
 
 
 #include <stdbool.h>
@@ -22,13 +26,13 @@ typedef struct
 Rect;
 
 
-static inline bool ARectTestPoint(Rect* rect, float x, float y)
+static inline bool ARect_TestPoint(Rect* rect, float x, float y)
 {
 	return (x >= rect->left && x <= rect->right && y >= rect->bottom && y <= rect->top);
 }
 
 
-static inline bool ARectTestRect(Rect* rectA, Rect* rectB)
+static inline bool ARect_TestRect(Rect* rectA, Rect* rectB)
 {
 	return !(
 				rectA->right  < rectB->left   ||

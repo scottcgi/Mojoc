@@ -15,7 +15,7 @@
 
 static void Init(Component* outComponent)
 {
-    AUserDataInit(outComponent->userData);
+    AUserData_Init(outComponent->userData);
 
 	outComponent->order         = 0;
 	outComponent->increaseOrder = 50;
@@ -331,7 +331,7 @@ static ComponentState* AddState(Component* component, int stateId, ComponentStat
     state->Update         = update;
     state->UpdateAfter    = NULL;
     state->OnMessage      = onMessage;
-    AUserDataInit(state->userData);
+    AUserData_Init(state->userData);
 
 	AArrayIntMapInsertAt(component->stateMap, stateId, -index - 1, state);
 

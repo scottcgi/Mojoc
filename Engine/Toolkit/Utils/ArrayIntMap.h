@@ -167,7 +167,7 @@ extern struct AArrayIntMap AArrayIntMap[1];
  * return value
  */
 #define AArrayIntMapGet(arrayIntMap, key, valueType) \
-	(*(valueType*) AArrayIntMap->Get(arrayIntMap, (intptr_t) key, null_ptr))
+	(*(valueType*) AArrayIntMap->Get(arrayIntMap, (intptr_t) key, NULL_PTR))
 
 
 /**
