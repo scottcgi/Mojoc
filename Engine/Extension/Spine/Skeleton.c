@@ -45,7 +45,7 @@ static inline void InitBone(Skeleton* skeleton, SkeletonData* skeletonData)
 		ASkeletonBone->Init(boneData, bone);
 
 		ALog_D("Create bone = %s", boneData->name);
-		AArrayStrMapPut(boneMap, boneData->name, bone);
+		AArrayStrMap_TryPut(boneMap, boneData->name, bone);
 
 		if (boneData->parent == NULL)
 		{
@@ -53,7 +53,7 @@ static inline void InitBone(Skeleton* skeleton, SkeletonData* skeletonData)
 		}
 		else
 		{
-			SkeletonBone* boneParent = AArrayStrMapGet(boneMap, boneData->parent->name, SkeletonBone*);
+			SkeletonBone* boneParent = AArrayStrMap_Get(boneMap, boneData->parent->name, SkeletonBone*);
 
 			ALog_A(boneParent != NULL, "bone parent = %s, not found", boneData->parent->name);
 
@@ -85,7 +85,7 @@ static inline void InitSlot(Skeleton* skeleton, SkeletonData* skeletonData)
 		slotOrders[i]                = slot;
 		ALog_D("Create slot = %s", slotData->name);
 
-		AArrayStrMapPut(slotMap, slotData->name, slot);
+		AArrayStrMap_TryPut(slotMap, slotData->name, slot);
 	}
 }
 
@@ -93,7 +93,7 @@ static inline void InitSlot(Skeleton* skeleton, SkeletonData* skeletonData)
 static void SetSkin(Skeleton* skeleton, char* skinName)
 {
 	ArrayStrMap*      skinDataMap = skeleton->skeletonData->skinDataMap;
-	SkeletonSkinData* skinData    = AArrayStrMapGet(skinDataMap, skinName, SkeletonSkinData*);
+	SkeletonSkinData* skinData    = AArrayStrMap_Get(skinDataMap, skinName, SkeletonSkinData*);
 
 	ALog_A(skinData != NULL, "SetSkin not found skin by name = %s", skinName);
 
@@ -107,7 +107,7 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
         // first invisible before skin
         for (int i = 0; i < skeleton->curSkinData->slotAttachmentMap->elementList->size; i++)
         {
-            SkeletonSlot* slot = AArrayStrMapGet
+            SkeletonSlot* slot = AArrayStrMap_Get
                                  (
                                     skeleton->slotMap,
                                     AArrayStrMap->GetKey(skeleton->curSkinData->slotAttachmentMap, i),
@@ -132,7 +132,7 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
 
 	for (int i = 0; i < skinData->slotAttachmentMap->elementList->size; i++)
 	{
-		SkeletonSlot* slot = AArrayStrMapGet
+		SkeletonSlot* slot = AArrayStrMap_Get
                              (
                                  skeleton->slotMap,
                                  AArrayStrMap->GetKey(skinData->slotAttachmentMap, i),
@@ -144,9 +144,9 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
 			ASkeletonSlot->SetAttachmentData
 			(
 				slot,
-				AArrayStrMapGet
+				AArrayStrMap_Get
 				(
-                    AArrayStrMapGetAt(skinData->slotAttachmentMap, i, ArrayStrMap*),
+                    AArrayStrMap_GetAt(skinData->slotAttachmentMap, i, ArrayStrMap*),
 					slot->slotData->attachmentName,
 					SkeletonAttachmentData*
 				)

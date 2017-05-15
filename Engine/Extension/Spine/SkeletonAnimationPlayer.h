@@ -95,13 +95,13 @@ extern struct ASkeletonAnimationPlayer ASkeletonAnimationPlayer[1];
 
 static inline SkeletonBone* ASkeletonAnimationPlayerGetBone(SkeletonAnimationPlayer* player, char* boneName)
 {
-	return AArrayStrMapGet(player->skeleton->boneMap, boneName, SkeletonBone*);
+	return AArrayStrMap_Get(player->skeleton->boneMap, boneName, SkeletonBone*);
 }
 
 
 static inline SkeletonSlot* ASkeletonAnimationPlayerGetSlot(SkeletonAnimationPlayer* player, char* slotName)
 {
-	return AArrayStrMapGet(player->skeleton->slotMap, slotName, SkeletonSlot*);
+	return AArrayStrMap_Get(player->skeleton->slotMap, slotName, SkeletonSlot*);
 }
 
 

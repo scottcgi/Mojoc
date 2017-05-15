@@ -46,7 +46,7 @@ static void Release(JsonValue* value)
 			ArrayStrMap* map = value->object->arrayStrMap;
 			for (int i = 0; i < map->elementList->size; i++)
 			{
-				Release(AArrayStrMapGetAt(map, i, JsonValue*));
+				Release(AArrayStrMap_GetAt(map, i, JsonValue*));
 			}
 
 			AArrayStrMap->Release(map);
@@ -103,14 +103,14 @@ static inline JsonValue* CreateJsonValue(void* data, size_t valueSize, JsonType 
 
 static bool ObjectGetBool(JsonObject* object, char* key, bool defaultValue)
 {
-	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
+	JsonValue* jsonValue = AArrayStrMap_Get(object->arrayStrMap, key, JsonValue*);
 	return jsonValue != NULL ? strcmp(jsonValue->stringValue, "true") == 0 : defaultValue;
 }
 
 
 static int ObjectGetInt(JsonObject* object, char* key, int defaultValue)
 {
-	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
+	JsonValue* jsonValue = AArrayStrMap_Get(object->arrayStrMap, key, JsonValue*);
 	
 	if (jsonValue != NULL)
 	{
@@ -123,7 +123,7 @@ static int ObjectGetInt(JsonObject* object, char* key, int defaultValue)
 
 static float ObjectGetFloat(JsonObject* object, char* key, float defaultValue)
 {
-	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
+	JsonValue* jsonValue = AArrayStrMap_Get(object->arrayStrMap, key, JsonValue*);
 	
 	if (jsonValue != NULL)
 	{
@@ -136,28 +136,28 @@ static float ObjectGetFloat(JsonObject* object, char* key, float defaultValue)
 
 static char* ObjectGetString(JsonObject* object, char* key, char* defaultValue)
 {
-	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
+	JsonValue* jsonValue = AArrayStrMap_Get(object->arrayStrMap, key, JsonValue*);
 	return jsonValue != NULL ? jsonValue->stringValue : defaultValue;
 }
 
 
 static JsonObject* ObjectGetObject(JsonObject* object, char* key)
 {
-	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
+	JsonValue* jsonValue = AArrayStrMap_Get(object->arrayStrMap, key, JsonValue*);
 	return jsonValue != NULL ? jsonValue->object : NULL;
 }
 
 
 static JsonArray* ObjectGetArray(JsonObject* object, char* key)
 {
-	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
+	JsonValue* jsonValue = AArrayStrMap_Get(object->arrayStrMap, key, JsonValue*);
 	return jsonValue != NULL ? jsonValue->array : NULL;
 }
 
 
 static JsonType ObjectGetType(JsonObject* object, char* key)
 {
-	JsonValue* jsonValue = AArrayStrMapGet(object->arrayStrMap, key, JsonValue*);
+	JsonValue* jsonValue = AArrayStrMap_Get(object->arrayStrMap, key, JsonValue*);
 
 	if (jsonValue == NULL)
 	{
@@ -176,13 +176,13 @@ static char* ObjectGetKey(JsonObject* object, int index)
 
 static JsonObject* ObjectGetObjectByIndex(JsonObject* object, int index)
 {
-	return AArrayStrMapGetAt(object->arrayStrMap, index, JsonValue*)->object;
+	return AArrayStrMap_GetAt(object->arrayStrMap, index, JsonValue*)->object;
 }
 
 
 static JsonArray* ObjectGetArrayByIndex(JsonObject* object, int index)
 {
-	return AArrayStrMapGetAt(object->arrayStrMap, index, JsonValue*)->array;
+	return AArrayStrMap_GetAt(object->arrayStrMap, index, JsonValue*)->array;
 }
 
 
@@ -498,7 +498,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
 		ALog_D("Json key = %s", key);
 
 		// set object element
-		AArrayStrMapPut(map, key, value);
+		AArrayStrMap_TryPut(map, key, value);
 
 		// restore char after key string
 		key[keyLen]       = c;

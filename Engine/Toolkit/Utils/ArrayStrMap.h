@@ -1,12 +1,15 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-5-20
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-5-20
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef array_str_map_h
-#define array_str_map_h
+#ifndef ARRAY_STR_MAP_H
+#define ARRAY_STR_MAP_H
 
 
 #include <stdbool.h>
@@ -66,7 +69,7 @@ struct AArrayStrMap
 	 * else
 	 *     return NULL
 	 */
-	void*        (*Put)                (ArrayStrMap* arrayStrMap, char* key, void* valuePtr);
+	void*        (*TryPut)             (ArrayStrMap* arrayStrMap, char* key, void* valuePtr);
 
 	/**
 	 * Get valuePtr by key, if no key found return defaultValuePtr
@@ -130,7 +133,7 @@ extern struct AArrayStrMap AArrayStrMap[1];
 /**
  * Get key in ArrayStrMapElement by valuePtr with valueTypeSize
  */
-static inline char* AArrayStrMapGetKey(void* valuePtr, int valueTypeSize)
+static inline char* AArrayStrMap_GetKey(void* valuePtr, int valueTypeSize)
 {
 	return (char*) valuePtr + valueTypeSize;
 }
@@ -144,9 +147,9 @@ static inline char* AArrayStrMapGetKey(void* valuePtr, int valueTypeSize)
 
 /**
  * Initialize constant ArrayStrMap
- * use like ArrayStrMap map[1] = AArrayStrMapInit(valueType, increase)
+ * use like ArrayStrMap map[1] = AArrayStrMap_Init(valueType, increase)
  */
-#define AArrayStrMapInit(valueType, increase)              \
+#define AArrayStrMap_Init(valueType, increase)              \
 	{                                                      \
 		{                                                  \
 			sizeof(valueType),                             \
@@ -156,17 +159,17 @@ static inline char* AArrayStrMapGetKey(void* valuePtr, int valueTypeSize)
 
 
 /**
- * Shortcut of ArrayStrMap->Put
+ * Shortcut of ArrayStrMap->TryPut
  */
-#define AArrayStrMapPut(arrayStrMap, key, value) \
-	AArrayStrMap->Put(arrayStrMap, key, &(value))
+#define AArrayStrMap_TryPut(arrayStrMap, key, value) \
+	AArrayStrMap->TryPut(arrayStrMap, key, &(value))
 
 
 /**
  * Shortcut of AArrayStrMap->Get
  * return value
  */
-#define AArrayStrMapGet(arrayStrMap, key, valueType) \
+#define AArrayStrMap_Get(arrayStrMap, key, valueType) \
 	(*(valueType*) AArrayStrMap->Get(arrayStrMap, key, NULL_PTR))
 
 
@@ -174,21 +177,21 @@ static inline char* AArrayStrMapGetKey(void* valuePtr, int valueTypeSize)
  * Shortcut of AArrayStrMap->Get
  * return valuePtr
  */
-#define AArrayStrMapGetPtr(arrayStrMap, key, valueType) \
+#define AArrayStrMap_GetPtr(arrayStrMap, key, valueType) \
 	((valueType*) AArrayStrMap->Get(arrayStrMap, key, NULL))
 
 
 /**
  * Shortcut of AArrayStrMap->Set
  */
-#define AArrayStrMapSet(arrayStrMap, key, value) \
+#define AArrayStrMap_Set(arrayStrMap, key, value) \
 	AArrayStrMap->Set(arrayStrMap, key, &(value));
 
 
 /**
  * Shortcut of AArrayStrMap->InsertAt
  */
-#define AArrayStrMapInsertAt(arrayStrMap, key, index, value) \
+#define AArrayStrMap_InsertAt(arrayStrMap, key, index, value) \
 	AArrayStrMap->InsertAt(arrayStrMap, key, index, &(value))
 
 
@@ -196,7 +199,7 @@ static inline char* AArrayStrMapGetKey(void* valuePtr, int valueTypeSize)
  * Shortcut of AArrayStrMap->GetAt
  * return value
  */
-#define AArrayStrMapGetAt(arrayStrMap, index, valueType) \
+#define AArrayStrMap_GetAt(arrayStrMap, index, valueType) \
 	(*(valueType*) AArrayStrMap->GetAt(arrayStrMap, index))
 
 
@@ -204,14 +207,14 @@ static inline char* AArrayStrMapGetKey(void* valuePtr, int valueTypeSize)
  * Shortcut of AArrayStrMap->GetAt
  * return valuePtr
  */
-#define AArrayStrMapGetPtrAt(arrayStrMap, index, valueType) \
+#define AArrayStrMap_GetPtrAt(arrayStrMap, index, valueType) \
 	((valueType*) AArrayStrMap->GetAt(arrayStrMap, index))
 
 
 /**
  * Shortcut of AArrayStrMap->SetAt
  */
-#define AArrayStrMapSetAt(arrayStrMap, index, value) \
+#define AArrayStrMap_SetAt(arrayStrMap, index, value) \
 	AArrayStrMap->SetAt(arrayStrMap, index, &(value))
 
 

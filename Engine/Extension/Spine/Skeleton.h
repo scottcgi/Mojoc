@@ -94,7 +94,7 @@ static inline void ASkeletonDraw(Skeleton* skeleton)
 
 static inline SkeletonAnimationData* ASkeletonGetAnimationData(Skeleton* skeleton, char* animationName)
 {
-    return AArrayStrMapGet
+    return AArrayStrMap_Get
            (
                 skeleton->skeletonData->animationDataMap,
                 animationName,

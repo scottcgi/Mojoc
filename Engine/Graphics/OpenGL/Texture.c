@@ -12,7 +12,7 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-static ArrayStrMap(filePath, Texture*) textureMap[1] = AArrayStrMapInit(Texture*, 20);
+static ArrayStrMap(filePath, Texture*) textureMap[1] = AArrayStrMap_Init(Texture*, 20);
 
 
 static void Release(Texture* texture)
@@ -28,16 +28,16 @@ static void Release(Texture* texture)
 
 static Texture* Get(char* filePath)
 {
-	Texture* texture = AArrayStrMapGet(textureMap, filePath, Texture*);
+	Texture* texture = AArrayStrMap_Get(textureMap, filePath, Texture*);
 
 	if (texture == NULL)
 	{
 		texture           = (Texture*) malloc(sizeof(Texture));
 		AGLTool->LoadTexture(filePath, texture);
 
-		texture->filePath = AArrayStrMapGetKey
+		texture->filePath = AArrayStrMap_GetKey
 							(
-								AArrayStrMapPut(textureMap, filePath, texture),
+								AArrayStrMap_TryPut(textureMap, filePath, texture),
 								textureMap->valueTypeSize
 							);
 	}

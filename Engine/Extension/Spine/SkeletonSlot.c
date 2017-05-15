@@ -173,7 +173,7 @@ static void Init(SkeletonSlotData* slotData, Skeleton* skeleton, SkeletonSlot* o
 	outSlot->slotData       = slotData;
 	outSlot->skeleton       = skeleton;
 	outSlot->attachmentData = NULL;
-	outSlot->bone           = AArrayStrMapGet(skeleton->boneMap, slotData->boneData->name, SkeletonBone*);
+	outSlot->bone           = AArrayStrMap_Get(skeleton->boneMap, slotData->boneData->name, SkeletonBone*);
 
 	SetToSetupPose(outSlot);
 }

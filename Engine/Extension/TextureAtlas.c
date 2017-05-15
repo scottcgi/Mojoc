@@ -17,7 +17,7 @@
 #include "Engine/Toolkit/Utils/FileTool.h"
 
 
-static ArrayStrMap(filePath, TextureAtlas*) textureAtlasMap[1] = AArrayStrMapInit(TextureAtlas*, 10);
+static ArrayStrMap(filePath, TextureAtlas*) textureAtlasMap[1] = AArrayStrMap_Init(TextureAtlas*, 10);
 
 
 static inline void ReadFind(char* buffer, ArrayRange* range, ArrayRange* line, char* str)
@@ -131,7 +131,7 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
             atlasQuad->quad->offsetTextureY = AGLToolToGLHeight(y);
             atlasQuad->atlas                = outTextureAtlas;
 
-			AArrayStrMap->Put(outTextureAtlas->quadMap, textureQuadName, atlasQuad);
+			AArrayStrMap->TryPut(outTextureAtlas->quadMap, textureQuadName, atlasQuad);
 		}
 	}
 
@@ -157,14 +157,14 @@ static void Release(TextureAtlas* textureAtlas)
 
 static TextureAtlas* Get(char* filePath)
 {
-    TextureAtlas* textureAtlas = AArrayStrMapGet(textureAtlasMap, filePath, TextureAtlas*);
+    TextureAtlas* textureAtlas = AArrayStrMap_Get(textureAtlasMap, filePath, TextureAtlas*);
 
     if (textureAtlas == NULL)
     {
         textureAtlas           = (TextureAtlas*) malloc(sizeof(TextureAtlas));
-        textureAtlas->filePath = AArrayStrMapGetKey
+        textureAtlas->filePath = AArrayStrMap_GetKey
                                  (
-                                    AArrayStrMapPut(textureAtlasMap, filePath, textureAtlas),
+                                    AArrayStrMap_TryPut(textureAtlasMap, filePath, textureAtlas),
                                     textureAtlasMap->valueTypeSize
                                  );
 

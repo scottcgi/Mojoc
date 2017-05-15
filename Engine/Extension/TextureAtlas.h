@@ -65,7 +65,7 @@ extern struct ATextureAtlas ATextureAtlas[1];
 
 static TextureAtlasQuad* ATextureAtlasGetQuad(TextureAtlas* atlas, char* quadName)
 {
-    return AArrayStrMapGetPtr(atlas->quadMap, quadName, TextureAtlasQuad);
+    return AArrayStrMap_GetPtr(atlas->quadMap, quadName, TextureAtlasQuad);
 }
 
 
