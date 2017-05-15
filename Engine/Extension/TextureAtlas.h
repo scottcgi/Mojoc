@@ -71,7 +71,7 @@ static TextureAtlasQuad* ATextureAtlasGetQuad(TextureAtlas* atlas, char* quadNam
 
 static Texture* ATextureAtlasGetQuadTexture(TextureAtlasQuad* atlasQuad)
 {
-    return AArrayListGet(atlasQuad->atlas->textureList, atlasQuad->textureIndex, Texture*);
+    return AArrayList_Get(atlasQuad->atlas->textureList, atlasQuad->textureIndex, Texture*);
 }
 
 

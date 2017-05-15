@@ -18,9 +18,9 @@ static inline SubMesh* GetAttachmentSubMesh(Skeleton* skeleton, SkeletonAttachme
 	int meshIndex    = *(int*) ((char*) (skeletonAttachmentData)->childPtr + skeletonAttachmentMeshOffset   [(skeletonAttachmentData)->type]);
 	int subMeshIndex = *(int*) ((char*) (skeletonAttachmentData)->childPtr + skeletonAttachmentSubMeshOffset[(skeletonAttachmentData)->type]);
 
-	return AArrayListGet
+	return AArrayList_Get
 		   (
-			   AArrayListGetPtr(skeleton->meshList, meshIndex, Mesh)->childList,
+			   AArrayList_GetPtr(skeleton->meshList, meshIndex, Mesh)->childList,
 			   subMeshIndex,
 			   SubMesh*
 		   );
@@ -218,7 +218,7 @@ static void Release(Skeleton* skeleton)
 
 	for (int j = 0; j < skeleton->meshList->size; j++)
 	{
-		AMesh->Release(AArrayListGetPtr(skeleton->meshList, j, Mesh));
+		AMesh->Release(AArrayList_GetPtr(skeleton->meshList, j, Mesh));
 	}
 	AArrayList->Release(skeleton->meshList);
 
@@ -231,7 +231,7 @@ static void Apply(Skeleton* skeleton, SkeletonAnimationData* animationData, floa
 {
 	for (int i = 0; i < animationData->timelineArr->size; i++)
 	{
-		SkeletonTimeline* timeline = AArrayListGet(animationData->timelineArr, i, SkeletonTimeline*);
+		SkeletonTimeline* timeline = AArrayList_Get(animationData->timelineArr, i, SkeletonTimeline*);
 		timeline->Apply(timeline, skeleton, time, mixPercent);
 	}
 }
@@ -291,15 +291,15 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 
 	for (int i = 0; i < skeletonData->textureAtlas->textureList->size; i++)
 	{
-		Texture* texture = AArrayListGet(skeletonData->textureAtlas->textureList, i, Texture*);
-		Mesh*    mesh    = AArrayListGetPtrAdd(skeleton->meshList, Mesh);
+		Texture* texture = AArrayList_Get(skeletonData->textureAtlas->textureList, i, Texture*);
+		Mesh*    mesh    = AArrayList_GetPtrAdd(skeleton->meshList, Mesh);
 
 		AMesh->Init(texture, mesh);
 	}
 
 	for (int i = 0; i < skeletonData->attachmentDataList->size; i++)
 	{
-		SkeletonAttachmentData* attachmentData = AArrayListGet(skeletonData->attachmentDataList, i, SkeletonAttachmentData*);
+		SkeletonAttachmentData* attachmentData = AArrayList_Get(skeletonData->attachmentDataList, i, SkeletonAttachmentData*);
 		SubMesh*                subMesh;
 
 		switch (attachmentData->type)
@@ -309,7 +309,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 				SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->childPtr;
 				subMesh                                            =  AMesh->AddChildWithQuad
 																	  (
-																		 AArrayListGetPtr
+																		 AArrayList_GetPtr
 																		 (
 																			 skeleton->meshList,
 																			 regionAttachmentData->meshIndex,
@@ -347,7 +347,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 					AQuad->GetQuadUV
 					(
 						meshData->quad,
-						AArrayListGet(skeletonData->textureAtlas->textureList, meshData->meshIndex, Texture*),
+						AArrayList_Get(skeletonData->textureAtlas->textureList, meshData->meshIndex, Texture*),
 						texData
 					);
 
@@ -368,7 +368,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 
 				subMesh = AMesh->AddChildWithData
 						  (
-							  AArrayListGetPtr
+							  AArrayList_GetPtr
 							  (
 								  skeleton->meshList,
 								  meshData->meshIndex,
@@ -395,7 +395,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 
 	for (int i = 0; i < skeleton->meshList->size; i++)
 	{
-		AMesh->GenerateBuffer(AArrayListGetPtr(skeleton->meshList, i, Mesh));
+		AMesh->GenerateBuffer(AArrayList_GetPtr(skeleton->meshList, i, Mesh));
 	}
 }
 

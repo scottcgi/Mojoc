@@ -12,7 +12,7 @@
 #include "Engine/Graphics/OpenGL/Camera.h"
 
 
-static ArrayList(Drawable*) renderQueue[1] = AArrayListInit(Drawable*, 150);
+static ArrayList(Drawable*) renderQueue[1] = AArrayList_Init(Drawable*, 150);
 
 
 static void Draw(Drawable* drawable)
@@ -172,7 +172,7 @@ static void Draw(Drawable* drawable)
 		// if has render push into queue
 		if (drawable->Render != NULL)
 		{
-			AArrayListAdd(renderQueue, drawable);
+			AArrayList_Add(renderQueue, drawable);
 		}
 	}
 	else
@@ -190,64 +190,64 @@ static void RenderQueue()
 	{
         while (i + 19 < renderQueue->size)
         {
-            drawable = AArrayListGet(renderQueue, i,      Drawable*);
+            drawable = AArrayList_Get(renderQueue, i,      Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 1,  Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 1,  Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 2,  Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 2,  Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 3,  Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 3,  Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 4,  Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 4,  Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 5,  Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 5,  Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 6,  Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 6,  Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 7,  Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 7,  Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 8,  Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 8,  Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 9,  Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 9,  Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 10, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 10, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 11, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 11, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 12, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 12, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 13, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 13, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 14, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 14, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 15, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 15, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 16, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 16, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 17, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 17, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 18, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 18, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 19, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 19, Drawable*);
             drawable->Render(drawable);
 
             i += 20;
@@ -255,34 +255,34 @@ static void RenderQueue()
 
         while (i + 9 < renderQueue->size)
         {
-            drawable = AArrayListGet(renderQueue, i,     Drawable*);
+            drawable = AArrayList_Get(renderQueue, i,     Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 1, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 1, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 2, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 2, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 3, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 3, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 4, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 4, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 5, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 5, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 6, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 6, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 7, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 7, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 8, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 8, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 9, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 9, Drawable*);
             drawable->Render(drawable);
 
             i += 10;
@@ -290,19 +290,19 @@ static void RenderQueue()
 
         while (i + 4 < renderQueue->size)
         {
-            drawable = AArrayListGet(renderQueue, i,     Drawable*);
+            drawable = AArrayList_Get(renderQueue, i,     Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 1, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 1, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 2, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 2, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 3, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 3, Drawable*);
             drawable->Render(drawable);
 
-            drawable = AArrayListGet(renderQueue, i + 4, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i + 4, Drawable*);
             drawable->Render(drawable);
 
             i += 5;
@@ -310,7 +310,7 @@ static void RenderQueue()
 
         while (i < renderQueue->size)
         {
-            drawable = AArrayListGet(renderQueue, i++, Drawable*);
+            drawable = AArrayList_Get(renderQueue, i++, Drawable*);
             drawable->Render(drawable);
         }
 

@@ -39,7 +39,7 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
 	{
 		// not consider int overflow
 		guess               = (high + low) >> 1;
-	    intptr_t elementKey = AArrayListGet(elementList, guess, ArrayIntMapElement*)->key;
+	    intptr_t elementKey = AArrayList_Get(elementList, guess, ArrayIntMapElement*)->key;
 
 		if (elementKey < key)
 		{
@@ -83,7 +83,7 @@ static void* TryPut(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
         element->key                = key;
         element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
 
-        AArrayListInsert(arrayIntMap->elementList, -guess - 1, element);
+        AArrayList_Insert(arrayIntMap->elementList, -guess - 1, element);
 
         return memcpy(element->valuePtr, valuePtr, arrayIntMap->valueTypeSize);
     }
@@ -98,7 +98,7 @@ static void* Get(ArrayIntMap* arrayIntMap, intptr_t key, void* defaultValuePtr)
 {
 	int guess = BinarySearch(arrayIntMap->elementList, key);
 
-	return guess >= 0 ? AArrayListGet(arrayIntMap->elementList, guess, ArrayIntMapElement*)->valuePtr : defaultValuePtr;
+	return guess >= 0 ? AArrayList_Get(arrayIntMap->elementList, guess, ArrayIntMapElement*)->valuePtr : defaultValuePtr;
 }
 
 
@@ -110,7 +110,7 @@ static void* Set(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 
 	return memcpy
 		   (
-			   AArrayListGet(arrayIntMap->elementList, guess, ArrayIntMapElement*)->valuePtr,
+			   AArrayList_Get(arrayIntMap->elementList, guess, ArrayIntMapElement*)->valuePtr,
 			   valuePtr,
 			   arrayIntMap->valueTypeSize
 		   );
@@ -125,7 +125,7 @@ static bool TryRemove(ArrayIntMap* arrayIntMap, intptr_t key)
 	{
 		free
 		(
-			AArrayListGet(arrayIntMap->elementList, guess, ArrayIntMapElement*)
+			AArrayList_Get(arrayIntMap->elementList, guess, ArrayIntMapElement*)
 		);
 
 		AArrayList->Remove(arrayIntMap->elementList, guess);
@@ -143,7 +143,7 @@ static void Clear(ArrayIntMap* arrayIntMap)
 	{
 		free
 		(
-			AArrayListGet(arrayIntMap->elementList, i, ArrayIntMapElement*)
+			AArrayList_Get(arrayIntMap->elementList, i, ArrayIntMapElement*)
 		);
 	}
 
@@ -157,7 +157,7 @@ static void* InsertAt(ArrayIntMap* arrayIntMap, intptr_t key, int index, void* v
 
 	ArrayIntMapElement* element = (ArrayIntMapElement*) malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
 
-	AArrayListInsert(arrayIntMap->elementList, index, element);
+	AArrayList_Insert(arrayIntMap->elementList, index, element);
 	element->key                = key;
 	element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
 
@@ -174,14 +174,14 @@ static int GetIndex(ArrayIntMap* arrayIntMap, intptr_t key)
 static intptr_t GetKey(ArrayIntMap* arrayIntMap, int index)
 {
 	CheckIndex("GetKey");
-	return AArrayListGet(arrayIntMap->elementList, index, ArrayIntMapElement*)->key;
+	return AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)->key;
 }
 
 
 static void* GetAt(ArrayIntMap* arrayIntMap, int index)
 {
 	CheckIndex("GetAt");
-	return AArrayListGet(arrayIntMap->elementList, index, ArrayIntMapElement*)->valuePtr;
+	return AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)->valuePtr;
 }
 
 
@@ -191,7 +191,7 @@ static void* SetAt(ArrayIntMap* arrayIntMap, int index, void* valuePtr)
 
 	return memcpy
 		   (
-			   AArrayListGet(arrayIntMap->elementList, index, ArrayIntMapElement*)->valuePtr,
+			   AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)->valuePtr,
 			   valuePtr,
 			   arrayIntMap->valueTypeSize
 		   );
@@ -204,7 +204,7 @@ static void RemoveAt(ArrayIntMap* arrayIntMap, int index)
 
 	free
 	(
-		AArrayListGet(arrayIntMap->elementList, index, ArrayIntMapElement*)
+		AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)
 	);
 
 	AArrayList->Remove(arrayIntMap->elementList, index);
@@ -217,7 +217,7 @@ static void Release(ArrayIntMap* arrayIntMap)
 	{
 		free
 		(
-			AArrayListGet(arrayIntMap->elementList, i, ArrayIntMapElement*)
+			AArrayList_Get(arrayIntMap->elementList, i, ArrayIntMapElement*)
 		);
 	}
 

@@ -103,7 +103,7 @@ static void Release(SkeletonData* skeletonData)
 
 		for (int i = 0; i < timelineList->size; i++)
 		{
-			SkeletonTimeline* timeline = AArrayListGet(timelineList, i, SkeletonTimeline*);
+			SkeletonTimeline* timeline = AArrayList_Get(timelineList, i, SkeletonTimeline*);
 			timeline->Release(timeline);
 			free(timeline->childPtr);
 		}
@@ -759,7 +759,7 @@ static inline void ReadAnimationBones
 
 				// the array name is const no address, so &rotateTimeline->skeletonTimeline not working
 				SkeletonTimeline* skeletonTimeline = rotateTimeline->skeletonTimeline;
-				AArrayListAdd(skeletonTimelineArr, skeletonTimeline);
+				AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
 				animationData->duration = AMathMax
 						                  (
@@ -785,7 +785,7 @@ static inline void ReadAnimationBones
 				}
 
 				skeletonTimeline = translateTimeline->skeletonTimeline;
-				AArrayListAdd(skeletonTimelineArr, skeletonTimeline);
+				AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
 				for (int k = 0, frameIndex = 0; k < timelineArr->arrayList->size; k++, frameIndex++)
 				{
@@ -869,7 +869,7 @@ static inline void ReadAnimationSlots
 				}
 
 				SkeletonTimeline* skeletonTimeline = colorTimeline->skeletonTimeline;
-				AArrayListAdd(skeletonTimelineArr, skeletonTimeline);
+				AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
 				animationData->duration = AMathMax
 										  (
@@ -894,7 +894,7 @@ static inline void ReadAnimationSlots
 				}
 
 				SkeletonTimeline* skeletonTimeline = attachmentTimeline->skeletonTimeline;
-				AArrayListAdd(skeletonTimelineArr, skeletonTimeline);
+				AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
 				animationData->duration = AMathMax
 										  (
@@ -962,7 +962,7 @@ static inline void ReadAnimationEvents
 	}
 
 	SkeletonTimeline* skeletonTimeline = eventTimeline->skeletonTimeline;
-	AArrayListAdd(skeletonTimelineArr, skeletonTimeline);
+	AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
 	animationData->duration = AMathMax
 			                  (
@@ -1063,7 +1063,7 @@ static inline void ReadAnimationDrawOrders
 	}
 
 	SkeletonTimeline* skeletonTimeline = drawOrderTimeline->skeletonTimeline;
-	AArrayListAdd(skeletonTimelineArr, skeletonTimeline);
+	AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
 	animationData->duration = AMathMax
 			                  (
@@ -1169,7 +1169,7 @@ static inline void ReadAnimationDeform
 				}
 
 				SkeletonTimeline* skeletonTimeline = deformTimeline->skeletonTimeline;
-				AArrayListAdd(skeletonTimelineArr, skeletonTimeline);
+				AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
 				animationData->duration = AMathMax
 										  (
@@ -1393,9 +1393,9 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 				}
 
 				// collect each skin attachmentData
-				AArrayListAdd(slotData->attachmentDataList,     attachmentData);
+				AArrayList_Add(slotData->attachmentDataList,     attachmentData);
 				// collect all skin attachmentData
-				AArrayListAdd(skeletonData->attachmentDataList, attachmentData);
+				AArrayList_Add(skeletonData->attachmentDataList, attachmentData);
 
 				ALog_D("Set skin name = %s, attachment name = %s", skinName, attachmentData->name);
 

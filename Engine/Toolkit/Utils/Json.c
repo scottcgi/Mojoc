@@ -33,7 +33,7 @@ static void Release(JsonValue* value)
 			ArrayList* list = value->array->arrayList;
 			for (int i = 0; i < list->size; i++)
 			{
-				Release(AArrayListGet(list, i, JsonValue*));
+				Release(AArrayList_Get(list, i, JsonValue*));
 			}
 
 			AArrayList->Release(list);
@@ -206,36 +206,36 @@ struct AJsonObject AJsonObject[1] =
 
 static bool ArrayGetBool(JsonArray* array, int index)
 {
-	return strcmp(AArrayListGet(array->arrayList, index, JsonValue*)->stringValue, "true") == 0;
+	return strcmp(AArrayList_Get(array->arrayList, index, JsonValue*)->stringValue, "true") == 0;
 }
 
 
 static int ArrayGetInt(JsonArray* array, int index)
 {
-	return AArrayListGet(array->arrayList, index, JsonValue*)->floatValue;
+	return AArrayList_Get(array->arrayList, index, JsonValue*)->floatValue;
 }
 
 static float ArrayGetFloat(JsonArray* array, int index)
 {
-	return AArrayListGet(array->arrayList, index, JsonValue*)->floatValue;
+	return AArrayList_Get(array->arrayList, index, JsonValue*)->floatValue;
 }
 
 
 static char* ArrayGetString(JsonArray* array, int index)
 {
-	return AArrayListGet(array->arrayList, index, JsonValue*)->stringValue;
+	return AArrayList_Get(array->arrayList, index, JsonValue*)->stringValue;
 }
 
 
 static JsonObject* ArrayGetObject(JsonArray* array, int index)
 {
-	return AArrayListGet(array->arrayList, index, JsonValue*)->object;
+	return AArrayList_Get(array->arrayList, index, JsonValue*)->object;
 }
 
 
 static JsonArray* ArrayGetArray(JsonArray* array, int index)
 {
-	return AArrayListGet(array->arrayList, index, JsonValue*)->array;
+	return AArrayList_Get(array->arrayList, index, JsonValue*)->array;
 }
 
 
@@ -246,7 +246,7 @@ static JsonType ArrayGetType(JsonArray* array, int index)
 		return json_null;
 	}
 	
-	return AArrayListGet(array->arrayList, index, JsonValue*)->type;
+	return AArrayList_Get(array->arrayList, index, JsonValue*)->type;
 }
 
 
@@ -415,7 +415,7 @@ static inline JsonValue* ParseArray(char** jsonPtr)
 	{
 		JsonValue* value = ParseValue(jsonPtr);
 		// add Array element
-		AArrayListAdd(list, value);
+		AArrayList_Add(list, value);
 		 
 		 SkipWhiteSpace(jsonPtr);
 

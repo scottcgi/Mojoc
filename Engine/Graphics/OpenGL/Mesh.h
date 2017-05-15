@@ -165,8 +165,8 @@ static inline void AMeshDraw(Mesh* mesh)
  */
 static inline void AMeshPushDrawRange(Mesh* mesh, int startIndex, int endIndex)
 {
-    AArrayQueuePush(mesh->drawRangeQueue, startIndex);
-    AArrayQueuePush(mesh->drawRangeQueue, endIndex);
+    AArrayQueue_Push(mesh->drawRangeQueue, startIndex);
+    AArrayQueue_Push(mesh->drawRangeQueue, endIndex);
 }
 
 

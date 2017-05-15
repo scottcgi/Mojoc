@@ -28,7 +28,7 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
     {
         // not consider int overflow
         guess            = (high + low) >> 1;
-        intptr_t element = AArrayListGet(elementList, guess, intptr_t);
+        intptr_t element = AArrayList_Get(elementList, guess, intptr_t);
 
         if (element < key)
         {
@@ -108,7 +108,7 @@ static bool TryAdd(ArrayIntSet* arrayIntSet, intptr_t element)
 
     if (guess < 0)
     {
-        AArrayListInsert(arrayIntSet->elementList, -guess - 1, element);
+        AArrayList_Insert(arrayIntSet->elementList, -guess - 1, element);
         return true;
     }
     else

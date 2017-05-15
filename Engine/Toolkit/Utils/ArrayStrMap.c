@@ -34,7 +34,7 @@ static inline int BinarySearch(ArrayList* elementList, char* key, int keyLength)
     {
 		// not consider int overflow
 		guess                       = (high + low) >> 1;
-		ArrayStrMapElement* element = AArrayListGet(elementList, guess, ArrayStrMapElement*);
+		ArrayStrMapElement* element = AArrayList_Get(elementList, guess, ArrayStrMapElement*);
 
 		if (element->keyLength < keyLength)
         {
@@ -96,7 +96,7 @@ static void* Put(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 		element->key                      = (char*) element->valuePtr + valueTypeSize;
 		memcpy((void*) element->key, key, keyLength);
 
-		AArrayListInsert(arrayStrMap->elementList, -guess - 1, element);
+		AArrayList_Insert(arrayStrMap->elementList, -guess - 1, element);
 
 		return memcpy(element->valuePtr, valuePtr, valueTypeSize);
 	}
@@ -110,7 +110,7 @@ static void* Put(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 static void* Get(ArrayStrMap* arrayStrMap, char* key, void* defaultValuePtr)
 {
 	int guess = BinarySearch(arrayStrMap->elementList, key, (int) strlen(key) + 1);
-	return guess >= 0 ? AArrayListGet(arrayStrMap->elementList, guess, ArrayStrMapElement*)->valuePtr : defaultValuePtr;
+	return guess >= 0 ? AArrayList_Get(arrayStrMap->elementList, guess, ArrayStrMapElement*)->valuePtr : defaultValuePtr;
 }
 
 
@@ -122,7 +122,7 @@ static void* Set(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 
 	return memcpy
 		   (
-			   AArrayListGet(arrayStrMap->elementList, guess, ArrayStrMapElement*)->valuePtr,
+			   AArrayList_Get(arrayStrMap->elementList, guess, ArrayStrMapElement*)->valuePtr,
 			   valuePtr,
 			   arrayStrMap->valueTypeSize
 		   );
@@ -137,7 +137,7 @@ static bool TryRemove(ArrayStrMap* arrayStrMap, char* key)
 	{
 		free
 		(
-			AArrayListGet(arrayStrMap->elementList, guess, ArrayStrMapElement*)
+			AArrayList_Get(arrayStrMap->elementList, guess, ArrayStrMapElement*)
 		);
 
 		AArrayList->Remove(arrayStrMap->elementList, guess);
@@ -155,7 +155,7 @@ static void Clear(ArrayStrMap* arrayStrMap)
 	{
 		free
 		(
-			AArrayListGet(arrayStrMap->elementList, i, ArrayStrMapElement*)
+			AArrayList_Get(arrayStrMap->elementList, i, ArrayStrMapElement*)
 		);
 	}
 
@@ -176,7 +176,7 @@ static void* InsertAt(ArrayStrMap* arrayStrMap, char* key, int index, void* valu
 	element->key                = (char*) element->valuePtr + valueTypeSize;
 	memcpy((void*) element->key, key, keyLength);
 
-	AArrayListInsert( arrayStrMap->elementList, index, element);
+	AArrayList_Insert( arrayStrMap->elementList, index, element);
 
 	return memcpy(element->valuePtr, valuePtr, valueTypeSize);
 }
@@ -191,14 +191,14 @@ static int GetIndex(ArrayStrMap* arrayStrMap, char* key)
 static char* GetKey(ArrayStrMap* arrayStrMap, int index)
 {
 	CheckIndex("GetKey");
-	return AArrayListGet(arrayStrMap->elementList, index, ArrayStrMapElement*)->key;
+	return AArrayList_Get(arrayStrMap->elementList, index, ArrayStrMapElement*)->key;
 }
 
 
 static void* GetAt(ArrayStrMap* arrayStrMap, int index)
 {
 	CheckIndex("GetAt");
-	return AArrayListGet(arrayStrMap->elementList, index, ArrayStrMapElement*)->valuePtr;
+	return AArrayList_Get(arrayStrMap->elementList, index, ArrayStrMapElement*)->valuePtr;
 }
 
 
@@ -208,7 +208,7 @@ static void* SetAt(ArrayStrMap* arrayStrMap, int index, void* valuePtr)
 
 	return memcpy
 		   (
-			   AArrayListGet(arrayStrMap->elementList, index, ArrayStrMapElement*)->valuePtr,
+			   AArrayList_Get(arrayStrMap->elementList, index, ArrayStrMapElement*)->valuePtr,
 			   valuePtr,
 			   arrayStrMap->valueTypeSize
 		   );
@@ -221,7 +221,7 @@ static void RemoveAt(ArrayStrMap* arrayStrMap, int index)
 
 	free
 	(
-		AArrayListGet(arrayStrMap->elementList, index, ArrayStrMapElement*)
+		AArrayList_Get(arrayStrMap->elementList, index, ArrayStrMapElement*)
 	);
 
 	AArrayList->Remove(arrayStrMap->elementList, index);
@@ -234,7 +234,7 @@ static void Release(ArrayStrMap* arrayStrMap)
 	{
 		free
 		(
-			AArrayListGet(arrayStrMap->elementList, i, ArrayStrMapElement*)
+			AArrayList_Get(arrayStrMap->elementList, i, ArrayStrMapElement*)
 		);
 	}
 

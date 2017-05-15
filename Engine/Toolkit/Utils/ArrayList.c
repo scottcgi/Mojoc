@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-2-4
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-2-4
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <string.h>
 #include <stdlib.h>
@@ -193,7 +197,7 @@ static void RemoveRange(ArrayList* arrayList, int fromIndex, int toIndex)
 {
 	CheckIndex("RemoveRange", fromIndex);
 	CheckIndex("RemoveRange", toIndex);
-	ALog_A     (toIndex >=     fromIndex, "ArrayList RemoveRange toIndex must more than fromIndex");
+	ALog_A    (toIndex >=     fromIndex, "ArrayList RemoveRange toIndex must more than fromIndex");
 
 	int num          = toIndex         - fromIndex + 1;
 	int lastIndex    = arrayList->size - 1;
@@ -212,6 +216,7 @@ static void RemoveRange(ArrayList* arrayList, int fromIndex, int toIndex)
 		// memset((char*) arrayList->array->data + arrayList->elementTypeSize * arrayList->size, 0, arrayList->elementTypeSize * num);
 
 	}
+
 /*
 ----------------------------------------------------------------------------------------------------
 	else
@@ -240,6 +245,7 @@ static void RemoveByLast(ArrayList* arrayList, int index)
 			arrayList->elementTypeSize
 		);
 	}
+
 /*
 ----------------------------------------------------------------------------------------------------
 	else

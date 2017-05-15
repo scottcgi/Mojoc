@@ -64,7 +64,7 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 		ALog_D("texture atlas image = %s", path);
 
 		Texture* texture = ATexture->Get(path);
-		AArrayListAdd(outTextureAtlas->textureList, texture);
+		AArrayList_Add(outTextureAtlas->textureList, texture);
 
 		Read("size");
 		Read("format");

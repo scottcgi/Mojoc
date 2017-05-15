@@ -12,15 +12,15 @@
 #include "Engine/Toolkit/Utils/ArrayList.h"
 
 
-static ArrayList(Scheduler*) schedulerRun [1] = AArrayListInit(Scheduler*, 30);
-static ArrayList(Scheduler*) schedulerList[1] = AArrayListInit(Scheduler*, 30);
+static ArrayList(Scheduler*) schedulerRun [1] = AArrayList_Init(Scheduler*, 30);
+static ArrayList(Scheduler*) schedulerList[1] = AArrayList_Init(Scheduler*, 30);
 
 
 static inline Scheduler* GetScheduler(SchedulerUpdate Update, float intervalTime)
 {
     ALog_A(Update != NULL, "schedule SchedulerUpdateFunction must not NULL");
 
-    Scheduler* scheduler = AArrayListPop(schedulerList, Scheduler*);
+    Scheduler* scheduler = AArrayList_Pop(schedulerList, Scheduler*);
 
     if (scheduler == NULL)
     {
@@ -32,7 +32,7 @@ static inline Scheduler* GetScheduler(SchedulerUpdate Update, float intervalTime
     scheduler->intervalTime = intervalTime;
     scheduler->Update       = Update;
 
-	AArrayListAdd(schedulerRun, scheduler);
+	AArrayList_Add(schedulerRun, scheduler);
 
     return scheduler;
 }
@@ -58,7 +58,7 @@ static void Update(float deltaSeconds)
 {
 	for (int i = schedulerRun->size - 1; i > -1; i--)
 	{
-		Scheduler* scheduler = AArrayListGet(schedulerRun, i, Scheduler*);
+		Scheduler* scheduler = AArrayList_Get(schedulerRun, i, Scheduler*);
 
 		if (scheduler->currentTime < scheduler->intervalTime)
 		{
@@ -71,7 +71,7 @@ static void Update(float deltaSeconds)
 			if (scheduler->isCancel)
 			{
 				AArrayList->RemoveByLast(schedulerRun, i);
-				AArrayListAdd(schedulerList, scheduler);
+				AArrayList_Add(schedulerList, scheduler);
 			}
 			else
 			{

@@ -125,21 +125,21 @@ extern struct ACoroutine ACoroutine[1];
 
 
 #define ACoroutineAddParam(coroutine, value) \
-    AArrayListAdd(coroutine->params, value)
+    AArrayList_Add(coroutine->params, value)
 
 
 /**
  * Get param value
  */
 #define ACoroutineGetParam(coroutine, index, type)       \
-    AArrayListGet(coroutine->params, index, type)
+    AArrayList_Get(coroutine->params, index, type)
 
 
 /**
  * Get param valuePtr
  */
 #define ACoroutineGetPtrParam(coroutine, index, type)    \
-    AArrayListGetPtr(coroutine->params, index, type)
+    AArrayList_GetPtr(coroutine->params, index, type)
 
 
 /**
@@ -198,7 +198,7 @@ extern struct ACoroutine ACoroutine[1];
     coroutine->waitValue    = 0.0f;                        \
     coroutine->curWaitValue = 0.0f;                        \
     coroutine->waitType     = coroutine_wait_coroutine;    \
-    AArrayListAdd((waitCoroutine)->waits, coroutine);      \
+    AArrayList_Add((waitCoroutine)->waits, coroutine);      \
     coroutine->step         = &&ACoroutineLabel(__LINE__); \
     return;                                                \
     ACoroutineLabel(__LINE__):

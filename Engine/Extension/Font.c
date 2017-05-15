@@ -15,8 +15,8 @@
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 
 
-static ArrayList(Font*)     fontList[1] = AArrayListInit(sizeof(Font*),     5);
-static ArrayList(FontText*) textList[1] = AArrayListInit(sizeof(FontText*), 30);
+static ArrayList(Font*)     fontList[1] = AArrayList_Init(sizeof(Font*),     5);
+static ArrayList(FontText*) textList[1] = AArrayList_Init(sizeof(FontText*), 30);
 
 
 static Font* Get(char* filePath)
@@ -29,7 +29,7 @@ static Font* Get(char* filePath)
         "Font not support TextureAtlas has multiple texture"
     );
 
-	Font* font = AArrayListPop(fontList, Font*);
+	Font* font = AArrayList_Pop(fontList, Font*);
 
     if (font == NULL)
     {
@@ -37,7 +37,7 @@ static Font* Get(char* filePath)
 
         AMesh->InitWithCapacity
         (
-            AArrayListGet(textureAtlas->textureList, 0, Texture*),
+            AArrayList_Get(textureAtlas->textureList, 0, Texture*),
             50,
             font->mesh
         );
@@ -60,7 +60,7 @@ static Font* Get(char* filePath)
 
 static FontText* GetText(Font* font)
 {
-    FontText* text = AArrayListPop(textList, FontText*);
+    FontText* text = AArrayList_Pop(textList, FontText*);
 
     if (text == NULL)
     {
@@ -91,7 +91,7 @@ static void Draw(Font* font)
 	{
         ADrawable->Draw
         (
-            AArrayListGet(font->fontTextSet->elementList, i, FontText*)->drawable
+            AArrayList_Get(font->fontTextSet->elementList, i, FontText*)->drawable
         );
 	}
 
@@ -119,7 +119,7 @@ static inline void SetNewChar(FontText* text, char* str, int len)
     for (int i = 0; i < len; i++)
     {
         TextureAtlasQuad* atlasQuad = GetAtlasQuad(text, str, i);
-        SubMesh*          subMesh   = AArrayListGet(text->usedSubMeshList, i, SubMesh*);
+        SubMesh*          subMesh   = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 
         ASubMesh->SetWithQuad
         (
@@ -157,7 +157,7 @@ static void SetString(FontText* text, char* str)
 
             if (text->font->unusedSubMeshList->size > 0)
             {
-                subMesh = AArrayListPop(text->font->unusedSubMeshList, SubMesh*);
+                subMesh = AArrayList_Pop(text->font->unusedSubMeshList, SubMesh*);
                 ADrawableSetVisible(subMesh->drawable);
 
                 ASubMesh->SetWithQuad
@@ -179,7 +179,7 @@ static void SetString(FontText* text, char* str)
                 ADrawableSetParent(subMesh->drawable, text->drawable);
             }
 
-            AArrayListAdd(text->usedSubMeshList, subMesh);
+            AArrayList_Add(text->usedSubMeshList, subMesh);
         }
 
         if (originalSize != children->size)
@@ -196,7 +196,7 @@ static void SetString(FontText* text, char* str)
         // text has more chars remove it
         for (int i = text->usedSubMeshList->size - 1; i >= len; i--)
         {
-            SubMesh* subMesh = AArrayListGet(text->usedSubMeshList, i, SubMesh*);
+            SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 
             if (ADrawableCheckVisible(subMesh->drawable))
             {
@@ -204,7 +204,7 @@ static void SetString(FontText* text, char* str)
             }
 
             AArrayList->Remove(text->usedSubMeshList, i);
-            AArrayListAdd(text->font->unusedSubMeshList, subMesh);
+            AArrayList_Add(text->font->unusedSubMeshList, subMesh);
         }
     }
 
@@ -217,7 +217,7 @@ static void SetString(FontText* text, char* str)
         {
             for (int i = 0; i < text->usedSubMeshList->size; i++)
             {
-                SubMesh* subMesh = AArrayListGet(text->usedSubMeshList, i, SubMesh*);
+                SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 
                 if (subMesh->drawable->height > text->drawable->height)
                 {
@@ -235,7 +235,7 @@ static void SetString(FontText* text, char* str)
         {
             for (int i = text->usedSubMeshList->size - 1; i > -1; i--)
             {
-                SubMesh* subMesh = AArrayListGet(text->usedSubMeshList, i, SubMesh*);
+                SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 
                 if (subMesh->drawable->height > text->drawable->height)
                 {
@@ -253,7 +253,7 @@ static void SetString(FontText* text, char* str)
         {
             for (int i = 0; i < text->usedSubMeshList->size; i++)
             {
-                SubMesh* subMesh = AArrayListGet(text->usedSubMeshList, i, SubMesh*);
+                SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 
                 if (subMesh->drawable->width > text->drawable->width)
                 {
@@ -271,7 +271,7 @@ static void SetString(FontText* text, char* str)
         {
             for (int i = text->usedSubMeshList->size - 1; i > -1; i--)
             {
-                SubMesh* subMesh = AArrayListGet(text->usedSubMeshList, i, SubMesh*);
+                SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 
                 if (subMesh->drawable->width > text->drawable->width)
                 {
@@ -312,13 +312,13 @@ static void Reuse(Font* font)
 
     for (int i = 0; i < font->fontTextSet->elementList->size; i++)
     {
-        FontText* text = AArrayListGet(font->fontTextSet->elementList, i, FontText*);
+        FontText* text = AArrayList_Get(font->fontTextSet->elementList, i, FontText*);
         text->font     = NULL;
-        AArrayListAdd(textList, text);
+        AArrayList_Add(textList, text);
     }
 
 	font->textureAtlas = NULL;
-    AArrayListAdd(fontList, font);
+    AArrayList_Add(fontList, font);
 }
 
 
@@ -328,15 +328,15 @@ static void ReuseText(FontText* text)
 
 	for (int i = 0; i < text->usedSubMeshList->size; i++)
 	{
-        SubMesh* subMesh = AArrayListGet(text->usedSubMeshList, i, SubMesh*);
+        SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 		ADrawableSetInVisible(subMesh->drawable);
-        AArrayListAdd(text->font->unusedSubMeshList, subMesh);
+        AArrayList_Add(text->font->unusedSubMeshList, subMesh);
 	}
 
     AArrayIntSet->TryRemove(text->font->fontTextSet, (intptr_t) text);
     text->font = NULL;
 
-    AArrayListAdd(textList, text);
+    AArrayList_Add(textList, text);
 }
 
 

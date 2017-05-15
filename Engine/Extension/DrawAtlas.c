@@ -11,7 +11,7 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-static ArrayList(DrawAtlas*) drawAtlasList[1] = AArrayListInit(DrawAtlas*, 10);
+static ArrayList(DrawAtlas*) drawAtlasList[1] = AArrayList_Init(DrawAtlas*, 10);
 
 
 static DrawAtlas* Get(char* filePath)
@@ -24,7 +24,7 @@ static DrawAtlas* Get(char* filePath)
         "DrawAtlas not support TextureAtlas has multiple texture"
     );
 
-    DrawAtlas* drawAtlas = AArrayListPop(drawAtlasList, DrawAtlas*);
+    DrawAtlas* drawAtlas = AArrayList_Pop(drawAtlasList, DrawAtlas*);
 
     if (drawAtlas == NULL)
     {
@@ -32,7 +32,7 @@ static DrawAtlas* Get(char* filePath)
 
         AMesh->InitWithCapacity
         (
-            AArrayListGet(textureAtlas->textureList, 0, Texture*),
+            AArrayList_Get(textureAtlas->textureList, 0, Texture*),
             20,
             drawAtlas->mesh
         );
@@ -60,7 +60,7 @@ static Drawable* GetQuad(DrawAtlas* drawAtlas, char* quadName)
     TextureAtlasQuad* atlasQuad = ATextureAtlasGetQuad(drawAtlas->textureAtlas, quadName);
     ALog_A(atlasQuad != NULL, "DrawAtlas GetQuad not found quadName = %s", quadName);
 
-    Drawable* drawable = AArrayListPop(drawAtlas->quadList, Drawable*);
+    Drawable* drawable = AArrayList_Pop(drawAtlas->quadList, Drawable*);
 
     if (drawable == NULL)
     {
@@ -91,13 +91,13 @@ static void Reuse(DrawAtlas* drawAtlas)
     {
         ADrawableSetInVisible
         (
-            AArrayListGet(drawAtlas->quadList, i, Drawable*)
+            AArrayList_Get(drawAtlas->quadList, i, Drawable*)
         );
     }
 
     drawAtlas->textureAtlas = NULL;
 
-    AArrayListAdd(drawAtlasList, drawAtlas);
+    AArrayList_Add(drawAtlasList, drawAtlas);
 }
 
 
@@ -113,7 +113,7 @@ static void ReuseQuad(DrawAtlas* drawAtlas, Drawable* drawable)
     );
 
     ADrawableSetInVisible(drawable);
-    AArrayListAdd(drawAtlas->quadList, drawable);
+    AArrayList_Add(drawAtlas->quadList, drawable);
 }
 
 

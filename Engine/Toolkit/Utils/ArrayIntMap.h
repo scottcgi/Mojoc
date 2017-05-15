@@ -154,7 +154,7 @@ extern struct AArrayIntMap AArrayIntMap[1];
 	{                                                      \
 		{                                                  \
 			sizeof(valueType),                             \
-			AArrayListInit(ArrayIntMapElement*, increase), \
+			AArrayList_Init(ArrayIntMapElement*, increase), \
 		}                                                  \
 	}
 

@@ -20,9 +20,9 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 		case skeleton_attachment_region:
 		{
 			SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->childPtr;
-			SubMesh*                      subMesh              = AArrayListGet
+			SubMesh*                      subMesh              = AArrayList_Get
 																 (
-																	 AArrayListGetPtr(slot->skeleton->meshList, regionAttachmentData->meshIndex, Mesh)->childList,
+																	 AArrayList_GetPtr(slot->skeleton->meshList, regionAttachmentData->meshIndex, Mesh)->childList,
 																	 regionAttachmentData->subMeshIndex,
 																	 SubMesh*
 																 );
@@ -42,9 +42,9 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 		case skeleton_attachment_mesh:
 		{
 			SkeletonMeshAttachmentData* meshAttachmentData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
-			SubMesh*                    subMesh            = AArrayListGet
+			SubMesh*                    subMesh            = AArrayList_Get
 															 (
-																 AArrayListGetPtr(slot->skeleton->meshList, meshAttachmentData->meshIndex, Mesh)->childList,
+																 AArrayList_GetPtr(slot->skeleton->meshList, meshAttachmentData->meshIndex, Mesh)->childList,
 																 meshAttachmentData->subMeshIndex,
 																 SubMesh*
 															 );
@@ -61,9 +61,9 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 		{
 			SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData = (SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr;
 			SkeletonMeshAttachmentData*        meshAttachmentData        = skinnedMeshAttachmentData->meshAttachmentData;
-			SubMesh*                           subMesh                   = AArrayListGet
+			SubMesh*                           subMesh                   = AArrayList_Get
 																	   	   (
-																			 AArrayListGetPtr(slot->skeleton->meshList, meshAttachmentData->meshIndex, Mesh)->childList,
+																			 AArrayList_GetPtr(slot->skeleton->meshList, meshAttachmentData->meshIndex, Mesh)->childList,
 																			 meshAttachmentData->subMeshIndex,
 																			 SubMesh*
 																		   );

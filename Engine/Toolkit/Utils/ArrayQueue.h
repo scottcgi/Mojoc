@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2015-6-5
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2015-6-5
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef array_queue_h
-#define array_queue_h
+
+#ifndef ARRAY_QUEUE_H
+#define ARRAY_QUEUE_H
 
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
@@ -77,13 +81,13 @@ extern struct AArrayQueue AArrayQueue[1];
 
 /**
  * Initialize constant ArrayQueue
- * use like ArrayQueue queue[1] = AArrayQueueInit(elementType, increase)
+ * use like ArrayQueue queue[1] = AArrayQueue_Init(elementType, increase)
  */
-#define AArrayQueueInit(elementType, increase)      \
+#define AArrayQueue_Init(elementType, increase)      \
 	{                                        \
 		{                                    \
 			0,                               \
-			AArrayListInit(elementType, increase),  \
+			AArrayList_Init(elementType, increase),  \
 		}                                    \
 	}
 
@@ -91,7 +95,7 @@ extern struct AArrayQueue AArrayQueue[1];
 /**
  * Shortcut of AArrayQueue->Push
  */
-#define AArrayQueuePush(arrayQueue, element) \
+#define AArrayQueue_Push(arrayQueue, element) \
 	AArrayQueue->Push(arrayQueue, &(element))
 
 
@@ -99,7 +103,7 @@ extern struct AArrayQueue AArrayQueue[1];
  * Shortcut of AArrayQueue->Pop
  * return element
  */
-#define AArrayQueuePop(arrayQueue, elementType) \
+#define AArrayQueue_Pop(arrayQueue, elementType) \
 	(*(elementType*) AArrayQueue->Pop(arrayQueue, NULL_PTR))
 
 
@@ -107,7 +111,7 @@ extern struct AArrayQueue AArrayQueue[1];
  * Shortcut of AArrayQueue->Pop
  * return element
  */
-#define AArrayQueuePopWithDefault(arrayQueue, elementType, defaultValue) \
+#define AArrayQueue_PopWithDefault(arrayQueue, elementType, defaultValue) \
 	(*(elementType*) AArrayQueue->Pop(arrayQueue, &(defaultValue)))
 
 
@@ -115,7 +119,7 @@ extern struct AArrayQueue AArrayQueue[1];
  * Shortcut of AArrayQueue->Pop
  * return elementPtr
  */
-#define AArrayQueuePopPtr(arrayQueue, elementType) \
+#define AArrayQueue_PopPtr(arrayQueue, elementType) \
 	((elementType*) AArrayQueue->Pop(arrayQueue, NULL))
 
 
@@ -123,7 +127,7 @@ extern struct AArrayQueue AArrayQueue[1];
  * Shortcut of AArrayQueue->Pop
  * return elementPtr
  */
-#define AArrayQueuePopPtrWithDefault(arrayQueue, elementType, defaultValue) \
+#define AArrayQueue_PopPtrWithDefault(arrayQueue, elementType, defaultValue) \
 	((elementType*) AArrayQueue->Pop(arrayQueue, &(defaultValue)))
 
 

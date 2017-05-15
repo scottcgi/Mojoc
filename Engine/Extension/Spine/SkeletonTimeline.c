@@ -980,12 +980,12 @@ static void DrawOrderApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
 				SubMesh* subMesh = ASkeleton->GetAttachmentSubMesh
                                    (
                                        skeleton,
-                                       AArrayListGet(attachmentDataList, j, SkeletonAttachmentData*)
+                                       AArrayList_Get(attachmentDataList, j, SkeletonAttachmentData*)
                                    );
 
 				for (int k = 0; k < meshList->size; k++)
 				{
-					Mesh* mesh = AArrayListGetPtr(meshList, k, Mesh);
+					Mesh* mesh = AArrayList_GetPtr(meshList, k, Mesh);
 
 					if (subMesh->parent == mesh)
 					{
@@ -1001,7 +1001,7 @@ static void DrawOrderApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
 	{
 		AMesh->ReorderChildren
 		(
-			AArrayListGetPtr(meshList, i, Mesh)
+			AArrayList_GetPtr(meshList, i, Mesh)
 		);
 	}
 }
@@ -1083,9 +1083,9 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
 		case skeleton_attachment_mesh:
 		{
 			SkeletonMeshAttachmentData* meshAttachment = (SkeletonMeshAttachmentData*) deformTimeline->attachmentData->childPtr;
-			SubMesh*                    subMesh        = AArrayListGet
+			SubMesh*                    subMesh        = AArrayList_Get
 													     (
-															 AArrayListGetPtr(skeleton->meshList, meshAttachment->meshIndex, Mesh)->childList,
+															 AArrayList_GetPtr(skeleton->meshList, meshAttachment->meshIndex, Mesh)->childList,
 															 meshAttachment->subMeshIndex,
 															 SubMesh*
 														 );

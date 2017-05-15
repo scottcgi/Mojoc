@@ -1,14 +1,17 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2015-6-5
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2015-6-5
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <stdlib.h>
 #include "Engine/Toolkit/Utils/ArrayQueue.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "ArrayList.h"
 
 
 static void* Push(ArrayQueue* arrayQueue, void* elementPtr)

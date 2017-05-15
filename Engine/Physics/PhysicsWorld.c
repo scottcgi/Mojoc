@@ -52,14 +52,14 @@ static void Update(float deltaSeconds)
 {
 	for (int i = 0; i < bodySet->elementList->size; i++)
 	{
-		PhysicsBody* body = AArrayListGet(bodySet->elementList, i, PhysicsBody*);
+		PhysicsBody* body = AArrayList_Get(bodySet->elementList, i, PhysicsBody*);
 
         if (APhysicsBodyCheckState(body, physics_body_state_no_collision) == false)
         {
             // test collision
             for (int fromIndex = i + 1; fromIndex < bodySet->elementList->size; fromIndex++)
             {
-                PhysicsBody* otherBody = AArrayListGet(bodySet->elementList, fromIndex, PhysicsBody*);
+                PhysicsBody* otherBody = AArrayList_Get(bodySet->elementList, fromIndex, PhysicsBody*);
 
                 if
                 (

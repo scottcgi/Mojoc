@@ -41,9 +41,9 @@ struct AudioPlayer
 };
 
 
-static ArrayList(AudioPlayer*) cacheList   [1] = AArrayListInit(sizeof(AudioPlayer*), 20);
-static ArrayList(AudioPlayer*) destroyList [1] = AArrayListInit(sizeof(AudioPlayer*), 20);
-static ArrayList(AudioPlayer*) loopList    [1] = AArrayListInit(sizeof(AudioPlayer*), 5);
+static ArrayList(AudioPlayer*) cacheList   [1] = AArrayList_Init(sizeof(AudioPlayer*), 20);
+static ArrayList(AudioPlayer*) destroyList [1] = AArrayList_Init(sizeof(AudioPlayer*), 20);
+static ArrayList(AudioPlayer*) loopList    [1] = AArrayList_Init(sizeof(AudioPlayer*), 5);
 
 
 //--------------------------------------------------------------------------------------------------
@@ -53,8 +53,8 @@ static void Update(float deltaSeconds)
 {
     while (destroyList->size > 0)
     {
-        AudioPlayer* player = AArrayListPop(destroyList, AudioPlayer*);
-        AArrayListAdd(cacheList, player);
+        AudioPlayer* player = AArrayList_Pop(destroyList, AudioPlayer*);
+        AArrayList_Add(cacheList, player);
         (*player->object)->Destroy(player->object);
     }
 }
@@ -64,7 +64,7 @@ static void SetLoopPause()
 {
     for (int i = 0; i < loopList->size; i++)
     {
-        AAudio->SetPause(AArrayListGet(loopList, i, AudioPlayer*));
+        AAudio->SetPause(AArrayList_Get(loopList, i, AudioPlayer*));
     }
 }
 
@@ -73,7 +73,7 @@ static void SetLoopResume()
 {
     for (int i = 0; i < loopList->size; i++)
     {
-        AAudio->SetPlay(AArrayListGet(loopList, i, AudioPlayer*));
+        AAudio->SetPlay(AArrayList_Get(loopList, i, AudioPlayer*));
     }
 }
 
@@ -112,7 +112,7 @@ static void PlayerCallback(SLPlayItf caller, void *pContext, SLuint32 event)
     if (event == SL_PLAYEVENT_HEADATEND)
     {
         AudioPlayer* player = (AudioPlayer*) pContext;
-        AArrayListAdd(destroyList, player);
+        AArrayList_Add(destroyList, player);
         (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_PAUSED);
     }
 }
@@ -192,13 +192,13 @@ static void SetLoop(AudioPlayer* player, bool isLoop)
 
     if (isLoop)
     {
-        AArrayListAdd(loopList, player);
+        AArrayList_Add(loopList, player);
     }
     else
     {
         for (int i = 0; i < loopList->size; i++)
         {
-            if (player == AArrayListGet(loopList, i, AudioPlayer*))
+            if (player == AArrayList_Get(loopList, i, AudioPlayer*))
             {
                 AArrayList->RemoveByLast(loopList, i);
                 break;
@@ -251,7 +251,7 @@ static bool IsPlaying(AudioPlayer* player)
 
 static AudioPlayer* GetPlayer(char* filePath)
 {
-    AudioPlayer* player = AArrayListPop(cacheList, AudioPlayer*);
+    AudioPlayer* player = AArrayList_Pop(cacheList, AudioPlayer*);
 
     if (player == NULL)
     {

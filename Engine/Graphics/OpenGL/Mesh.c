@@ -21,11 +21,11 @@ static void ReorderChildren(Mesh* mesh)
 
 	for (int i = 0; i < children->size; i++)
 	{
-		SubMesh* subMesh = AArrayListGet(children, i, SubMesh*);
+		SubMesh* subMesh = AArrayList_Get(children, i, SubMesh*);
 
 		while (subMesh->index != i)
 		{
-			subMesh = AArrayListGet(children, subMesh->index, SubMesh*);
+			subMesh = AArrayList_Get(children, subMesh->index, SubMesh*);
 		}
 
 		int indexDataByteLength = subMesh->indexArr->length * sizeof(short);
@@ -43,7 +43,7 @@ static void ReorderChildren(Mesh* mesh)
 	if (AGraphics->isUseVBO)
 	{
 		// update all index data
-		VBOSubData* subData = AArrayListGetPtrAdd(mesh->vboSubDataList, VBOSubData);
+		VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
 		subData->target     = GL_ELEMENT_ARRAY_BUFFER;
 		subData->offset     = 0;
 		subData->length     = mesh->indexArr->length * sizeof(short);
@@ -60,7 +60,7 @@ static void Draw(Drawable* meshDrawable)
 
 	for (int i = 0; i < mesh->childList->size; i++)
 	{
-		SubMesh* subMesh = AArrayListGet(mesh->childList, i, SubMesh*);
+		SubMesh* subMesh = AArrayList_Get(mesh->childList, i, SubMesh*);
 
 //--------------------------------------------------------------------------------------------------
 
@@ -92,7 +92,7 @@ static void Draw(Drawable* meshDrawable)
 
 				if (AGraphics->isUseVBO)
 				{
-					VBOSubData* subData = AArrayListGetPtrAdd(mesh->vboSubDataList, VBOSubData);
+					VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
 					subData->target     = GL_ARRAY_BUFFER;
 					subData->offset     = subMesh->positionDataOffset;
 					subData->length     = subMesh->positionArr->length * sizeof(float);
@@ -118,7 +118,7 @@ static void Draw(Drawable* meshDrawable)
 
 				if (AGraphics->isUseVBO)
 				{
-					VBOSubData* subData = AArrayListGetPtrAdd(mesh->vboSubDataList, VBOSubData);
+					VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
 					subData->target     = GL_ARRAY_BUFFER;
 					subData->offset     = mesh->opacityDataOffset + subMesh->opacityDataOffset;
 					subData->length     = subMesh->vertexCount * sizeof(float);
@@ -150,7 +150,7 @@ static void Draw(Drawable* meshDrawable)
 
 				if (AGraphics->isUseVBO)
 				{
-					VBOSubData* subData = AArrayListGetPtrAdd(mesh->vboSubDataList, VBOSubData);
+					VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
 					subData->target     = GL_ARRAY_BUFFER;
 					subData->offset     = mesh->rgbDataOffset + subMesh->rgbDataOffset;
 					subData->length     = subMesh->vertexCount * 3 * sizeof(float);
@@ -185,7 +185,7 @@ static void Draw(Drawable* meshDrawable)
 
 			if (AGraphics->isUseVBO)
 			{
-				VBOSubData* subData = AArrayListGetPtrAdd(mesh->vboSubDataList, VBOSubData);
+				VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
 				subData->target     = GL_ARRAY_BUFFER;
 				subData->offset     = mesh->opacityDataOffset + subMesh->opacityDataOffset;
 				subData->length     = subMesh->vertexCount * sizeof(float);
@@ -258,22 +258,22 @@ static void Render(Drawable* drawable)
 
 	if (mesh->drawRangeQueue->elementList->size == 0)
 	{
-		fromChild = AArrayListGet(mesh->childList, mesh->fromIndex, SubMesh*);
-		toChild   = AArrayListGet(mesh->childList, mesh->toIndex,   SubMesh*);
+		fromChild = AArrayList_Get(mesh->childList, mesh->fromIndex, SubMesh*);
+		toChild   = AArrayList_Get(mesh->childList, mesh->toIndex,   SubMesh*);
 	}
 	else
 	{
-		fromChild = AArrayListGet
+		fromChild = AArrayList_Get
 					(
 						mesh->childList,
-						AArrayQueuePopWithDefault(mesh->drawRangeQueue, int, mesh->fromIndex),
+						AArrayQueue_PopWithDefault(mesh->drawRangeQueue, int, mesh->fromIndex),
 						SubMesh*
 					);
 
-		toChild   = AArrayListGet
+		toChild   = AArrayList_Get
 				    (
 						mesh->childList,
-						AArrayQueuePopWithDefault(mesh->drawRangeQueue, int, mesh->toIndex),
+						AArrayQueue_PopWithDefault(mesh->drawRangeQueue, int, mesh->toIndex),
 						SubMesh*
 					);
 	}
@@ -298,7 +298,7 @@ static void Render(Drawable* drawable)
         {
             for (int i = 0; i < mesh->vboSubDataList->size; i++)
             {
-                VBOSubData* subData   = AArrayListGetPtr(mesh->vboSubDataList, i, VBOSubData);
+                VBOSubData* subData   = AArrayList_GetPtr(mesh->vboSubDataList, i, VBOSubData);
                 void*       mappedPtr = glMapBufferRange
                                         (
                                             subData->target,
@@ -321,7 +321,7 @@ static void Render(Drawable* drawable)
         {
             for (int i = 0; i < mesh->vboSubDataList->size; i++)
             {
-                VBOSubData* subData = AArrayListGetPtr(mesh->vboSubDataList, i, VBOSubData);
+                VBOSubData* subData = AArrayList_GetPtr(mesh->vboSubDataList, i, VBOSubData);
                 glBufferSubData(subData->target, subData->offset, subData->length, subData->data);
             }
         }
@@ -493,7 +493,7 @@ static inline void InitBuffer(Mesh* mesh)
 
 	for (int i = 0; i < mesh->childList->size; i++)
 	{
-		SubMesh* subMesh = AArrayListGet(mesh->childList, i, SubMesh*);
+		SubMesh* subMesh = AArrayList_Get(mesh->childList, i, SubMesh*);
 
 		memcpy((char*) mesh->indexArr->data  + subMesh->indexDataOffset,    subMesh->indexArr->data,    subMesh->indexArr->length    * sizeof(short));
 		memcpy((char*) mesh->vertexArr->data + subMesh->positionDataOffset, subMesh->positionArr->data, subMesh->positionArr->length * sizeof(float));
@@ -551,7 +551,7 @@ static inline SubMesh* AddChild(Mesh* mesh, SubMesh* subMesh)
     mesh->rgbDataLength        += subMesh->positionArr->length;
     mesh->indexDataLength      += subMesh->indexArr->length;
 
-    AArrayListAdd(mesh->childList, subMesh);
+    AArrayList_Add(mesh->childList, subMesh);
 
     return subMesh;
 }
@@ -668,7 +668,7 @@ static void Release(Mesh* mesh)
 
 	for (int i = 0; i < mesh->childList->size; i++)
 	{
-		free(AArrayListGet(mesh->childList, i, SubMesh*));
+		free(AArrayList_Get(mesh->childList, i, SubMesh*));
 	}
 
 	AArrayList ->Release(mesh->childList);
@@ -681,7 +681,7 @@ static void Clear(Mesh* mesh)
 {
     for (int i = 0; i < mesh->childList->size; i++)
     {
-        free(AArrayListGet(mesh->childList, i, SubMesh*));
+        free(AArrayList_Get(mesh->childList, i, SubMesh*));
     }
 
     AArrayList ->Clear(mesh->childList);

@@ -82,7 +82,7 @@ extern struct AArrayIntSet AArrayIntSet[1];
 #define AArrayIntSet_Init(elementType, increase) \
 	{                                           \
 		{                                       \
-			AArrayListInit(intptr_t, increase), \
+			AArrayList_Init(intptr_t, increase), \
 		}                                       \
 	}
 

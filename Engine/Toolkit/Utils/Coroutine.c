@@ -11,13 +11,13 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-static ArrayList(Coroutine*) coroutineRunningList[1] = AArrayListInit(Coroutine*, 25);
-static ArrayList(Coroutine*) coroutineCacheList  [1] = AArrayListInit(Coroutine*, 25);
+static ArrayList(Coroutine*) coroutineRunningList[1] = AArrayList_Init(Coroutine*, 25);
+static ArrayList(Coroutine*) coroutineCacheList  [1] = AArrayList_Init(Coroutine*, 25);
 
 
 static Coroutine* StartCoroutine(CoroutineRun Run)
 {
-    Coroutine* coroutine = AArrayListPop(coroutineCacheList, Coroutine*);
+    Coroutine* coroutine = AArrayList_Pop(coroutineCacheList, Coroutine*);
 
     if (coroutine == NULL)
     {
@@ -42,7 +42,7 @@ static Coroutine* StartCoroutine(CoroutineRun Run)
     coroutine->waitType     = coroutine_wait_null;
     coroutine->state        = coroutine_state_ready;
 
-    AArrayListAdd(coroutineRunningList, coroutine);
+    AArrayList_Add(coroutineRunningList, coroutine);
 
     return coroutine;
 }
@@ -52,7 +52,7 @@ static void Update(float deltaSeconds)
 {
     for (int i = coroutineRunningList->size - 1; i > -1; i--)
     {
-        Coroutine* coroutine = AArrayListGet(coroutineRunningList, i, Coroutine*);
+        Coroutine* coroutine = AArrayList_Get(coroutineRunningList, i, Coroutine*);
 
         if (coroutine->waitType == coroutine_wait_coroutine)
         {
@@ -67,12 +67,12 @@ static void Update(float deltaSeconds)
                 AArrayList->RemoveByLast(coroutineRunningList, i);
 
                 // add to cache
-                AArrayListAdd(coroutineCacheList, coroutine);
+                AArrayList_Add(coroutineCacheList, coroutine);
 
                 // set waiting coroutines execute forward
                 for (int j = 0; j < coroutine->waits->size; j++)
                 {
-                    Coroutine* wait = AArrayListGet(coroutine->waits, j, Coroutine*);
+                    Coroutine* wait = AArrayList_Get(coroutine->waits, j, Coroutine*);
 
                     ALog_A
                     (

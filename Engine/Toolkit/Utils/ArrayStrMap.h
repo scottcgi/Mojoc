@@ -150,7 +150,7 @@ static inline char* AArrayStrMapGetKey(void* valuePtr, int valueTypeSize)
 	{                                                      \
 		{                                                  \
 			sizeof(valueType),                             \
-			AArrayListInit(ArrayStrMapElement*, increase), \
+			AArrayList_Init(ArrayStrMapElement*, increase), \
 	 	 }                                                 \
 	}
 

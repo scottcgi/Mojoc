@@ -149,7 +149,7 @@ static void ReorderChildren(Component* parent)
 	// renew all children key
 	for (int i = 0; i < parent->childMap->elementList->size; i++)
 	{
-		ArrayIntMapElement* element = AArrayListGet(parent->childMap->elementList, i, ArrayIntMapElement*);
+		ArrayIntMapElement* element = AArrayList_Get(parent->childMap->elementList, i, ArrayIntMapElement*);
 		element->key                = (*(Component**) element->valuePtr)->order;
 	}
 
@@ -282,7 +282,7 @@ static void Notify(Component* sender, int subject, void* extraData)
 	{
 		for (int i = 0; i < sender->observerSet->elementList->size; i++)
 		{
-			Component* observer = AArrayListGet(sender->observerSet->elementList, i, Component*);
+			Component* observer = AArrayList_Get(sender->observerSet->elementList, i, Component*);
 
 			if
 			(

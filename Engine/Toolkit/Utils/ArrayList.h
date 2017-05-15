@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-2-4
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-2-4
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef array_list_h
-#define array_list_h
+
+#ifndef ARRAY_LIST_H
+#define ARRAY_LIST_H
 
 
 #include "Engine/Toolkit/Utils/Array.h"
@@ -149,7 +153,7 @@ extern struct AArrayList AArrayList[1];
 /**
  * Initialize constant ArrayList
  */
-#define AArrayListInit(elementType, increase) \
+#define AArrayList_Init(elementType, increase) \
 	{                                         \
 		increase,                             \
 		sizeof(elementType),                  \
@@ -164,7 +168,7 @@ extern struct AArrayList AArrayList[1];
 /**
  * Initialize constant ArrayList with fixed capacity, unable to expansion capacity
  */
-#define AArayListInitFix(elementType, capacity, size, ...) \
+#define AArayList_InitFix(elementType, capacity, size, ...) \
 	{                                                      \
 		0,                                                 \
 		sizeof(elementType),                               \
@@ -177,7 +181,7 @@ extern struct AArrayList AArrayList[1];
  * Shortcut of AArrayList->GetAdd
  * return element
  */
-#define AArrayListGetAdd(arrayList, elementType) \
+#define AArrayList_GetAdd(arrayList, elementType) \
 	(*(elementType*) AArrayList->GetAdd(arrayList))
 
 
@@ -185,7 +189,7 @@ extern struct AArrayList AArrayList[1];
  * Shortcut of AArrayList->GetAdd
  * return elementPtr
  */
-#define AArrayListGetPtrAdd(arrayList, elementType) \
+#define AArrayList_GetPtrAdd(arrayList, elementType) \
 	((elementType*) AArrayList->GetAdd(arrayList))
 
 
@@ -193,7 +197,7 @@ extern struct AArrayList AArrayList[1];
  * Shortcut of AArrayList->GetInsert
  * return element
  */
-#define AArrayListGetInsert(arrayList, index, elementType) \
+#define AArrayList_GetInsert(arrayList, index, elementType) \
 	(*(elementType*) AArrayList->GetInsert(arrayList, index))
 
 
@@ -201,28 +205,28 @@ extern struct AArrayList AArrayList[1];
  * Shortcut of AArrayList->GetInsert
  * return elementPtr
  */
-#define AArrayListGetPtrInsert(arrayList, index, elementType) \
+#define AArrayList_GetPtrInsert(arrayList, index, elementType) \
 	((elementType*) AArrayList->GetInsert(arrayList, index))
 
 
 /**
  * Shortcut of AArrayList->Add
  */
-#define AArrayListAdd(arrayList, element) \
+#define AArrayList_Add(arrayList, element) \
 	AArrayList->Add(arrayList, &(element))
 
 
 /**
  * Shortcut of AArrayList->Insert
  */
-#define AArrayListInsert(arrayList, index, element) \
+#define AArrayList_Insert(arrayList, index, element) \
 	AArrayList->Insert(arrayList, index, &(element))
 
 
 /**
  * Get the type ptr of elements
  */
-#define AArrayListGetData(arrayList, elementType) \
+#define AArrayList_GetData(arrayList, elementType) \
 	((elementType*) ((arrayList)->elementArray->data))
 
 
@@ -230,30 +234,30 @@ extern struct AArrayList AArrayList[1];
  * Instead of AArrayList->get for quick iterate element
  * return element
  */
-#define AArrayListGet(arrayList, index, elementType) \
-	(AArrayListGetData(arrayList, elementType))[index]
+#define AArrayList_Get(arrayList, index, elementType) \
+	(AArrayList_GetData(arrayList, elementType))[index]
 
 
 /**
  * Instead of AArrayList->get for quick iterate element
  * return elementPtr
  */
-#define AArrayListGetPtr(arrayList, index, elementType) \
-	(AArrayListGetData(arrayList, elementType) + (index))
+#define AArrayList_GetPtr(arrayList, index, elementType) \
+	(AArrayList_GetData(arrayList, elementType) + (index))
 
 
 /**
  * Instead of AArrayList->set for quick set element
  */
-#define AArrayListSet(arrayList, index, element, elementType) \
-	AArrayListGet(arrayList, index, elementType) = element
+#define AArrayList_Set(arrayList, index, element, elementType) \
+	AArrayList_Get(arrayList, index, elementType) = element
 
 
 /**
  * Shortcut of AArrayList->Pop
  * return element
  */
-#define AArrayListPop(arrayList, elementType) \
+#define AArrayList_Pop(arrayList, elementType) \
 	(*(elementType*) AArrayList->Pop(arrayList, NULL_PTR))
 
 
@@ -261,7 +265,7 @@ extern struct AArrayList AArrayList[1];
  * Shortcut of AArrayList->Pop
  * return element
  */
-#define AArrayListPopWithDefault(arrayList, elementType, defaultValue) \
+#define AArrayList_PopWithDefault(arrayList, elementType, defaultValue) \
 	(*(elementType*) AArrayList->Pop(arrayList, &(defaultValue)))
 
 
