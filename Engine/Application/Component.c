@@ -65,7 +65,7 @@ static void AddChild(Component* parent, Component* child, int order)
 	ALog_A(parent != NULL && child != NULL, "Component addChild failed, parent and child can not NULL");
 	ALog_A(child->parent == NULL,           "Component addChild failed, child already has parent");
 
-    if (AArrayIntMap_Put(parent->childMap, order, child) != NULL)
+    if (AArrayIntMap_TryPut(parent->childMap, order, child) != NULL)
     {
         child->order  = order;
         child->parent = parent;

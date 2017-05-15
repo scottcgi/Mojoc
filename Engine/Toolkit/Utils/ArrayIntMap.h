@@ -1,5 +1,5 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
  * This code is licensed under the MIT License.
  *
@@ -69,7 +69,7 @@ struct AArrayIntMap
 	 * else
 	 *     return NULL
 	 */
-	void*        (*Put)               (ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr);
+	void*        (*TryPut)            (ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr);
 
 
 	/**
@@ -160,10 +160,10 @@ extern struct AArrayIntMap AArrayIntMap[1];
 
 
 /**
- * Shortcut of AArrayIntMap->Put
+ * Shortcut of AArrayIntMap->TryPut
  */
-#define AArrayIntMap_Put(arrayIntMap, key, value) \
-	AArrayIntMap->Put(arrayIntMap, (intptr_t) key, &(value))
+#define AArrayIntMap_TryPut(arrayIntMap, key, value) \
+	AArrayIntMap->TryPut(arrayIntMap, (intptr_t) key, &(value))
 
 
 /**

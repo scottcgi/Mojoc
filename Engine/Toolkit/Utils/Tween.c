@@ -145,7 +145,7 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
         tweenData = GetTweenData();
         tweenId   = tweenData;
 
-		AArrayIntMap_Put(dataMap, tweenId, tweenData);
+		AArrayIntMap_TryPut(dataMap, tweenId, tweenData);
 	}
     else
     {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
  * This code is licensed under the MIT License.
  *
@@ -73,7 +73,7 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
 //--------------------------------------------------------------------------------------------------
 
 
-static void* Put(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
+static void* TryPut(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 {
 	int guess = BinarySearch(arrayIntMap->elementList, key);
 
@@ -270,7 +270,7 @@ struct AArrayIntMap AArrayIntMap[1] =
 
 	Release,
 
-	Put,
+    TryPut,
 	Get,
 	Set,
 	TryRemove,

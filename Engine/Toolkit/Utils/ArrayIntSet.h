@@ -1,5 +1,5 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
  * This code is licensed under the MIT License.
  *
@@ -41,10 +41,10 @@ struct AArrayIntSet
     /**
      * Add no repeat element to ArrayIntSet
      *
-     * if element exist
-     *    return false
-     * else
+     * if element not exist in ArrayIntSet
      *    return true
+     * else
+     *    return false
      */
     bool         (*TryAdd)            (ArrayIntSet* arrayIntSet, intptr_t element);
 
