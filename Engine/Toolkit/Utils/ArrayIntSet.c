@@ -1,9 +1,13 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2017-4-23
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2017-4-23
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <stdlib.h>
 #include "Engine/Toolkit/Platform/Log.h"
@@ -98,13 +102,19 @@ static ArrayIntSet* Create()
 }
 
 
-static void Add(ArrayIntSet* arrayIntSet, intptr_t element)
+static bool TryAdd(ArrayIntSet* arrayIntSet, intptr_t element)
 {
     int guess = BinarySearch(arrayIntSet->elementList, element);
 
-    ALog_A(guess < 0, "ArrayIntSet put element = %zd, has already exist", element);
-
-    AArrayListInsert(arrayIntSet->elementList, -guess - 1, element);
+    if (guess < 0)
+    {
+        AArrayListInsert(arrayIntSet->elementList, -guess - 1, element);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 
@@ -141,7 +151,7 @@ struct AArrayIntSet AArrayIntSet[1] =
     CreateWithCapacity,
     InitWithCapacity,
     Release,
-    Add,
+    TryAdd,
     TryRemove,
     IsContains,
     Clear,

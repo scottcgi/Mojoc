@@ -50,7 +50,7 @@ static void Release(Component* component)
 
 	for (int i = 0; i < component->stateMap->elementList->size; i++)
 	{
-		free(AArrayIntMapGetAt(component->stateMap, i, ComponentState*));
+		free(AArrayIntMap_GetAt(component->stateMap, i, ComponentState*));
 	}
 
 	AArrayIntMap->Release(component->stateMap);
@@ -65,7 +65,7 @@ static void AddChild(Component* parent, Component* child, int order)
 	ALog_A(parent != NULL && child != NULL, "Component addChild failed, parent and child can not NULL");
 	ALog_A(child->parent == NULL,           "Component addChild failed, child already has parent");
 
-    if (AArrayIntMapPut(parent->childMap, order, child) != NULL)
+    if (AArrayIntMap_Put(parent->childMap, order, child) != NULL)
     {
         child->order  = order;
         child->parent = parent;
@@ -89,7 +89,7 @@ static void AppendChild(Component* parent, Component* child)
 	}
 	else
 	{
-		order = AArrayIntMapGetAt
+		order = AArrayIntMap_GetAt
                 (
                     parent->childMap,
                     parent->childMap->elementList->size - 1,
@@ -126,7 +126,7 @@ static void RemoveAllChildren(Component* parent)
 
 	for (int i = 0; i < parent->childMap->elementList->size; i++)
 	{
-		Component* child = AArrayIntMapGetAt(parent->childMap, i, Component*);
+		Component* child = AArrayIntMap_GetAt(parent->childMap, i, Component*);
 		child->parent    = NULL;
 	}
 
@@ -166,7 +166,11 @@ static void ReorderChildren(Component* parent)
 static void AddObserver(Component* sender, Component* observer)
 {
 	ALog_A(sender != NULL && observer != NULL, "Component addObserver failed, sender and observer can not NULL");
-    AArrayIntSet->Add(sender->observerSet, (intptr_t) observer);
+
+    if (AArrayIntSet->TryAdd(sender->observerSet, (intptr_t) observer) == false)
+    {
+        ALog_A(false, "Component addObserver failed, observer already exist in sender");
+    }
 }
 
 
@@ -201,17 +205,17 @@ static void Update(Component* component, float deltaSeconds)
         {
             while (i + 3 < component->childMap->elementList->size)
             {
-                AComponent->Update(AArrayIntMapGetAt(component->childMap, i,     Component*), deltaSeconds);
-                AComponent->Update(AArrayIntMapGetAt(component->childMap, i + 1, Component*), deltaSeconds);
-                AComponent->Update(AArrayIntMapGetAt(component->childMap, i + 2, Component*), deltaSeconds);
-                AComponent->Update(AArrayIntMapGetAt(component->childMap, i + 3, Component*), deltaSeconds);
+                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i,     Component*), deltaSeconds);
+                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i + 1, Component*), deltaSeconds);
+                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i + 2, Component*), deltaSeconds);
+                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i + 3, Component*), deltaSeconds);
 
                 i += 4;
             }
 
             while (i < component->childMap->elementList->size)
             {
-                AComponent->Update(AArrayIntMapGetAt(component->childMap, i++, Component*), deltaSeconds);
+                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i++, Component*), deltaSeconds);
             }
 
             break;
@@ -239,7 +243,7 @@ static bool SendMessage(Component* component, void* sender, int subject, void* e
 		{
 			// if in OnMessage method remove parent child more than twice
             // the i index will overflow
-			if (AComponent->SendMessage(AArrayIntMapGetAt(component->childMap, i, Component*), sender, subject, extraData))
+			if (AComponent->SendMessage(AArrayIntMap_GetAt(component->childMap, i, Component*), sender, subject, extraData))
 			{
 				return true;
 			}
@@ -259,7 +263,7 @@ static bool SendMessageToChildren(Component* component, void* sender, int subjec
 		{
             // if in OnMessage method remove parent child more than twice
             // the i index will overflow
-			if (AComponent->SendMessage(AArrayIntMapGetAt(component->childMap, i, Component*), sender, subject, extraData))
+			if (AComponent->SendMessage(AArrayIntMap_GetAt(component->childMap, i, Component*), sender, subject, extraData))
 			{
 				return true;
 			}
@@ -301,7 +305,7 @@ static void SetState(Component* component, int stateId)
 {
 	if (component->isActive)
 	{
-		ComponentState* state = AArrayIntMapGet(component->stateMap, stateId, ComponentState*);
+		ComponentState* state = AArrayIntMap_Get(component->stateMap, stateId, ComponentState*);
 		ALog_A(state != NULL, "Component SetState not found ComponentState by stateId = %d", stateId);
 
 		if (component->curState->OnMessage != NULL)
@@ -333,7 +337,7 @@ static ComponentState* AddState(Component* component, int stateId, ComponentStat
     state->OnMessage      = onMessage;
     AUserData_Init(state->userData);
 
-	AArrayIntMapInsertAt(component->stateMap, stateId, -index - 1, state);
+	AArrayIntMap_InsertAt(component->stateMap, stateId, -index - 1, state);
 
 	return state;
 }
@@ -345,7 +349,7 @@ static void SetActive(Component* component, bool isActive)
 
 	for (int i = 0; i < component->childMap->elementList->size; i++)
 	{
-		AArrayIntMapGetAt(component->childMap, i, Component*)->isActive = isActive;
+		AArrayIntMap_GetAt(component->childMap, i, Component*)->isActive = isActive;
 	}
 }
 

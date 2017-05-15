@@ -1,12 +1,16 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2017-4-23
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2017-4-23
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef array_int_set_h
-#define array_int_set_h
+
+#ifndef ARRAY_INT_SET_H
+#define ARRAY_INT_SET_H
 
 
 #include <stdbool.h>
@@ -36,8 +40,13 @@ struct AArrayIntSet
 
     /**
      * Add no repeat element to ArrayIntSet
+     *
+     * if element exist
+     *    return false
+     * else
+     *    return true
      */
-    void         (*Add)               (ArrayIntSet* arrayIntSet, intptr_t element);
+    bool         (*TryAdd)            (ArrayIntSet* arrayIntSet, intptr_t element);
 
     /**
      * If return true remove success else failed
@@ -68,9 +77,9 @@ extern struct AArrayIntSet AArrayIntSet[1];
 
 /**
  * Initialize constant ArrayIntSet, element type must compatible with integer
- * use like ArrayIntSet set[1] = AArrayIntSetInit(elementType, increase)
+ * use like ArrayIntSet set[1] = AArrayIntSet_Init(elementType, increase)
  */
-#define AArrayIntSetInit(elementType, increase) \
+#define AArrayIntSet_Init(elementType, increase) \
 	{                                           \
 		{                                       \
 			AArrayListInit(intptr_t, increase), \

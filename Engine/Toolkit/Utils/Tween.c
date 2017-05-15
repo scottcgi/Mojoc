@@ -34,7 +34,7 @@ typedef struct
 TweenData;
 
 
-static ArrayIntMap(tweendId, TweenData*) dataMap   [1] = AArrayIntMapInit(TweenData*,   25);
+static ArrayIntMap(tweendId, TweenData*) dataMap   [1] = AArrayIntMap_Init(TweenData*,   25);
 static ArrayList  (TweenData*)           dataList  [1] = AArrayListInit  (TweenData*,   25);
 static ArrayList  (TweenAction*)         actionList[1] = AArrayListInit  (TweenAction*, 25);
 
@@ -145,7 +145,7 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
         tweenData = GetTweenData();
         tweenId   = tweenData;
 
-		AArrayIntMapPut(dataMap, tweenId, tweenData);
+		AArrayIntMap_Put(dataMap, tweenId, tweenData);
 	}
     else
     {
@@ -154,11 +154,11 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
         if (index < 0)
         {
             tweenData = GetTweenData();
-            AArrayIntMapInsertAt(dataMap, tweenId, -index - 1, tweenData);
+            AArrayIntMap_InsertAt(dataMap, tweenId, -index - 1, tweenData);
         }
         else
         {
-            tweenData = AArrayIntMapGetAt(dataMap, index, TweenData*);
+            tweenData = AArrayIntMap_GetAt(dataMap, index, TweenData*);
         }
     }
 
@@ -185,7 +185,7 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
 
 static bool TryRemoveAction(void* tweenId, TweenAction* action)
 {
-	TweenData* tweenData = AArrayIntMapGet(dataMap, tweenId, TweenData*);
+	TweenData* tweenData = AArrayIntMap_Get(dataMap, tweenId, TweenData*);
 
 	if (tweenData != NULL)
 	{
@@ -233,7 +233,7 @@ static bool TryRemoveAllActions(void* tweenId)
 
 	if (index >= 0)
 	{
-		TweenData* tweenData = AArrayIntMapGetAt(dataMap, index, TweenData*);
+		TweenData* tweenData = AArrayIntMap_GetAt(dataMap, index, TweenData*);
 
 		for (int i = 0; i < tweenData->current->size; i++)
 		{
@@ -290,7 +290,7 @@ static bool TryCompleteAllActions(void* tweenId, bool isFireOnComplete)
 
     if (index >= 0)
     {
-        TweenData* tweenData = AArrayIntMapGetAt(dataMap, index, TweenData*);
+        TweenData* tweenData = AArrayIntMap_GetAt(dataMap, index, TweenData*);
 
         for (int i = 0; i < tweenData->current->size; i++)
         {
@@ -327,7 +327,7 @@ static bool HasAction(void* tweenId)
 
     if (index >= 0)
     {
-        TweenData* tweenData = AArrayIntMapGetAt(dataMap, index, TweenData*);
+        TweenData* tweenData = AArrayIntMap_GetAt(dataMap, index, TweenData*);
 
         if (tweenData->current->size > 0 || tweenData->queue->elementList->size > 0)
         {
@@ -345,7 +345,7 @@ static void Update(float deltaSeconds)
 {
 	for (int i = dataMap->elementList->size - 1; i > -1; i--)
 	{
-		TweenData* tweenData = AArrayIntMapGetAt(dataMap, i, TweenData*);
+		TweenData* tweenData = AArrayIntMap_GetAt(dataMap, i, TweenData*);
 
 		// get current action of queue actions
 		if (tweenData->currentAction == NULL)

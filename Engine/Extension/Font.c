@@ -79,7 +79,7 @@ static FontText* GetText(Font* font)
     text->alignment   = font_text_alignment_horizontal_left;
     text->charSpacing = 0.0f;
     text->font        = font;
-    AArrayIntSet->Add(font->fontTextSet, (intptr_t) text);
+    AArrayIntSet->TryAdd(font->fontTextSet, (intptr_t) text);
 
     return text;
 }

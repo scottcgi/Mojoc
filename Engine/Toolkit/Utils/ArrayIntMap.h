@@ -1,12 +1,16 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2013-5-27
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-5-27
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef array_int_map_h
-#define array_int_map_h
+
+#ifndef ARRAY_INT_MAP_H
+#define ARRAY_INT_MAP_H
 
 
 #include <stdbool.h>
@@ -144,9 +148,9 @@ extern struct AArrayIntMap AArrayIntMap[1];
 
 /**
  * Initialize constant ArrayIntMap
- * use like ArrayIntMap map[1] = AArrayIntMapInit(valueType, increase)
+ * use like ArrayIntMap map[1] = AArrayIntMap_Init(valueType, increase)
  */
-#define AArrayIntMapInit(valueType, increase)              \
+#define AArrayIntMap_Init(valueType, increase)             \
 	{                                                      \
 		{                                                  \
 			sizeof(valueType),                             \
@@ -158,7 +162,7 @@ extern struct AArrayIntMap AArrayIntMap[1];
 /**
  * Shortcut of AArrayIntMap->Put
  */
-#define AArrayIntMapPut(arrayIntMap, key, value) \
+#define AArrayIntMap_Put(arrayIntMap, key, value) \
 	AArrayIntMap->Put(arrayIntMap, (intptr_t) key, &(value))
 
 
@@ -166,7 +170,7 @@ extern struct AArrayIntMap AArrayIntMap[1];
  * Shortcut of AArrayIntMap->Get
  * return value
  */
-#define AArrayIntMapGet(arrayIntMap, key, valueType) \
+#define AArrayIntMap_Get(arrayIntMap, key, valueType) \
 	(*(valueType*) AArrayIntMap->Get(arrayIntMap, (intptr_t) key, NULL_PTR))
 
 
@@ -174,21 +178,21 @@ extern struct AArrayIntMap AArrayIntMap[1];
  * Shortcut of AArrayIntMap->Get
  * return valuePtr
  */
-#define AArrayIntMapGetPtr(arrayIntMap, key, valueType) \
+#define AArrayIntMap_GetPtr(arrayIntMap, key, valueType) \
 	((valueType*) AArrayIntMap->Get(arrayIntMap, (intptr_t) key, NULL))
 
 
 /**
  * Shortcut of AArrayIntMap->Set
  */
-#define AArrayIntMapSet(arrayIntMap, key, value) \
+#define AArrayIntMap_Set(arrayIntMap, key, value) \
 	AArrayIntMap->Set(arrayIntMap, (intptr_t) key, &(value))
 
 
 /**
  * Shortcut of AArrayIntMap->InsertAt
  */
-#define AArrayIntMapInsertAt(arrayIntMap, key, index, value) \
+#define AArrayIntMap_InsertAt(arrayIntMap, key, index, value) \
 	AArrayIntMap->InsertAt(arrayIntMap, (intptr_t) key, index, &(value))
 
 
@@ -196,7 +200,7 @@ extern struct AArrayIntMap AArrayIntMap[1];
  * Shortcut of AArrayIntMap->GetAt
  * return value
  */
-#define AArrayIntMapGetAt(arrayIntMap, index, valueType) \
+#define AArrayIntMap_GetAt(arrayIntMap, index, valueType) \
    (*(valueType*) AArrayIntMap->GetAt(arrayIntMap, index))
 
 
@@ -204,14 +208,14 @@ extern struct AArrayIntMap AArrayIntMap[1];
  * Shortcut of AArrayIntMap->GetAt
  * return valuePtr
  */
-#define AArrayIntMapGetPtrAt(arrayIntMap, index, valueType) \
+#define AArrayIntMap_GetPtrAt(arrayIntMap, index, valueType) \
    ((valueType*) AArrayIntMap->GetAt(arrayIntMap, index))
 
 
 /**
  * Shortcut of AArrayIntMap->SetAt
  */
-#define AArrayIntMapSetAt(arrayIntMap, index, value) \
+#define AArrayIntMap_SetAt(arrayIntMap, index, value) \
 	AArrayIntMap->SetAt(arrayIntMap, index, &(value))
 
 

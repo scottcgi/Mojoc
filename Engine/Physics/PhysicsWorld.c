@@ -11,7 +11,7 @@
 #include "Engine/Physics/PhysicsCollision.h"
 
 
-static ArrayIntSet(PhysicsBody*) bodySet[1] = AArrayIntSetInit(PhysicsBody*, 20);
+static ArrayIntSet(PhysicsBody*) bodySet[1] = AArrayIntSet_Init(PhysicsBody*, 20);
 
 
 //--------------------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ static void Update(float deltaSeconds)
 static PhysicsBody* AddBody(PhysicsShape shape, Array(float)* vertexArr)
 {
 	PhysicsBody* body = APhysicsBody->Create(shape, vertexArr);
-    AArrayIntSet->Add(bodySet, (intptr_t) body);
+    AArrayIntSet->TryAdd(bodySet, (intptr_t) body);
 
 	return body;
 }

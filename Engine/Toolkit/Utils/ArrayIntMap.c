@@ -1,9 +1,13 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2013-5-20
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-5-20
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <string.h>
 #include <stdlib.h>
