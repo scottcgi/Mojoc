@@ -118,18 +118,23 @@ static void* Get(ArrayStrMap* arrayStrMap, char* key, void* defaultValuePtr)
 }
 
 
-static void* Set(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
+static void* TrySet(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 {
 	int guess = BinarySearch(arrayStrMap->elementList, key, (int) strlen(key) + 1);
 
-	ALog_A(guess >= 0, "ArrayStrMap set key = %s, has not exist", key);
-
-	return memcpy
-		   (
-			   AArrayList_Get(arrayStrMap->elementList, guess, ArrayStrMapElement*)->valuePtr,
-			   valuePtr,
-			   arrayStrMap->valueTypeSize
-		   );
+    if (guess >= 0)
+    {
+        return memcpy
+               (
+                   AArrayList_Get(arrayStrMap->elementList, guess, ArrayStrMapElement*)->valuePtr,
+                   valuePtr,
+                   arrayStrMap->valueTypeSize
+               );
+    }
+    else
+    {
+        return NULL;
+    }
 }
 
 
@@ -293,7 +298,7 @@ struct AArrayStrMap AArrayStrMap[1] =
 
     TryPut,
 	Get,
-	Set,
+    TrySet,
 	TryRemove,
 	Clear,
 	InsertAt,

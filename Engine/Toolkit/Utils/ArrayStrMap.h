@@ -77,9 +77,14 @@ struct AArrayStrMap
 	void*        (*Get)                (ArrayStrMap* arrayStrMap, char* key, void* defaultValuePtr);
 
 	/**
-	 * Set new value from valuePtr by key, return valuePtr in ArrayStrMap
+	 * Set new value from valuePtr by key
+	 *
+	 * if key exist in ArrayStrMap
+	 *     return valuePtr in ArrayStrMap
+	 * else
+	 *     return NULL
 	 */
-	void*        (*Set)                (ArrayStrMap* arrayStrMap, char* key, void* valuePtr);
+	void*        (*TrySet)             (ArrayStrMap* arrayStrMap, char* key, void* valuePtr);
 
 	/**
 	 * Remove value by key
@@ -182,10 +187,10 @@ static inline char* AArrayStrMap_GetKey(void* valuePtr, int valueTypeSize)
 
 
 /**
- * Shortcut of AArrayStrMap->Set
+ * Shortcut of AArrayStrMap->TrySet
  */
-#define AArrayStrMap_Set(arrayStrMap, key, value) \
-	AArrayStrMap->Set(arrayStrMap, key, &(value));
+#define AArrayStrMap_TrySet(arrayStrMap, key, value) \
+	AArrayStrMap->TrySet(arrayStrMap, key, &(value));
 
 
 /**

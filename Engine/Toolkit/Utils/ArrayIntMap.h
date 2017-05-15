@@ -79,9 +79,14 @@ struct AArrayIntMap
 
 
 	/**
-	 * Set new value from valuePtr by key, return valuePtr in ArrayIntMap
+	 * Set new value from valuePtr by key
+	 *
+	 * if key exist in ArrayIntMap
+	 *     return valuePtr in ArrayIntMap
+	 * else
+	 *     return NULL
 	 */
-	void*        (*Set)               (ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr);
+	void*        (*TrySet)            (ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr);
 
 
 	/**
@@ -183,10 +188,10 @@ extern struct AArrayIntMap AArrayIntMap[1];
 
 
 /**
- * Shortcut of AArrayIntMap->Set
+ * Shortcut of AArrayIntMap->TrySet
  */
-#define AArrayIntMap_Set(arrayIntMap, key, value) \
-	AArrayIntMap->Set(arrayIntMap, (intptr_t) key, &(value))
+#define AArrayIntMap_TrySet(arrayIntMap, key, value) \
+	AArrayIntMap->TrySet(arrayIntMap, (intptr_t) key, &(value))
 
 
 /**
