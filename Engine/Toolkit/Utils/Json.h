@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-1-26
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-1-26
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef json_h
-#define json_h
+
+#ifndef JSON_H
+#define JSON_H
 
 
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"
@@ -15,25 +19,25 @@
 
 typedef enum
 {
-	json_object,
-	json_array,
-	json_string,
-	json_float,
-	json_null,
+	JsonType_Object,
+	JsonType_Array,
+	JsonType_String,
+	JsonType_Float,
+	JsonType_Null,
 }
 JsonType;
 
 
 typedef struct
 {
-   ArrayStrMap(objectKey, JsonValue*) arrayStrMap[1];
+   ArrayStrMap(objectKey, JsonValue*) valueMap[1];
 }
 JsonObject;
 
 
 typedef struct
 {
-   ArrayList(JsonValue*) arrayList[1];
+   ArrayList(JsonValue*) valueList[1];
 }
 JsonArray;
 
@@ -45,24 +49,24 @@ typedef struct
 	union
 	{
 		/**
-		 * json_string
+		 * JsonType_String
 		 */
-		char*       stringValue;
+		char*       jsonString;
 
 		/**
-		 * json_object
+		 * JsonType_Object
 		 */
-		JsonObject* object;
+		JsonObject* jsonObject;
 
 		/**
-		 * json_array
+		 * JsonType_Array
 		 */
-		JsonArray*  array;
+		JsonArray*  jsonArray;
 
 		/**
-		 * json_float
+		 * JsonType_Float
 		 */
-		float       floatValue;
+		float       jsonFloat;
 	};
 }
 JsonValue;

@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2016-6-24
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2016-6-24
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <string.h>
 
@@ -12,12 +16,15 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-#define action_length 30
+enum
+{
+    TweenAction_Length = 30,
+};
 
 
 static Array(TweenAction*) actionArr[1] =
 {
-	(TweenAction*[action_length]) {},
+	(TweenAction*[TweenAction_Length]) {},
 	0
 };
 
@@ -38,10 +45,10 @@ static struct ATweenTool* AddAction()
 {
 	ALog_A
 	(
-		actionArr->length <= action_length,
+		actionArr->length <= TweenAction_Length,
 		"ATweenTool can not cache TweenActions = %d more than %d",
 		actionArr->length,
-		action_length
+        TweenAction_Length
 	);
 
 	action      = ATween->GetAction();
@@ -583,6 +590,5 @@ struct ATweenTool ATweenTool[1] =
 };
 
 
-#undef action_length
 #undef CheckAction
 #undef CheckActionValue

@@ -39,8 +39,8 @@ static Coroutine* StartCoroutine(CoroutineRun Run)
     coroutine->step         = NULL;
     coroutine->waitValue    = 0.0f;
     coroutine->curWaitValue = 0.0f;
-    coroutine->waitType     = coroutine_wait_null;
-    coroutine->state        = coroutine_state_ready;
+    coroutine->waitType     = CoroutineWaitType_Null;
+    coroutine->state        = CoroutineState_Ready;
 
     AArrayList_Add(coroutineRunningList, coroutine);
 
@@ -54,7 +54,7 @@ static void Update(float deltaSeconds)
     {
         Coroutine* coroutine = AArrayList_Get(coroutineRunningList, i, Coroutine*);
 
-        if (coroutine->waitType == coroutine_wait_coroutine)
+        if (coroutine->waitType == CoroutineWaitType_Coroutines)
         {
             continue;
         }
@@ -62,7 +62,7 @@ static void Update(float deltaSeconds)
         {
             coroutine->Run(coroutine);
 
-            if (coroutine->state == coroutine_state_finish)
+            if (coroutine->state == CoroutineState_Finish)
             {
                 AArrayList->RemoveByLast(coroutineRunningList, i);
 
@@ -76,12 +76,12 @@ static void Update(float deltaSeconds)
 
                     ALog_A
                     (
-                        wait->state != coroutine_state_finish,
+                        wait->state != CoroutineState_Finish,
                         "Coroutine [%p] can not finish before wait coroutine [%p] finish",
                         wait, coroutine
                     );
 
-                    wait->waitType = coroutine_wait_null;
+                    wait->waitType = CoroutineWaitType_Null;
                 }
 
                 continue;
@@ -91,11 +91,11 @@ static void Update(float deltaSeconds)
         {
             switch (coroutine->waitType)
             {
-                case coroutine_wait_frame:
+                case CoroutineWaitType_Frames:
                     coroutine->curWaitValue += 1.0f;
                     break;
 
-                case coroutine_wait_second:
+                case CoroutineWaitType_Seconds:
                     coroutine->curWaitValue += deltaSeconds;
                     break;
             }

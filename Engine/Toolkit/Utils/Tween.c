@@ -1,17 +1,19 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2016-6-8
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2016-6-8
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include "Engine/Toolkit/Utils/Tween.h"
 #include "Engine/Toolkit/Math/Math.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
 #include "Engine/Toolkit/Utils/ArrayQueue.h"
-#include "ArrayQueue.h"
-#include "ArrayList.h"
 
 
 typedef struct

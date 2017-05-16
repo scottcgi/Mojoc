@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-4-6
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-4-6
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef buffer_reader_h
-#define buffer_reader_h
+
+#ifndef BUFFER_READER_H
+#define BUFFER_READER_H
 
 
 #include <stdbool.h>
