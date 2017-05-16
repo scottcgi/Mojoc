@@ -37,11 +37,11 @@ static inline void UpdateMotion(PhysicsBody* body, float deltaSeconds)
 	body->positionX += dx;
 	body->positionY += dy;
 
-	body->rotationZ  = AMathAtan2(dx, dy);
+	body->rotationZ  = AMath_Atan2(dx, dy);
 
 	APhysicsBody->UpdateMotion(body, deltaSeconds);
 
-	if (AMathTestFloatEqual(body->velocityX, 0.0f) && AMathTestFloatEqual(body->velocityY, 0.0f))
+	if (AMath_TestFloatEqual(body->velocityX, 0.0f) && AMath_TestFloatEqual(body->velocityY, 0.0f))
 	{
 		APhysicsBodySetState(body, physics_body_state_sleeping);
 	}

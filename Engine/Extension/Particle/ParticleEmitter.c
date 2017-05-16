@@ -241,8 +241,8 @@ static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, 
 		{
 			angle = particle->angle + particle->angleDiff * AParticleEmitterData->GetScale(angleValue, percent) + emitter->emissionAngle;
 
-			velocityX *= AMathCos(angle);
-			velocityY *= AMathSin(angle);
+			velocityX *= AMath_Cos(angle);
+			velocityY *= AMath_Sin(angle);
 		}
 
 		ParticleScaledValue* windValue = emitterData->windValue;
@@ -364,7 +364,7 @@ static void Update(ParticleEmitter* emitter, float deltaSeconds)
         {
             int a                  = (int) (emitter->emissionDelta / emissionTime);
             int b                  = emitterData->maxParticleCount - emitter->activeCount;
-            int count              = AMathMin(a, b);
+            int count              = AMath_Min(a, b);
             emitter->emissionDelta = fmodf(emitter->emissionDelta, emissionTime);
 
             if (count > 0)

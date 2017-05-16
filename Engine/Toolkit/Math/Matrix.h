@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-1-6
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-1-6
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef matrix_h
-#define matrix_h
+
+#ifndef MATRIX_H
+#define MATRIX_H
 
 
 #include "Engine/Toolkit/Math/Math.h"
@@ -28,7 +32,7 @@ typedef union
 Matrix4;
 
 
-#define matrix4_identity           \
+#define MATRIX4_IDENTITY           \
 	{                              \
        {                           \
            1.0f, 0.0f, 0.0f, 0.0f, \

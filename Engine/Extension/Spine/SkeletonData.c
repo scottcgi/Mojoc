@@ -761,7 +761,7 @@ static inline void ReadAnimationBones
 				SkeletonTimeline* skeletonTimeline = rotateTimeline->skeletonTimeline;
 				AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
-				animationData->duration = AMathMax
+				animationData->duration = AMath_Max
 						                  (
 											  animationData->duration,
 											  AArray_Get(rotateTimeline->frameArr, rotateTimeline->frameArr->length - 2, float)
@@ -807,7 +807,7 @@ static inline void ReadAnimationBones
 				}
 
 
-				animationData->duration = AMathMax
+				animationData->duration = AMath_Max
 									      (
 											animationData->duration,
 											AArray_Get(translateTimeline->frameArr, translateTimeline->frameArr->length - 3, float)
@@ -871,7 +871,7 @@ static inline void ReadAnimationSlots
 				SkeletonTimeline* skeletonTimeline = colorTimeline->skeletonTimeline;
 				AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
-				animationData->duration = AMathMax
+				animationData->duration = AMath_Max
 										  (
 											  animationData->duration,
 											  AArray_Get(colorTimeline->frameArr, colorTimeline->frameArr->length - 5, float)
@@ -896,7 +896,7 @@ static inline void ReadAnimationSlots
 				SkeletonTimeline* skeletonTimeline = attachmentTimeline->skeletonTimeline;
 				AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
-				animationData->duration = AMathMax
+				animationData->duration = AMath_Max
 										  (
 											  animationData->duration,
 											  AArray_Get(attachmentTimeline->frameArr, attachmentTimeline->frameArr->length - 1, float)
@@ -964,7 +964,7 @@ static inline void ReadAnimationEvents
 	SkeletonTimeline* skeletonTimeline = eventTimeline->skeletonTimeline;
 	AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
-	animationData->duration = AMathMax
+	animationData->duration = AMath_Max
 			                  (
 								animationData->duration,
 								AArray_Get(eventTimeline->frameArr, eventTimeline->frameArr->length - 1, float)
@@ -1065,7 +1065,7 @@ static inline void ReadAnimationDrawOrders
 	SkeletonTimeline* skeletonTimeline = drawOrderTimeline->skeletonTimeline;
 	AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
-	animationData->duration = AMathMax
+	animationData->duration = AMath_Max
 			                  (
 								animationData->duration,
 								AArray_Get(drawOrderTimeline->frameArr, drawOrderTimeline->frameArr->length - 1, float)
@@ -1171,7 +1171,7 @@ static inline void ReadAnimationDeform
 				SkeletonTimeline* skeletonTimeline = deformTimeline->skeletonTimeline;
 				AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
-				animationData->duration = AMathMax
+				animationData->duration = AMath_Max
 										  (
 										  	  animationData->duration,
 											  AArray_Get(deformTimeline->frameArr, deformTimeline->frameArr->length - 1, float)

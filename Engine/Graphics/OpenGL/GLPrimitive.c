@@ -10,7 +10,7 @@
 #include "Engine/Graphics/OpenGL/Camera.h"
 
 
-static Matrix4 identityMatrix[1] = matrix4_identity;
+static Matrix4 identityMatrix[1] = MATRIX4_IDENTITY;
 static Matrix4 mvpMatrix     [1];
 
 

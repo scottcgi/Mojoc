@@ -91,9 +91,9 @@ struct ACamera ACamera[1] =
     // up vector control camera direction, perpendicular to the camera plane
     0, 0, 0,
 
-	matrix4_identity,
-	matrix4_identity,
-	matrix4_identity,
+	MATRIX4_IDENTITY,
+	MATRIX4_IDENTITY,
+	MATRIX4_IDENTITY,
 
 	SetOrtho,
 	SetFrustum,

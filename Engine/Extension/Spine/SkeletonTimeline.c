@@ -198,12 +198,12 @@ static inline float GetCurvePercent(SkeletonCurveTimeline* curveTimeline, int fr
 	switch ((int) dfx)
 	{
 		case skeleton_curve_linear:
-			return AMathClamp(percent, 0.0f, 1.0f);
+			return AMath_Clamp(percent, 0.0f, 1.0f);
 
 		case skeleton_curve_bezier:
 		{
 			i++;
-			percent = AMathClamp(percent, 0.0f, 1.0f);
+			percent = AMath_Clamp(percent, 0.0f, 1.0f);
 
 			float x;
 

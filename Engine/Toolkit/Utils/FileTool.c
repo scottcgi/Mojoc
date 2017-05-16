@@ -21,7 +21,7 @@ static int GetDirLength(char* filePath)
 {
     char* lastForwardSlash  = strrchr(filePath, '/');
     char* lastBackwardSlash = strrchr(filePath, '\\');
-    char* lastSlash         = AMathMax(lastForwardSlash, lastBackwardSlash);
+    char* lastSlash         = AMath_Max(lastForwardSlash, lastBackwardSlash);
 
     if (lastSlash != NULL)
     {

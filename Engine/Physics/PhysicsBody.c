@@ -96,8 +96,8 @@ static PhysicsBody* Create(PhysicsShape shape, Array(float)* vertexArr)
 
 static void UpdateMotion2D(PhysicsBody* body, float deltaSeconds)
 {
-	float  cos       = AMathCos(body->rotationZ);
-	float  sin       = AMathSin(body->rotationZ);
+	float  cos       = AMath_Cos(body->rotationZ);
+	float  sin       = AMath_Sin(body->rotationZ);
 	float* positions = AArray_GetData(body->positionArr, float);
 	float* vertices  = AArray_GetData(body->vertexArr,   float);
 

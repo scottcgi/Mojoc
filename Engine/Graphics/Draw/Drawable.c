@@ -44,7 +44,7 @@ static void Draw(Drawable* drawable)
 			else
 			{
 				// self under identity matrix
-				*drawable->modelMatrix = *(Matrix4[]) matrix4_identity;
+				*drawable->modelMatrix = *(Matrix4[]) MATRIX4_IDENTITY;
 			}
 
 			AMatrix->Translate
@@ -327,7 +327,7 @@ static void RenderQueue()
 static inline float GetWorldRotationZ(Drawable* drawable)
 {
 	// unit x axis vector's x and y is matrix->m0, matrix->m1
-	return AMathAtan2(drawable->modelMatrix->m0, drawable->modelMatrix->m1);
+	return AMath_Atan2(drawable->modelMatrix->m0, drawable->modelMatrix->m1);
 }
 
 
@@ -356,7 +356,7 @@ static inline float GetWorldScaleX(Drawable* drawable)
 		}
 	};
 
-	return AVector3Length(vector) * sign;
+	return AVector3_Length(vector) * sign;
 }
 
 
@@ -385,7 +385,7 @@ static inline float GetWorldScaleY(Drawable* drawable)
 		}
 	};
 
-	return AVector3Length(vector) * sign;
+	return AVector3_Length(vector) * sign;
 }
 
 
@@ -459,7 +459,7 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
 	}
 	else
 	{
-		Matrix4 model[1] = matrix4_identity;
+		Matrix4 model[1] = MATRIX4_IDENTITY;
 		AMatrix->MultiplyMV2(model, drawable->positionX, drawable->positionY , worldPoint);
 	}
 
@@ -604,7 +604,7 @@ static void Init(Drawable* outDrawable)
 
 //--------------------------------------------------------------------------------------------------
 
-   *outDrawable->modelMatrix   = *(Matrix4[]) matrix4_identity;
+   *outDrawable->modelMatrix   = *(Matrix4[]) MATRIX4_IDENTITY;
 	outDrawable->state         = 0;
 	outDrawable->Draw          = NULL;
 	outDrawable->Render        = NULL;

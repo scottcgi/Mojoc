@@ -48,13 +48,13 @@ static inline float ReadFloat(char* buffer, ArrayRange* range, ArrayRange* line,
 
 static float RandomLowValue(ParticleRangedValue* rangedValue)
 {
-	return rangedValue->lowMin + (rangedValue->lowMax - rangedValue->lowMin) * AMathRandom();
+	return rangedValue->lowMin + (rangedValue->lowMax - rangedValue->lowMin) * AMath_Random();
 }
 
 
 static float RandomHighValue(ParticleScaledValue* scaledValue)
 {
-	return scaledValue->highMin + (scaledValue->highMax - scaledValue->highMin) * AMathRandom();
+	return scaledValue->highMin + (scaledValue->highMax - scaledValue->highMin) * AMath_Random();
 }
 
 

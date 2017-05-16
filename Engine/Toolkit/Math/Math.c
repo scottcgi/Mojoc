@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-1-24
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-1-24
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Math/Math.h"
@@ -46,8 +50,8 @@ static void RotatePoints2(Array(float)* pointArr, float angle, Array(float)* out
 {
 	ALog_A(outRotatedPointArr->length >= pointArr->length, "outRotatedPointArr length must larger than pointArr");
 
-	float  cos  = AMathCos(angle);
-	float  sin  = AMathSin(angle);
+	float  cos  = AMath_Cos(angle);
+	float  sin  = AMath_Sin(angle);
 	float* arr1 = (float*) pointArr->data;
 	float* arr2 = (float*) outRotatedPointArr->data;
 

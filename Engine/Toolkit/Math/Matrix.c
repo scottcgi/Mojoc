@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-1-6
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-1-6
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <math.h>
 #include "Engine/Toolkit/Math/Matrix.h"
@@ -190,7 +194,7 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
 //  matrix4->m14 = 0.0f;
 //  matrix4->m15 = 1.0f;
 
-    angle     = AMathToRadian(angle);
+    angle     = AMath_ToRadian(angle);
     float s   = sinf(angle);
     float c   = cosf(angle);
     int   dir = ((x != 0.0f) << 2) | ((y != 0.0f) << 1) | (z != 0.0f);
@@ -256,7 +260,7 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
 
     	default:
 		{
-            float len = AVector2Length3(x, y, z);
+            float len = AVector2_Length3(x, y, z);
 
             if (len != 1.0f)
 			{
@@ -323,10 +327,10 @@ static void Translate(Matrix4* matrix4, float x, float y, float z)
  */
 static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
 {
-    angle     = AMathToRadian(angle);
+    angle     = AMath_ToRadian(angle);
     float s   = sinf(angle);
     float c   = cosf(angle);
-    float len = AVector2Length3(x, y, z);
+    float len = AVector2_Length3(x, y, z);
 
     if (len != 1.0f)
     {
@@ -376,7 +380,7 @@ static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
 
 static void RotateX(Matrix4* matrix4, float angle)
 {
-    angle   = AMathToRadian(angle);
+    angle   = AMath_ToRadian(angle);
 
     float s = sinf(angle);
     float c = cosf(angle);
@@ -418,7 +422,7 @@ static void RotateX(Matrix4* matrix4, float angle)
 
 static void RotateY(Matrix4* matrix4, float angle)
 {
-    angle    = AMathToRadian(angle);
+    angle    = AMath_ToRadian(angle);
     float s  = sinf(angle);
     float c  = cosf(angle);
 
@@ -459,7 +463,7 @@ static void RotateY(Matrix4* matrix4, float angle)
 
 static void RotateZ(Matrix4* matrix4, float angle)
 {
-    angle    = AMathToRadian(angle);
+    angle    = AMath_ToRadian(angle);
     float s  = sinf(angle);
     float c  = cosf(angle);
 
@@ -681,7 +685,7 @@ static void Perspective(float fovy, float aspect, float near, float far, Matrix4
         "AMatrix Perspective failed, because far == near"
     );
 
-	float f               = 1.0f / (float) tan(fovy * (math_pi / 360.0f));
+	float f               = 1.0f / (float) tan(fovy * (MATH_PI / 360.0f));
 	float rangeReciprocal = 1.0f / (near - far);
 
 	outProjection->m0     = f / aspect;
@@ -794,7 +798,7 @@ static void LookAt
 	float fz   = centerZ - eyeZ;
 
 	// normalize f
-	float rlf  = AVector2Normalize3(fx, fy, fz);
+	float rlf  = AVector2_Normalize3(fx, fy, fz);
 	fx        *= rlf;
 	fy        *= rlf;
 	fz        *= rlf;
@@ -805,7 +809,7 @@ static void LookAt
 	float sz  = fx * upY - fy * upX;
 
 	// and normalize s
-	float rls = AVector2Normalize3(sx, sy, sz);
+	float rls = AVector2_Normalize3(sx, sy, sz);
 	sx       *= rls;
 	sy       *= rls;
 	sz       *= rls;

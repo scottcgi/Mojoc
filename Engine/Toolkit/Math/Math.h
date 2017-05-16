@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-1-24
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-1-24
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef math_h
-#define math_h
+
+#ifndef MATH_H
+#define MATH_H
 
 
 #include <stdlib.h>
@@ -14,6 +18,7 @@
 #include <time.h>
 #include <float.h>
 #include <stdbool.h>
+
 #include "Engine/Toolkit/Utils/Array.h"
 
 
@@ -38,28 +43,28 @@ extern struct AMath AMath[1];
 //--------------------------------------------------------------------------------------------------
 
 
-#define golden_ratio     0.618033988749894
+#define GOLDEN_RATIO     0.618033988749894
 
 
 /**
  * PI / 180.0
  */
-#define degree_to_radian 0.017453292519943
+#define DEGREE_TO_RADIAN 0.017453292519943
 
 
 /**
  * 180.0f / PI
  */
-#define radian_to_degree 57.29577951308232
+#define RADIAN_TO_DEGREE 57.29577951308232
 
 
-#define	math_pi		     3.141592653589793
+#define	MATH_PI		     3.141592653589793
 
 
-#define math_2pi         6.283185307179586
+#define MATH_2PI         6.283185307179586
 
 
-#define math_pi2         1.570796326794897
+#define MATH_PI2         1.570796326794897
 
 
 //--------------------------------------------------------------------------------------------------
@@ -68,7 +73,7 @@ extern struct AMath AMath[1];
 /**
  * Random float in range [0.0, 1.0]
  */
-static inline float AMathRandom()
+static inline float AMath_Random()
 {
 	return rand() / (double) RAND_MAX;
 }
@@ -77,7 +82,7 @@ static inline float AMathRandom()
 /**
  * Random integer in range [from, to]
  */
-static inline int AMathRandomInt(int from, int to)
+static inline int AMath_RandomInt(int from, int to)
 {
 	return (from) + rand() % ((to) - (from) + 1);
 }
@@ -86,16 +91,16 @@ static inline int AMathRandomInt(int from, int to)
 /**
  * Random float in range [from, to]
  */
-static inline float AMathRandomFloat(float from, float to)
+static inline float AMath_RandomFloat(float from, float to)
 {
-	return from + AMathRandom() * (to - from);
+	return from + AMath_Random() * (to - from);
 }
 
 
 /**
  * Random seed by system time
  */
-static inline void AMathRandomSeedByTime()
+static inline void AMath_RandomSeedByTime()
 {
 	srand((unsigned) time(NULL));
 }
@@ -104,91 +109,91 @@ static inline void AMathRandomSeedByTime()
 /**
  * Convert degree to radian
  */
-static inline float AMathToRadian(float degree)
+static inline float AMath_ToRadian(float degree)
 {
-	return (degree) * degree_to_radian;
+	return degree * DEGREE_TO_RADIAN;
 }
 
 
 /**
  * Convert radian to degree
  */
-static inline float AMathToDegree(float radian)
+static inline float AMath_ToDegree(float radian)
 {
-	return (radian) * radian_to_degree;
+	return radian * RADIAN_TO_DEGREE;
 }
 
 
 /**
  * Cos by degree
  */
-static inline float AMathCos(float degree)
+static inline float AMath_Cos(float degree)
 {
-	return cosf(AMathToRadian(degree));
+	return cosf(AMath_ToRadian(degree));
 }
 
 
 /**
  * Sin by degree
  */
-static inline float AMathSin(float degree)
+static inline float AMath_Sin(float degree)
 {
-	return sinf(AMathToRadian(degree));
+	return sinf(AMath_ToRadian(degree));
 }
 
 
 /**
  * Degree by atan2
  */
-static inline float AMathAtan2(float x, float y)
+static inline float AMath_Atan2(float x, float y)
 {
-	return 	AMathToDegree(atan2f(y, x));
+	return 	AMath_ToDegree(atan2f(y, x));
 }
 
 
 /**
  * Degree by acosf
  */
-static inline float AMathAcos(float ratio)
+static inline float AMath_Acos(float ratio)
 {
-	return AMathToDegree(acosf(ratio));
+	return AMath_ToDegree(acosf(ratio));
 }
 
 
 /**
  * Degree by asinf
  */
-static inline float AMathAsin(float ratio)
+static inline float AMath_Asin(float ratio)
 {
-	return AMathToDegree(asinf(ratio));
+	return AMath_ToDegree(asinf(ratio));
 }
 
 
 /**
  * Min in x and y, macro can use generic parameter
  */
-#define AMathMin(x, y) \
+#define AMath_Min(x, y) \
 	(((x) < (y)) ? (x) : (y))
 
 
 /**
  * Max in a and b, macro can use generic parameter
  */
-#define AMathMax(x, y) \
+#define AMath_Max(x, y) \
 	(((x) > (y)) ? (x) : (y))
 
 
 /**
  * Clamp x in min and max, macro can use generic parameter
  */
-#define AMathClamp(x, min, max) \
-	(AMathMin((max), AMathMax((x), (min))))
+#define AMath_Clamp(x, min, max) \
+	(AMath_Min((max), AMath_Max((x), (min))))
 
 
 /**
  * Compare float value equals
  */
-static inline bool AMathTestFloatEqual(float x, float y)
+static inline bool AMath_TestFloatEqual(float x, float y)
 {
 	return fabsf((x) - (y)) <= FLT_EPSILON;
 }
@@ -200,7 +205,7 @@ static inline bool AMathTestFloatEqual(float x, float y)
  * if x <  0 then -1
  * macro can use generic parameter
  */
-#define AMathSignBit(x) \
+#define AMath_SignBit(x) \
 	(((signed char*) &(x))[sizeof(x) - 1] >> 7 | 1)
 
 
