@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2014-6-3
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2014-6-3
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef physics_body_h
-#define physics_body_h
+
+#ifndef PHYSICS_BODY_H
+#define PHYSICS_BODY_H
 
 
 #include "Engine/Toolkit/Math/Matrix.h"
@@ -17,10 +21,10 @@
 
 typedef enum
 {
-	physics_shape_polygon = 1,
-	physics_shape_line    = 1 << 2,
-	physics_shape_point   = 1 << 3,
-	physics_shape_length,
+	PhysicsShape_Polygon = 1,
+	PhysicsShape_Line    = 1 << 2,
+	PhysicsShape_Point   = 1 << 3,
+	PhysicsShape_Length,
 }
 PhysicsShape;
 
@@ -31,39 +35,39 @@ PhysicsShape;
  */
 typedef enum
 {
-	physics_body_state_null           = 0,
+	PhysicsBodyState_Null           = 0,
 
 	/**
 	 * Auto set no motion can collision, collision will wake up
 	 */
-	physics_body_state_sleeping       = 1,
+	PhysicsBodyState_Sleeping       = 1,
 
 	/**
 	 * Auto set whether has collision
 	 */
-	physics_body_state_collision      = 1 << 1,
+	PhysicsBodyState_Collision      = 1 << 1,
 
 //--------------------------------------------------------------------------------------------------
 
 	/**
 	 * No motion can collision
 	 */
-	physics_body_state_is_fixed       = 1 << 2,
+	PhysicsBodyState_IsFixed       = 1 << 2,
 
 	/**
 	 * No motion no collision forever
 	 */
-	physics_body_state_is_freeze      = 1 << 3,
+	PhysicsBodyState_IsFreeze      = 1 << 3,
 
 
 //--------------------------------------------------------------------------------------------------
 
 
-	physics_body_state_no_motion      = physics_body_state_sleeping  |
-								        physics_body_state_is_fixed  |
-								        physics_body_state_is_freeze,
+	PhysicsBodyState_NoMotion      = PhysicsBodyState_Sleeping |
+                                     PhysicsBodyState_IsFixed  |
+                                     PhysicsBodyState_IsFreeze,
 
-   physics_body_state_no_collision    = physics_body_state_is_freeze,
+   PhysicsBodyState_NoCollision    = PhysicsBodyState_IsFreeze,
 
 }
 PhysicsBodyState;
@@ -90,9 +94,6 @@ struct  PhysicsBody
 	float        accelerationY;
 	float        rotationZ;
 
-    /**
-     *
-     */
 	PhysicsShape shape;
 
     /**
@@ -142,31 +143,31 @@ struct APhysicsBody
 extern struct APhysicsBody APhysicsBody[1];
 
 
-static inline bool APhysicsBodyCheckState(PhysicsBody* physicsBody, PhysicsBodyState checkState)
+static inline bool APhysicsBody_CheckState(PhysicsBody* physicsBody, PhysicsBodyState checkState)
 {
 	return ABitwise_Check(physicsBody->state, checkState);
 }
 
 
-static inline void APhysicsBodySetState(PhysicsBody* physicsBody, PhysicsBodyState setState)
+static inline void APhysicsBody_SetState(PhysicsBody* physicsBody, PhysicsBodyState setState)
 {
 	ABitwise_Set(physicsBody->state, setState);
 }
 
 
-static inline void APhysicsBodySetOnlyState(PhysicsBody* physicsBody, PhysicsBodyState setOnlyState)
+static inline void APhysicsBody_SetOnlyState(PhysicsBody* physicsBody, PhysicsBodyState setOnlyState)
 {
 	ABitwise_SetOnly(physicsBody->state, setOnlyState);
 }
 
 
-static inline void APhysicsBodyClearState(PhysicsBody* physicsBody, PhysicsBodyState clearState)
+static inline void APhysicsBody_ClearState(PhysicsBody* physicsBody, PhysicsBodyState clearState)
 {
 	ABitwise_Clear(physicsBody->state, clearState);
 }
 
 
-static inline void APhysicsBodyClearAndSetState(PhysicsBody* physicsBody, PhysicsBodyState clearState, PhysicsBodyState setState)
+static inline void APhysicsBody_ClearAndSetState(PhysicsBody* physicsBody, PhysicsBodyState clearState, PhysicsBodyState setState)
 {
 	ABitwise_ClearAndSet(physicsBody->state, clearState, setState);
 }
@@ -175,25 +176,25 @@ static inline void APhysicsBodyClearAndSetState(PhysicsBody* physicsBody, Physic
 //--------------------------------------------------------------------------------------------------
 
 
-static inline bool APhysicsBodyCheckCollisionGroup(PhysicsBody* physicsBody,  int checkCollisionGroup)
+static inline bool APhysicsBody_CheckCollisionGroup(PhysicsBody* physicsBody,  int checkCollisionGroup)
 {
 	return ABitwise_Check(physicsBody->collisionGroup, checkCollisionGroup);
 }
 
 
-static inline void APhysicsBodySetCollisionGroup(PhysicsBody* physicsBody,    int setCollisionGroup)
+static inline void APhysicsBody_SetCollisionGroup(PhysicsBody* physicsBody,    int setCollisionGroup)
 {
 	ABitwise_Set(physicsBody->collisionGroup, setCollisionGroup);
 }
 
 
-static inline void APhysicsBodySetOnlyCollisionGroup(PhysicsBody* physicsBody, int setOnlycollisionGroup)
+static inline void APhysicsBody_SetOnlyCollisionGroup(PhysicsBody* physicsBody, int setOnlycollisionGroup)
 {
 	ABitwise_SetOnly(physicsBody->collisionGroup, setOnlycollisionGroup);
 }
 
 
-static inline void APhysicsBodyClearCollisionGroup(PhysicsBody* physicsBody,   int clearCollisionGroup)
+static inline void APhysicsBody_ClearCollisionGroup(PhysicsBody* physicsBody,   int clearCollisionGroup)
 {
 	ABitwise_Clear(physicsBody->collisionGroup, clearCollisionGroup);
 }

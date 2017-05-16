@@ -1,8 +1,11 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2014-5-30
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2014-5-30
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
 
@@ -43,7 +46,7 @@ static inline void UpdateMotion(PhysicsBody* body, float deltaSeconds)
 
 	if (AMath_TestFloatEqual(body->velocityX, 0.0f) && AMath_TestFloatEqual(body->velocityY, 0.0f))
 	{
-		APhysicsBodySetState(body, physics_body_state_sleeping);
+		APhysicsBody_SetState(body, PhysicsBodyState_Sleeping);
 	}
 }
 
@@ -54,7 +57,7 @@ static void Update(float deltaSeconds)
 	{
 		PhysicsBody* body = AArrayList_Get(bodySet->elementList, i, PhysicsBody*);
 
-        if (APhysicsBodyCheckState(body, physics_body_state_no_collision) == false)
+        if (APhysicsBody_CheckState(body, PhysicsBodyState_NoCollision) == false)
         {
             // test collision
             for (int fromIndex = i + 1; fromIndex < bodySet->elementList->size; fromIndex++)
@@ -63,13 +66,13 @@ static void Update(float deltaSeconds)
 
                 if
                 (
-                    APhysicsBodyCheckState(otherBody, physics_body_state_no_collision) == false &&
-                    (body->collisionGroup & otherBody->collisionGroup)                 == 0     &&
+                    APhysicsBody_CheckState(otherBody, PhysicsBodyState_NoCollision) == false &&
+                    (body->collisionGroup & otherBody->collisionGroup)               == 0     &&
                     APhysicsCollision->TestCollision(body, otherBody)
                 )
                 {
-                    APhysicsBodyClearAndSetState(body,      physics_body_state_sleeping, physics_body_state_collision);
-                    APhysicsBodyClearAndSetState(otherBody, physics_body_state_sleeping, physics_body_state_collision);
+                    APhysicsBody_ClearAndSetState(body,      PhysicsBodyState_Sleeping, PhysicsBodyState_Collision);
+                    APhysicsBody_ClearAndSetState(otherBody, PhysicsBodyState_Sleeping, PhysicsBodyState_Collision);
 
                     if (body->OnCollision != NULL)
                     {
@@ -84,7 +87,7 @@ static void Update(float deltaSeconds)
             }
         }
 
-        if (APhysicsBodyCheckState(body, physics_body_state_no_motion) == false)
+        if (APhysicsBody_CheckState(body, PhysicsBodyState_NoMotion) == false)
         {
             // after test collision can update motion
             UpdateMotion(body, deltaSeconds);

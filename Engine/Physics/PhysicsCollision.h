@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2014-7-23
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2014-7-23
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef physics_collision_h
-#define physics_collision_h
+
+#ifndef PHYSICS_COLLISION_H
+#define PHYSICS_COLLISION_H
 
 
 #include <stdbool.h>

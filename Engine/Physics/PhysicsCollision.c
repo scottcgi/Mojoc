@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2014-7-23
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2014-7-23
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include "Engine/Physics/PhysicsCollision.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -225,10 +229,10 @@ static inline bool TestPolygonPoint(Array(float)* polygon, Array(float)* point)
 
 enum
 {
-	ploygon_ploygon = physics_shape_polygon | physics_shape_polygon,
-	ploygon_line    = physics_shape_polygon | physics_shape_line,
-	line_line       = physics_shape_line    | physics_shape_line,
-	ploygon_point   = physics_shape_polygon | physics_shape_point,
+    PhysicsShape_PolygonPloygon = PhysicsShape_Polygon | PhysicsShape_Polygon,
+    PhysicsShape_PloygonLine    = PhysicsShape_Polygon | PhysicsShape_Line,
+    PhysicsShape_LineLine       = PhysicsShape_Line    | PhysicsShape_Line,
+    PhysicsShape_PloygonPoint   = PhysicsShape_Polygon | PhysicsShape_Point,
 };
 
 
@@ -236,12 +240,12 @@ static bool TestCollision(PhysicsBody* bodyA, PhysicsBody* bodyB)
 {
 	switch (bodyA->shape | bodyB->shape)
 	{
-		case ploygon_ploygon:
+		case PhysicsShape_PolygonPloygon:
 			return TestPolygonPolygon(bodyA->positionArr, bodyB->positionArr) || TestPolygonPolygon(bodyB->positionArr, bodyA->positionArr);
 
-		case ploygon_line:
+		case PhysicsShape_PloygonLine:
 			// only consider line vertex in polygon
-			if (bodyA->shape == physics_shape_line)
+			if (bodyA->shape == PhysicsShape_Line)
 			{
 				return TestPolygonPolygonFull(bodyA->positionArr, bodyB->positionArr);
 			}
@@ -250,12 +254,12 @@ static bool TestCollision(PhysicsBody* bodyA, PhysicsBody* bodyB)
 				return TestPolygonPolygonFull(bodyB->positionArr, bodyA->positionArr);
 			}
 
-		case line_line:
+		case PhysicsShape_LineLine:
 			return TestLineLine(bodyA->positionArr, bodyB->positionArr);
 
-		case ploygon_point:
+		case PhysicsShape_PloygonPoint:
 			// only consider point in polygon
-			if (bodyA->shape == physics_shape_polygon)
+			if (bodyA->shape == PhysicsShape_Polygon)
 			{
 				return TestPolygonPoint(bodyA->positionArr, bodyB->positionArr);
 			}

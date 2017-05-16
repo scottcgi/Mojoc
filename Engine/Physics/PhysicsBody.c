@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2014-6-3
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2014-6-3
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <string.h>
 #include "Engine/Physics/PhysicsBody.h"
@@ -31,14 +35,14 @@ static inline void Init(PhysicsBody* body)
 
 static inline PhysicsBody* CreateWithPolygon(Array(float)* vertexArr)
 {
-	ALog_A(vertexArr->length >= 6, "physics_shape_polygon vertex length (each contains x, y) must more than 6");
+	ALog_A(vertexArr->length >= 6, "PhysicsShape_Polygon vertex length (each contains x, y) must more than 6");
 
 	int          size         = sizeof(float) * vertexArr->length;
 	PhysicsBody* body         = (PhysicsBody*) malloc(sizeof(PhysicsBody) + (size << 1));
 
 	Init(body);
 
-	body->shape               = physics_shape_polygon;
+	body->shape               = PhysicsShape_Polygon;
 	body->vertexArr->length   = vertexArr->length;
 	body->vertexArr->data     = (char*) body + sizeof(PhysicsBody);
 	memcpy(body->vertexArr->data,  vertexArr->data, size);
@@ -53,14 +57,14 @@ static inline PhysicsBody* CreateWithPolygon(Array(float)* vertexArr)
 
 static inline PhysicsBody* CreateWithLine(Array(float)* vertexArr)
 {
-	ALog_A(vertexArr->length == 4, "physics_shape_line vertex length must 4");
+	ALog_A(vertexArr->length == 4, "PhysicsShape_Line vertex length must 4");
 
 	int          size         = sizeof(float) * vertexArr->length;
 	PhysicsBody* body         = (PhysicsBody*) malloc(sizeof(PhysicsBody) + (size << 1));
 
 	Init(body);
 
-	body->shape               = physics_shape_line;
+	body->shape               = PhysicsShape_Line;
 	body->vertexArr->length   = vertexArr->length;
 	body->vertexArr->data     = (char*) body + sizeof(PhysicsBody);
 	memcpy(body->vertexArr->data,  vertexArr->data, size);
@@ -79,10 +83,10 @@ static PhysicsBody* Create(PhysicsShape shape, Array(float)* vertexArr)
 {
 	switch (shape)
 	{
-		case physics_shape_polygon:
+		case PhysicsShape_Polygon:
 			return CreateWithPolygon(vertexArr);
 
-		case physics_shape_line:
+		case PhysicsShape_Line:
 			return CreateWithLine(vertexArr);
 
 		default:
