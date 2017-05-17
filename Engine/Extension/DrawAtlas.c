@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2017-1-2017
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2017-1-2017
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include "Engine/Extension/DrawAtlas.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
@@ -57,7 +61,7 @@ static DrawAtlas* Get(char* filePath)
 
 static Drawable* GetQuad(DrawAtlas* drawAtlas, char* quadName)
 {
-    TextureAtlasQuad* atlasQuad = ATextureAtlasGetQuad(drawAtlas->textureAtlas, quadName);
+    TextureAtlasQuad* atlasQuad = ATextureAtlas_GetQuad(drawAtlas->textureAtlas, quadName);
     ALog_A(atlasQuad != NULL, "DrawAtlas GetQuad not found quadName = %s", quadName);
 
     Drawable* drawable = AArrayList_Pop(drawAtlas->quadList, Drawable*);

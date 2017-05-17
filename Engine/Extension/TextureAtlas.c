@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2016-7-22
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2016-7-22
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <stdio.h>
 #include <string.h>
@@ -24,7 +28,7 @@ static inline void ReadFind(char* buffer, ArrayRange* range, ArrayRange* line, c
 {
 	ABufferReader->ReadLine(buffer, range, line);
 	bool isFound = ABufferReader->TryFindString(buffer, line, str);
-	ALog_A(isFound, "Can't find string = %s", str);
+	ALog_A(isFound, "ATextureAtlas can not find string = %s", str);
 }
 
 
@@ -154,6 +158,7 @@ static void Release(TextureAtlas* textureAtlas)
 
     free(textureAtlas);
 }
+
 
 static TextureAtlas* Get(char* filePath)
 {

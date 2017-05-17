@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2016-7-22
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2016-7-22
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef texture_atlas_h
-#define texture_atlas_h
+
+#ifndef TEXTURE_ATLAS_H
+#define TEXTURE_ATLAS_H
 
 
 #include "Engine/Graphics/Draw/Quad.h"
@@ -63,13 +67,13 @@ struct ATextureAtlas
 extern struct ATextureAtlas ATextureAtlas[1];
 
 
-static TextureAtlasQuad* ATextureAtlasGetQuad(TextureAtlas* atlas, char* quadName)
+static TextureAtlasQuad* ATextureAtlas_GetQuad(TextureAtlas* atlas, char* quadName)
 {
     return AArrayStrMap_GetPtr(atlas->quadMap, quadName, TextureAtlasQuad);
 }
 
 
-static Texture* ATextureAtlasGetQuadTexture(TextureAtlasQuad* atlasQuad)
+static Texture* ATextureAtlas_GetQuadTexture(TextureAtlasQuad* atlasQuad)
 {
     return AArrayList_Get(atlasQuad->atlas->textureList, atlasQuad->textureIndex, Texture*);
 }

@@ -1399,7 +1399,7 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 
 				ALog_D("Set skin name = %s, attachment name = %s", skinName, attachmentData->name);
 
-				TextureAtlasQuad* atlasQuad = ATextureAtlasGetQuad(skeletonData->textureAtlas, attachmentData->name);
+				TextureAtlasQuad* atlasQuad = ATextureAtlas_GetQuad(skeletonData->textureAtlas, attachmentData->name);
 				ALog_A(atlasQuad != NULL, "Can not find attachment in TextureAtlas by name = %s", attachmentData->name);
 
 				switch (attachmentData->type)

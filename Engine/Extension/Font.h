@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2016-7-27
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2016-7-27
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef font_h
-#define font_h
+
+#ifndef FONT_H
+#define FONT_H
 
 
 #include "Engine/Toolkit/Utils/ArrayIntSet.h"
@@ -41,10 +45,10 @@ Font;
 
 typedef enum
 {
-    font_text_alignment_horizontal_left,
-    font_text_alignment_horizontal_right,
-    font_text_alignment_vertical_top,
-    font_text_alignment_vertical_bottom,
+    FontTextAlignment_HorizontalLeft,
+    FontTextAlignment_HorizontalRight,
+    FontTextAlignment_VerticalTop,
+    FontTextAlignment_VerticalBottom,
 }
 FontTextAlignment;
 
@@ -54,7 +58,7 @@ typedef struct
     Drawable             drawable       [1];
 
     /**
-     * Default font_text_alignment_horizontal_left
+     * Default FontTextAlignment_HorizontalLeft
      */
     FontTextAlignment    alignment;
 

@@ -1,12 +1,17 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2017-1-5
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2017-1-5
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef draw_atlas_h
-#define draw_atlas_h
+
+#ifndef DRAW_ATLAS_H
+#define DRAW_ATLAS_H
+
 
 #include "Engine/Extension/TextureAtlas.h"
 #include "Engine/Graphics/OpenGL/Mesh.h"
@@ -52,15 +57,9 @@ struct ADrawAtlas
 extern struct ADrawAtlas ADrawAtlas[1];
 
 
-static inline void ADrawAtlasDraw(DrawAtlas* drawAtlas)
+static inline void ADrawAtlas_Draw(DrawAtlas* drawAtlas)
 {
     AMesh_Draw(drawAtlas->mesh);
-}
-
-
-static inline Drawable* ADrawAtlasGetDrawable(DrawAtlas* drawAtlas)
-{
-    return drawAtlas->mesh->drawable;
 }
 
 

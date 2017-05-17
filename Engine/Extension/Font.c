@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2016-7-27
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2016-7-27
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <stdio.h>
 #include <string.h>
@@ -76,7 +80,7 @@ static FontText* GetText(Font* font)
     // reset drawable
     ADrawable->Init(text->drawable);
 
-    text->alignment   = font_text_alignment_horizontal_left;
+    text->alignment   = FontTextAlignment_HorizontalLeft;
     text->charSpacing = 0.0f;
     text->font        = font;
     AArrayIntSet->TryAdd(font->fontTextSet, (intptr_t) text);
@@ -101,7 +105,7 @@ static void Draw(Font* font)
 
 static inline TextureAtlasQuad* GetAtlasQuad(FontText* text, char* str, int index)
 {
-    TextureAtlasQuad* atlasQuad = ATextureAtlasGetQuad
+    TextureAtlasQuad* atlasQuad = ATextureAtlas_GetQuad
                                   (
                                     text->font->textureAtlas,
                                     (char[]) {str[index], '\0'}
@@ -213,7 +217,7 @@ static void SetString(FontText* text, char* str)
     // set each char position
     switch (text->alignment)
     {
-        case font_text_alignment_horizontal_left:
+        case FontTextAlignment_HorizontalLeft:
         {
             for (int i = 0; i < text->usedSubMeshList->size; i++)
             {
@@ -231,7 +235,7 @@ static void SetString(FontText* text, char* str)
             break;
         }
 
-        case font_text_alignment_horizontal_right:
+        case FontTextAlignment_HorizontalRight:
         {
             for (int i = text->usedSubMeshList->size - 1; i > -1; i--)
             {
@@ -249,7 +253,7 @@ static void SetString(FontText* text, char* str)
             break;
         }
 
-        case font_text_alignment_vertical_top:
+        case FontTextAlignment_VerticalTop:
         {
             for (int i = 0; i < text->usedSubMeshList->size; i++)
             {
@@ -267,7 +271,7 @@ static void SetString(FontText* text, char* str)
             break;
         }
 
-        case font_text_alignment_vertical_bottom:
+        case FontTextAlignment_VerticalBottom:
         {
             for (int i = text->usedSubMeshList->size - 1; i > -1; i--)
             {

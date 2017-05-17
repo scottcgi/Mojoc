@@ -1,12 +1,17 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2014-5-4
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2014-5-4
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef extension_h
-#define extension_h
+
+#ifndef EXTENSION_H
+#define EXTENSION_H
+
 
 #include "Engine/Toolkit/Toolkit.h"
 
