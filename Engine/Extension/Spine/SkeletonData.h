@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-6-27
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-6-27
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef skeleton_data_h
-#define skeleton_data_h
+
+#ifndef SKELETON_DATA_H
+#define SKELETON_DATA_H
 
 
 #include <stdbool.h>
@@ -90,10 +94,10 @@ SkeletonSkinData;
 
 typedef enum
 {
-	skeleton_attachment_region,
-	skeleton_attachment_mesh,
-	skeleton_attachment_skinned_mesh,
-	skeleton_attachment_boundingbox,
+	SkeletonAttachmentDataType_Region,
+	SkeletonAttachmentDataType_Mesh,
+	SkeletonAttachmentDataType_SkinnedMesh,
+	SkeletonAttachmentDataType_BoundingBox,
 }
 SkeletonAttachmentDataType;
 
@@ -148,7 +152,7 @@ typedef struct
 	SkeletonAttachmentData attachmentData[1];
 	Array(float)           vertexArr     [1];
 }
-SkeletonBoundingboxAttachmentData;
+SkeletonBoundingBoxAttachmentData;
 
 
 typedef struct
@@ -200,9 +204,9 @@ SkeletonSkinnedMeshAttachmentData;
 
 typedef enum
 {
-	skeleton_attachment_region_mesh_index       = offsetof(SkeletonRegionAttachmentData,      meshIndex),
-	skeleton_attachment_mesh_mesh_index         = offsetof(SkeletonMeshAttachmentData,        meshIndex),
-	skeleton_attachment_skinned_mesh_mesh_index = offsetof(SkeletonSkinnedMeshAttachmentData, meshAttachmentData) + skeleton_attachment_mesh_mesh_index,
+	SkeletonAttachmentMeshOffset_RegionIndex      = offsetof(SkeletonRegionAttachmentData,      meshIndex),
+	SkeletonAttachmentMeshOffset_MeshIndex        = offsetof(SkeletonMeshAttachmentData,        meshIndex),
+	SkeletonAttachmentMeshOffset_SkinnedMeshIndex = offsetof(SkeletonSkinnedMeshAttachmentData, meshAttachmentData) + SkeletonAttachmentMeshOffset_MeshIndex,
 }
 SkeletonAttachmentMeshOffset;
 
@@ -212,9 +216,9 @@ extern SkeletonAttachmentMeshOffset skeletonAttachmentMeshOffset[3];
 
 typedef enum
 {
-	skeleton_attachment_region_sub_mesh_index       = offsetof(SkeletonRegionAttachmentData,      subMeshIndex),
-	skeleton_attachment_mesh_sub_mesh_index         = offsetof(SkeletonMeshAttachmentData,        subMeshIndex),
-	skeleton_attachment_skinned_mesh_sub_mesh_index = offsetof(SkeletonSkinnedMeshAttachmentData, meshAttachmentData) + skeleton_attachment_mesh_sub_mesh_index,
+	SkeletonAttachmentSubMeshOffset_RegionSubIndex      = offsetof(SkeletonRegionAttachmentData,      subMeshIndex),
+	SkeletonAttachmentSubMeshOffset_MeshSubIndex        = offsetof(SkeletonMeshAttachmentData,        subMeshIndex),
+	SkeletonAttachmentSubMeshOffset_SkinnedMeshSubIndex = offsetof(SkeletonSkinnedMeshAttachmentData, meshAttachmentData) + SkeletonAttachmentSubMeshOffset_MeshSubIndex,
 }
 SkeletonAttachmentSubMeshOffset;
 

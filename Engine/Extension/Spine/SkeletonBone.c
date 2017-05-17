@@ -1,8 +1,11 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-7-2
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-7-2
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
 #include "Engine/Extension/Spine/SkeletonBone.h"

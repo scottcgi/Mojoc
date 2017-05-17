@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-1-27
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-1-27
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef particle_emitter_h
-#define particle_emitter_h
+
+#ifndef PARTICLE_EMITTER_H
+#define PARTICLE_EMITTER_H
 
 
 #include "Engine/Graphics/OpenGL/Mesh.h"
@@ -89,13 +93,7 @@ struct AParticleEmitter
 extern struct AParticleEmitter AParticleEmitter[1];
 
 
-static inline Drawable* AParticleEmitterGetDrawable(ParticleEmitter* emitter)
-{
-	return emitter->mesh->drawable;
-}
-
-
-static inline void AParticleEmitterDraw(ParticleEmitter* emitter)
+static inline void AParticleEmitter_Draw(ParticleEmitter* emitter)
 {
 	AMesh_Draw(emitter->mesh);
 }

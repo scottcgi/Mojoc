@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-7-7
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-7-7
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef skeleton_slot_h
-#define skeleton_slot_h
+
+#ifndef SKELETON_SLOT_H
+#define SKELETON_SLOT_H
 
 
 #include "Engine/Extension/Spine/SkeletonData.h"
@@ -38,25 +42,25 @@ struct ASkeletonSlot
 extern struct ASkeletonSlot ASkeletonSlot[1];
 
 
-static inline SkeletonBoundingboxAttachmentData* ASkeletonSlotGetBoundingBox(SkeletonSlot* slot)
+static inline SkeletonBoundingBoxAttachmentData* ASkeletonSlot_GetBoundingBox(SkeletonSlot* slot)
 {
-	return (SkeletonBoundingboxAttachmentData*) slot->attachmentData->childPtr;
+	return (SkeletonBoundingBoxAttachmentData*) slot->attachmentData->childPtr;
 }
 
 
-static inline SkeletonRegionAttachmentData* ASkeletonSlotGetRegion(SkeletonSlot* slot)
+static inline SkeletonRegionAttachmentData* ASkeletonSlot_GetRegion(SkeletonSlot* slot)
 {
 	return (SkeletonRegionAttachmentData*) slot->attachmentData->childPtr;
 }
 
 
-static inline SkeletonMeshAttachmentData* ASkeletonSlotGetMesh(SkeletonSlot* slot)
+static inline SkeletonMeshAttachmentData* ASkeletonSlot_GetMesh(SkeletonSlot* slot)
 {
 	return (SkeletonMeshAttachmentData*) slot->attachmentData->childPtr;
 }
 
 
-static inline SkeletonSkinnedMeshAttachmentData* ASkeletonSlotGetSkinned(SkeletonSlot* slot)
+static inline SkeletonSkinnedMeshAttachmentData* ASkeletonSlot_GetSkinned(SkeletonSlot* slot)
 {
 	return (SkeletonSkinnedMeshAttachmentData*) slot->attachmentData->childPtr;
 }

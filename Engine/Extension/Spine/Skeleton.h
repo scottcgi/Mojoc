@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-7-2
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-7-2
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef skeleton_h
-#define skeleton_h
+
+#ifndef SKELETON_H
+#define SKELETON_H
 
 
 #include "Engine/Toolkit/Head/MacroDefine.h"
@@ -86,13 +90,13 @@ struct ASkeleton
 extern struct ASkeleton ASkeleton[1];
 
 
-static inline void ASkeletonDraw(Skeleton* skeleton)
+static inline void ASkeleton_Draw(Skeleton* skeleton)
 {
 	ADrawable->Draw(skeleton->drawable);
 }
 
 
-static inline SkeletonAnimationData* ASkeletonGetAnimationData(Skeleton* skeleton, char* animationName)
+static inline SkeletonAnimationData* ASkeleton_GetAnimationData(Skeleton* skeleton, char* animationName)
 {
     return AArrayStrMap_Get
            (
@@ -103,7 +107,7 @@ static inline SkeletonAnimationData* ASkeletonGetAnimationData(Skeleton* skeleto
 }
 
 
-static inline SubMesh* ASkeletonGetSubMesh(Skeleton* skeleton, char* slotName, char* attachmentName)
+static inline SubMesh* ASkeleton_GetSubMesh(Skeleton* skeleton, char* slotName, char* attachmentName)
 {
     return ASkeleton->GetAttachmentSubMesh
            (
@@ -113,13 +117,13 @@ static inline SubMesh* ASkeletonGetSubMesh(Skeleton* skeleton, char* slotName, c
 }
 
 
-static inline float ASkeletonGetWidth(Skeleton* skeleton)
+static inline float ASkeleton_GetWidth(Skeleton* skeleton)
 {
 	return skeleton->skeletonData->width;
 }
 
 
-static inline float ASkeletonGetHeight(Skeleton* skeleton)
+static inline float ASkeleton_GetHeight(Skeleton* skeleton)
 {
     return skeleton->skeletonData->height;
 }

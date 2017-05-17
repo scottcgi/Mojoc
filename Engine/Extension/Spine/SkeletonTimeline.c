@@ -1,8 +1,11 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-7-3
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-7-3
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
 #include <stdbool.h>
@@ -89,19 +92,19 @@ static inline int BinarySearch(float* values, int valuesLength, float target)
 }
 
 
-#define bezier_segments 12
-static const int bezier_size = (bezier_segments + 1) * 2 - 1;
+#define BEZIER_SEGMENTS 12
+static const int bezierSize = (BEZIER_SEGMENTS + 1) * 2 - 1;
 
 
 static inline void SetLinear(SkeletonCurveTimeline* curveTimeline, int frameIndex)
 {
-	AArray_Set(curveTimeline->curveArr, frameIndex * bezier_size, skeleton_curve_linear, float);
+	AArray_Set(curveTimeline->curveArr, frameIndex * bezierSize, SkeletonCurveType_Linear, float);
 }
 
 
 static inline void SetStepped(SkeletonCurveTimeline* curveTimeline, int frameIndex)
 {
-	AArray_Set(curveTimeline->curveArr, frameIndex * bezier_size, skeleton_curve_stepped, float);
+	AArray_Set(curveTimeline->curveArr, frameIndex * bezierSize, SkeletonCurveType_Stepped, float);
 }
 
 
@@ -110,44 +113,44 @@ static inline void SetStepped(SkeletonCurveTimeline* curveTimeline, int frameInd
 
 static inline int GetFrameCount(SkeletonCurveTimeline* curveTimeline)
 {
-	return curveTimeline->curveArr->length / bezier_size;
+	return curveTimeline->curveArr->length / bezierSize;
 }
 
 
 static inline SkeletonCurveType GetCurveType(SkeletonCurveTimeline* curveTimeline, int frameIndex)
 {
-	int index = frameIndex * bezier_size;
+	int index = frameIndex * bezierSize;
 
 	if (index == curveTimeline->curveArr->length)
 	{
-		return skeleton_curve_linear;
+		return SkeletonCurveType_Linear;
 	}
 
 	int type = (int) AArray_Get(curveTimeline->curveArr, index, float);
 
-	if (type == skeleton_curve_linear)
+	if (type == SkeletonCurveType_Linear)
 	{
-		return skeleton_curve_linear;
+		return SkeletonCurveType_Linear;
 	}
-	else if (type == skeleton_curve_stepped)
+	else if (type == SkeletonCurveType_Stepped)
 	{
-		return skeleton_curve_stepped;
+		return SkeletonCurveType_Stepped;
 	}
 
-	return skeleton_curve_bezier;
+	return SkeletonCurveType_Bezier;
 }
 ----------------------------------------------------------------------------------------------------
 */
 
 
-static const float  sub_div_step    = 1.0f           / bezier_segments;
-static const float  sub_div_step_2  = sub_div_step   * sub_div_step;
-static const float  sub_div_step_3  = sub_div_step_2 * sub_div_step;
-static const float  pre_1           = 3              * sub_div_step;
-static const float  pre_2           = 3              * sub_div_step_2;
-static const float  pre_4           = 6              * sub_div_step_2;
-static const float  pre_5           = 6              * sub_div_step_3;
-static const float  sub_div_pre     = sub_div_step_3 / pre_5;
+static const float  subDivStep   = 1.0f        / BEZIER_SEGMENTS;
+static const float  subDivStep2  = subDivStep  * subDivStep;
+static const float  subDivStep3  = subDivStep2 * subDivStep;
+static const float  pre1         = 3           * subDivStep;
+static const float  pre2         = 3           * subDivStep2;
+static const float  pre4         = 6           * subDivStep2;
+static const float  pre5         = 6           * subDivStep3;
+static const float  subDivPre    = subDivStep3 / pre5;
 
 
 static void SetCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, float cx1, float cy1, float cx2, float cy2)
@@ -157,23 +160,23 @@ static void SetCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, float
 	float  tmpx   = -cx1 * 2 + cx2;
 	float  tmpy   = -cy1 * 2 + cy2;
 
-	float  dddfx  = ((cx1 - cx2) * 3 + 1) * pre_5;
-	float  dddfy  = ((cy1 - cy2) * 3 + 1) * pre_5;
+	float  dddfx  = ((cx1 - cx2) * 3 + 1) * pre5;
+	float  dddfy  = ((cy1 - cy2) * 3 + 1) * pre5;
 
-	float  ddfx   = tmpx * pre_4 + dddfx;
-	float  ddfy   = tmpy * pre_4 + dddfy;
+	float  ddfx   = tmpx * pre4 + dddfx;
+	float  ddfy   = tmpy * pre4 + dddfy;
 
-	float  dfx    = cx1 * pre_1 + tmpx * pre_2 + dddfx * sub_div_pre;
-	float  dfy    = cy1 * pre_1 + tmpy * pre_2 + dddfy * sub_div_pre;
+	float  dfx    = cx1 * pre1 + tmpx * pre2 + dddfx * subDivPre;
+	float  dfy    = cy1 * pre1 + tmpy * pre2 + dddfy * subDivPre;
 
 	float* curves = AArray_GetData(curveTimeline->curveArr, float);
-	int    i      = frameIndex * bezier_size;
-	curves[i++]   = skeleton_curve_bezier;
+	int    i      = frameIndex * bezierSize;
+	curves[i++]   = SkeletonCurveType_Bezier;
 
 	float  x      = dfx;
 	float  y      = dfy;
 
-	for (int n = i + bezier_size - 1; i < n; i += 2)
+	for (int n = i + bezierSize - 1; i < n; i += 2)
 	{
 		curves[i]     = x;
 		curves[i + 1] = y;
@@ -191,23 +194,23 @@ static void SetCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, float
 
 static inline float GetCurvePercent(SkeletonCurveTimeline* curveTimeline, int frameIndex, float percent)
 {
-	int    i      = frameIndex * bezier_size;
+	int    i      = frameIndex * bezierSize;
 	float* curves = AArray_GetData(curveTimeline->curveArr, float);
 	float  dfx    = curves[i];
 
 	switch ((int) dfx)
 	{
-		case skeleton_curve_linear:
+		case SkeletonCurveType_Linear:
 			return AMath_Clamp(percent, 0.0f, 1.0f);
 
-		case skeleton_curve_bezier:
+		case SkeletonCurveType_Bezier:
 		{
 			i++;
 			percent = AMath_Clamp(percent, 0.0f, 1.0f);
 
 			float x;
 
-			for (int start = i, n = i + bezier_size - 1; i < n; i += 2)
+			for (int start = i, n = i + bezierSize - 1; i < n; i += 2)
 			{
 				x = curves[i];
 
@@ -237,7 +240,7 @@ static inline float GetCurvePercent(SkeletonCurveTimeline* curveTimeline, int fr
 			return y + (1 - y) * (percent - x) / (1 - x);
 		}
 
-		case skeleton_curve_stepped:
+		case SkeletonCurveType_Stepped:
 			break;
 	}
 
@@ -254,24 +257,25 @@ static inline void CurveRelease(SkeletonCurveTimeline* curveTimeline)
 
 static inline void CurveTimelineInit(SkeletonCurveTimeline* curveTimeline, int frameCount)
 {
-	curveTimeline->curveArr = AArray->Create(sizeof(float), frameCount * bezier_size);
+	curveTimeline->curveArr = AArray->Create(sizeof(float), frameCount * bezierSize);
 }
 
 
-#undef bezier_segments
+#undef BEZIER_SEGMENTS
 
 
 //-----------------------------------------------------------------------------------
 
-#define rotate_frame_value  1
-#define rotate_frame_times  2
+
+#define ROTATE_FRAME_VALUE  1
+#define ROTATE_FRAME_TIMES  2
 
 
 static void SetRotateFrame(SkeletonRotateTimeline* rotateTimeline, int frameIndex, float time, float angle)
 {
 	float* frames          = AArray_GetData(rotateTimeline->frameArr, float);
 
-	frameIndex            *= rotate_frame_times;
+	frameIndex            *= ROTATE_FRAME_TIMES;
 	frames[frameIndex]     = time;
 	frames[frameIndex + 1] = angle;
 }
@@ -294,7 +298,7 @@ static void RotateApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
 	SkeletonBoneData* boneData = bone->boneData;
 	Drawable*         drawable = bone->drawable;
 
-	if (time >= frames[frameLength - rotate_frame_times])
+	if (time >= frames[frameLength - ROTATE_FRAME_TIMES])
 	{
 		// time is after last frame
 
@@ -315,17 +319,17 @@ static void RotateApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
 	}
 
 	// interpolate between the last frame and the current frame
-	int frameIndex       = BinarySearchByStep(frames, frameLength, time, rotate_frame_times);
+	int frameIndex       = BinarySearchByStep(frames, frameLength, time, ROTATE_FRAME_TIMES);
 
 	float lastFrameValue = frames[frameIndex - 1];
 	float frameTime      = frames[frameIndex];
 	float percent        = GetCurvePercent
     		               (
 							   rotateTimeline->curveTimeline, (frameIndex >> 1) - 1,
-							   1.0f - (time - frameTime) / (frames[frameIndex - rotate_frame_times] - frameTime)
+							   1.0f - (time - frameTime) / (frames[frameIndex - ROTATE_FRAME_TIMES] - frameTime)
 						   );
 
-	float amount         = frames[frameIndex + rotate_frame_value] - lastFrameValue;
+	float amount         = frames[frameIndex + ROTATE_FRAME_VALUE] - lastFrameValue;
 
 	while (amount > 180)
 	{
@@ -373,29 +377,29 @@ static SkeletonRotateTimeline* CreateRotate(int frameCount, int boneIndex)
 	rotateTimeline->skeletonTimeline->Release  = RotateRelease;
 	rotateTimeline->skeletonTimeline->childPtr = rotateTimeline;
 
-	rotateTimeline->frameArr                   = AArray->Create(sizeof(float), frameCount * rotate_frame_times);
+	rotateTimeline->frameArr                   = AArray->Create(sizeof(float), frameCount * ROTATE_FRAME_TIMES);
 	rotateTimeline->boneIndex                  = boneIndex;
 
 	return rotateTimeline;
 }
 
-#undef rotate_frame_value
-#undef rotate_frame_times
+#undef ROTATE_FRAME_VALUE
+#undef ROTATE_FRAME_TIMES
 
 
 //-----------------------------------------------------------------------------------
 
 
-#define translate_frame_x      1
-#define translate_frame_y      2
-#define translate_frame_times  3
+#define TRANSLATE_FRAME_X      1
+#define TRANSLATE_FRAME_Y      2
+#define TRANSLATE_FRAME_TIMES  3
 
 
 static void SetTranslateFrame(SkeletonTranslateTimeline* translateTimeline, int frameIndex, float time, float x, float y)
 {
 	float* frames          = AArray_GetData(translateTimeline->frameArr, float);
 
-	frameIndex            *= translate_frame_times;
+	frameIndex            *= TRANSLATE_FRAME_TIMES;
 	frames[frameIndex]     = time;
 	frames[frameIndex + 1] = x;
 	frames[frameIndex + 2] = y;
@@ -419,37 +423,37 @@ static void TranslateApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
 	Drawable*         drawable    = bone->drawable;
 
 
-	if (time >= frames[frameLength - translate_frame_times])
+	if (time >= frames[frameLength - TRANSLATE_FRAME_TIMES])
 	{
 		// time is after last frame
 		// each frame value is relative boneData x or y
 		ADrawable_SetPosition2
 		(
 			drawable,
-			drawable->positionX + (boneData->x + frames[frameLength - translate_frame_y] - drawable->positionX) * mixPercent,
-			drawable->positionY + (boneData->y + frames[frameLength - translate_frame_x] - drawable->positionY) * mixPercent
+			drawable->positionX + (boneData->x + frames[frameLength - TRANSLATE_FRAME_Y] - drawable->positionX) * mixPercent,
+			drawable->positionY + (boneData->y + frames[frameLength - TRANSLATE_FRAME_X] - drawable->positionY) * mixPercent
 		);
 
 		return;
 	}
 
 	// interpolate between the last frame and the current frame.
-	int   frameIndex  = BinarySearchByStep(frames, frameLength, time, translate_frame_times);
-	float lastFrameX  = frames[frameIndex - translate_frame_y];
-	float lastFrameY  = frames[frameIndex - translate_frame_x];
+	int   frameIndex  = BinarySearchByStep(frames, frameLength, time, TRANSLATE_FRAME_TIMES);
+	float lastFrameX  = frames[frameIndex - TRANSLATE_FRAME_Y];
+	float lastFrameY  = frames[frameIndex - TRANSLATE_FRAME_X];
 	float frameTime   = frames[frameIndex];
 
 	float percent     = GetCurvePercent
 			            (
-							translateTimeline->curveTimeline, frameIndex / translate_frame_times - 1,
-							1.0f - (time - frameTime) / (frames[frameIndex - translate_frame_times] - frameTime)
+							translateTimeline->curveTimeline, frameIndex / TRANSLATE_FRAME_TIMES - 1,
+							1.0f - (time - frameTime) / (frames[frameIndex - TRANSLATE_FRAME_TIMES] - frameTime)
 						);
 
 	ADrawable_SetPosition2
 	(
 		drawable,
-		drawable->positionX + (boneData->x + lastFrameX + (frames[frameIndex + translate_frame_x] - lastFrameX) * percent - drawable->positionX) * mixPercent,
-		drawable->positionY + (boneData->y + lastFrameY + (frames[frameIndex + translate_frame_y] - lastFrameY) * percent - drawable->positionY) * mixPercent
+		drawable->positionX + (boneData->x + lastFrameX + (frames[frameIndex + TRANSLATE_FRAME_X] - lastFrameX) * percent - drawable->positionX) * mixPercent,
+		drawable->positionY + (boneData->y + lastFrameY + (frames[frameIndex + TRANSLATE_FRAME_Y] - lastFrameY) * percent - drawable->positionY) * mixPercent
 	);
 }
 
@@ -472,7 +476,7 @@ static inline void TranslateTimelineInit(SkeletonTranslateTimeline* translateTim
 	translateTimeline->skeletonTimeline->Release  = TranslateRelease;
 	translateTimeline->skeletonTimeline->childPtr = translateTimeline;
 
-	translateTimeline->frameArr                   = AArray->Create(sizeof(float), frameCount * translate_frame_times);
+	translateTimeline->frameArr                   = AArray->Create(sizeof(float), frameCount * TRANSLATE_FRAME_TIMES);
 	translateTimeline->boneIndex                  = boneIndex;
 }
 
@@ -507,7 +511,7 @@ static void ScaleApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, f
 	SkeletonBoneData* boneData    = bone->boneData;
 	Drawable*         drawable    = bone->drawable;
 
-	if (time >= frames[frameLength - translate_frame_times])
+	if (time >= frames[frameLength - TRANSLATE_FRAME_TIMES])
 	{
 		// time is after last frame
 		// each frame scale value is relative 1.0 not boneData scale
@@ -515,34 +519,34 @@ static void ScaleApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, f
 		ADrawable_SetScale2
 		(
 			drawable,
-			drawable->scaleX + (boneData->scaleX - 1.0f + frames[frameLength - translate_frame_y] - drawable->scaleX) * mixPercent,
-			drawable->scaleY + (boneData->scaleY - 1.0f + frames[frameLength - translate_frame_x] - drawable->scaleY) * mixPercent
+			drawable->scaleX + (boneData->scaleX - 1.0f + frames[frameLength - TRANSLATE_FRAME_Y] - drawable->scaleX) * mixPercent,
+			drawable->scaleY + (boneData->scaleY - 1.0f + frames[frameLength - TRANSLATE_FRAME_X] - drawable->scaleY) * mixPercent
 		);
 
 		return;
 	}
 
 	// interpolate between the last frame and the current frame.
-	int   frameIndex  = BinarySearchByStep(frames, frameLength, time, translate_frame_times);
-	float lastFrameX  = frames[frameIndex - translate_frame_y];
-	float lastFrameY  = frames[frameIndex - translate_frame_x];
+	int   frameIndex  = BinarySearchByStep(frames, frameLength, time, TRANSLATE_FRAME_TIMES);
+	float lastFrameX  = frames[frameIndex - TRANSLATE_FRAME_Y];
+	float lastFrameY  = frames[frameIndex - TRANSLATE_FRAME_X];
 	float frameTime   = frames[frameIndex];
 
-	float percent     = 1.0f - (time - frameTime) / (frames[frameIndex - translate_frame_times] - frameTime);
-	percent           = GetCurvePercent(translateTimeline->curveTimeline, frameIndex / translate_frame_times - 1, percent);
+	float percent     = 1.0f - (time - frameTime) / (frames[frameIndex - TRANSLATE_FRAME_TIMES] - frameTime);
+	percent           = GetCurvePercent(translateTimeline->curveTimeline, frameIndex / TRANSLATE_FRAME_TIMES - 1, percent);
 
 	ADrawable_SetScale2
 	(
 		drawable,
-		drawable->scaleX + (boneData->scaleX - 1.0f + lastFrameX + (frames[frameIndex + translate_frame_x] - lastFrameX) * percent - drawable->scaleX) * mixPercent,
-		drawable->scaleY + (boneData->scaleY - 1.0f + lastFrameY + (frames[frameIndex + translate_frame_y] - lastFrameY) * percent - drawable->scaleY) * mixPercent
+		drawable->scaleX + (boneData->scaleX - 1.0f + lastFrameX + (frames[frameIndex + TRANSLATE_FRAME_X] - lastFrameX) * percent - drawable->scaleX) * mixPercent,
+		drawable->scaleY + (boneData->scaleY - 1.0f + lastFrameY + (frames[frameIndex + TRANSLATE_FRAME_Y] - lastFrameY) * percent - drawable->scaleY) * mixPercent
 	);
 }
 
 
-#undef translate_frame_x
-#undef translate_frame_y
-#undef translate_frame_times
+#undef TRANSLATE_FRAME_X
+#undef TRANSLATE_FRAME_Y
+#undef TRANSLATE_FRAME_TIMES
 
 
 static void ScaleRelease(SkeletonTimeline* skeletonTimeline)
@@ -569,23 +573,23 @@ static SkeletonScaleTimeline* CreateScale(int frameCount, int boneIndex)
 //-----------------------------------------------------------------------------------
 
 
-#define color_frame_r     1
-#define color_frame_g     2
-#define color_frame_b     3
-#define color_frame_a     4
-#define color_frame_times 5
+#define COLOR_FRAME_R     1
+#define COLOR_FRAME_G     2
+#define COLOR_FRAME_B     3
+#define COLOR_FRAME_A     4
+#define COLOR_FRAME_TIMES 5
 
 
 static void SetColorFrame(SkeletonColorTimeline* colorTimeline, int frameIndex, float time,  Color* color)
 {
 	float* frames                      = AArray_GetData(colorTimeline->frameArr, float);
 
-	frameIndex                        *= color_frame_times;
+	frameIndex                        *= COLOR_FRAME_TIMES;
 	frames[frameIndex]                 = time;
-	frames[frameIndex + color_frame_r] = color->r;
-	frames[frameIndex + color_frame_g] = color->g;
-	frames[frameIndex + color_frame_b] = color->b;
-	frames[frameIndex + color_frame_a] = color->a;
+	frames[frameIndex + COLOR_FRAME_R] = color->r;
+	frames[frameIndex + COLOR_FRAME_G] = color->g;
+	frames[frameIndex + COLOR_FRAME_B] = color->b;
+	frames[frameIndex + COLOR_FRAME_A] = color->a;
 }
 
 
@@ -609,35 +613,35 @@ static void ColorApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, f
 	int    frameLength = colorTimeline->frameArr->length;
 	Color* color       = slot->color;
 
-	if (time >= frames[frameLength - color_frame_times])
+	if (time >= frames[frameLength - COLOR_FRAME_TIMES])
 	{
 		// time is after last frame.
-		color->r = frames[frameLength - color_frame_a];
-		color->g = frames[frameLength - color_frame_b];
-		color->b = frames[frameLength - color_frame_g];
-		color->a = frames[frameLength - color_frame_r];
+		color->r = frames[frameLength - COLOR_FRAME_A];
+		color->g = frames[frameLength - COLOR_FRAME_B];
+		color->b = frames[frameLength - COLOR_FRAME_G];
+		color->a = frames[frameLength - COLOR_FRAME_R];
 	}
     else
     {
         // interpolate between the last frame and the current frame.
-        int   frameIndex = BinarySearchByStep(frames, frameLength, time, color_frame_times);
+        int   frameIndex = BinarySearchByStep(frames, frameLength, time, COLOR_FRAME_TIMES);
         float frameTime  = frames[frameIndex];
-        float r          = frames[frameIndex - color_frame_a];
-        float g          = frames[frameIndex - color_frame_b];
-        float b          = frames[frameIndex - color_frame_g];
-        float a          = frames[frameIndex - color_frame_r];
+        float r          = frames[frameIndex - COLOR_FRAME_A];
+        float g          = frames[frameIndex - COLOR_FRAME_B];
+        float b          = frames[frameIndex - COLOR_FRAME_G];
+        float a          = frames[frameIndex - COLOR_FRAME_R];
 
         float percent    = GetCurvePercent
                            (
                                 colorTimeline->curveTimeline,
-                                frameIndex / color_frame_times - 1,
-                                1.0f - (time - frameTime) / (frames[frameIndex - color_frame_times] - frameTime)
+                                frameIndex / COLOR_FRAME_TIMES - 1,
+                                1.0f - (time - frameTime) / (frames[frameIndex - COLOR_FRAME_TIMES] - frameTime)
                            );
 
-        r               += (frames[frameIndex + color_frame_r] - r) * percent;
-        g               += (frames[frameIndex + color_frame_g] - g) * percent;
-        b               += (frames[frameIndex + color_frame_b] - b) * percent;
-        a               += (frames[frameIndex + color_frame_a] - a) * percent;
+        r               += (frames[frameIndex + COLOR_FRAME_R] - r) * percent;
+        g               += (frames[frameIndex + COLOR_FRAME_G] - g) * percent;
+        b               += (frames[frameIndex + COLOR_FRAME_B] - b) * percent;
+        a               += (frames[frameIndex + COLOR_FRAME_A] - a) * percent;
 
         if (mixPercent < 1.0f)
         {
@@ -684,17 +688,17 @@ static SkeletonColorTimeline* CreateColor(int frameCount)
 	colorTimeline->skeletonTimeline->Release  = ColorRelease;
 	colorTimeline->skeletonTimeline->childPtr = colorTimeline;
 
-	colorTimeline->frameArr                   = AArray->Create(sizeof(float), frameCount * color_frame_times);
+	colorTimeline->frameArr                   = AArray->Create(sizeof(float), frameCount * COLOR_FRAME_TIMES);
 
 	return colorTimeline;
 }
 
 
-#undef color_frame_times
-#undef color_frame_r
-#undef color_frame_g
-#undef color_frame_b
-#undef color_frame_a
+#undef COLOR_FRAME_TIMES
+#undef COLOR_FRAME_R
+#undef COLOR_FRAME_G
+#undef COLOR_FRAME_B
+#undef COLOR_FRAME_A
 
 
 //-----------------------------------------------------------------------------------
@@ -1075,12 +1079,12 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
 
 	switch (deformTimeline->attachmentData->type)
 	{
-		case skeleton_attachment_region:
-		case skeleton_attachment_boundingbox:
+		case SkeletonAttachmentDataType_Region:
+		case SkeletonAttachmentDataType_BoundingBox:
 			ALog_A(false, "deformApply wrong deformTimeline->attachmentData->attachmentDataType");
 			break;
 
-		case skeleton_attachment_mesh:
+		case SkeletonAttachmentDataType_Mesh:
 		{
 			SkeletonMeshAttachmentData* meshAttachment = (SkeletonMeshAttachmentData*) deformTimeline->attachmentData->childPtr;
 			SubMesh*                    subMesh        = AArrayList_Get
@@ -1096,7 +1100,7 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
             break;
         }
 
-		case skeleton_attachment_skinned_mesh:
+		case SkeletonAttachmentDataType_SkinnedMesh:
 		{
 			SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachment = (SkeletonSkinnedMeshAttachmentData*) deformTimeline->attachmentData->childPtr;
 			positionArr                                              = skinnedMeshAttachment->weightVertexArr;

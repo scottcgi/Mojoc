@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-1-22
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-1-22
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef particle_emitter_data_h
-#define particle_emitter_data_h
+
+#ifndef PARTICLE_EMITTER_DATA_H
+#define PARTICLE_EMITTER_DATA_H
 
 
 #include <stdbool.h>

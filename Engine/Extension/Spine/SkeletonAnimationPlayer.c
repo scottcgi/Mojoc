@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-7-28
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-7-28
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <math.h>
 #include "Engine/Toolkit/Head/UserData.h"
@@ -17,7 +21,7 @@ static inline void UpdateNormal(SkeletonAnimationPlayer* player, float deltaSeco
 	if (player->curTime < player->curAnimationData->duration)
 	{
 		ASkeleton->Apply(player->skeleton, player->curAnimationData, player->curTime, 1.0f);
-		ASkeletonDraw   (player->skeleton);
+		ASkeleton_Draw   (player->skeleton);
 
 		player->curTime += deltaSeconds;
 
@@ -25,7 +29,7 @@ static inline void UpdateNormal(SkeletonAnimationPlayer* player, float deltaSeco
 	else
 	{
 		ASkeleton->Apply(player->skeleton, player->curAnimationData, player->curAnimationData->duration, 1.0f);
-		ASkeletonDraw   (player->skeleton);
+		ASkeleton_Draw   (player->skeleton);
 
 		if (player->OnActionOver != NULL)
 		{
@@ -72,14 +76,14 @@ static inline void UpdateMix(SkeletonAnimationPlayer* player, float deltaSeconds
     if (player->curTime < player->curAnimationData->duration)
     {
         ASkeleton->Apply(player->skeleton, player->curAnimationData, player->curTime, mixPercent);
-        ASkeletonDraw   (player->skeleton);
+        ASkeleton_Draw   (player->skeleton);
 
         player->curTime += deltaSeconds;
     }
     else
     {
         ASkeleton->Apply(player->skeleton, player->curAnimationData, player->curAnimationData->duration, mixPercent);
-        ASkeletonDraw   (player->skeleton);
+        ASkeleton_Draw   (player->skeleton);
 
         if (player->OnActionOver != NULL)
         {
@@ -113,7 +117,7 @@ static inline void InitSkeletonAnimationPlayer(SkeletonAnimationPlayer* player, 
 {
 	ASkeleton->Init(skeletonData, player->skeleton);
 	player->preAnimationData      = NULL;
-	player->curAnimationData      = ASkeletonGetAnimationData(player->skeleton, animationName);
+	player->curAnimationData      = ASkeleton_GetAnimationData(player->skeleton, animationName);
 	ALog_A(player->curAnimationData != NULL, "SkeletonAnimationPlayer can not find animtionData by name = %s", animationName);
 
 	player->curTime               = 0.0f;
@@ -136,7 +140,7 @@ static void Release(SkeletonAnimationPlayer* player)
 
 static void SetAnimation(SkeletonAnimationPlayer* player, char* animationName)
 {
-	player->curAnimationData = ASkeletonGetAnimationData(player->skeleton,  animationName);
+	player->curAnimationData = ASkeleton_GetAnimationData(player->skeleton,  animationName);
 
 	ALog_A(player->curAnimationData != NULL, "SetAnimation can not find animtionData by name = %s", animationName);
 	player->curTime = 0.0f;
@@ -150,7 +154,7 @@ static void SetAnimationMix(SkeletonAnimationPlayer* player, char* animationName
 	player->curTime          = 0.0f;
 	player->mixTime          = 0.0f;
 	player->mixDuration      = mixDuration;
-	player->curAnimationData = ASkeletonGetAnimationData(player->skeleton,  animationName);
+	player->curAnimationData = ASkeleton_GetAnimationData(player->skeleton,  animationName);
 	ALog_A(player->curAnimationData != NULL, "SetAnimationMix can not find animtionData by name = %s", animationName);
 }
 
@@ -185,13 +189,13 @@ static void Render(Drawable* drawable)
 	*AGLPrimitive->color      = *slot->color;
 	AGLPrimitive->modelMatrix = slot->bone->drawable->modelMatrix;
 
-	AGLPrimitive->DrawPolygon(ASkeletonSlotGetBoundingBox(slot)->vertexArr);
+	AGLPrimitive->DrawPolygon(ASkeletonSlot_GetBoundingBox(slot)->vertexArr);
 }
 
 
 static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, char* slotName, Drawable* outDrawable)
 {
-	SkeletonSlot* slot = ASkeletonAnimationPlayerGetSlot(player, slotName);
+	SkeletonSlot* slot = ASkeletonAnimationPlayer_GetSlot(player, slotName);
 	ALog_A(slot != NULL, "InitSlotBoundingBoxDrawable not found SkeletonSlot by slotName = %s", slotName);
 
 	ADrawable->Init(outDrawable);

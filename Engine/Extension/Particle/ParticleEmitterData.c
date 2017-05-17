@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-1-22
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-1-22
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <string.h>
 #include <stdlib.h>
@@ -238,9 +242,9 @@ static inline void LoadRGBValue(char* buffer, ArrayRange* range, ArrayRange* lin
 }
 
 
-#define args            buffer, range, line
-#define ReadActive()    ReadBool(args, "active:")
-#define ReadString(str) ReadFindString(args, str)
+#define ARGS            buffer, range, line
+#define ReadActive()    ReadBool(ARGS, "active:")
+#define ReadString(str) ReadFindString(ARGS, str)
 
 
 static void Init(char* filePath, ParticleEmitterData* outEmitterData)
@@ -251,28 +255,28 @@ static void Init(char* filePath, ParticleEmitterData* outEmitterData)
 	ArrayRange range[1] = {0, (int) size - 1};
 	ArrayRange line [1];
 
-	ABufferReader->ReadLine(args);
+	ABufferReader->ReadLine(ARGS);
 
-	ALog_D("delayValue");
+	ALog_D    ("delayValue");
 	ReadString("Delay");
-	LoadRangedValue(args, outEmitterData->delayValue, ReadActive());
+	LoadRangedValue(ARGS, outEmitterData->delayValue, ReadActive());
 
 	// use second
 	outEmitterData->delayValue->lowMax /= 1000.0f;
 	outEmitterData->delayValue->lowMin /= 1000.0f;
 
 
-	ALog_D("durationValue");
+	ALog_D    ("durationValue");
 	ReadString("Duration");
-	LoadRangedValue(args, outEmitterData->durationValue, true);
+	LoadRangedValue(ARGS, outEmitterData->durationValue, true);
 
 	// use second
 	outEmitterData->durationValue->lowMax /= 1000.0f;
 	outEmitterData->durationValue->lowMin /= 1000.0f;
 
 	ReadString("Count");
-	outEmitterData->minParticleCount = ReadInt(args, "min:");
-	outEmitterData->maxParticleCount = ReadInt(args, "max:");
+	outEmitterData->minParticleCount = ReadInt(ARGS, "min:");
+	outEmitterData->maxParticleCount = ReadInt(ARGS, "max:");
 	ALog_D
 	(
 		"countValue min = %d, max = %d",
@@ -280,83 +284,83 @@ static void Init(char* filePath, ParticleEmitterData* outEmitterData)
 		 outEmitterData->maxParticleCount
 	);
 
-	ALog_D("emissionValue");
+	ALog_D    ("emissionValue");
 	ReadString("Emission");
-	LoadScaledValue(args, outEmitterData->emissionValue, true);
+	LoadScaledValue(ARGS, outEmitterData->emissionValue, true);
 
-	ALog_D("lifeValue");
+	ALog_D    ("lifeValue");
 	ReadString("Life");
-	LoadScaledValue(args, outEmitterData->lifeValue, true);
+	LoadScaledValue(ARGS, outEmitterData->lifeValue, true);
 
 	// use second
 	outEmitterData->lifeValue->highMax /= 1000.0f;
 	outEmitterData->lifeValue->highMin /= 1000.0f;
 
-	ALog_D("lifeOffsetValue");
+	ALog_D    ("lifeOffsetValue");
 	ReadString("Life Offset");
-	LoadScaledValue(args, outEmitterData->lifeOffsetValue, ReadActive());
+	LoadScaledValue(ARGS, outEmitterData->lifeOffsetValue, ReadActive());
 
 	// use second
 	outEmitterData->lifeOffsetValue->highMax /= 1000.0f;
 	outEmitterData->lifeOffsetValue->highMin /= 1000.0f;
 
-	ALog_D("xOffsetValue");
+	ALog_D    ("xOffsetValue");
 	ReadString("X Offset");
-	LoadScaledValue(args, outEmitterData->xOffsetValue, ReadActive());
+	LoadScaledValue(ARGS, outEmitterData->xOffsetValue, ReadActive());
 
-	ALog_D("yOffsetValue");
+	ALog_D    ("yOffsetValue");
 	ReadString("Y Offset");
-	LoadScaledValue(args, outEmitterData->yOffsetValue, ReadActive());
+	LoadScaledValue(ARGS, outEmitterData->yOffsetValue, ReadActive());
 
 	ReadString("Spawn Shape");
 	ReadString("shape:");
 
-	ALog_D("spawnWidthValue");
+	ALog_D    ("spawnWidthValue");
 	ReadString("Spawn Width");
-	LoadScaledValue(args, outEmitterData->spawnWidthValue, true);
+	LoadScaledValue(ARGS, outEmitterData->spawnWidthValue, true);
 
-	ALog_D("spawnHeightValue");
+	ALog_D    ("spawnHeightValue");
 	ReadString("Spawn Height");
-	LoadScaledValue(args, outEmitterData->spawnHeightValue, true);
+	LoadScaledValue(ARGS, outEmitterData->spawnHeightValue, true);
 
-	ALog_D("scaleValue");
+	ALog_D    ("scaleValue");
 	ReadString("Scale");
-	LoadScaledValue(args, outEmitterData->scaleValue, true);
+	LoadScaledValue(ARGS, outEmitterData->scaleValue, true);
 
-	ALog_D("velocityValue");
+	ALog_D    ("velocityValue");
 	ReadString("Velocity");
-	LoadScaledValue(args, outEmitterData->velocityValue, ReadActive());
+	LoadScaledValue(ARGS, outEmitterData->velocityValue, ReadActive());
 
-	ALog_D("angleValue");
+	ALog_D    ("angleValue");
 	ReadString("Angle");
-	LoadScaledValue(args, outEmitterData->angleValue, ReadActive());
+	LoadScaledValue(ARGS, outEmitterData->angleValue, ReadActive());
 
-	ALog_D("rotationValue");
+	ALog_D    ("rotationValue");
 	ReadString("Rotation");
-	LoadScaledValue(args, outEmitterData->rotationValue, ReadActive());
+	LoadScaledValue(ARGS, outEmitterData->rotationValue, ReadActive());
 
-	ALog_D("windValue");
+	ALog_D    ("windValue");
 	ReadString("Wind");
-	LoadScaledValue(args, outEmitterData->windValue, ReadActive());
+	LoadScaledValue(ARGS, outEmitterData->windValue, ReadActive());
 
-	ALog_D("gravityValue");
+	ALog_D    ("gravityValue");
 	ReadString("Gravity");
-	LoadScaledValue(args, outEmitterData->gravityValue, ReadActive());
+	LoadScaledValue(ARGS, outEmitterData->gravityValue, ReadActive());
 
-	ALog_D("ParticleRGBValue");
+	ALog_D    ("ParticleRGBValue");
 	ReadString("Tint");
-	LoadRGBValue(args, outEmitterData->rgbValue);
+	LoadRGBValue(ARGS, outEmitterData->rgbValue);
 
-	ALog_D("transparencyValue");
+	ALog_D    ("transparencyValue");
 	ReadString("Transparency");
-	LoadScaledValue(args, outEmitterData->transparencyValue, true);
+	LoadScaledValue(ARGS, outEmitterData->transparencyValue, true);
 
 	ReadString("Options");
-	ALog_D("attached = %d", ReadBool(args, "attached:"));
+	ALog_D    ("attached = %d", ReadBool(ARGS, "attached:"));
 
-	outEmitterData->isContinuous = ReadBool(args, "continuous:");
-	outEmitterData->isAligned    = ReadBool(args, "aligned:");
-	outEmitterData->isAdditive   = ReadBool(args, "additive:");
+	outEmitterData->isContinuous = ReadBool(ARGS, "continuous:");
+	outEmitterData->isAligned    = ReadBool(ARGS, "aligned:");
+	outEmitterData->isAdditive   = ReadBool(ARGS, "additive:");
 	ALog_D
 	(
 		"continuous = %d, aligned = %d, additive = %d",
@@ -365,8 +369,8 @@ static void Init(char* filePath, ParticleEmitterData* outEmitterData)
 		outEmitterData->isAdditive
 	);
 
-	ReadBool(args, "behind:");
-	ReadBool(args, "premultipliedAlpha:");
+	ReadBool(ARGS, "behind:");
+	ReadBool(ARGS, "premultipliedAlpha:");
 
 	ReadString("Image Path");
 
@@ -374,7 +378,7 @@ static void Init(char* filePath, ParticleEmitterData* outEmitterData)
 }
 
 
-#undef args
+#undef ARGS
 #undef ReadActive
 #undef ReadString
 

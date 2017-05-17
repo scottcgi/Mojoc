@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-7-3
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-7-3
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef skeleton_timeline_h
-#define skeleton_timeline_h
+
+#ifndef SKELETON_TIMELINE_H
+#define SKELETON_TIMELINE_H
 
 
 #include "Engine/Extension/Spine/Skeleton.h"
@@ -17,9 +21,9 @@
 
 typedef enum
 {
-	skeleton_curve_linear  = -1,
-	skeleton_curve_stepped = -2,
-	skeleton_curve_bezier  = -3,
+	SkeletonCurveType_Linear  = -1,
+	SkeletonCurveType_Stepped = -2,
+	SkeletonCurveType_Bezier  = -3,
 }
 SkeletonCurveType;
 

@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-7-7
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-7-7
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <string.h>
 #include "Engine/Graphics/OpenGL/SubMesh.h"
@@ -17,7 +21,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 
 	switch (attachmentData->type)
 	{
-		case skeleton_attachment_region:
+		case SkeletonAttachmentDataType_Region:
 		{
 			SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->childPtr;
 			SubMesh*                      subMesh              = AArrayList_Get
@@ -39,7 +43,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 			break;
 		}
 
-		case skeleton_attachment_mesh:
+		case SkeletonAttachmentDataType_Mesh:
 		{
 			SkeletonMeshAttachmentData* meshAttachmentData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
 			SubMesh*                    subMesh            = AArrayList_Get
@@ -57,7 +61,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
             break;
         }
 
-		case skeleton_attachment_skinned_mesh:
+		case SkeletonAttachmentDataType_SkinnedMesh:
 		{
 			SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData = (SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr;
 			SkeletonMeshAttachmentData*        meshAttachmentData        = skinnedMeshAttachmentData->meshAttachmentData;

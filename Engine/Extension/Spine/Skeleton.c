@@ -1,9 +1,12 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
+ *
+ * This code is licensed under the MIT License.
  *
  * Since : 2013-7-3
  * Author: scott.cgi
  */
+
 
 #include "Engine/Extension/Spine/Skeleton.h"
 #include "Engine/Toolkit/Head/Struct.h"
@@ -255,7 +258,7 @@ static void Draw(Drawable* drawable)
 	{
 		SkeletonSlot* slot = AArray_Get(skeleton->slotOrderArr, i, SkeletonSlot*);
 
-		if (slot->attachmentData == NULL || slot->attachmentData->type == skeleton_attachment_boundingbox)
+		if (slot->attachmentData == NULL || slot->attachmentData->type == SkeletonAttachmentDataType_BoundingBox)
 		{
 			continue;
 		}
@@ -291,7 +294,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 
 	for (int i = 0; i < skeletonData->textureAtlas->textureList->size; i++)
 	{
-		Texture* texture = AArrayList_Get(skeletonData->textureAtlas->textureList, i, Texture*);
+		Texture* texture = AArrayList_Get      (skeletonData->textureAtlas->textureList, i, Texture*);
 		Mesh*    mesh    = AArrayList_GetPtrAdd(skeleton->meshList, Mesh);
 
 		AMesh->Init(texture, mesh);
@@ -304,7 +307,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 
 		switch (attachmentData->type)
 		{
-			case skeleton_attachment_region:
+			case SkeletonAttachmentDataType_Region:
 			{
 				SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->childPtr;
 				subMesh                                            =  AMesh->AddChildWithQuad
@@ -334,10 +337,10 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 
 			SkeletonMeshAttachmentData* meshData;
 
-			case skeleton_attachment_skinned_mesh:
+			case SkeletonAttachmentDataType_SkinnedMesh:
 				meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr)->meshAttachmentData;
                 
-			case skeleton_attachment_mesh:
+			case SkeletonAttachmentDataType_Mesh:
 			{
 				meshData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
 
@@ -415,8 +418,8 @@ static void Init(SkeletonData* skeletonData, Skeleton* outSkeleton)
 	InitBone    (outSkeleton, skeletonData);
 	InitSlot    (outSkeleton, skeletonData);
 
-	//	Release(outSkeleton);
-	//	ALog_A(0, "stop");
+	// Release(outSkeleton);
+	// ALog_A(false, "stop");
 }
 
 

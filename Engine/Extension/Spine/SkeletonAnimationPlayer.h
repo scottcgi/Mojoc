@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-7-28
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-7-28
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef skeleton_animation_player_h
-#define skeleton_animation_player_h
+
+#ifndef SKELETON_ANIMATION_PLAYER_H
+#define SKELETON_ANIMATION_PLAYER_H
 
 
 #include "Engine/Toolkit/Head/MacroDefine.h"
@@ -93,57 +97,57 @@ struct ASkeletonAnimationPlayer
 extern struct ASkeletonAnimationPlayer ASkeletonAnimationPlayer[1];
 
 
-static inline SkeletonBone* ASkeletonAnimationPlayerGetBone(SkeletonAnimationPlayer* player, char* boneName)
+static inline SkeletonBone* ASkeletonAnimationPlayer_GetBone(SkeletonAnimationPlayer* player, char* boneName)
 {
 	return AArrayStrMap_Get(player->skeleton->boneMap, boneName, SkeletonBone*);
 }
 
 
-static inline SkeletonSlot* ASkeletonAnimationPlayerGetSlot(SkeletonAnimationPlayer* player, char* slotName)
+static inline SkeletonSlot* ASkeletonAnimationPlayer_GetSlot(SkeletonAnimationPlayer* player, char* slotName)
 {
 	return AArrayStrMap_Get(player->skeleton->slotMap, slotName, SkeletonSlot*);
 }
 
 
-static inline Drawable* ASkeletonAnimationPlayerGetDrawable(SkeletonAnimationPlayer* player)
+static inline Drawable* ASkeletonAnimationPlayer_GetDrawable(SkeletonAnimationPlayer* player)
 {
 	return player->skeleton->drawable;
 }
 
 
-static inline void ASkeletonAnimationPlayerUpdate(SkeletonAnimationPlayer* player, float deltaSeconds)
+static inline void ASkeletonAnimationPlayer_Update(SkeletonAnimationPlayer* player, float deltaSeconds)
 {
 	ASkeletonAnimationPlayer->Update(player, deltaSeconds);
 }
 
 
-static inline SkeletonData* ASkeletonAnimationPlayerGetSkeletonData(SkeletonAnimationPlayer* player)
+static inline SkeletonData* ASkeletonAnimationPlayer_GetSkeletonData(SkeletonAnimationPlayer* player)
 {
 	return player->skeleton->skeletonData;
 }
 
 
-static inline char* ASkeletonAnimationPlayerGetPath(SkeletonAnimationPlayer* player)
+static inline char* ASkeletonAnimationPlayer_GetPath(SkeletonAnimationPlayer* player)
 {
 	return player->skeleton->skeletonData->filePath;
 }
 
 
-static inline SubMesh* ASkeletonAnimationPlayerGetSubMesh(SkeletonAnimationPlayer* player, char* slotName, char* attachmentName)
+static inline SubMesh* ASkeletonAnimationPlayer_GetSubMesh(SkeletonAnimationPlayer* player, char* slotName, char* attachmentName)
 {
-    return ASkeletonGetSubMesh(player->skeleton, slotName, attachmentName);
+    return ASkeleton_GetSubMesh(player->skeleton, slotName, attachmentName);
 }
 
 
-static inline float ASkeletonAnimationPlayerGetWidth(SkeletonAnimationPlayer* player)
+static inline float ASkeletonAnimationPlayer_GetWidth(SkeletonAnimationPlayer* player)
 {
-    return ASkeletonGetWidth(player->skeleton);
+    return ASkeleton_GetWidth(player->skeleton);
 }
 
 
-static inline float ASkeletonAnimationPlayerGetHeight(SkeletonAnimationPlayer* player)
+static inline float ASkeletonAnimationPlayer_GetHeight(SkeletonAnimationPlayer* player)
 {
-    return ASkeletonGetHeight(player->skeleton);
+    return ASkeleton_GetHeight(player->skeleton);
 }
 
 

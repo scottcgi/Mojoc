@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-1-21
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-1-21
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef particle_h
-#define particle_h
+
+#ifndef PARTICLE_H
+#define PARTICLE_H
 
 
 #include <stdbool.h>
