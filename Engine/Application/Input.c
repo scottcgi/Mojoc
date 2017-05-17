@@ -22,8 +22,8 @@ static InputTouch* SetTouch(int fingerId, float x, float y, InputTouchType type)
     InputTouch* touch = touches + fingerId;
 
     touch->fingerId   = fingerId;
-    touch->x          = AGLToolToGLX(x);
-    touch->y          = AGLToolToGLY(y);
+    touch->x          = AGLTool_ToGLX(x);
+    touch->y          = AGLTool_ToGLY(y);
     touch->type       = type;
 
     return touch;

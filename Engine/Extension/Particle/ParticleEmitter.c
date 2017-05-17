@@ -109,7 +109,7 @@ static inline void ActivateParticle(ParticleEmitter* emitter, Particle* particle
 	}
 
 
-	float width                     = AGLToolToScreenWidth(drawable->width);
+	float width                     = AGLTool_ToScreenWidth(drawable->width);
 	ParticleScaledValue* scaleValue = emitterData->scaleValue;
 	particle->scale                 = AParticleEmitterData->RandomLowValue(scaleValue->rangedValue) / width;
 	particle->scaleDiff             = AParticleEmitterData->RandomHighValue(scaleValue) / width;
@@ -260,8 +260,8 @@ static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, 
 		ADrawableSetPosition2
 		(
 			drawable,
-			drawable->positionX + AGLToolToGLWidth (velocityX),
-			drawable->positionY + AGLToolToGLHeight(velocityY)
+			drawable->positionX + AGLTool_ToGLWidth (velocityX),
+			drawable->positionY + AGLTool_ToGLHeight(velocityY)
 		);
 	}
 
@@ -383,7 +383,7 @@ static void Update(ParticleEmitter* emitter, float deltaSeconds)
 		AddParticles(emitter, emitterData->minParticleCount - emitter->activeCount);
 	}
 
-	AMeshDraw(emitter->mesh);
+	AMesh_Draw(emitter->mesh);
 }
 
 

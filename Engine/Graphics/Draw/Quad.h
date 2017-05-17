@@ -77,24 +77,24 @@ struct AQuad
 	void (*MaxSize)         (Array(Quad)* quadArr, float* outWidth, float* outHeight);
 
 	/**
-	 * Get Quad 4 vertices data into vertexData[quad_vertex_num]
+	 * Get Quad 4 vertices data into vertexData[Quad_VertexNum]
 	 */
-	void (*GetQuadVertex)   (Quad* quad, Texture* texture, float outVertexData[quad_vertex_num]);
+	void (*GetQuadVertex)   (Quad* quad, Texture* texture, float outVertexData[Quad_VertexNum]);
 
 	/**
-	 * Get Quad 4 vertices position data into bornPositionData[quad_position3_num]
+	 * Get Quad 4 vertices position data into bornPositionData[Quad_Position3Num]
 	 */
-	void (*GetQuadPosition3)(Quad* quad, float outBornPositionData[quad_position3_num]);
+	void (*GetQuadPosition3)(Quad* quad, float outBornPositionData[Quad_Position3Num]);
 
 	/**
-	 * Get Quad 4 vertices uv data into uvData[quad_uv_num]
+	 * Get Quad 4 vertices uv data into uvData[Quad_UVNum]
 	 */
-	void (*GetQuadUV)       (Quad* quad, Texture* texture, float outUVvData[quad_uv_num]);
+	void (*GetQuadUV)       (Quad* quad, Texture* texture, float outUVvData[Quad_UVNum]);
 
 	/**
-	 * Get Quad 4 vertices index data into indexData[quad_index_num]
+	 * Get Quad 4 vertices index data into indexData[Quad_IndexNum]
 	 */
-	void (*GetQuadIndex)    (int vertexNumBefore, short outIndexData[quad_index_num]);
+	void (*GetQuadIndex)    (int vertexNumBefore, short outIndexData[Quad_IndexNum]);
 };
 
 extern struct AQuad AQuad[1];

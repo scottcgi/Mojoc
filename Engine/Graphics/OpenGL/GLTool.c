@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2012-12-22
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2012-12-22
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <string.h>
 #include <stdlib.h>
@@ -16,14 +20,14 @@
 
 static void SetSize(int width, int height)
 {
-	AGLTool->screenWidth           = (float) width;
-	AGLTool->screenHeight          = (float) height;
-	AGLTool->screenRatio           = (float) width  / (float) height;
-	AGLTool->screenHalfWidth       = (float) width  / 2;
-	AGLTool->screenHalfHeight      = (float) height / 2;
+	AGLTool->screenWidth          = (float) width;
+	AGLTool->screenHeight         = (float) height;
+	AGLTool->screenRatio          = (float) width  / (float) height;
+	AGLTool->screenHalfWidth      = (float) width  / 2;
+	AGLTool->screenHalfHeight     = (float) height / 2;
 
-	AGLTool->ratioDivideHalfWidth  = AGLTool->screenRatio     / AGLTool->screenHalfWidth;
-	AGLTool->halfWidthDivideRatio  = AGLTool->screenHalfWidth / AGLTool->screenRatio;
+	AGLTool->ratioDivideHalfWidth = AGLTool->screenRatio     / AGLTool->screenHalfWidth;
+	AGLTool->halfWidthDivideRatio = AGLTool->screenHalfWidth / AGLTool->screenRatio;
 }
 
 
@@ -180,8 +184,8 @@ static void LoadTexture(char* filePath, Texture* outTexture)
 	 // load the data into the bound outTexture
 	 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei) width, (GLsizei) height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 
-	 outTexture->width  = AGLToolToGLWidth (width);
-	 outTexture->height = AGLToolToGLHeight(height);
+	 outTexture->width  = AGLTool_ToGLWidth (width);
+	 outTexture->height = AGLTool_ToGLHeight(height);
 
 	 free(pixels);
 }

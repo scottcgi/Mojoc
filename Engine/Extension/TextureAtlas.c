@@ -124,11 +124,11 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 			Read("index");
 
 			TextureAtlasQuad atlasQuad[1];
-			AQuad->Init(AGLToolToGLWidth(width), AGLToolToGLHeight(height), atlasQuad->quad);
+			AQuad->Init(AGLTool_ToGLWidth(width), AGLTool_ToGLHeight(height), atlasQuad->quad);
 
             atlasQuad->textureIndex         = outTextureAtlas->textureList->size - 1;
-            atlasQuad->quad->offsetTextureX = AGLToolToGLWidth (x);
-            atlasQuad->quad->offsetTextureY = AGLToolToGLHeight(y);
+            atlasQuad->quad->offsetTextureX = AGLTool_ToGLWidth (x);
+            atlasQuad->quad->offsetTextureY = AGLTool_ToGLHeight(y);
             atlasQuad->atlas                = outTextureAtlas;
 
 			AArrayStrMap->TryPut(outTextureAtlas->quadMap, textureQuadName, atlasQuad);

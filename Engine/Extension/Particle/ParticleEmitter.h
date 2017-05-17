@@ -97,7 +97,7 @@ static inline Drawable* AParticleEmitterGetDrawable(ParticleEmitter* emitter)
 
 static inline void AParticleEmitterDraw(ParticleEmitter* emitter)
 {
-	AMeshDraw(emitter->mesh);
+	AMesh_Draw(emitter->mesh);
 }
 
 

@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2016-8-5
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2016-8-5
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef mesh_h
-#define mesh_h
+
+#ifndef MESH_H
+#define MESH_H
 
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
@@ -77,7 +81,7 @@ struct Mesh
 	/**
 	 * If use VBO is array buffer id
 	 */
-	GLuint                vboIds[mesh_buffer_num];
+	GLuint                vboIds[MeshBuffer_Num];
 
     /**
      * If use VAO is generated id else 0
@@ -154,7 +158,7 @@ struct AMesh
 extern struct AMesh AMesh[1];
 
 
-static inline void AMeshDraw(Mesh* mesh)
+static inline void AMesh_Draw(Mesh* mesh)
 {
 	ADrawable->Draw(mesh->drawable);
 }
@@ -163,7 +167,7 @@ static inline void AMeshDraw(Mesh* mesh)
 /**
  * Push startIndex and endIndex into drawRangeQueue
  */
-static inline void AMeshPushDrawRange(Mesh* mesh, int startIndex, int endIndex)
+static inline void AMesh_PushDrawRange(Mesh* mesh, int startIndex, int endIndex)
 {
     AArrayQueue_Push(mesh->drawRangeQueue, startIndex);
     AArrayQueue_Push(mesh->drawRangeQueue, endIndex);

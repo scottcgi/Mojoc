@@ -1,12 +1,15 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2012-12-29
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2012-12-29
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef texture_h
-#define texture_h
+#ifndef TEXTURE_H
+#define TEXTURE_H
 
 
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"

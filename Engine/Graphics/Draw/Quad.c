@@ -84,7 +84,7 @@ static void MaxSize(Array(Quad)* quadArr,  float* outWidth, float* outHeight)
 }
 
 
-static void GetQuadVertex(Quad* quad, Texture* texture, float outVertexData[quad_vertex_num])
+static void GetQuadVertex(Quad* quad, Texture* texture, float outVertexData[Quad_VertexNum])
 {
     float qx = quad->offsetCenterX;
     float qy = quad->offsetCenterY;
@@ -92,11 +92,11 @@ static void GetQuadVertex(Quad* quad, Texture* texture, float outVertexData[quad
     float qw = qx + quad->width;
     float qh = qy - quad->height;
 
-    float tx = AGLToolToUVWidth (quad->offsetTextureX, texture->width);
-    float ty = AGLToolToUVHeight(quad->offsetTextureY, texture->height);
+    float tx = AGLTool_ToUVWidth (quad->offsetTextureX, texture->width);
+    float ty = AGLTool_ToUVHeight(quad->offsetTextureY, texture->height);
 
-    float tw = tx + AGLToolToUVWidth (quad->width,  texture->width);
-    float th = ty + AGLToolToUVHeight(quad->height, texture->height);
+    float tw = tx + AGLTool_ToUVWidth (quad->width,  texture->width);
+    float th = ty + AGLTool_ToUVHeight(quad->height, texture->height);
 
     memcpy
 	(
@@ -117,12 +117,12 @@ static void GetQuadVertex(Quad* quad, Texture* texture, float outVertexData[quad
                 tw, ty, // TexCoord 3
             }
         ),
-		quad_vertex_num_byte
+		Quad_VertexNumBytes
 	);
 }
 
 
-static void GetQuadPosition3(Quad* quad, float outBornPositionData[quad_position3_num])
+static void GetQuadPosition3(Quad* quad, float outBornPositionData[Quad_Position3Num])
 {
     float qx = quad->offsetCenterX;
     float qy = quad->offsetCenterY;
@@ -145,18 +145,18 @@ static void GetQuadPosition3(Quad* quad, float outBornPositionData[quad_position
                 qw, qy, 0.0f, // Position 3
             }
         ),
-		quad_position3_num_byte
+		Quad_Position3NumBytes
 	);
 }
 
 
-static void GetQuadUV(Quad* quad, Texture* texture, float outUVData[quad_uv_num])
+static void GetQuadUV(Quad* quad, Texture* texture, float outUVData[Quad_UVNum])
 {
-    float tx = AGLToolToUVWidth (quad->offsetTextureX, texture->width);
-    float ty = AGLToolToUVHeight(quad->offsetTextureY, texture->height);
+    float tx = AGLTool_ToUVWidth (quad->offsetTextureX, texture->width);
+    float ty = AGLTool_ToUVHeight(quad->offsetTextureY, texture->height);
 
-    float tw = tx + AGLToolToUVWidth (quad->width,  texture->width);
-    float th = ty + AGLToolToUVHeight(quad->height, texture->height);
+    float tw = tx + AGLTool_ToUVWidth (quad->width,  texture->width);
+    float th = ty + AGLTool_ToUVHeight(quad->height, texture->height);
 
     memcpy
 	(
@@ -173,12 +173,12 @@ static void GetQuadUV(Quad* quad, Texture* texture, float outUVData[quad_uv_num]
                 tw, ty, // TexCoord 3
             }
         ),
-		quad_uv_num_byte
+		Quad_UVNumBytes
 	);
 }
 
 
-static void GetQuadIndex(int vertexNumBefore, short outIndexData[quad_index_num])
+static void GetQuadIndex(int vertexNumBefore, short outIndexData[Quad_IndexNum])
 {
     memcpy
 	(
@@ -195,7 +195,7 @@ static void GetQuadIndex(int vertexNumBefore, short outIndexData[quad_index_num]
                 (short) (0 + vertexNumBefore),
 		    }
         ),
-		quad_index_num_byte
+		Quad_IndexNumBytes
 	);
 }
 

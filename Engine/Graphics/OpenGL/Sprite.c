@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
+ *
+ * This code is licensed under the MIT License.
  *
  * Since : 2013-4-20
  * Author: scott.cgi
+ * Version: 0.1
  */
+
 
 #include <stdlib.h>
 
@@ -33,17 +37,17 @@ static void Render(Drawable* drawable)
     }
     else if (AGraphics->isUseVBO)
     {
-        glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIds[mesh_buffer_vertex]);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[mesh_buffer_index]);
+        glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIds[MeshBuffer_Vertex]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[MeshBuffer_Index]);
 
         // load the position and texture coordinate
         glVertexAttribPointer
         (
             AShaderSprite->attribPositionTexcoord,
-            mesh_vertex_size,
+            MeshVertex_Size,
             GL_FLOAT,
             false,
-            mesh_vertex_stride,
+            MeshVertex_VertexStride,
             0
         );
 
@@ -59,10 +63,10 @@ static void Render(Drawable* drawable)
 	    glVertexAttribPointer
 		(
 			AShaderSprite->attribPositionTexcoord,
-			mesh_vertex_size,
+			MeshVertex_Size,
 			GL_FLOAT,
 			false,
-			mesh_vertex_stride,
+			MeshVertex_VertexStride,
 			sprite->vertexArr->data
 		);
 
@@ -82,9 +86,9 @@ static void Release(Sprite* sprite)
 
 	if (AGraphics->isUseVBO)
 	{
-		glDeleteBuffers(mesh_buffer_num, sprite->vboIds);
-		sprite->vboIds[mesh_buffer_vertex] = 0;
-		sprite->vboIds[mesh_buffer_index]  = 0;
+		glDeleteBuffers(MeshBuffer_Num, sprite->vboIds);
+		sprite->vboIds[MeshBuffer_Vertex] = 0;
+		sprite->vboIds[MeshBuffer_Index]  = 0;
 
         if (AGraphics->isUseVAO)
         {
@@ -106,35 +110,35 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 	AQuad->MaxSize(quadArr, &drawable->width, &drawable->height);
 	sprite->texture                    = texture;
 
-	sprite->vboIds[mesh_buffer_vertex] = 0;
-	sprite->vboIds[mesh_buffer_index]  = 0;
+	sprite->vboIds[MeshBuffer_Vertex] = 0;
+	sprite->vboIds[MeshBuffer_Index]  = 0;
     sprite->vaoId                      = 0;
 
-	sprite->indexCount                 = quadArr->length * quad_index_num;
-	sprite->vertexArr                  = AArray->Create(sizeof(float), quadArr->length * quad_vertex_num);
+	sprite->indexCount                 = quadArr->length * Quad_IndexNum;
+	sprite->vertexArr                  = AArray->Create(sizeof(float), quadArr->length * Quad_VertexNum);
 	sprite->indexArr                   = AArray->Create(sizeof(short), sprite->indexCount);
 
 	drawable->Render                   = Render;
 
 	for (int i = 0; i < quadArr->length; i++)
 	{
-		AQuad->GetQuadVertex(AArray_GetPtr(quadArr, i, Quad), texture,  (float*) sprite->vertexArr->data + i * quad_vertex_num);
-		AQuad->GetQuadIndex (i * 4, (short*) sprite->indexArr->data + i * quad_index_num);
+		AQuad->GetQuadVertex(AArray_GetPtr(quadArr, i, Quad), texture,  (float*) sprite->vertexArr->data + i * Quad_VertexNum);
+		AQuad->GetQuadIndex (i * 4, (short*) sprite->indexArr->data + i * Quad_IndexNum);
 	}
 
 	if (AGraphics->isUseVBO)
 	{
-        if (sprite->vboIds[mesh_buffer_vertex] == 0)
+        if (sprite->vboIds[MeshBuffer_Vertex] == 0)
         {
-            glGenBuffers(mesh_buffer_num, sprite->vboIds);
+            glGenBuffers(MeshBuffer_Num, sprite->vboIds);
         }
 
         // vertex
-        glBindBuffer(GL_ARRAY_BUFFER, sprite->vboIds[mesh_buffer_vertex]);
+        glBindBuffer(GL_ARRAY_BUFFER, sprite->vboIds[MeshBuffer_Vertex]);
         glBufferData(GL_ARRAY_BUFFER, sprite->vertexArr->length * sizeof(float), sprite->vertexArr->data, GL_DYNAMIC_DRAW);
 
         // index
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[mesh_buffer_index]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[MeshBuffer_Index]);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sprite->indexArr->length * sizeof(short), sprite->indexArr->data, GL_STATIC_DRAW);
 
 //--------------------------------------------------------------------------------------------------
@@ -154,18 +158,18 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 --------------------------------------------------------------------------------------------------
 */
 
-            glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIds[mesh_buffer_vertex]);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[mesh_buffer_index]);
+            glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIds[MeshBuffer_Vertex]);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[MeshBuffer_Index]);
             glEnableVertexAttribArray(AShaderSprite->attribPositionTexcoord);
 
             // load the position and texture coordinate
             glVertexAttribPointer
             (
                 AShaderSprite->attribPositionTexcoord,
-                mesh_vertex_size,
+                MeshVertex_Size,
                 GL_FLOAT,
                 false,
-                mesh_vertex_stride,
+                MeshVertex_VertexStride,
                 0
             );
 

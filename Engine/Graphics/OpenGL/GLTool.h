@@ -1,12 +1,15 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2012-12-22
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2012-12-22
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef gl_tool_h
-#define gl_tool_h
+#ifndef GL_TOOL_H
+#define GL_TOOL_H
 
 
 #include <stdbool.h>
@@ -55,7 +58,7 @@ struct AGLTool
 	/**
 	 * When screen changed called
 	 */
-	void (*SetSize)                (int width, int height);
+	void   (*SetSize)              (int width, int height);
 
 	/**
 	 * Compile a shader
@@ -90,7 +93,7 @@ extern struct AGLTool AGLTool[1];
  * Convert screen width to openGL width
  * same as (screenWidth) * AGLTool->screenRatio / AGLTool->screenHalfWidth
  */
-static inline float AGLToolToGLWidth(float screenWidth)
+static inline float AGLTool_ToGLWidth(float screenWidth)
 {
 	return screenWidth * AGLTool->ratioDivideHalfWidth;
 }
@@ -99,7 +102,7 @@ static inline float AGLToolToGLWidth(float screenWidth)
 /**
  * Convert pixel height to openGL height
  */
-static inline float AGLToolToGLHeight(float screenHeight)
+static inline float AGLTool_ToGLHeight(float screenHeight)
 {
 	return screenHeight / AGLTool->screenHalfHeight;
 }
@@ -108,18 +111,18 @@ static inline float AGLToolToGLHeight(float screenHeight)
 /**
  * Convert screen x to openGL x
  */
-static inline float AGLToolToGLX(float screenX)
+static inline float AGLTool_ToGLX(float screenX)
 {
-	return AGLToolToGLWidth(screenX) - AGLTool->screenRatio;
+	return AGLTool_ToGLWidth(screenX) - AGLTool->screenRatio;
 }
 
 
 /**
  * Convert screen Y to openGL Y
  */
-static inline float AGLToolToGLY(float screenY)
+static inline float AGLTool_ToGLY(float screenY)
 {
-	return 1.0f - AGLToolToGLHeight(screenY);
+	return 1.0f - AGLTool_ToGLHeight(screenY);
 }
 
 
@@ -127,7 +130,7 @@ static inline float AGLToolToGLY(float screenY)
  * Convert openGL Width to screen width
  * same as (glWidth) * AGLTool->screenHalfWidth / AGLTool->screenRatio
  */
-static inline float AGLToolToScreenWidth(float glWidth)
+static inline float AGLTool_ToScreenWidth(float glWidth)
 {
 	return glWidth * AGLTool->halfWidthDivideRatio;
 }
@@ -136,7 +139,7 @@ static inline float AGLToolToScreenWidth(float glWidth)
 /**
  * Convert openGL Height to screen height
  */
-static inline float AGLToolToScreenHeight(float glHeight)
+static inline float AGLTool_ToScreenHeight(float glHeight)
 {
 	return glHeight * AGLTool->screenHalfHeight;
 }
@@ -145,18 +148,18 @@ static inline float AGLToolToScreenHeight(float glHeight)
 /**
  * Convert openGL x to screen x
  */
-static inline float AGLToolToScreenX(float glX)
+static inline float AGLTool_ToScreenX(float glX)
 {
-	return 	AGLToolToScreenWidth(glX + AGLTool->screenRatio);
+	return 	AGLTool_ToScreenWidth(glX + AGLTool->screenRatio);
 }
 
 
 /**
  * Convert openGL y to screen y
  */
-static inline float AGLToolToScreenY(float glY)
+static inline float AGLTool_ToScreenY(float glY)
 {
-	return AGLToolToScreenHeight(1.0f - glY);
+	return AGLTool_ToScreenHeight(1.0f - glY);
 }
 
 
@@ -164,7 +167,7 @@ static inline float AGLToolToScreenY(float glY)
  * Convert width to uv width
  * parameters both openGL or screen coordinate
  */
-static inline float AGLToolToUVWidth(float width, float textureWidth)
+static inline float AGLTool_ToUVWidth(float width, float textureWidth)
 {
 	return width / textureWidth;
 }
@@ -174,7 +177,7 @@ static inline float AGLToolToUVWidth(float width, float textureWidth)
  * Convert height to uv height
  * parameters both openGL or screen coordinate
  */
-static inline float AGLToolToUVHeight(float height, float textureHeight)
+static inline float AGLTool_ToUVHeight(float height, float textureHeight)
 {
 	return height / textureHeight;
 }

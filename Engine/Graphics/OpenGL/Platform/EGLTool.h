@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-3-12
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-3-12
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef egl_tool_h
-#define egl_tool_h
+
+#ifndef EGL_TOOL_H
+#define EGL_TOOL_H
 
 
 #include "Engine/Toolkit/Platform/Platform.h"
@@ -41,7 +45,9 @@ struct AEGLTool
     void (*ResetSurface)(EGLNativeWindowType window, EGLDisplay display, EGLContext context, EGLConfig config, EGLSurface* surface);
 };
 
+
 extern struct AEGLTool AEGLTool[1];
+
 
 //--------------------------------------------------------------------------------------------------
 #endif

@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-4-17
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-4-17
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef gl_info_h
-#define gl_info_h
+
+#ifndef GL_INFO_H
+#define GL_INFO_H
 
 
 #include <stdbool.h>

@@ -95,7 +95,7 @@ static void Draw(Font* font)
         );
 	}
 
-	AMeshDraw(font->mesh);
+	AMesh_Draw(font->mesh);
 }
 
 

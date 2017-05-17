@@ -192,9 +192,9 @@ static inline void ReadBoneData(JsonObject* root, SkeletonData* skeletonData)
 		boneData->x                 = AJsonObject->GetFloat(jsonBone, "x",      0.0f) * ASkeletonData->scale;
 		boneData->y                 = AJsonObject->GetFloat(jsonBone, "y",      0.0f) * ASkeletonData->scale;
 
-		boneData->length            = AGLToolToGLWidth (boneData->length);
-		boneData->x                 = AGLToolToGLWidth (boneData->x);
-		boneData->y                 = AGLToolToGLHeight(boneData->y);
+		boneData->length            = AGLTool_ToGLWidth (boneData->length);
+		boneData->x                 = AGLTool_ToGLWidth (boneData->x);
+		boneData->y                 = AGLTool_ToGLHeight(boneData->y);
 
 		boneData->rotationZ         = AJsonObject->GetFloat(jsonBone, "rotation", 0.0f);
 		boneData->scaleX            = AJsonObject->GetFloat(jsonBone, "scaleX",   1.0f);
@@ -398,11 +398,11 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
                  regionAttachmentData->rotationZ
 			);
 
-			regionAttachmentData->x                            = AGLToolToGLWidth (regionAttachmentData->x);
-			regionAttachmentData->y                            = AGLToolToGLHeight(regionAttachmentData->y);
+			regionAttachmentData->x                            = AGLTool_ToGLWidth (regionAttachmentData->x);
+			regionAttachmentData->y                            = AGLTool_ToGLHeight(regionAttachmentData->y);
 
-			regionAttachmentData->width                        = AGLToolToGLWidth (regionAttachmentData->width);
-			regionAttachmentData->height                       = AGLToolToGLHeight(regionAttachmentData->height);
+			regionAttachmentData->width                        = AGLTool_ToGLWidth (regionAttachmentData->width);
+			regionAttachmentData->height                       = AGLTool_ToGLHeight(regionAttachmentData->height);
 
 		}
 		else if (strcmp(attachmentType, "boundingbox") == 0)
@@ -420,8 +420,8 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 
 			for (int j = 0; j < jsonVertexArr->valueList->size; j += 2)
 			{
-				vertices[j]     = AGLToolToGLWidth (AJsonArray->GetFloat(jsonVertexArr, j)     * ASkeletonData->scale);
-				vertices[j + 1] = AGLToolToGLHeight(AJsonArray->GetFloat(jsonVertexArr, j + 1) * ASkeletonData->scale);
+				vertices[j]     = AGLTool_ToGLWidth (AJsonArray->GetFloat(jsonVertexArr, j)     * ASkeletonData->scale);
+				vertices[j + 1] = AGLTool_ToGLHeight(AJsonArray->GetFloat(jsonVertexArr, j + 1) * ASkeletonData->scale);
 
 				ALog_D("SkeletonBoundingboxAttachmentData vertices[%d] x = %f, y = %f", j, vertices[j], vertices[j + 1]);
 			}
@@ -451,8 +451,8 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 
 			for (int j = 0, k = 0; j < verticesCount; j += 3, k += 2)
 			{
-				vertices[j]     = AGLToolToGLWidth (AJsonArray->GetFloat(jsonVertexArr, k)     * ASkeletonData->scale);
-				vertices[j + 1] = AGLToolToGLHeight(AJsonArray->GetFloat(jsonVertexArr, k + 1) * ASkeletonData->scale);
+				vertices[j]     = AGLTool_ToGLWidth (AJsonArray->GetFloat(jsonVertexArr, k)     * ASkeletonData->scale);
+				vertices[j + 1] = AGLTool_ToGLHeight(AJsonArray->GetFloat(jsonVertexArr, k + 1) * ASkeletonData->scale);
 				vertices[j + 2] = 0.0f;
 
 				ALog_D("SkeletonMeshAttachmentData vertices[%d] x = %f, y = %f", j, vertices[j], vertices[j + 1]);
@@ -480,8 +480,8 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 
 			meshAttachmentData->width                      = AJsonObject->GetFloat(attachmentDataObject, "width",  0.0f) * ASkeletonData->scale;
 			meshAttachmentData->height                     = AJsonObject->GetFloat(attachmentDataObject, "height", 0.0f) * ASkeletonData->scale;
-			meshAttachmentData->width                      = AGLToolToGLWidth (meshAttachmentData->width);
-			meshAttachmentData->height                     = AGLToolToGLHeight(meshAttachmentData->height);
+			meshAttachmentData->width                      = AGLTool_ToGLWidth (meshAttachmentData->width);
+			meshAttachmentData->height                     = AGLTool_ToGLHeight(meshAttachmentData->height);
 		}
 		else if (strcmp(attachmentType, "skinnedmesh") == 0)
 		{
@@ -567,8 +567,8 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 
 					ALog_D("SkeletonSkinnedMeshAttachmentData bone index = %d, weight = %f", bones[b - 1], weights[w - 1]);
 
-					weightVertices[v]     = AGLToolToGLWidth (AJsonArray->GetFloat(jsonVertexArr, j + 1) * ASkeletonData->scale);
-					weightVertices[v + 1] = AGLToolToGLHeight(AJsonArray->GetFloat(jsonVertexArr, j + 2) * ASkeletonData->scale);
+					weightVertices[v]     = AGLTool_ToGLWidth (AJsonArray->GetFloat(jsonVertexArr, j + 1) * ASkeletonData->scale);
+					weightVertices[v + 1] = AGLTool_ToGLHeight(AJsonArray->GetFloat(jsonVertexArr, j + 2) * ASkeletonData->scale);
 					weightVertices[v + 2] = 0.0f;
 
 					ALog_D("SkeletonSkinnedMeshAttachmentData vertices x = %f, y = %f", weightVertices[v], weightVertices[v + 1]);
@@ -597,8 +597,8 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 
 			meshAttachmentData->width                      = AJsonObject->GetFloat(attachmentDataObject, "width",  0.0f)  * ASkeletonData->scale;
 			meshAttachmentData->height                     = AJsonObject->GetFloat(attachmentDataObject, "height", 0.0f)  * ASkeletonData->scale;
-			meshAttachmentData->width                      = AGLToolToGLWidth (meshAttachmentData->width);
-			meshAttachmentData->height                     = AGLToolToGLHeight(meshAttachmentData->height);
+			meshAttachmentData->width                      = AGLTool_ToGLWidth (meshAttachmentData->width);
+			meshAttachmentData->height                     = AGLTool_ToGLHeight(meshAttachmentData->height);
 		}
 
 		attachmentData->name = ((char*) attachmentData->childPtr) + length;
@@ -798,8 +798,8 @@ static inline void ReadAnimationBones
 
 					if (isOne)
 					{
-						x = AGLToolToGLWidth (x) * ASkeletonData->scale;
-						y = AGLToolToGLHeight(y) * ASkeletonData->scale;
+						x = AGLTool_ToGLWidth (x) * ASkeletonData->scale;
+						y = AGLTool_ToGLHeight(y) * ASkeletonData->scale;
 					}
 
 					ASkeletonTimeline->SetTranslateFrame(translateTimeline, frameIndex, time, x, y);
@@ -1155,7 +1155,7 @@ static inline void ReadAnimationDeform
 							int   index        = (start >> 1) + start;
 
 							float vertex       = AJsonArray->GetFloat(jsonVertexArr, m) * ASkeletonData->scale;
-							vertexData[index] += AGLToolToGLWidth(vertex);
+							vertexData[index] += AGLTool_ToGLWidth(vertex);
 
 							ALog_D("Mesh vertices[%d] = %f", l, vertex);
 						}
@@ -1314,8 +1314,8 @@ static inline void ReadSkeletonData(JsonObject* root, SkeletonData* skeletonData
 
 		ALog_D("SkeletonData width = %f, height = %f", skeletonData->width , skeletonData->height);
 
-		skeletonData->width  = AGLToolToGLWidth (skeletonData->width);
-		skeletonData->height = AGLToolToGLHeight(skeletonData->height);
+		skeletonData->width  = AGLTool_ToGLWidth (skeletonData->width);
+		skeletonData->height = AGLTool_ToGLHeight(skeletonData->height);
 	}
 }
 

@@ -54,7 +54,7 @@ extern struct ADrawAtlas ADrawAtlas[1];
 
 static inline void ADrawAtlasDraw(DrawAtlas* drawAtlas)
 {
-    AMeshDraw(drawAtlas->mesh);
+    AMesh_Draw(drawAtlas->mesh);
 }
 
 

@@ -266,7 +266,7 @@ static void Draw(Drawable* drawable)
 		{
 			if (preMesh != NULL)
 			{
-				AMeshPushDrawRange(preSubMesh->parent, startSubMesh->index, preSubMesh->index);
+				AMesh_PushDrawRange(preSubMesh->parent, startSubMesh->index, preSubMesh->index);
 				ADrawable->Draw(preSubMesh->parent->drawable);
 			}
 
@@ -279,7 +279,7 @@ static void Draw(Drawable* drawable)
 
 	if (preSubMesh != NULL)
 	{
-		AMeshPushDrawRange(preSubMesh->parent, startSubMesh->index, preSubMesh->index);
+		AMesh_PushDrawRange(preSubMesh->parent, startSubMesh->index, preSubMesh->index);
 		ADrawable->Draw(preSubMesh->parent->drawable);
 	}
 }
@@ -343,7 +343,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 
 				if (meshData->isUVMappedInTexture == false)
 				{
-					float texData[quad_uv_num];
+					float texData[Quad_UVNum];
 					AQuad->GetQuadUV
 					(
 						meshData->quad,

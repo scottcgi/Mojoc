@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2016-8-7
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2016-8-7
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <string.h>
 #include "Engine/Graphics/Graphics.h"
@@ -66,7 +70,7 @@ static SubMesh* CreateWithData(Array(float)* positionArr, Array(float)* uvArr, A
     float  minY         = positionData[1];
     float  maxY         = positionData[1];
 
-    for (int i = mesh_vertex_position3_size; i < subMesh->positionArr->length; i += mesh_vertex_position3_size)
+    for (int i = MeshVertex_Position3Size; i < subMesh->positionArr->length; i += MeshVertex_Position3Size)
     {
         float x = positionData[i];
         float y = positionData[i + 1];
@@ -133,22 +137,22 @@ static SubMesh* CreateWithQuad(Texture* texture, Quad* quad)
 	SubMesh* subMesh = (SubMesh*) malloc
 							      (
 							  	    sizeof(SubMesh)          +
-							  	    quad_index_num_byte      +
-							  	    quad_uv_num_byte         +
-							  	    quad_position3_num_byte
+							  	    Quad_IndexNumBytes      +
+							  	    Quad_UVNumBytes         +
+							  	    Quad_Position3NumBytes
 							      );
 
 
-	subMesh->indexArr->length     = quad_index_num;
+	subMesh->indexArr->length     = Quad_IndexNum;
 	subMesh->indexArr->data       = (char*) subMesh + sizeof(SubMesh);
 	AQuad->GetQuadIndex(0, subMesh->indexArr->data);
 
-	subMesh->uvArr->length        = quad_uv_num;
-	subMesh->uvArr->data          = (char*) subMesh->indexArr->data + quad_index_num_byte;
+	subMesh->uvArr->length        = Quad_UVNum;
+	subMesh->uvArr->data          = (char*) subMesh->indexArr->data + Quad_IndexNumBytes;
 	AQuad->GetQuadUV(quad, texture, subMesh->uvArr->data);
 
-	subMesh->positionArr->length  = quad_position3_num;
-	subMesh->positionArr->data    = (char*) subMesh->uvArr->data + quad_uv_num_byte;
+	subMesh->positionArr->length  = Quad_Position3Num;
+	subMesh->positionArr->data    = (char*) subMesh->uvArr->data + Quad_UVNumBytes;
 	AQuad->GetQuadPosition3(quad, subMesh->positionArr->data);
 
     InitSubMesh(subMesh, quad->width, quad->height);

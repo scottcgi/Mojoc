@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-9-8
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-9-8
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef graphics_h
-#define graphics_h
+
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
 
 
 #include <stdbool.h>
@@ -21,13 +25,13 @@ struct AGraphics
 
 	/**
 	 * Default false
-	 * Setting by method SetUseVAO
+	 * setting by method SetUseVAO
 	 */
 	bool isUseVAO;
 
     /**
      * Default false
-	 * Setting by method SetUseMapBuffer
+	 * setting by method SetUseMapBuffer
      */
     bool isUseMapBuffer;
 

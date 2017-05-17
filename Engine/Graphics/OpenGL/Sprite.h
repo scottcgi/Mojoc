@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-4-20
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-4-20
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef sprite_h
-#define sprite_h
+
+#ifndef SPRITE_H
+#define SPRITE_H
 
 
 #include "Engine/Graphics/Draw/Drawable.h"
@@ -42,7 +46,7 @@ typedef struct
 	/**
 	 * If use VBO is array buffer id
 	 */
-	GLuint        vboIds[mesh_buffer_num];
+	GLuint        vboIds[MeshBuffer_Num];
 
 	/**
 	 * If use VAO is generated id else 0
@@ -79,7 +83,7 @@ struct ASprite
 extern struct ASprite ASprite[1];
 
 
-static inline void ASpriteDraw(Sprite* sprite)
+static inline void ASprite_Draw(Sprite* sprite)
 {
 	ADrawable->Draw(sprite->drawable);
 }
