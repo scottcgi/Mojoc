@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2015-8-19
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2015-8-19
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef component_h
-#define component_h
+
+#ifndef COMPONENT_H
+#define COMPONENT_H
 
 
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
@@ -82,7 +86,7 @@ enum
 	 * ComponentState default state id
 	 * any other state id must be different
 	 */
-	component_state_default = 0
+	ComponentState_Default = 0
 };
 
 
@@ -96,12 +100,12 @@ enum
 	/**
 	 * When ComponentState enter
 	 */
-	component_msg_on_enter,
+	ComponentMsg_OnEnter,
 
 	/**
 	 * When ComponentState exit
 	 */
-	component_msg_on_exit,
+	ComponentMsg_OnExit,
 };
 
 

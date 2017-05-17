@@ -42,7 +42,7 @@ static void RemoveAt(ArrayQueue* arrayQueue, int index)
 	ALog_A
 	(
 		index >= arrayQueue->topIndex && index < arrayQueue->elementList->size,
-		"popIndex index = %d, out of range [%d, %d]",
+		"AArrayQueue RemoveAt index = %d, out of range [%d, %d]",
 		index, arrayQueue->topIndex, arrayQueue->elementList->size - 1
 	);
 

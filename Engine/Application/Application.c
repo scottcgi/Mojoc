@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-9-4
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-9-4
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include "Engine/Audio/Platform/Audio.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
@@ -18,10 +22,9 @@
 #include "Engine/Toolkit/Utils/Coroutine.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Utils/FileTool.h"
-#include "Application.h"
 
 
-static const char* save_data_file_name = "MojocSaveDataFile";
+static const char* saveDataFileName = "MojocSaveDataFile";
 static struct      timespec now;
 static struct      timespec last;
 
@@ -50,7 +53,7 @@ static void Init()
 //--------------------------------------------------------------------------------------------------
 
     int   length;
-    void* data = AFileTool->CreateDataFromDir((char*) save_data_file_name, &length);
+    void* data = AFileTool->CreateDataFromDir((char*) saveDataFileName, &length);
 
     if (data != NULL)
     {
@@ -134,7 +137,7 @@ static void Touch(Array(InputTouch*)* touchData)
     (
         AApplication->component,
         AApplication,
-        application_msg_on_touch,
+        ComponentMsg_OnTouch,
         touchData
     );
 }
@@ -146,7 +149,7 @@ static void SaveData()
     int   outSize;
     AApplication->callbacks->OnSaveData(&outSaveData, &outSize);
 
-    AFileTool->WriteDataToDir((char*) save_data_file_name, outSaveData, outSize);
+    AFileTool->WriteDataToDir((char*) saveDataFileName, outSaveData, outSize);
 }
 
 

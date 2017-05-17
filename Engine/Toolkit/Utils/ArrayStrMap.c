@@ -17,11 +17,11 @@
 
 
 #define CheckIndex(tag) \
-	ALog_A(index >= 0 && index < arrayStrMap->elementList->size, "ArrayStrMap "  tag " index = %d, size = %d, invalid", index, arrayStrMap->elementList->size)
+	ALog_A(index >= 0 && index < arrayStrMap->elementList->size,  "AArrayStrMap " tag " index = %d, size = %d, invalid", index, arrayStrMap->elementList->size)
 
 
 #define CheckInsertIndex(tag) \
-	ALog_A(index >= 0 && index <= arrayStrMap->elementList->size, "ArrayStrMap " tag " index = %d, size = %d, invalid", index, arrayStrMap->elementList->size)
+	ALog_A(index >= 0 && index <= arrayStrMap->elementList->size, "AArrayStrMap " tag " index = %d, size = %d, invalid", index, arrayStrMap->elementList->size)
 
 
 /**

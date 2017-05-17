@@ -14,7 +14,7 @@
 
 
 #define CheckIndex(tag) \
-	ALog_A(range->start <= range->end, "ArrayRange " tag " start[%d] > end[%d]", range->start, range->end)
+	ALog_A(range->start <= range->end, "AArrayRange " tag " start[%d] > end[%d]", range->start, range->end)
 
 
 static int64_t ReadInt64(char* buffer, ArrayRange* range)

@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2014-1-16
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2014-1-16
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef scheduler_h
-#define scheduler_h
+
+#ifndef SCHEDULER_H
+#define SCHEDULER_H
 
 
 #include <stdbool.h>

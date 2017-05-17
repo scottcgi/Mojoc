@@ -1,17 +1,21 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2017-3-24
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2017-3-24
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Application/Input.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 
 
-#define finger_count 10
-static  InputTouch touches[finger_count];
+#define FINGER_COUNT 10
+static  InputTouch touches[FINGER_COUNT];
 
 
 //--------------------------------------------------------------------------------------------------

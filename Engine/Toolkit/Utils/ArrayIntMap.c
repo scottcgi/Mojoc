@@ -17,11 +17,11 @@
 
 
 #define CheckIndex(tag) \
-	ALog_A(index >= 0 && index <  arrayIntMap->elementList->size, "ArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
+	ALog_A(index >= 0 && index <  arrayIntMap->elementList->size, "AArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
 
 
 #define CheckInsertIndex(tag) \
-	ALog_A(index >= 0 && index <= arrayIntMap->elementList->size, "ArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
+	ALog_A(index >= 0 && index <= arrayIntMap->elementList->size, "AArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
 
 
 

@@ -108,7 +108,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                                 AMotionEvent_getPointerId(event, 0),
                                 AMotionEvent_getX        (event, 0),
                                 AMotionEvent_getY        (event, 0),
-                                input_touch_down
+                                InputTouchType_Down
                             )
 						)
 					);
@@ -131,7 +131,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                                 AMotionEvent_getPointerId(event, indexDown),
                                 AMotionEvent_getX        (event, indexDown),
                                 AMotionEvent_getY        (event, indexDown),
-                                input_touch_down
+                                InputTouchType_Down
                             )
 						)
 					);
@@ -152,7 +152,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                                 AMotionEvent_getPointerId(event, 0),
                                 AMotionEvent_getX        (event, 0),
                                 AMotionEvent_getY        (event, 0),
-                                input_touch_up
+                                InputTouchType_Up
                             )
 						)
 					);
@@ -176,7 +176,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                                 AMotionEvent_getPointerId(event, indexUp),
                                 AMotionEvent_getX        (event, indexUp),
                                 AMotionEvent_getY        (event, indexUp),
-                                input_touch_up
+                                InputTouchType_Up
                             )
 						)
 					);
@@ -197,7 +197,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                                                 AMotionEvent_getPointerId(event, i),
                                                 AMotionEvent_getX        (event, i),
                                                 AMotionEvent_getY        (event, i),
-                                                input_touch_move
+                                                InputTouchType_Move
                                             );
 
                         touches[i]        = touch;
@@ -224,7 +224,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                                                 AMotionEvent_getPointerId(event, i),
                                                 AMotionEvent_getX        (event, i),
                                                 AMotionEvent_getY        (event, i),
-                                                input_touch_cancel
+                                                InputTouchType_Cancel
                                             );
 
                         touches[i]        = touch;

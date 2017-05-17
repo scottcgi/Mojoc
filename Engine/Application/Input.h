@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2017-3-24
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2017-3-24
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef input_h
-#define input_h
+
+#ifndef INPUT_H
+#define INPUT_H
 
 
 #include "Engine/Toolkit/Head/MacroDefine.h"
@@ -14,10 +18,10 @@
 
 typedef enum
 {
-    input_touch_up     = 1,
-    input_touch_down   = 2,
-    input_touch_move   = 3,
-    input_touch_cancel = 4,
+    InputTouchType_Up     = 1,
+    InputTouchType_Down   = 2,
+    InputTouchType_Move   = 3,
+    InputTouchType_Cancel = 4,
 }
 InputTouchType;
 

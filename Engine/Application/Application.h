@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-09-04
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-09-04
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef application_h
-#define application_h
+
+#ifndef APPLICATION_H
+#define APPLICATION_H
 
 
 #include "Engine/Application/Component.h"
@@ -24,7 +28,7 @@ enum
 	 * When touch event happened
 	 * the extraData is Array(InputTouch*)
      */
-	application_msg_on_touch,
+	ComponentMsg_OnTouch,
 };
 
 
@@ -152,13 +156,13 @@ extern struct AApplication AApplication[1];
 extern void ApplicationMain();
 
 
-static inline void AApplicationAppendChild(Component* child)
+static inline void AApplication_AppendChild(Component* child)
 {
     AComponent->AppendChild(AApplication->component, child);
 }
 
 
-static inline void AApplicationAddChild(Component* child, int order)
+static inline void AApplication_AddChild(Component* child, int order)
 {
 	AComponent->AddChild(AApplication->component, child, order);
 }

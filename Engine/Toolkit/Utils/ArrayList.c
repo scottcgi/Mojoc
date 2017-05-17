@@ -17,11 +17,11 @@
 
 
 #define CheckIndex(tag, index) \
-	ALog_A(((index) < arrayList->size && (index) >= 0),  "ArrayList " tag " failed index error, index = %d, size = %d", index, arrayList->size);
+	ALog_A(((index) < arrayList->size && (index) >= 0),  "AArrayList " tag " failed index error, index = %d, size = %d", index, arrayList->size);
 
 
 #define CheckInsertIndex(tag) \
-	ALog_A(((index) <= arrayList->size && (index) >= 0), "ArrayList " tag " failed index error, index = %d, size = %d", index, arrayList->size);
+	ALog_A(((index) <= arrayList->size && (index) >= 0), "AArrayList " tag " failed index error, index = %d, size = %d", index, arrayList->size);
 
 
 static inline void AddCapacity(ArrayList* arrayList, int increase)
@@ -140,7 +140,7 @@ static void AddArray(ArrayList* arrayList, void* data, int length, int elementTy
     ALog_A
     (
         arrayList->elementTypeSize == elementTypeSize,
-        "AddArray ArrayList elementTypeSize %d must equal Array elementTypeSize %d",
+        "AArrayList AddArray arrayList elementTypeSize = %d must equal Array elementTypeSize = %d",
         arrayList->elementTypeSize,
         elementTypeSize
     );
@@ -197,7 +197,7 @@ static void RemoveRange(ArrayList* arrayList, int fromIndex, int toIndex)
 {
 	CheckIndex("RemoveRange", fromIndex);
 	CheckIndex("RemoveRange", toIndex);
-	ALog_A    (toIndex >=     fromIndex, "ArrayList RemoveRange toIndex must more than fromIndex");
+	ALog_A    (toIndex >=     fromIndex, "AArrayList RemoveRange toIndex must more than fromIndex");
 
 	int num          = toIndex         - fromIndex + 1;
 	int lastIndex    = arrayList->size - 1;
@@ -278,7 +278,7 @@ static void Shrink(ArrayList* arrayList)
 	else
 	{
 		void* data = realloc(arrayList->elementArray->data, arrayList->size * arrayList->elementTypeSize);
-		ALog_A(data, "ArrayList Shrink error, size = %d ", arrayList->size);
+		ALog_A(data, "AArrayList Shrink error, size = %d ", arrayList->size);
 
 		arrayList->elementArray->data   = data;
 		arrayList->elementArray->length = arrayList->size;
