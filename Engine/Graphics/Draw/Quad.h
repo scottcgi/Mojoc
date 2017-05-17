@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2012-12-25
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2012-12-25
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef quad_h
-#define quad_h
+
+#ifndef QUAD_H
+#define QUAD_H
 
 
 #include "Engine/Graphics/OpenGL/MeshDefine.h"
@@ -97,6 +101,8 @@ struct AQuad
 	void (*GetQuadIndex)    (int vertexNumBefore, short outIndexData[Quad_IndexNum]);
 };
 
+
 extern struct AQuad AQuad[1];
+
 
 #endif

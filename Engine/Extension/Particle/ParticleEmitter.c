@@ -120,7 +120,7 @@ static inline void ActivateParticle(ParticleEmitter* emitter, Particle* particle
 	}
 
 	float scale = particle->scale + particle->scaleDiff * AParticleEmitterData->GetScale(scaleValue, 0.0f);
-	ADrawableSetScale2(drawable, scale, scale);
+	ADrawable_SetScale2(drawable, scale, scale);
 
 	ParticleScaledValue* rotationValue = emitterData->rotationValue;
 	if (rotationValue->rangedValue->isActive)
@@ -139,7 +139,7 @@ static inline void ActivateParticle(ParticleEmitter* emitter, Particle* particle
 			rotationZ += particle->angle + particle->angleDiff * AParticleEmitterData->GetScale(angleValue, 0.0f);
 		}
 
-		ADrawableSetRotationZ(drawable, rotationZ);
+		ADrawable_SetRotationZ(drawable, rotationZ);
 	}
 
 
@@ -169,15 +169,15 @@ static inline void ActivateParticle(ParticleEmitter* emitter, Particle* particle
 
 	float rgb[3];
 	AParticleEmitterData->GetRGB(emitterData->rgbValue, percent, rgb);
-	ADrawableSetRGB(drawable, rgb[0], rgb[1], rgb[2]);
+	ADrawable_SetRGB(drawable, rgb[0], rgb[1], rgb[2]);
 
 	ParticleScaledValue* transparencyValue = emitterData->transparencyValue;
 	particle->transparency                 = AParticleEmitterData->RandomLowValue(transparencyValue->rangedValue);
 	particle->transparencyDiff             = AParticleEmitterData->RandomHighValue(transparencyValue) - particle->transparency;
 
-	ADrawableSetOpacity  (drawable, particle->transparency);
-	ADrawableSetPosition2(drawable, emitter->emissionX, emitter->emissionY);
-	ADrawableSetVisible  (drawable);
+	ADrawable_SetOpacity  (drawable, particle->transparency);
+	ADrawable_SetPosition2(drawable, emitter->emissionX, emitter->emissionY);
+	ADrawable_SetVisible  (drawable);
 }
 
 
@@ -223,7 +223,7 @@ static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, 
 	if (scaleValue->rangedValue->isActive)
 	{
 		float scale = particle->scale + particle->scaleDiff * AParticleEmitterData->GetScale(scaleValue, percent);
-		ADrawableSetScale2(drawable, scale, scale);
+		ADrawable_SetScale2(drawable, scale, scale);
 	}
 
 	float angle = 0.0f;
@@ -257,7 +257,7 @@ static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, 
 			velocityY += (particle->gravity + particle->gravityDiff * AParticleEmitterData->GetScale(gravityValue, percent)) * deltaSeconds;
 		}
 
-		ADrawableSetPosition2
+		ADrawable_SetPosition2
 		(
 			drawable,
 			drawable->positionX + AGLTool_ToGLWidth (velocityX),
@@ -274,13 +274,13 @@ static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, 
 			rotationZ += angle;
 		}
 
-		ADrawableSetRotationZ(drawable, rotationZ);
+		ADrawable_SetRotationZ(drawable, rotationZ);
 	}
 
 	float rgb[3];
 	AParticleEmitterData->GetRGB(emitterData->rgbValue, percent, rgb);
 
-	ADrawableSetRGBA
+	ADrawable_SetRGBA
 	(
 		drawable,
 		rgb[0],

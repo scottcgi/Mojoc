@@ -13,9 +13,9 @@ static void Reset(Particle* particle)
 {
 	Drawable* drawable = particle->subMesh->drawable;
 
-	ADrawableSetScale2   (drawable, 1.0f, 1.0f);
-	ADrawableSetPosition2(drawable, 0.0f, 0.0f);
-	ADrawableSetRotationZ(drawable, 0.0f);
+	ADrawable_SetScale2   (drawable, 1.0f, 1.0f);
+	ADrawable_SetPosition2(drawable, 0.0f, 0.0f);
+	ADrawable_SetRotationZ(drawable, 0.0f);
 }
 
 
@@ -24,7 +24,7 @@ static void Init(SubMesh* subMesh, Particle* outParticle)
 	outParticle->isActive = false;
 	outParticle->subMesh  = subMesh;
 
-	ADrawableSetInVisible(subMesh->drawable);
+	ADrawable_SetInVisible(subMesh->drawable);
 }
 
 

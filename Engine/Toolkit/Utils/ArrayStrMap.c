@@ -296,9 +296,9 @@ struct AArrayStrMap AArrayStrMap[1] =
 
 	Release,
 
-    TryPut,
+	TryPut,
 	Get,
-    TrySet,
+	TrySet,
 	TryRemove,
 	Clear,
 	InsertAt,

@@ -85,7 +85,7 @@ struct AGLPrimitive AGLPrimitive[1] =
 	1.0f,
 	1.0f,
 
-	color_white,
+	COLOR_WHITE,
 	NULL,
 
 	DrawPoints,

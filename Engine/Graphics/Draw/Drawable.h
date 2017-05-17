@@ -1,12 +1,15 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since :  2013-1-2
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-1-2
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef drawable_h
-#define drawable_h
+#ifndef DRAWABLE_H
+#define DRAWABLE_H
 
 
 #include <stdbool.h>
@@ -27,141 +30,141 @@
  */
 typedef enum
 {
-	drawable_state_null                = 0,
+	DrawableState_Null              = 0,
 
 	/**
 	 * Whether drawable is invisible
 	 */
-	drawable_state_is_invisible        = 1,
+	DrawableState_IsInvisible       = 1,
 
 	/**
 	 * Whether drawable mvp matrix need update
 	 */
-	drawable_state_is_update_mvp       = 1 << 1,
+	DrawableState_IsUpdateMVP       = 1 << 1,
 
 	/**
 	 * Whether drawable calculate blendColor by parent
 	 */
-	drawable_state_is_blend_color      = 1 << 2,
+	DrawableState_IsBlendColor      = 1 << 2,
 
 //--------------------------------------------------------------------------------------------------
 
 	/**
 	 * Flag drawable inverse matrix need update
 	 */
-	drawable_state_update_inverse      = 1 << 3,
+	DrawableState_UpdateInverse      = 1 << 3,
 
 //--------------------------------------------------------------------------------------------------
 
 	/**
 	 * Flag drawable transform has changed
 	 */
-	drawable_state_transform_ed        = 1 << 4,
+	DrawableState_TransformChanged   = 1 << 4,
 
 	/**
 	 * Flag drawable rgb has changed
 	 */
-	drawable_state_rgb_ed              = 1 << 5,
+	DrawableState_RGBChanged         = 1 << 5,
 
 	/**
 	 * Flag drawable opacity has changed
 	 */
-	drawable_state_opacity_ed          = 1 << 6,
+	DrawableState_OpacityChanged     = 1 << 6,
 
 	/**
 	 * Flag drawable has been drawn
 	 */
-	drawable_state_draw_ed             = 1 << 7,
+	DrawableState_DrawChanged        = 1 << 7,
 
 	/**
 	 * Flag drawable color has changed
 	 */
-	drawable_state_color_ed            = drawable_state_rgb_ed  | drawable_state_opacity_ed,
+	DrawableState_ColorChanged       = DrawableState_RGBChanged  | DrawableState_OpacityChanged,
 
 //--------------------------------------------------------------------------------------------------
 
 	/**
 	 * Flag drawable parent change
 	 */
-	drawable_state_parent              = 1 << 8,
+	DrawableState_Parent             = 1 << 8,
 
 //--------------------------------------------------------------------------------------------------
 
 	/**
 	 * Flag drawable position x change
 	 */
-	drawable_state_position_x          = 1 << 9,
+	DrawableState_PositionX          = 1 << 9,
 
 	/**
 	 * Flag drawable position y change
 	 */
-	drawable_state_position_y          = 1 << 10,
+	DrawableState_PositionY          = 1 << 10,
 
 	/**
 	 * Flag drawable position z change
 	 */
-	drawable_state_position_z          = 1 << 11,
+	DrawableState_PositionZ          = 1 << 11,
 
 	/**
 	 * Flag drawable position x and y change
 	 */
-	drawable_state_position2           = drawable_state_position_x | drawable_state_position_y,
+	DrawableState_Position2          = DrawableState_PositionX | DrawableState_PositionY,
 
 //--------------------------------------------------------------------------------------------------
 
 	/**
 	 * Flag drawable scale x change
 	 */
-	drawable_state_scale_x             = 1 << 12,
+	DrawableState_ScaleX             = 1 << 12,
 
 	/**
 	 * Flag drawable scale y change
 	 */
-	drawable_state_scale_y             = 1 << 13,
+	DrawableState_ScaleY             = 1 << 13,
 
 	/**
 	 * Flag drawable scale z change
 	 */
-	drawable_state_scale_z             = 1 << 14,
+	DrawableState_ScaleZ             = 1 << 14,
 
 	/**
 	 * Flag drawable scale x and y change
 	 */
-	drawable_state_scale2              = drawable_state_scale_x | drawable_state_scale_y,
+	DrawableState_Scale2             = DrawableState_ScaleX | DrawableState_ScaleY,
 
 //--------------------------------------------------------------------------------------------------
 
 	/**
 	 * Flag drawable rotation x change
 	 */
-	drawable_state_rotation_x          = 1 << 15,
+	DrawableState_RotationX          = 1 << 15,
 
 	/**
 	 * Flag drawable rotation x change
 	 */
-	drawable_state_rotation_y          = 1 << 16,
+	DrawableState_RotationY          = 1 << 16,
 
 	/**
 	 * Flag drawable rotation x change
 	 */
-	drawable_state_rotation_z          = 1 << 17,
+	DrawableState_RotationZ          = 1 << 17,
 
 //--------------------------------------------------------------------------------------------------
 
 	/**
 	 * Flag drawable rgb change
 	 */
-	drawable_state_rgb                 = 1 << 18,
+	DrawableState_RGB                 = 1 << 18,
 
 	/**
 	 * Flag drawable opacity change
 	 */
-	drawable_state_opacity             = 1 << 19,
+	DrawableState_Opacity             = 1 << 19,
 
 	/**
 	 * Flag drawable color change
 	 */
-	drawable_state_color               = drawable_state_rgb | drawable_state_opacity,
+	DrawableState_Color               = DrawableState_RGB | DrawableState_Opacity,
 
 //--------------------------------------------------------------------------------------------------
 
@@ -169,22 +172,22 @@ typedef enum
 	/**
 	 * Flag drawable position scale rotate translate parent change
 	 */
-	drawable_state_transform           = drawable_state_parent     |
-			  	  	  	  	  	  	  	 drawable_state_position_x |
-										 drawable_state_position_y |
-										 drawable_state_position_z |
-										 drawable_state_scale_x    |
-										 drawable_state_scale_y    |
-										 drawable_state_scale_z    |
-										 drawable_state_rotation_x |
-										 drawable_state_rotation_y |
-										 drawable_state_rotation_z,
+	DrawableState_Transform           = DrawableState_Parent    |
+			  	  	  	  	  	  	  	DrawableState_PositionX |
+										DrawableState_PositionY |
+										DrawableState_PositionZ |
+										DrawableState_ScaleX    |
+										DrawableState_ScaleY    |
+										DrawableState_ScaleZ    |
+										DrawableState_RotationX |
+										DrawableState_RotationY |
+                                        DrawableState_RotationZ,
 
 	/**
 	 * Flag drawable state change
 	 */
-	drawable_state_change              = drawable_state_transform |
-								         drawable_state_color,
+	DrawableState_Change              = DrawableState_Transform |
+                                        DrawableState_Color,
 }
 DrawableState;
 
@@ -234,7 +237,7 @@ struct  Drawable
 	 Color     color        [1];
 
 	 /**
-	  * If set drawable_state_is_blend_color
+	  * If set DrawableState_IsBlendColor
 	  * 	set (color) * (parent blendColor)
 	  * else
 	  *     equal color
@@ -386,31 +389,31 @@ extern struct ADrawable ADrawable[1];
 //--------------------------------------------------------------------------------------------------
 
 
-static inline bool ADrawableCheckState(Drawable* drawable, DrawableState checkState)
+static inline bool ADrawable_CheckState(Drawable* drawable, DrawableState checkState)
 {
 	return ABitwise_Check(drawable->state, checkState);
 }
 
 
-static inline void ADrawableSetState(Drawable* drawable, DrawableState setState)
+static inline void ADrawable_SetState(Drawable* drawable, DrawableState setState)
 {
 	ABitwise_Set(drawable->state, setState);
 }
 
 
-static inline void ADrawableSetOnlyState(Drawable* drawable, DrawableState setOnlyState)
+static inline void ADrawable_SetOnlyState(Drawable* drawable, DrawableState setOnlyState)
 {
 	ABitwise_SetOnly(drawable->state, setOnlyState);
 }
 
 
-static inline void ADrawableClearState(Drawable* drawable, DrawableState clearState)
+static inline void ADrawable_ClearState(Drawable* drawable, DrawableState clearState)
 {
 	ABitwise_Clear(drawable->state, clearState);
 }
 
 
-static inline void ADrawableClearAndSetState(Drawable* drawable, DrawableState clearState, DrawableState setState)
+static inline void ADrawable_ClearAndSetState(Drawable* drawable, DrawableState clearState, DrawableState setState)
 {
 	ABitwise_ClearAndSet(drawable->state, clearState, setState);
 }
@@ -419,64 +422,64 @@ static inline void ADrawableClearAndSetState(Drawable* drawable, DrawableState c
 //--------------------------------------------------------------------------------------------------
 
 
-static inline void ADrawableSetVisible(Drawable* drawable)
+static inline void ADrawable_SetVisible(Drawable* drawable)
 {
-	ADrawableClearState(drawable, drawable_state_is_invisible);
+	ADrawable_ClearState(drawable, DrawableState_IsInvisible);
 }
 
 
-static inline void ADrawableSetInVisible(Drawable* drawable)
+static inline void ADrawable_SetInVisible(Drawable* drawable)
 {
-	ADrawableSetState(drawable, drawable_state_is_invisible);
+	ADrawable_SetState(drawable, DrawableState_IsInvisible);
 }
 
 
-static inline bool ADrawableCheckVisible(Drawable* drawable)
+static inline bool ADrawable_CheckVisible(Drawable* drawable)
 {
-	return ADrawableCheckState(drawable, drawable_state_is_invisible) == false;
+	return ADrawable_CheckState(drawable, DrawableState_IsInvisible) == false;
 }
 
 
 //--------------------------------------------------------------------------------------------------
 
 
-static inline void ADrawableSetParent(Drawable* drawable, Drawable* parent)
+static inline void ADrawable_SetParent(Drawable* drawable, Drawable* parent)
 {
 	drawable->parent = parent;
-	ADrawableSetState(drawable, drawable_state_parent);
+	ADrawable_SetState(drawable, DrawableState_Parent);
 }
 
 
 //--------------------------------------------------------------------------------------------------
 
 
-static inline void ADrawableSetPositionX(Drawable* drawable, float positionX)
+static inline void ADrawable_SetPositionX(Drawable* drawable, float positionX)
 {
 	drawable->positionX = positionX;
-	ADrawableSetState(drawable, drawable_state_position_x);
+	ADrawable_SetState(drawable, DrawableState_PositionX);
 }
 
 
-static inline void ADrawableSetPositionY(Drawable* drawable, float positionY)
+static inline void ADrawable_SetPositionY(Drawable* drawable, float positionY)
 {
 	drawable->positionY = positionY;
-	ADrawableSetState(drawable, drawable_state_position_y);
+	ADrawable_SetState(drawable, DrawableState_PositionY);
 }
 
 
-static inline void ADrawableSetPosition2(Drawable* drawable, float positionX, float positionY)
+static inline void ADrawable_SetPosition2(Drawable* drawable, float positionX, float positionY)
 {
 	drawable->positionX = positionX;
 	drawable->positionY = positionY;
-	ADrawableSetState(drawable, drawable_state_position2);
+	ADrawable_SetState(drawable, DrawableState_Position2);
 }
 
 
-static inline void ADrawableSetPositionSame2(Drawable* drawable, float position)
+static inline void ADrawable_SetPositionSame2(Drawable* drawable, float position)
 {
     drawable->positionX = position;
     drawable->positionY = position;
-    ADrawableSetState(drawable, drawable_state_position2);
+    ADrawable_SetState(drawable, DrawableState_Position2);
 }
 
 
@@ -488,104 +491,104 @@ static inline void ADrawableSetPositionSame2(Drawable* drawable, float position)
 */
 
 
-static inline void ADrawableSetScaleX(Drawable* drawable, float scaleX)
+static inline void ADrawable_SetScaleX(Drawable* drawable, float scaleX)
 {
 	drawable->scaleX = scaleX;
-	ADrawableSetState(drawable, drawable_state_scale_x);
+	ADrawable_SetState(drawable, DrawableState_ScaleX);
 }
 
 
-static inline void ADrawableSetScaleY(Drawable* drawable, float scaleY)
+static inline void ADrawable_SetScaleY(Drawable* drawable, float scaleY)
 {
 	drawable->scaleY = scaleY;
-	ADrawableSetState(drawable, drawable_state_scale_y);
+	ADrawable_SetState(drawable, DrawableState_ScaleY);
 }
 
 
-static inline void ADrawableSetScale2(Drawable* drawable, float scaleX, float scaleY)
+static inline void ADrawable_SetScale2(Drawable* drawable, float scaleX, float scaleY)
 {
 	drawable->scaleX = scaleX;
 	drawable->scaleY = scaleY;
-	ADrawableSetState(drawable, drawable_state_scale2);
+	ADrawable_SetState(drawable, DrawableState_Scale2);
 }
 
 
-static inline void ADrawableSetScaleSame2(Drawable* drawable, float scale)
+static inline void ADrawable_SetScaleSame2(Drawable* drawable, float scale)
 {
 	drawable->scaleX = scale;
 	drawable->scaleY = scale;
-	ADrawableSetState(drawable, drawable_state_scale2);
+	ADrawable_SetState(drawable, DrawableState_Scale2);
 }
 
 
 //--------------------------------------------------------------------------------------------------
 
 
-static inline void ADrawableSetRotationZ(Drawable* drawable, float rotationZ)
+static inline void ADrawable_SetRotationZ(Drawable* drawable, float rotationZ)
 {
 	drawable->rotationZ = rotationZ;
-	ADrawableSetState(drawable, drawable_state_rotation_z);
+	ADrawable_SetState(drawable, DrawableState_RotationZ);
 }
 
 
 //--------------------------------------------------------------------------------------------------
 
 
-static inline void ADrawableSetRGB(Drawable* drawable, float red, float green, float blue)
+static inline void ADrawable_SetRGB(Drawable* drawable, float red, float green, float blue)
 {
 	drawable->color->r = red;
 	drawable->color->g = green;
 	drawable->color->b = blue;
-	ADrawableSetState(drawable, drawable_state_rgb);
+	ADrawable_SetState(drawable, DrawableState_RGB);
 }
 
 
-static inline void ADrawableSetRGBSame(Drawable* drawable, float rgb)
+static inline void ADrawable_SetRGBSame(Drawable* drawable, float rgb)
 {
     drawable->color->r = rgb;
     drawable->color->g = rgb;
     drawable->color->b = rgb;
-    ADrawableSetState(drawable, drawable_state_rgb);
+    ADrawable_SetState(drawable, DrawableState_RGB);
 }
 
 
-static inline void ADrawableSetOpacity(Drawable* drawable, float opacity)
+static inline void ADrawable_SetOpacity(Drawable* drawable, float opacity)
 {
 	drawable->color->a = opacity;
-	ADrawableSetState(drawable, drawable_state_opacity);
+	ADrawable_SetState(drawable, DrawableState_Opacity);
 }
 
 
-static inline void ADrawableSetRGBA(Drawable* drawable, float red, float green, float blue, float opacity)
+static inline void ADrawable_SetRGBA(Drawable* drawable, float red, float green, float blue, float opacity)
 {
 	drawable->color->r = red;
 	drawable->color->g = green;
 	drawable->color->b = blue;
 	drawable->color->a = opacity;
-	ADrawableSetState(drawable, drawable_state_color);
+	ADrawable_SetState(drawable, DrawableState_Color);
 }
 
 
-static inline void ADrawableSetRGBASame(Drawable* drawable, float rgba)
+static inline void ADrawable_SetRGBASame(Drawable* drawable, float rgba)
 {
     drawable->color->r = rgba;
     drawable->color->g = rgba;
     drawable->color->b = rgba;
     drawable->color->a = rgba;
-    ADrawableSetState(drawable, drawable_state_color);
+    ADrawable_SetState(drawable, DrawableState_Color);
 }
 
 
-static inline void ADrawableSetColor(Drawable* drawable, Color* color)
+static inline void ADrawable_SetColor(Drawable* drawable, Color* color)
 {
 	*drawable->color = *color;
-	ADrawableSetState(drawable, drawable_state_color);
+	ADrawable_SetState(drawable, DrawableState_Color);
 }
 
 
-static inline void ADrawableSetBlendColor(Drawable* drawable)
+static inline void ADrawable_SetBlendColor(Drawable* drawable)
 {
-	ADrawableSetState(drawable, drawable_state_is_blend_color);
+	ADrawable_SetState(drawable, DrawableState_IsBlendColor);
 }
 
 

@@ -31,10 +31,10 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 			drawable->width                                    = regionAttachmentData->width;
 			drawable->height                                   = regionAttachmentData->height;
 
-			ADrawableSetParent   (drawable, slot->bone->drawable);
-			ADrawableSetPosition2(drawable, regionAttachmentData->x, regionAttachmentData->y);
-			ADrawableSetRotationZ(drawable, regionAttachmentData->rotationZ);
-			ADrawableSetScale2   (drawable, regionAttachmentData->scaleX, regionAttachmentData->scaleY);
+			ADrawable_SetParent   (drawable, slot->bone->drawable);
+			ADrawable_SetPosition2(drawable, regionAttachmentData->x, regionAttachmentData->y);
+			ADrawable_SetRotationZ(drawable, regionAttachmentData->rotationZ);
+			ADrawable_SetScale2   (drawable, regionAttachmentData->scaleX, regionAttachmentData->scaleY);
 
 			break;
 		}
@@ -52,7 +52,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 			drawable                                       = subMesh->drawable;
             drawable->width                                = meshAttachmentData->width;
             drawable->height                               = meshAttachmentData->height;
-			ADrawableSetParent(drawable, slot->bone->drawable);
+			ADrawable_SetParent(drawable, slot->bone->drawable);
 
             break;
         }
@@ -105,7 +105,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 
 			drawable = subMesh->drawable;
 			// we compute final world coordinate, so no parent
-			ADrawableSetParent(drawable, NULL);
+			ADrawable_SetParent(drawable, NULL);
 
             break;
         }
@@ -116,12 +116,12 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 
 	if (memcmp(drawable->color, slot->color, sizeof(Color)) != 0)
 	{
-		ADrawableSetColor(drawable, slot->color);
+		ADrawable_SetColor(drawable, slot->color);
 	}
 
-	if (ADrawableCheckVisible(drawable) == false)
+	if (ADrawable_CheckVisible(drawable) == false)
 	{
-		ADrawableSetVisible(drawable);
+		ADrawable_SetVisible(drawable);
 	}
 }
 
@@ -139,7 +139,7 @@ static void SetAttachmentData(SkeletonSlot* slot, SkeletonAttachmentData* attach
 
 		if (subMesh != NULL)
 		{
-			ADrawableSetInVisible(subMesh->drawable);
+			ADrawable_SetInVisible(subMesh->drawable);
 		}
 	}
 

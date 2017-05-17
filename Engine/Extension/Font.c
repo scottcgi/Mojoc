@@ -158,7 +158,7 @@ static void SetString(FontText* text, char* str)
             if (text->font->unusedSubMeshList->size > 0)
             {
                 subMesh = AArrayList_Pop(text->font->unusedSubMeshList, SubMesh*);
-                ADrawableSetVisible(subMesh->drawable);
+                ADrawable_SetVisible(subMesh->drawable);
 
                 ASubMesh->SetWithQuad
                 (
@@ -169,14 +169,14 @@ static void SetString(FontText* text, char* str)
 
                 if (subMesh->drawable->parent != text->drawable)
                 {
-                    ADrawableSetParent(subMesh->drawable, text->drawable);
+                    ADrawable_SetParent(subMesh->drawable, text->drawable);
                 }
             }
             else
             {
                 // not enough SubMesh for text char so add SubMesh
                 subMesh = AMesh->AddChildWithQuad(text->font->mesh, atlasQuad->quad);
-                ADrawableSetParent(subMesh->drawable, text->drawable);
+                ADrawable_SetParent(subMesh->drawable, text->drawable);
             }
 
             AArrayList_Add(text->usedSubMeshList, subMesh);
@@ -198,9 +198,9 @@ static void SetString(FontText* text, char* str)
         {
             SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 
-            if (ADrawableCheckVisible(subMesh->drawable))
+            if (ADrawable_CheckVisible(subMesh->drawable))
             {
-                ADrawableSetInVisible(subMesh->drawable);
+                ADrawable_SetInVisible(subMesh->drawable);
             }
 
             AArrayList->Remove(text->usedSubMeshList, i);
@@ -224,7 +224,7 @@ static void SetString(FontText* text, char* str)
                     text->drawable->height = subMesh->drawable->height;
                 }
 
-                ADrawableSetPositionX(subMesh->drawable, text->drawable->width);
+                ADrawable_SetPositionX(subMesh->drawable, text->drawable->width);
                 text->drawable->width += subMesh->drawable->width + text->charSpacing;
             }
 
@@ -242,7 +242,7 @@ static void SetString(FontText* text, char* str)
                     text->drawable->height = subMesh->drawable->height;
                 }
 
-                ADrawableSetPositionX(subMesh->drawable, -text->drawable->width);
+                ADrawable_SetPositionX(subMesh->drawable, -text->drawable->width);
                 text->drawable->width += subMesh->drawable->width + text->charSpacing;
             }
 
@@ -260,7 +260,7 @@ static void SetString(FontText* text, char* str)
                     text->drawable->width = subMesh->drawable->width;
                 }
 
-                ADrawableSetPositionY(subMesh->drawable, text->drawable->height);
+                ADrawable_SetPositionY(subMesh->drawable, text->drawable->height);
                 text->drawable->height -= subMesh->drawable->height + text->charSpacing;
             }
 
@@ -278,7 +278,7 @@ static void SetString(FontText* text, char* str)
                     text->drawable->width = subMesh->drawable->width;
                 }
 
-                ADrawableSetPositionY(subMesh->drawable, -text->drawable->height);
+                ADrawable_SetPositionY(subMesh->drawable, -text->drawable->height);
                 text->drawable->height -= subMesh->drawable->height + text->charSpacing;
             }
 
@@ -329,7 +329,7 @@ static void ReuseText(FontText* text)
 	for (int i = 0; i < text->usedSubMeshList->size; i++)
 	{
         SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
-		ADrawableSetInVisible(subMesh->drawable);
+		ADrawable_SetInVisible(subMesh->drawable);
         AArrayList_Add(text->font->unusedSubMeshList, subMesh);
 	}
 

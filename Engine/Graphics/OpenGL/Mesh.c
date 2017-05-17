@@ -59,8 +59,8 @@ static void ReorderChildren(Mesh* mesh)
 static void Draw(Drawable* meshDrawable)
 {
 	Mesh* mesh             = AStruct_GetParent3  (meshDrawable, Mesh, drawable);
-	bool  isChangedOpacity = ADrawableCheckState(meshDrawable, drawable_state_opacity_ed);
-	bool  isChangedRGB     = ADrawableCheckState(meshDrawable, drawable_state_rgb_ed);
+	bool  isChangedOpacity = ADrawable_CheckState(meshDrawable, DrawableState_OpacityChanged);
+	bool  isChangedRGB     = ADrawable_CheckState(meshDrawable, DrawableState_RGBChanged);
 
 	for (int i = 0; i < mesh->childList->size; i++)
 	{
@@ -68,15 +68,15 @@ static void Draw(Drawable* meshDrawable)
 
 //--------------------------------------------------------------------------------------------------
 
-		bool isDrawnBefore = ADrawableCheckState(subMesh->drawable, drawable_state_draw_ed);
+		bool isDrawnBefore = ADrawable_CheckState(subMesh->drawable, DrawableState_DrawChanged);
 		ADrawable->Draw(subMesh->drawable);
-		bool isDrawnAfter  = ADrawableCheckState(subMesh->drawable, drawable_state_draw_ed);
+		bool isDrawnAfter  = ADrawable_CheckState(subMesh->drawable, DrawableState_DrawChanged);
 
 //--------------------------------------------------------------------------------------------------
 
 		if (isDrawnAfter)
 		{
-			if (ADrawableCheckState(subMesh->drawable, drawable_state_transform_ed))
+			if (ADrawable_CheckState(subMesh->drawable, DrawableState_TransformChanged))
 			{
 				float* bornData     = AArray_GetData(subMesh->positionArr, float);
 				float* positionData = (float*) ((char*) mesh->vertexArr->data + subMesh->positionDataOffset);
@@ -106,7 +106,7 @@ static void Draw(Drawable* meshDrawable)
 
 //--------------------------------------------------------------------------------------------------
 
-			if (ADrawableCheckState(subMesh->drawable, drawable_state_opacity_ed) || isChangedOpacity)
+			if (ADrawable_CheckState(subMesh->drawable, DrawableState_OpacityChanged) || isChangedOpacity)
 			{
 				float  opacity     = subMesh->drawable->blendColor->a * meshDrawable->blendColor->a;
 				float* opacityData = (float*) (
@@ -132,7 +132,7 @@ static void Draw(Drawable* meshDrawable)
 
 //--------------------------------------------------------------------------------------------------
 
-			if (ADrawableCheckState(subMesh->drawable, drawable_state_rgb_ed) || isChangedRGB)
+			if (ADrawable_CheckState(subMesh->drawable, DrawableState_RGBChanged) || isChangedRGB)
 			{
 				float  r       = subMesh->drawable->blendColor->r * meshDrawable->blendColor->r;
 				float  g       = subMesh->drawable->blendColor->g * meshDrawable->blendColor->g;
@@ -174,7 +174,7 @@ static void Draw(Drawable* meshDrawable)
                                               subMesh->opacityDataOffset
 										  );
 
-			if (ADrawableCheckState(subMesh->drawable, drawable_state_draw_ed))
+			if (ADrawable_CheckState(subMesh->drawable, DrawableState_DrawChanged))
 			{
 				float opacity = subMesh->drawable->blendColor->a * meshDrawable->blendColor->a;
 				for (int j = 0; j < subMesh->vertexCount; j++)
@@ -461,7 +461,7 @@ static void Init(Texture* texture, Mesh* outMesh)
 	drawable->Draw                   = Draw;
 	drawable->Render                 = Render;
 
-	ADrawableSetState(drawable, drawable_state_is_update_mvp);
+	ADrawable_SetState(drawable, DrawableState_IsUpdateMVP);
 
 	outMesh->texture                    = texture;
 	outMesh->vboIds[MeshBuffer_Index]  = 0;
@@ -504,7 +504,7 @@ static inline void InitBuffer(Mesh* mesh)
 		memcpy(uvData                        + subMesh->uvDataOffset,       subMesh->uvArr->data,       subMesh->uvArr->length       * sizeof(float));
 
         // make drawable property update to buffer
-        ADrawableSetState(subMesh->drawable, drawable_state_change);
+        ADrawable_SetState(subMesh->drawable, DrawableState_Change);
 	}
 
 	mesh->fromIndex = 0;

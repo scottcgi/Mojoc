@@ -21,13 +21,13 @@ static float MoveXOnGet(void* target)
 
 static void MoveXOnSet(void* target, float value)
 {
-	ADrawableSetPositionX((Drawable*) target, value);
+	ADrawable_SetPositionX((Drawable*) target, value);
 }
 
 
 static void MoveYOnSet(void* target, float value)
 {
-	ADrawableSetPositionY((Drawable*) target, value);
+	ADrawable_SetPositionY((Drawable*) target, value);
 }
 
 
@@ -39,7 +39,7 @@ static float MoveYOnGet(void* target)
 
 static void ScaleXOnSet(void* target, float value)
 {
-	ADrawableSetScaleX((Drawable*) target, value);
+	ADrawable_SetScaleX((Drawable*) target, value);
 }
 
 
@@ -51,7 +51,7 @@ static float ScaleXOnGet(void* target)
 
 static void ScaleYOnSet(void* target, float value)
 {
-	ADrawableSetScaleY((Drawable*) target, value);
+	ADrawable_SetScaleY((Drawable*) target, value);
 }
 
 
@@ -63,7 +63,7 @@ static float ScaleYOnGet(void* target)
 
 static void RotateZOnSet(void* target, float value)
 {
-	ADrawableSetRotationZ((Drawable*) target, value);
+	ADrawable_SetRotationZ((Drawable*) target, value);
 }
 
 
@@ -75,7 +75,7 @@ static float RotateZOnGet(void* target)
 
 static void FadeToOnSet(void* target, float value)
 {
-	ADrawableSetOpacity((Drawable*) target, value);
+	ADrawable_SetOpacity((Drawable*) target, value);
 }
 
 

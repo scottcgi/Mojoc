@@ -89,7 +89,7 @@ static void Reuse(DrawAtlas* drawAtlas)
 
     for (int i = 0; i < drawAtlas->quadList->size; i++)
     {
-        ADrawableSetInVisible
+        ADrawable_SetInVisible
         (
             AArrayList_Get(drawAtlas->quadList, i, Drawable*)
         );
@@ -112,7 +112,7 @@ static void ReuseQuad(DrawAtlas* drawAtlas, Drawable* drawable)
         drawable
     );
 
-    ADrawableSetInVisible(drawable);
+    ADrawable_SetInVisible(drawable);
     AArrayList_Add(drawAtlas->quadList, drawable);
 }
 

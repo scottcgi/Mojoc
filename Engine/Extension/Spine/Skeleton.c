@@ -49,7 +49,7 @@ static inline void InitBone(Skeleton* skeleton, SkeletonData* skeletonData)
 
 		if (boneData->parent == NULL)
 		{
-			ADrawableSetParent(bone->drawable, root);
+			ADrawable_SetParent(bone->drawable, root);
 		}
 		else
 		{
@@ -57,7 +57,7 @@ static inline void InitBone(Skeleton* skeleton, SkeletonData* skeletonData)
 
 			ALog_A(boneParent != NULL, "bone parent = %s, not found", boneData->parent->name);
 
-			ADrawableSetParent(bone->drawable, boneParent->drawable);
+			ADrawable_SetParent(bone->drawable, boneParent->drawable);
 		}
 	}
 }
@@ -120,7 +120,7 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
 
                 if (subMesh != NULL)
                 {
-                    ADrawableSetInVisible(subMesh->drawable);
+                    ADrawable_SetInVisible(subMesh->drawable);
                 }
 
                 slot->attachmentData = NULL;
@@ -390,7 +390,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 		}
 
 		// first born invisible
-		ADrawableSetInVisible(subMesh->drawable);
+		ADrawable_SetInVisible(subMesh->drawable);
 	}
 
 	for (int i = 0; i < skeleton->meshList->size; i++)

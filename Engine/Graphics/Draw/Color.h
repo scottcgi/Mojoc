@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-2-1
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-2-1
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef color_h
-#define color_h
+
+#ifndef COLOR_H
+#define COLOR_H
 
 
 typedef struct
@@ -31,7 +35,7 @@ struct AColor
 extern struct AColor AColor[1];
 
 
-#define color_white {1.0f, 1.0f, 1.0f, 1.0f}
+#define COLOR_WHITE {1.0f, 1.0f, 1.0f, 1.0f}
 
 
 #endif

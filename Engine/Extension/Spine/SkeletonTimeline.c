@@ -310,7 +310,7 @@ static void RotateApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
 			amount += 360;
 		}
 
-		ADrawableSetRotationZ(drawable, drawable->rotationZ + amount * mixPercent);
+		ADrawable_SetRotationZ(drawable, drawable->rotationZ + amount * mixPercent);
 		return;
 	}
 
@@ -349,7 +349,7 @@ static void RotateApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
 		amount += 360;
 	}
 
-	ADrawableSetRotationZ(drawable, drawable->rotationZ + amount * mixPercent);
+	ADrawable_SetRotationZ(drawable, drawable->rotationZ + amount * mixPercent);
 }
 
 
@@ -423,7 +423,7 @@ static void TranslateApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
 	{
 		// time is after last frame
 		// each frame value is relative boneData x or y
-		ADrawableSetPosition2
+		ADrawable_SetPosition2
 		(
 			drawable,
 			drawable->positionX + (boneData->x + frames[frameLength - translate_frame_y] - drawable->positionX) * mixPercent,
@@ -445,7 +445,7 @@ static void TranslateApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
 							1.0f - (time - frameTime) / (frames[frameIndex - translate_frame_times] - frameTime)
 						);
 
-	ADrawableSetPosition2
+	ADrawable_SetPosition2
 	(
 		drawable,
 		drawable->positionX + (boneData->x + lastFrameX + (frames[frameIndex + translate_frame_x] - lastFrameX) * percent - drawable->positionX) * mixPercent,
@@ -512,7 +512,7 @@ static void ScaleApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, f
 		// time is after last frame
 		// each frame scale value is relative 1.0 not boneData scale
 		// so we use boneData scale - 1.0f
-		ADrawableSetScale2
+		ADrawable_SetScale2
 		(
 			drawable,
 			drawable->scaleX + (boneData->scaleX - 1.0f + frames[frameLength - translate_frame_y] - drawable->scaleX) * mixPercent,
@@ -531,7 +531,7 @@ static void ScaleApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, f
 	float percent     = 1.0f - (time - frameTime) / (frames[frameIndex - translate_frame_times] - frameTime);
 	percent           = GetCurvePercent(translateTimeline->curveTimeline, frameIndex / translate_frame_times - 1, percent);
 
-	ADrawableSetScale2
+	ADrawable_SetScale2
 	(
 		drawable,
 		drawable->scaleX + (boneData->scaleX - 1.0f + lastFrameX + (frames[frameIndex + translate_frame_x] - lastFrameX) * percent - drawable->scaleX) * mixPercent,
@@ -659,7 +659,7 @@ static void ColorApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, f
 
 	if (memcmp(subMesh->drawable->color, color, sizeof(Color)) != 0)
 	{
-		ADrawableSetColor(subMesh->drawable, color);
+		ADrawable_SetColor(subMesh->drawable, color);
 	}
 }
 

@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-11-17
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-11-17
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <stdio.h>
 #include "Engine/Graphics/Draw/Color.h"

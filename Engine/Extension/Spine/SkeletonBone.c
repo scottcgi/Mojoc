@@ -13,9 +13,9 @@ static void SetToSetupPose(SkeletonBone* bone)
 	Drawable*         drawable = bone->drawable;
 	SkeletonBoneData* boneData = bone->boneData;
 
-	ADrawableSetPosition2(drawable, boneData->x,      boneData->y);
-	ADrawableSetScale2   (drawable, boneData->scaleX, boneData->scaleY);
-	ADrawableSetRotationZ(drawable, boneData->rotationZ);
+	ADrawable_SetPosition2(drawable, boneData->x,      boneData->y);
+	ADrawable_SetScale2   (drawable, boneData->scaleX, boneData->scaleY);
+	ADrawable_SetRotationZ(drawable, boneData->rotationZ);
 }
 
 

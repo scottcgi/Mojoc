@@ -1,9 +1,13 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-1-2
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-1-2
+ * Author : scott.cgi
+ * Version: 0.1
  */
+
 
 #include <stdlib.h>
 #include "Engine/Toolkit/Utils/ArrayList.h"
@@ -17,23 +21,23 @@ static ArrayList(Drawable*) renderQueue[1] = AArrayList_Init(Drawable*, 150);
 
 static void Draw(Drawable* drawable)
 {
-	if (ADrawableCheckVisible(drawable))
+	if (ADrawable_CheckVisible(drawable))
 	{
 		bool isHasParent = drawable->parent != NULL;
 
-		// parent not has drawable_state_draw_ed state
-		if (isHasParent && (ADrawableCheckState(drawable->parent, drawable_state_draw_ed) == false))
+		// parent not has DrawableState_DrawChanged state
+		if (isHasParent && (ADrawable_CheckState(drawable->parent, DrawableState_DrawChanged) == false))
 		{
-			ADrawableClearState(drawable, drawable_state_draw_ed);
+			ADrawable_ClearState(drawable, DrawableState_DrawChanged);
 			return;
 		}
 
 		// check transform flag
 		if
         (
-            ADrawableCheckState(drawable, drawable_state_transform)
+            ADrawable_CheckState(drawable, DrawableState_Transform)
             ||
-            (isHasParent && ADrawableCheckState(drawable->parent, drawable_state_transform_ed))
+            (isHasParent && ADrawable_CheckState(drawable->parent, DrawableState_TransformChanged))
         )
 		{
 			if (isHasParent)
@@ -68,17 +72,17 @@ static void Draw(Drawable* drawable)
 				AMatrix->RotateZ(drawable->modelMatrix, drawable->rotationZ);
 			}
 
-			if (ADrawableCheckState(drawable, drawable_state_is_update_mvp))
+			if (ADrawable_CheckState(drawable, DrawableState_IsUpdateMVP))
 			{
 				AMatrix->MultiplyMM(ACamera->vp, drawable->modelMatrix, drawable->mvpMatrix);
 			}
 
 			// flag transform for child and flag need update inverse
-			ADrawableSetState(drawable, drawable_state_transform_ed | drawable_state_update_inverse);
+			ADrawable_SetState(drawable, DrawableState_TransformChanged | DrawableState_UpdateInverse);
 		}
 		else
 		{
-			ADrawableClearState(drawable, drawable_state_transform_ed);
+			ADrawable_ClearState(drawable, DrawableState_TransformChanged);
 		}
 
 //--------------------------------------------------------------------------------------------------
@@ -86,27 +90,27 @@ static void Draw(Drawable* drawable)
 		// check color flag
 		if
         (
-            ADrawableCheckState(drawable, drawable_state_color)
+            ADrawable_CheckState(drawable, DrawableState_Color)
             ||
-            (isHasParent && ADrawableCheckState(drawable->parent, drawable_state_color_ed))
+            (isHasParent && ADrawable_CheckState(drawable->parent, DrawableState_ColorChanged))
 		)
 		{
-			if (isHasParent && ADrawableCheckState(drawable, drawable_state_is_blend_color))
+			if (isHasParent && ADrawable_CheckState(drawable, DrawableState_IsBlendColor))
 			{
-				if (ADrawableCheckState(drawable, drawable_state_opacity) || ADrawableCheckState(drawable->parent, drawable_state_opacity_ed))
+				if (ADrawable_CheckState(drawable, DrawableState_Opacity) || ADrawable_CheckState(drawable->parent, DrawableState_OpacityChanged))
 				{
 					// blend opacity
 					drawable->blendColor->a = drawable->color->a * drawable->parent->blendColor->a;
 
 					// flag rgb for child
-					ADrawableSetState(drawable, drawable_state_opacity_ed);
+					ADrawable_SetState(drawable, DrawableState_OpacityChanged);
 				}
 				else
 				{
-					ADrawableClearState(drawable, drawable_state_opacity_ed);
+					ADrawable_ClearState(drawable, DrawableState_OpacityChanged);
 				}
 
-				if (ADrawableCheckState(drawable, drawable_state_rgb) || ADrawableCheckState(drawable->parent, drawable_state_rgb_ed))
+				if (ADrawable_CheckState(drawable, DrawableState_RGB) || ADrawable_CheckState(drawable->parent, DrawableState_RGBChanged))
 				{
 					// blend rgb
 					drawable->blendColor->r = drawable->color->r * drawable->parent->blendColor->r;
@@ -114,29 +118,29 @@ static void Draw(Drawable* drawable)
 					drawable->blendColor->b = drawable->color->b * drawable->parent->blendColor->b;
 
 					// flag opacity for child
-					ADrawableSetState(drawable, drawable_state_rgb_ed);
+					ADrawable_SetState(drawable, DrawableState_RGBChanged);
 				}
 				else
 				{
-					ADrawableClearState(drawable, drawable_state_rgb_ed);
+					ADrawable_ClearState(drawable, DrawableState_RGBChanged);
 				}
 			}
 			else
 			{
-				if (ADrawableCheckState(drawable, drawable_state_opacity))
+				if (ADrawable_CheckState(drawable, DrawableState_Opacity))
 				{
 					// sync opacity
 					drawable->blendColor->a = drawable->color->a;
 
 					// flag rgb for child
-					ADrawableSetState(drawable, drawable_state_opacity_ed);
+					ADrawable_SetState(drawable, DrawableState_OpacityChanged);
 				}
 				else
 				{
-					ADrawableClearState(drawable, drawable_state_opacity_ed);
+					ADrawable_ClearState(drawable, DrawableState_OpacityChanged);
 				}
 
-				if (ADrawableCheckState(drawable, drawable_state_rgb))
+				if (ADrawable_CheckState(drawable, DrawableState_RGB))
 				{
 					// sync rgb
 					drawable->blendColor->r = drawable->color->r;
@@ -144,17 +148,17 @@ static void Draw(Drawable* drawable)
 					drawable->blendColor->b = drawable->color->b;
 
 					// flag opacity for child
-					ADrawableSetState(drawable, drawable_state_rgb_ed);
+					ADrawable_SetState(drawable, DrawableState_RGBChanged);
 				}
 				else
 				{
-					ADrawableClearState(drawable, drawable_state_rgb_ed);
+					ADrawable_ClearState(drawable, DrawableState_RGBChanged);
 				}
 			}
 		}
 		else
 		{
-			ADrawableClearState(drawable, drawable_state_color_ed);
+			ADrawable_ClearState(drawable, DrawableState_ColorChanged);
 		}
 
 //--------------------------------------------------------------------------------------------------
@@ -167,7 +171,7 @@ static void Draw(Drawable* drawable)
 		}
 
 		// clear self all state change
-		ADrawableClearAndSetState(drawable, drawable_state_change, drawable_state_draw_ed);
+		ADrawable_ClearAndSetState(drawable, DrawableState_Change, DrawableState_DrawChanged);
 
 		// if has render push into queue
 		if (drawable->Render != NULL)
@@ -177,7 +181,7 @@ static void Draw(Drawable* drawable)
 	}
 	else
 	{
-		ADrawableClearState(drawable, drawable_state_draw_ed);
+		ADrawable_ClearState(drawable, DrawableState_DrawChanged);
 	}
 }
 
@@ -412,9 +416,9 @@ static void ConvertToWorldPoint(Drawable* localParent, Vector2* localPoint, Vect
 
 static float ConvertToLocalX(Drawable* localParent, float worldX)
 {
-	if (ADrawableCheckState(localParent, drawable_state_update_inverse))
+	if (ADrawable_CheckState(localParent, DrawableState_UpdateInverse))
 	{
-		ADrawableClearState(localParent, drawable_state_update_inverse);
+		ADrawable_ClearState(localParent, DrawableState_UpdateInverse);
 		AMatrix->Inverse(localParent->modelMatrix, localParent->inverseMatrix);
 	}
 
@@ -424,9 +428,9 @@ static float ConvertToLocalX(Drawable* localParent, float worldX)
 
 static float ConvertToLocalY(Drawable* localParent, float worldY)
 {
-	if (ADrawableCheckState(localParent, drawable_state_update_inverse))
+	if (ADrawable_CheckState(localParent, DrawableState_UpdateInverse))
 	{
-		ADrawableClearState(localParent, drawable_state_update_inverse);
+		ADrawable_ClearState(localParent, DrawableState_UpdateInverse);
 		AMatrix->Inverse(localParent->modelMatrix, localParent->inverseMatrix);
 	}
 
@@ -436,9 +440,9 @@ static float ConvertToLocalY(Drawable* localParent, float worldY)
 
 static void ConvertToLocalPoint(Drawable* localParent, Vector2* worldPoint, Vector2* outLocalPoint)
 {
-	if (ADrawableCheckState(localParent, drawable_state_update_inverse))
+	if (ADrawable_CheckState(localParent, DrawableState_UpdateInverse))
 	{
-		ADrawableClearState(localParent, drawable_state_update_inverse);
+		ADrawable_ClearState(localParent, DrawableState_UpdateInverse);
 		AMatrix->Inverse(localParent->modelMatrix, localParent->inverseMatrix);
 	}
 
@@ -470,7 +474,7 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
 		Vector2 localPoint[1];
 		ConvertToLocalPoint(parent, worldPoint, localPoint);
 
-		ADrawableSetPosition2(drawable, localPoint->x, localPoint->y);
+		ADrawable_SetPosition2(drawable, localPoint->x, localPoint->y);
 
 		float parentScaleX   = GetWorldScaleX(parent);
 		float parentScaleY   = GetWorldScaleY(parent);
@@ -478,7 +482,7 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
 		ALog_A(parentScaleX  != 0.0f, "ConvertToParent failed, parent getWorldScaleX can not 0.0f");
 		ALog_A(parentScaleY  != 0.0f, "ConvertToParent failed, parent getWorldScaleY can not 0.0f");
 
-		ADrawableSetScale2(drawable, worldScaleX / parentScaleX, worldScaleY / parentScaleY);
+		ADrawable_SetScale2(drawable, worldScaleX / parentScaleX, worldScaleY / parentScaleY);
 
 		// if parent flipped Convert world rotationZ to parent flipped coordinate
 
@@ -503,8 +507,8 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
 	{
 		rotationZ = worldRotationZ;
 
-		ADrawableSetPosition2(drawable, worldPoint->x, worldPoint->y);
-		ADrawableSetScale2   (drawable, worldScaleX,   worldScaleY);
+		ADrawable_SetPosition2(drawable, worldPoint->x, worldPoint->y);
+		ADrawable_SetScale2   (drawable, worldScaleX,   worldScaleY);
 	}
 
 	if (drawable->scaleX < 0.0f)
@@ -517,8 +521,8 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
 		rotationZ = -drawable->rotationZ;
 	}
 
-	ADrawableSetRotationZ(drawable, rotationZ);
-	ADrawableSetParent   (drawable, parent);
+	ADrawable_SetRotationZ(drawable, rotationZ);
+	ADrawable_SetParent   (drawable, parent);
 }
 
 
@@ -611,14 +615,14 @@ static void Init(Drawable* outDrawable)
 
 	// first born make matrix update
 	// first born inverse matrix need update
-	ADrawableSetState
+	ADrawable_SetState
 	(
 		outDrawable,
-		drawable_state_transform      |
-		drawable_state_update_inverse |
-		drawable_state_color          |
-		drawable_state_is_blend_color |
-		drawable_state_draw_ed
+		DrawableState_Transform      |
+		DrawableState_UpdateInverse |
+		DrawableState_Color          |
+		DrawableState_IsBlendColor |
+		DrawableState_DrawChanged
 	);
 }
 
