@@ -338,11 +338,11 @@ static void Render(Drawable* drawable)
             glBindBuffer(GL_ARRAY_BUFFER,         0);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-            goto label_mesh_use_vao;
+            goto UseVAO;
         }
         else if (AGraphics->isUseVBO)
         {
-            goto label_mesh_use_vbo;
+            goto UseVBO;
         }
     }
 
@@ -350,9 +350,8 @@ static void Render(Drawable* drawable)
 
     if (AGraphics->isUseVAO)
     {
-        label_mesh_use_vao:
-        
-//--------------------------------------------------------------------------------------------------
+
+UseVAO:
 
         glBindVertexArray(mesh->vaoId);
 
@@ -374,9 +373,7 @@ static void Render(Drawable* drawable)
         // load the vertex index
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[MeshBuffer_Index]);
 
-        label_mesh_use_vbo:
-
-//--------------------------------------------------------------------------------------------------
+UseVBO:
 
         BindVBO(mesh);
 
