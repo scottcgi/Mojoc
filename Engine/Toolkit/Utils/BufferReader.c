@@ -138,7 +138,7 @@ static void ReadLine(char* buffer, ArrayRange* range, ArrayRange* outLine)
 
 	range->start = start;
 
-	ALog_D("ReadLine: string = %.*s", outLine->end - outLine->start + 1, buffer + outLine->start);
+	ALog_D("AArrayRange ReadLine: string = %.*s", outLine->end - outLine->start + 1, buffer + outLine->start);
 }
 
 
@@ -164,7 +164,6 @@ static bool TryFindString(char* buffer, ArrayRange* range, char* str)
 			if (str[pos] == '\0')
 			{
 				isFound = true;
-				ALog_D("TryFindString %s", str);
 			}
 
 			break;

@@ -269,7 +269,7 @@ static bool TestCollision(PhysicsBody* bodyA, PhysicsBody* bodyB)
 			}
 	}
 
-	ALog_A(false, "Can not test collision between shape %d and %d", bodyA->shape, bodyB->shape);
+	ALog_A(false, "APhysicsCollision can not test collision between shape %d and %d", bodyA->shape, bodyB->shape);
 
 	return false;
 }

@@ -90,7 +90,7 @@ static PhysicsBody* Create(PhysicsShape shape, Array(float)* vertexArr)
 			return CreateWithLine(vertexArr);
 
 		default:
-			ALog_A(false, "PhysicsBody create with unknown shape = %d", shape);
+			ALog_A(false, "APhysicsBody Create with unknown shape = %d", shape);
 			break;
 	}
 

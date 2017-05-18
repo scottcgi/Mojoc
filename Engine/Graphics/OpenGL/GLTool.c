@@ -38,7 +38,7 @@ static GLuint LoadShader(GLenum shaderType, char* shaderSource)
 
 	if (shader == 0)
 	{
-		ALog_E("glCreateShader failed !");
+		ALog_E("AGLTool LoadShader glCreateShader failed !");
 		return shader;
 	}
 
@@ -62,7 +62,7 @@ static GLuint LoadShader(GLenum shaderType, char* shaderSource)
 		{
 			char buf[infoLen];
 			glGetShaderInfoLog(shader, infoLen, NULL, buf);
-			ALog_E("could not compile shader %d: %s", shaderType, buf);
+			ALog_E("AGLTool LoadShader could not compile shader %d: %s", shaderType, buf);
 
 			glDeleteShader(shader);
 
@@ -99,7 +99,7 @@ static GLuint LoadProgram(char* vertexSource, char* fragmentSource)
 
 	if (program == 0)
 	{
-        ALog_E("glCreateProgram failed !");
+        ALog_E("AGLTool LoadProgram glCreateProgram failed !");
 		return 0;
 	}
 
@@ -123,7 +123,7 @@ static GLuint LoadProgram(char* vertexSource, char* fragmentSource)
 		{
 			char buf[bufLength];
 			glGetProgramInfoLog(program, bufLength, NULL, buf);
-			ALog_E("could not link program: %s", buf);
+			ALog_E("AGLTool LoadProgram could not link program: %s", buf);
 		}
 
 		glDeleteProgram(program);
@@ -179,7 +179,7 @@ static void LoadTexture(char* filePath, Texture* outTexture)
 	 float height;
 
 	 void* pixels = AImage->CreatePixelDataFromPng(filePath, &width, &height);
-	 ALog_A(pixels != NULL, "AGLTool LoadTexture failed, no pixls data");
+	 ALog_A(pixels != NULL, "AGLTool LoadTexture failed, no pixels data");
 
 	 // load the data into the bound outTexture
 	 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei) width, (GLsizei) height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);

@@ -479,8 +479,8 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
 		float parentScaleX   = GetWorldScaleX(parent);
 		float parentScaleY   = GetWorldScaleY(parent);
 
-		ALog_A(parentScaleX  != 0.0f, "ConvertToParent failed, parent getWorldScaleX can not 0.0f");
-		ALog_A(parentScaleY  != 0.0f, "ConvertToParent failed, parent getWorldScaleY can not 0.0f");
+		ALog_A(parentScaleX  != 0.0f, "ADrawable ConvertToParent failed, parent getWorldScaleX can not 0.0f");
+		ALog_A(parentScaleY  != 0.0f, "ADrawable ConvertToParent failed, parent getWorldScaleY can not 0.0f");
 
 		ADrawable_SetScale2(drawable, worldScaleX / parentScaleX, worldScaleY / parentScaleY);
 
@@ -528,8 +528,8 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
 
 static float ConvertBetweenLocalX(Drawable* parentA, float localXA, Drawable* parentB)
 {
-	ALog_A(parentA != NULL, "ConvertBetweenLocalX parentA not NULL");
-	ALog_A(parentB != NULL, "ConvertBetweenLocalX parentB not NULL");
+	ALog_A(parentA != NULL, "ADrawable ConvertBetweenLocalX parentA not NULL");
+	ALog_A(parentB != NULL, "ADrawable ConvertBetweenLocalX parentB not NULL");
 
 	return ConvertToLocalX(parentB, AMatrix->MultiplyMX(parentA->modelMatrix, localXA));
 }
@@ -537,8 +537,8 @@ static float ConvertBetweenLocalX(Drawable* parentA, float localXA, Drawable* pa
 
 static float ConvertBetweenLocalY(Drawable* parentA, float localYA, Drawable* parentB)
 {
-	ALog_A(parentA != NULL, "ConvertBetweenLocalY parentA not NULL");
-	ALog_A(parentB != NULL, "ConvertBetweenLocalY parentB not NULL");
+	ALog_A(parentA != NULL, "ADrawable ConvertBetweenLocalY parentA not NULL");
+	ALog_A(parentB != NULL, "ADrawable ConvertBetweenLocalY parentB not NULL");
 
 	return ConvertToLocalY(parentB, AMatrix->MultiplyMY(parentA->modelMatrix, localYA));
 }
@@ -546,10 +546,10 @@ static float ConvertBetweenLocalY(Drawable* parentA, float localYA, Drawable* pa
 
 static void ConvertBetweenLocal(Drawable* parentA, Vector2* localPointA, Drawable* parentB, Vector2* outLocalPointB)
 {
-	ALog_A(parentA        != NULL, "ConvertBetweenLocal parentA        not NULL");
-	ALog_A(localPointA    != NULL, "ConvertBetweenLocal localPointA    not NULL");
-	ALog_A(parentB        != NULL, "ConvertBetweenLocal parentB        not NULL");
-	ALog_A(outLocalPointB != NULL, "ConvertBetweenLocal outLocalPointB not NULL");
+	ALog_A(parentA        != NULL, "ADrawable ConvertBetweenLocal parentA        not NULL");
+	ALog_A(localPointA    != NULL, "ADrawable ConvertBetweenLocal localPointA    not NULL");
+	ALog_A(parentB        != NULL, "ADrawable ConvertBetweenLocal parentB        not NULL");
+	ALog_A(outLocalPointB != NULL, "ADrawable ConvertBetweenLocal outLocalPointB not NULL");
 
 	Vector2 worldPoint[1];
 	AMatrix->MultiplyMV2(parentA->modelMatrix, localPointA->x, localPointA->y, worldPoint);

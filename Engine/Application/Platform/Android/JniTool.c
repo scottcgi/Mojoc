@@ -65,7 +65,7 @@ static inline jclass GetClass(char *className)
     jstring classNameStr = (*envPtr)->NewStringUTF             (envPtr, className);
     jclass  cls          = (jclass) (*envPtr)->CallObjectMethod(envPtr, classLoaderObj, loadClassId, classNameStr);
 
-    ALog_A(cls != NULL, "JniTool GetClass can not load class = %s", className);
+    ALog_A(cls != NULL, "AJniTool GetClass can not load class = %s", className);
 
     (*envPtr)->DeleteLocalRef(envPtr, classNameStr);
 
@@ -92,7 +92,7 @@ static inline void GetJniMethodInfo(bool isStatic, char* className, char* method
     ALog_A
     (
         methodID != NULL,
-        "JniTool %s can not get methodID, className = %s, methodName = %s, paramCode = %s",
+        "AJniTool %s can not get methodID, className = %s, methodName = %s, paramCode = %s",
         isStatic ? "GetStaticMethodID" : "GetMethodID",
         className,
         methodName,
@@ -126,7 +126,7 @@ static jvalue CallObjectMethod(jobject object, char* methodName, char* paramCode
     ALog_A
     (
         methodId != NULL,
-        "JniTool CallObjectMethod can not get methodID, methodName = %s, paramCode = %s",
+        "AJniTool CallObjectMethod can not get methodID, methodName = %s, paramCode = %s",
         methodName,
         paramCode
     );
@@ -189,7 +189,7 @@ static jvalue CallObjectMethod(jobject object, char* methodName, char* paramCode
             break;
 
         default:
-            ALog_A(false, "JniTool CallObjectMethod paramCode = %s, illegal", paramCode);
+            ALog_A(false, "AJniTool CallObjectMethod paramCode = %s, illegal", paramCode);
     }
 
     va_end(args);
@@ -206,7 +206,7 @@ static inline jvalue CallClassMethodV(jclass cls, char* methodName, char* paramC
     ALog_A
     (
         methodId != NULL,
-        "JniTool CallClassMethodV can not get methodID, methodName = %s, paramCode = %s",
+        "AJniTool CallClassMethodV can not get methodID, methodName = %s, paramCode = %s",
         methodName,
         paramCode
     );
@@ -266,7 +266,7 @@ static inline jvalue CallClassMethodV(jclass cls, char* methodName, char* paramC
             break;
 
         default:
-            ALog_A(false, "JniTool CallClassMethod paramCode = %s, illegal", paramCode);
+            ALog_A(false, "AJniTool CallClassMethod paramCode = %s, illegal", paramCode);
     }
 
     return value;

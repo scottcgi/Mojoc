@@ -25,7 +25,7 @@ static inline void ReadFindString(char* buffer, ArrayRange* range, ArrayRange* l
 {
 	ABufferReader->ReadLine(buffer, range, line);
 	bool isFound = ABufferReader->TryFindString(buffer, line, name);
-	ALog_A(isFound, "Can't find string = %s", name);
+	ALog_A(isFound, "AParticleEmitterData can not find string = %s", name);
 }
 
 
@@ -144,15 +144,11 @@ static void GetRGB(ParticleRGBValue* rgbValue, float percent, float outRGB[3])
 static inline void LoadRangedValue(char* buffer, ArrayRange* range, ArrayRange* line, ParticleRangedValue* rangedValue, bool isActive)
 {
 	rangedValue->isActive = isActive;
-	ALog_D("active = %d", rangedValue->isActive);
 
 	if (rangedValue->isActive)
 	{
 		rangedValue->lowMin = ReadFloat(buffer, range, line, "lowMin:");
-		ALog_D("lowMin = %f", rangedValue->lowMin);
-
 		rangedValue->lowMax = ReadFloat(buffer, range, line, "lowMax:");
-		ALog_D("lowMax = %f", rangedValue->lowMax);
 	}
 }
 
@@ -163,17 +159,11 @@ static inline void LoadScaledValue(char* buffer, ArrayRange* range, ArrayRange* 
 
 	if (scaledValue->rangedValue->isActive)
 	{
-		scaledValue->highMin  = ReadFloat(buffer, range, line, "highMin:");
-		ALog_D("highMin = %f", scaledValue->highMin);
-
-		scaledValue->highMax  = ReadFloat(buffer, range, line, "highMax:");
-		ALog_D("highMax = %f", scaledValue->highMax);
-
+		scaledValue->highMin    = ReadFloat(buffer, range, line, "highMin:");
+		scaledValue->highMax    = ReadFloat(buffer, range, line, "highMax:");
 		scaledValue->isRelative = ReadBool(buffer, range, line, "relative:");
-		ALog_D("relative = %d", scaledValue->isRelative);
 
-		int length  = ReadInt(buffer, range, line, "scalingCount:");
-		ALog_D("scalingCount = %d", length);
+		int    length           = ReadInt(buffer, range, line, "scalingCount:");
 
 		scaledValue->scalingArr = AArray->Create(sizeof(float), length);
 		float* scalings         = AArray_GetData(scaledValue->scalingArr, float);
@@ -183,11 +173,9 @@ static inline void LoadScaledValue(char* buffer, ArrayRange* range, ArrayRange* 
 		{
 			sprintf(scaling, "scaling%d:", i);
 			scalings[i] = ReadFloat(buffer, range, line, scaling);
-			ALog_D("scaling[%d] = %f", i, scalings[i]);
 		}
 
-		length = ReadInt(buffer, range, line, "timelineCount:");
-		ALog_D("timelineCount = %d", length);
+		length                   = ReadInt(buffer, range, line, "timelineCount:");
 
 		scaledValue->timelineArr = AArray->Create(sizeof(float), length);
 		float* timelines         = AArray_GetData(scaledValue->timelineArr, float);
@@ -197,7 +185,6 @@ static inline void LoadScaledValue(char* buffer, ArrayRange* range, ArrayRange* 
         {
         	sprintf(timeline, "timeline%d:", i);
         	timelines[i] = ReadFloat(buffer, range, line, timeline);
-			ALog_D("timeline[%d] = %f", i, timelines[i]);
         }
 
 	}
@@ -211,9 +198,7 @@ static inline void LoadScaledValue(char* buffer, ArrayRange* range, ArrayRange* 
 
 static inline void LoadRGBValue(char* buffer, ArrayRange* range, ArrayRange* line, ParticleRGBValue* rgbValue)
 {
-	int length = ReadInt(buffer, range, line, "colorsCount:");
-	ALog_D("colorsCount = %d", length);
-
+	int    length    = ReadInt(buffer, range, line, "colorsCount:");
 	rgbValue->rgbArr = AArray->Create(sizeof(float), length);
 	float* rgbs      = AArray_GetData(rgbValue->rgbArr, float);
 
@@ -222,12 +207,9 @@ static inline void LoadRGBValue(char* buffer, ArrayRange* range, ArrayRange* lin
     {
     	sprintf(colors, "colors%d:", i);
     	rgbs[i] = ReadFloat(buffer, range, line, colors);
-    	ALog_D("colors[%d] = %f", i, rgbs[i]);
     }
 
-
-    length = ReadInt(buffer, range, line, "timelineCount:");
-	ALog_D("timelineCount = %d", length);
+    length                = ReadInt(buffer, range, line, "timelineCount:");
 
 	rgbValue->timelineArr = AArray->Create(sizeof(float), length);
 	float* timelines      = AArray_GetData(rgbValue->timelineArr, float);
@@ -237,7 +219,6 @@ static inline void LoadRGBValue(char* buffer, ArrayRange* range, ArrayRange* lin
     {
     	sprintf(timeline, "timeline%d:", i);
     	timelines[i] = ReadFloat(buffer, range, line, timeline);
-		ALog_D("timeline[%d] = %f", i, timelines[i]);
     }
 }
 
@@ -257,7 +238,6 @@ static void Init(char* filePath, ParticleEmitterData* outEmitterData)
 
 	ABufferReader->ReadLine(ARGS);
 
-	ALog_D    ("delayValue");
 	ReadString("Delay");
 	LoadRangedValue(ARGS, outEmitterData->delayValue, ReadActive());
 
@@ -266,7 +246,6 @@ static void Init(char* filePath, ParticleEmitterData* outEmitterData)
 	outEmitterData->delayValue->lowMin /= 1000.0f;
 
 
-	ALog_D    ("durationValue");
 	ReadString("Duration");
 	LoadRangedValue(ARGS, outEmitterData->durationValue, true);
 
@@ -277,18 +256,10 @@ static void Init(char* filePath, ParticleEmitterData* outEmitterData)
 	ReadString("Count");
 	outEmitterData->minParticleCount = ReadInt(ARGS, "min:");
 	outEmitterData->maxParticleCount = ReadInt(ARGS, "max:");
-	ALog_D
-	(
-		"countValue min = %d, max = %d",
-		 outEmitterData->minParticleCount,
-		 outEmitterData->maxParticleCount
-	);
 
-	ALog_D    ("emissionValue");
 	ReadString("Emission");
 	LoadScaledValue(ARGS, outEmitterData->emissionValue, true);
 
-	ALog_D    ("lifeValue");
 	ReadString("Life");
 	LoadScaledValue(ARGS, outEmitterData->lifeValue, true);
 
@@ -296,7 +267,6 @@ static void Init(char* filePath, ParticleEmitterData* outEmitterData)
 	outEmitterData->lifeValue->highMax /= 1000.0f;
 	outEmitterData->lifeValue->highMin /= 1000.0f;
 
-	ALog_D    ("lifeOffsetValue");
 	ReadString("Life Offset");
 	LoadScaledValue(ARGS, outEmitterData->lifeOffsetValue, ReadActive());
 
@@ -304,70 +274,52 @@ static void Init(char* filePath, ParticleEmitterData* outEmitterData)
 	outEmitterData->lifeOffsetValue->highMax /= 1000.0f;
 	outEmitterData->lifeOffsetValue->highMin /= 1000.0f;
 
-	ALog_D    ("xOffsetValue");
 	ReadString("X Offset");
 	LoadScaledValue(ARGS, outEmitterData->xOffsetValue, ReadActive());
 
-	ALog_D    ("yOffsetValue");
 	ReadString("Y Offset");
 	LoadScaledValue(ARGS, outEmitterData->yOffsetValue, ReadActive());
 
 	ReadString("Spawn Shape");
 	ReadString("shape:");
 
-	ALog_D    ("spawnWidthValue");
 	ReadString("Spawn Width");
 	LoadScaledValue(ARGS, outEmitterData->spawnWidthValue, true);
 
-	ALog_D    ("spawnHeightValue");
 	ReadString("Spawn Height");
 	LoadScaledValue(ARGS, outEmitterData->spawnHeightValue, true);
 
-	ALog_D    ("scaleValue");
 	ReadString("Scale");
 	LoadScaledValue(ARGS, outEmitterData->scaleValue, true);
 
-	ALog_D    ("velocityValue");
 	ReadString("Velocity");
 	LoadScaledValue(ARGS, outEmitterData->velocityValue, ReadActive());
 
-	ALog_D    ("angleValue");
 	ReadString("Angle");
 	LoadScaledValue(ARGS, outEmitterData->angleValue, ReadActive());
 
-	ALog_D    ("rotationValue");
 	ReadString("Rotation");
 	LoadScaledValue(ARGS, outEmitterData->rotationValue, ReadActive());
 
-	ALog_D    ("windValue");
 	ReadString("Wind");
 	LoadScaledValue(ARGS, outEmitterData->windValue, ReadActive());
 
-	ALog_D    ("gravityValue");
 	ReadString("Gravity");
 	LoadScaledValue(ARGS, outEmitterData->gravityValue, ReadActive());
 
-	ALog_D    ("ParticleRGBValue");
 	ReadString("Tint");
 	LoadRGBValue(ARGS, outEmitterData->rgbValue);
 
-	ALog_D    ("transparencyValue");
 	ReadString("Transparency");
 	LoadScaledValue(ARGS, outEmitterData->transparencyValue, true);
 
 	ReadString("Options");
-	ALog_D    ("attached = %d", ReadBool(ARGS, "attached:"));
+
+	ReadBool(ARGS, "attached:");
 
 	outEmitterData->isContinuous = ReadBool(ARGS, "continuous:");
 	outEmitterData->isAligned    = ReadBool(ARGS, "aligned:");
 	outEmitterData->isAdditive   = ReadBool(ARGS, "additive:");
-	ALog_D
-	(
-		"continuous = %d, aligned = %d, additive = %d",
-		outEmitterData->isContinuous,
-		outEmitterData->isAligned,
-		outEmitterData->isAdditive
-	);
 
 	ReadBool(ARGS, "behind:");
 	ReadBool(ARGS, "premultipliedAlpha:");

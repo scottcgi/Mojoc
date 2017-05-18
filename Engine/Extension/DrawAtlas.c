@@ -62,7 +62,7 @@ static DrawAtlas* Get(char* filePath)
 static Drawable* GetQuad(DrawAtlas* drawAtlas, char* quadName)
 {
     TextureAtlasQuad* atlasQuad = ATextureAtlas_GetQuad(drawAtlas->textureAtlas, quadName);
-    ALog_A(atlasQuad != NULL, "DrawAtlas GetQuad not found quadName = %s", quadName);
+    ALog_A(atlasQuad != NULL, "ADrawAtlas GetQuad not found quadName = %s", quadName);
 
     Drawable* drawable = AArrayList_Pop(drawAtlas->quadList, Drawable*);
 
@@ -89,7 +89,7 @@ static Drawable* GetQuad(DrawAtlas* drawAtlas, char* quadName)
 
 static void Reuse(DrawAtlas* drawAtlas)
 {
-    ALog_A(drawAtlas->textureAtlas != NULL, "Reuse drawAtlas %p already reused", drawAtlas);
+    ALog_A(drawAtlas->textureAtlas != NULL, "ADrawAtlas Reuse drawAtlas %p already reused", drawAtlas);
 
     for (int i = 0; i < drawAtlas->quadList->size; i++)
     {
@@ -112,7 +112,7 @@ static void ReuseQuad(DrawAtlas* drawAtlas, Drawable* drawable)
     ALog_A
     (
         drawAtlas->mesh == subMesh->parent,
-        "ReuseQuad drawable %p not in this drawAtlas",
+        "ADrawAtlas ReuseQuad drawable %p not in this drawAtlas",
         drawable
     );
 

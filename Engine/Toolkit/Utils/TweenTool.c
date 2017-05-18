@@ -38,7 +38,7 @@ static TweenActionValue* actionValue = NULL;
 
 
 #define CheckActionValue(tag) \
-	ALog_A(actionValue != NULL, "ATweenTool " tag " TweenActionValue invalid");
+	ALog_A(actionValue != NULL, "ATweenTool " tag " TweenActionValue can not NULL");
 
 
 static struct ATweenTool* AddAction()
@@ -483,7 +483,7 @@ static struct ATweenTool* SetFadeTo(float fadeTo)
 
 static void RunActions(void* target)
 {
-	ALog_A(target != NULL, "RunActions, target must not NULL");
+	ALog_A(target != NULL, "ATweenTool RunActions, target can not NULL");
 
 	for (int i = 0; i < actionArr->length; i++)
 	{
@@ -514,7 +514,7 @@ static void* RunTargets()
 			ALog_A
 			(
 				 action->target != NULL,
-				 "RunTargets, the {%d} action has actionValue, so must set target",
+				 "ATweenTool RunTargets, the {%d} action has actionValue, so must set target",
 				 i
 			);
 		}

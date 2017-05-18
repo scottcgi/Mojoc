@@ -118,7 +118,7 @@ static inline void InitSkeletonAnimationPlayer(SkeletonAnimationPlayer* player, 
 	ASkeleton->Init(skeletonData, player->skeleton);
 	player->preAnimationData      = NULL;
 	player->curAnimationData      = ASkeleton_GetAnimationData(player->skeleton, animationName);
-	ALog_A(player->curAnimationData != NULL, "SkeletonAnimationPlayer can not find animtionData by name = %s", animationName);
+	ALog_A(player->curAnimationData != NULL, "ASkeletonAnimationPlayer can not find animationData by name = %s", animationName);
 
 	player->curTime               = 0.0f;
 	player->preTime               = 0.0f;
@@ -142,7 +142,7 @@ static void SetAnimation(SkeletonAnimationPlayer* player, char* animationName)
 {
 	player->curAnimationData = ASkeleton_GetAnimationData(player->skeleton,  animationName);
 
-	ALog_A(player->curAnimationData != NULL, "SetAnimation can not find animtionData by name = %s", animationName);
+	ALog_A(player->curAnimationData != NULL, "ASkeletonAnimationPlayer SetAnimation can not find animationData by name = %s", animationName);
 	player->curTime = 0.0f;
 }
 
@@ -155,7 +155,7 @@ static void SetAnimationMix(SkeletonAnimationPlayer* player, char* animationName
 	player->mixTime          = 0.0f;
 	player->mixDuration      = mixDuration;
 	player->curAnimationData = ASkeleton_GetAnimationData(player->skeleton,  animationName);
-	ALog_A(player->curAnimationData != NULL, "SetAnimationMix can not find animtionData by name = %s", animationName);
+	ALog_A(player->curAnimationData != NULL, "SkeletonAnimationPlayer SetAnimationMix can not find animationData by name = %s", animationName);
 }
 
 
@@ -196,7 +196,7 @@ static void Render(Drawable* drawable)
 static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, char* slotName, Drawable* outDrawable)
 {
 	SkeletonSlot* slot = ASkeletonAnimationPlayer_GetSlot(player, slotName);
-	ALog_A(slot != NULL, "InitSlotBoundingBoxDrawable not found SkeletonSlot by slotName = %s", slotName);
+	ALog_A(slot != NULL, "SkeletonAnimationPlayer InitSlotBoundingBoxDrawable not found SkeletonSlot by slotName = %s", slotName);
 
 	ADrawable->Init(outDrawable);
 

@@ -65,8 +65,6 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 			memcpy(path + fileDirLen, buffer + line->start, pathLen - fileDirLen);
 		}
 
-		ALog_D("texture atlas image = %s", path);
-
 		Texture* texture = ATexture->Get(path);
 		AArrayList_Add(outTextureAtlas->textureList, texture);
 
@@ -89,11 +87,9 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 			buffer[line->end]     = '\0';
 			char* textureQuadName = buffer + line->start;
 
-			ALog_D("texture atlas quad = %s", textureQuadName);
-
 			Read("rotate");
 			bool isRotate = ABufferReader->TryFindString(buffer, line, "true");
-			ALog_A(isRotate == false, "Not support rotation");
+			ALog_A(isRotate == false, "ATextureAtlas not support rotation");
 
 			char* str;
 
@@ -102,11 +98,11 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 			buffer[line->end] = '\0';
 
 			str               = strtok(buffer + line->start, ",");
-			ALog_A(str != NULL, "Can't find x number in xy");
+			ALog_A(str != NULL, "ATextureAtlas can not find x number in xy");
 			int x             = atoi(str);
 
 			str               = strtok(NULL, ",");
-			ALog_A(str != NULL, "Can't find y number in xy");
+			ALog_A(str != NULL, "ATextureAtlas can not find y number in xy");
 			int y             = atoi(str);
 
 			Read("size:");
@@ -114,14 +110,12 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 			buffer[line->end] = '\0';
 
 			str               = strtok(buffer + line->start, ",");
-			ALog_A(str != NULL, "Can't find width number in size");
+			ALog_A(str != NULL, "ATextureAtlas can not find width number in size");
 			int width         = atoi(str);
 
 			str               = strtok(NULL, ",");
-			ALog_A(str != NULL, "Can't find height number in size");
+			ALog_A(str != NULL, "ATextureAtlas can not find height number in size");
 			int height        = atoi(str);
-
-			ALog_D("x = %d, y = %d, width = %d, height = %d", x, y, width, height);
 
 			Read("orig");
 			Read("offset");
@@ -154,7 +148,7 @@ static void Release(TextureAtlas* textureAtlas)
 	AArrayList  ->Release(textureAtlas->textureList);
 
     bool isRemoved = AArrayStrMap->TryRemove(textureAtlasMap, textureAtlas->filePath);
-    ALog_A(isRemoved, "TextureAtlas release not found %s", textureAtlas->filePath);
+    ALog_A(isRemoved, "ATextureAtlas release not found %s", textureAtlas->filePath);
 
     free(textureAtlas);
 }

@@ -47,7 +47,6 @@ static inline void InitBone(Skeleton* skeleton, SkeletonData* skeletonData)
 		SkeletonBone*     bone     = bones + i;
 		ASkeletonBone->Init(boneData, bone);
 
-		ALog_D("Create bone = %s", boneData->name);
 		AArrayStrMap_TryPut(boneMap, boneData->name, bone);
 
 		if (boneData->parent == NULL)
@@ -58,7 +57,7 @@ static inline void InitBone(Skeleton* skeleton, SkeletonData* skeletonData)
 		{
 			SkeletonBone* boneParent = AArrayStrMap_Get(boneMap, boneData->parent->name, SkeletonBone*);
 
-			ALog_A(boneParent != NULL, "bone parent = %s, not found", boneData->parent->name);
+			ALog_A(boneParent != NULL, "ASkeleton InitBone bone parent = %s, not found", boneData->parent->name);
 
 			ADrawable_SetParent(bone->drawable, boneParent->drawable);
 		}
@@ -86,7 +85,6 @@ static inline void InitSlot(Skeleton* skeleton, SkeletonData* skeletonData)
 		ASkeletonSlot->Init(slotData, skeleton, slot);
 
 		slotOrders[i]                = slot;
-		ALog_D("Create slot = %s", slotData->name);
 
 		AArrayStrMap_TryPut(slotMap, slotData->name, slot);
 	}
@@ -98,7 +96,7 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
 	ArrayStrMap*      skinDataMap = skeleton->skeletonData->skinDataMap;
 	SkeletonSkinData* skinData    = AArrayStrMap_Get(skinDataMap, skinName, SkeletonSkinData*);
 
-	ALog_A(skinData != NULL, "SetSkin not found skin by name = %s", skinName);
+	ALog_A(skinData != NULL, "ASkeleton SetSkin not found skin by name = %s", skinName);
 
 	if (skeleton->curSkinData == skinData)
 	{

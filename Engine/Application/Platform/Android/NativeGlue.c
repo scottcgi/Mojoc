@@ -349,20 +349,20 @@ static void* ThreadRun(void* param)
 
 static void OnStart(ANativeActivity* activity)
 {
-	ALog_D("NativeActivity OnStart");
+	ALog_D("ANativeActivity OnStart");
 }
 
 
 static void OnResume(ANativeActivity* activity)
 {
-	ALog_D("NativeActivity OnResume");
+	ALog_D("ANativeActivity OnResume");
     AData->mainThreadCallback = main_thread_on_resume;
 }
 
 
 static void* OnSaveInstanceState(ANativeActivity* activity, size_t* outSaveSize)
 {
-	ALog_D("NativeActivity OnSaveInstanceState");
+	ALog_D("ANativeActivity OnSaveInstanceState");
     *outSaveSize = 0;
 
     AApplication->SaveData();
@@ -373,40 +373,40 @@ static void* OnSaveInstanceState(ANativeActivity* activity, size_t* outSaveSize)
 
 static void OnPause(ANativeActivity* activity)
 {
-	ALog_D("NativeActivity OnPause");
+	ALog_D("ANativeActivity OnPause");
 	AData->mainThreadCallback = main_thread_on_pause;
 }
 
 
 static void OnStop(ANativeActivity* activity)
 {
-	ALog_D("NativeActivity OnStop");
+	ALog_D("ANativeActivity OnStop");
 }
 
 
 static void OnDestroy(ANativeActivity* activity)
 {
-	ALog_D("NativeActivity OnDestroy");
+	ALog_D("ANativeActivity OnDestroy");
 	AData->mainThreadCallback = main_thread_on_destroy;
 }
 
 
 static void OnWindowFocusChanged(ANativeActivity* activity, int hasFocus)
 {
-	ALog_D("NativeActivity OnWindowFocusChanged");
+	ALog_D("ANativeActivity OnWindowFocusChanged");
 }
 
 
 static void OnNativeWindowCreated(ANativeActivity* activity, ANativeWindow* window)
 {
-	ALog_D("NativeActivity OnNativeWindowCreated");
+	ALog_D("ANativeActivity OnNativeWindowCreated");
 	AData->window = window;
 }
 
 
 static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* window)
 {
-	ALog_D("NativeActivity OnNativeWindowResized");
+	ALog_D("ANativeActivity OnNativeWindowResized");
 	AData->window = window;
 
 	static bool isFirst = true;
@@ -424,21 +424,21 @@ static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* wind
 
 static void OnNativeWindowRedrawNeeded(ANativeActivity* activity, ANativeWindow* window)
 {
-	ALog_D("NativeActivity OnNativeWindowRedrawNeeded");
+	ALog_D("ANativeActivity OnNativeWindowRedrawNeeded");
 	AData->mainThreadCallback = main_thread_on_null;
 }
 
 
 static void OnNativeWindowDestroyed(ANativeActivity* activity, ANativeWindow* window)
 {
-	ALog_D("NativeActivity OnNativeWindowDestroyed");
+	ALog_D("ANativeActivity OnNativeWindowDestroyed");
 	AData->mainThreadCallback = main_thread_on_wait;
 }
 
 
 static void OnInputQueueCreated(ANativeActivity* activity, AInputQueue* inputQueue)
 {
-	ALog_D("NativeActivity OnInputQueueCreated");
+	ALog_D("ANativeActivity OnInputQueueCreated");
 	AData->inputQueue = inputQueue;
     AInputQueue_attachLooper(inputQueue, AData->looper, looper_id_input, LooperOnInputEvent, NULL);
 }
@@ -446,27 +446,27 @@ static void OnInputQueueCreated(ANativeActivity* activity, AInputQueue* inputQue
 
 static void OnInputQueueDestroyed(ANativeActivity* activity, AInputQueue* inputQueue)
 {
-	ALog_D("NativeActivity OnInputQueueDestroyed");
+	ALog_D("ANativeActivity OnInputQueueDestroyed");
     AInputQueue_detachLooper(inputQueue);
 }
 
 
 static void OnContentRectChanged(ANativeActivity* activity, const ARect* rect)
 {
-	ALog_D("NativeActivity OnContentRectChanged");
+	ALog_D("ANativeActivity OnContentRectChanged");
 }
 
 
 static void OnConfigurationChanged(ANativeActivity* activity)
 {
-	ALog_D("NativeActivity OnConfigurationChanged");
+	ALog_D("ANativeActivity OnConfigurationChanged");
     AConfiguration_fromAssetManager(AData->assetConfig, activity->assetManager);
 }
 
 
 static void OnLowMemory(ANativeActivity* activity)
 {
-	ALog_D("NativeActivity OnLowMemory");
+	ALog_D("ANativeActivity OnLowMemory");
 }
 
 

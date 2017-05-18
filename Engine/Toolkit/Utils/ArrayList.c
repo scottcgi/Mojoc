@@ -26,14 +26,14 @@
 
 static inline void AddCapacity(ArrayList* arrayList, int increase)
 {
-	ALog_A(increase > 0, "ArrayList AddCapacity failed, increase = %d can not <= 0", increase);
+	ALog_A(increase > 0, "AArrayList AddCapacity failed, increase = %d can not <= 0", increase);
 
 	void* data = realloc(arrayList->elementArray->data, (increase + arrayList->elementArray->length) * arrayList->elementTypeSize);
 
 	ALog_A
 	(
 	    data != NULL,
-		"ArrayList AddCapacity failed, unable to realloc memory, size = %d, length = %d, increase = %d",
+		"AArrayList AddCapacity failed, unable to realloc memory, size = %d, length = %d, increase = %d",
 		arrayList->size, arrayList->elementArray->length, increase
 	);
 
