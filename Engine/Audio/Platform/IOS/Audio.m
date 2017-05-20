@@ -9,7 +9,7 @@
 
 
 //--------------------------------------------------------------------------------------------------
-#ifdef is_platform_ios
+#ifdef IS_PLATFORM_IOS
 //--------------------------------------------------------------------------------------------------
 
 
@@ -23,10 +23,10 @@
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"
 
 
-static ArrayStrMap(filePath, void*) fileDataMap[1] = AArrayStrMapInit(sizeof(void*),        20);
-static ArrayList  (AudioPlayer*)    cacheList  [1] = AArrayListInit  (sizeof(AudioPlayer*), 20);
-static ArrayList  (AudioPlayer*)    destroyList[1] = AArrayListInit  (sizeof(AudioPlayer*), 20);
-static ArrayList  (AudioPlayer*)    loopList   [1] = AArrayListInit  (sizeof(AudioPlayer*), 5 );
+static ArrayStrMap(filePath, void*) fileDataMap[1] = AArrayStrMap_Init(sizeof(void*),        20);
+static ArrayList  (AudioPlayer*)    cacheList  [1] = AArrayList_Init  (sizeof(AudioPlayer*), 20);
+static ArrayList  (AudioPlayer*)    destroyList[1] = AArrayList_Init  (sizeof(AudioPlayer*), 20);
+static ArrayList  (AudioPlayer*)    loopList   [1] = AArrayList_Init  (sizeof(AudioPlayer*), 5 );
 
 
 //--------------------------------------------------------------------------------------------------
@@ -49,8 +49,8 @@ static inline void* GetAudioData(char* filePath, ALsizei* outDataSize, ALenum* o
     
     if (error != noErr)
     {
-        ALogE("Audio GetAudioData ExtAudioFileOpenURL failed, error = %x, filePath = %s", (int) error, filePath);
-        goto label_exit;
+        ALog_E("Audio GetAudioData ExtAudioFileOpenURL failed, error = %x, filePath = %s", (int) error, filePath);
+        goto Exit;
     }
     
     // get the audio data format
@@ -58,14 +58,14 @@ static inline void* GetAudioData(char* filePath, ALsizei* outDataSize, ALenum* o
     
     if (error != noErr)
     {
-        ALogE("Audio GetAudioData ExtAudioFileGetProperty(kExtAudioFileProperty_FileDataFormat) failed, error = %x, filePath = %s", (int) error, filePath);
-        goto label_exit;
+        ALog_E("Audio GetAudioData ExtAudioFileGetProperty(kExtAudioFileProperty_FileDataFormat) failed, error = %x, filePath = %s", (int) error, filePath);
+        goto Exit;
     }
     
     if (fileFormat.mChannelsPerFrame > 2)
     {
-        ALogE("Audio GetAudioData unsupported format, channel count = %u is greater than stereo, filePath = %s", fileFormat.mChannelsPerFrame, filePath);
-        goto label_exit;
+        ALog_E("Audio GetAudioData unsupported format, channel count = %u is greater than stereo, filePath = %s", fileFormat.mChannelsPerFrame, filePath);
+        goto Exit;
     }
     
     // set the client format to 16 bit signed integer (native-endian) data
@@ -84,8 +84,8 @@ static inline void* GetAudioData(char* filePath, ALsizei* outDataSize, ALenum* o
     
     if(error != noErr)
     {
-        ALogE("Audio GetAudioData ExtAudioFileSetProperty(kExtAudioFileProperty_ClientDataFormat) failed, error = %x, filePath = %s", (int) error, filePath);
-        goto label_exit;
+        ALog_E("Audio GetAudioData ExtAudioFileSetProperty(kExtAudioFileProperty_ClientDataFormat) failed, error = %x, filePath = %s", (int) error, filePath);
+        goto Exit;
     }
     
     // get the total frame count
@@ -94,8 +94,8 @@ static inline void* GetAudioData(char* filePath, ALsizei* outDataSize, ALenum* o
     
     if(error != noErr)
     {
-        ALogE("Audio GetAudioData ExtAudioFileGetProperty(kExtAudioFileProperty_FileLengthFrames) failed, error = %x, filePath = %s", (int) error, filePath);
-        goto label_exit;
+        ALog_E("Audio GetAudioData ExtAudioFileGetProperty(kExtAudioFileProperty_FileLengthFrames) failed, error = %x, filePath = %s", (int) error, filePath);
+        goto Exit;
     }
     
 //--------------------------------------------------------------------------------------------------
@@ -129,20 +129,19 @@ static inline void* GetAudioData(char* filePath, ALsizei* outDataSize, ALenum* o
             {
                 free(data);
                 data = NULL; // make sure to return NULL
-                ALogE("Audio GetAudioData ExtAudioFileRead failed, error = %x, filePath = %s", (int) error, filePath);
-                goto label_exit;
+                ALog_E("Audio GetAudioData ExtAudioFileRead failed, error = %x, filePath = %s", (int) error, filePath);
+                goto Exit;
             }
         }
         
-        AArrayStrMapInsertAt(fileDataMap, filePath, -index - 1, data);
+        AArrayStrMap_InsertAt(fileDataMap, filePath, -index - 1, data);
     }
     else
     {
-        data = AArrayStrMapGetAt(fileDataMap, index, void*);
+        data = AArrayStrMap_GetAt(fileDataMap, index, void*);
     }
     
-    
-    label_exit:
+Exit:
     
     // dispose the ExtAudioFileRef, it is no longer needed
     if (audioFileRef != 0)
@@ -176,7 +175,7 @@ static void Update(float deltaSeconds)
 {
     for (int i = destroyList->size - 1; i > -1; i--)
     {
-        AudioPlayer* player = AArrayListGet(destroyList, i, AudioPlayer*);
+        AudioPlayer* player = AArrayList_Get(destroyList, i, AudioPlayer*);
         
         ALint state;
         alGetSourcei(player->sourceId, AL_SOURCE_STATE, &state);
@@ -187,7 +186,7 @@ static void Update(float deltaSeconds)
             alDeleteBuffers(1, &player->bufferId);
             
             AArrayList->Remove(destroyList, i);
-            AArrayListAdd(cacheList, player);
+            AArrayList_Add(cacheList, player);
         }
     }
 }
@@ -197,7 +196,7 @@ static void SetLoopPause()
 {
     for (int i = 0; i < loopList->size; i++)
     {
-        AAudio->SetPause(AArrayListGet(loopList, i, AudioPlayer*));
+        AAudio->SetPause(AArrayList_Get(loopList, i, AudioPlayer*));
     }
 }
 
@@ -206,7 +205,7 @@ static void SetLoopResume()
 {
     for (int i = 0; i < loopList->size; i++)
     {
-        AAudio->SetPlay(AArrayListGet(loopList, i, AudioPlayer*));
+        AAudio->SetPlay(AArrayList_Get(loopList, i, AudioPlayer*));
     }
 }
 
@@ -234,7 +233,7 @@ static void Init()
     }
     else
     {
-        ALogE("Audio Init failed, OpenAL can not open device");
+        ALog_E("Audio Init failed, OpenAL can not open device");
     }
     
     // clear any errors
@@ -252,13 +251,13 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
     
     if ((error = alGetError()) != AL_NO_ERROR)
     {
-        ALogE("Audio InitPlayer failed, error = %x, filePath = %s", error, filePath);
+        ALog_E("Audio InitPlayer failed, error = %x, filePath = %s", error, filePath);
     }
     
     alGenBuffers(1, &player->bufferId);
     if((error = alGetError()) != AL_NO_ERROR)
     {
-        ALogE("Audio InitPlayer generate buffer failed, error = %x, filePath = %s", error, filePath);
+        ALog_E("Audio InitPlayer generate buffer failed, error = %x, filePath = %s", error, filePath);
     }
     
     // use the static buffer data API
@@ -267,7 +266,7 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
     
     if((error = alGetError()) != AL_NO_ERROR)
     {
-        ALogE("Audio InitPlayer attach audio data to buffer failed, error = %x, filePath = %s", error, filePath);
+        ALog_E("Audio InitPlayer attach audio data to buffer failed, error = %x, filePath = %s", error, filePath);
     }
     
 //--------------------------------------------------------------------------------------------------
@@ -275,7 +274,7 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
     alGenSources(1, &player->sourceId);
     if((error = alGetError())!= AL_NO_ERROR)
     {
-        ALogE("Audio InitPlayer generate source failed, error = %x, filePath = %s", error, filePath);
+        ALog_E("Audio InitPlayer generate source failed, error = %x, filePath = %s", error, filePath);
     }
     
     // turn Looping off
@@ -292,7 +291,7 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
     
     if((error = alGetError()) != AL_NO_ERROR)
     {
-        ALogE("Audio InitPlayer attach buffer to source failed, error = %x, filePath = %s", error, filePath);
+        ALog_E("Audio InitPlayer attach buffer to source failed, error = %x, filePath = %s", error, filePath);
     }
 }
 
@@ -325,26 +324,26 @@ static void SetLoop(AudioPlayer* player, bool isLoop)
     
     for (int i = 0; i < removeList->size; i++)
     {
-        if (player == AArrayListGet(removeList, i, AudioPlayer*))
+        if (player == AArrayList_Get(removeList, i, AudioPlayer*))
         {
             AArrayList->RemoveByLast(removeList, i);
             break;
         }
     }
     
-    AArrayListAdd(addList, player);
+    AArrayList_Add(addList, player);
 }
 
 
-static void SetVolume(AudioPlayer* player, int volume)
+static void SetVolume(AudioPlayer* player, float volume)
 {
-    ALogA(volume >= 0 && volume <= 100, "Audio SetVolume volume %d not in [0, 100]", volume);
-    alSourcef(player->sourceId, AL_GAIN, volume / 100.0f);
+    ALog_A(volume >= 0.0f && volume <= 1.0f, "Audio SetVolume volume %f not in [0.0, 1.0]", volume);
+    alSourcef(player->sourceId, AL_GAIN, volume);
     
     ALenum error = alGetError();
     if(error != AL_NO_ERROR)
     {
-        ALogE("Audio SetVolume error = %x", error);
+        ALog_E("Audio SetVolume error = %x", error);
     }
 }
 
@@ -356,7 +355,7 @@ static void SetPlay(AudioPlayer* player)
     ALenum error = alGetError();
     if(error != AL_NO_ERROR)
     {
-        ALogE("Audio SetPlay error = %x", error);
+        ALog_E("Audio SetPlay error = %x", error);
     }
 }
 
@@ -368,7 +367,7 @@ static void SetPause(AudioPlayer* player)
     ALenum error = alGetError();
     if(error != AL_NO_ERROR)
     {
-        ALogE("Audio SetPause error = %x", error);
+        ALog_E("Audio SetPause error = %x", error);
     }
 }
 
@@ -384,7 +383,7 @@ static bool IsPlaying(AudioPlayer* player)
 
 static AudioPlayer* GetPlayer(char* filePath)
 {
-    AudioPlayer* player = AArrayListPop(cacheList, AudioPlayer*);
+    AudioPlayer* player = AArrayList_Pop(cacheList, AudioPlayer*);
     
     if (player == NULL)
     {
@@ -393,7 +392,7 @@ static AudioPlayer* GetPlayer(char* filePath)
     
     InitPlayer(filePath, player);
     
-    AArrayListAdd(destroyList, player);
+    AArrayList_Add(destroyList, player);
     
     return player;
 }

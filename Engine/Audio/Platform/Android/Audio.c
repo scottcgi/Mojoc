@@ -214,11 +214,11 @@ static void SetLoop(AudioPlayer* player, bool isLoop)
 }
 
 
-static void SetVolume(AudioPlayer* player, int volume)
+static void SetVolume(AudioPlayer* player, float volume)
 {
-    ALog_A(volume >= 0 && volume <= 100, "AAudio SetVolume volume %d not in [0, 100]", volume);
+    ALog_A(volume >= 0.0f && volume <= 1.0f, "AAudio SetVolume volume %f not in [0.0, 1.0]", volume);
 
-    SLresult result = (*player->volume)->SetVolumeLevel(player->volume, (SLmillibel) ((1.0f - volume / 100.0f) * -5000));
+    SLresult result = (*player->volume)->SetVolumeLevel(player->volume, (SLmillibel) ((1.0f - volume) * -5000));
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio SetVolume error = %x", result);
 }
 

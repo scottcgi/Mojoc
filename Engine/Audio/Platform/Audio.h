@@ -52,10 +52,10 @@ struct AAudio
     AudioPlayer* (*GetPlayer)       (char* filePath);
 
     /**
-     * The volume range in [0, 100]
+     * The volume range in [0.0, 1.0]
      */
-    void         (*SetVolume)       (AudioPlayer* player, int  volume);
-    void         (*SetLoop)         (AudioPlayer* player, bool isLoop);
+    void         (*SetVolume)       (AudioPlayer* player, float volume);
+    void         (*SetLoop)         (AudioPlayer* player, bool  isLoop);
 
     void         (*SetPlay)         (AudioPlayer* player);
     void         (*SetPause)        (AudioPlayer* player);
