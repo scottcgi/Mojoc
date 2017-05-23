@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2013-4-23
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2013-4-23
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef shader_sprite_h
-#define shader_sprite_h
+
+#ifndef SHADER_SPRITE_H
+#define SHADER_SPRITE_H
 
 
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"

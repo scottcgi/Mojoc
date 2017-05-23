@@ -8,6 +8,7 @@
  * Version: 0.1
  */
 
+
 #ifndef TEXTURE_H
 #define TEXTURE_H
 

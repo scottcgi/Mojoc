@@ -1,12 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2017-4-1
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2017-4-1
+ * Author : scott.cgi
+ * Version: 0.1
  */
 
-#ifndef jni_tool_h
-#define jni_tool_h
+
+#ifndef JNI_TOOL_H
+#define JNI_TOOL_H
 
 
 #include "Engine/Toolkit/Platform/Platform.h"
@@ -36,17 +40,17 @@ struct AJniTool
 ----------------------------------------------------------------------------------------------------
 Must Called in same thread with OpenGL
 
-className:
-    pass to FindClass which is java class name with package like "java/lang/ClassLoader"
+    className:
+        pass to FindClass which is java class name with package like "java/lang/ClassLoader"
 
-methodName:
-    java class method name like "getClassLoader"
+    methodName:
+        java class method name like "getClassLoader"
 
-paramCode:
-    java class method arguments like "()Ljava/lang/ClassLoader;"
+    paramCode:
+        java class method arguments like "()Ljava/lang/ClassLoader;"
 
-...:
-    varargs parameter which are method arguments
+    ...:
+        varargs parameter which are method arguments
 ----------------------------------------------------------------------------------------------------
 */
 

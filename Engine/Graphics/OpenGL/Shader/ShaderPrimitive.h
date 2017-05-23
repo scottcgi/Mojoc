@@ -1,11 +1,16 @@
 /*
- * Copyright (c) scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
  *
- * Since : 2014-2-26
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2014-2-26
+ * Author : scott.cgi
+ * Version: 0.1
  */
-#ifndef shader_primitive_h
-#define shader_primitive_h
+
+
+#ifndef SHADER_PRIMITIVE_H
+#define SHADER_PRIMITIVE_H
 
 
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
