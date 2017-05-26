@@ -17,14 +17,14 @@ add_library(
 set_target_properties(
     PNG
     PROPERTIES IMPORTED_LOCATION
-    ${MOJOC_DIR}/Engine/External/PNG/Prebuilt/Android/${ANDROID_ABI}/libpng.a
+    ${MOJOC_DIR}/Engine/ThirdParty/PNG/Prebuilt/Android/${ANDROID_ABI}/libpng.a
 )
 
 #####################################################################
 
 include_directories(
     ../../../
-    ../../External/PNG/Include/Android/
+    ../../ThirdParty/PNG/Include/Android/
 )
 
 add_library(

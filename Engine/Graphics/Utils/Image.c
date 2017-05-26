@@ -15,7 +15,7 @@
 #include "Engine/Graphics/Utils/Image.h"
 #include "Engine/Toolkit/Platform/File.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/External/PNG/Include/Android/png.h"
+#include "Engine/ThirdParty/PNG/Include/Android/png.h"
 
 
 /**
