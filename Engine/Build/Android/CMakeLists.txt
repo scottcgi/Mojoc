@@ -17,7 +17,7 @@ add_library(
 set_target_properties(
     PNG
     PROPERTIES IMPORTED_LOCATION
-    ${MOJOC_DIR}/Engine/ThirdParty/PNG/Prebuilt/Android/${ANDROID_ABI}/libpng.a
+    ${CMAKE_SOURCE_DIR}/../../../../Mojoc/Engine/ThirdParty/PNG/Prebuilt/Android/${ANDROID_ABI}/libpng.a
 )
 
 #####################################################################
