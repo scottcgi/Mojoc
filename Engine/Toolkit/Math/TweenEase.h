@@ -15,16 +15,16 @@
 
 typedef enum
 {
-	TweenEaseType_linear,
+	TweenEaseType_Linear,
 
 /*
 ----------------------------------------------------------------------------------------------------
     Quadratic
 ----------------------------------------------------------------------------------------------------
 */
-	TweenEaseType_QuadIn,
-	TweenEaseType_QuadOut,
-	TweenEaseType_QuadBoth,
+	TweenEaseType_QuadraticIn,
+	TweenEaseType_QuadraticOut,
+	TweenEaseType_QuadraticInOut,
 
 /*
 ----------------------------------------------------------------------------------------------------
@@ -33,25 +33,25 @@ typedef enum
 */
 	TweenEaseType_CubicIn,
 	TweenEaseType_CubicOut,
-	TweenEaseType_CubicBoth,
+	TweenEaseType_CubicInOut,
 
 /*
 ----------------------------------------------------------------------------------------------------
     Quartic
 ----------------------------------------------------------------------------------------------------
 */
-	TweenEaseType_QuartIn,
-	TweenEaseType_QuartOut,
-	TweenEaseType_QuartBoth,
+	TweenEaseType_QuarticIn,
+	TweenEaseType_QuarticOut,
+	TweenEaseType_QuarticInOut,
 
 /*
 ----------------------------------------------------------------------------------------------------
     Quintic
 ----------------------------------------------------------------------------------------------------
 */
-	TweenEaseType_QuintIn,
-	TweenEaseType_QuintOut,
-	TweenEaseType_QuintBoth,
+	TweenEaseType_QuinticIn,
+	TweenEaseType_QuinticOut,
+	TweenEaseType_QuinticInOut,
 
 /*
 ----------------------------------------------------------------------------------------------------
@@ -60,25 +60,25 @@ typedef enum
 */
 	TweenEaseType_SineIn,
 	TweenEaseType_SineOut,
-	TweenEaseType_SineBoth,
+	TweenEaseType_SineInOut,
 
 /*
 ----------------------------------------------------------------------------------------------------
     Exponential
 ----------------------------------------------------------------------------------------------------
 */
-	TweenEaseType_ExpoIn,
-	TweenEaseType_ExpoOut,
-	TweenEaseType_ExpoBoth,
+	TweenEaseType_ExponentialIn,
+	TweenEaseType_ExponentialOut,
+	TweenEaseType_ExponentialInOut,
 
 /*
 ----------------------------------------------------------------------------------------------------
-    circular
+    Circular
 ----------------------------------------------------------------------------------------------------
 */
-	TweenEaseType_CircIn,
-	TweenEaseType_CircOut,
-	TweenEaseType_CircBoth,
+	TweenEaseType_CircularIn,
+	TweenEaseType_CircularOut,
+	TweenEaseType_CircularInOut,
 
 
 /*
@@ -88,7 +88,7 @@ typedef enum
 */
 	TweenEaseType_ElasticIn,
 	TweenEaseType_ElasticOut,
-	TweenEaseType_ElasticBoth,
+	TweenEaseType_ElasticInOut,
 
 
 /*
@@ -98,7 +98,7 @@ typedef enum
 */
 	TweenEaseType_BackIn,
 	TweenEaseType_BackOut,
-	TweenEaseType_BackBoth,
+	TweenEaseType_BackInOut,
 
 /*
 ----------------------------------------------------------------------------------------------------
@@ -107,7 +107,7 @@ typedef enum
 */
 	TweenEaseType_BounceIn,
 	TweenEaseType_BounceOut,
-	TweenEaseType_BounceBoth,
+	TweenEaseType_BounceInOut,
 
 	TweenEaseType_Length,
 }

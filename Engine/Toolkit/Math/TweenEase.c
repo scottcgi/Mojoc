@@ -25,19 +25,19 @@ static float Linear(float from, float to, float time)
 //--------------------------------------------------------------------------------------------------
 
 
-static float QuadIn(float from, float to, float time)
+static float QuadraticIn(float from, float to, float time)
 {
 	return VALUE * time * time;
 }
 
 
-static float QuadOut(float from, float to, float time)
+static float QuadraticOut(float from, float to, float time)
 {
 	return VALUE * time * (2.0f - time);
 }
 
 
-static float QuadBoth(float from, float to, float time)
+static float QuadraticInOut(float from, float to, float time)
 {
 	if (time < 0.5f)
 	{
@@ -66,7 +66,7 @@ static float CubicOut(float from, float to, float time)
 }
 
 
-static float CubicBoth(float from, float to, float time)
+static float CubicInOut(float from, float to, float time)
 {
 	if (time < 0.5f)
 	{
@@ -83,20 +83,20 @@ static float CubicBoth(float from, float to, float time)
 //--------------------------------------------------------------------------------------------------
 
 
-static float QuartIn(float from, float to, float time)
+static float QuarticIn(float from, float to, float time)
 {
 	return VALUE * time * time * time * time;
 }
 
 
-static float QuartOut(float from, float to, float time)
+static float QuarticOut(float from, float to, float time)
 {
 	time -= 1.0f;
 	return VALUE * (time * time * time * (-time) + 1.0f);
 }
 
 
-static float QuartBoth(float from, float to, float time)
+static float QuarticInOut(float from, float to, float time)
 {
 	if (time < 0.5f)
 	{
@@ -113,20 +113,20 @@ static float QuartBoth(float from, float to, float time)
 //--------------------------------------------------------------------------------------------------
 
 
-static float QuintIn(float from, float to, float time)
+static float QuinticIn(float from, float to, float time)
 {
 	return VALUE * time * time * time * time * time;
 }
 
 
-static float QuintOut(float from, float to, float time)
+static float QuinticOut(float from, float to, float time)
 {
 	time -= 1.0f;
 	return VALUE * (time * time * time * time * time + 1.0f);
 }
 
 
-static float QuintBoth(float from, float to, float time)
+static float QuinticInOut(float from, float to, float time)
 {
 	if (time < 0.5f)
 	{
@@ -155,7 +155,7 @@ static float SineOut(float from, float to, float time)
 }
 
 
-static float SineBoth(float from, float to, float time)
+static float SineInOut(float from, float to, float time)
 {
 	return VALUE * 0.5f * (1.0f - cosf(time * MATH_PI));
 }
@@ -164,7 +164,7 @@ static float SineBoth(float from, float to, float time)
 //--------------------------------------------------------------------------------------------------
 
 
-static float ExpoIn(float from, float to, float time)
+static float ExponentialIn(float from, float to, float time)
 {
 	if (time == 0.0f)
 	{
@@ -177,7 +177,7 @@ static float ExpoIn(float from, float to, float time)
 }
 
 
-static float ExpoOut(float from, float to, float time)
+static float ExponentialOut(float from, float to, float time)
 {
 	if (time == 1.0f)
 	{
@@ -190,7 +190,7 @@ static float ExpoOut(float from, float to, float time)
 }
 
 
-static float ExpoBoth(float from, float to, float time)
+static float ExponentialInOut(float from, float to, float time)
 {
 	if (time == 0.0f)
 	{
@@ -216,19 +216,19 @@ static float ExpoBoth(float from, float to, float time)
 //--------------------------------------------------------------------------------------------------
 
 
-static float CircIn(float from, float to, float time)
+static float CircularIn(float from, float to, float time)
 {
 	return VALUE * (1.0f - sqrtf(1.0f - time * time));
 }
 
 
-static float CircOut(float from, float to, float time)
+static float CircularOut(float from, float to, float time)
 {
 	return VALUE * sqrtf((2.0f - time) * time);
 }
 
 
-static float CircBoth(float from, float to, float time)
+static float CircularInOut(float from, float to, float time)
 {
 	if (time < 0.5f)
 	{
@@ -277,7 +277,7 @@ static float ElasticOut(float from, float to, float time)
 }
 
 
-static float ElasticBoth(float from, float to, float time)
+static float ElasticInOut(float from, float to, float time)
 {
 	if (time == 0.0f)
 	{
@@ -316,7 +316,7 @@ static float BackOut(float from, float to, float time)
 }
 
 
-static float BackBoth(float from, float to, float time)
+static float BackInOut(float from, float to, float time)
 {
 	if (time < 0.5f)
 	{
@@ -382,7 +382,7 @@ static float BounceIn(float from, float to, float time)
 }
 
 
-static float BounceBoth(float from, float to, float time)
+static float BounceInOut(float from, float to, float time)
 {
 	if (time < 0.5f)
 	{
@@ -440,43 +440,43 @@ struct ATweenEase ATweenEase[1] =
 {
 	Linear,
 
-	QuadIn,
-	QuadOut,
-	QuadBoth,
+	QuadraticIn,
+	QuadraticOut,
+	QuadraticInOut,
 
 	CubicIn,
 	CubicOut,
-	CubicBoth,
+	CubicInOut,
 
-	QuartIn,
-	QuartOut,
-	QuartBoth,
+	QuarticIn,
+	QuarticOut,
+	QuarticInOut,
 
-	QuintIn,
-	QuintOut,
-	QuintBoth,
+	QuinticIn,
+	QuinticOut,
+	QuinticInOut,
 
 	SineIn,
 	SineOut,
-	SineBoth,
+	SineInOut,
 
-	ExpoIn,
-	ExpoOut,
-	ExpoBoth,
+	ExponentialIn,
+	ExponentialOut,
+	ExponentialInOut,
 
-	CircIn,
-	CircOut,
-	CircBoth,
+	CircularIn,
+	CircularOut,
+	CircularInOut,
 
 	ElasticIn,
 	ElasticOut,
-	ElasticBoth,
+	ElasticInOut,
 
 	BackIn,
 	BackOut,
-	BackBoth,
+	BackInOut,
 
 	BounceIn,
 	BounceOut,
-	BounceBoth,
+	BounceInOut,
 };

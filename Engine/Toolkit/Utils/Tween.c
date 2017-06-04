@@ -109,7 +109,7 @@ static TweenActionValue* AddTweenActionValue(TweenAction* action)
 	actionValue->OnGet            = NULL;
 	actionValue->OnSet            = NULL;
 	actionValue->isRelative       = true;
-	actionValue->easeType         = TweenEaseType_linear;
+	actionValue->easeType         = TweenEaseType_Linear;
 
 	return actionValue;
 }
