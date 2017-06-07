@@ -170,7 +170,7 @@ extern struct ACoroutine ACoroutine[1];
  *
  * waitFrameCount: CoroutineRun wait frames and running again
  */
-#define ACoroutine_YieldFrame(waitFrames)                   \
+#define ACoroutine_YieldFrames(waitFrames)                  \
     coroutine->waitValue    = waitFrames;                   \
     coroutine->curWaitValue = 0.0f;                         \
     coroutine->waitType     = CoroutineWaitType_Frames;     \
@@ -184,7 +184,7 @@ extern struct ACoroutine ACoroutine[1];
  *
  * waitSecond: CoroutineRun wait seconds and running again
  */
-#define ACoroutine_YieldSecond(waitSeconds)                 \
+#define ACoroutine_YieldSeconds(waitSeconds)                \
     coroutine->waitValue    = waitSeconds;                  \
     coroutine->curWaitValue = 0.0f;                         \
     coroutine->waitType     = CoroutineWaitType_Seconds;    \
