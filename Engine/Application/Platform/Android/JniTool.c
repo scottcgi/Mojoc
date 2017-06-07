@@ -3,22 +3,25 @@
  *
  * This code is licensed under the MIT License.
  *
- * Since  :  2017-4-1
+ * Since  : 2017-4-1
  * Author : scott.cgi
  * Version: 0.1
  */
 
 
-#include <android/native_activity.h>
-#include <stdbool.h>
-
 #include "Engine/Application/Platform/Android/JniTool.h"
-#include "Engine/Toolkit/Platform/Log.h"
 
 
 //--------------------------------------------------------------------------------------------------
 #ifdef IS_PLATFORM_ANDROID
 //--------------------------------------------------------------------------------------------------
+
+
+#include <android/native_activity.h>
+#include <stdbool.h>
+
+
+#include "Engine/Toolkit/Platform/Log.h"
 
 
 extern ANativeActivity* nativeActivity;
