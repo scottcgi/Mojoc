@@ -1,0 +1,39 @@
+apply plugin: "com.android.application"
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.Mojoc.Samples.SuperLittleRed"
+        minSdkVersion 18
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_TOOLCHAIN=clang"
+                cFlags    "-std=c99 -O3"
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            jniDebuggable true
+            pseudoLocalesEnabled true
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "../../Code/Build/Android/CMakeLists.txt"
+        }
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    compile fileTree(include: ["*.jar"], dir: "libs")
+}

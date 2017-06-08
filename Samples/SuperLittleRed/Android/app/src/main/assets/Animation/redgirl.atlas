@@ -1,0 +1,174 @@
+
+redgirl.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Copper
+  rotate: false
+  xy: 226, 51
+  size: 25, 75
+  orig: 25, 75
+  offset: 0, 0
+  index: -1
+Dragon
+  rotate: false
+  xy: 105, 57
+  size: 32, 69
+  orig: 32, 69
+  offset: 0, 0
+  index: -1
+Gold
+  rotate: false
+  xy: 2, 51
+  size: 32, 75
+  orig: 32, 75
+  offset: 0, 0
+  index: -1
+Heart
+  rotate: false
+  xy: 279, 52
+  size: 22, 74
+  orig: 22, 74
+  offset: 0, 0
+  index: -1
+Ice
+  rotate: false
+  xy: 36, 52
+  size: 30, 74
+  orig: 30, 74
+  offset: 0, 0
+  index: -1
+Iron
+  rotate: false
+  xy: 139, 51
+  size: 27, 75
+  orig: 27, 75
+  offset: 0, 0
+  index: -1
+Lightning
+  rotate: false
+  xy: 68, 57
+  size: 35, 69
+  orig: 35, 69
+  offset: 0, 0
+  index: -1
+Silver
+  rotate: false
+  xy: 168, 46
+  size: 27, 80
+  orig: 27, 80
+  offset: 0, 0
+  index: -1
+Steel
+  rotate: false
+  xy: 197, 51
+  size: 27, 75
+  orig: 27, 75
+  offset: 0, 0
+  index: -1
+Wood
+  rotate: false
+  xy: 253, 53
+  size: 24, 73
+  orig: 24, 73
+  offset: 0, 0
+  index: -1
+body-down
+  rotate: false
+  xy: 2, 29
+  size: 25, 20
+  orig: 25, 20
+  offset: 0, 0
+  index: -1
+body-up
+  rotate: false
+  xy: 303, 65
+  size: 18, 16
+  orig: 18, 16
+  offset: 0, 0
+  index: -1
+cloak-down
+  rotate: false
+  xy: 397, 90
+  size: 42, 36
+  orig: 42, 36
+  offset: 0, 0
+  index: -1
+cloak-up
+  rotate: false
+  xy: 303, 83
+  size: 44, 43
+  orig: 44, 43
+  offset: 0, 0
+  index: -1
+face
+  rotate: false
+  xy: 349, 89
+  size: 46, 37
+  orig: 46, 37
+  offset: 0, 0
+  index: -1
+lefthand-down
+  rotate: false
+  xy: 2, 12
+  size: 12, 15
+  orig: 12, 15
+  offset: 0, 0
+  index: -1
+lefthand-up
+  rotate: false
+  xy: 441, 110
+  size: 12, 16
+  orig: 12, 16
+  offset: 0, 0
+  index: -1
+leftleg-down
+  rotate: false
+  xy: 441, 91
+  size: 9, 17
+  orig: 9, 17
+  offset: 0, 0
+  index: -1
+leftleg-up
+  rotate: false
+  xy: 455, 111
+  size: 9, 15
+  orig: 9, 15
+  offset: 0, 0
+  index: -1
+neck
+  rotate: false
+  xy: 2, 2
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+righthand-down
+  rotate: false
+  xy: 303, 52
+  size: 15, 11
+  orig: 15, 11
+  offset: 0, 0
+  index: -1
+righthand-up
+  rotate: false
+  xy: 323, 71
+  size: 16, 10
+  orig: 16, 10
+  offset: 0, 0
+  index: -1
+rightleg-down
+  rotate: false
+  xy: 466, 109
+  size: 8, 17
+  orig: 8, 17
+  offset: 0, 0
+  index: -1
+rightleg-up
+  rotate: false
+  xy: 16, 12
+  size: 9, 15
+  orig: 9, 15
+  offset: 0, 0
+  index: -1

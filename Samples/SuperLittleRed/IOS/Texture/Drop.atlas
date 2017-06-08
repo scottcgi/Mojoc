@@ -1,0 +1,48 @@
+
+Drop.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Coin
+  rotate: false
+  xy: 165, 24
+  size: 30, 31
+  orig: 30, 31
+  offset: 0, 0
+  index: -1
+DropStone
+  rotate: false
+  xy: 2, 2
+  size: 40, 53
+  orig: 40, 53
+  offset: 0, 0
+  index: -1
+DropWood
+  rotate: false
+  xy: 86, 25
+  size: 40, 30
+  orig: 40, 30
+  offset: 0, 0
+  index: -1
+Heart
+  rotate: false
+  xy: 197, 29
+  size: 30, 26
+  orig: 30, 26
+  offset: 0, 0
+  index: -1
+Stone
+  rotate: false
+  xy: 128, 22
+  size: 35, 33
+  orig: 35, 33
+  offset: 0, 0
+  index: -1
+Wood
+  rotate: false
+  xy: 44, 22
+  size: 40, 33
+  orig: 40, 33
+  offset: 0, 0
+  index: -1

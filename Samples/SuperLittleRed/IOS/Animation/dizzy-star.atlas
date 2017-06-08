@@ -1,0 +1,20 @@
+
+dizzy-star.png
+size: 64,32
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+d1
+  rotate: false
+  xy: 2, 2
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+s1
+  rotate: false
+  xy: 19, 4
+  size: 15, 14
+  orig: 15, 14
+  offset: 0, 0
+  index: -1

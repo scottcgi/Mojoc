@@ -1,0 +1,104 @@
+
+Stage11.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+back1
+  rotate: false
+  xy: 2, 799
+  size: 1024, 188
+  orig: 1024, 188
+  offset: 0, 0
+  index: -1
+back2
+  rotate: false
+  xy: 2, 164
+  size: 1024, 124
+  orig: 1024, 124
+  offset: 0, 0
+  index: -1
+back3
+  rotate: false
+  xy: 2, 72
+  size: 595, 90
+  orig: 595, 90
+  offset: 0, 0
+  index: -1
+before1
+  rotate: false
+  xy: 2, 290
+  size: 1024, 163
+  orig: 1024, 163
+  offset: 0, 0
+  index: -1
+before2
+  rotate: false
+  xy: 964, 1554
+  size: 1024, 312
+  orig: 1024, 312
+  offset: 0, 0
+  index: -1
+before3
+  rotate: false
+  xy: 2, 621
+  size: 1024, 176
+  orig: 1024, 176
+  offset: 0, 0
+  index: -1
+before4
+  rotate: false
+  xy: 2, 1212
+  size: 768, 112
+  orig: 768, 112
+  offset: 0, 0
+  index: -1
+cloud1
+  rotate: false
+  xy: 772, 1256
+  size: 132, 68
+  orig: 132, 68
+  offset: 0, 0
+  index: -1
+cloud2
+  rotate: false
+  xy: 2, 2
+  size: 128, 68
+  orig: 128, 68
+  offset: 0, 0
+  index: -1
+cloud3
+  rotate: false
+  xy: 599, 105
+  size: 100, 57
+  orig: 100, 57
+  offset: 0, 0
+  index: -1
+middle1
+  rotate: false
+  xy: 2, 989
+  size: 1024, 221
+  orig: 1024, 221
+  offset: 0, 0
+  index: -1
+middle2
+  rotate: false
+  xy: 964, 1264
+  size: 1024, 288
+  orig: 1024, 288
+  offset: 0, 0
+  index: -1
+middle3
+  rotate: false
+  xy: 2, 455
+  size: 1024, 164
+  orig: 1024, 164
+  offset: 0, 0
+  index: -1
+sky
+  rotate: false
+  xy: 2, 1326
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: -1

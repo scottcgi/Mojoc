@@ -1,0 +1,13 @@
+
+Curtain.png
+size: 256,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+LCurtain
+  rotate: false
+  xy: 2, 2
+  size: 240, 540
+  orig: 240, 540
+  offset: 0, 0
+  index: -1

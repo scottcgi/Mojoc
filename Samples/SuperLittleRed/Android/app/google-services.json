@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "690535166714",
+    "firebase_url": "https://super-little-red.firebaseio.com",
+    "project_id": "super-little-red",
+    "storage_bucket": "super-little-red.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690535166714:android:b637dca6e1a027be",
+        "android_client_info": {
+          "package_name": "com.SuperLittleRed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "690535166714-p1m7t1vth6s5da2qb3a37me03ala4ad8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4FBUZFB6VkogpNIWYUcuoOqt43MGF0WU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

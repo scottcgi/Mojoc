@@ -1,0 +1,65 @@
+{
+"skeleton": { "hash": "A9kLWlQjQCS7pd9VQFw5BlzRZlE", "spine": "3.6.04-beta", "width": 507, "height": 500 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "Fail", "parent": "root" },
+	{ "name": "Again", "parent": "Fail", "y": -147.89 },
+	{ "name": "Hit", "parent": "Fail", "x": -102.3, "y": -37.5 },
+	{ "name": "Kill", "parent": "Fail", "x": -102.27, "y": 27.8 },
+	{ "name": "Menu", "parent": "Fail", "x": -130.1, "y": -147.9 },
+	{ "name": "Score", "parent": "Fail", "x": 53.85, "y": 27.8 },
+	{ "name": "Store", "parent": "Fail", "x": 129.17, "y": -151.64 },
+	{ "name": "Time", "parent": "Fail", "x": 39.09, "y": -37.5 },
+	{ "name": "Tip1", "parent": "Fail", "y": 135 },
+	{ "name": "Tip2", "parent": "Fail", "x": 0.54, "y": 98 }
+],
+"slots": [
+	{ "name": "FailBG", "bone": "Fail", "attachment": "FailBG" },
+	{ "name": "Menu", "bone": "Menu", "attachment": "Menu" },
+	{ "name": "Again", "bone": "Again", "attachment": "Again" },
+	{ "name": "Store", "bone": "Store", "attachment": "Store" },
+	{ "name": "MenuBox", "bone": "Menu", "attachment": "MenuBox" },
+	{ "name": "AgainBox", "bone": "Again", "attachment": "AgainBox" },
+	{ "name": "StoreBox", "bone": "Store", "attachment": "StoreBox" }
+],
+"skins": {
+	"default": {
+		"Again": {
+			"Again": { "width": 96, "height": 98 }
+		},
+		"AgainBox": {
+			"AgainBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -53.08, 45.13, 44.12, 47.35, 42.64, -46.88, -50.85, -46.88 ]
+			}
+		},
+		"FailBG": {
+			"FailBG": { "width": 507, "height": 500 }
+		},
+		"Menu": {
+			"Menu": { "width": 96, "height": 98 }
+		},
+		"MenuBox": {
+			"MenuBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -43.21, 46.72, 49.15, 45.42, 47.19, -46.67, -45.31, -46.67 ]
+			}
+		},
+		"Store": {
+			"Store": { "y": 3.71, "width": 99, "height": 102 }
+		},
+		"StoreBox": {
+			"StoreBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -46.39, 55, 47.84, 53.52, 47, -42.1, -47.88, -41.46 ]
+			}
+		}
+	}
+},
+"animations": {
+	"animation": {}
+}
+}

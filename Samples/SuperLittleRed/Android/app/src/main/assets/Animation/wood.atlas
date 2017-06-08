@@ -1,0 +1,48 @@
+
+wood.png
+size: 128,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arroy
+  rotate: false
+  xy: 42, 55
+  size: 45, 7
+  orig: 45, 7
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 30
+  size: 38, 32
+  orig: 38, 32
+  offset: 0, 0
+  index: -1
+l-hand
+  rotate: false
+  xy: 2, 8
+  size: 23, 20
+  orig: 23, 20
+  offset: 0, 0
+  index: -1
+l-leg
+  rotate: false
+  xy: 27, 16
+  size: 6, 12
+  orig: 6, 12
+  offset: 0, 0
+  index: -1
+r-hand
+  rotate: false
+  xy: 42, 33
+  size: 22, 20
+  orig: 22, 20
+  offset: 0, 0
+  index: -1
+r-leg
+  rotate: false
+  xy: 27, 2
+  size: 5, 12
+  orig: 5, 12
+  offset: 0, 0
+  index: -1

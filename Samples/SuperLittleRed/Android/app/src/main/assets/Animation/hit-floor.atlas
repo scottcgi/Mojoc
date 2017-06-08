@@ -1,0 +1,132 @@
+
+hit-floor.png
+size: 2048,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 2, 61
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+10
+  rotate: false
+  xy: 518, 2
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+11
+  rotate: false
+  xy: 647, 61
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+12
+  rotate: false
+  xy: 647, 2
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+13
+  rotate: false
+  xy: 776, 61
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+14
+  rotate: false
+  xy: 776, 2
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+15
+  rotate: false
+  xy: 905, 61
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+16
+  rotate: false
+  xy: 905, 2
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+17
+  rotate: false
+  xy: 1034, 61
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+18
+  rotate: false
+  xy: 1034, 2
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 2, 2
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 131, 61
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 131, 2
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 260, 61
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+6
+  rotate: false
+  xy: 260, 2
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+7
+  rotate: false
+  xy: 389, 61
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+8
+  rotate: false
+  xy: 389, 2
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1
+9
+  rotate: false
+  xy: 518, 61
+  size: 127, 57
+  orig: 127, 57
+  offset: 0, 0
+  index: -1

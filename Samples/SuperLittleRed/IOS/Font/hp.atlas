@@ -1,0 +1,97 @@
+
+hp.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+%
+  rotate: false
+  xy: 34, 33
+  size: 26, 29
+  orig: 26, 29
+  offset: 0, 0
+  index: -1
+-
+  rotate: false
+  xy: 78, 2
+  size: 20, 29
+  orig: 20, 29
+  offset: 0, 0
+  index: -1
+0
+  rotate: false
+  xy: 62, 33
+  size: 20, 29
+  orig: 20, 29
+  offset: 0, 0
+  index: -1
+1
+  rotate: false
+  xy: 84, 33
+  size: 20, 29
+  orig: 20, 29
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 106, 33
+  size: 20, 29
+  orig: 20, 29
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 128, 33
+  size: 20, 29
+  orig: 20, 29
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 150, 33
+  size: 20, 29
+  orig: 20, 29
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 172, 33
+  size: 20, 29
+  orig: 20, 29
+  offset: 0, 0
+  index: -1
+6
+  rotate: false
+  xy: 194, 33
+  size: 20, 29
+  orig: 20, 29
+  offset: 0, 0
+  index: -1
+7
+  rotate: false
+  xy: 216, 33
+  size: 20, 29
+  orig: 20, 29
+  offset: 0, 0
+  index: -1
+8
+  rotate: false
+  xy: 34, 2
+  size: 20, 29
+  orig: 20, 29
+  offset: 0, 0
+  index: -1
+9
+  rotate: false
+  xy: 56, 2
+  size: 20, 29
+  orig: 20, 29
+  offset: 0, 0
+  index: -1
+_
+  rotate: false
+  xy: 2, 32
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
