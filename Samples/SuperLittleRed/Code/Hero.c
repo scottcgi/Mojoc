@@ -261,6 +261,9 @@ static inline bool OnReadyMessage(Component* component, void* sender, int subjec
 
 	switch (touch->type)
 	{
+        case InputTouchType_Cancel:
+            break;
+            
         case InputTouchType_Down:
             break;
 
@@ -377,6 +380,12 @@ static inline bool OnDizzyMessage(Component* component, void* sender, int subjec
         case InputTouchType_Up:
             touchDownId = -1;
             break;
+            
+        case InputTouchType_Move:
+            break;
+            
+        case InputTouchType_Cancel:
+            break;
     }
     
     return false;
@@ -470,6 +479,9 @@ static inline bool OnStandMessage(Component* component, void* sender, int subjec
 
             break;
 		}
+            
+        case InputTouchType_Cancel:
+            break;
 	}
 
 	return false;

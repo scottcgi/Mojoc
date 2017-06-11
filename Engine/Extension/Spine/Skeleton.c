@@ -247,9 +247,9 @@ static void Draw(Drawable* drawable)
 		ADrawable->Draw(AArray_GetPtr(skeleton->boneArr, i, SkeletonBone)->drawable);
 	}
 
-	Mesh*    preMesh     = NULL;
-	SubMesh* preSubMesh  = NULL;
-	SubMesh* startSubMesh;
+	Mesh*    preMesh      = NULL;
+	SubMesh* preSubMesh   = NULL;
+	SubMesh* startSubMesh = NULL;
 	SubMesh* subMesh;
 
 	for (int i = 0; i < skeleton->slotOrderArr->length; i++)
@@ -301,10 +301,13 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 	for (int i = 0; i < skeletonData->attachmentDataList->size; i++)
 	{
 		SkeletonAttachmentData* attachmentData = AArrayList_Get(skeletonData->attachmentDataList, i, SkeletonAttachmentData*);
-		SubMesh*                subMesh;
+		SubMesh*                subMesh        = NULL;
 
 		switch (attachmentData->type)
 		{
+            case SkeletonAttachmentDataType_BoundingBox:
+                break;
+                
 			case SkeletonAttachmentDataType_Region:
 			{
 				SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->childPtr;

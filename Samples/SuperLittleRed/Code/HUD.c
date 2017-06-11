@@ -843,8 +843,8 @@ static void OnItemGet(TweenAction* action)
 
 static void FlyItem(DropCollisionItem* item)
 {
-    char*     name;
-    Drawable* target;
+    char*     name   = NULL;
+    Drawable* target = NULL;
 
     switch (item->bodyId)
     {

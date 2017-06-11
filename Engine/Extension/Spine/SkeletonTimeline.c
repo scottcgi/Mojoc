@@ -207,7 +207,7 @@ static inline float GetCurvePercent(SkeletonCurveTimeline* curveTimeline, int fr
 			i++;
 			percent = AMath_Clamp(percent, 0.0f, 1.0f);
 
-			float x;
+			float x = 0.0f;
 
 			for (int start = i, n = i + bezierSize - 1; i < n; i += 2)
 			{

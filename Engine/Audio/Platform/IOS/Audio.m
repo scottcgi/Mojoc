@@ -68,7 +68,7 @@ static inline void* GetAudioData(char* filePath, ALsizei* outDataSize, ALenum* o
     
     if (fileFormat.mChannelsPerFrame > 2)
     {
-        ALog_E("Audio GetAudioData unsupported format, channel count = %u is greater than stereo, filePath = %s", fileFormat.mChannelsPerFrame, filePath);
+        ALog_E("Audio GetAudioData unsupported format, channel count = %u is greater than stereo, filePath = %s", (unsigned int) fileFormat.mChannelsPerFrame, filePath);
         goto Exit;
     }
     

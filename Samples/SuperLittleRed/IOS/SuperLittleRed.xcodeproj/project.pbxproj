@@ -36,13 +36,8 @@
 		17EA47061EE84DD400ECD84B /* Application.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA45ED1EE84DD300ECD84B /* Application.c */; };
 		17EA47071EE84DD400ECD84B /* Component.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA45EF1EE84DD300ECD84B /* Component.c */; };
 		17EA47081EE84DD400ECD84B /* Input.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA45F11EE84DD300ECD84B /* Input.c */; };
-		17EA47091EE84DD400ECD84B /* JniTool.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA45F51EE84DD300ECD84B /* JniTool.c */; };
-		17EA470A1EE84DD400ECD84B /* NativeGlue.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA45F71EE84DD300ECD84B /* NativeGlue.c */; };
 		17EA470B1EE84DD400ECD84B /* Scheduler.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA45F91EE84DD300ECD84B /* Scheduler.c */; };
-		17EA470C1EE84DD400ECD84B /* Audio.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA45FE1EE84DD300ECD84B /* Audio.c */; };
 		17EA470D1EE84DD400ECD84B /* Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = 17EA46011EE84DD300ECD84B /* Audio.m */; };
-		17EA470E1EE84DD400ECD84B /* cmake_install.cmake in Resources */ = {isa = PBXBuildFile; fileRef = 17EA46051EE84DD300ECD84B /* cmake_install.cmake */; };
-		17EA474D1EE84DD400ECD84B /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 17EA46631EE84DD300ECD84B /* CMakeLists.txt */; };
 		17EA474E1EE84DD400ECD84B /* DrawAtlas.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA46651EE84DD300ECD84B /* DrawAtlas.c */; };
 		17EA474F1EE84DD400ECD84B /* Extension.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA46671EE84DD300ECD84B /* Extension.c */; };
 		17EA47501EE84DD400ECD84B /* Font.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA46691EE84DD300ECD84B /* Font.c */; };
@@ -84,7 +79,6 @@
 		17EA47781EE84DD400ECD84B /* Math.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA46DC1EE84DD400ECD84B /* Math.c */; };
 		17EA47791EE84DD400ECD84B /* Matrix.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA46DE1EE84DD400ECD84B /* Matrix.c */; };
 		17EA477A1EE84DD400ECD84B /* TweenEase.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA46E01EE84DD400ECD84B /* TweenEase.c */; };
-		17EA477B1EE84DD400ECD84B /* File.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA46E51EE84DD400ECD84B /* File.c */; };
 		17EA477C1EE84DD400ECD84B /* File.m in Sources */ = {isa = PBXBuildFile; fileRef = 17EA46E81EE84DD400ECD84B /* File.m */; };
 		17EA477D1EE84DD400ECD84B /* Toolkit.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA46EB1EE84DD400ECD84B /* Toolkit.c */; };
 		17EA477E1EE84DD400ECD84B /* Array.c in Sources */ = {isa = PBXBuildFile; fileRef = 17EA46EE1EE84DD400ECD84B /* Array.c */; };
@@ -150,78 +144,10 @@
 		17EA45F01EE84DD300ECD84B /* Component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Component.h; sourceTree = "<group>"; };
 		17EA45F11EE84DD300ECD84B /* Input.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Input.c; sourceTree = "<group>"; };
 		17EA45F21EE84DD300ECD84B /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Input.h; sourceTree = "<group>"; };
-		17EA45F51EE84DD300ECD84B /* JniTool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = JniTool.c; sourceTree = "<group>"; };
-		17EA45F61EE84DD300ECD84B /* JniTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JniTool.h; sourceTree = "<group>"; };
-		17EA45F71EE84DD300ECD84B /* NativeGlue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = NativeGlue.c; sourceTree = "<group>"; };
 		17EA45F91EE84DD300ECD84B /* Scheduler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Scheduler.c; sourceTree = "<group>"; };
 		17EA45FA1EE84DD300ECD84B /* Scheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scheduler.h; sourceTree = "<group>"; };
-		17EA45FE1EE84DD300ECD84B /* Audio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Audio.c; sourceTree = "<group>"; };
 		17EA45FF1EE84DD300ECD84B /* Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Audio.h; sourceTree = "<group>"; };
 		17EA46011EE84DD300ECD84B /* Audio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Audio.m; sourceTree = "<group>"; };
-		17EA46051EE84DD300ECD84B /* cmake_install.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cmake_install.cmake; sourceTree = "<group>"; };
-		17EA46101EE84DD300ECD84B /* Application.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Application.c.o; sourceTree = "<group>"; };
-		17EA46111EE84DD300ECD84B /* Component.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Component.c.o; sourceTree = "<group>"; };
-		17EA46121EE84DD300ECD84B /* Input.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Input.c.o; sourceTree = "<group>"; };
-		17EA46151EE84DD300ECD84B /* AndroidGlue.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AndroidGlue.c.o; sourceTree = "<group>"; };
-		17EA46161EE84DD300ECD84B /* JniTool.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = JniTool.c.o; sourceTree = "<group>"; };
-		17EA46171EE84DD300ECD84B /* NativeGlue.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = NativeGlue.c.o; sourceTree = "<group>"; };
-		17EA46181EE84DD300ECD84B /* Scheduler.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Scheduler.c.o; sourceTree = "<group>"; };
-		17EA461C1EE84DD300ECD84B /* Audio.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Audio.c.o; sourceTree = "<group>"; };
-		17EA461E1EE84DD300ECD84B /* DrawAtlas.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = DrawAtlas.c.o; sourceTree = "<group>"; };
-		17EA461F1EE84DD300ECD84B /* Extension.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Extension.c.o; sourceTree = "<group>"; };
-		17EA46201EE84DD300ECD84B /* Font.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Font.c.o; sourceTree = "<group>"; };
-		17EA46221EE84DD300ECD84B /* Particle.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Particle.c.o; sourceTree = "<group>"; };
-		17EA46231EE84DD300ECD84B /* ParticleEmitter.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ParticleEmitter.c.o; sourceTree = "<group>"; };
-		17EA46241EE84DD300ECD84B /* ParticleEmitterData.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ParticleEmitterData.c.o; sourceTree = "<group>"; };
-		17EA46261EE84DD300ECD84B /* Skeleton.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Skeleton.c.o; sourceTree = "<group>"; };
-		17EA46271EE84DD300ECD84B /* SkeletonAnimationPlayer.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = SkeletonAnimationPlayer.c.o; sourceTree = "<group>"; };
-		17EA46281EE84DD300ECD84B /* SkeletonBone.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = SkeletonBone.c.o; sourceTree = "<group>"; };
-		17EA46291EE84DD300ECD84B /* SkeletonData.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = SkeletonData.c.o; sourceTree = "<group>"; };
-		17EA462A1EE84DD300ECD84B /* SkeletonSlot.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = SkeletonSlot.c.o; sourceTree = "<group>"; };
-		17EA462B1EE84DD300ECD84B /* SkeletonTimeline.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = SkeletonTimeline.c.o; sourceTree = "<group>"; };
-		17EA462C1EE84DD300ECD84B /* TextureAtlas.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = TextureAtlas.c.o; sourceTree = "<group>"; };
-		17EA462F1EE84DD300ECD84B /* Color.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Color.c.o; sourceTree = "<group>"; };
-		17EA46301EE84DD300ECD84B /* Drawable.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Drawable.c.o; sourceTree = "<group>"; };
-		17EA46311EE84DD300ECD84B /* Quad.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Quad.c.o; sourceTree = "<group>"; };
-		17EA46321EE84DD300ECD84B /* Graphics.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Graphics.c.o; sourceTree = "<group>"; };
-		17EA46341EE84DD300ECD84B /* Camera.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Camera.c.o; sourceTree = "<group>"; };
-		17EA46351EE84DD300ECD84B /* GLInfo.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = GLInfo.c.o; sourceTree = "<group>"; };
-		17EA46361EE84DD300ECD84B /* GLPrimitive.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = GLPrimitive.c.o; sourceTree = "<group>"; };
-		17EA46371EE84DD300ECD84B /* GLTool.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = GLTool.c.o; sourceTree = "<group>"; };
-		17EA46381EE84DD300ECD84B /* Mesh.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Mesh.c.o; sourceTree = "<group>"; };
-		17EA463A1EE84DD300ECD84B /* EGLTool.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = EGLTool.c.o; sourceTree = "<group>"; };
-		17EA463C1EE84DD300ECD84B /* Shader.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Shader.c.o; sourceTree = "<group>"; };
-		17EA463D1EE84DD300ECD84B /* ShaderMesh.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ShaderMesh.c.o; sourceTree = "<group>"; };
-		17EA463E1EE84DD300ECD84B /* ShaderPrimitive.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ShaderPrimitive.c.o; sourceTree = "<group>"; };
-		17EA463F1EE84DD300ECD84B /* ShaderSprite.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ShaderSprite.c.o; sourceTree = "<group>"; };
-		17EA46401EE84DD300ECD84B /* Sprite.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Sprite.c.o; sourceTree = "<group>"; };
-		17EA46411EE84DD300ECD84B /* SubMesh.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = SubMesh.c.o; sourceTree = "<group>"; };
-		17EA46421EE84DD300ECD84B /* Texture.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Texture.c.o; sourceTree = "<group>"; };
-		17EA46441EE84DD300ECD84B /* TweenDrawable.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = TweenDrawable.c.o; sourceTree = "<group>"; };
-		17EA46461EE84DD300ECD84B /* Image.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Image.c.o; sourceTree = "<group>"; };
-		17EA46481EE84DD300ECD84B /* Physics.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Physics.c.o; sourceTree = "<group>"; };
-		17EA46491EE84DD300ECD84B /* PhysicsBody.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = PhysicsBody.c.o; sourceTree = "<group>"; };
-		17EA464A1EE84DD300ECD84B /* PhysicsCollision.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = PhysicsCollision.c.o; sourceTree = "<group>"; };
-		17EA464B1EE84DD300ECD84B /* PhysicsWorld.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = PhysicsWorld.c.o; sourceTree = "<group>"; };
-		17EA464E1EE84DD300ECD84B /* Math.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Math.c.o; sourceTree = "<group>"; };
-		17EA464F1EE84DD300ECD84B /* Matrix.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Matrix.c.o; sourceTree = "<group>"; };
-		17EA46501EE84DD300ECD84B /* TweenEase.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = TweenEase.c.o; sourceTree = "<group>"; };
-		17EA46531EE84DD300ECD84B /* File.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = File.c.o; sourceTree = "<group>"; };
-		17EA46541EE84DD300ECD84B /* Toolkit.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Toolkit.c.o; sourceTree = "<group>"; };
-		17EA46561EE84DD300ECD84B /* Array.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Array.c.o; sourceTree = "<group>"; };
-		17EA46571EE84DD300ECD84B /* ArrayIntMap.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ArrayIntMap.c.o; sourceTree = "<group>"; };
-		17EA46581EE84DD300ECD84B /* ArrayIntSet.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ArrayIntSet.c.o; sourceTree = "<group>"; };
-		17EA46591EE84DD300ECD84B /* ArrayList.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ArrayList.c.o; sourceTree = "<group>"; };
-		17EA465A1EE84DD300ECD84B /* ArrayQueue.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ArrayQueue.c.o; sourceTree = "<group>"; };
-		17EA465B1EE84DD300ECD84B /* ArrayStrMap.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ArrayStrMap.c.o; sourceTree = "<group>"; };
-		17EA465C1EE84DD300ECD84B /* BufferReader.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = BufferReader.c.o; sourceTree = "<group>"; };
-		17EA465D1EE84DD300ECD84B /* Coroutine.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Coroutine.c.o; sourceTree = "<group>"; };
-		17EA465E1EE84DD300ECD84B /* FileTool.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = FileTool.c.o; sourceTree = "<group>"; };
-		17EA465F1EE84DD300ECD84B /* Json.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Json.c.o; sourceTree = "<group>"; };
-		17EA46601EE84DD300ECD84B /* Tween.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Tween.c.o; sourceTree = "<group>"; };
-		17EA46611EE84DD300ECD84B /* TweenTool.c.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = TweenTool.c.o; sourceTree = "<group>"; };
-		17EA46621EE84DD300ECD84B /* libMojoc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMojoc.a; sourceTree = "<group>"; };
-		17EA46631EE84DD300ECD84B /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		17EA46651EE84DD300ECD84B /* DrawAtlas.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DrawAtlas.c; sourceTree = "<group>"; };
 		17EA46661EE84DD300ECD84B /* DrawAtlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawAtlas.h; sourceTree = "<group>"; };
 		17EA46671EE84DD300ECD84B /* Extension.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Extension.c; sourceTree = "<group>"; };
@@ -297,16 +223,9 @@
 		17EA46B71EE84DD400ECD84B /* PhysicsConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsConfig.h; sourceTree = "<group>"; };
 		17EA46B81EE84DD400ECD84B /* PhysicsWorld.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PhysicsWorld.c; sourceTree = "<group>"; };
 		17EA46B91EE84DD400ECD84B /* PhysicsWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsWorld.h; sourceTree = "<group>"; };
-		17EA46BE1EE84DD400ECD84B /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = png.h; sourceTree = "<group>"; };
-		17EA46BF1EE84DD400ECD84B /* pngconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngconf.h; sourceTree = "<group>"; };
-		17EA46C01EE84DD400ECD84B /* pnglibconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnglibconf.h; sourceTree = "<group>"; };
 		17EA46C21EE84DD400ECD84B /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = png.h; sourceTree = "<group>"; };
 		17EA46C31EE84DD400ECD84B /* pngconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngconf.h; sourceTree = "<group>"; };
 		17EA46C41EE84DD400ECD84B /* pnglibconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnglibconf.h; sourceTree = "<group>"; };
-		17EA46C81EE84DD400ECD84B /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpng.a; sourceTree = "<group>"; };
-		17EA46CA1EE84DD400ECD84B /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpng.a; sourceTree = "<group>"; };
-		17EA46CC1EE84DD400ECD84B /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpng.a; sourceTree = "<group>"; };
-		17EA46CE1EE84DD400ECD84B /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpng.a; sourceTree = "<group>"; };
 		17EA46D01EE84DD400ECD84B /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpng.a; sourceTree = "<group>"; };
 		17EA46D11EE84DD400ECD84B /* libpng_i386.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpng_i386.a; sourceTree = "<group>"; };
 		17EA46D41EE84DD400ECD84B /* ArrayRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayRange.h; sourceTree = "<group>"; };
@@ -323,7 +242,6 @@
 		17EA46E01EE84DD400ECD84B /* TweenEase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TweenEase.c; sourceTree = "<group>"; };
 		17EA46E11EE84DD400ECD84B /* TweenEase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweenEase.h; sourceTree = "<group>"; };
 		17EA46E21EE84DD400ECD84B /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
-		17EA46E51EE84DD400ECD84B /* File.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = File.c; sourceTree = "<group>"; };
 		17EA46E61EE84DD400ECD84B /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = File.h; sourceTree = "<group>"; };
 		17EA46E81EE84DD400ECD84B /* File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = File.m; sourceTree = "<group>"; };
 		17EA46E91EE84DD400ECD84B /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
@@ -459,7 +377,6 @@
 			children = (
 				17EA45EC1EE84DD300ECD84B /* Application */,
 				17EA45FB1EE84DD300ECD84B /* Audio */,
-				17EA46021EE84DD300ECD84B /* Build */,
 				17EA46641EE84DD300ECD84B /* Extension */,
 				17EA46811EE84DD300ECD84B /* Graphics */,
 				17EA46B01EE84DD400ECD84B /* Physics */,
@@ -489,20 +406,9 @@
 		17EA45F31EE84DD300ECD84B /* Platform */ = {
 			isa = PBXGroup;
 			children = (
-				17EA45F41EE84DD300ECD84B /* Android */,
 				17EA45F81EE84DD300ECD84B /* IOS */,
 			);
 			path = Platform;
-			sourceTree = "<group>";
-		};
-		17EA45F41EE84DD300ECD84B /* Android */ = {
-			isa = PBXGroup;
-			children = (
-				17EA45F51EE84DD300ECD84B /* JniTool.c */,
-				17EA45F61EE84DD300ECD84B /* JniTool.h */,
-				17EA45F71EE84DD300ECD84B /* NativeGlue.c */,
-			);
-			path = Android;
 			sourceTree = "<group>";
 		};
 		17EA45F81EE84DD300ECD84B /* IOS */ = {
@@ -523,19 +429,10 @@
 		17EA45FC1EE84DD300ECD84B /* Platform */ = {
 			isa = PBXGroup;
 			children = (
-				17EA45FD1EE84DD300ECD84B /* Android */,
 				17EA45FF1EE84DD300ECD84B /* Audio.h */,
 				17EA46001EE84DD300ECD84B /* IOS */,
 			);
 			path = Platform;
-			sourceTree = "<group>";
-		};
-		17EA45FD1EE84DD300ECD84B /* Android */ = {
-			isa = PBXGroup;
-			children = (
-				17EA45FE1EE84DD300ECD84B /* Audio.c */,
-			);
-			path = Android;
 			sourceTree = "<group>";
 		};
 		17EA46001EE84DD300ECD84B /* IOS */ = {
@@ -544,341 +441,6 @@
 				17EA46011EE84DD300ECD84B /* Audio.m */,
 			);
 			path = IOS;
-			sourceTree = "<group>";
-		};
-		17EA46021EE84DD300ECD84B /* Build */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46031EE84DD300ECD84B /* Android */,
-			);
-			path = Build;
-			sourceTree = "<group>";
-		};
-		17EA46031EE84DD300ECD84B /* Android */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46041EE84DD300ECD84B /* Bin */,
-				17EA46631EE84DD300ECD84B /* CMakeLists.txt */,
-			);
-			path = Android;
-			sourceTree = "<group>";
-		};
-		17EA46041EE84DD300ECD84B /* Bin */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46051EE84DD300ECD84B /* cmake_install.cmake */,
-				17EA46061EE84DD300ECD84B /* CMakeFiles */,
-				17EA46621EE84DD300ECD84B /* libMojoc.a */,
-			);
-			path = Bin;
-			sourceTree = "<group>";
-		};
-		17EA46061EE84DD300ECD84B /* CMakeFiles */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46071EE84DD300ECD84B /* Mojoc.dir */,
-			);
-			path = CMakeFiles;
-			sourceTree = "<group>";
-		};
-		17EA46071EE84DD300ECD84B /* Mojoc.dir */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46081EE84DD300ECD84B /* Users */,
-			);
-			path = Mojoc.dir;
-			sourceTree = "<group>";
-		};
-		17EA46081EE84DD300ECD84B /* Users */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46091EE84DD300ECD84B /* scottcgi */,
-			);
-			path = Users;
-			sourceTree = "<group>";
-		};
-		17EA46091EE84DD300ECD84B /* scottcgi */ = {
-			isa = PBXGroup;
-			children = (
-				17EA460A1EE84DD300ECD84B /* Program */,
-			);
-			path = scottcgi;
-			sourceTree = "<group>";
-		};
-		17EA460A1EE84DD300ECD84B /* Program */ = {
-			isa = PBXGroup;
-			children = (
-				17EA460B1EE84DD300ECD84B /* Git */,
-			);
-			path = Program;
-			sourceTree = "<group>";
-		};
-		17EA460B1EE84DD300ECD84B /* Git */ = {
-			isa = PBXGroup;
-			children = (
-				17EA460C1EE84DD300ECD84B /* MyGame */,
-			);
-			path = Git;
-			sourceTree = "<group>";
-		};
-		17EA460C1EE84DD300ECD84B /* MyGame */ = {
-			isa = PBXGroup;
-			children = (
-				17EA460D1EE84DD300ECD84B /* Mojoc */,
-			);
-			path = MyGame;
-			sourceTree = "<group>";
-		};
-		17EA460D1EE84DD300ECD84B /* Mojoc */ = {
-			isa = PBXGroup;
-			children = (
-				17EA460E1EE84DD300ECD84B /* Engine */,
-			);
-			path = Mojoc;
-			sourceTree = "<group>";
-		};
-		17EA460E1EE84DD300ECD84B /* Engine */ = {
-			isa = PBXGroup;
-			children = (
-				17EA460F1EE84DD300ECD84B /* Application */,
-				17EA46191EE84DD300ECD84B /* Audio */,
-				17EA461D1EE84DD300ECD84B /* Extension */,
-				17EA462D1EE84DD300ECD84B /* Graphics */,
-				17EA46471EE84DD300ECD84B /* Physics */,
-				17EA464C1EE84DD300ECD84B /* Toolkit */,
-			);
-			path = Engine;
-			sourceTree = "<group>";
-		};
-		17EA460F1EE84DD300ECD84B /* Application */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46101EE84DD300ECD84B /* Application.c.o */,
-				17EA46111EE84DD300ECD84B /* Component.c.o */,
-				17EA46121EE84DD300ECD84B /* Input.c.o */,
-				17EA46131EE84DD300ECD84B /* Platform */,
-				17EA46181EE84DD300ECD84B /* Scheduler.c.o */,
-			);
-			path = Application;
-			sourceTree = "<group>";
-		};
-		17EA46131EE84DD300ECD84B /* Platform */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46141EE84DD300ECD84B /* Android */,
-			);
-			path = Platform;
-			sourceTree = "<group>";
-		};
-		17EA46141EE84DD300ECD84B /* Android */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46151EE84DD300ECD84B /* AndroidGlue.c.o */,
-				17EA46161EE84DD300ECD84B /* JniTool.c.o */,
-				17EA46171EE84DD300ECD84B /* NativeGlue.c.o */,
-			);
-			path = Android;
-			sourceTree = "<group>";
-		};
-		17EA46191EE84DD300ECD84B /* Audio */ = {
-			isa = PBXGroup;
-			children = (
-				17EA461A1EE84DD300ECD84B /* Platform */,
-			);
-			path = Audio;
-			sourceTree = "<group>";
-		};
-		17EA461A1EE84DD300ECD84B /* Platform */ = {
-			isa = PBXGroup;
-			children = (
-				17EA461B1EE84DD300ECD84B /* Android */,
-			);
-			path = Platform;
-			sourceTree = "<group>";
-		};
-		17EA461B1EE84DD300ECD84B /* Android */ = {
-			isa = PBXGroup;
-			children = (
-				17EA461C1EE84DD300ECD84B /* Audio.c.o */,
-			);
-			path = Android;
-			sourceTree = "<group>";
-		};
-		17EA461D1EE84DD300ECD84B /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				17EA461E1EE84DD300ECD84B /* DrawAtlas.c.o */,
-				17EA461F1EE84DD300ECD84B /* Extension.c.o */,
-				17EA46201EE84DD300ECD84B /* Font.c.o */,
-				17EA46211EE84DD300ECD84B /* Particle */,
-				17EA46251EE84DD300ECD84B /* Spine */,
-				17EA462C1EE84DD300ECD84B /* TextureAtlas.c.o */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
-		17EA46211EE84DD300ECD84B /* Particle */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46221EE84DD300ECD84B /* Particle.c.o */,
-				17EA46231EE84DD300ECD84B /* ParticleEmitter.c.o */,
-				17EA46241EE84DD300ECD84B /* ParticleEmitterData.c.o */,
-			);
-			path = Particle;
-			sourceTree = "<group>";
-		};
-		17EA46251EE84DD300ECD84B /* Spine */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46261EE84DD300ECD84B /* Skeleton.c.o */,
-				17EA46271EE84DD300ECD84B /* SkeletonAnimationPlayer.c.o */,
-				17EA46281EE84DD300ECD84B /* SkeletonBone.c.o */,
-				17EA46291EE84DD300ECD84B /* SkeletonData.c.o */,
-				17EA462A1EE84DD300ECD84B /* SkeletonSlot.c.o */,
-				17EA462B1EE84DD300ECD84B /* SkeletonTimeline.c.o */,
-			);
-			path = Spine;
-			sourceTree = "<group>";
-		};
-		17EA462D1EE84DD300ECD84B /* Graphics */ = {
-			isa = PBXGroup;
-			children = (
-				17EA462E1EE84DD300ECD84B /* Draw */,
-				17EA46321EE84DD300ECD84B /* Graphics.c.o */,
-				17EA46331EE84DD300ECD84B /* OpenGL */,
-				17EA46431EE84DD300ECD84B /* Tween */,
-				17EA46451EE84DD300ECD84B /* Utils */,
-			);
-			path = Graphics;
-			sourceTree = "<group>";
-		};
-		17EA462E1EE84DD300ECD84B /* Draw */ = {
-			isa = PBXGroup;
-			children = (
-				17EA462F1EE84DD300ECD84B /* Color.c.o */,
-				17EA46301EE84DD300ECD84B /* Drawable.c.o */,
-				17EA46311EE84DD300ECD84B /* Quad.c.o */,
-			);
-			path = Draw;
-			sourceTree = "<group>";
-		};
-		17EA46331EE84DD300ECD84B /* OpenGL */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46341EE84DD300ECD84B /* Camera.c.o */,
-				17EA46351EE84DD300ECD84B /* GLInfo.c.o */,
-				17EA46361EE84DD300ECD84B /* GLPrimitive.c.o */,
-				17EA46371EE84DD300ECD84B /* GLTool.c.o */,
-				17EA46381EE84DD300ECD84B /* Mesh.c.o */,
-				17EA46391EE84DD300ECD84B /* Platform */,
-				17EA463B1EE84DD300ECD84B /* Shader */,
-				17EA46401EE84DD300ECD84B /* Sprite.c.o */,
-				17EA46411EE84DD300ECD84B /* SubMesh.c.o */,
-				17EA46421EE84DD300ECD84B /* Texture.c.o */,
-			);
-			path = OpenGL;
-			sourceTree = "<group>";
-		};
-		17EA46391EE84DD300ECD84B /* Platform */ = {
-			isa = PBXGroup;
-			children = (
-				17EA463A1EE84DD300ECD84B /* EGLTool.c.o */,
-			);
-			path = Platform;
-			sourceTree = "<group>";
-		};
-		17EA463B1EE84DD300ECD84B /* Shader */ = {
-			isa = PBXGroup;
-			children = (
-				17EA463C1EE84DD300ECD84B /* Shader.c.o */,
-				17EA463D1EE84DD300ECD84B /* ShaderMesh.c.o */,
-				17EA463E1EE84DD300ECD84B /* ShaderPrimitive.c.o */,
-				17EA463F1EE84DD300ECD84B /* ShaderSprite.c.o */,
-			);
-			path = Shader;
-			sourceTree = "<group>";
-		};
-		17EA46431EE84DD300ECD84B /* Tween */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46441EE84DD300ECD84B /* TweenDrawable.c.o */,
-			);
-			path = Tween;
-			sourceTree = "<group>";
-		};
-		17EA46451EE84DD300ECD84B /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46461EE84DD300ECD84B /* Image.c.o */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		17EA46471EE84DD300ECD84B /* Physics */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46481EE84DD300ECD84B /* Physics.c.o */,
-				17EA46491EE84DD300ECD84B /* PhysicsBody.c.o */,
-				17EA464A1EE84DD300ECD84B /* PhysicsCollision.c.o */,
-				17EA464B1EE84DD300ECD84B /* PhysicsWorld.c.o */,
-			);
-			path = Physics;
-			sourceTree = "<group>";
-		};
-		17EA464C1EE84DD300ECD84B /* Toolkit */ = {
-			isa = PBXGroup;
-			children = (
-				17EA464D1EE84DD300ECD84B /* Math */,
-				17EA46511EE84DD300ECD84B /* Platform */,
-				17EA46541EE84DD300ECD84B /* Toolkit.c.o */,
-				17EA46551EE84DD300ECD84B /* Utils */,
-			);
-			path = Toolkit;
-			sourceTree = "<group>";
-		};
-		17EA464D1EE84DD300ECD84B /* Math */ = {
-			isa = PBXGroup;
-			children = (
-				17EA464E1EE84DD300ECD84B /* Math.c.o */,
-				17EA464F1EE84DD300ECD84B /* Matrix.c.o */,
-				17EA46501EE84DD300ECD84B /* TweenEase.c.o */,
-			);
-			path = Math;
-			sourceTree = "<group>";
-		};
-		17EA46511EE84DD300ECD84B /* Platform */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46521EE84DD300ECD84B /* Android */,
-			);
-			path = Platform;
-			sourceTree = "<group>";
-		};
-		17EA46521EE84DD300ECD84B /* Android */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46531EE84DD300ECD84B /* File.c.o */,
-			);
-			path = Android;
-			sourceTree = "<group>";
-		};
-		17EA46551EE84DD300ECD84B /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46561EE84DD300ECD84B /* Array.c.o */,
-				17EA46571EE84DD300ECD84B /* ArrayIntMap.c.o */,
-				17EA46581EE84DD300ECD84B /* ArrayIntSet.c.o */,
-				17EA46591EE84DD300ECD84B /* ArrayList.c.o */,
-				17EA465A1EE84DD300ECD84B /* ArrayQueue.c.o */,
-				17EA465B1EE84DD300ECD84B /* ArrayStrMap.c.o */,
-				17EA465C1EE84DD300ECD84B /* BufferReader.c.o */,
-				17EA465D1EE84DD300ECD84B /* Coroutine.c.o */,
-				17EA465E1EE84DD300ECD84B /* FileTool.c.o */,
-				17EA465F1EE84DD300ECD84B /* Json.c.o */,
-				17EA46601EE84DD300ECD84B /* Tween.c.o */,
-				17EA46611EE84DD300ECD84B /* TweenTool.c.o */,
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 		17EA46641EE84DD300ECD84B /* Extension */ = {
@@ -1061,20 +623,9 @@
 		17EA46BC1EE84DD400ECD84B /* Include */ = {
 			isa = PBXGroup;
 			children = (
-				17EA46BD1EE84DD400ECD84B /* Android */,
 				17EA46C11EE84DD400ECD84B /* IOS */,
 			);
 			path = Include;
-			sourceTree = "<group>";
-		};
-		17EA46BD1EE84DD400ECD84B /* Android */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46BE1EE84DD400ECD84B /* png.h */,
-				17EA46BF1EE84DD400ECD84B /* pngconf.h */,
-				17EA46C01EE84DD400ECD84B /* pnglibconf.h */,
-			);
-			path = Android;
 			sourceTree = "<group>";
 		};
 		17EA46C11EE84DD400ECD84B /* IOS */ = {
@@ -1090,53 +641,9 @@
 		17EA46C51EE84DD400ECD84B /* Prebuilt */ = {
 			isa = PBXGroup;
 			children = (
-				17EA46C61EE84DD400ECD84B /* Android */,
 				17EA46CF1EE84DD400ECD84B /* IOS */,
 			);
 			path = Prebuilt;
-			sourceTree = "<group>";
-		};
-		17EA46C61EE84DD400ECD84B /* Android */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46C71EE84DD400ECD84B /* arm64-v8a */,
-				17EA46C91EE84DD400ECD84B /* armeabi */,
-				17EA46CB1EE84DD400ECD84B /* armeabi-v7a */,
-				17EA46CD1EE84DD400ECD84B /* x86 */,
-			);
-			path = Android;
-			sourceTree = "<group>";
-		};
-		17EA46C71EE84DD400ECD84B /* arm64-v8a */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46C81EE84DD400ECD84B /* libpng.a */,
-			);
-			path = "arm64-v8a";
-			sourceTree = "<group>";
-		};
-		17EA46C91EE84DD400ECD84B /* armeabi */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46CA1EE84DD400ECD84B /* libpng.a */,
-			);
-			path = armeabi;
-			sourceTree = "<group>";
-		};
-		17EA46CB1EE84DD400ECD84B /* armeabi-v7a */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46CC1EE84DD400ECD84B /* libpng.a */,
-			);
-			path = "armeabi-v7a";
-			sourceTree = "<group>";
-		};
-		17EA46CD1EE84DD400ECD84B /* x86 */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46CE1EE84DD400ECD84B /* libpng.a */,
-			);
-			path = x86;
 			sourceTree = "<group>";
 		};
 		17EA46CF1EE84DD400ECD84B /* IOS */ = {
@@ -1192,21 +699,12 @@
 		17EA46E31EE84DD400ECD84B /* Platform */ = {
 			isa = PBXGroup;
 			children = (
-				17EA46E41EE84DD400ECD84B /* Android */,
 				17EA46E61EE84DD400ECD84B /* File.h */,
 				17EA46E71EE84DD400ECD84B /* IOS */,
 				17EA46E91EE84DD400ECD84B /* Log.h */,
 				17EA46EA1EE84DD400ECD84B /* Platform.h */,
 			);
 			path = Platform;
-			sourceTree = "<group>";
-		};
-		17EA46E41EE84DD400ECD84B /* Android */ = {
-			isa = PBXGroup;
-			children = (
-				17EA46E51EE84DD400ECD84B /* File.c */,
-			);
-			path = Android;
 			sourceTree = "<group>";
 		};
 		17EA46E71EE84DD400ECD84B /* IOS */ = {
@@ -1310,7 +808,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				17A543A21E7C287700EB9D00 /* Texture in Resources */,
-				17EA470E1EE84DD400ECD84B /* cmake_install.cmake in Resources */,
 				17A543A11E7C287700EB9D00 /* Stage in Resources */,
 				17A5439F1E7C287700EB9D00 /* Audio in Resources */,
 				17A5439E1E7C287700EB9D00 /* Animation in Resources */,
@@ -1320,7 +817,6 @@
 				17A541B81E76F8BF00EB9D00 /* LaunchScreen.storyboard in Resources */,
 				17A541C01E76F94200EB9D00 /* .gitignore in Resources */,
 				17A543A31E7C287700EB9D00 /* UI in Resources */,
-				17EA474D1EE84DD400ECD84B /* CMakeLists.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1347,7 +843,6 @@
 				17EA45E01EE84DC200ECD84B /* AudioTool.c in Sources */,
 				17EA47821EE84DD400ECD84B /* ArrayQueue.c in Sources */,
 				17EA475A1EE84DD400ECD84B /* TextureAtlas.c in Sources */,
-				17EA470C1EE84DD400ECD84B /* Audio.c in Sources */,
 				17EA47861EE84DD400ECD84B /* FileTool.c in Sources */,
 				17EA47541EE84DD400ECD84B /* Skeleton.c in Sources */,
 				17EA477D1EE84DD400ECD84B /* Toolkit.c in Sources */,
@@ -1376,7 +871,6 @@
 				17EA45EA1EE84DC200ECD84B /* UI.c in Sources */,
 				17EA47651EE84DD400ECD84B /* Shader.c in Sources */,
 				17EA47881EE84DD400ECD84B /* Tween.c in Sources */,
-				17EA47091EE84DD400ECD84B /* JniTool.c in Sources */,
 				17A541B01E76F8BF00EB9D00 /* GameViewController.swift in Sources */,
 				17EA47711EE84DD400ECD84B /* PhysicsWorld.c in Sources */,
 				17EA47871EE84DD400ECD84B /* Json.c in Sources */,
@@ -1385,7 +879,6 @@
 				17EA47631EE84DD400ECD84B /* Mesh.c in Sources */,
 				17A541AA1E76F8BE00EB9D00 /* AppDelegate.swift in Sources */,
 				17EA475F1EE84DD400ECD84B /* Camera.c in Sources */,
-				17EA477B1EE84DD400ECD84B /* File.c in Sources */,
 				17EA45E51EE84DC200ECD84B /* GameData.c in Sources */,
 				17EA475B1EE84DD400ECD84B /* Color.c in Sources */,
 				17EA476E1EE84DD400ECD84B /* Physics.c in Sources */,
@@ -1405,7 +898,6 @@
 				17EA47691EE84DD400ECD84B /* Sprite.c in Sources */,
 				17EA47511EE84DD400ECD84B /* Particle.c in Sources */,
 				17EA47791EE84DD400ECD84B /* Matrix.c in Sources */,
-				17EA470A1EE84DD400ECD84B /* NativeGlue.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1544,15 +1036,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Engine/Build/Android/Bin",
-					"$(PROJECT_DIR)/Engine/ThirdParty/PNG/Prebuilt/Android/arm64-v8a",
-					"$(PROJECT_DIR)/Engine/ThirdParty/PNG/Prebuilt/Android/armeabi",
-					"$(PROJECT_DIR)/Engine/ThirdParty/PNG/Prebuilt/Android/armeabi-v7a",
-					"$(PROJECT_DIR)/Engine/ThirdParty/PNG/Prebuilt/Android/x86",
-					"$(PROJECT_DIR)/Engine/ThirdParty/PNG/Prebuilt/IOS",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Mojoc.Samples.SuperLittleRed;
 				PRODUCT_MODULE_NAME = Mojoc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1573,15 +1057,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Engine/Build/Android/Bin",
-					"$(PROJECT_DIR)/Engine/ThirdParty/PNG/Prebuilt/Android/arm64-v8a",
-					"$(PROJECT_DIR)/Engine/ThirdParty/PNG/Prebuilt/Android/armeabi",
-					"$(PROJECT_DIR)/Engine/ThirdParty/PNG/Prebuilt/Android/armeabi-v7a",
-					"$(PROJECT_DIR)/Engine/ThirdParty/PNG/Prebuilt/Android/x86",
-					"$(PROJECT_DIR)/Engine/ThirdParty/PNG/Prebuilt/IOS",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Mojoc.Samples.SuperLittleRed;
 				PRODUCT_MODULE_NAME = Mojoc;
 				PRODUCT_NAME = "$(TARGET_NAME)";

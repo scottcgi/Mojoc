@@ -102,6 +102,12 @@ static void Update(float deltaSeconds)
                 case CoroutineWaitType_Seconds:
                     coroutine->curWaitValue += deltaSeconds;
                     break;
+                    
+                case CoroutineWaitType_Null:
+                    break;
+                    
+                case CoroutineWaitType_Coroutines:
+                    break;
             }
         }
     }

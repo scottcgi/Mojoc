@@ -364,6 +364,12 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
 
         switch (touch->type)
         {
+            case InputTouchType_Move:
+                break;
+                
+            case InputTouchType_Cancel:
+                break;
+                
             case InputTouchType_Up:
                 if (curUIDrawable != NULL)
                 {

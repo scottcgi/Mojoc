@@ -166,8 +166,8 @@ ScheduleOnce:
 
 //--------------------------------------------------------------------------------------------------
 
-	FontText* text = AFont->GetText(AGameActor->hpFont);
-	float     hurtEffectPos;
+	FontText* text          = AFont->GetText(AGameActor->hpFont);
+	float     hurtEffectPos = 0.0f;
 
 	enemy->hp--;
 

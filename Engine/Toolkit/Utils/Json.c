@@ -56,6 +56,15 @@ static void Release(JsonValue* value)
 
             break;
 		}
+            
+        case JsonType_Float:
+            break;
+            
+        case JsonType_String:
+            break;
+            
+        case JsonType_Null:
+            break;
 	}
 
 	free(value);

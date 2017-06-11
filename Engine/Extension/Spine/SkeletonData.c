@@ -348,7 +348,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 
 		nameLength = (int) strlen(attachmentName) + 1;
 
-		SkeletonAttachmentData* attachmentData;
+		SkeletonAttachmentData* attachmentData = NULL;
 
 		if (attachmentType == NULL)
 		{
@@ -636,6 +636,12 @@ static inline void ReadCurve(SkeletonCurveTimeline* curveTimeline, int frameInde
 
             break;
         }
+            
+        case JsonType_Float:
+            break;
+            
+        case JsonType_Object:
+            break;
 	}
 }
 
@@ -704,7 +710,7 @@ static inline void ReadAnimationBones
 			}
 			else if ((isOne = strcmp(timelineType, "translate") == 0) || (isTwo = strcmp(timelineType, "scale") == 0))
 			{
-				SkeletonTranslateTimeline* translateTimeline;
+				SkeletonTranslateTimeline* translateTimeline = NULL;
 				SkeletonTimeline*          skeletonTimeline;
 
 				if (isOne)
@@ -1321,6 +1327,9 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 						meshData->meshIndex             = atlasQuad->textureIndex;
 						meshData->quad                  = atlasQuad->quad;
 						meshData->subMeshIndex          = quadCounts[atlasQuad->textureIndex]++;
+                        break;
+                        
+                    case SkeletonAttachmentDataType_BoundingBox:
                         break;
 				}
 			}
