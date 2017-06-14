@@ -9,3 +9,15 @@ Mojoc is open-source, cross-platform, pure C game engine. It is based on OpenGLE
 
 ## License
 Mojoc is licensed under the [MIT License](https://github.com/scottcgi/Mojoc/blob/master/LICENSE "Mojoc Under MIT License").
+
+## Core Idea
+Less is more, Simple is best, More complex thinking keep less and simple
+
+## Features
+
+#### Basic
+* The only need programming skill is C language with C99.
+* In platform-independent code, the C Standard Library is only tool that Mojoc used, in others Mojoc build everything.
+* Mojoc has own unique code style and OOC (Object Oriented C) programing model.
+
+#### Mojoc Toolkit Module
