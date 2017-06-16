@@ -16,7 +16,7 @@
 #include <stdbool.h>
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Graphics/OpenGL/Texture.h"
-#include "Engine/Toolkit/Head/MacroDefine.h"
+#include "Engine/Toolkit/Head/Define.h"
 
 
 struct AGLTool

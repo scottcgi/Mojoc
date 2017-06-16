@@ -10,6 +10,7 @@
 
 
 #include <stdbool.h>
+#include "Engine/Toolkit/Head/String.h"
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderMesh.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -36,7 +37,7 @@ static void Init()
 {
 	AShaderMesh->program = AGLTool->LoadProgram
 	(
-		Stringizing
+        AString_Make
 		(
 			precision highp float;
 			uniform   mat4  uMVPMatrix;
@@ -56,7 +57,7 @@ static void Init()
 			}
 		),
 
-		Stringizing
+        AString_Make
 		(
             precision lowp      float;
 			uniform   sampler2D uSampler2D;

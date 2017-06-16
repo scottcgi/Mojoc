@@ -13,7 +13,7 @@
 #define SKELETON_H
 
 
-#include "Engine/Toolkit/Head/MacroDefine.h"
+#include "Engine/Toolkit/Head/Define.h"
 #include "Engine/Extension/Spine/SkeletonData.h"
 #include "Engine/Extension/Spine/SkeletonBone.h"
 

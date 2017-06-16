@@ -223,7 +223,7 @@ static void OnInitWithSavedData(void* savedData, int length)
 }
 
 
-void ApplicationMain()
+void Application_Main()
 {
 	AApplication->callbacks->OnReady             = OnReady;
 	AApplication->callbacks->OnPause             = OnPause;

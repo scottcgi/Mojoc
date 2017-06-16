@@ -14,23 +14,17 @@
 /*
 ----------------------------------------------------------------------------------------------------
 
-  The name use CamelCased.
 
-  The variable first word lower case.
 
   The macro without parameter lower case words separated by '_'.
 
-  The enum lower case words separated by '_'.
 
-  The const lower case words separated by '_'.
-
-  The goto label lower case words separated by '_'
 
   The define head macro lower case words separated by '_' and end with 'h'
 
 //--------------------------------------------------------------------------------------------------
 
-  The global function first word upper case.
+
 
   The function pointer or function name first word upper case.
 
@@ -58,15 +52,11 @@
 
 //--------------------------------------------------------------------------------------------------
 
-  The bool variable begin with prefix 'is'.
-
-  The singleton begin with prefix 'A'.
 
   The function return boolean which show operation result named with prefix 'Try'.
 
   The function return boolean which show result named with prefix 'Is'.
 
-  The function get out argument named with prefix 'out'.
 
 //--------------------------------------------------------------------------------------------------
 

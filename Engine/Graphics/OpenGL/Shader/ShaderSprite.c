@@ -16,6 +16,7 @@
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Graphics/OpenGL/Shader/Shader.h"
+#include "Engine/Toolkit/Head/String.h"
 
 
 static void Use(Matrix4* mvpMatrix, Color* color)
@@ -37,7 +38,7 @@ static void Init()
 {
 	AShaderSprite->program = AGLTool->LoadProgram
 	(
-		Stringizing
+		AString_Make
 		(
 			precision highp float;
 			uniform   mat4  uMVPMatrix;
@@ -51,7 +52,7 @@ static void Init()
 			}
 		),
 
-		Stringizing
+	    AString_Make
 		(
             precision lowp float;
 			uniform   sampler2D uSampler2D;

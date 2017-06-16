@@ -3,26 +3,19 @@
  *
  * This code is licensed under the MIT License.
  *
- * Since  : 2016-10-2
+ * Since  : 2017-6-16
  * Author : scott.cgi
  * Version: 0.1
  */
 
-
-#ifndef MARCO_DEFINE_H
-#define MARCO_DEFINE_H
-
-
-/**
- * The pointer point NULL
- */
-#define NULL_PTR (void*[]) {NULL}
+#ifndef STRING_H
+#define STRING_H
 
 
 /**
  * Make str to string
  */
-#define Stringizing(str) #str
+#define AString_Make(str) #str
 
 
 #endif

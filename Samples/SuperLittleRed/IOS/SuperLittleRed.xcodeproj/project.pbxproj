@@ -98,6 +98,8 @@
 
 /* Begin PBXFileReference section */
 		17431E051EB8C90A00991D80 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		175F38601EF4266E0020A01F /* Define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Define.h; sourceTree = "<group>"; };
+		175F38611EF4266E0020A01F /* String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
 		17A541A61E76F8BE00EB9D00 /* SuperLittleRed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperLittleRed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17A541A91E76F8BE00EB9D00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		17A541AF1E76F8BF00EB9D00 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -230,7 +232,6 @@
 		17EA46D11EE84DD400ECD84B /* libpng_i386.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpng_i386.a; sourceTree = "<group>"; };
 		17EA46D41EE84DD400ECD84B /* ArrayRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayRange.h; sourceTree = "<group>"; };
 		17EA46D51EE84DD400ECD84B /* Bitwise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bitwise.h; sourceTree = "<group>"; };
-		17EA46D61EE84DD400ECD84B /* MacroDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroDefine.h; sourceTree = "<group>"; };
 		17EA46D71EE84DD400ECD84B /* Rect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rect.h; sourceTree = "<group>"; };
 		17EA46D81EE84DD400ECD84B /* Struct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Struct.h; sourceTree = "<group>"; };
 		17EA46D91EE84DD400ECD84B /* StyleGuide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyleGuide.h; sourceTree = "<group>"; };
@@ -671,9 +672,10 @@
 		17EA46D31EE84DD400ECD84B /* Head */ = {
 			isa = PBXGroup;
 			children = (
+				175F38601EF4266E0020A01F /* Define.h */,
+				175F38611EF4266E0020A01F /* String.h */,
 				17EA46D41EE84DD400ECD84B /* ArrayRange.h */,
 				17EA46D51EE84DD400ECD84B /* Bitwise.h */,
-				17EA46D61EE84DD400ECD84B /* MacroDefine.h */,
 				17EA46D71EE84DD400ECD84B /* Rect.h */,
 				17EA46D81EE84DD400ECD84B /* Struct.h */,
 				17EA46D91EE84DD400ECD84B /* StyleGuide.h */,

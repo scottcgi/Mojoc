@@ -477,7 +477,7 @@ static void OnLowMemory(ANativeActivity* activity)
 //--------------------------------------------------------------------------------------------------
 
 
-void ANativeActivityOnCreate(ANativeActivity* activity, void* savedState, size_t savedStateSize)
+void ANativeActivity_OnCreate(ANativeActivity* activity, void* savedState, size_t savedStateSize)
 {
 	ALog_D("ANativeActivityOnCreate Start");
 	nativeActivity                                  = activity;

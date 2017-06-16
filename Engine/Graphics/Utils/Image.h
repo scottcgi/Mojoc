@@ -13,7 +13,7 @@
 #define IMAGE_H
 
 
-#include "Engine/Toolkit/Head/MacroDefine.h"
+#include "Engine/Toolkit/Head/Define.h"
 
 
 struct AImage

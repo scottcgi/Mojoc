@@ -39,7 +39,7 @@ static void Init()
     AComponent->Init(AApplication->component);
 
     // entry called
-    ApplicationMain();
+    Application_Main();
 
     // check callback setting
     ALog_A(AApplication->callbacks->OnReady             != NULL, "AApplication->callbacks->OnReady             must be set");

@@ -23,7 +23,7 @@
             <meta-data android:name="android.app.lib_name"  android:value="SuperLittleRed" />
 
             <!-- Tell NativeActivity the entry of native code -->
-            <meta-data android:name="android.app.func_name" android:value="ANativeActivityOnCreate" />
+            <meta-data android:name="android.app.func_name" android:value="ANativeActivity_OnCreate" />
 
             <intent-filter>
                 <action   android:name="android.intent.action.MAIN" />
