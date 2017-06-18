@@ -234,7 +234,6 @@
 		17EA46D51EE84DD400ECD84B /* Bitwise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bitwise.h; sourceTree = "<group>"; };
 		17EA46D71EE84DD400ECD84B /* Rect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rect.h; sourceTree = "<group>"; };
 		17EA46D81EE84DD400ECD84B /* Struct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Struct.h; sourceTree = "<group>"; };
-		17EA46D91EE84DD400ECD84B /* StyleGuide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyleGuide.h; sourceTree = "<group>"; };
 		17EA46DA1EE84DD400ECD84B /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
 		17EA46DC1EE84DD400ECD84B /* Math.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Math.c; sourceTree = "<group>"; };
 		17EA46DD1EE84DD400ECD84B /* Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Math.h; sourceTree = "<group>"; };
@@ -678,7 +677,6 @@
 				17EA46D51EE84DD400ECD84B /* Bitwise.h */,
 				17EA46D71EE84DD400ECD84B /* Rect.h */,
 				17EA46D81EE84DD400ECD84B /* Struct.h */,
-				17EA46D91EE84DD400ECD84B /* StyleGuide.h */,
 				17EA46DA1EE84DD400ECD84B /* UserData.h */,
 			);
 			path = Head;

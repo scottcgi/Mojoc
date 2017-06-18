@@ -8,13 +8,13 @@
  * Version: 0.1
  */
 
+
 #ifndef DRAWABLE_H
 #define DRAWABLE_H
 
 
 #include <stdbool.h>
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
-#include "Engine/Toolkit/Math/Matrix.h"
 #include "Engine/Toolkit/Math/Matrix.h"
 #include "Engine/Toolkit/Math/Math.h"
 #include "Engine/Toolkit/Head/Bitwise.h"
@@ -382,6 +382,7 @@ struct ADrawable
 	 */
 	float     (*GetWorldScaleY)        (Drawable* drawable);
 };
+
 
 extern struct ADrawable ADrawable[1];
 
