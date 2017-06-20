@@ -57,51 +57,49 @@ static Drawable debugCollisionBoundingBox[1];
 
 static void Update(Component* component, float deltaSeconds)
 {
-	ASkeletonAnimationPlayer_Update(AHero->player,   deltaSeconds);
-	ASkeletonAnimationPlayer_Update(AHero->hitFloor, deltaSeconds);
+    ASkeletonAnimationPlayer_Update(AHero->player,   deltaSeconds);
+    ASkeletonAnimationPlayer_Update(AHero->hitFloor, deltaSeconds);
 
     if (AHero->component->curState->id < HeroState_Die)
     {
         AHero->roundTime += deltaSeconds;
     }
 
-	if (AHero->collisionBoxBody != NULL)
-	{
+    if (AHero->collisionBoxBody != NULL)
+    {
         if (APhysicsBody_CheckState(AHero->collisionBoxBody, PhysicsBodyState_IsFreeze) == false)
         {
             ATool->UpdateBox(AHero->collisionBoxBody, AHero->collisionBoxDrawable);
         }
 
-#ifdef APP_DEBUG
-
-		ADrawable->Draw(debugCollisionBoundingBox);
-
-#endif
-	}
-
-	for (int i = 0; i < arrowSet->elementList->size; i++)
-	{
-		Arrow*       arrow    = AArrayList_Get(arrowSet->elementList, i, Arrow*);
-		PhysicsBody* body     = arrow->body;
-		Drawable*    drawable = arrow->sprite->drawable;
-
-		if (APhysicsBody_CheckState(body, PhysicsBodyState_IsFreeze) == false)
-		{
-			ADrawable_SetRotationZ(drawable, ADrawable->GetFlipRotationZ(drawable, body->rotationZ));
-			ADrawable_SetPosition2(drawable, body->positionX, body->positionY);
-		}
-
-		ADrawable->Draw(drawable);
 
 #ifdef APP_DEBUG
-
-		if (body != NULL)
-		{
-			ADrawable->Draw(arrow->debugDrawable);
-		}
-
+        ADrawable->Draw(debugCollisionBoundingBox);
 #endif
-	}
+    }
+
+    for (int i = 0; i < arrowSet->elementList->size; i++)
+    {
+        Arrow*       arrow    = AArrayList_Get(arrowSet->elementList, i, Arrow*);
+        PhysicsBody* body     = arrow->body;
+        Drawable*    drawable = arrow->sprite->drawable;
+
+        if (APhysicsBody_CheckState(body, PhysicsBodyState_IsFreeze) == false)
+        {
+            ADrawable_SetRotationZ(drawable, ADrawable->GetFlipRotationZ(drawable, body->rotationZ));
+            ADrawable_SetPosition2(drawable, body->positionX, body->positionY);
+        }
+
+        ADrawable->Draw(drawable);
+
+
+#ifdef APP_DEBUG
+        if (body != NULL)
+        {
+            ADrawable->Draw(arrow->debugDrawable);
+        }
+#endif
+    }
 }
 
 
@@ -139,12 +137,12 @@ static void ArrowActionOnComplete(TweenAction* tweenAction)
 
 static void FreezeOnEnemy(Scheduler* scheduler, float deltaSeconds)
 {
-	Arrow* arrow = (Arrow*) scheduler->userData->slot0->ptrValue;
+    Arrow* arrow = (Arrow*) scheduler->userData->slot0->ptrValue;
 
-	AArrayIntSet->TryRemove(arrowSet,               (intptr_t) arrow);
-	AArrayIntSet->TryAdd   (arrow->enemy->arrowSet, (intptr_t) arrow);
+    AArrayIntSet->TryRemove(arrowSet,               (intptr_t) arrow);
+    AArrayIntSet->TryAdd   (arrow->enemy->arrowSet, (intptr_t) arrow);
 
-	float fadeTime;
+    float fadeTime;
 
     if (arrow->enemy->hp < 0)
     {
@@ -155,70 +153,70 @@ static void FreezeOnEnemy(Scheduler* scheduler, float deltaSeconds)
         fadeTime = 6.0f;
     }
 
-	ATweenTool->AddFadeTo      (0.0f, fadeTime)
-			  ->SetRelative    (false)
-			  ->SetUserData0Ptr(arrow)
-			  ->SetOnComplete  (ArrowActionOnComplete)
-			  ->RunActions     (arrow->sprite->drawable);
+    ATweenTool->AddFadeTo      (0.0f, fadeTime)
+              ->SetRelative    (false)
+              ->SetUserData0Ptr(arrow)
+              ->SetOnComplete  (ArrowActionOnComplete)
+              ->RunActions     (arrow->sprite->drawable);
 
-	ADrawable->ConvertToParent
-	(
-		arrow->sprite->drawable,
-		arrow->enemy->collisionBoxDrawable
-	);
+    ADrawable->ConvertToParent
+    (
+        arrow->sprite->drawable,
+        arrow->enemy->collisionBoxDrawable
+    );
 
-	APhysicsBody_SetState(arrow->body, PhysicsBodyState_IsFreeze);
+    APhysicsBody_SetState(arrow->body, PhysicsBodyState_IsFreeze);
 }
 
 
 static void FreezeOnOther(Scheduler* scheduler, float deltaSeconds)
 {
-	Arrow* arrow = (Arrow*) scheduler->userData->slot0->ptrValue;
+    Arrow* arrow = (Arrow*) scheduler->userData->slot0->ptrValue;
 
-	ATweenTool->AddFadeTo      (0.0f, 5.0f)
-			  ->SetRelative    (false)
+    ATweenTool->AddFadeTo      (0.0f, 5.0f)
+              ->SetRelative    (false)
               ->SetUserData0Ptr(arrow)
-			  ->SetOnComplete  (ArrowActionOnComplete)
-			  ->RunActions     (arrow->sprite->drawable);
+              ->SetOnComplete  (ArrowActionOnComplete)
+              ->RunActions     (arrow->sprite->drawable);
 
-	APhysicsBody_SetState(arrow->body, PhysicsBodyState_IsFreeze);
+    APhysicsBody_SetState(arrow->body, PhysicsBodyState_IsFreeze);
 }
 
 
 static void OnHit(PhysicsBody* self, PhysicsBody* other, float deltaSeconds)
 {
-	Arrow* arrow = (Arrow*) self->userData->slot0->ptrValue;
-	Enemy* enemy = (Enemy*) other->userData->slot0->ptrValue;
+    Arrow* arrow = (Arrow*) self->userData->slot0->ptrValue;
+    Enemy* enemy = (Enemy*) other->userData->slot0->ptrValue;
 
     if (arrow->hitType != ArrowHitType_Null)
     {
         return;
     }
-	else if (enemy != NULL)
-	{
-		if
+    else if (enemy != NULL)
+    {
+        if
         (
             arrow->enemy                   != NULL  ||
-		    enemy->collisionBoxDrawable    == NULL  ||
-			enemy->component->curState->id == EnemyState_DieOver
+            enemy->collisionBoxDrawable    == NULL  ||
+            enemy->component->curState->id == EnemyState_DieOver
         )
-		{
-			return;
-		}
+        {
+            return;
+        }
 
-		arrow->enemy   = enemy;
+        arrow->enemy   = enemy;
         arrow->hitType = ArrowHitType_Enemy;
-		AScheduler->ScheduleOnce(FreezeOnEnemy, 0)->userData->slot0->ptrValue = arrow;
-	}
-	else
-	{
+        AScheduler->ScheduleOnce(FreezeOnEnemy, 0)->userData->slot0->ptrValue = arrow;
+    }
+    else
+    {
         arrow->enemy   = NULL;
         arrow->hitType = ArrowHitType_Ground;
-		AScheduler->ScheduleOnce(FreezeOnOther, 0)->userData->slot0->ptrValue = arrow;
+        AScheduler->ScheduleOnce(FreezeOnOther, 0)->userData->slot0->ptrValue = arrow;
         AHero->roundMissCount++;
 
         AAudioTool->Play(AudioId_HurtGround);
-	}
+    }
 
     AHero->roundArrowCount++;
 }
@@ -246,9 +244,9 @@ static float readyY;
 
 static inline bool OnReadyMessage(Component* component, void* sender, int subject, void* extraData)
 {
-	Arrow*           arrow    = (Arrow*) component->userData->slot0->ptrValue;
+    Arrow*           arrow    = (Arrow*) component->userData->slot0->ptrValue;
     Array*           pointArr = (Array*) extraData;
-	InputTouch*      touch;
+    InputTouch*      touch;
 
     if (touchDownId < 2 && pointArr->length > 1)
     {
@@ -259,16 +257,16 @@ static inline bool OnReadyMessage(Component* component, void* sender, int subjec
         touch = AArray_Get((Array*) extraData, 0, InputTouch*);
     }
 
-	switch (touch->type)
-	{
+    switch (touch->type)
+    {
         case InputTouchType_Cancel:
             break;
             
         case InputTouchType_Down:
             break;
 
-		case InputTouchType_Move:
-		{
+        case InputTouchType_Move:
+        {
             if (touch->fingerId == touchDownId)
             {
                 if (arrow != NULL && AHero->roundEnergy >= AGameData->arrowCostEnergy)
@@ -292,10 +290,10 @@ static inline bool OnReadyMessage(Component* component, void* sender, int subjec
             }
 
             break;
-		}
+        }
 
-		case InputTouchType_Up:
-		{
+        case InputTouchType_Up:
+        {
             if (touch->fingerId == touchDownId)
             {
                 if (AHero->component->curState->id < HeroState_Die)
@@ -352,16 +350,16 @@ static inline bool OnReadyMessage(Component* component, void* sender, int subjec
             }
 
             break;
-		}
-	}
+        }
+    }
 
-	return false;
+    return false;
 }
 
 
 static inline bool OnKeepMessage(Component* component, void* sender, int subject, void* extraData)
 {
-	return OnReadyMessage(component, sender, subject, extraData);
+    return OnReadyMessage(component, sender, subject, extraData);
 }
 
 
@@ -397,46 +395,46 @@ static bool isDizzyLocked = false;
 
 static inline bool OnStandMessage(Component* component, void* sender, int subject, void* extraData)
 {
-	InputTouch* touch = AArray_Get((Array*) extraData, 0, InputTouch*);
+    InputTouch* touch = AArray_Get((Array*) extraData, 0, InputTouch*);
 
-	switch (touch->type)
-	{
-		case InputTouchType_Down:
-		{
-			Drawable* heroDrawable = AHero_GetDrawable();
+    switch (touch->type)
+    {
+        case InputTouchType_Down:
+        {
+            Drawable* heroDrawable = AHero_GetDrawable();
 
-			if
+            if
             (
                 touch->y < AGameMap->moveAreaY          ||
                 touch->x < -AGLTool->screenRatio + 0.5f ||
                 touch->x >  AGLTool->screenRatio - 0.5f
-			)
-			{
-				ADrawable_SetScaleX(heroDrawable, touch->x > 0 ? 1.0f : -1.0f);
-				AComponent->SetState(AHero->component, HeroState_Walk);
-			}
-			else
-			{
-				if
+            )
+            {
+                ADrawable_SetScaleX(heroDrawable, touch->x > 0 ? 1.0f : -1.0f);
+                AComponent->SetState(AHero->component, HeroState_Walk);
+            }
+            else
+            {
+                if
                 (
                     (heroDrawable->scaleX > 0 && touch->x < heroDrawable->positionX) ||
-					(heroDrawable->scaleX < 0 && touch->x > heroDrawable->positionX)
+                        (heroDrawable->scaleX < 0 && touch->x > heroDrawable->positionX)
                 )
-				{
+                {
                     AComponent->SetState(AHero->component, HeroState_Ready);
-				}
-			}
+                }
+            }
 
-			touchDownX  = touch->x;
-			touchDownY  = touch->y;
+            touchDownX  = touch->x;
+            touchDownY  = touch->y;
             touchDownId = touch->fingerId;
 
             break;
-		}
+        }
 
 
-		case InputTouchType_Move:
-		{
+        case InputTouchType_Move:
+        {
             if (touch->fingerId == touchDownId)
             {
                 if (isDizzyLocked == false)
@@ -466,10 +464,10 @@ static inline bool OnStandMessage(Component* component, void* sender, int subjec
             }
 
             break;
-		}
+        }
 
-		case InputTouchType_Up:
-		{
+        case InputTouchType_Up:
+        {
             if (touch->fingerId == touchDownId)
             {
                 // block dizzy continues trigger
@@ -478,13 +476,13 @@ static inline bool OnStandMessage(Component* component, void* sender, int subjec
             }
 
             break;
-		}
+        }
             
         case InputTouchType_Cancel:
             break;
-	}
+    }
 
-	return false;
+    return false;
 }
 
 
@@ -494,11 +492,11 @@ static bool   isWalkStart;
 
 static inline bool OnWalkMessage(Component* component, void* sender, int subject, void* extraData)
 {
-	InputTouch* touch = AArray_Get((Array*) extraData, 0, InputTouch*);
+    InputTouch* touch = AArray_Get((Array*) extraData, 0, InputTouch*);
 
-	switch (touch->type)
-	{
-		case InputTouchType_Up:
+    switch (touch->type)
+    {
+        case InputTouchType_Up:
             if (touch->fingerId == touchDownId)
             {
                 isDizzyLocked = false;
@@ -506,100 +504,100 @@ static inline bool OnWalkMessage(Component* component, void* sender, int subject
                 walkSpeed     = AGameData->speed - 0.01f;
                 touchDownId   = -1;
             }
-			break;
+            break;
 
-		default:
-			OnStandMessage(component, sender, subject, extraData);
-			break;
-	}
+        default:
+            OnStandMessage(component, sender, subject, extraData);
+            break;
+    }
 
-	return false;
+    return false;
 }
 
 
 static void WalkUpdate(Component* component, float deltaSeconds)
-{
-	Update(component, deltaSeconds);
-
-	if (walkSpeed != AGameData->speed)
-	{
-		if (isWalkStart)
-		{
-			if (walkSpeed < AGameData->speed)
-			{
-				walkSpeed += 0.2f;
-			}
-			else
-			{
-				walkSpeed = AGameData->speed;
-			}
-		}
-		else
-		{
-			if (walkSpeed > 0)
-			{
-				walkSpeed -= 0.2f;
-			}
-			else
-			{
-				AComponent->SetState(AHero->component, HeroState_Stand);
-			}
-		}
-	}
-
-	float     speed        = AGLTool_ToGLWidth(walkSpeed);
-	float     middleSpeed  = speed       * 0.69f;
-	float     backSpeed    = middleSpeed * 0.52f;
-	Drawable* heroDrawable = AHero_GetDrawable();
-
-	if (touchDownX > 0)
-	{
-		if (heroDrawable->positionX < 0)
-		{
-			ADrawable_SetPositionX(heroDrawable, heroDrawable->positionX + speed);
-		}
-		else if (AGameMap->maxX > AGameMap->groundPosData[4])
-		{
+{ 
+    Update(component, deltaSeconds);
+    
+    if (walkSpeed != AGameData->speed) 
+    {
+        if (isWalkStart) 
+        { 
+            if (walkSpeed < AGameData->speed) 
+            { 
+                walkSpeed += 0.2f; 
+            } 
+            else 
+            { 
+                walkSpeed = AGameData->speed; 
+            }
+        } 
+        else 
+        { 
+            if (walkSpeed > 0) 
+            { 
+                walkSpeed -= 0.2f; 
+            } 
+            else 
+            { 
+                AComponent->SetState(AHero->component, HeroState_Stand); 
+            }
+        }
+    }
+    
+    float     speed        = AGLTool_ToGLWidth(walkSpeed);
+    float     middleSpeed  = speed       * 0.69f;
+    float     backSpeed    = middleSpeed * 0.52f;
+    Drawable* heroDrawable = AHero_GetDrawable();
+    
+    if (touchDownX > 0) 
+    { 
+        if (heroDrawable->positionX < 0) 
+        { 
+            ADrawable_SetPositionX(heroDrawable, heroDrawable->positionX + speed); 
+        } 
+        else if (AGameMap->maxX > AGameMap->groundPosData[4]) 
+        {
             AGameMap->maxX -= speed;
-			AGameMap->minX -= speed;
-
-			ADrawable_SetPositionX(AGameMap->beforeDrawable,  AGameMap->beforeDrawable->positionX  - speed);
-			ADrawable_SetPositionX(AGameMap->middleDrawable,  AGameMap->middleDrawable->positionX  - middleSpeed);
-			ADrawable_SetPositionX(AGameMap->backDrawable,    AGameMap->backDrawable->positionX    - backSpeed);
-		}
-		else if (heroDrawable->positionX < AGameMap->groundPosData[4])
-		{
-			ADrawable_SetPositionX(heroDrawable, heroDrawable->positionX + speed);
-		}
-	}
-	else if (touchDownX < 0.0f)
-	{
-		if (heroDrawable->positionX > 0)
-		{
-			ADrawable_SetPositionX(heroDrawable, heroDrawable->positionX - speed);
-		}
-		else if (AGameMap->minX < AGameMap->groundPosData[2])
-		{
+            AGameMap->minX -= speed;
+            
+            ADrawable_SetPositionX(AGameMap->beforeDrawable,  AGameMap->beforeDrawable->positionX  - speed);
+            ADrawable_SetPositionX(AGameMap->middleDrawable,  AGameMap->middleDrawable->positionX  - middleSpeed);
+            ADrawable_SetPositionX(AGameMap->backDrawable,    AGameMap->backDrawable->positionX    - backSpeed); 
+        } 
+        else if (heroDrawable->positionX < AGameMap->groundPosData[4]) 
+        { 
+            ADrawable_SetPositionX(heroDrawable, heroDrawable->positionX + speed); 
+        }
+    } 
+    else if (touchDownX < 0.0f) 
+    { 
+        if (heroDrawable->positionX > 0) 
+        { 
+            ADrawable_SetPositionX(heroDrawable, heroDrawable->positionX - speed); 
+        } 
+        else if (AGameMap->minX < AGameMap->groundPosData[2]) 
+        {
             AGameMap->minX += speed;
             AGameMap->maxX += speed;
-
-			ADrawable_SetPositionX(AGameMap->beforeDrawable,  AGameMap->beforeDrawable->positionX  + speed);
-			ADrawable_SetPositionX(AGameMap->middleDrawable,  AGameMap->middleDrawable->positionX  + middleSpeed);
-			ADrawable_SetPositionX(AGameMap->backDrawable,    AGameMap->backDrawable->positionX    + backSpeed);
-		}
-		else if (heroDrawable->positionX > AGameMap->groundPosData[2])
-		{
-			ADrawable_SetPositionX(heroDrawable, heroDrawable->positionX - speed);
-		}
-	}
+            
+            ADrawable_SetPositionX(AGameMap->beforeDrawable,  AGameMap->beforeDrawable->positionX  + speed);
+            ADrawable_SetPositionX(AGameMap->middleDrawable,  AGameMap->middleDrawable->positionX  + middleSpeed);
+            ADrawable_SetPositionX(AGameMap->backDrawable,    AGameMap->backDrawable->positionX    + backSpeed); 
+        } 
+        else if (heroDrawable->positionX > AGameMap->groundPosData[2]) 
+        { 
+            ADrawable_SetPositionX(heroDrawable, heroDrawable->positionX - speed); 
+        }
+    }
 }
 
 
 static void OnActionOver(SkeletonAnimationPlayer* player)
-{
-	switch (AHero->component->curState->id)
-	{
-		case HeroState_Shoot:
+{ 
+    switch (AHero->component->curState->id) 
+    { 
+        case HeroState_Shoot:
             if (touchDownId != -1)
             {
                 AComponent->SetState(AHero->component, HeroState_Walk);
@@ -609,8 +607,8 @@ static void OnActionOver(SkeletonAnimationPlayer* player)
                 AComponent->SetState(AHero->component, HeroState_Stand);
             }
             break;
-
-		case HeroState_Hurt:
+        
+        case HeroState_Hurt:
             if (touchDownId != -1)
             {
                 AComponent->SetState(AHero->component, HeroState_Walk);
@@ -619,10 +617,10 @@ static void OnActionOver(SkeletonAnimationPlayer* player)
             {
                 AComponent->SetState(AHero->component, HeroState_Stand);
             }
-			break;
-
-		case HeroState_Dizzy:
-		{
+            break;
+        
+        case HeroState_Dizzy: 
+        {
             if (touchDownId != -1)
             {
                 // if touch down when dizzy animation
@@ -746,18 +744,18 @@ static void OnActionOver(SkeletonAnimationPlayer* player)
 
             AAudioTool->Play(AudioId_FallDown);
 
+            break; 
+        }
+        
+        case HeroState_Ready:
+            AComponent->SetState(AHero->component, HeroState_Keep);
             break;
-		}
-
-		case HeroState_Ready:
-			AComponent->SetState(AHero->component, HeroState_Keep);
-			break;
-
-		case HeroState_Die:
-			AComponent->SetState(AHero->component, HeroState_DieOver);
-			AComponent->Notify  (AHero->component, HeroNotify_Die, NULL);
-			break;
-	}
+        
+        case HeroState_Die:
+            AComponent->SetState(AHero->component, HeroState_DieOver);
+            AComponent->Notify  (AHero->component, HeroNotify_Die, NULL);
+            break; 
+    }
 }
 
 
@@ -816,8 +814,8 @@ static void TombstoneActionComplete(TweenAction* action)
             AGameMap          ->beforeDrawable
         )
     );
-
-	AEnemyAI  ->SetAllEnemy (EnemyState_Stand, 0.01f);
+    
+    AEnemyAI  ->SetAllEnemy (EnemyState_Stand, 0.01f);
     AScheduler->ScheduleOnce(OpenCurtain, 1.0f);
 
     AAudioTool->Play(AudioId_FallDown);
@@ -848,85 +846,85 @@ static void OnHurt(PhysicsBody* self, PhysicsBody* other, float deltaSeconds)
         AHUD->FlyItem((DropCollisionItem*) other->userData->slot0->ptrValue);
         return;
     }
-
-	int id = AHero->component->curState->id;
-
-	if (id < HeroState_Hurt && id != HeroState_Dizzy)
-	{
-		Enemy* enemy = (Enemy*) other->userData->slot0->ptrValue;
-
-		if (enemy->component->curState->id == EnemyState_Dizzy)
+    
+    int id = AHero->component->curState->id;
+    
+    if (id < HeroState_Hurt && id != HeroState_Dizzy) 
+    { 
+        Enemy* enemy = (Enemy*) other->userData->slot0->ptrValue;
+        
+        if (enemy->component->curState->id == EnemyState_Dizzy)
         {
             return;
         }
-
-		float  move;
-		if (AEnemy_GetDrawable(enemy)->scaleX > 0.0f)
-		{
-			move = -0.08f;
-		}
-		else
-		{
-			move =  0.08f;
-		}
+        
+        float  move;
+        if (AEnemy_GetDrawable(enemy)->scaleX > 0.0f) 
+        { 
+            move = -0.08f; 
+        } 
+        else 
+        { 
+            move =  0.08f; 
+        }
 
         AHero->roundHP--;
         AFont->SetInt(AHUD->heartText, AHero->roundHP);
+        
+        if (AHero->roundHP > 0) 
+        { 
+            AComponent->SetState(AHero->component, HeroState_Hurt);
+            
+            ATweenTool->AddMoveX      (move, 0.3f)
+                      ->SetEaseType   (TweenEaseType_SineOut)
+                      ->SetQueue      (false)
 
-		if (AHero->roundHP > 0)
-		{
-			AComponent->SetState(AHero->component, HeroState_Hurt);
+                      ->AddMoveY      (0.015f,  0.1f)
+                      ->SetEaseType   (TweenEaseType_SineOut)
 
-			ATweenTool->AddMoveX      (move, 0.3f)
-					  ->SetEaseType   (TweenEaseType_SineOut)
-					  ->SetQueue      (false)
+                      ->AddMoveY      (-0.015f, 0.1f)
+                      ->SetEaseType   (TweenEaseType_SineOut)
 
-					  ->AddMoveY      (0.015f,  0.1f)
-					  ->SetEaseType   (TweenEaseType_SineOut)
+                      ->RunActions    (AHero_GetDrawable());
+        }
+        else
+        {
+            AComponent->SetState(AHero->component, HeroState_Die);
 
-					  ->AddMoveY      (-0.015f, 0.1f)
-					  ->SetEaseType   (TweenEaseType_SineOut)
-
-					  ->RunActions    (AHero_GetDrawable());
-		}
-		else
-		{
-			AComponent->SetState(AHero->component, HeroState_Die);
-
-			ATweenTool->AddMoveX      (move * 2, 1.25f)
-					  ->SetEaseType   (TweenEaseType_SineOut)
-					  ->SetQueue      (false)
+            ATweenTool->AddMoveX      (move * 2, 1.25f)
+                      ->SetEaseType   (TweenEaseType_SineOut)
+                      ->SetQueue      (false)
                       ->SetOnComplete (DieActionComplete)
 
-					  ->AddMoveY      (0.02f,  0.15f)
-					  ->SetEaseType   (TweenEaseType_SineOut)
+                      ->AddMoveY      (0.02f,  0.15f)
+                      ->SetEaseType   (TweenEaseType_SineOut)
 
-					  ->AddMoveY      (-0.02f,  0.15f)
-					  ->SetEaseType   (TweenEaseType_SineOut)
+                      ->AddMoveY      (-0.02f,  0.15f)
+                      ->SetEaseType   (TweenEaseType_SineOut)
 
-					  ->RunActions    (AHero_GetDrawable());
-		}
+                      ->RunActions    (AHero_GetDrawable());
+        }
 
-		Arrow* arrow = (Arrow*) AHero->component->userData->slot0->ptrValue;
-		if (arrow != NULL)
-		{
-			OnReadyMessage
-			(
-				AHero->component, NULL, 0,
-				AArray_Make
-				(
-					InputTouch*, 1,
+        Arrow* arrow = (Arrow*) AHero->component->userData->slot0->ptrValue;
+        if (arrow != NULL)
+        {
+            OnReadyMessage
+            (
+                AHero->component, NULL, 0,
+                AArray_Make
+                (
+                    InputTouch*, 1,
                     (InputTouch[])
                     {
-						readyX,
-						readyY,
-						0,
-						InputTouchType_Up
-					}
-				)
-			);
-		}
-	}
+                        readyX,
+                        readyY,
+                        0,
+                        InputTouchType_Up
+                    }
+                )
+            );
+        }
+    }
 }
 
 
@@ -947,41 +945,41 @@ static char* weaponNames[] =
 
 static bool OnMessage(Component* component, void* sender, int subject, void* extraData)
 {
-	if (sender == AApplication)
-	{
-		switch (component->curState->id)
-		{
-			case HeroState_Stand:
-				OnStandMessage(component, sender, subject, extraData);
-			    break;
+    if (sender == AApplication)
+    {
+        switch (component->curState->id)
+        {
+            case HeroState_Stand:
+                OnStandMessage(component, sender, subject, extraData);
+                break;
 
-			case HeroState_Walk:
-				OnWalkMessage(component, sender, subject, extraData);
-		    	break;
+            case HeroState_Walk:
+                OnWalkMessage(component, sender, subject, extraData);
+                break;
 
-			case HeroState_Ready:
-				OnReadyMessage(component, sender, subject, extraData);
-		    	break;
+            case HeroState_Ready:
+                OnReadyMessage(component, sender, subject, extraData);
+                break;
 
-			case HeroState_Keep:
-				OnKeepMessage(component, sender, subject, extraData);
+            case HeroState_Keep:
+                OnKeepMessage(component, sender, subject, extraData);
                 break;
 
             case HeroState_Shoot:
                 OnStandMessage(component, sender, subject, extraData);
-			    break;
+                break;
 
             case HeroState_Dizzy:
                 OnDizzyMessage(component, sender, subject, extraData);
                 break;
-		}
-	}
-	else if (sender == AComponent)
-	{
+        }
+    }
+    else if (sender == AComponent)
+    {
         switch (subject)
-		{
+        {
             case ComponentMsg_OnEnter:
-			{
+            {
                 switch (component->curState->id)
                 {
                     case HeroState_Stand:
@@ -1071,13 +1069,13 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                             arrow->hitType = ArrowHitType_Null;
                             arrow->enemy   = NULL;
 
+
 #ifdef APP_DEBUG
-
                             ADrawable->Init(arrow->debugDrawable);
-						    arrow->debugDrawable->userData->slot0->ptrValue = arrow;
-						    arrow->debugDrawable->Render                    = DebugRender;
-
+                            arrow->debugDrawable->userData->slot0->ptrValue = arrow;
+                            arrow->debugDrawable->Render                    = DebugRender;
 #endif
+
 
                             component->userData->slot0->ptrValue = arrow;
                             AArrayIntSet->TryAdd(arrowSet, (intptr_t) arrow);
@@ -1126,10 +1124,10 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
 
                 break;
             }
-		}
-	}
+        }
+    }
 
-	return false;
+    return false;
 }
 
 
@@ -1143,14 +1141,14 @@ static inline void InitProperty()
     AHero->roundMissCount  = 0;
     AHero->roundTime       = 0.0;
 
-	ASkeleton->SetSkin(AHero->player->skeleton, "RedGirlWood");
+    ASkeleton->SetSkin(AHero->player->skeleton, "RedGirlWood");
 }
 
 
 static void Init()
 {
-	AComponent->Init(AHero->component);
-	ASkeletonAnimationPlayer->Init("Animation/redgirl", "stand", AHero->player);
+    AComponent->Init(AHero->component);
+    ASkeletonAnimationPlayer->Init("Animation/redgirl", "stand", AHero->player);
 
     Drawable* heroDrawable = AHero_GetDrawable();
     ADrawable_SetParent   (heroDrawable, AGameMap->beforeDrawable);
@@ -1159,26 +1157,25 @@ static void Init()
 //--------------------------------------------------------------------------------------------------
 
     SkeletonSlot* collisionSlot = ASkeletonAnimationPlayer_GetSlot(AHero->player, "CollisionBox");
-	if (collisionSlot != NULL)
-	{
-		AHero->collisionBoxDrawable          = collisionSlot->bone->drawable;
-		AHero->collisionBoxBody              = APhysicsWorld->AddBody(PhysicsShape_Polygon, ASkeletonSlot_GetBoundingBox(collisionSlot)->vertexArr);
-		AHero->collisionBoxBody->OnCollision = OnHurt;
-		APhysicsBody_SetCollisionGroup(AHero->collisionBoxBody, CollisionGroup_HeroBody | CollisionGroup_HeroAttack | CollisionGroup_EnemyBody);
-		APhysicsBody_SetState         (AHero->collisionBoxBody, PhysicsBodyState_IsFixed);
+    if (collisionSlot != NULL)
+    {
+        AHero->collisionBoxDrawable          = collisionSlot->bone->drawable;
+        AHero->collisionBoxBody              = APhysicsWorld->AddBody(PhysicsShape_Polygon, ASkeletonSlot_GetBoundingBox(collisionSlot)->vertexArr);
+        AHero->collisionBoxBody->OnCollision = OnHurt;
+        APhysicsBody_SetCollisionGroup(AHero->collisionBoxBody, CollisionGroup_HeroBody | CollisionGroup_HeroAttack | CollisionGroup_EnemyBody);
+        APhysicsBody_SetState         (AHero->collisionBoxBody, PhysicsBodyState_IsFixed);
+
 
 #ifdef APP_DEBUG
-
-		ASkeletonAnimationPlayer->InitSlotBoundingBoxDrawable(AHero->player, "CollisionBox", debugCollisionBoundingBox);
-
+        ASkeletonAnimationPlayer->InitSlotBoundingBoxDrawable(AHero->player, "CollisionBox", debugCollisionBoundingBox);
 #endif
-	}
+    }
 
-	AHero->bowHandDrawable      = ASkeletonAnimationPlayer_GetBone(AHero->player, "righthand-up")->drawable;
-	AHero->player->OnActionOver = OnActionOver;
+    AHero->bowHandDrawable      = ASkeletonAnimationPlayer_GetBone(AHero->player, "righthand-up")->drawable;
+    AHero->player->OnActionOver = OnActionOver;
 
-	ASkeletonAnimationPlayer->Init("Animation/hit-floor", "animation", AHero->hitFloor);
-	AHero->hitFloor->loop       = 0;
+    ASkeletonAnimationPlayer->Init("Animation/hit-floor", "animation", AHero->hitFloor);
+    AHero->hitFloor->loop       = 0;
 
     Drawable* hitFloorDrawable = ASkeletonAnimationPlayer_GetDrawable(AHero->hitFloor);
     ADrawable_SetParent   (hitFloorDrawable, AGameMap->beforeDrawable);
@@ -1186,17 +1183,17 @@ static void Init()
 
 //--------------------------------------------------------------------------------------------------
 
-	AHero->component->stateMap->elementList->increase = 10;
+    AHero->component->stateMap->elementList->increase = 10;
 
-	AComponent->AddState(AHero->component, HeroState_Stand,    OnMessage, Update);
-	AComponent->AddState(AHero->component, HeroState_Walk,     OnMessage, WalkUpdate);
-	AComponent->AddState(AHero->component, HeroState_Shoot,    OnMessage, Update);
-	AComponent->AddState(AHero->component, HeroState_Ready,    OnMessage, Update);
-	AComponent->AddState(AHero->component, HeroState_Keep,     OnMessage, Update);
-	AComponent->AddState(AHero->component, HeroState_Hurt,     OnMessage, Update);
-	AComponent->AddState(AHero->component, HeroState_Dizzy,    OnMessage, Update);
-	AComponent->AddState(AHero->component, HeroState_Die,      OnMessage, Update);
-	AComponent->AddState(AHero->component, HeroState_DieOver, OnMessage, Update);
+    AComponent->AddState(AHero->component, HeroState_Stand,    OnMessage, Update);
+    AComponent->AddState(AHero->component, HeroState_Walk,     OnMessage, WalkUpdate);
+    AComponent->AddState(AHero->component, HeroState_Shoot,    OnMessage, Update);
+    AComponent->AddState(AHero->component, HeroState_Ready,    OnMessage, Update);
+    AComponent->AddState(AHero->component, HeroState_Keep,     OnMessage, Update);
+    AComponent->AddState(AHero->component, HeroState_Hurt,     OnMessage, Update);
+    AComponent->AddState(AHero->component, HeroState_Dizzy,    OnMessage, Update);
+    AComponent->AddState(AHero->component, HeroState_Die,      OnMessage, Update);
+    AComponent->AddState(AHero->component, HeroState_DieOver, OnMessage, Update);
 
     AComponent->SetState(AHero->component, HeroState_Stand);
 }
@@ -1206,8 +1203,8 @@ static void Revive()
 {
     InitProperty();
 
-	ADrawable_SetParent   (ASkeletonAnimationPlayer_GetDrawable(AHero->hitFloor), AGameMap->beforeDrawable);
-	ADrawable_SetPositionY(ASkeletonAnimationPlayer_GetDrawable(AHero->hitFloor), AGameMap->groundY);
+    ADrawable_SetParent   (ASkeletonAnimationPlayer_GetDrawable(AHero->hitFloor), AGameMap->beforeDrawable);
+    ADrawable_SetPositionY(ASkeletonAnimationPlayer_GetDrawable(AHero->hitFloor), AGameMap->groundY);
 
     ADrawable_SetParent   (AHero_GetDrawable(),       AGameMap->beforeDrawable);
     ADrawable_SetPositionY(AHero_GetDrawable(),       AGameMap->groundY);
@@ -1239,9 +1236,9 @@ static void Run()
 
 struct AHero AHero[1] =
 {
-	{
-		.Init   = Init,
-		.Run    = Run,
+    {
+        .Init   = Init,
+        .Run    = Run,
         .Revive = Revive,
-	}
+    }
 };

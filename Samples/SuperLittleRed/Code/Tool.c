@@ -20,36 +20,36 @@
 
 static void UpdateBox(PhysicsBody* body, Drawable* drawable)
 {
-	float* vertexData = AArray_GetData(body->vertexArr,   float);
-	float* posData    = AArray_GetData(body->positionArr, float);
+    float* vertexData = AArray_GetData(body->vertexArr,   float);
+    float* posData    = AArray_GetData(body->positionArr, float);
 
-	for (int i = 0; i < body->vertexArr->length; i += 2)
-	{
-		Vector2 world[1];
+    for (int i = 0; i < body->vertexArr->length; i += 2)
+    {
+        Vector2 world[1];
 
-		ADrawable->ConvertBetweenLocal
-		(
-			drawable,
-			(Vector2*) (vertexData + i),
-			AGameMap->beforeDrawable,
-			world
-		);
+        ADrawable->ConvertBetweenLocal
+        (
+            drawable,
+            (Vector2*) (vertexData + i),
+            AGameMap->beforeDrawable,
+            world
+        );
 
-		posData[i]     = world->x;
-		posData[i + 1] = world->y;
-	}
+        posData[i]     = world->x;
+        posData[i + 1] = world->y;
+    }
 }
 
 
 static void InitBox(PhysicsBody* body, float x, float y)
 {
-	float* posData = AArray_GetData(body->positionArr, float);
+    float* posData = AArray_GetData(body->positionArr, float);
 
-	for (int i = 0; i < body->positionArr->length; i += 2)
-	{
-		posData[i]     += x;
-		posData[i + 1] += y;
-	}
+    for (int i = 0; i < body->positionArr->length; i += 2)
+    {
+        posData[i]     += x;
+        posData[i + 1] += y;
+    }
 }
 
 
@@ -129,8 +129,8 @@ static void SetTimeToBuff(char buff[], int seconds)
 
 struct ATool ATool[1] =
 {
-	1.0f,
-	1.0f,
+    1.0f,
+    1.0f,
 
     UpdateBox,
     InitBox,

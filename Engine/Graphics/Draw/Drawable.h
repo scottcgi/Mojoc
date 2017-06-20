@@ -314,7 +314,7 @@ struct ADrawable
      */
     float     (*ConvertToWorldY)       (Drawable* localParent, float localY);
 
-	/**
+    /**
 	 * Convert localPoint in parent coordinate to world coordinate
 	 */
 	void      (*ConvertToWorldPoint)   (Drawable* localParent, Vector2* localPoint, Vector2* outWorldPoint);

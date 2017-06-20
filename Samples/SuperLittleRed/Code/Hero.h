@@ -25,25 +25,25 @@
 
 enum
 {
-	HeroState_Stand = 1,
-	HeroState_Walk,
-	HeroState_Shoot,
-	HeroState_Ready,
-	HeroState_Keep,
-	HeroState_Hurt,
-	HeroState_Dizzy,
-	HeroState_Die,
-	HeroState_DieOver,
+    HeroState_Stand = 1,
+    HeroState_Walk,
+    HeroState_Shoot,
+    HeroState_Ready,
+    HeroState_Keep,
+    HeroState_Hurt,
+    HeroState_Dizzy,
+    HeroState_Die,
+    HeroState_DieOver,
 };
 
 
 enum
 {
-	CollisionGroup_HeroBody    = 1,
-	CollisionGroup_HeroAttack  = 1 << 1,
-	CollisionGroup_EnemyBody   = 1 << 2,
-	CollisionGroup_EnemyAttack = 1 << 3,
-	CollisionGroup_Attack      = 1 << 4,
+    CollisionGroup_HeroBody    = 1,
+    CollisionGroup_HeroAttack  = 1 << 1,
+    CollisionGroup_EnemyBody   = 1 << 2,
+    CollisionGroup_EnemyAttack = 1 << 3,
+    CollisionGroup_Attack      = 1 << 4,
 };
 
 
@@ -58,8 +58,8 @@ enum
 
 enum
 {
-	HeroNotify_Dizzy,
-	HeroNotify_Die,
+    HeroNotify_Dizzy,
+    HeroNotify_Die,
 };
 
 
@@ -74,15 +74,13 @@ ArrowHitType;
 
 typedef struct
 {
-	Sprite       sprite[1];
-	PhysicsBody* body;
-	Enemy*       enemy;
+    Sprite       sprite[1];
+    PhysicsBody* body;
+    Enemy*       enemy;
     ArrowHitType hitType;
 
 #ifdef APP_DEBUG
-
-	Drawable     debugDrawable[1];
-
+    Drawable     debugDrawable[1];
 #endif
 }
 Arrow;
@@ -90,9 +88,9 @@ Arrow;
 
 struct AHero
 {
-	Component               component[1];
-	SkeletonAnimationPlayer player   [1];
-	SkeletonAnimationPlayer hitFloor [1];
+    Component               component[1];
+    SkeletonAnimationPlayer player   [1];
+    SkeletonAnimationPlayer hitFloor [1];
 
 //--------------------------------------------------------------------------------------------------
 
@@ -102,19 +100,19 @@ struct AHero
     int                     roundKillCount;
     int                     roundArrowCount;
     int                     roundMissCount;
-	float                   roundTime;
+    float                   roundTime;
 
 //--------------------------------------------------------------------------------------------------
 
-	Drawable*               bowHandDrawable;
-	PhysicsBody*            collisionBoxBody;
-	Drawable*               collisionBoxDrawable;
+    Drawable*               bowHandDrawable;
+    PhysicsBody*            collisionBoxBody;
+    Drawable*               collisionBoxDrawable;
 
 //--------------------------------------------------------------------------------------------------
 
     void (*Init)  ();
-	void (*Run)   ();
-	void (*Revive)();
+    void (*Run)   ();
+    void (*Revive)();
 };
 
 
@@ -123,7 +121,7 @@ extern struct AHero AHero[1];
 
 static inline Drawable* AHero_GetDrawable()
 {
-	return ASkeletonAnimationPlayer_GetDrawable(AHero->player);
+    return ASkeletonAnimationPlayer_GetDrawable(AHero->player);
 }
 
 

@@ -23,17 +23,17 @@
 
 struct ATool
 {
-	float globalScaleX;
+    float globalScaleX;
     float globalScaleY;
 
-	void (*UpdateBox)    (PhysicsBody* body, Drawable* drawable);
-	void (*InitBox)      (PhysicsBody* body, float x, float y);
+    void (*UpdateBox)    (PhysicsBody* body, Drawable* drawable);
+    void (*InitBox)      (PhysicsBody* body, float x,  float y);
 
     void (*ShakeX)       (Drawable*    drawable);
     void (*ShakeZ)       (Drawable*    drawable);
     void (*Scale2)       (Drawable*    drawable);
 
-	void (*SetTimeToBuff)(char buff[], int seconds);
+    void (*SetTimeToBuff)(char buff[], int seconds);
 };
 
 

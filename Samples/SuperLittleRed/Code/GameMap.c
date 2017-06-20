@@ -42,12 +42,10 @@ static Drawable       debugDrawable[1];
 
 static void Update(Component* component, float deltaSeconds)
 {
-	ASkeletonAnimationPlayer_Update(AGameMap->mapPlayer, deltaSeconds);
+    ASkeletonAnimationPlayer_Update(AGameMap->mapPlayer, deltaSeconds);
 
 #ifdef APP_DEBUG
-
-	ADrawable->Draw(debugDrawable);
-
+    ADrawable->Draw(debugDrawable);
 #endif
 }
 
@@ -100,10 +98,10 @@ static void CloudAction(Drawable* cloudDrawable)
 
 static void OnActionOver(SkeletonAnimationPlayer* player)
 {
-	ASkeletonAnimationPlayer->SetAnimation(player, "animation");
-	player->OnActionOver = NULL;
+    ASkeletonAnimationPlayer->SetAnimation(player, "animation");
+    player->OnActionOver = NULL;
 
-	ADrawable_SetParent(AHero_GetDrawable(), AGameMap->groundPosDrawable);
+    ADrawable_SetParent(AHero_GetDrawable(), AGameMap->groundPosDrawable);
 
     Drawable* clouds[] =
     {
@@ -183,18 +181,17 @@ static void RandomMap()
     APhysicsBody_SetState         (groundBody, PhysicsBodyState_IsFixed);
     APhysicsBody_SetCollisionGroup(groundBody, CollisionGroup_HeroBody | CollisionGroup_EnemyBody);
 
+
 #ifdef APP_DEBUG
-
     ASkeletonAnimationPlayer->InitSlotBoundingBoxDrawable(AGameMap->mapPlayer, "GroudPos", debugDrawable);
-
 #endif
 }
 
 
 static void Init()
 {
-	AComponent->Init(AGameMap->component);
-	AGameMap->component->curState->Update = Update;
+    AComponent->Init(AGameMap->component);
+    AGameMap->component->curState->Update = Update;
 
     maps[0] = ASkeletonAnimationPlayer->Create("Stage/Stage11", "ShowIn");
 
@@ -210,9 +207,9 @@ static void Run()
 
 struct AGameMap AGameMap[1] =
 {
-	{
-		.Init      = Init,
+    {
+        .Init      = Init,
         .Run       = Run,
         .RandomMap = RandomMap,
-	}
+    }
 };

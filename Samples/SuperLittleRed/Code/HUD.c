@@ -68,6 +68,7 @@ static void Update(Component* component, float deltaSeconds)
     ASkeletonAnimationPlayer_Update(AHUD->hudPlayer,     deltaSeconds);
     ASkeletonAnimationPlayer_Update(AHUD->curtainPlayer, deltaSeconds);
 
+
 #ifdef APP_DEBUG
 
     for (int i = 0; i < collisionItemDebugDrawSet->elementList->size; i++)
@@ -84,6 +85,7 @@ static void Update(Component* component, float deltaSeconds)
     }
 
 #endif
+    
 
     if (isCostEnergy == false)
     {
@@ -629,9 +631,7 @@ static void OnItemFade(TweenAction* action)
 
 
 #ifdef APP_DEBUG
-
     AArrayIntSet->TryRemove(collisionItemDebugDrawSet, (intptr_t) item);
-
 #endif
 }
 
@@ -690,22 +690,20 @@ static inline DropCollisionItem* DropItem(int bodySize, int bodyId, int collisio
         APhysicsBody_SetCollisionGroup(item->body, collisionGroup);
         APhysicsBody_SetState(item->body, PhysicsBodyState_IsFixed);
 
-#ifdef APP_DEBUG
 
+#ifdef APP_DEBUG
         ADrawable->Init(item->debugDrawable);
         item->debugDrawable->userData->slot0->ptrValue = item;
         item->debugDrawable->Render                    = DebugRender;
-
 #endif
 
     }
 
     APhysicsBody_SetState(item->body, PhysicsBodyState_IsFreeze);
 
+
 #ifdef APP_DEBUG
-
     AArrayIntSet->TryAdd(collisionItemDebugDrawSet, (intptr_t) item);
-
 #endif
 
     return item;

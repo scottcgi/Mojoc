@@ -23,14 +23,14 @@
 
 struct AEnemyAI
 {
-	int               currentEnemyNum;
-	ArrayList(Enemy*) enemyDeadList[1];
+    int               currentEnemyNum;
+    ArrayList(Enemy*) enemyDeadList[1];
     bool              isInit;
 
-	void (*Init)       ();
+    void (*Init)       ();
     void (*Run)        ();
     void (*CreateCache)(int kind);
-	void (*SetAllEnemy)(int enemyState, float enemyMoveDis);
+    void (*SetAllEnemy)(int enemyState, float enemyMoveDis);
     void (*Restart)    ();
 };
 

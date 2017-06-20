@@ -19,28 +19,28 @@
 
 struct AGameMap
 {
-	Component                component[1];
-	SkeletonAnimationPlayer* mapPlayer;
+    Component                component[1];
+    SkeletonAnimationPlayer* mapPlayer;
 
-	float                    scaleX;
-	float                    scaleY;
+    float                    scaleX;
+    float                    scaleY;
 
-	float                    minX;
-	float                    maxX;
+    float                    minX;
+    float                    maxX;
 
-	float                    groundY;
-	float                    moveAreaY;
-	float*                   groundPosData;
-	Drawable*                groundPosDrawable;
+    float                    groundY;
+    float                    moveAreaY;
+    float*                   groundPosData;
+    Drawable*                groundPosDrawable;
 
-	Drawable*                backDrawable;
-	Drawable*                middleDrawable;
-	Drawable*                beforeDrawable;
-	Drawable*                skyDrawable;
+    Drawable*                backDrawable;
+    Drawable*                middleDrawable;
+    Drawable*                beforeDrawable;
+    Drawable*                skyDrawable;
 
-	void (*Init)     ();
-	void (*Run)      ();
-	void (*RandomMap)();
+    void (*Init)     ();
+    void (*Run)      ();
+    void (*RandomMap)();
 };
 
 

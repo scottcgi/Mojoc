@@ -25,9 +25,9 @@ static ParticleEmitter     emitter    [1];
 
 static void UpdateAfter(Component* component, float deltaSeconds)
 {
-	AFont->Draw(AGameActor->hpFont);
+    AFont->Draw(AGameActor->hpFont);
     AFont->Draw(AGameActor->talkFont);
-//	AParticleEmitter->Update(emitter, deltaSeconds);
+//  AParticleEmitter->Update(emitter, deltaSeconds);
 }
 
 
@@ -39,19 +39,19 @@ static void UpdateFPS(Scheduler* scheduler, float deltaSeconds)
 
 static void Init()
 {
-	AComponent->Init(AGameActor->component);
-	AGameActor->component->curState->UpdateAfter = UpdateAfter;
+    AComponent->Init(AGameActor->component);
+    AGameActor->component->curState->UpdateAfter = UpdateAfter;
 
     AGameActor->talkFont = AFont->Get("Font/TalkChar.atlas");
-	AGameActor->hpFont   = AFont->Get("Font/hp.atlas");
+    AGameActor->hpFont   = AFont->Get("Font/hp.atlas");
 
-//	fpsText              = AFont->GetText(AGameActor->hpFont);
+//  fpsText              = AFont->GetText(AGameActor->hpFont);
 //  ADrawable_SetPositionY(fpsText->drawable, -0.9f);
 //  AScheduler->Schedule(UpdateFPS, 1.0f, NULL);
 
 //  AFont->SetInt(fpsText, 1000000);
-//	AParticleEmitterData->Init("Particle/Original.p", emitterData);
-//	AParticleEmitter->Init(emitterData, ATexture->Get("Particle/Particle.png"), emitter);
+//  AParticleEmitterData->Init("Particle/Original.p", emitterData);
+//  AParticleEmitter->Init(emitterData, ATexture->Get("Particle/Particle.png"), emitter);
 }
 
 
@@ -63,8 +63,8 @@ static void Run()
 
 struct AGameActor AGameActor[1] =
 {
-	{
-		.Init = Init,
-		.Run  = Run,
-	}
+    {
+        .Init = Init,
+        .Run  = Run,
+    }
 };

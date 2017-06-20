@@ -225,11 +225,11 @@ static void OnInitWithSavedData(void* savedData, int length)
 
 void Application_Main()
 {
-	AApplication->callbacks->OnReady             = OnReady;
-	AApplication->callbacks->OnPause             = OnPause;
+    AApplication->callbacks->OnReady             = OnReady;
+    AApplication->callbacks->OnPause             = OnPause;
     AApplication->callbacks->OnResume            = OnResume;
     AApplication->callbacks->OnDestroy           = OnDestroy;
-	AApplication->callbacks->OnResized           = OnResized;
+    AApplication->callbacks->OnResized           = OnResized;
     AApplication->callbacks->OnSaveData          = OnSaveData;
     AApplication->callbacks->OnInitWithSavedData = OnInitWithSavedData;
 }
