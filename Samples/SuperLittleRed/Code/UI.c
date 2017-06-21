@@ -48,7 +48,7 @@ enum
 };
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static Font*                    numFont;
@@ -58,7 +58,7 @@ static SkeletonAnimationPlayer* curPlayer       = NULL;
 static SkeletonAnimationPlayer* prePlayer       = NULL;
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static int                      curSelectBox    = -1;
@@ -66,7 +66,7 @@ static Drawable*                curUIDrawable   = NULL;
 static ArrayList(FontText*)     uiTextList[1]   = AArrayList_Init(sizeof(FontText*), 10);
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static void Update(Component* component, float deltaSeconds)
@@ -222,34 +222,7 @@ static void inline CloseUITween(TweenActionOnComplete OnComplete)
 }
 
 
-static inline void AddFontText(char* boneName, int num, bool isTime)
-{
-    FontText* text = AFont->GetText(numFont);
-    AArrayList_Add(uiTextList, text);
-
-    ADrawable_SetParent
-    (
-        text->drawable,
-        ASkeletonAnimationPlayer_GetBone(curPlayer, boneName)->drawable
-    );
-
-    if (isTime)
-    {
-        char buff[10];
-        ATool->SetTimeToBuff(buff, num);
-        AFont->SetString    (text, buff);
-    }
-    else
-    {
-        AFont->SetInt(text, num);
-    }
-
-    ADrawable_SetScaleSame2(text->drawable, 1.2f);
-    ADrawable_SetPositionX (text->drawable, -text->drawable->width / 2);
-}
-
-
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static void FailCloseOnComplete(TweenAction* action)
@@ -287,7 +260,7 @@ static void TutorialCloseOnComplete(TweenAction* action)
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static void ShowFail()
@@ -342,7 +315,7 @@ static void ShowFail()
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static bool OnMessage(Component* component, void* sender, int subject, void* extraData)
@@ -360,7 +333,7 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
             }
         }
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
         switch (touch->type)
         {
@@ -383,7 +356,7 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                             AAudioTool->Play(AudioId_ClickBtn);
                             break;
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
                         case HUD_Stone:
                             if (AGameData->stone > 0)
                             {
@@ -416,7 +389,7 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                             curSelectBox  = -1;
                             break;
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
                         case Record_Close:
                             CloseUITween(RecordCloseOnComplete);
@@ -433,7 +406,7 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                 }
                 break;
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
             case InputTouchType_Down:
                 if (curPlayer == AUI->uiFailPlayer)
@@ -508,7 +481,7 @@ HUDTouch:  // click on HUD
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static void Init()

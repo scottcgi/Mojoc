@@ -15,20 +15,20 @@
 
 typedef struct
 {
-	float r;
-	float g;
-	float b;
-	float a;
+    float r;
+    float g;
+    float b;
+    float a;
 }
 Color;
 
 
 struct AColor
 {
-	/**
-	 * String format 000000 - ffffffff
-	 */
-	void (*SetWithString)(char* colorStr, Color* outColor);
+    /**
+     * String format 000000 - ffffffff
+     */
+    void (*SetWithString)(char* colorStr, Color* outColor);
 };
 
 

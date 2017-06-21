@@ -21,7 +21,7 @@
  */
 struct AShader
 {
-	GLuint program;
+    GLuint program;
 };
 
 

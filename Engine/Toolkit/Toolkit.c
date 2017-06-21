@@ -22,5 +22,5 @@ static void Init()
 
 struct AToolkit AToolkit[1] =
 {
-	Init
+    Init
 };

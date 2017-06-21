@@ -15,16 +15,16 @@
 
 static Array* Create(int elementTypeSize, int length)
 {
-	Array* array  = (Array*) malloc (sizeof(Array) + elementTypeSize * length);
-	array->data   = (char*)  array + sizeof(Array);
-	array->length = length;
+    Array* array  = (Array*) malloc (sizeof(Array) + elementTypeSize * length);
+    array->data   = (char*)  array + sizeof(Array);
+    array->length = length;
 
-	return array;
+    return array;
 }
 
 
 struct AArray AArray[1] =
 {
-	Create,
+    Create,
 };
 

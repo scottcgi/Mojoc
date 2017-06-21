@@ -14,5 +14,5 @@
 
 struct AShader AShader[1] =
 {
-	-1,
+    -1,
 };

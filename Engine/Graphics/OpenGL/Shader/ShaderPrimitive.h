@@ -21,14 +21,14 @@
 
 struct AShaderPrimitive
 {
-	GLuint program;
-	GLint  attribPosition;
-	GLint  uniformMVPMatrix;
-	GLint  uniformColor;
-	GLint  uniformPointSize;
+    GLuint program;
+    GLint  attribPosition;
+    GLint  uniformMVPMatrix;
+    GLint  uniformColor;
+    GLint  uniformPointSize;
 
-	void (*Use) (Matrix4* mvpMatrix, Color* color, GLint pointSize);
-	void (*Init)();
+    void (*Use) (Matrix4* mvpMatrix, Color* color, GLint pointSize);
+    void (*Init)();
 };
 
 

@@ -24,43 +24,43 @@
  */
 enum
 {
-	/**
-	 * When touch event happened
-	 * the extraData is Array(InputTouch*)
+    /**
+     * When touch event happened
+     * the extraData is Array(InputTouch*)
      */
-	ComponentMsg_OnTouch,
+    ComponentMsg_OnTouch,
 };
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 typedef struct
 {
-	/**
-	 * Called when application window ready, openGL ready
-	 */
-	void (*OnReady)           ();
+    /**
+     * Called when application window ready, openGL ready
+     */
+    void (*OnReady)           ();
 
-	/**
-	 * Called when application going into the background
-	 */
-	void (*OnPause)           ();
+    /**
+     * Called when application going into the background
+     */
+    void (*OnPause)           ();
 
-	/**
-	 * Called when application going into the foreground
-	 */
-	void (*OnResume)          ();
+    /**
+     * Called when application going into the foreground
+     */
+    void (*OnResume)          ();
 
     /**
      * Called when application is being destroyed
      */
     void (*OnDestroy)         ();
 
-	/**
-	 * Called when application surface size changed
-	 */
-	void (*OnResized)         (int width, int height);
+    /**
+     * Called when application surface size changed
+     */
+    void (*OnResized)         (int width, int height);
 
     /**
      * Called when application request save persistent data
@@ -78,36 +78,36 @@ typedef struct
 ApplicationCallbacks;
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 struct AApplication
 {
-	/**
-	 * Root Component when OnReady can add child on
-	 */
-	Component             component[1];
+    /**
+     * Root Component when OnReady can add child on
+     */
+    Component             component[1];
 
-	/**
-	 * Application life cycle callback
-	 */
-	ApplicationCallbacks  callbacks[1];
+    /**
+     * Application life cycle callback
+     */
+    ApplicationCallbacks  callbacks[1];
 
 /*
-----------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
     These functions called in target platform
-----------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 */
 
-	/**
-	 * Initialize each modules
-	 */
-	void (*Init)            ();
+    /**
+     * Initialize each modules
+     */
+    void (*Init)            ();
 
-	/**
-	 * Called every frame
-	 */
-	void (*Loop)            ();
+    /**
+     * Called every frame
+     */
+    void (*Loop)            ();
 
     /**
      * Called when OpenGL ready to rendering
@@ -164,7 +164,7 @@ static inline void AApplication_AppendChild(Component* child)
 
 static inline void AApplication_AddChild(Component* child, int order)
 {
-	AComponent->AddChild(AApplication->component, child, order);
+    AComponent->AddChild(AApplication->component, child, order);
 }
 
 

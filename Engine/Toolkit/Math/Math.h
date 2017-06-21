@@ -24,23 +24,23 @@
 
 struct AMath
 {
-	/**
-	 * Test polygon contains point, true inside or false outside
-	 * one vertex contains pair of x, y
-	 */
-	bool  (*TestPolygonPoint)(Array(float)* vertexArr, float x, float y);
+    /**
+     * Test polygon contains point, true inside or false outside
+     * one vertex contains pair of x, y
+     */
+    bool  (*TestPolygonPoint)(Array(float)* vertexArr, float x, float y);
 
-	/**
-	 * Rotate 2D point pair of x, y by angle
-	 */
-	void  (*RotatePoints2)   (Array(float)* pointArr, float angle, Array(float)* outRotatedPointArr);
+    /**
+     * Rotate 2D point pair of x, y by angle
+     */
+    void  (*RotatePoints2)   (Array(float)* pointArr, float angle, Array(float)* outRotatedPointArr);
 };
 
 
 extern struct AMath AMath[1];
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 #define GOLDEN_RATIO     0.618033988749894
@@ -58,7 +58,7 @@ extern struct AMath AMath[1];
 #define RADIAN_TO_DEGREE 57.29577951308232
 
 
-#define	MATH_PI		     3.141592653589793
+#define    MATH_PI       3.141592653589793
 
 
 #define MATH_2PI         6.283185307179586
@@ -67,7 +67,7 @@ extern struct AMath AMath[1];
 #define MATH_PI2         1.570796326794897
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 /**
@@ -75,7 +75,7 @@ extern struct AMath AMath[1];
  */
 static inline float AMath_Random()
 {
-	return rand() / (double) RAND_MAX;
+    return rand() / (double) RAND_MAX;
 }
 
 
@@ -84,7 +84,7 @@ static inline float AMath_Random()
  */
 static inline int AMath_RandomInt(int from, int to)
 {
-	return (from) + rand() % ((to) - (from) + 1);
+    return (from) + rand() % ((to) - (from) + 1);
 }
 
 
@@ -93,7 +93,7 @@ static inline int AMath_RandomInt(int from, int to)
  */
 static inline float AMath_RandomFloat(float from, float to)
 {
-	return from + AMath_Random() * (to - from);
+    return from + AMath_Random() * (to - from);
 }
 
 
@@ -102,7 +102,7 @@ static inline float AMath_RandomFloat(float from, float to)
  */
 static inline void AMath_RandomSeedByTime()
 {
-	srand((unsigned) time(NULL));
+    srand((unsigned) time(NULL));
 }
 
 
@@ -111,7 +111,7 @@ static inline void AMath_RandomSeedByTime()
  */
 static inline float AMath_ToRadian(float degree)
 {
-	return degree * DEGREE_TO_RADIAN;
+    return degree * DEGREE_TO_RADIAN;
 }
 
 
@@ -120,7 +120,7 @@ static inline float AMath_ToRadian(float degree)
  */
 static inline float AMath_ToDegree(float radian)
 {
-	return radian * RADIAN_TO_DEGREE;
+    return radian * RADIAN_TO_DEGREE;
 }
 
 
@@ -129,7 +129,7 @@ static inline float AMath_ToDegree(float radian)
  */
 static inline float AMath_Cos(float degree)
 {
-	return cosf(AMath_ToRadian(degree));
+    return cosf(AMath_ToRadian(degree));
 }
 
 
@@ -138,7 +138,7 @@ static inline float AMath_Cos(float degree)
  */
 static inline float AMath_Sin(float degree)
 {
-	return sinf(AMath_ToRadian(degree));
+    return sinf(AMath_ToRadian(degree));
 }
 
 
@@ -147,7 +147,7 @@ static inline float AMath_Sin(float degree)
  */
 static inline float AMath_Atan2(float x, float y)
 {
-	return 	AMath_ToDegree(atan2f(y, x));
+    return AMath_ToDegree(atan2f(y, x));
 }
 
 
@@ -156,7 +156,7 @@ static inline float AMath_Atan2(float x, float y)
  */
 static inline float AMath_Acos(float ratio)
 {
-	return AMath_ToDegree(acosf(ratio));
+    return AMath_ToDegree(acosf(ratio));
 }
 
 
@@ -165,7 +165,7 @@ static inline float AMath_Acos(float ratio)
  */
 static inline float AMath_Asin(float ratio)
 {
-	return AMath_ToDegree(asinf(ratio));
+    return AMath_ToDegree(asinf(ratio));
 }
 
 
@@ -173,21 +173,21 @@ static inline float AMath_Asin(float ratio)
  * Min in x and y, macro can use generic parameter
  */
 #define AMath_Min(x, y) \
-	(((x) < (y)) ? (x) : (y))
+    (((x) < (y)) ? (x) : (y))
 
 
 /**
  * Max in a and b, macro can use generic parameter
  */
 #define AMath_Max(x, y) \
-	(((x) > (y)) ? (x) : (y))
+    (((x) > (y)) ? (x) : (y))
 
 
 /**
  * Clamp x in min and max, macro can use generic parameter
  */
 #define AMath_Clamp(x, min, max) \
-	(AMath_Min((max), AMath_Max((x), (min))))
+    (AMath_Min((max), AMath_Max((x), (min))))
 
 
 /**
@@ -195,7 +195,7 @@ static inline float AMath_Asin(float ratio)
  */
 static inline bool AMath_TestFloatEqual(float x, float y)
 {
-	return fabsf((x) - (y)) <= FLT_EPSILON;
+    return fabsf((x) - (y)) <= FLT_EPSILON;
 }
 
 
@@ -206,7 +206,7 @@ static inline bool AMath_TestFloatEqual(float x, float y)
  * macro can use generic parameter
  */
 #define AMath_SignBit(x) \
-	(((signed char*) &(x))[sizeof(x) - 1] >> 7 | 1)
+    (((signed char*) &(x))[sizeof(x) - 1] >> 7 | 1)
 
 
 #endif

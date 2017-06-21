@@ -20,20 +20,20 @@
 
 struct AGLInfo
 {
-	GLfloat pointSizeRange[2];
-	GLfloat lineWidthRange[2];
+    GLfloat pointSizeRange[2];
+    GLfloat lineWidthRange[2];
 
-	GLint   maxVertexAttribs;
-	GLint   maxVertexUniformVectors;
-	GLint   maxVertexTextureImageUnits;
-	GLint   maxFragmentUniformVectors;
-	GLint   maxVaryingVectors;
-	GLint   maxCombinedTextureImageUnits;
-	GLint   maxTextureImageUnits;
+    GLint   maxVertexAttribs;
+    GLint   maxVertexUniformVectors;
+    GLint   maxVertexTextureImageUnits;
+    GLint   maxFragmentUniformVectors;
+    GLint   maxVaryingVectors;
+    GLint   maxCombinedTextureImageUnits;
+    GLint   maxTextureImageUnits;
 
-	float   version;
+    float   version;
 
-	void (*Init)();
+    void (*Init)();
 };
 
 

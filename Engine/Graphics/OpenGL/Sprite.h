@@ -21,62 +21,62 @@
 
 typedef struct
 {
-	Drawable      drawable[1];
+    Drawable      drawable[1];
 
     /**
      * Sprite render texture
      */
-	Texture*      texture;
+    Texture*      texture;
 
-	/**
-	 * All vertex index count
-	 */
-	int           indexCount;
+    /**
+     * All vertex index count
+     */
+    int           indexCount;
 
-	/**
-	 * If use VBO is NULL else buffer all vertex data
-	 */
-	Array(float)* vertexArr;
+    /**
+     * If use VBO is NULL else buffer all vertex data
+     */
+    Array(float)* vertexArr;
 
-	/**
-	 * If use VBO is NULL else buffer all index data
-	 */
-	Array(short)* indexArr;
+    /**
+     * If use VBO is NULL else buffer all index data
+     */
+    Array(short)* indexArr;
 
-	/**
-	 * If use VBO is array buffer id
-	 */
-	GLuint        vboIds[MeshBuffer_Num];
+    /**
+     * If use VBO is array buffer id
+     */
+    GLuint        vboIds[MeshBuffer_Num];
 
-	/**
-	 * If use VAO is generated id else 0
-	 */
-	GLuint        vaoId;
+    /**
+     * If use VAO is generated id else 0
+     */
+    GLuint        vaoId;
 }
 Sprite;
 
 
 struct ASprite
 {
-	Sprite* (*Create)             (Texture*    texture);
-	void    (*Init)               (Texture*    texture,  Sprite* outSprite);
+    Sprite* (*Create)             (Texture*    texture);
+    void    (*Init)               (Texture*    texture,  Sprite* outSprite);
 
-	Sprite* (*CreateWithFile)     (char*       filePath);
-	void    (*InitWithFile)       (char*       filePath, Sprite* outSprite);
+    Sprite* (*CreateWithFile)     (char*       filePath);
+    void    (*InitWithFile)       (char*       filePath, Sprite* outSprite);
 
-	Sprite* (*CreateWithQuad)     (Texture*    texture,  Quad*   quad);
-	void    (*InitWithQuad)       (Texture*    texture,  Quad*   quad, Sprite* outSprite);
+    Sprite* (*CreateWithQuad)     (Texture*    texture,  Quad*   quad);
+    void    (*InitWithQuad)       (Texture*    texture,  Quad*   quad, Sprite* outSprite);
 
 
-	Sprite* (*CreateWithQuadArray)(Texture*    texture, Array(Quad)* quadArr);
-	void    (*InitWithQuadArray)  (Texture*    texture, Array(Quad)* quadArr, Sprite* outSprite);
+    Sprite* (*CreateWithQuadArray)(Texture*    texture, Array(Quad)* quadArr);
+    void    (*InitWithQuadArray)  (Texture*    texture, Array(Quad)* quadArr, Sprite* outSprite);
 
-	void    (*Release)            (Sprite*     sprite);
+    void    (*Release)            (Sprite*     sprite);
 
-	/**
-	 * Sprite implement Drawable's render
-	 */
-	void    (*Render)             (Drawable*   drawable);
+    /**
+     * Sprite implement Drawable's render
+     */
+    void    (*Render)             (Drawable*   drawable);
 };
 
 
@@ -85,7 +85,7 @@ extern struct ASprite ASprite[1];
 
 static inline void ASprite_Draw(Sprite* sprite)
 {
-	ADrawable->Draw(sprite->drawable);
+    ADrawable->Draw(sprite->drawable);
 }
 
 

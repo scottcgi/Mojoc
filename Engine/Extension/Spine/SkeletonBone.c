@@ -14,35 +14,35 @@
 
 static void SetToSetupPose(SkeletonBone* bone)
 {
-	Drawable*         drawable = bone->drawable;
-	SkeletonBoneData* boneData = bone->boneData;
+    Drawable*         drawable = bone->drawable;
+    SkeletonBoneData* boneData = bone->boneData;
 
-	ADrawable_SetPosition2(drawable, boneData->x,      boneData->y);
-	ADrawable_SetScale2   (drawable, boneData->scaleX, boneData->scaleY);
-	ADrawable_SetRotationZ(drawable, boneData->rotationZ);
+    ADrawable_SetPosition2(drawable, boneData->x,      boneData->y);
+    ADrawable_SetScale2   (drawable, boneData->scaleX, boneData->scaleY);
+    ADrawable_SetRotationZ(drawable, boneData->rotationZ);
 }
 
 
 static void Init(SkeletonBoneData* boneData, SkeletonBone* outBone)
 {
-	ADrawable->Init(outBone->drawable);
-	outBone->boneData = boneData;
-	SetToSetupPose(outBone);
+    ADrawable->Init(outBone->drawable);
+    outBone->boneData = boneData;
+    SetToSetupPose(outBone);
 }
 
 
 static SkeletonBone* Create(SkeletonBoneData* boneData)
 {
-	SkeletonBone* bone = (SkeletonBone*) malloc(sizeof(SkeletonBone));
-	Init(boneData, bone);
+    SkeletonBone* bone = (SkeletonBone*) malloc(sizeof(SkeletonBone));
+    Init(boneData, bone);
 
-	return bone;
+    return bone;
 }
 
 
 struct ASkeletonBone ASkeletonBone[1] =
 {
-	Create,
-	Init,
-	SetToSetupPose,
+    Create,
+    Init,
+    SetToSetupPose,
 };

@@ -15,105 +15,105 @@
 
 static float MoveXOnGet(void* target)
 {
-	return ((Drawable*) target)->positionX;
+    return ((Drawable*) target)->positionX;
 }
 
 
 static void MoveXOnSet(void* target, float value)
 {
-	ADrawable_SetPositionX((Drawable*) target, value);
+    ADrawable_SetPositionX((Drawable*) target, value);
 }
 
 
 static void MoveYOnSet(void* target, float value)
 {
-	ADrawable_SetPositionY((Drawable*) target, value);
+    ADrawable_SetPositionY((Drawable*) target, value);
 }
 
 
 static float MoveYOnGet(void* target)
 {
-	return ((Drawable*) target)->positionY;
+    return ((Drawable*) target)->positionY;
 }
 
 
 static void ScaleXOnSet(void* target, float value)
 {
-	ADrawable_SetScaleX((Drawable*) target, value);
+    ADrawable_SetScaleX((Drawable*) target, value);
 }
 
 
 static float ScaleXOnGet(void* target)
 {
-	return ((Drawable*) target)->scaleX;
+    return ((Drawable*) target)->scaleX;
 }
 
 
 static void ScaleYOnSet(void* target, float value)
 {
-	ADrawable_SetScaleY((Drawable*) target, value);
+    ADrawable_SetScaleY((Drawable*) target, value);
 }
 
 
 static float ScaleYOnGet(void* target)
 {
-	return ((Drawable*) target)->scaleY;
+    return ((Drawable*) target)->scaleY;
 }
 
 
 static void RotateZOnSet(void* target, float value)
 {
-	ADrawable_SetRotationZ((Drawable*) target, value);
+    ADrawable_SetRotationZ((Drawable*) target, value);
 }
 
 
 static float RotateZOnGet(void* target)
 {
-	return ((Drawable*) target)->rotationZ;
+    return ((Drawable*) target)->rotationZ;
 }
 
 
 static void FadeToOnSet(void* target, float value)
 {
-	ADrawable_SetOpacity((Drawable*) target, value);
+    ADrawable_SetOpacity((Drawable*) target, value);
 }
 
 
 static float FadeToOnGet(void* target)
 {
-	return ((Drawable*) target)->color->a;
+    return ((Drawable*) target)->color->a;
 }
 
 
 struct ATweenActionValueGetSetImpl ATweenActionValueGetSetImpl[1] =
 {{
-	{
-		MoveXOnGet,
-		MoveXOnSet,
-	},
+    {
+        MoveXOnGet,
+        MoveXOnSet,
+    },
 
-	{
-		MoveYOnGet,
-		MoveYOnSet,
-	},
+    {
+        MoveYOnGet,
+        MoveYOnSet,
+    },
 
-	{
-		ScaleXOnGet,
-		ScaleXOnSet,
-	},
+    {
+        ScaleXOnGet,
+        ScaleXOnSet,
+    },
 
-	{
-		ScaleYOnGet,
-		ScaleYOnSet,
-	},
+    {
+        ScaleYOnGet,
+        ScaleYOnSet,
+    },
 
-	{
-		RotateZOnGet,
-		RotateZOnSet,
-	},
+    {
+        RotateZOnGet,
+        RotateZOnSet,
+    },
 
-	{
-		FadeToOnGet,
-		FadeToOnSet,
-	},
+    {
+        FadeToOnGet,
+        FadeToOnSet,
+    },
 }};

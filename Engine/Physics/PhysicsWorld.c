@@ -17,45 +17,45 @@
 static ArrayIntSet(PhysicsBody*) bodySet[1] = AArrayIntSet_Init(PhysicsBody*, 20);
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static inline void UpdateMotion(PhysicsBody* body, float deltaSeconds)
 {
-	// cache v0
-	float vx         = body->velocityX;
-	float vy         = body->velocityY;
+    // cache v0
+    float vx         = body->velocityX;
+    float vy         = body->velocityY;
 
-	// get final velocity in x and y direction
-	// v1 = at + v0
-	body->velocityX += (body->accelerationX + APhysicsWorld->gravity.x) * deltaSeconds;
-	body->velocityY += (body->accelerationY + APhysicsWorld->gravity.y) * deltaSeconds;
+    // get final velocity in x and y direction
+    // v1 = at + v0
+    body->velocityX += (body->accelerationX + APhysicsWorld->gravity.x) * deltaSeconds;
+    body->velocityY += (body->accelerationY + APhysicsWorld->gravity.y) * deltaSeconds;
 
-	// get delta distance in x and y indirection
-	// s = (v0 + v1) * t / 2
-	float dx         = (body->velocityX + vx) * deltaSeconds * 0.5f;
-	float dy         = (body->velocityY + vy) * deltaSeconds * 0.5f;
+    // get delta distance in x and y indirection
+    // s = (v0 + v1) * t / 2
+    float dx         = (body->velocityX + vx) * deltaSeconds * 0.5f;
+    float dy         = (body->velocityY + vy) * deltaSeconds * 0.5f;
 
-	// increase x and y distance
-	body->positionX += dx;
-	body->positionY += dy;
+    // increase x and y distance
+    body->positionX += dx;
+    body->positionY += dy;
 
-	body->rotationZ  = AMath_Atan2(dx, dy);
+    body->rotationZ  = AMath_Atan2(dx, dy);
 
-	APhysicsBody->UpdateMotion(body, deltaSeconds);
+    APhysicsBody->UpdateMotion(body, deltaSeconds);
 
-	if (AMath_TestFloatEqual(body->velocityX, 0.0f) && AMath_TestFloatEqual(body->velocityY, 0.0f))
-	{
-		APhysicsBody_SetState(body, PhysicsBodyState_Sleeping);
-	}
+    if (AMath_TestFloatEqual(body->velocityX, 0.0f) && AMath_TestFloatEqual(body->velocityY, 0.0f))
+    {
+        APhysicsBody_SetState(body, PhysicsBodyState_Sleeping);
+    }
 }
 
 
 static void Update(float deltaSeconds)
 {
-	for (int i = 0; i < bodySet->elementList->size; i++)
-	{
-		PhysicsBody* body = AArrayList_Get(bodySet->elementList, i, PhysicsBody*);
+    for (int i = 0; i < bodySet->elementList->size; i++)
+    {
+        PhysicsBody* body = AArrayList_Get(bodySet->elementList, i, PhysicsBody*);
 
         if (APhysicsBody_CheckState(body, PhysicsBodyState_NoCollision) == false)
         {
@@ -92,17 +92,17 @@ static void Update(float deltaSeconds)
             // after test collision can update motion
             UpdateMotion(body, deltaSeconds);
         }
-	}
+    }
 }
 
 
 
 static PhysicsBody* AddBody(PhysicsShape shape, Array(float)* vertexArr)
 {
-	PhysicsBody* body = APhysicsBody->Create(shape, vertexArr);
+    PhysicsBody* body = APhysicsBody->Create(shape, vertexArr);
     AArrayIntSet->TryAdd(bodySet, (intptr_t) body);
 
-	return body;
+    return body;
 }
 
 
@@ -115,9 +115,9 @@ static void DestroyBody(PhysicsBody* body)
 
 struct APhysicsWorld APhysicsWorld[1] =
 {
-	{
-		.AddBody     = AddBody,
+    {
+        .AddBody     = AddBody,
         .DestroyBody = DestroyBody,
-		.Update      = Update,
-	}
+        .Update      = Update,
+    }
 };

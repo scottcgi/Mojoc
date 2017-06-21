@@ -15,15 +15,15 @@
 
 /*
 -------------------------------------------------------------------------------
-	The biteState is usually an expression
-	the inline function can not use expression for bitState
-	so if not use macro we need pass the third parameter that's bitState owner
+    The biteState is usually an expression
+    the inline function can not use expression for bitState
+    so if not use macro we need pass the third parameter that's bitState owner
 -------------------------------------------------------------------------------
 */
 
 
 #define ABitwise_Set(bitState,     bits) \
-	((bitState)  |= (bits))
+    ((bitState)  |= (bits))
 
 
 #define ABitwise_SetOnly(bitState, bits) \
@@ -31,15 +31,15 @@
 
 
 #define ABitwise_Clear(bitState,   bits) \
-	((bitState)  &= ~(bits))
+    ((bitState)  &= ~(bits))
 
 
 #define ABitwise_Check(bitState,   bits) \
-	(((bitState) & (bits)) != 0)
+    (((bitState) & (bits)) != 0)
 
 
 #define ABitwise_ClearAndSet(bitState, clearBits, setBits) \
-	((bitState)  = ((bitState) & ~(clearBits)) | (setBits))
+    ((bitState)  = ((bitState) & ~(clearBits)) | (setBits))
 
 
 #endif

@@ -19,20 +19,20 @@
 
 typedef struct
 {
-	/**
-	 * Texture atlas quad info from file
-	 */
-	ArrayStrMap(atlasQuadName, TextureAtlasQuad) quadMap[1];
+    /**
+     * Texture atlas quad info from file
+     */
+    ArrayStrMap(atlasQuadName, TextureAtlasQuad) quadMap[1];
 
-	/**
-	 * Textures in texture atlas
-	 */
-	ArrayList  (Texture*)                        textureList[1];
+    /**
+     * Textures in texture atlas
+     */
+    ArrayList  (Texture*)                        textureList[1];
 
     /**
      * Texture file path be key cached in ArrayStrMap which collect all TextureAtlas
      */
-	char*                                        filePath;
+    char*                                        filePath;
 }
 TextureAtlas;
 
@@ -60,7 +60,7 @@ TextureAtlasQuad;
 struct ATextureAtlas
 {
     TextureAtlas* (*Get)    (char*         filePath);
-	void          (*Release)(TextureAtlas* textureAtlas);
+    void          (*Release)(TextureAtlas* textureAtlas);
 };
 
 

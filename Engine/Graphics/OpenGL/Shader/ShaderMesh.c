@@ -20,11 +20,11 @@
 
 static void Use(Matrix4* mvpMatrix)
 {
-	if (AShader->program != AShaderMesh->program)
-	{
-		AShader->program = AShaderMesh->program;
-	    glUseProgram(AShaderMesh->program);
-	}
+    if (AShader->program != AShaderMesh->program)
+    {
+        AShader->program = AShaderMesh->program;
+        glUseProgram(AShaderMesh->program);
+    }
 
     glUniformMatrix4fv(AShaderMesh->uniformMVPMatrix, 1, false, mvpMatrix->m);
 
@@ -35,62 +35,62 @@ static void Use(Matrix4* mvpMatrix)
 
 static void Init()
 {
-	AShaderMesh->program = AGLTool->LoadProgram
-	(
+    AShaderMesh->program = AGLTool->LoadProgram
+    (
         AString_Make
-		(
-			precision highp float;
-			uniform   mat4  uMVPMatrix;
-			attribute vec4  aPosition;
-			attribute vec2  aTexcoord;
-			attribute float aOpacity;
-			attribute vec3  aRGB;
+        (
+            precision highp float;
+            uniform   mat4  uMVPMatrix;
+            attribute vec4  aPosition;
+            attribute vec2  aTexcoord;
+            attribute float aOpacity;
+            attribute vec3  aRGB;
 
-			varying   vec2  vTexcoord;
-			varying   vec4  vColor;
+            varying   vec2  vTexcoord;
+            varying   vec4  vColor;
 
-			void main()
-			{
-				gl_Position = uMVPMatrix * aPosition;
-				vTexcoord   = aTexcoord;
-				vColor      = vec4(aRGB, aOpacity);
-			}
-		),
+            void main()
+            {
+                gl_Position = uMVPMatrix * aPosition;
+                vTexcoord   = aTexcoord;
+                vColor      = vec4(aRGB, aOpacity);
+            }
+        ),
 
         AString_Make
-		(
+        (
             precision lowp      float;
-			uniform   sampler2D uSampler2D;
-			varying   vec2      vTexcoord;
-			varying   vec4      vColor;
+            uniform   sampler2D uSampler2D;
+            varying   vec2      vTexcoord;
+            varying   vec4      vColor;
 
-			void main()
-			{
-				gl_FragColor = texture2D(uSampler2D, vTexcoord) * vColor;
-			}
-		)
-	);
+            void main()
+            {
+                gl_FragColor = texture2D(uSampler2D, vTexcoord) * vColor;
+            }
+        )
+    );
 
-	// Get the attribute locations
-	AShaderMesh->attribPosition   = glGetAttribLocation(AShaderMesh->program, "aPosition");
-	AShaderMesh->attribTexcoord   = glGetAttribLocation(AShaderMesh->program, "aTexcoord");
-	AShaderMesh->attribOpacity    = glGetAttribLocation(AShaderMesh->program, "aOpacity");
-	AShaderMesh->attribRGB        = glGetAttribLocation(AShaderMesh->program, "aRGB");
+    // Get the attribute locations
+    AShaderMesh->attribPosition   = glGetAttribLocation(AShaderMesh->program, "aPosition");
+    AShaderMesh->attribTexcoord   = glGetAttribLocation(AShaderMesh->program, "aTexcoord");
+    AShaderMesh->attribOpacity    = glGetAttribLocation(AShaderMesh->program, "aOpacity");
+    AShaderMesh->attribRGB        = glGetAttribLocation(AShaderMesh->program, "aRGB");
 
-	AShaderMesh->uniformSample2D  = glGetUniformLocation(AShaderMesh->program, "uSampler2D");
-	AShaderMesh->uniformMVPMatrix = glGetUniformLocation(AShaderMesh->program, "uMVPMatrix");
+    AShaderMesh->uniformSample2D  = glGetUniformLocation(AShaderMesh->program, "uSampler2D");
+    AShaderMesh->uniformMVPMatrix = glGetUniformLocation(AShaderMesh->program, "uMVPMatrix");
 
-	ALog_A
-	(
-		AShaderMesh->uniformSample2D != -1,
-		"AShaderMesh could not glGetUniformLocation for uniformSample2D"
-	);
+    ALog_A
+    (
+        AShaderMesh->uniformSample2D != -1,
+        "AShaderMesh could not glGetUniformLocation for uniformSample2D"
+    );
 
-	ALog_A
-	(
-		AShaderMesh->uniformMVPMatrix != -1,
-		"AShaderMesh could not glGetUniformLocation for uMVPMatrix"
-	);
+    ALog_A
+    (
+        AShaderMesh->uniformMVPMatrix != -1,
+        "AShaderMesh could not glGetUniformLocation for uMVPMatrix"
+    );
 
     glEnableVertexAttribArray(AShaderMesh->attribPosition);
     glEnableVertexAttribArray(AShaderMesh->attribTexcoord);
@@ -101,8 +101,8 @@ static void Init()
 
 struct AShaderMesh AShaderMesh[1] =
 {
-	{
-		.Use  = Use,
-		.Init = Init,
-	}
+    {
+        .Use  = Use,
+        .Init = Init,
+    }
 };

@@ -18,16 +18,13 @@
 #include "GameMap.h"
 
 
-static FontText*           fpsText;
-static ParticleEmitterData emitterData[1];
-static ParticleEmitter     emitter    [1];
+static FontText* fpsText;
 
 
 static void UpdateAfter(Component* component, float deltaSeconds)
 {
     AFont->Draw(AGameActor->hpFont);
     AFont->Draw(AGameActor->talkFont);
-//  AParticleEmitter->Update(emitter, deltaSeconds);
 }
 
 
@@ -48,10 +45,6 @@ static void Init()
 //  fpsText              = AFont->GetText(AGameActor->hpFont);
 //  ADrawable_SetPositionY(fpsText->drawable, -0.9f);
 //  AScheduler->Schedule(UpdateFPS, 1.0f, NULL);
-
-//  AFont->SetInt(fpsText, 1000000);
-//  AParticleEmitterData->Init("Particle/Original.p", emitterData);
-//  AParticleEmitter->Init(emitterData, ATexture->Get("Particle/Particle.png"), emitter);
 }
 
 

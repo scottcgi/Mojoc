@@ -17,11 +17,11 @@
 
 
 #define CheckIndex(tag) \
-	ALog_A(index >= 0 && index <  arrayIntMap->elementList->size, "AArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
+    ALog_A(index >= 0 && index <  arrayIntMap->elementList->size, "AArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
 
 
 #define CheckInsertIndex(tag) \
-	ALog_A(index >= 0 && index <= arrayIntMap->elementList->size, "AArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
+    ALog_A(index >= 0 && index <= arrayIntMap->elementList->size, "AArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
 
 
 
@@ -31,51 +31,51 @@
  */
 static inline int BinarySearch(ArrayList* elementList, intptr_t key)
 {
-	int high  = elementList->size;
-	int low   = -1;
-	int guess = -1;
+    int high  = elementList->size;
+    int low   = -1;
+    int guess = -1;
 
-	while (high - low > 1)
-	{
-		// not consider int overflow
-		guess               = (high + low) >> 1;
-	    intptr_t elementKey = AArrayList_Get(elementList, guess, ArrayIntMapElement*)->key;
+    while (high - low > 1)
+    {
+        // not consider int overflow
+        guess               = (high + low) >> 1;
+        intptr_t elementKey = AArrayList_Get(elementList, guess, ArrayIntMapElement*)->key;
 
-		if (elementKey < key)
-		{
-			low  = guess;
-		}
-		else if (elementKey > key)
-		{
-			high = guess;
-		}
-		else if (elementKey == key)
-		{
-			// find the key
-			return guess;
-		}
-	}
+        if (elementKey < key)
+        {
+            low  = guess;
+        }
+        else if (elementKey > key)
+        {
+            high = guess;
+        }
+        else if (elementKey == key)
+        {
+            // find the key
+            return guess;
+        }
+    }
 
-	// if guess == high the guess is bigger than key in ArrayIntMap and insert value at guess
+    // if guess == high the guess is bigger than key in ArrayIntMap and insert value at guess
 
-	if (guess == low)
-	{
-		// the guess is smaller than key in ArrayIntMap and insert value behind
-		// or if ArrayIntMap empty then guess is -1, also do this make guess at 0
-		guess++;
-	}
+    if (guess == low)
+    {
+        // the guess is smaller than key in ArrayIntMap and insert value behind
+        // or if ArrayIntMap empty then guess is -1, also do this make guess at 0
+        guess++;
+    }
 
-	// when ArrayIntMap empty guess is 0, so we -1 make sure return negative value
-	return -guess - 1;
+    // when ArrayIntMap empty guess is 0, so we -1 make sure return negative value
+    return -guess - 1;
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static void* TryPut(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 {
-	int guess = BinarySearch(arrayIntMap->elementList, key);
+    int guess = BinarySearch(arrayIntMap->elementList, key);
 
     if (guess < 0)
     {
@@ -96,15 +96,15 @@ static void* TryPut(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 
 static void* Get(ArrayIntMap* arrayIntMap, intptr_t key, void* defaultValuePtr)
 {
-	int guess = BinarySearch(arrayIntMap->elementList, key);
+    int guess = BinarySearch(arrayIntMap->elementList, key);
 
-	return guess >= 0 ? AArrayList_Get(arrayIntMap->elementList, guess, ArrayIntMapElement*)->valuePtr : defaultValuePtr;
+    return guess >= 0 ? AArrayList_Get(arrayIntMap->elementList, guess, ArrayIntMapElement*)->valuePtr : defaultValuePtr;
 }
 
 
 static void* TrySet(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 {
-	int guess = BinarySearch(arrayIntMap->elementList, key);
+    int guess = BinarySearch(arrayIntMap->elementList, key);
 
     if (guess >= 0)
     {
@@ -124,168 +124,168 @@ static void* TrySet(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 
 static bool TryRemove(ArrayIntMap* arrayIntMap, intptr_t key)
 {
-	int guess = BinarySearch(arrayIntMap->elementList, key);
+    int guess = BinarySearch(arrayIntMap->elementList, key);
 
-	if (guess >= 0)
-	{
-		free
-		(
-			AArrayList_Get(arrayIntMap->elementList, guess, ArrayIntMapElement*)
-		);
+    if (guess >= 0)
+    {
+        free
+        (
+            AArrayList_Get(arrayIntMap->elementList, guess, ArrayIntMapElement*)
+        );
 
-		AArrayList->Remove(arrayIntMap->elementList, guess);
+        AArrayList->Remove(arrayIntMap->elementList, guess);
 
-		return true;
-	}
-	
-	return false;
+        return true;
+    }
+    
+    return false;
 }
 
 
 static void Clear(ArrayIntMap* arrayIntMap)
 {
-	for (int i = 0; i < arrayIntMap->elementList->size; i++)
-	{
-		free
-		(
-			AArrayList_Get(arrayIntMap->elementList, i, ArrayIntMapElement*)
-		);
-	}
+    for (int i = 0; i < arrayIntMap->elementList->size; i++)
+    {
+        free
+        (
+            AArrayList_Get(arrayIntMap->elementList, i, ArrayIntMapElement*)
+        );
+    }
 
-	AArrayList->Clear(arrayIntMap->elementList);
+    AArrayList->Clear(arrayIntMap->elementList);
 }
 
 
 static void* InsertAt(ArrayIntMap* arrayIntMap, intptr_t key, int index, void* valuePtr)
 {
-	CheckInsertIndex("InsertAt");
+    CheckInsertIndex("InsertAt");
 
-	ArrayIntMapElement* element = (ArrayIntMapElement*) malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
+    ArrayIntMapElement* element = (ArrayIntMapElement*) malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
 
-	AArrayList_Insert(arrayIntMap->elementList, index, element);
-	element->key                = key;
-	element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
+    AArrayList_Insert(arrayIntMap->elementList, index, element);
+    element->key                = key;
+    element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
 
-	return memcpy(element->valuePtr, valuePtr, arrayIntMap->valueTypeSize);
+    return memcpy(element->valuePtr, valuePtr, arrayIntMap->valueTypeSize);
 }
 
 
 static int GetIndex(ArrayIntMap* arrayIntMap, intptr_t key)
 {
-	return BinarySearch(arrayIntMap->elementList, key);
+    return BinarySearch(arrayIntMap->elementList, key);
 }
 
 
 static intptr_t GetKey(ArrayIntMap* arrayIntMap, int index)
 {
-	CheckIndex("GetKey");
-	return AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)->key;
+    CheckIndex("GetKey");
+    return AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)->key;
 }
 
 
 static void* GetAt(ArrayIntMap* arrayIntMap, int index)
 {
-	CheckIndex("GetAt");
-	return AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)->valuePtr;
+    CheckIndex("GetAt");
+    return AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)->valuePtr;
 }
 
 
 static void* SetAt(ArrayIntMap* arrayIntMap, int index, void* valuePtr)
 {
-	CheckIndex("SetAt");
+    CheckIndex("SetAt");
 
-	return memcpy
-		   (
-			   AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)->valuePtr,
-			   valuePtr,
-			   arrayIntMap->valueTypeSize
-		   );
+    return memcpy
+           (
+               AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)->valuePtr,
+               valuePtr,
+               arrayIntMap->valueTypeSize
+           );
 }
 
 
 static void RemoveAt(ArrayIntMap* arrayIntMap, int index)
 {
-	CheckIndex("RemoveAt");
+    CheckIndex("RemoveAt");
 
-	free
-	(
-		AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)
-	);
+    free
+    (
+        AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)
+    );
 
-	AArrayList->Remove(arrayIntMap->elementList, index);
+    AArrayList->Remove(arrayIntMap->elementList, index);
 }
 
 
 static void Release(ArrayIntMap* arrayIntMap)
 {
-	for (int i = 0; i < arrayIntMap->elementList->size; i++)
-	{
-		free
-		(
-			AArrayList_Get(arrayIntMap->elementList, i, ArrayIntMapElement*)
-		);
-	}
+    for (int i = 0; i < arrayIntMap->elementList->size; i++)
+    {
+        free
+        (
+            AArrayList_Get(arrayIntMap->elementList, i, ArrayIntMapElement*)
+        );
+    }
 
-	AArrayList->Release(arrayIntMap->elementList);
+    AArrayList->Release(arrayIntMap->elementList);
 }
 
 
 static void InitWithCapacity(int valueTypeSize, int capacity, ArrayIntMap* outArrayIntMap)
 {
-	if (capacity == 0)
-	{
-		AArrayList->Init(sizeof(ArrayIntMapElement*), outArrayIntMap->elementList);
-	}
-	else
-	{
-		AArrayList->InitWithCapacity(sizeof(ArrayIntMapElement*), capacity, outArrayIntMap->elementList);
-	}
+    if (capacity == 0)
+    {
+        AArrayList->Init(sizeof(ArrayIntMapElement*), outArrayIntMap->elementList);
+    }
+    else
+    {
+        AArrayList->InitWithCapacity(sizeof(ArrayIntMapElement*), capacity, outArrayIntMap->elementList);
+    }
 
-	outArrayIntMap->valueTypeSize = valueTypeSize;
+    outArrayIntMap->valueTypeSize = valueTypeSize;
 }
 
 
 static ArrayIntMap* CreateWithCapacity(int valueTypeSize, int capacity)
 {
-	ArrayIntMap* arrayIntMap = (ArrayIntMap*) malloc(sizeof(ArrayIntMap));
-	InitWithCapacity(valueTypeSize, capacity, arrayIntMap);
+    ArrayIntMap* arrayIntMap = (ArrayIntMap*) malloc(sizeof(ArrayIntMap));
+    InitWithCapacity(valueTypeSize, capacity, arrayIntMap);
 
-	return arrayIntMap;
+    return arrayIntMap;
 }
 
 
 static void Init(int valueTypeSize, ArrayIntMap* outArrayIntMap)
 {
-	InitWithCapacity(valueTypeSize, 0, outArrayIntMap);
+    InitWithCapacity(valueTypeSize, 0, outArrayIntMap);
 }
 
 
 static ArrayIntMap* Create(int valueTypeSize)
 {
-	return CreateWithCapacity(valueTypeSize, 0);
+    return CreateWithCapacity(valueTypeSize, 0);
 }
 
 
 struct AArrayIntMap AArrayIntMap[1] =
 {
-	Create,
-	Init,
-	CreateWithCapacity,
-	InitWithCapacity,
+    Create,
+    Init,
+    CreateWithCapacity,
+    InitWithCapacity,
 
-	Release,
+    Release,
 
     TryPut,
-	Get,
-	TrySet,
-	TryRemove,
-	Clear,
-	InsertAt,
-	GetIndex,
-	GetKey,
-	GetAt,
-	SetAt,
-	RemoveAt,
+    Get,
+    TrySet,
+    TryRemove,
+    Clear,
+    InsertAt,
+    GetIndex,
+    GetKey,
+    GetAt,
+    SetAt,
+    RemoveAt,
 };
 
 

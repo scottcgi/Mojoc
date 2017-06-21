@@ -162,7 +162,7 @@ ScheduleOnce:
         return;
     }
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     FontText* text          = AFont->GetText(AGameActor->hpFont);
     float     hurtEffectPos = 0.0f;
@@ -174,7 +174,7 @@ ScheduleOnce:
         hurtEffectPos = 30;
         AComponent->SetState(enemy->component, EnemyState_Hurt);
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
         ADrawable_SetParent(text->drawable, AGameMap->beforeDrawable);
 
@@ -219,7 +219,7 @@ ScheduleOnce:
         ASkeleton ->SetSkin(enemy->hurtEffect->skeleton, "die");
         AComponent->SetState(enemy->component, EnemyState_Die);
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
         ADrawable_SetParent(text->drawable, enemyDrawable);
         ADrawable_SetScale2(text->drawable, 0.0f, 0.0f);
@@ -271,7 +271,7 @@ ScheduleOnce:
         AAudioTool->Play(AudioId_Drop);
     }
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     enemy->hurtEffect->loop      = 1;
     Drawable* hurtEffectDrawable = ASkeletonAnimationPlayer_GetDrawable(enemy->hurtEffect);
@@ -289,7 +289,7 @@ ScheduleOnce:
         ADrawable->GetFlipRotationZ(hurtEffectDrawable, other->rotationZ)
     );
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     if (enemy->collisionBoxDrawable != NULL)
     {

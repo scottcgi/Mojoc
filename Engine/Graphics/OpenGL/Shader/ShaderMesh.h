@@ -20,17 +20,17 @@
 
 struct AShaderMesh
 {
-	GLuint program;
-	GLuint attribPosition;
-	GLuint attribTexcoord;
-	GLuint attribOpacity;
-	GLuint attribRGB;
+    GLuint program;
+    GLuint attribPosition;
+    GLuint attribTexcoord;
+    GLuint attribOpacity;
+    GLuint attribRGB;
 
-	GLint  uniformMVPMatrix;
-	GLint  uniformSample2D;
+    GLint  uniformMVPMatrix;
+    GLint  uniformSample2D;
 
-	void (*Use) (Matrix4* mvpMatrix);
-	void (*Init)();
+    void (*Use) (Matrix4* mvpMatrix);
+    void (*Init)();
 };
 
 

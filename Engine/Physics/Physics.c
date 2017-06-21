@@ -15,11 +15,11 @@
 
 static void Init()
 {
-	APhysicsWorld->gravity.y = -1.5f;
+    APhysicsWorld->gravity.y = -1.5f;
 }
 
 
 struct APhysics APhysics[1] =
 {
-	Init
+    Init
 };

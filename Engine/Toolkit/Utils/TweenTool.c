@@ -24,8 +24,8 @@ enum
 
 static Array(TweenAction*) actionArr[1] =
 {
-	(TweenAction*[TweenAction_Length]) {},
-	0
+    (TweenAction*[TweenAction_Length]) {},
+    0
 };
 
 
@@ -34,35 +34,35 @@ static TweenActionValue* actionValue = NULL;
 
 
 #define CheckAction(tag) \
-	ALog_A(action      != NULL, "ATweenTool " tag " TweenAction not created");
+    ALog_A(action      != NULL, "ATweenTool " tag " TweenAction not created");
 
 
 #define CheckActionValue(tag) \
-	ALog_A(actionValue != NULL, "ATweenTool " tag " TweenActionValue can not NULL");
+    ALog_A(actionValue != NULL, "ATweenTool " tag " TweenActionValue can not NULL");
 
 
 static struct ATweenTool* AddAction()
 {
-	ALog_A
-	(
-		actionArr->length <= TweenAction_Length,
-		"ATweenTool can not cache TweenActions = %d more than %d",
-		actionArr->length,
+    ALog_A
+    (
+        actionArr->length <= TweenAction_Length,
+        "ATweenTool can not cache TweenActions = %d more than %d",
+        actionArr->length,
         TweenAction_Length
-	);
+    );
 
-	action      = ATween->GetAction();
-	actionValue = NULL;
+    action      = ATween->GetAction();
+    actionValue = NULL;
 
-	AArray_Set
-	(
-		actionArr,
-		actionArr->length++,
-		action,
-		TweenAction*
-	);
+    AArray_Set
+    (
+        actionArr,
+        actionArr->length++,
+        action,
+        TweenAction*
+    );
 
-	return ATweenTool;
+    return ATweenTool;
 }
 
 
@@ -117,7 +117,7 @@ static struct ATweenTool* AddInterval(float duration)
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static struct ATweenTool* AddMoveX(float moveX, float duration)
@@ -160,7 +160,7 @@ static struct ATweenTool* AddMove2(float moveX, float moveY, float duration, boo
 
 static struct ATweenTool* AddMoveSame2(float move, float duration, bool  isRelative, TweenEaseType easeType)
 {
-	return AddMove2(move, move, duration, isRelative, easeType);
+    return AddMove2(move, move, duration, isRelative, easeType);
 }
 
 
@@ -206,7 +206,7 @@ static struct ATweenTool* AddScale2(float scaleX, float scaleY, float duration, 
 
 static struct ATweenTool* AddScaleSame2(float scale, float duration, bool  isRelative, TweenEaseType  easeType)
 {
-	return AddScale2(scale, scale, duration, isRelative, easeType);
+    return AddScale2(scale, scale, duration, isRelative, easeType);
 }
 
 
@@ -232,7 +232,7 @@ static struct ATweenTool* AddFadeTo(float fadeTo, float duration)
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static struct ATweenTool* SetUserData0Int(int userData)
@@ -365,41 +365,41 @@ static struct ATweenTool* SetUserData3String(char* userData)
 
 static struct ATweenTool* SetQueue(bool isQueue)
 {
-	CheckAction("SetQueue");
-	action->isQueue = isQueue;
+    CheckAction("SetQueue");
+    action->isQueue = isQueue;
 
-	return ATweenTool;
+    return ATweenTool;
 }
 
 
 static struct ATweenTool* SetOnComplete(TweenActionOnComplete OnComplete)
 {
-	CheckAction("SetOnComplete");
-	action->OnComplete = OnComplete;
+    CheckAction("SetOnComplete");
+    action->OnComplete = OnComplete;
 
-	return ATweenTool;
+    return ATweenTool;
 }
 
 
 static struct ATweenTool* SetTarget(void* target)
 {
-	CheckAction("SetTarget");
-	action->target = target;
+    CheckAction("SetTarget");
+    action->target = target;
 
-	return ATweenTool;
+    return ATweenTool;
 }
 
 
 static struct ATweenTool* GetAction(TweenAction** outActionPtr)
 {
-	CheckAction("GetAction");
-	*outActionPtr = action;
+    CheckAction("GetAction");
+    *outActionPtr = action;
 
-	return ATweenTool;
+    return ATweenTool;
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static struct ATweenTool* SetMoveX(float moveX)
@@ -478,54 +478,54 @@ static struct ATweenTool* SetFadeTo(float fadeTo)
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static void RunActions(void* target)
 {
-	ALog_A(target != NULL, "ATweenTool RunActions, target can not NULL");
+    ALog_A(target != NULL, "ATweenTool RunActions, target can not NULL");
 
-	for (int i = 0; i < actionArr->length; i++)
-	{
-		TweenAction* action = AArray_Get(actionArr, i, TweenAction*);
+    for (int i = 0; i < actionArr->length; i++)
+    {
+        TweenAction* action = AArray_Get(actionArr, i, TweenAction*);
 
-		if (action->actionValueList->size > 0)
-		{
-			action->target = target;
-		}
-	}
+        if (action->actionValueList->size > 0)
+        {
+            action->target = target;
+        }
+    }
 
-	ATween->RunActions(actionArr, target);
+    ATween->RunActions(actionArr, target);
 
-	actionArr->length = 0;
+    actionArr->length = 0;
     action            = NULL;
-	actionValue       = NULL;
+    actionValue       = NULL;
 }
 
 
 static void* RunTargets()
 {
-	for (int i = 0; i < actionArr->length; i++)
-	{
-		TweenAction* action = AArray_Get(actionArr, i, TweenAction*);
+    for (int i = 0; i < actionArr->length; i++)
+    {
+        TweenAction* action = AArray_Get(actionArr, i, TweenAction*);
 
-		if (action->actionValueList->size > 0)
-		{
-			ALog_A
-			(
-				 action->target != NULL,
-				 "ATweenTool RunTargets, the {%d} action has actionValue, so must set target",
-				 i
-			);
-		}
-	}
+        if (action->actionValueList->size > 0)
+        {
+            ALog_A
+            (
+                 action->target != NULL,
+                 "ATweenTool RunTargets, the {%d} action has actionValue, so must set target",
+                 i
+            );
+        }
+    }
 
 
     void* tweenId = ATween->RunActions(actionArr, NULL);
 
-	actionArr->length = 0;
+    actionArr->length = 0;
     action            = NULL;
-	actionValue       = NULL;
+    actionValue       = NULL;
 
     return tweenId;
 }
@@ -533,7 +533,7 @@ static void* RunTargets()
 
 struct ATweenTool ATweenTool[1] =
 {
-	AddAction,
+    AddAction,
     AddInterval,
 
     AddMoveX,
@@ -549,10 +549,10 @@ struct ATweenTool ATweenTool[1] =
     AddRotateZ,
     AddFadeTo,
 
-	SetDuration,
-	SetQueue,
-	SetOnComplete,
-	SetTarget,
+    SetDuration,
+    SetQueue,
+    SetOnComplete,
+    SetTarget,
     SetUserData0Int,
     SetUserData0Float,
     SetUserData0Ptr,
@@ -569,7 +569,7 @@ struct ATweenTool ATweenTool[1] =
     SetUserData3Float,
     SetUserData3Ptr,
     SetUserData3String,
-	GetAction,
+    GetAction,
 
     SetMoveX,
     SetMoveY,
@@ -582,11 +582,11 @@ struct ATweenTool ATweenTool[1] =
     SetRotateZ,
     SetFadeTo,
 
-	SetRelative,
-	SetEaseType,
+    SetRelative,
+    SetEaseType,
 
-	RunActions,
-	RunTargets,
+    RunActions,
+    RunTargets,
 };
 
 

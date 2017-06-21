@@ -47,7 +47,7 @@ static ArrayIntSet(DropCollisionItem*) collisionItemDebugDrawSet[1] = AArrayIntS
 #endif
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static bool       isCostEnergy   = false;
@@ -59,7 +59,7 @@ static DrawAtlas* drawAtlas      = NULL;
 static Scheduler* timeScheduler  = NULL;
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static void Update(Component* component, float deltaSeconds)
@@ -230,7 +230,7 @@ static void Init()
         ATool->globalScaleY
     );
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     ASkeletonAnimationPlayer->Init("UI/Curtain", "open", AHUD->curtainPlayer);
     AHUD->curtainPlayer->loop = 0;
@@ -242,7 +242,7 @@ static void Init()
         ATool->globalScaleY
     );
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     AHUD->energyLengthDrawable  = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,           "EnergyLength")          ->drawable;
     AHUD->energyDrawable        = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,           "Energy")                ->drawable;
@@ -261,7 +261,7 @@ static void Init()
     AHUD->killDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,           "Kill")                  ->drawable;
     AHUD->energyPointerDrawable = ASkeletonAnimationPlayer_GetSubMesh(AHUD->hudPlayer,       "Pointer", "Pointer")     ->drawable;
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     AHUD->tryAgainCount = 0;
 
@@ -286,7 +286,7 @@ static void Init()
         ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "ScorePos")->drawable
     );
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     Drawable* items[] =
     {
@@ -329,7 +329,7 @@ static void Init()
         *textPtrs[i] = text;
     }
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     drawAtlas = ADrawAtlas->Get("Texture/Drop.atlas");
 }
@@ -375,7 +375,7 @@ static bool CostPower(float cost)
     {
         ATool->ShakeX(AHUD->energyDrawable);
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
         FontText* text = AFont->GetText(AGameActor->talkFont);
         ADrawable_SetParent(text->drawable, AGameMap->beforeDrawable);
@@ -465,7 +465,7 @@ static void CloseCurtain(SkeletonAnimationPlayerOnActionOver callback)
 
               ->RunActions  (roundText->drawable);
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     AFont->SetInt           (roundNumText, ++AHUD->tryAgainCount);
     ADrawable_SetParent      (roundNumText->drawable, AGameMap->beforeDrawable);
@@ -518,7 +518,7 @@ static void ClearDrop()
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static void OnStoneFade(TweenAction* action)
@@ -601,7 +601,7 @@ static void DropStone()
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 #ifdef APP_DEBUG
@@ -737,7 +737,7 @@ static void DropWood()
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static inline Drawable* DropHeartCoinStoneWood(char* name, void* userData, PhysicsBody* arrowBody, float enemyScaleX)
@@ -890,7 +890,7 @@ static void FlyItem(DropCollisionItem* item)
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 struct AHUD AHUD[1] =

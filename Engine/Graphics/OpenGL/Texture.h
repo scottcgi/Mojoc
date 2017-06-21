@@ -22,24 +22,24 @@ typedef struct
     /**
      *  The openGL generated texture id
      */
-	GLuint id;
+    GLuint id;
 
     /**
      * The texture width
      */
-	float  width;
+    float  width;
 
     /**
      * The texture height
      */
-	float  height;
+    float  height;
 
     /**
      * All texture chaced in ArrayStrMap by filePath
      *
      * filePath: ArrayStrMap's key
      */
-	char*  filePath;
+    char*  filePath;
 }
 Texture;
 
@@ -49,16 +49,16 @@ Texture;
  */
 struct ATexture
 {
-	/**
-	 * Get Texture by filePath, not found will create one
-	 */
-	Texture*  (*Get)    (char* filePath);
+    /**
+     * Get Texture by filePath, not found will create one
+     */
+    Texture*  (*Get)    (char* filePath);
 
-	/**
-	 * Release texture memory both in GPU and CPU
-	 * removed from cache
-	 */
-	void      (*Release)(Texture* texture);
+    /**
+     * Release texture memory both in GPU and CPU
+     * removed from cache
+     */
+    void      (*Release)(Texture* texture);
 };
 
 

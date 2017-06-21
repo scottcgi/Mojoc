@@ -23,12 +23,12 @@ typedef struct
     /**
      * Font used TextureAtlas
      */
-	TextureAtlas*                       textureAtlas;
+    TextureAtlas*                       textureAtlas;
 
     /**
      * Font TextureAtlas used Mesh
      */
-	Mesh                                mesh             [1];
+    Mesh                                mesh             [1];
 
     /**
      * Cahce FontText
@@ -38,7 +38,7 @@ typedef struct
     /**
      * Font Mesh unused SubMesh list
      */
-	ArrayList  (SubMesh*)               unusedSubMeshList[1];
+    ArrayList  (SubMesh*)               unusedSubMeshList[1];
 }
 Font;
 
@@ -70,25 +70,25 @@ typedef struct
     /**
      * FontText belongs Font
      */
-	Font*                font;
+    Font*                font;
 
     /**
      * FontText unused SubMesh list
      */
-	ArrayList(SubMesh*)  usedSubMeshList[1];
+    ArrayList(SubMesh*)  usedSubMeshList[1];
 }
 FontText;
 
 
 struct AFont
 {
-	Font*     (*Get)           (char* filePath);
+    Font*     (*Get)           (char* filePath);
     FontText* (*GetText)       (Font* font);
-	void      (*Draw)          (Font* font);
+    void      (*Draw)          (Font* font);
 
-	void      (*SetString)     (FontText* text, char* str);
-	void      (*SetInt)        (FontText* text, int   num);
-	void      (*SetFloat)      (FontText* text, float num);
+    void      (*SetString)     (FontText* text, char* str);
+    void      (*SetInt)        (FontText* text, int   num);
+    void      (*SetFloat)      (FontText* text, float num);
 
     /**
      * Make Font can reuse in Get method
@@ -96,10 +96,10 @@ struct AFont
      */
     void      (*Reuse)         (Font* font);
 
-	/**
-	 * Make FontText can reuse in GetText method
-	 */
-	void      (*ReuseText)     (FontText* text);
+    /**
+     * Make FontText can reuse in GetText method
+     */
+    void      (*ReuseText)     (FontText* text);
 };
 
 

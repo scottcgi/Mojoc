@@ -15,25 +15,25 @@
 
 static void Reset(Particle* particle)
 {
-	Drawable* drawable = particle->subMesh->drawable;
+    Drawable* drawable = particle->subMesh->drawable;
 
-	ADrawable_SetScale2   (drawable, 1.0f, 1.0f);
-	ADrawable_SetPosition2(drawable, 0.0f, 0.0f);
-	ADrawable_SetRotationZ(drawable, 0.0f);
+    ADrawable_SetScale2   (drawable, 1.0f, 1.0f);
+    ADrawable_SetPosition2(drawable, 0.0f, 0.0f);
+    ADrawable_SetRotationZ(drawable, 0.0f);
 }
 
 
 static void Init(SubMesh* subMesh, Particle* outParticle)
 {
-	outParticle->isActive = false;
-	outParticle->subMesh  = subMesh;
+    outParticle->isActive = false;
+    outParticle->subMesh  = subMesh;
 
-	ADrawable_SetInVisible(subMesh->drawable);
+    ADrawable_SetInVisible(subMesh->drawable);
 }
 
 
 struct AParticle AParticle[1] =
 {
-	Init,
-	Reset,
+    Init,
+    Reset,
 };

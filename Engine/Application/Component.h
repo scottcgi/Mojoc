@@ -26,67 +26,67 @@ struct Component
 {
     UserData                                   userData[1];
 
-	/**
-	 * If isActive false Component will not change state, update state, handle and send message
-	 */
-	bool                                       isActive;
+    /**
+     * If isActive false Component will not change state, update state, handle and send message
+     */
+    bool                                       isActive;
 
-	/**
-	 * Order in parent children list when add in
-	 * changed it and reorderAllChildren will sort by order
-	 */
-	int                                        order;
+    /**
+     * Order in parent children list when add in
+     * changed it and reorderAllChildren will sort by order
+     */
+    int                                        order;
 
-	/**
-	 * When append child order auto increase by increaseOrder add last child order
-	 * default 50
-	 */
-	int                                        increaseOrder;
+    /**
+     * When append child order auto increase by increaseOrder add last child order
+     * default 50
+     */
+    int                                        increaseOrder;
 
-	/**
-	 * Component's parent in a tree structure
-	 */
-	Component*                                 parent;
+    /**
+     * Component's parent in a tree structure
+     */
+    Component*                                 parent;
 
-	/**
-	 * Current active state, default empty state with stateId 0
-	 */
-	ComponentState*                            curState;
+    /**
+     * Current active state, default empty state with stateId 0
+     */
+    ComponentState*                            curState;
 
-	/**
-	 * Previous active state, default empty state with stateId 0
-	 */
-	ComponentState*                            preState;
+    /**
+     * Previous active state, default empty state with stateId 0
+     */
+    ComponentState*                            preState;
 
-	/**
-	 * Default state when Component created with stateId 0
-	 */
-	ComponentState*                            defaultState;
+    /**
+     * Default state when Component created with stateId 0
+     */
+    ComponentState*                            defaultState;
 
-	/**
-	 * Children mapped by Component order
-	 */
-	ArrayIntMap(order,        Component*)      childMap   [1];
+    /**
+     * Children mapped by Component order
+     */
+    ArrayIntMap(order,        Component*)      childMap   [1];
 
-	/**
-	 * Component notification observers
-	 */
-	ArrayIntSet(Component*)                    observerSet[1];
+    /**
+     * Component notification observers
+     */
+    ArrayIntSet(Component*)                    observerSet[1];
 
-	/**
-	 * All ComponentStates mapped by ComponentState's id
-	 */
-	ArrayIntMap(stateId,      ComponentState*) stateMap   [1];
+    /**
+     * All ComponentStates mapped by ComponentState's id
+     */
+    ArrayIntMap(stateId,      ComponentState*) stateMap   [1];
 };
 
 
 enum
 {
-	/**
-	 * ComponentState default state id
-	 * any other state id must be different
-	 */
-	ComponentState_Default = 0
+    /**
+     * ComponentState default state id
+     * any other state id must be different
+     */
+    ComponentState_Default = 0
 };
 
 
@@ -97,15 +97,15 @@ enum
  */
 enum
 {
-	/**
-	 * When ComponentState enter
-	 */
-	ComponentMsg_OnEnter,
+    /**
+     * When ComponentState enter
+     */
+    ComponentMsg_OnEnter,
 
-	/**
-	 * When ComponentState exit
-	 */
-	ComponentMsg_OnExit,
+    /**
+     * When ComponentState exit
+     */
+    ComponentMsg_OnExit,
 };
 
 
@@ -116,23 +116,23 @@ struct ComponentState
     /**
      * Key in Component's stateMap
      */
-	int       id;
+    int       id;
 
-	/**
-	 * Active ComponentState called per frame
-	 */
-	void (*Update)      (Component* component, float deltaSeconds);
+    /**
+     * Active ComponentState called per frame
+     */
+    void (*Update)      (Component* component, float deltaSeconds);
 
-	/**
-	 * After Component's children updated called per frame
-	 */
-	void (*UpdateAfter) (Component* component, float deltaSeconds);
+    /**
+     * After Component's children updated called per frame
+     */
+    void (*UpdateAfter) (Component* component, float deltaSeconds);
 
-	/**
-	 * When message received called
-	 * if return true means consumed event then will stop event pass
-	 */
-	bool (*OnMessage)   (Component* component, void* sender, int subject, void* extraData);
+    /**
+     * When message received called
+     * if return true means consumed event then will stop event pass
+     */
+    bool (*OnMessage)   (Component* component, void* sender, int subject, void* extraData);
 };
 
 
@@ -142,93 +142,93 @@ typedef bool (*ComponentStateOnMessage)(Component* component, void* sender, int 
 
 struct AComponent
 {
-	/**
-	 * Create new Component that allocate memory and need to free it manually
-	 */
-	Component*      (*Create)               ();
+    /**
+     * Create new Component that allocate memory and need to free it manually
+     */
+    Component*      (*Create)               ();
 
-	/**
-	 * Initialize Component that memory has already allocated
-	 */
-	void            (*Init)                 (Component* outComponent);
+    /**
+     * Initialize Component that memory has already allocated
+     */
+    void            (*Init)                 (Component* outComponent);
 
-	/**
-	 * Free members memory that allocate by malloc and reset some property values
-	 */
-	void            (*Release)              (Component* component);
+    /**
+     * Free members memory that allocate by malloc and reset some property values
+     */
+    void            (*Release)              (Component* component);
 
-	/**
-	 * Add Component into parent children list
-	 */
-	void            (*AddChild)             (Component* parent, Component* child, int order);
+    /**
+     * Add Component into parent children list
+     */
+    void            (*AddChild)             (Component* parent, Component* child, int order);
 
-	/**
-	 * Add child and auto child order by appendZOrder add last child order
-	 */
-	void            (*AppendChild)          (Component* parent, Component* child);
+    /**
+     * Add child and auto child order by appendZOrder add last child order
+     */
+    void            (*AppendChild)          (Component* parent, Component* child);
 
     /**
      *  Remove Component from children list reindex other children
-	 */
-	void            (*RemoveChild)          (Component* parent, Component* child);
+     */
+    void            (*RemoveChild)          (Component* parent, Component* child);
 
-	/**
-	 * Remove all children from parent
-	 */
-	void            (*RemoveAllChildren)    (Component* parent);
+    /**
+     * Remove all children from parent
+     */
+    void            (*RemoveAllChildren)    (Component* parent);
 
-	/**
-	 * Reorder all children after changed child's order
-	 */
-	void            (*ReorderChildren)      (Component* parent);
+    /**
+     * Reorder all children after changed child's order
+     */
+    void            (*ReorderChildren)      (Component* parent);
 
-	/**
-	 * Add observer to sender, will receive notification by sender
-	 */
-	void            (*AddObserver)          (Component* sender, Component* observer);
+    /**
+     * Add observer to sender, will receive notification by sender
+     */
+    void            (*AddObserver)          (Component* sender, Component* observer);
 
-	/**
-	 * Remove observer from sender
-	 */
-	void            (*RemoveObserver)       (Component* sender, Component* observer);
+    /**
+     * Remove observer from sender
+     */
+    void            (*RemoveObserver)       (Component* sender, Component* observer);
 
-	/**
-	 * Call self and children's ComponentState update
-	 */
-	void            (*Update)               (Component* component, float deltaSeconds);
+    /**
+     * Call self and children's ComponentState update
+     */
+    void            (*Update)               (Component* component, float deltaSeconds);
 
-	/**
-	 * Call self and children's ComponentState onMessage
-	 * if return true means consumed event then will stop event pass
-	 */
-	bool            (*SendMessage)          (Component* component, void* sender, int subject, void* extraData);
+    /**
+     * Call self and children's ComponentState onMessage
+     * if return true means consumed event then will stop event pass
+     */
+    bool            (*SendMessage)          (Component* component, void* sender, int subject, void* extraData);
 
-	/**
-	 * Call children's ComponentState onMessage
-	 * if return true means consumed event then will stop event pass
-	 */
-	bool            (*SendMessageToChildren)(Component* component, void* sender, int subject, void* extraData);
+    /**
+     * Call children's ComponentState onMessage
+     * if return true means consumed event then will stop event pass
+     */
+    bool            (*SendMessageToChildren)(Component* component, void* sender, int subject, void* extraData);
 
-	/**
-	 * Notify sender all observer's ComponentState OnMessage
-	 */
-	void            (*Notify)               (Component* sender, int subject, void* extraData);
+    /**
+     * Notify sender all observer's ComponentState OnMessage
+     */
+    void            (*Notify)               (Component* sender, int subject, void* extraData);
 
-	/**
-	 * Change Component current active State
-	 */
-	void            (*SetState)             (Component* component, int stateId);
+    /**
+     * Change Component current active State
+     */
+    void            (*SetState)             (Component* component, int stateId);
 
-	/**
-	 * Add ComponentState in Component which create with state id
-	 * free by Componet's Release
-	 */
-	ComponentState* (*AddState)             (Component* component, int stateId, ComponentStateOnMessage onMessage, ComponentStateUpdate update);
+    /**
+     * Add ComponentState in Component which create with state id
+     * free by Componet's Release
+     */
+    ComponentState* (*AddState)             (Component* component, int stateId, ComponentStateOnMessage onMessage, ComponentStateUpdate update);
 
-	/**
-	 * Set Component active state
-	 */
-	void            (*SetActive)            (Component* component, bool isActive);
+    /**
+     * Set Component active state
+     */
+    void            (*SetActive)            (Component* component, bool isActive);
 };
 
 

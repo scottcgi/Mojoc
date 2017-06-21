@@ -80,11 +80,11 @@ extern struct AArrayIntSet AArrayIntSet[1];
  * use like ArrayIntSet set[1] = AArrayIntSet_Init(elementType, increase)
  */
 #define AArrayIntSet_Init(elementType, increase) \
-	{                                           \
-		{                                       \
-			AArrayList_Init(intptr_t, increase), \
-		}                                       \
-	}
+    {                                            \
+        {                                        \
+            AArrayList_Init(intptr_t, increase), \
+        }                                        \
+    }
 
 
 #endif

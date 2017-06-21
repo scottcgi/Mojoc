@@ -27,10 +27,10 @@
  */
 typedef struct
 {
-	GLenum     target;
-	GLintptr   offset;
-	GLsizeiptr length;
-	GLvoid*    data;
+    GLenum     target;
+    GLintptr   offset;
+    GLsizeiptr length;
+    GLvoid*    data;
 }
 VBOSubData;
 
@@ -44,60 +44,60 @@ struct Mesh
      */
     Texture*             texture;
 
-	/**
-	 * Draw from index, default first in children
-	 */
-	int                  fromIndex;
+    /**
+     * Draw from index, default first in children
+     */
+    int                  fromIndex;
 
-	/**
-	 * Draw to index, default last in children
-	 */
-	int                  toIndex;
+    /**
+     * Draw to index, default last in children
+     */
+    int                  toIndex;
 
-	/**
-	 * Pair of from and to index SubMesh to draw
-	 * if no range will default draw fromIndex to toIndex
-	 */
-	ArrayQueue(int)      drawRangeQueue[1];
+    /**
+     * Pair of from and to index SubMesh to draw
+     * if no range will default draw fromIndex to toIndex
+     */
+    ArrayQueue(int)      drawRangeQueue[1];
 
-	/**
-	 * Sometimes use fixed index for get child in children
-	 * so can not change children order instead of use SubMesh index for sorting
-	 */
-	ArrayList(SubMesh*)  childList     [1];
+    /**
+     * Sometimes use fixed index for get child in children
+     * so can not change children order instead of use SubMesh index for sorting
+     */
+    ArrayList(SubMesh*)  childList     [1];
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     /**
      * All vertex data, every vertex has position, uv, color
      */
-	Array(float)*         vertexArr;
+    Array(float)*         vertexArr;
 
-	/**
-	 * All vertex index data
-	 */
-	Array(short)*         indexArr;
+    /**
+     * All vertex index data
+     */
+    Array(short)*         indexArr;
 
-	/**
-	 * If use VBO is array buffer id
-	 */
-	GLuint                vboIds[MeshBuffer_Num];
+    /**
+     * If use VBO is array buffer id
+     */
+    GLuint                vboIds[MeshBuffer_Num];
 
     /**
      * If use VAO is generated id else 0
      */
     GLuint                vaoId;
 
-	/**
-	 * If use VBO update to buffer
-	 */
-	ArrayList(VBOSubData) vboSubDataList[1];
+    /**
+     * If use VBO update to buffer
+     */
+    ArrayList(VBOSubData) vboSubDataList[1];
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     int                   uvDataOffset;
-	int                   rgbDataOffset;
-	int                   opacityDataOffset;
+    int                   rgbDataOffset;
+    int                   opacityDataOffset;
     int                   vertexCountOffset;
 
     int                   positionDataLength;
@@ -110,48 +110,48 @@ struct Mesh
 
 struct AMesh
 {
-	Mesh*     (*Create)            (Texture* texture);
-	void      (*Init)              (Texture* texture,  Mesh* outMesh);
-	void      (*InitWithCapacity)  (Texture* texture,  int capacity, Mesh* outMesh);
+    Mesh*     (*Create)            (Texture* texture);
+    void      (*Init)              (Texture* texture,  Mesh* outMesh);
+    void      (*InitWithCapacity)  (Texture* texture,  int capacity, Mesh* outMesh);
 
-	/**
-	 * Call Mesh member's Release and free all SubMesh memory
-	 */
-	void      (*Release)           (Mesh* mesh);
+    /**
+     * Call Mesh member's Release and free all SubMesh memory
+     */
+    void      (*Release)           (Mesh* mesh);
 
-	/**
-	 * Clear children, drawRangeQueue, bufferSubDataList,
-	 * ready to GenerateBuffer
-	 */
-	void      (*Clear)             (Mesh* mesh);
+    /**
+     * Clear children, drawRangeQueue, bufferSubDataList,
+     * ready to GenerateBuffer
+     */
+    void      (*Clear)             (Mesh* mesh);
 
-	/**
-	 * The positionArr(has x y z) uvArr and indexArr will copy in SubMesh
-	 * SubMesh set parent and index with Mesh and free by parent Release
-	 */
-	SubMesh*  (*AddChildWithData)  (Mesh* mesh, Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr);
+    /**
+     * The positionArr(has x y z) uvArr and indexArr will copy in SubMesh
+     * SubMesh set parent and index with Mesh and free by parent Release
+     */
+    SubMesh*  (*AddChildWithData)  (Mesh* mesh, Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr);
 
-	/**
-	 * SubMesh data calculate by Quad in Texture
-	 * SubMesh set parent and index with spriteBatch and free by parent Release
-	 */
-	SubMesh*  (*AddChildWithQuad)  (Mesh* mesh, Quad* quad);
+    /**
+     * SubMesh data calculate by Quad in Texture
+     * SubMesh set parent and index with spriteBatch and free by parent Release
+     */
+    SubMesh*  (*AddChildWithQuad)  (Mesh* mesh, Quad* quad);
 
-	/**
-	 * Reorder all SubMesh draw order by index, not changed pos in children
-	 */
-	void      (*ReorderChildren)   (Mesh* mesh);
+    /**
+     * Reorder all SubMesh draw order by index, not changed pos in children
+     */
+    void      (*ReorderChildren)   (Mesh* mesh);
 
-	/**
-	 * Combine SubMesh data into buffer when draw function upload to openGL
-	 * when SubMesh initialization, remove or add, need call this for generate buffer
-	 */
-	void      (*GenerateBuffer)    (Mesh* mesh);
+    /**
+     * Combine SubMesh data into buffer when draw function upload to openGL
+     * when SubMesh initialization, remove or add, need call this for generate buffer
+     */
+    void      (*GenerateBuffer)    (Mesh* mesh);
 
-	/**
-	 * Mesh implement Drawable's render
-	 */
-	void      (*Render)            (Drawable* drawable);
+    /**
+     * Mesh implement Drawable's render
+     */
+    void      (*Render)            (Drawable* drawable);
 };
 
 
@@ -160,7 +160,7 @@ extern struct AMesh AMesh[1];
 
 static inline void AMesh_Draw(Mesh* mesh)
 {
-	ADrawable->Draw(mesh->drawable);
+    ADrawable->Draw(mesh->drawable);
 }
 
 

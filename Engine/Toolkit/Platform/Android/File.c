@@ -12,9 +12,9 @@
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 #ifdef IS_PLATFORM_ANDROID
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 #include <android/native_activity.h>
@@ -27,10 +27,10 @@ extern ANativeActivity* nativeActivity;
 
 static File* Open(char* relativeFilePath)
 {
-	AAsset* asset = AAssetManager_open(nativeActivity->assetManager, relativeFilePath, AASSET_MODE_UNKNOWN);
-	ALog_A(asset != NULL, "AFile open failed, relative file path = %s", relativeFilePath);
+    AAsset* asset = AAssetManager_open(nativeActivity->assetManager, relativeFilePath, AASSET_MODE_UNKNOWN);
+    ALog_A(asset != NULL, "AFile open failed, relative file path = %s", relativeFilePath);
 
-	return (File*) asset;
+    return (File*) asset;
 }
 
 
@@ -49,46 +49,46 @@ static int OpenFileDescriptor(char* relativeFilePath, long* outStart, long* outL
 
 static void Close(File* file)
 {
-	AAsset_close((AAsset*) file);
+    AAsset_close((AAsset*) file);
 }
 
 
 static long GetLength(File* file)
 {
-	return AAsset_getLength((AAsset*) file);
+    return AAsset_getLength((AAsset*) file);
 }
 
 
 static int Read(File* file, void* buffer, size_t count)
 {
-	return AAsset_read((AAsset*) file, buffer, count);
+    return AAsset_read((AAsset*) file, buffer, count);
 }
 
 
 static int Seek(File* file, long offset, int whence)
 {
-	return AAsset_seek((AAsset*) file, offset, whence);
+    return AAsset_seek((AAsset*) file, offset, whence);
 }
 
 
 static const char* GetAbsoluteDirPath()
 {
-	return nativeActivity->internalDataPath;
+    return nativeActivity->internalDataPath;
 }
 
 
 struct AFile AFile[1] =
 {
-	Open,
+    Open,
     OpenFileDescriptor,
-	Close,
-	GetLength,
-	Read,
-	Seek,
+    Close,
+    GetLength,
+    Read,
+    Seek,
     GetAbsoluteDirPath,
 };
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 #endif
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------

@@ -36,7 +36,7 @@ static inline Scheduler* GetScheduler(SchedulerUpdate Update, float intervalTime
     scheduler->intervalTime = intervalTime;
     scheduler->Update       = Update;
 
-	AArrayList_Add(schedulerRun, scheduler);
+    AArrayList_Add(schedulerRun, scheduler);
 
     return scheduler;
 }
@@ -60,35 +60,35 @@ static Scheduler* ScheduleOnce(SchedulerUpdate Update, float intervalTime)
 
 static void Update(float deltaSeconds)
 {
-	for (int i = schedulerRun->size - 1; i > -1; i--)
-	{
-		Scheduler* scheduler = AArrayList_Get(schedulerRun, i, Scheduler*);
+    for (int i = schedulerRun->size - 1; i > -1; i--)
+    {
+        Scheduler* scheduler = AArrayList_Get(schedulerRun, i, Scheduler*);
 
-		if (scheduler->currentTime < scheduler->intervalTime)
-		{
-			scheduler->currentTime += deltaSeconds;
-		}
-		else
-		{
-			scheduler->Update(scheduler, deltaSeconds);
+        if (scheduler->currentTime < scheduler->intervalTime)
+        {
+            scheduler->currentTime += deltaSeconds;
+        }
+        else
+        {
+            scheduler->Update(scheduler, deltaSeconds);
 
-			if (scheduler->isCancel)
-			{
-				AArrayList->RemoveByLast(schedulerRun, i);
-				AArrayList_Add(schedulerList, scheduler);
-			}
-			else
-			{
-				scheduler->currentTime = 0.0f;
-			}
-		}
-	}
+            if (scheduler->isCancel)
+            {
+                AArrayList->RemoveByLast(schedulerRun, i);
+                AArrayList_Add(schedulerList, scheduler);
+            }
+            else
+            {
+                scheduler->currentTime = 0.0f;
+            }
+        }
+    }
 }
 
 
 struct AScheduler AScheduler[1] =
 {
-	Schedule,
-	ScheduleOnce,
-	Update,
+    Schedule,
+    ScheduleOnce,
+    Update,
 };

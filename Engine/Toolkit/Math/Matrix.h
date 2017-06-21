@@ -19,38 +19,38 @@
 
 typedef union
 {
-	float m[16];
-	struct
-	{
-		float
-		m0,  m1,  m2,  m3,
-		m4,  m5,  m6,  m7,
-		m8,  m9,  m10, m11,
-		m12, m13, m14, m15;
-	};
+    float m[16];
+    struct
+    {
+        float
+        m0,  m1,  m2,  m3,
+        m4,  m5,  m6,  m7,
+        m8,  m9,  m10, m11,
+        m12, m13, m14, m15;
+    };
 }
 Matrix4;
 
 
 #define MATRIX4_IDENTITY           \
-	{                              \
+    {                              \
        {                           \
            1.0f, 0.0f, 0.0f, 0.0f, \
            0.0f, 1.0f, 0.0f, 0.0f, \
            0.0f, 0.0f, 1.0f, 0.0f, \
            0.0f, 0.0f, 0.0f, 1.0f, \
        }                           \
-	}
+    }
 
 
 struct AMatrix
 {
-	/**
+    /**
      * Multiply left and right matrix4 into outMatrix4
      */
     void  (*MultiplyMM)      (Matrix4* left, Matrix4* right, Matrix4* outMatrix4);
 
-	/**
+    /**
      * Multiply m2 and m3  into outM23
      * Multiply m1 and m23 into outM231
      */
@@ -152,19 +152,19 @@ struct AMatrix
                                 Matrix4* outProjection
                               );
 
-	/**
-	 * Define a projection matrix in terms of a field of view angle
+    /**
+     * Define a projection matrix in terms of a field of view angle
      * an aspect ratio, and z clip planes
-	 */
-	void  (*Perspective)     (float fovy, float aspect, float near, float far, Matrix4* outProjection);
+     */
+    void  (*Perspective)     (float fovy, float aspect, float near, float far, Matrix4* outProjection);
 
     /**
      * Define a viewing transformation in terms of an eye point, a center of view, and an up vector
      */
     void  (*LookAt)          (
                                 float    eyeX,     float eyeY,    float eyeZ,
-						        float    centerX,  float centerY, float centerZ,
-						        float    upX,      float upY,     float upZ,
+                                float    centerX,  float centerY, float centerZ,
+                                float    upX,      float upY,     float upZ,
                                 Matrix4* outView
                              );
 };

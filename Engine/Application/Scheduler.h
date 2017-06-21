@@ -23,26 +23,26 @@ struct  Scheduler
 {
     UserData  userData[1];
 
-	/**
-	 * Schedule interval time for update method called
-	 */
-	float     intervalTime;
+    /**
+     * Schedule interval time for update method called
+     */
+    float     intervalTime;
 
-	/**
-	 * Whether cancel scheduler default false
-	 * once isCancel set true scheduler will remove and free
-	 */
-	bool      isCancel;
+    /**
+     * Whether cancel scheduler default false
+     * once isCancel set true scheduler will remove and free
+     */
+    bool      isCancel;
 
-	/**
-	 * Current schedule time
-	 */
-	float     currentTime;
+    /**
+     * Current schedule time
+     */
+    float     currentTime;
 
-	/**
-	 * Called per frame
-	 */
-	void (*Update)(Scheduler* scheduler, float deltaSeconds);
+    /**
+     * Called per frame
+     */
+    void (*Update)(Scheduler* scheduler, float deltaSeconds);
 };
 
 
@@ -51,20 +51,20 @@ typedef void (*SchedulerUpdate)(Scheduler* scheduler, float deltaSeconds);
 
 struct AScheduler
 {
-	/**
-	 * Scheduler to be scheduled by intervalTime
-	 */
-	Scheduler* (*Schedule)    (SchedulerUpdate Update, float intervalTime);
+    /**
+     * Scheduler to be scheduled by intervalTime
+     */
+    Scheduler* (*Schedule)    (SchedulerUpdate Update, float intervalTime);
 
-	/**
-	 * Only schedule once by intervalTime
-	 */
-	Scheduler* (*ScheduleOnce)(SchedulerUpdate Update, float intervalTime);
+    /**
+     * Only schedule once by intervalTime
+     */
+    Scheduler* (*ScheduleOnce)(SchedulerUpdate Update, float intervalTime);
 
-	/**
-	 * Update per frame calculate schedule time
-	 */
-	void       (*Update)      (float deltaSeconds);
+    /**
+     * Update per frame calculate schedule time
+     */
+    void       (*Update)      (float deltaSeconds);
 };
 
 

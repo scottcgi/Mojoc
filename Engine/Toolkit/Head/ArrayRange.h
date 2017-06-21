@@ -15,15 +15,15 @@
 
 typedef struct
 {
-	/**
-	 * Start index in array
-	 */
-	int start;
+    /**
+     * Start index in array
+     */
+    int start;
 
-	/**
-	 * End index in array, length is end - start + 1
-	 */
-	int end;
+    /**
+     * End index in array, length is end - start + 1
+     */
+    int end;
 }
 ArrayRange;
 

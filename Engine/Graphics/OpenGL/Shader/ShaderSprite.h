@@ -21,14 +21,14 @@
 
 struct AShaderSprite
 {
-	GLuint program;
-	GLuint attribPositionTexcoord;
-	GLint  uniformSampler2D;
-	GLint  uniformMVPMatrix;
-	GLint  uniformColor;
+    GLuint program;
+    GLuint attribPositionTexcoord;
+    GLint  uniformSampler2D;
+    GLint  uniformMVPMatrix;
+    GLint  uniformColor;
 
-	void (*Use) (Matrix4* mvpMatrix, Color* color);
-	void (*Init)();
+    void (*Use) (Matrix4* mvpMatrix, Color* color);
+    void (*Init)();
 };
 
 

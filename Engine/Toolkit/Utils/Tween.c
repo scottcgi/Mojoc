@@ -18,20 +18,20 @@
 
 typedef struct
 {
-	/**
-	 * Target action value queue, run each after over
-	 */
-	ArrayQueue(TweenAction*) queue  [1];
+    /**
+     * Target action value queue, run each after over
+     */
+    ArrayQueue(TweenAction*) queue  [1];
 
-	/**
-	 * Target current running action value
-	 */
-	ArrayList(TweenAction*)  current[1];
+    /**
+     * Target current running action value
+     */
+    ArrayList(TweenAction*)  current[1];
 
-	/**
-	 * One running action of queue
-	 */
-	TweenAction*             currentAction;
+    /**
+     * One running action of queue
+     */
+    TweenAction*             currentAction;
 }
 TweenData;
 
@@ -57,8 +57,8 @@ static inline TweenData* GetTweenData()
     }
     else
     {
-		AArrayQueue->Clear(tweenData->queue);
-		AArrayList ->Clear(tweenData->current);
+        AArrayQueue->Clear(tweenData->queue);
+        AArrayList ->Clear(tweenData->current);
     }
 
     tweenData->currentAction = NULL;
@@ -67,88 +67,82 @@ static inline TweenData* GetTweenData()
 }
 
 
-static inline void Release(TweenAction* action)
-{
-	AArrayList->Release(action->actionValueList);
-}
-
-
 static TweenAction* GetAction()
 {
-	TweenAction* action = AArrayList_Pop(actionList, TweenAction*);
+    TweenAction* action = AArrayList_Pop(actionList, TweenAction*);
 
-	if (action == NULL)
-	{
-		action = (TweenAction*) malloc(sizeof(TweenAction));
-		AArrayList->InitWithCapacity(sizeof(TweenActionValue), 6, action->actionValueList);
-		action->actionValueList->increase = 6;
-	}
-	else
-	{
-		AArrayList->Clear(action->actionValueList);
-	}
+    if (action == NULL)
+    {
+        action = (TweenAction*) malloc(sizeof(TweenAction));
+        AArrayList->InitWithCapacity(sizeof(TweenActionValue), 6, action->actionValueList);
+        action->actionValueList->increase = 6;
+    }
+    else
+    {
+        AArrayList->Clear(action->actionValueList);
+    }
 
     AUserData_Init(action->userData);
-	action->curTime    = 0.0f;
-	action->duration   = 0.0f;
-	action->OnComplete = NULL;
-	action->isQueue    = true;
-	action->target     = NULL;
+    action->curTime    = 0.0f;
+    action->duration   = 0.0f;
+    action->OnComplete = NULL;
+    action->isQueue    = true;
+    action->target     = NULL;
 
-	return action;
+    return action;
 }
 
 
 static TweenActionValue* AddTweenActionValue(TweenAction* action)
 {
-	TweenActionValue* actionValue = AArrayList_GetPtrAdd(action->actionValueList, TweenActionValue);
+    TweenActionValue* actionValue = AArrayList_GetPtrAdd(action->actionValueList, TweenActionValue);
 
-	actionValue->value            = 0.0f;
-	actionValue->fromValue        = 0.0f;
-	actionValue->toValue          = 0.0f;
-	actionValue->OnGet            = NULL;
-	actionValue->OnSet            = NULL;
-	actionValue->isRelative       = true;
-	actionValue->easeType         = TweenEaseType_Linear;
+    actionValue->value            = 0.0f;
+    actionValue->fromValue        = 0.0f;
+    actionValue->toValue          = 0.0f;
+    actionValue->OnGet            = NULL;
+    actionValue->OnSet            = NULL;
+    actionValue->isRelative       = true;
+    actionValue->easeType         = TweenEaseType_Linear;
 
-	return actionValue;
+    return actionValue;
 }
 
 
 static inline void SetActionValue(TweenAction* action)
 {
-	for (int i = 0; i < action->actionValueList->size; i++)
-	{
-		TweenActionValue* actionValue = AArrayList_GetPtr(action->actionValueList, i, TweenActionValue);
+    for (int i = 0; i < action->actionValueList->size; i++)
+    {
+        TweenActionValue* actionValue = AArrayList_GetPtr(action->actionValueList, i, TweenActionValue);
 
-		ALog_A(actionValue->OnGet != NULL && actionValue->OnSet != NULL, "ATween SetActionValue action OnSet OnGet must not NULL");
+        ALog_A(actionValue->OnGet != NULL && actionValue->OnSet != NULL, "ATween SetActionValue action OnSet OnGet must not NULL");
 
-		actionValue->fromValue = actionValue->OnGet(action->target);
+        actionValue->fromValue = actionValue->OnGet(action->target);
 
-		if (actionValue->isRelative)
-		{
-			actionValue->toValue = actionValue->value + actionValue->fromValue;
-		}
-		else
-		{
-			actionValue->toValue = actionValue->value;
-		}
-	}
+        if (actionValue->isRelative)
+        {
+            actionValue->toValue = actionValue->value + actionValue->fromValue;
+        }
+        else
+        {
+            actionValue->toValue = actionValue->value;
+        }
+    }
 }
 
 
 static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
 {
-	TweenData* tweenData;
+    TweenData* tweenData;
 
-	if (tweenId == NULL)
-	{
-		 // not give tweenId, we use TweenData ptr for it
+    if (tweenId == NULL)
+    {
+         // not give tweenId, we use TweenData ptr for it
         tweenData = GetTweenData();
         tweenId   = tweenData;
 
-		AArrayIntMap_TryPut(dataMap, tweenId, tweenData);
-	}
+        AArrayIntMap_TryPut(dataMap, tweenId, tweenData);
+    }
     else
     {
         int index = AArrayIntMap->GetIndex(dataMap, (intptr_t) tweenId);
@@ -164,105 +158,105 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
         }
     }
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
-	for (int i = 0; i < actions->length; i++)
-	{
-		TweenAction* action = AArray_Get(actions, i, TweenAction*);
+    for (int i = 0; i < actions->length; i++)
+    {
+        TweenAction* action = AArray_Get(actions, i, TweenAction*);
 
-		if (action->isQueue)
-		{
-			AArrayQueue_Push(tweenData->queue, action);
-		}
-		else
-		{
-			AArrayList_Add(tweenData->current, action);
-			SetActionValue(action);
-		}
-	}
+        if (action->isQueue)
+        {
+            AArrayQueue_Push(tweenData->queue, action);
+        }
+        else
+        {
+            AArrayList_Add(tweenData->current, action);
+            SetActionValue(action);
+        }
+    }
 
-	return tweenId;
+    return tweenId;
 }
 
 
 static bool TryRemoveAction(void* tweenId, TweenAction* action)
 {
-	TweenData* tweenData = AArrayIntMap_Get(dataMap, tweenId, TweenData*);
+    TweenData* tweenData = AArrayIntMap_Get(dataMap, tweenId, TweenData*);
 
-	if (tweenData != NULL)
-	{
-		for (int i = 0; i < tweenData->current->size; i++)
-		{
-			TweenAction* tweenAction = AArrayList_Get(tweenData->current, i, TweenAction*);
+    if (tweenData != NULL)
+    {
+        for (int i = 0; i < tweenData->current->size; i++)
+        {
+            TweenAction* tweenAction = AArrayList_Get(tweenData->current, i, TweenAction*);
 
-			if (action == tweenAction)
-			{
-				if (action == tweenData->currentAction)
-				{
-					tweenData->currentAction = NULL;
-				}
+            if (action == tweenAction)
+            {
+                if (action == tweenData->currentAction)
+                {
+                    tweenData->currentAction = NULL;
+                }
 
-				AArrayList->RemoveByLast(tweenData->current, i);
-				AArrayList_Add(actionList, action);
+                AArrayList->RemoveByLast(tweenData->current, i);
+                AArrayList_Add(actionList, action);
 
-				return true;
-			}
-		}
+                return true;
+            }
+        }
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
-		for (int i = tweenData->queue->topIndex; i < tweenData->queue->elementList->size; i++)
-		{
-			TweenAction* tweenAction = AArrayList_Get(tweenData->queue->elementList, i, TweenAction*);
+        for (int i = tweenData->queue->topIndex; i < tweenData->queue->elementList->size; i++)
+        {
+            TweenAction* tweenAction = AArrayList_Get(tweenData->queue->elementList, i, TweenAction*);
 
-			if (action == tweenAction)
-			{
-				AArrayQueue->RemoveAt(tweenData->queue, i);
-				AArrayList_Add(actionList, action);
+            if (action == tweenAction)
+            {
+                AArrayQueue->RemoveAt(tweenData->queue, i);
+                AArrayList_Add(actionList, action);
 
-				return true;
-			}
-		}
-	}
+                return true;
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
 
 static bool TryRemoveAllActions(void* tweenId)
 {
-	int index = AArrayIntMap->GetIndex(dataMap, (intptr_t) tweenId);
+    int index = AArrayIntMap->GetIndex(dataMap, (intptr_t) tweenId);
 
-	if (index >= 0)
-	{
-		TweenData* tweenData = AArrayIntMap_GetAt(dataMap, index, TweenData*);
+    if (index >= 0)
+    {
+        TweenData* tweenData = AArrayIntMap_GetAt(dataMap, index, TweenData*);
 
-		for (int i = 0; i < tweenData->current->size; i++)
-		{
-			AArrayList_Add
-			(
-				actionList,
-				AArrayList_Get(tweenData->current, i, TweenAction*)
-			);
-		}
-		AArrayList->Clear(tweenData->current);
+        for (int i = 0; i < tweenData->current->size; i++)
+        {
+            AArrayList_Add
+            (
+                actionList,
+                AArrayList_Get(tweenData->current, i, TweenAction*)
+            );
+        }
+        AArrayList->Clear(tweenData->current);
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
-		TweenAction* action;
-		while ((action = AArrayQueue_Pop(tweenData->queue, TweenAction*)))
-		{
-			AArrayList_Add(actionList, action);
-		}
+        TweenAction* action;
+        while ((action = AArrayQueue_Pop(tweenData->queue, TweenAction*)))
+        {
+            AArrayList_Add(actionList, action);
+        }
 
         // if currentAction not NULL it must be in tweenData->current
         // so just set NULL
         tweenData->currentAction = NULL;
 
-		return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 
@@ -303,7 +297,7 @@ static bool TryCompleteAllActions(void* tweenId, bool isFireOnComplete)
         }
         AArrayList->Clear(tweenData->current);
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
         TweenAction* action;
         while ((action = AArrayQueue_Pop(tweenData->queue, TweenAction*)))
@@ -345,39 +339,39 @@ static bool HasAction(void* tweenId)
 
 static void Update(float deltaSeconds)
 {
-	for (int i = dataMap->elementList->size - 1; i > -1; i--)
-	{
-		TweenData* tweenData = AArrayIntMap_GetAt(dataMap, i, TweenData*);
+    for (int i = dataMap->elementList->size - 1; i > -1; i--)
+    {
+        TweenData* tweenData = AArrayIntMap_GetAt(dataMap, i, TweenData*);
 
-		// get current action of queue actions
-		if (tweenData->currentAction == NULL)
-		{
-			tweenData->currentAction = AArrayQueue_Pop(tweenData->queue, TweenAction*);
+        // get current action of queue actions
+        if (tweenData->currentAction == NULL)
+        {
+            tweenData->currentAction = AArrayQueue_Pop(tweenData->queue, TweenAction*);
 
-			if (tweenData->currentAction != NULL)
-			{
-				// add current action into current array
-				AArrayList_Add (tweenData->current, tweenData->currentAction);
-				SetActionValue(tweenData->currentAction);
-			}
-		}
+            if (tweenData->currentAction != NULL)
+            {
+                // add current action into current array
+                AArrayList_Add (tweenData->current, tweenData->currentAction);
+                SetActionValue(tweenData->currentAction);
+            }
+        }
 
-		if (tweenData->current->size == 0)
-		{
-			// all actions complete so remove tweenData and push to cache
+        if (tweenData->current->size == 0)
+        {
+            // all actions complete so remove tweenData and push to cache
             AArrayList_Add         (dataList, tweenData);
             AArrayIntMap->RemoveAt(dataMap,  i);
-			continue;
-		}
+            continue;
+        }
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
-		for (int j = tweenData->current->size - 1; j > -1; j--)
-		{
-			TweenAction* action = AArrayList_Get(tweenData->current, j, TweenAction*);
+        for (int j = tweenData->current->size - 1; j > -1; j--)
+        {
+            TweenAction* action = AArrayList_Get(tweenData->current, j, TweenAction*);
 
-			if (action->curTime < action->duration)
-			{
+            if (action->curTime < action->duration)
+            {
                 for (int k = 0; k < action->actionValueList->size; k++)
                 {
                     TweenActionValue* actionValue = AArrayList_GetPtr(action->actionValueList, k, TweenActionValue);
@@ -395,9 +389,9 @@ static void Update(float deltaSeconds)
                 }
 
                 action->curTime += deltaSeconds;
-			}
-			else
-			{
+            }
+            else
+            {
                 for (int k = 0; k < action->actionValueList->size; k++)
                 {
                     TweenActionValue* actionValue = AArrayList_GetPtr(action->actionValueList, k, TweenActionValue);
@@ -409,7 +403,7 @@ static void Update(float deltaSeconds)
                     );
                 }
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
                 // action complete
                 if (action->OnComplete != NULL)
@@ -424,20 +418,20 @@ static void Update(float deltaSeconds)
 
                 AArrayList->RemoveByLast(tweenData->current, j);
                 AArrayList_Add(actionList, action);
-			}
-		}
-	}
+            }
+        }
+    }
 }
 
 
 struct ATween ATween[1] =
 {
-	GetAction,
-	AddTweenActionValue,
-	RunActions,
-	TryRemoveAllActions,
-	TryCompleteAllActions,
-	TryRemoveAction,
+    GetAction,
+    AddTweenActionValue,
+    RunActions,
+    TryRemoveAllActions,
+    TryCompleteAllActions,
+    TryRemoveAction,
     HasAction,
-	Update,
+    Update,
 };

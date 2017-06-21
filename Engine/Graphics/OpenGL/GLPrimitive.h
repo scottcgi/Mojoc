@@ -23,26 +23,26 @@
 
 struct AGLPrimitive
 {
-	/** Default 1.0f */
-	GLfloat  pointSize;
+    /** Default 1.0f */
+    GLfloat  pointSize;
 
-	/** Default 1.0f */
-	GLfloat  lineWidth;
+    /** Default 1.0f */
+    GLfloat  lineWidth;
 
-	/** Default {1.0f, 1.0f, 1.0f, 1.0f} */
-	Color    color[1];
+    /** Default {1.0f, 1.0f, 1.0f, 1.0f} */
+    Color    color[1];
 
-	/** Default NULL */
-	Matrix4* modelMatrix;
+    /** Default NULL */
+    Matrix4* modelMatrix;
 
-	/**
-	 * Each point pair of x, y if model NULL will use identity matrix
-	 */
+    /**
+     * Each point pair of x, y if model NULL will use identity matrix
+     */
     void (*DrawPoints) (Array(float)* pointArr);
 
-	/**
-	 * Each vertex pair of x, y if model NULL will use identity matrix
-	 */
+    /**
+     * Each vertex pair of x, y if model NULL will use identity matrix
+     */
     void (*DrawPolygon)(Array(float)* vertexArr);
 
     /**

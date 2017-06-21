@@ -37,25 +37,25 @@ typedef struct
      */
     float                emissionAngle;
 
-	int                  emission;
-	int                  emissionDiff;
-	float                emissionDelta;
+    int                  emission;
+    int                  emissionDiff;
+    float                emissionDelta;
 
-	float                lifeOffset;
-	float                lifeOffsetDiff;
+    float                lifeOffset;
+    float                lifeOffsetDiff;
 
-	float                life;
-	float                lifeDiff;
+    float                life;
+    float                lifeDiff;
 
-	float                duration;
-	float                durationTimer;
+    float                duration;
+    float                durationTimer;
 
-	float                delay;
-	float                delayTimer;
+    float                delay;
+    float                delayTimer;
 
-	int                  activeCount;
-	Array(Particle)*     particleArr;
-	ParticleEmitterData* emitterData;
+    int                  activeCount;
+    Array(Particle)*     particleArr;
+    ParticleEmitterData* emitterData;
     Mesh                 mesh[1];
 }
 ParticleEmitter;
@@ -63,30 +63,30 @@ ParticleEmitter;
 
 struct AParticleEmitter
 {
-	/**
-	 * Create new ParticleEmitter that allocate memory and need to free it manually
-	 */
-	ParticleEmitter* (*Create)   (ParticleEmitterData* emitterData, Texture* texture);
+    /**
+     * Create new ParticleEmitter that allocate memory and need to free it manually
+     */
+    ParticleEmitter* (*Create)   (ParticleEmitterData* emitterData, Texture* texture);
 
-	/**
-	 * Initialize ParticleEmitter that memory has already allocated
-	 */
-	void             (*Init)     (ParticleEmitterData* emitterData, Texture* texture, ParticleEmitter* outParticleEmitter);
+    /**
+     * Initialize ParticleEmitter that memory has already allocated
+     */
+    void             (*Init)     (ParticleEmitterData* emitterData, Texture* texture, ParticleEmitter* outParticleEmitter);
 
-	/**
-	 * Free members memory that allocate by malloc and reset some property values
-	 */
-	void             (*Release)  (ParticleEmitter*     emitter);
+    /**
+     * Free members memory that allocate by malloc and reset some property values
+     */
+    void             (*Release)  (ParticleEmitter*     emitter);
 
-	/**
-	 * Called per frame
-	 */
-	void             (*Update)   (ParticleEmitter*     emitter,     float deltaSeconds);
+    /**
+     * Called per frame
+     */
+    void             (*Update)   (ParticleEmitter*     emitter,     float deltaSeconds);
 
-	/**
-	 * Restart ParticleEmitter to the initial state
-	 */
-	void             (*Restart)  (ParticleEmitter*     emitter);
+    /**
+     * Restart ParticleEmitter to the initial state
+     */
+    void             (*Restart)  (ParticleEmitter*     emitter);
 };
 
 
@@ -95,7 +95,7 @@ extern struct AParticleEmitter AParticleEmitter[1];
 
 static inline void AParticleEmitter_Draw(ParticleEmitter* emitter)
 {
-	AMesh_Draw(emitter->mesh);
+    AMesh_Draw(emitter->mesh);
 }
 
 

@@ -21,73 +21,73 @@
 
 struct AGLTool
 {
-	/**
-	 * Screen pixel width
-	 */
-	float screenWidth;
+    /**
+     * Screen pixel width
+     */
+    float screenWidth;
 
-	/**
-	 * Screen pixel height
-	 */
-	float screenHeight;
+    /**
+     * Screen pixel height
+     */
+    float screenHeight;
 
-	/**
-	 * Screen half pixel width
-	 */
-	float screenHalfWidth;
+    /**
+     * Screen half pixel width
+     */
+    float screenHalfWidth;
 
-	/**
-	 * Screen half pixel height
-	 */
-	float screenHalfHeight;
+    /**
+     * Screen half pixel height
+     */
+    float screenHalfHeight;
 
-	/**
-	 * Screen width / height
-	 */
-	float screenRatio;
+    /**
+     * Screen width / height
+     */
+    float screenRatio;
 
-	/**
-	 * Screen ratio / halfWidth
-	 */
-	float ratioDivideHalfWidth;
+    /**
+     * Screen ratio / halfWidth
+     */
+    float ratioDivideHalfWidth;
 
-	/**
-	 * Screen halfWidth / ratio
-	 */
-	float halfWidthDivideRatio;
+    /**
+     * Screen halfWidth / ratio
+     */
+    float halfWidthDivideRatio;
 
-	/**
-	 * When screen changed called
-	 */
-	void   (*SetSize)              (int width, int height);
+    /**
+     * When screen changed called
+     */
+    void   (*SetSize)              (int width, int height);
 
-	/**
-	 * Compile a shader
-	 * shaderType is GL_VERTEX_SHADER or GL_FRAGMENT_SHADER
-	 */
-	GLuint (*LoadShader)           (GLenum shaderType, char* shaderSource);
+    /**
+     * Compile a shader
+     * shaderType is GL_VERTEX_SHADER or GL_FRAGMENT_SHADER
+     */
+    GLuint (*LoadShader)           (GLenum shaderType, char* shaderSource);
 
-	/**
-	 * Load vertex and fragment shader, create a program object, link program
-	 */
-	GLuint (*LoadProgram)          (char* vertexSource, char* fragmentSource);
+    /**
+     * Load vertex and fragment shader, create a program object, link program
+     */
+    GLuint (*LoadProgram)          (char* vertexSource, char* fragmentSource);
 
-	/**
-	 * Create a program object by shader file path
-	 */
-	GLuint (*LoadProgramByFile)    (char* vertexShaderPath, char* fragmentShaderPath);
+    /**
+     * Create a program object by shader file path
+     */
+    GLuint (*LoadProgramByFile)    (char* vertexShaderPath, char* fragmentShaderPath);
 
-	/**
-	 * Load texture from file
-	 */
-	void (*LoadTexture)            (char* filePath, Texture* outTexture);
+    /**
+     * Load texture from file
+     */
+    void (*LoadTexture)            (char* filePath, Texture* outTexture);
 };
 
 
 extern struct AGLTool AGLTool[1];
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 /**
@@ -96,7 +96,7 @@ extern struct AGLTool AGLTool[1];
  */
 static inline float AGLTool_ToGLWidth(float screenWidth)
 {
-	return screenWidth * AGLTool->ratioDivideHalfWidth;
+    return screenWidth * AGLTool->ratioDivideHalfWidth;
 }
 
 
@@ -105,7 +105,7 @@ static inline float AGLTool_ToGLWidth(float screenWidth)
  */
 static inline float AGLTool_ToGLHeight(float screenHeight)
 {
-	return screenHeight / AGLTool->screenHalfHeight;
+    return screenHeight / AGLTool->screenHalfHeight;
 }
 
 
@@ -114,7 +114,7 @@ static inline float AGLTool_ToGLHeight(float screenHeight)
  */
 static inline float AGLTool_ToGLX(float screenX)
 {
-	return AGLTool_ToGLWidth(screenX) - AGLTool->screenRatio;
+    return AGLTool_ToGLWidth(screenX) - AGLTool->screenRatio;
 }
 
 
@@ -123,7 +123,7 @@ static inline float AGLTool_ToGLX(float screenX)
  */
 static inline float AGLTool_ToGLY(float screenY)
 {
-	return 1.0f - AGLTool_ToGLHeight(screenY);
+    return 1.0f - AGLTool_ToGLHeight(screenY);
 }
 
 
@@ -133,7 +133,7 @@ static inline float AGLTool_ToGLY(float screenY)
  */
 static inline float AGLTool_ToScreenWidth(float glWidth)
 {
-	return glWidth * AGLTool->halfWidthDivideRatio;
+    return glWidth * AGLTool->halfWidthDivideRatio;
 }
 
 
@@ -142,7 +142,7 @@ static inline float AGLTool_ToScreenWidth(float glWidth)
  */
 static inline float AGLTool_ToScreenHeight(float glHeight)
 {
-	return glHeight * AGLTool->screenHalfHeight;
+    return glHeight * AGLTool->screenHalfHeight;
 }
 
 
@@ -151,7 +151,7 @@ static inline float AGLTool_ToScreenHeight(float glHeight)
  */
 static inline float AGLTool_ToScreenX(float glX)
 {
-	return 	AGLTool_ToScreenWidth(glX + AGLTool->screenRatio);
+    return     AGLTool_ToScreenWidth(glX + AGLTool->screenRatio);
 }
 
 
@@ -160,7 +160,7 @@ static inline float AGLTool_ToScreenX(float glX)
  */
 static inline float AGLTool_ToScreenY(float glY)
 {
-	return AGLTool_ToScreenHeight(1.0f - glY);
+    return AGLTool_ToScreenHeight(1.0f - glY);
 }
 
 
@@ -170,7 +170,7 @@ static inline float AGLTool_ToScreenY(float glY)
  */
 static inline float AGLTool_ToUVWidth(float width, float textureWidth)
 {
-	return width / textureWidth;
+    return width / textureWidth;
 }
 
 
@@ -180,7 +180,7 @@ static inline float AGLTool_ToUVWidth(float width, float textureWidth)
  */
 static inline float AGLTool_ToUVHeight(float height, float textureHeight)
 {
-	return height / textureHeight;
+    return height / textureHeight;
 }
 
 

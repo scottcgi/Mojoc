@@ -20,22 +20,22 @@
 
 typedef struct
 {
-	Color                   color[1];
+    Color                   color[1];
     SkeletonBone*           bone;
-	SkeletonSlotData*       slotData;
-	Skeleton*               skeleton;
-	SkeletonAttachmentData* attachmentData;
+    SkeletonSlotData*       slotData;
+    Skeleton*               skeleton;
+    SkeletonAttachmentData* attachmentData;
 }
 SkeletonSlot;
 
 
 struct ASkeletonSlot
 {
-	SkeletonSlot* (*Create)           (SkeletonSlotData* slotData, Skeleton* skeleton);
-	void          (*Init)             (SkeletonSlotData* slotData, Skeleton* skeleton, SkeletonSlot* outSlot);
+    SkeletonSlot* (*Create)           (SkeletonSlotData* slotData, Skeleton* skeleton);
+    void          (*Init)             (SkeletonSlotData* slotData, Skeleton* skeleton, SkeletonSlot* outSlot);
 
-	void          (*SetAttachmentData)(SkeletonSlot* slot, SkeletonAttachmentData* attachmentData);
-	void          (*SetToSetupPose)   (SkeletonSlot* slot);
+    void          (*SetAttachmentData)(SkeletonSlot* slot, SkeletonAttachmentData* attachmentData);
+    void          (*SetToSetupPose)   (SkeletonSlot* slot);
 };
 
 
@@ -44,25 +44,25 @@ extern struct ASkeletonSlot ASkeletonSlot[1];
 
 static inline SkeletonBoundingBoxAttachmentData* ASkeletonSlot_GetBoundingBox(SkeletonSlot* slot)
 {
-	return (SkeletonBoundingBoxAttachmentData*) slot->attachmentData->childPtr;
+    return (SkeletonBoundingBoxAttachmentData*) slot->attachmentData->childPtr;
 }
 
 
 static inline SkeletonRegionAttachmentData* ASkeletonSlot_GetRegion(SkeletonSlot* slot)
 {
-	return (SkeletonRegionAttachmentData*) slot->attachmentData->childPtr;
+    return (SkeletonRegionAttachmentData*) slot->attachmentData->childPtr;
 }
 
 
 static inline SkeletonMeshAttachmentData* ASkeletonSlot_GetMesh(SkeletonSlot* slot)
 {
-	return (SkeletonMeshAttachmentData*) slot->attachmentData->childPtr;
+    return (SkeletonMeshAttachmentData*) slot->attachmentData->childPtr;
 }
 
 
 static inline SkeletonSkinnedMeshAttachmentData* ASkeletonSlot_GetSkinned(SkeletonSlot* slot)
 {
-	return (SkeletonSkinnedMeshAttachmentData*) slot->attachmentData->childPtr;
+    return (SkeletonSkinnedMeshAttachmentData*) slot->attachmentData->childPtr;
 }
 
 

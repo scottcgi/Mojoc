@@ -31,37 +31,37 @@ typedef struct
      * The action will reach to this value
      * depend on isRelative
      */
-	float                 value;
+    float                 value;
 
     /**
      * The action start from this value
      */
-	float                 fromValue;
+    float                 fromValue;
 
     /**
      * The final value action will reach to
      */
-	float                 toValue;
+    float                 toValue;
 
-	/**
-	 * When TweenAction's target value need to be get
-	 */
-	TweenActionValueOnGet OnGet;
+    /**
+     * When TweenAction's target value need to be get
+     */
+    TweenActionValueOnGet OnGet;
 
-	/**
-	 * When TweenAction's target value need to be set
-	 */
-	TweenActionValueOnSet OnSet;
+    /**
+     * When TweenAction's target value need to be set
+     */
+    TweenActionValueOnSet OnSet;
 
-	/**
-	 * The motion is relative or absolute default true
-	 */
-	bool                  isRelative;
+    /**
+     * The motion is relative or absolute default true
+     */
+    bool                  isRelative;
 
-	/**
-	 * Default TweenEaseType_Linear
-	 */
-	TweenEaseType         easeType;
+    /**
+     * Default TweenEaseType_Linear
+     */
+    TweenEaseType         easeType;
 }
 TweenActionValue;
 
@@ -74,76 +74,76 @@ struct TweenAction
 {
     UserData                     userData[1];
 
-	/**
-	 * Target execute TweenAction
-	 */
-	void*                        target;
+    /**
+     * Target execute TweenAction
+     */
+    void*                        target;
 
     /**
      * The action running duration time
      */
-	float                        duration;
+    float                        duration;
 
     /**
      * The action running current postion in duration time
      */
-	float                        curTime;
+    float                        curTime;
 
-	/**
-	 * Means action running in queue or immediately default true
-	 */
-	bool                         isQueue;
+    /**
+     * Means action running in queue or immediately default true
+     */
+    bool                         isQueue;
 
-	/**
-	 * TweenActionValue list Transform concurrently
-	 */
-	ArrayList(TweenActionValue)  actionValueList[1];
+    /**
+     * TweenActionValue list Transform concurrently
+     */
+    ArrayList(TweenActionValue)  actionValueList[1];
 
-	/**
-	 * When action complete callback, passed action and userData
-	 */
-	TweenActionOnComplete        OnComplete;
+    /**
+     * When action complete callback, passed action and userData
+     */
+    TweenActionOnComplete        OnComplete;
 };
 
 
 struct ATween
 {
-	/**
-	 * Control by ATween when action complete
-	 *
-	 * userData   is NULL
-	 * target     is NULL
-	 * isQueue    is true
-	 * duration   is 0
-	 * OnComplete is NULL
-	 */
-	TweenAction*      (*GetAction)            ();
+    /**
+     * Control by ATween when action complete
+     *
+     * userData   is NULL
+     * target     is NULL
+     * isQueue    is true
+     * duration   is 0
+     * OnComplete is NULL
+     */
+    TweenAction*      (*GetAction)            ();
 
-	/**
-	 * Add TweenActon's TweenActionValue
-	 */
-	TweenActionValue* (*AddTweenActionValue)  (TweenAction* action);
+    /**
+     * Add TweenActon's TweenActionValue
+     */
+    TweenActionValue* (*AddTweenActionValue)  (TweenAction* action);
 
-	/**
-	 * Bind TweenActions to tweenId and running
-	 * if tweenId is NULL will generate tweenId value
-	 *
-	 * return tweenId
-	 */
-	void*             (*RunActions)           (Array(TweenAction*)* actions, void* tweenId);
+    /**
+     * Bind TweenActions to tweenId and running
+     * if tweenId is NULL will generate tweenId value
+     *
+     * return tweenId
+     */
+    void*             (*RunActions)           (Array(TweenAction*)* actions, void* tweenId);
 
-	/**
-	 * Remove tweenId's all actions immediately, return false when tweenId not in use
-	 * we can or not clean up tweenId bound data for actions
-	 * when tweenId not in use must cleanup for reuse memory
-	 */
+    /**
+     * Remove tweenId's all actions immediately, return false when tweenId not in use
+     * we can or not clean up tweenId bound data for actions
+     * when tweenId not in use must cleanup for reuse memory
+     */
     bool              (*TryRemoveAllActions)  (void* tweenId);
 
-	/**
-	 * Complete tweenId's all actions immediately, return false when tweenId not in use
-	 * if isFireOnComplete true will fire callback
-	 */
-	bool              (*TryCompleteAllActions)(void* tweenId, bool isFireOnComplete);
+    /**
+     * Complete tweenId's all actions immediately, return false when tweenId not in use
+     * if isFireOnComplete true will fire callback
+     */
+    bool              (*TryCompleteAllActions)(void* tweenId, bool isFireOnComplete);
 
     /**
      * Find TweenAction in current or queue, and remove it
@@ -155,12 +155,12 @@ struct ATween
     /**
      * Whether the tweenId has action in current or queue
      */
-	bool              (*HasAction)            (void* tweenId);
+    bool              (*HasAction)            (void* tweenId);
 
     /**
      * Called every frame
      */
-	void              (*Update)               (float deltaSeconds);
+    void              (*Update)               (float deltaSeconds);
 };
 
 

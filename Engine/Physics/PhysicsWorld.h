@@ -20,24 +20,24 @@
 
 struct APhysicsWorld
 {
-	Vector2 gravity;
-	Rect    range;
+    Vector2 gravity;
+    Rect    range;
 
-	/**
-	 * Add body in PhysicsWorld with shape and vertex
-	 * the vertexArr will copy into Body
-	 */
-	PhysicsBody* (*AddBody)    (PhysicsShape shape, Array(float)* vertexArr);
+    /**
+     * Add body in PhysicsWorld with shape and vertex
+     * the vertexArr will copy into Body
+     */
+    PhysicsBody* (*AddBody)    (PhysicsShape shape, Array(float)* vertexArr);
 
     /**
      * Destroy PhysicsBody from world
      */
-	void         (*DestroyBody)(PhysicsBody* body);
+    void         (*DestroyBody)(PhysicsBody* body);
 
-	/**
-	 * Every frame update PhysicsBody
-	 */
-	void         (*Update)     (float deltaSeconds);
+    /**
+     * Every frame update PhysicsBody
+     */
+    void         (*Update)     (float deltaSeconds);
 };
 
 

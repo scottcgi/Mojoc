@@ -19,5 +19,5 @@ static void Init()
 
 struct AExtension AExtension[1] =
 {
-	Init,
+    Init,
 };

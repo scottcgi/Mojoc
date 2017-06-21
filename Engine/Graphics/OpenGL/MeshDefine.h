@@ -22,11 +22,11 @@ typedef struct SubMesh SubMesh;
 
 enum
 {
-	MeshBuffer_Num      = 2,
-	MeshBuffer_NumBytes = MeshBuffer_Num * sizeof(GLuint),
+    MeshBuffer_Num      = 2,
+    MeshBuffer_NumBytes = MeshBuffer_Num * sizeof(GLuint),
 
-	MeshBuffer_Vertex   = 0,
-	MeshBuffer_Index    = 1,
+    MeshBuffer_Vertex   = 0,
+    MeshBuffer_Index    = 1,
 };
 
 
@@ -93,44 +93,44 @@ enum
 
 enum
 {
-	/**
-	 * Two triangles vertex 6(points)
-	 */
-	Quad_IndexNum                 = 6,
-	Quad_IndexNumBytes            = Quad_IndexNum     * sizeof(short),
+    /**
+     * Two triangles vertex 6(points)
+     */
+    Quad_IndexNum                 = 6,
+    Quad_IndexNumBytes            = Quad_IndexNum     * sizeof(short),
 
-	/**
-	 * 3(x,y,z) * 4(points)
-	 */
-	Quad_Position3Num             = 12,
-	Quad_Position3NumBytes        = Quad_Position3Num * sizeof(float),
+    /**
+     * 3(x,y,z) * 4(points)
+     */
+    Quad_Position3Num             = 12,
+    Quad_Position3NumBytes        = Quad_Position3Num * sizeof(float),
 
-	/**
-	 * 2(u,v) * 4(points)
-	 */
-	Quad_UVNum                    = 8,
-	Quad_UVNumBytes               = Quad_UVNum        * sizeof(float),
+    /**
+     * 2(u,v) * 4(points)
+     */
+    Quad_UVNum                    = 8,
+    Quad_UVNumBytes               = Quad_UVNum        * sizeof(float),
 
-	/**
-	 * 1 * 4(points)
-	 */
-	Quad_OpacityNum               = 4,
-	Quad_OpacityNumBytes          = Quad_OpacityNum   * sizeof(float),
+    /**
+     * 1 * 4(points)
+     */
+    Quad_OpacityNum               = 4,
+    Quad_OpacityNumBytes          = Quad_OpacityNum   * sizeof(float),
 
-	/**
-	 * 3(r,g,b) * 4(points)
-	 */
-	Quad_RGBNum                   = 12,
-	Quad_RGBNumBytes              = Quad_RGBNum       * sizeof(float),
+    /**
+     * 3(r,g,b) * 4(points)
+     */
+    Quad_RGBNum                   = 12,
+    Quad_RGBNumBytes              = Quad_RGBNum       * sizeof(float),
 
-	/**
-	 * 2(x,y) * 4(points)
-	 */
-	Quad_Position2Num             = 8,
+    /**
+     * 2(x,y) * 4(points)
+     */
+    Quad_Position2Num             = 8,
 
 
-	Quad_VertexNum                = Quad_Position2Num + Quad_UVNum,
-	Quad_VertexNumBytes           = Quad_VertexNum    * sizeof(float),
+    Quad_VertexNum                = Quad_Position2Num + Quad_UVNum,
+    Quad_VertexNumBytes           = Quad_VertexNum    * sizeof(float),
 };
 
 

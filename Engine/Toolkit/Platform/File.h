@@ -27,13 +27,13 @@ typedef struct File File;
 
 struct AFile
 {
-	/**
-	 * Open file from platform directory with relative file path
-	 *
-	 * relativeFilePath:
-	 *     Android: assets
-	 *     IOS    : NSBundle
-	 */
+    /**
+     * Open file from platform directory with relative file path
+     *
+     * relativeFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
+     */
     File* (*Open)             (char* relativeFilePath);
 
     /**
@@ -41,38 +41,38 @@ struct AFile
      * if the start or length cannot be represented by a 32-bit number, it will be truncated
      *
      * relativeFilePath:
-	 *     Android: assets
-	 * 	   IOS    : NSBundle
+     *     Android: assets
+     *        IOS    : NSBundle
      *
      * returns < 0 if direct fd access is not possible (for example, if the asset is compressed)
      */
     int   (*OpenFileDescriptor)(char* relativeFilePath, long* outStart, long* outLength);
 
-	/**
-	 * Close an opened file connection, free any related resources
-	 */
-	void  (*Close)             (File* file);
+    /**
+     * Close an opened file connection, free any related resources
+     */
+    void  (*Close)             (File* file);
 
-	/**
-	 * Return file length
-	 */
-	long  (*GetLength)         (File* file);
+    /**
+     * Return file length
+     */
+    long  (*GetLength)         (File* file);
 
-	/**
-	 * Read count bytes of data from the current offset
-	 * return the number of bytes read, zero on EOF, or < 0 on error
-	 */
-	int   (*Read)              (File* file, void* buffer, size_t count);
+    /**
+     * Read count bytes of data from the current offset
+     * return the number of bytes read, zero on EOF, or < 0 on error
+     */
+    int   (*Read)              (File* file, void* buffer, size_t count);
 
-	/**
-	 * Seek to the specified offset
-	 * the whence uses the same constants as fseek()
-	 *
-	 * return the new position on success, or -1 on error
-	 */
-	int   (*Seek)              (File* file, long offset, int whence);
+    /**
+     * Seek to the specified offset
+     * the whence uses the same constants as fseek()
+     *
+     * return the new position on success, or -1 on error
+     */
+    int   (*Seek)              (File* file, long offset, int whence);
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     /**
      * The absolute path related to platform directory, read only

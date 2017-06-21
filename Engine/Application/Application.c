@@ -31,10 +31,10 @@ static struct      timespec last;
 
 static void Init()
 {
-	AToolkit  ->Init();
-	APhysics  ->Init();
-	AExtension->Init();
-	AAudio    ->Init();
+    AToolkit  ->Init();
+    APhysics  ->Init();
+    AExtension->Init();
+    AAudio    ->Init();
 
     AComponent->Init(AApplication->component);
 
@@ -50,7 +50,7 @@ static void Init()
     ALog_A(AApplication->callbacks->OnSaveData          != NULL, "AApplication->callbacks->OnSaveData          must be set");
     ALog_A(AApplication->callbacks->OnInitWithSavedData != NULL, "AApplication->callbacks->OnInitWithSavedData must be set");
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     int   length;
     void* data = AFileTool->CreateDataFromDir((char*) saveDataFileName, &length);
@@ -61,7 +61,7 @@ static void Init()
         free(data);
     }
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     // start clock
     clock_gettime(CLOCK_MONOTONIC, &last);
@@ -74,21 +74,21 @@ static void Loop()
     float deltaSeconds = (now.tv_nsec - last.tv_nsec) * 0.000000001 + (now.tv_sec - last.tv_sec);
     last               =  now;
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	AScheduler   ->Update(deltaSeconds);
-	ACoroutine   ->Update(deltaSeconds);
-	ATween       ->Update(deltaSeconds);
-	APhysicsWorld->Update(deltaSeconds);
-	AAudio       ->Update(deltaSeconds);
+    AScheduler   ->Update(deltaSeconds);
+    ACoroutine   ->Update(deltaSeconds);
+    ATween       ->Update(deltaSeconds);
+    APhysicsWorld->Update(deltaSeconds);
+    AAudio       ->Update(deltaSeconds);
 
-	// root update
-	AComponent->Update(AApplication->component, deltaSeconds);
+    // root update
+    AComponent->Update(AApplication->component, deltaSeconds);
 
-	// rendering
-	ADrawable->RenderQueue();
+    // rendering
+    ADrawable->RenderQueue();
 }
 
 
@@ -155,8 +155,8 @@ static void SaveData()
 
 struct AApplication AApplication[1] =
 {
-	{
-		.callbacks =
+    {
+        .callbacks =
         {
             {
                .OnReady             = NULL,
@@ -169,8 +169,8 @@ struct AApplication AApplication[1] =
             }
         },
 
-		.Init     = Init,
-		.Loop     = Loop,
+        .Init     = Init,
+        .Loop     = Loop,
         .GLReady  = GLReady,
         .Resized  = Resized,
         .Pause    = Pause,
@@ -178,6 +178,6 @@ struct AApplication AApplication[1] =
         .Destroy  = Destroy,
         .Touch    = Touch,
         .SaveData = SaveData,
-	}
+    }
 };
 

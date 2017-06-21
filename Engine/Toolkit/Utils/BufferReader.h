@@ -20,37 +20,37 @@
 
 struct ABufferReader
 {
-	/**
-	 * Read long from buffer data, where ArrayRange in buffer
-	 */
-	int64_t (*ReadInt64)   (char* buffer, ArrayRange* range);
+    /**
+     * Read long from buffer data, where ArrayRange in buffer
+     */
+    int64_t (*ReadInt64)   (char* buffer, ArrayRange* range);
 
-	/**
-	 * Read int from buffer data, where ArrayRange in buffer
-	 */
-	int32_t (*ReadInt32)   (char* buffer, ArrayRange* range);
+    /**
+     * Read int from buffer data, where ArrayRange in buffer
+     */
+    int32_t (*ReadInt32)   (char* buffer, ArrayRange* range);
 
-	/**
-	 * Read short from buffer data, where ArrayRange in buffer
-	 */
-	int16_t (*ReadInt16)   (char* buffer, ArrayRange* range);
+    /**
+     * Read short from buffer data, where ArrayRange in buffer
+     */
+    int16_t (*ReadInt16)   (char* buffer, ArrayRange* range);
 
-	/**
-	 * Read byte from buffer data, where ArrayRange in buffer
-	 */
-	int8_t (*ReadInt8)     (char* buffer, ArrayRange* range);
+    /**
+     * Read byte from buffer data, where ArrayRange in buffer
+     */
+    int8_t (*ReadInt8)     (char* buffer, ArrayRange* range);
 
-	/**
-	 * Read line from buffer data, where ArrayRange in buffer
-	 * and record line ArrayRange
-	 */
-	void   (*ReadLine)     (char* buffer, ArrayRange* range, ArrayRange* outLine);
+    /**
+     * Read line from buffer data, where ArrayRange in buffer
+     * and record line ArrayRange
+     */
+    void   (*ReadLine)     (char* buffer, ArrayRange* range, ArrayRange* outLine);
 
     /**
      * Find string in buffer and make range start after string
      * return true found string or false not found
      */
-	bool   (*TryFindString)(char* buffer, ArrayRange* range, char* str);
+    bool   (*TryFindString)(char* buffer, ArrayRange* range, char* str);
 };
 
 

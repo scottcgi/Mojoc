@@ -32,7 +32,7 @@ static File* Open(char* relativeFilePath)
     
     ALog_A(file != NULL, "AFile open error, file path = %s", relativeFilePath);
     
-	return (File*) file;
+    return (File*) file;
 }
 
 
@@ -63,19 +63,19 @@ static long GetLength(File* file)
     long length = ftell((FILE*) file);
     fseek((FILE*) file, 0, SEEK_SET);
     
-	return length;
+    return length;
 }
 
 
 static int Read(File* file, void* buffer, size_t count)
 {
-	return (int) fread(buffer, count, 1, (FILE*) file);
+    return (int) fread(buffer, count, 1, (FILE*) file);
 }
 
 
 static int Seek(File* file, long offset, int whence)
 {
-	return fseek((FILE*) file, offset, whence);
+    return fseek((FILE*) file, offset, whence);
 }
 
 
@@ -97,12 +97,12 @@ static const char* GetAbsoluteDirPath()
 
 struct AFile AFile[1] =
 {
-	Open,
+    Open,
     OpenFileDescriptor,
-	Close,
-	GetLength,
-	Read,
-	Seek,
+    Close,
+    GetLength,
+    Read,
+    Seek,
     GetAbsoluteDirPath,
 };
 

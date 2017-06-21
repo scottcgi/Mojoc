@@ -33,7 +33,7 @@ static Font* Get(char* filePath)
         "Font not support TextureAtlas has multiple texture"
     );
 
-	Font* font = AArrayList_Pop(fontList, Font*);
+    Font* font = AArrayList_Pop(fontList, Font*);
 
     if (font == NULL)
     {
@@ -47,7 +47,7 @@ static Font* Get(char* filePath)
         );
 
         AArrayIntSet->Init(font->fontTextSet);
-		AArrayList  ->Init(sizeof(SubMesh*),  font->unusedSubMeshList);
+        AArrayList  ->Init(sizeof(SubMesh*),  font->unusedSubMeshList);
     }
     else
     {
@@ -58,7 +58,7 @@ static Font* Get(char* filePath)
 
     font->textureAtlas = textureAtlas;
 
-	return font;
+    return font;
 }
 
 
@@ -91,15 +91,15 @@ static FontText* GetText(Font* font)
 
 static void Draw(Font* font)
 {
-	for (int i = 0; i < font->fontTextSet->elementList->size; i++)
-	{
+    for (int i = 0; i < font->fontTextSet->elementList->size; i++)
+    {
         ADrawable->Draw
         (
             AArrayList_Get(font->fontTextSet->elementList, i, FontText*)->drawable
         );
-	}
+    }
 
-	AMesh_Draw(font->mesh);
+    AMesh_Draw(font->mesh);
 }
 
 
@@ -137,11 +137,11 @@ static inline void SetNewChar(FontText* text, char* str, int len)
 
 static void SetString(FontText* text, char* str)
 {
-	ArrayList* children    = text->font->mesh->childList;
-	int        len         = (int) strlen(str);
+    ArrayList* children    = text->font->mesh->childList;
+    int        len         = (int) strlen(str);
 
-	text->drawable->height = 0.0f;
-	text->drawable->width  = 0.0f;
+    text->drawable->height = 0.0f;
+    text->drawable->width  = 0.0f;
 
     if (len == text->usedSubMeshList->size)
     {
@@ -294,25 +294,25 @@ static void SetString(FontText* text, char* str)
 
 static void SetInt(FontText* text, int num)
 {
-	// max int digits count
-	char buff[12];
+    // max int digits count
+    char buff[12];
     sprintf(buff,  "%d", num);
-	AFont->SetString(text, buff);
+    AFont->SetString(text, buff);
 }
 
 
 static void SetFloat(FontText* text, float num)
 {
-	// max float digits count
-	char buff[20];
+    // max float digits count
+    char buff[20];
     sprintf(buff,  "%.1f", num);
-	AFont->SetString(text, buff);
+    AFont->SetString(text, buff);
 }
 
 
 static void Reuse(Font* font)
 {
-	ALog_A(font->textureAtlas != NULL, "AFont Reuse font %p already reused", font);
+    ALog_A(font->textureAtlas != NULL, "AFont Reuse font %p already reused", font);
 
     for (int i = 0; i < font->fontTextSet->elementList->size; i++)
     {
@@ -321,7 +321,7 @@ static void Reuse(Font* font)
         AArrayList_Add(textList, text);
     }
 
-	font->textureAtlas = NULL;
+    font->textureAtlas = NULL;
     AArrayList_Add(fontList, font);
 }
 
@@ -330,12 +330,12 @@ static void ReuseText(FontText* text)
 {
     ALog_A(text->font != NULL, "AFont ReuseText text %p already reused", text);
 
-	for (int i = 0; i < text->usedSubMeshList->size; i++)
-	{
+    for (int i = 0; i < text->usedSubMeshList->size; i++)
+    {
         SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
-		ADrawable_SetInVisible(subMesh->drawable);
+        ADrawable_SetInVisible(subMesh->drawable);
         AArrayList_Add(text->font->unusedSubMeshList, subMesh);
-	}
+    }
 
     AArrayIntSet->TryRemove(text->font->fontTextSet, (intptr_t) text);
     text->font = NULL;
@@ -346,13 +346,13 @@ static void ReuseText(FontText* text)
 
 struct AFont AFont[1] =
 {
-	Get,
+    Get,
     GetText,
     Draw,
 
-	SetString,
-	SetInt,
-	SetFloat,
+    SetString,
+    SetInt,
+    SetFloat,
 
     Reuse,
     ReuseText,

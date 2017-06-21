@@ -19,7 +19,7 @@
 
 struct APhysicsCollision
 {
-	bool (*TestCollision)(PhysicsBody* bodyA, PhysicsBody* bodyB);
+    bool (*TestCollision)(PhysicsBody* bodyA, PhysicsBody* bodyB);
 };
 
 

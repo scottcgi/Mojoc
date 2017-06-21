@@ -18,28 +18,28 @@
 
 typedef struct
 {
-	float left;
-	float top;
-	float right;
-	float bottom;
+    float left;
+    float top;
+    float right;
+    float bottom;
 }
 Rect;
 
 
 static inline bool ARect_TestPoint(Rect* rect, float x, float y)
 {
-	return (x >= rect->left && x <= rect->right && y >= rect->bottom && y <= rect->top);
+    return (x >= rect->left && x <= rect->right && y >= rect->bottom && y <= rect->top);
 }
 
 
 static inline bool ARect_TestRect(Rect* rectA, Rect* rectB)
 {
-	return !(
-				rectA->right  < rectB->left   ||
-				rectA->left   > rectB->right  ||
-				rectA->top    < rectB->bottom ||
-				rectA->bottom > rectB->top
-			);
+    return !(
+                rectA->right  < rectB->left   ||
+                rectA->left   > rectB->right  ||
+                rectA->top    < rectB->bottom ||
+                rectA->bottom > rectB->top
+            );
 }
 
 

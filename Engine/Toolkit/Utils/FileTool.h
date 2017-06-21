@@ -26,31 +26,31 @@ struct AFileTool
      */
     int   (*GetDirLength)      (char* filePath);
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
-	/**
-	 * Read all file data into malloc buffer, with close file
-	 *
-	 * return buffer pointer, need to free it after using
-	 */
-	char* (*CreateDataFrom)    (char* absoluteFilePath, long* outLength);
+    /**
+     * Read all file data into malloc buffer, with close file
+     *
+     * return buffer pointer, need to free it after using
+     */
+    char* (*CreateDataFrom)    (char* absoluteFilePath, long* outLength);
 
-	/**
-	 * Read all file data into malloc buffer, with '\0' end, with close file
-	 *
-	 * return buffer pointer, need to free it after using
-	 */
-	char* (*CreateStringFrom)  (char* absoluteFilePath);
+    /**
+     * Read all file data into malloc buffer, with '\0' end, with close file
+     *
+     * return buffer pointer, need to free it after using
+     */
+    char* (*CreateStringFrom)  (char* absoluteFilePath);
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     /**
      * Indirect use AFile
      * read all file data into malloc buffer, with close file
      *
      * relativeFilePath:
-	 *     Android: assets
-	 * 	   IOS    : NSBundle
+     *     Android: assets
+     *        IOS    : NSBundle
      *
      * return buffer pointer, need to free it after using
      */
@@ -61,14 +61,14 @@ struct AFileTool
      * read all file data into malloc buffer, with '\0' end, with close file
      *
      * relativeFilePath:
-	 *     Android: assets
-	 * 	   IOS    : NSBundle
+     *     Android: assets
+     *        IOS    : NSBundle
      *
      * return buffer pointer, need to free it after using
      */
     char* (*CreateStringFromRes)(char* relativeFilePath);
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     /**
      * Indirect use AFile's GetAbsoluteDirPath()

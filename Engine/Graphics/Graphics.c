@@ -18,12 +18,12 @@
 
 static void Init()
 {
-	AGLInfo         ->Init();
-	AShaderMesh     ->Init();
-	AShaderSprite   ->Init();
-	AShaderPrimitive->Init();
+    AGLInfo         ->Init();
+    AShaderMesh     ->Init();
+    AShaderSprite   ->Init();
+    AShaderPrimitive->Init();
 
-	AGraphics->isUseVBO       = false;
+    AGraphics->isUseVBO       = false;
     AGraphics->isUseVAO       = false;
     AGraphics->isUseMapBuffer = false;
 }
@@ -59,9 +59,9 @@ static void SetUseMapBuffer(bool isUseMapBuffer)
 
 struct AGraphics AGraphics[1] =
 {
-	{
-		.Init            = Init,
+    {
+        .Init            = Init,
         .SetUseVAO       = SetUseVAO,
         .SetUseMapBuffer = SetUseMapBuffer,
-	}
+    }
 };

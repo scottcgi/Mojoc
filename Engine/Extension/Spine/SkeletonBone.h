@@ -19,21 +19,21 @@
 
 typedef struct
 {
-	Drawable           drawable[1];
-	SkeletonBoneData*  boneData;
+    Drawable           drawable[1];
+    SkeletonBoneData*  boneData;
 }
 SkeletonBone;
 
 
 struct ASkeletonBone
 {
-	SkeletonBone* (*Create)        (SkeletonBoneData* boneData);
-	void          (*Init)          (SkeletonBoneData* boneData, SkeletonBone* outBone);
+    SkeletonBone* (*Create)        (SkeletonBoneData* boneData);
+    void          (*Init)          (SkeletonBoneData* boneData, SkeletonBone* outBone);
 
-	/**
-	 * Set bone to setup pose
-	 */
-	void          (*SetToSetupPose)(SkeletonBone* bone);
+    /**
+     * Set bone to setup pose
+     */
+    void          (*SetToSetupPose)(SkeletonBone* bone);
 };
 
 

@@ -71,7 +71,7 @@ static char* CreateStringFrom(char* absoluteFilePath)
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static char* CreateDataFromRes(char* relativeFilePath, long* outLength)
@@ -102,7 +102,7 @@ static char* CreateStringFromRes(char* relativeFilePath)
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static const char* dir = NULL;
@@ -166,8 +166,8 @@ static void WriteDataToDir(char* relativeDirFilePath, void* data, int length)
 struct AFileTool AFileTool[1] =
 {
     GetDirLength,
-	CreateDataFrom,
-	CreateStringFrom,
+    CreateDataFrom,
+    CreateStringFrom,
 
     CreateDataFromRes,
     CreateStringFromRes,

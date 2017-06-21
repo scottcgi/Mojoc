@@ -15,7 +15,7 @@
 
 struct AToolkit
 {
-	void (*Init)();
+    void (*Init)();
 };
 
 

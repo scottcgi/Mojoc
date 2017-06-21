@@ -1154,7 +1154,7 @@ static void Init()
     ADrawable_SetParent   (heroDrawable, AGameMap->beforeDrawable);
     ADrawable_SetPositionY(heroDrawable, AGameMap->groundY);
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     SkeletonSlot* collisionSlot = ASkeletonAnimationPlayer_GetSlot(AHero->player, "CollisionBox");
     if (collisionSlot != NULL)
@@ -1181,7 +1181,7 @@ static void Init()
     ADrawable_SetParent   (hitFloorDrawable, AGameMap->beforeDrawable);
     ADrawable_SetPositionY(hitFloorDrawable, AGameMap->groundY);
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     AHero->component->stateMap->elementList->increase = 10;
 

@@ -17,15 +17,15 @@
 
 static void Restart(ParticleEmitter* emitter)
 {
-	emitter->delayTimer                = 0.0f;
-	emitter->durationTimer             = 0.0f;
-	emitter->emissionDelta             = 0.0f;
+    emitter->delayTimer                = 0.0f;
+    emitter->durationTimer             = 0.0f;
+    emitter->emissionDelta             = 0.0f;
 
-	ParticleEmitterData* emitterData   = emitter->emitterData;
+    ParticleEmitterData* emitterData   = emitter->emitterData;
 
-	ParticleRangedValue* delayValue    = emitterData->delayValue;
+    ParticleRangedValue* delayValue    = emitterData->delayValue;
     emitter->delay                     = delayValue->isActive ?
-    										   AParticleEmitterData->RandomLowValue(delayValue) : 0.0f;
+                                               AParticleEmitterData->RandomLowValue(delayValue) : 0.0f;
 
     ParticleRangedValue* durationValue = emitterData->durationValue;
     emitter->duration                  = AParticleEmitterData->RandomLowValue(durationValue);
@@ -66,303 +66,303 @@ static void Restart(ParticleEmitter* emitter)
 
 static inline void ActivateParticle(ParticleEmitter* emitter, Particle* particle)
 {
-	particle->isActive               = true;
-	Drawable*            drawable    = particle->subMesh->drawable;
-	ParticleEmitterData* emitterData = emitter->emitterData;
+    particle->isActive               = true;
+    Drawable*            drawable    = particle->subMesh->drawable;
+    ParticleEmitterData* emitterData = emitter->emitterData;
 
-	ParticleScaledValue* lifeValue   = emitterData->lifeValue;
-	float percent                    = emitter->delayTimer / emitter->duration;
-	float activeLife                 = emitter->life + emitter->lifeDiff *
-									   AParticleEmitterData->GetScale(lifeValue, percent);
+    ParticleScaledValue* lifeValue   = emitterData->lifeValue;
+    float percent                    = emitter->delayTimer / emitter->duration;
+    float activeLife                 = emitter->life + emitter->lifeDiff *
+                                       AParticleEmitterData->GetScale(lifeValue, percent);
 
-	particle->life = particle->currentLife = activeLife;
+    particle->life = particle->currentLife = activeLife;
 
-	ParticleScaledValue* lifeOffsetValue = emitterData->lifeOffsetValue;
-	if (lifeOffsetValue->rangedValue->isActive)
-	{
-	    float offsetTime = emitter->lifeOffset + emitter->lifeOffsetDiff *
-	    				   AParticleEmitterData->GetScale(lifeOffsetValue, percent);
+    ParticleScaledValue* lifeOffsetValue = emitterData->lifeOffsetValue;
+    if (lifeOffsetValue->rangedValue->isActive)
+    {
+        float offsetTime = emitter->lifeOffset + emitter->lifeOffsetDiff *
+                           AParticleEmitterData->GetScale(lifeOffsetValue, percent);
 
-	    particle->life = particle->currentLife = particle->life - offsetTime;
-	}
-
-
-	ParticleScaledValue* velocityValue = emitterData->velocityValue;
-	if (velocityValue->rangedValue->isActive)
-	{
- 		particle->velocity             = AParticleEmitterData->RandomLowValue(velocityValue->rangedValue);
-		particle->velocityDiff         = AParticleEmitterData->RandomHighValue(velocityValue);
-
-		if (!velocityValue->isRelative)
-		{
-			particle->velocityDiff    -= particle->velocity;
-		}
-	}
-
-	ParticleScaledValue* angleValue = emitterData->angleValue;
-	if (angleValue->rangedValue->isActive)
-	{
-		particle->angle             = AParticleEmitterData->RandomLowValue(angleValue->rangedValue);
-		particle->angleDiff         = AParticleEmitterData->RandomHighValue(angleValue);
-
-    	if (!angleValue->isRelative)
-    	{
-    		particle->angleDiff    -= particle->angle;
-    	}
-	}
+        particle->life = particle->currentLife = particle->life - offsetTime;
+    }
 
 
-	float width                     = AGLTool_ToScreenWidth(drawable->width);
-	ParticleScaledValue* scaleValue = emitterData->scaleValue;
-	particle->scale                 = AParticleEmitterData->RandomLowValue(scaleValue->rangedValue) / width;
-	particle->scaleDiff             = AParticleEmitterData->RandomHighValue(scaleValue) / width;
+    ParticleScaledValue* velocityValue = emitterData->velocityValue;
+    if (velocityValue->rangedValue->isActive)
+    {
+         particle->velocity             = AParticleEmitterData->RandomLowValue(velocityValue->rangedValue);
+        particle->velocityDiff         = AParticleEmitterData->RandomHighValue(velocityValue);
 
-	if (!scaleValue->isRelative)
-	{
-		particle->scaleDiff -= particle->scale;
-	}
+        if (!velocityValue->isRelative)
+        {
+            particle->velocityDiff    -= particle->velocity;
+        }
+    }
 
-	float scale = particle->scale + particle->scaleDiff * AParticleEmitterData->GetScale(scaleValue, 0.0f);
-	ADrawable_SetScale2(drawable, scale, scale);
+    ParticleScaledValue* angleValue = emitterData->angleValue;
+    if (angleValue->rangedValue->isActive)
+    {
+        particle->angle             = AParticleEmitterData->RandomLowValue(angleValue->rangedValue);
+        particle->angleDiff         = AParticleEmitterData->RandomHighValue(angleValue);
 
-	ParticleScaledValue* rotationValue = emitterData->rotationValue;
-	if (rotationValue->rangedValue->isActive)
-	{
-		particle->rotationZ            = AParticleEmitterData->RandomLowValue(rotationValue->rangedValue);
-		particle->rotationDiff         = AParticleEmitterData->RandomHighValue(rotationValue);
-
-		if (!rotationValue->isRelative)
-		{
-			particle->rotationDiff -= particle->rotationZ;
-		}
-
-		float rotationZ = particle->rotationZ + particle->rotationDiff * AParticleEmitterData->GetScale(rotationValue, 0.0f);
-		if (emitter->emitterData->isAligned)
-		{
-			rotationZ += particle->angle + particle->angleDiff * AParticleEmitterData->GetScale(angleValue, 0.0f);
-		}
-
-		ADrawable_SetRotationZ(drawable, rotationZ);
-	}
+        if (!angleValue->isRelative)
+        {
+            particle->angleDiff    -= particle->angle;
+        }
+    }
 
 
-	ParticleScaledValue* windValue = emitterData->windValue;
-	if (windValue->rangedValue->isActive)
-	{
-		particle->wind     = AParticleEmitterData->RandomLowValue(windValue->rangedValue);
-		particle->windDiff = AParticleEmitterData->RandomHighValue(windValue);
+    float width                     = AGLTool_ToScreenWidth(drawable->width);
+    ParticleScaledValue* scaleValue = emitterData->scaleValue;
+    particle->scale                 = AParticleEmitterData->RandomLowValue(scaleValue->rangedValue) / width;
+    particle->scaleDiff             = AParticleEmitterData->RandomHighValue(scaleValue) / width;
 
-		if (!windValue->isRelative)
-		{
-			particle->windDiff -= particle->wind;
-		}
-	}
+    if (!scaleValue->isRelative)
+    {
+        particle->scaleDiff -= particle->scale;
+    }
 
-	ParticleScaledValue* gravityValue = emitterData->gravityValue;
-	if (gravityValue->rangedValue->isActive)
-	{
-		particle->gravity             = AParticleEmitterData->RandomLowValue(gravityValue->rangedValue);
-		particle->gravityDiff         = AParticleEmitterData->RandomHighValue(gravityValue);
+    float scale = particle->scale + particle->scaleDiff * AParticleEmitterData->GetScale(scaleValue, 0.0f);
+    ADrawable_SetScale2(drawable, scale, scale);
 
-		if (!gravityValue->isRelative)
-		{
-			particle->gravityDiff    -= particle->gravity;
-		}
-	}
+    ParticleScaledValue* rotationValue = emitterData->rotationValue;
+    if (rotationValue->rangedValue->isActive)
+    {
+        particle->rotationZ            = AParticleEmitterData->RandomLowValue(rotationValue->rangedValue);
+        particle->rotationDiff         = AParticleEmitterData->RandomHighValue(rotationValue);
 
-	float rgb[3];
-	AParticleEmitterData->GetRGB(emitterData->rgbValue, percent, rgb);
-	ADrawable_SetRGB(drawable, rgb[0], rgb[1], rgb[2]);
+        if (!rotationValue->isRelative)
+        {
+            particle->rotationDiff -= particle->rotationZ;
+        }
 
-	ParticleScaledValue* transparencyValue = emitterData->transparencyValue;
-	particle->transparency                 = AParticleEmitterData->RandomLowValue(transparencyValue->rangedValue);
-	particle->transparencyDiff             = AParticleEmitterData->RandomHighValue(transparencyValue) - particle->transparency;
+        float rotationZ = particle->rotationZ + particle->rotationDiff * AParticleEmitterData->GetScale(rotationValue, 0.0f);
+        if (emitter->emitterData->isAligned)
+        {
+            rotationZ += particle->angle + particle->angleDiff * AParticleEmitterData->GetScale(angleValue, 0.0f);
+        }
 
-	ADrawable_SetOpacity  (drawable, particle->transparency);
-	ADrawable_SetPosition2(drawable, emitter->emissionX, emitter->emissionY);
-	ADrawable_SetVisible  (drawable);
+        ADrawable_SetRotationZ(drawable, rotationZ);
+    }
+
+
+    ParticleScaledValue* windValue = emitterData->windValue;
+    if (windValue->rangedValue->isActive)
+    {
+        particle->wind     = AParticleEmitterData->RandomLowValue(windValue->rangedValue);
+        particle->windDiff = AParticleEmitterData->RandomHighValue(windValue);
+
+        if (!windValue->isRelative)
+        {
+            particle->windDiff -= particle->wind;
+        }
+    }
+
+    ParticleScaledValue* gravityValue = emitterData->gravityValue;
+    if (gravityValue->rangedValue->isActive)
+    {
+        particle->gravity             = AParticleEmitterData->RandomLowValue(gravityValue->rangedValue);
+        particle->gravityDiff         = AParticleEmitterData->RandomHighValue(gravityValue);
+
+        if (!gravityValue->isRelative)
+        {
+            particle->gravityDiff    -= particle->gravity;
+        }
+    }
+
+    float rgb[3];
+    AParticleEmitterData->GetRGB(emitterData->rgbValue, percent, rgb);
+    ADrawable_SetRGB(drawable, rgb[0], rgb[1], rgb[2]);
+
+    ParticleScaledValue* transparencyValue = emitterData->transparencyValue;
+    particle->transparency                 = AParticleEmitterData->RandomLowValue(transparencyValue->rangedValue);
+    particle->transparencyDiff             = AParticleEmitterData->RandomHighValue(transparencyValue) - particle->transparency;
+
+    ADrawable_SetOpacity  (drawable, particle->transparency);
+    ADrawable_SetPosition2(drawable, emitter->emissionX, emitter->emissionY);
+    ADrawable_SetVisible  (drawable);
 }
 
 
 static inline void AddParticles(ParticleEmitter* emitter, int count)
 {
-	emitter->activeCount += count;
+    emitter->activeCount += count;
 
-	for (int i = 0; i < emitter->particleArr->length; i++)
-	{
-		Particle* particle = AArray_GetPtr(emitter->particleArr, i, Particle);
-		if (particle->isActive == false)
-		{
-			ActivateParticle(emitter, particle);
-			count--;
+    for (int i = 0; i < emitter->particleArr->length; i++)
+    {
+        Particle* particle = AArray_GetPtr(emitter->particleArr, i, Particle);
+        if (particle->isActive == false)
+        {
+            ActivateParticle(emitter, particle);
+            count--;
 
-			if (count == 0)
-			{
-				break;
-			}
-		}
-	}
+            if (count == 0)
+            {
+                break;
+            }
+        }
+    }
 }
 
 
 static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, float deltaSeconds)
 {
-	particle->currentLife -= deltaSeconds;
-	Drawable* drawable     = particle->subMesh->drawable;
+    particle->currentLife -= deltaSeconds;
+    Drawable* drawable     = particle->subMesh->drawable;
 
-	if (particle->currentLife < 0)
-	{
-		particle->isActive = false;
-		AParticle->Reset(particle);
-		emitter->activeCount--;
-		return;
-	}
+    if (particle->currentLife < 0)
+    {
+        particle->isActive = false;
+        AParticle->Reset(particle);
+        emitter->activeCount--;
+        return;
+    }
 
-	ParticleEmitterData* emitterData = emitter->emitterData;
-	float                percent     = 1.0f - particle->currentLife / particle->life;
+    ParticleEmitterData* emitterData = emitter->emitterData;
+    float                percent     = 1.0f - particle->currentLife / particle->life;
 
 
-	ParticleScaledValue* scaleValue  = emitterData->scaleValue;
-	if (scaleValue->rangedValue->isActive)
-	{
-		float scale = particle->scale + particle->scaleDiff * AParticleEmitterData->GetScale(scaleValue, percent);
-		ADrawable_SetScale2(drawable, scale, scale);
-	}
+    ParticleScaledValue* scaleValue  = emitterData->scaleValue;
+    if (scaleValue->rangedValue->isActive)
+    {
+        float scale = particle->scale + particle->scaleDiff * AParticleEmitterData->GetScale(scaleValue, percent);
+        ADrawable_SetScale2(drawable, scale, scale);
+    }
 
-	float angle = 0.0f;
+    float angle = 0.0f;
 
-	ParticleScaledValue* velocityValue = emitterData->velocityValue;
-	if (velocityValue->rangedValue->isActive)
-	{
-	    // velocity is in one second
-		float velocity  = (particle->velocity + particle->velocityDiff * AParticleEmitterData->GetScale(velocityValue, percent)) * deltaSeconds;
-		float velocityX = velocity;
-		float velocityY = velocity;
+    ParticleScaledValue* velocityValue = emitterData->velocityValue;
+    if (velocityValue->rangedValue->isActive)
+    {
+        // velocity is in one second
+        float velocity  = (particle->velocity + particle->velocityDiff * AParticleEmitterData->GetScale(velocityValue, percent)) * deltaSeconds;
+        float velocityX = velocity;
+        float velocityY = velocity;
 
-		ParticleScaledValue* angleValue = emitterData->angleValue;
-		if (angleValue->rangedValue->isActive)
-		{
-			angle = particle->angle + particle->angleDiff * AParticleEmitterData->GetScale(angleValue, percent) + emitter->emissionAngle;
+        ParticleScaledValue* angleValue = emitterData->angleValue;
+        if (angleValue->rangedValue->isActive)
+        {
+            angle = particle->angle + particle->angleDiff * AParticleEmitterData->GetScale(angleValue, percent) + emitter->emissionAngle;
 
-			velocityX *= AMath_Cos(angle);
-			velocityY *= AMath_Sin(angle);
-		}
+            velocityX *= AMath_Cos(angle);
+            velocityY *= AMath_Sin(angle);
+        }
 
-		ParticleScaledValue* windValue = emitterData->windValue;
-		if (windValue->rangedValue->isActive)
-		{
-			velocityX += (particle->wind + particle->windDiff * AParticleEmitterData->GetScale(windValue, percent)) * deltaSeconds;
-		}
+        ParticleScaledValue* windValue = emitterData->windValue;
+        if (windValue->rangedValue->isActive)
+        {
+            velocityX += (particle->wind + particle->windDiff * AParticleEmitterData->GetScale(windValue, percent)) * deltaSeconds;
+        }
 
-		ParticleScaledValue* gravityValue = emitterData->gravityValue;
-		if (gravityValue->rangedValue->isActive)
-		{
-			velocityY += (particle->gravity + particle->gravityDiff * AParticleEmitterData->GetScale(gravityValue, percent)) * deltaSeconds;
-		}
+        ParticleScaledValue* gravityValue = emitterData->gravityValue;
+        if (gravityValue->rangedValue->isActive)
+        {
+            velocityY += (particle->gravity + particle->gravityDiff * AParticleEmitterData->GetScale(gravityValue, percent)) * deltaSeconds;
+        }
 
-		ADrawable_SetPosition2
-		(
-			drawable,
-			drawable->positionX + AGLTool_ToGLWidth (velocityX),
-			drawable->positionY + AGLTool_ToGLHeight(velocityY)
-		);
-	}
+        ADrawable_SetPosition2
+        (
+            drawable,
+            drawable->positionX + AGLTool_ToGLWidth (velocityX),
+            drawable->positionY + AGLTool_ToGLHeight(velocityY)
+        );
+    }
 
-	ParticleScaledValue* rotationValue = emitterData->rotationValue;
-	if (rotationValue->rangedValue->isActive)
-	{
-		float rotationZ = particle->rotationZ + particle->rotationDiff * AParticleEmitterData->GetScale(rotationValue, percent);
-		if (emitter->emitterData->isAligned)
-		{
-			rotationZ += angle;
-		}
+    ParticleScaledValue* rotationValue = emitterData->rotationValue;
+    if (rotationValue->rangedValue->isActive)
+    {
+        float rotationZ = particle->rotationZ + particle->rotationDiff * AParticleEmitterData->GetScale(rotationValue, percent);
+        if (emitter->emitterData->isAligned)
+        {
+            rotationZ += angle;
+        }
 
-		ADrawable_SetRotationZ(drawable, rotationZ);
-	}
+        ADrawable_SetRotationZ(drawable, rotationZ);
+    }
 
-	float rgb[3];
-	AParticleEmitterData->GetRGB(emitterData->rgbValue, percent, rgb);
+    float rgb[3];
+    AParticleEmitterData->GetRGB(emitterData->rgbValue, percent, rgb);
 
-	ADrawable_SetRGBA
-	(
-		drawable,
-		rgb[0],
-		rgb[1],
-		rgb[2],
-		particle->transparency + particle->transparencyDiff * AParticleEmitterData->GetScale(emitterData->transparencyValue, percent)
-	);
+    ADrawable_SetRGBA
+    (
+        drawable,
+        rgb[0],
+        rgb[1],
+        rgb[2],
+        particle->transparency + particle->transparencyDiff * AParticleEmitterData->GetScale(emitterData->transparencyValue, percent)
+    );
 }
 
 
 static void Render(Drawable* drawable)
 {
-	Mesh*            mesh    = AStruct_GetParent2(drawable, Mesh);
-	ParticleEmitter* emitter = AStruct_GetParent2(mesh,     ParticleEmitter);
+    Mesh*            mesh    = AStruct_GetParent2(drawable, Mesh);
+    ParticleEmitter* emitter = AStruct_GetParent2(mesh,     ParticleEmitter);
 
-	if (emitter->emitterData->isAdditive)
-	{
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	}
-	
-	AMesh->Render(drawable);
+    if (emitter->emitterData->isAdditive)
+    {
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    }
+    
+    AMesh->Render(drawable);
 
-	if (emitter->emitterData->isAdditive)
-	{
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
+    if (emitter->emitterData->isAdditive)
+    {
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
 }
 
 
 static void Update(ParticleEmitter* emitter, float deltaSeconds)
 {
-	for (int i = 0; i < emitter->particleArr->length; i++)
-	{
-		Particle* particle = AArray_GetPtr(emitter->particleArr, i, Particle);
-		if (particle->isActive)
-		{
-			UpdateParticle(emitter, particle, deltaSeconds);
-		}
-	}
+    for (int i = 0; i < emitter->particleArr->length; i++)
+    {
+        Particle* particle = AArray_GetPtr(emitter->particleArr, i, Particle);
+        if (particle->isActive)
+        {
+            UpdateParticle(emitter, particle, deltaSeconds);
+        }
+    }
 
-	if (emitter->delayTimer < emitter->delay)
-	{
-		emitter->delayTimer += deltaSeconds;
-		return;
-	}
+    if (emitter->delayTimer < emitter->delay)
+    {
+        emitter->delayTimer += deltaSeconds;
+        return;
+    }
 
-	if (emitter->durationTimer < emitter->duration)
-	{
-		emitter->durationTimer += deltaSeconds;
-	}
-	else
-	{
-		if (emitter->emitterData->isContinuous)
-		{
-			AParticleEmitter->Restart(emitter);
-		}
+    if (emitter->durationTimer < emitter->duration)
+    {
+        emitter->durationTimer += deltaSeconds;
+    }
+    else
+    {
+        if (emitter->emitterData->isContinuous)
+        {
+            AParticleEmitter->Restart(emitter);
+        }
 
-		return;
-	}
+        return;
+    }
 
-	ParticleEmitterData* emitterData = emitter->emitterData;
+    ParticleEmitterData* emitterData = emitter->emitterData;
 
-	// particle number per second
-	float emissionNum = emitter->emission + emitter->emissionDiff *
-						AParticleEmitterData->GetScale
+    // particle number per second
+    float emissionNum = emitter->emission + emitter->emissionDiff *
+                        AParticleEmitterData->GetScale
                         (
                             emitterData->emissionValue,
                             emitter->delayTimer / emitter->duration
-						);
+                        );
 
-	if (emissionNum > 0)
-	{
-		// one particle need time duration one second
-		float emissionTime = 1.0f / emissionNum;
+    if (emissionNum > 0)
+    {
+        // one particle need time duration one second
+        float emissionTime = 1.0f / emissionNum;
 
-		if (emitter->emissionDelta < emissionTime)
-		{
+        if (emitter->emissionDelta < emissionTime)
+        {
             emitter->emissionDelta += deltaSeconds;
-		}
+        }
         else
         {
             int a                  = (int) (emitter->emissionDelta / emissionTime);
@@ -375,82 +375,82 @@ static void Update(ParticleEmitter* emitter, float deltaSeconds)
                 AddParticles(emitter, count);
             }
         }
-	}
+    }
     else
     {
         emitter->emissionDelta += deltaSeconds;
     }
 
-	if (emitter->activeCount < emitter->emitterData->minParticleCount)
-	{
-		AddParticles(emitter, emitterData->minParticleCount - emitter->activeCount);
-	}
+    if (emitter->activeCount < emitter->emitterData->minParticleCount)
+    {
+        AddParticles(emitter, emitterData->minParticleCount - emitter->activeCount);
+    }
 
-	AMesh_Draw(emitter->mesh);
+    AMesh_Draw(emitter->mesh);
 }
 
 
 static void Release(ParticleEmitter* emitter)
 {
-	AMesh->Release(emitter->mesh);
+    AMesh->Release(emitter->mesh);
 
-	free(emitter->particleArr);
-	emitter->particleArr = NULL;
+    free(emitter->particleArr);
+    emitter->particleArr = NULL;
 }
 
 
 static void Init(ParticleEmitterData* emitterData, Texture* texture, ParticleEmitter* outEmitter)
 {
-	outEmitter->emitterData   = emitterData;
-	outEmitter->activeCount   = 0;
+    outEmitter->emitterData   = emitterData;
+    outEmitter->activeCount   = 0;
 
-	outEmitter->emissionX     = 0.0f;
-	outEmitter->emissionY     = 0.0f;
-	outEmitter->emissionAngle = 0.0f;
+    outEmitter->emissionX     = 0.0f;
+    outEmitter->emissionY     = 0.0f;
+    outEmitter->emissionAngle = 0.0f;
 
-	Mesh* mesh                = outEmitter->mesh;
+    Mesh* mesh                = outEmitter->mesh;
 
-	AMesh->Init(texture, mesh);
-	mesh->drawable->Render    = Render;
+    AMesh->Init(texture, mesh);
+    mesh->drawable->Render    = Render;
 
-	int max                   = emitterData->maxParticleCount;
-	ArrayList*  children      = mesh->childList;
+    int max                   = emitterData->maxParticleCount;
+    ArrayList*  children      = mesh->childList;
 
-	AArrayList->SetCapacity(children, max);
-	outEmitter->particleArr   = AArray->Create(sizeof(Particle), max);
+    AArrayList->SetCapacity(children, max);
+    outEmitter->particleArr   = AArray->Create(sizeof(Particle), max);
 
-	for (int i = 0; i < max; i++)
-	{
-		Quad quad[1];
-		AQuad->Init(texture->width, texture->height, quad);
+    for (int i = 0; i < max; i++)
+    {
+        Quad quad[1];
+        AQuad->Init(texture->width, texture->height, quad);
 
-		AParticle->Init
+        AParticle->Init
         (
              AMesh->AddChildWithQuad(mesh, quad),
              AArray_GetPtr(outEmitter->particleArr, i, Particle)
         );
-	}
+    }
 
-	AMesh->GenerateBuffer(mesh);
+    AMesh->GenerateBuffer(mesh);
 
-	Restart(outEmitter);
+    Restart(outEmitter);
 }
 
 
 static ParticleEmitter* Create(ParticleEmitterData* emitterData, Texture* texture)
 {
-	ParticleEmitter* emitter = (ParticleEmitter*) malloc(sizeof(ParticleEmitter));
-	Init(emitterData, texture, emitter);
+    ParticleEmitter* emitter = (ParticleEmitter*) malloc(sizeof(ParticleEmitter));
+    Init(emitterData, texture, emitter);
 
-	return emitter;
+    return emitter;
 }
 
 
 struct AParticleEmitter AParticleEmitter[1] =
 {
-	Create,
-	Init,
-	Release,
-	Update,
-	Restart,
+    Create,
+    Init,
+    Release,
+    Update,
+    Restart,
 };

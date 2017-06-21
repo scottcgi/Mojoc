@@ -18,20 +18,20 @@
 
 struct AGraphics
 {
-	/**
-	 * Default false
-	 */
-	bool isUseVBO;
-
-	/**
-	 * Default false
-	 * setting by method SetUseVAO
-	 */
-	bool isUseVAO;
+    /**
+     * Default false
+     */
+    bool isUseVBO;
 
     /**
      * Default false
-	 * setting by method SetUseMapBuffer
+     * setting by method SetUseVAO
+     */
+    bool isUseVAO;
+
+    /**
+     * Default false
+     * setting by method SetUseMapBuffer
      */
     bool isUseMapBuffer;
 

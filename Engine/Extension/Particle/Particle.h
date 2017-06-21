@@ -19,47 +19,47 @@
 
 typedef struct
 {
-	bool  	 isActive;
+    bool     isActive;
 
-	float 	 life;
-	float    currentLife;
+    float    life;
+    float    currentLife;
 
-	float 	 scale;
-	float    scaleDiff;
+    float    scale;
+    float    scaleDiff;
 
-	float 	 rotationZ;
-	float    rotationDiff;
+    float    rotationZ;
+    float    rotationDiff;
 
-	float    velocity;
-	float    velocityDiff;
+    float    velocity;
+    float    velocityDiff;
 
-	float    angle;
-	float    angleDiff;
+    float    angle;
+    float    angleDiff;
 
-	float    transparency;
-	float    transparencyDiff;
+    float    transparency;
+    float    transparencyDiff;
 
-	float 	 wind;
-	float    windDiff;
+    float    wind;
+    float    windDiff;
 
-	float    gravity;
-	float    gravityDiff;
-	SubMesh* subMesh;
+    float    gravity;
+    float    gravityDiff;
+    SubMesh* subMesh;
 }
 Particle;
 
 
 struct AParticle
 {
-	/**
-	 * Initialize Particle that memory has already allocated
-	 */
-	void      (*Init) (SubMesh* subMesh, Particle* outParticle);
+    /**
+     * Initialize Particle that memory has already allocated
+     */
+    void      (*Init) (SubMesh* subMesh, Particle* outParticle);
 
-	/**
-	 * Reset Particle property values to the born
-	 */
-	void      (*Reset)(Particle* particle);
+    /**
+     * Reset Particle property values to the born
+     */
+    void      (*Reset)(Particle* particle);
 };
 
 

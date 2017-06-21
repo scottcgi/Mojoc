@@ -26,9 +26,9 @@ static ArrayStrMap(filePath, TextureAtlas*) textureAtlasMap[1] = AArrayStrMap_In
 
 static inline void ReadFind(char* buffer, ArrayRange* range, ArrayRange* line, char* str)
 {
-	ABufferReader->ReadLine(buffer, range, line);
-	bool isFound = ABufferReader->TryFindString(buffer, line, str);
-	ALog_A(isFound, "ATextureAtlas can not find string = %s", str);
+    ABufferReader->ReadLine(buffer, range, line);
+    bool isFound = ABufferReader->TryFindString(buffer, line, str);
+    ALog_A(isFound, "ATextureAtlas can not find string = %s", str);
 }
 
 
@@ -37,104 +37,104 @@ static inline void ReadFind(char* buffer, ArrayRange* range, ArrayRange* line, c
 
 static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 {
-	AArrayStrMap->InitWithCapacity(sizeof(TextureAtlasQuad), 20, outTextureAtlas->quadMap);
-	AArrayList  ->InitWithCapacity(sizeof(Texture*),         5,  outTextureAtlas->textureList);
+    AArrayStrMap->InitWithCapacity(sizeof(TextureAtlasQuad), 20, outTextureAtlas->quadMap);
+    AArrayList  ->InitWithCapacity(sizeof(Texture*),         5,  outTextureAtlas->textureList);
 
-	long  size;
-	char* buffer = AFileTool->CreateDataFromRes(filePath, &size);
+    long  size;
+    char* buffer = AFileTool->CreateDataFromRes(filePath, &size);
 
-	ArrayRange range[1] = {0, (int) size - 1};
-	ArrayRange line [1];
+    ArrayRange range[1] = {0, (int) size - 1};
+    ArrayRange line [1];
 
-	ABufferReader->ReadLine(buffer, range, line);
+    ABufferReader->ReadLine(buffer, range, line);
 
-	while (range->start < range->end)
-	{
-		// read image name
-		ABufferReader->ReadLine(buffer, range, line);
+    while (range->start < range->end)
+    {
+        // read image name
+        ABufferReader->ReadLine(buffer, range, line);
 
-		int  fileDirLen = AFileTool->GetDirLength(filePath);
-		int  pathLen    = fileDirLen + (line->end - line->start);
-		char path[pathLen + 1];
+        int  fileDirLen = AFileTool->GetDirLength(filePath);
+        int  pathLen    = fileDirLen + (line->end - line->start);
+        char path[pathLen + 1];
 
-		path[pathLen] = '\0';
+        path[pathLen] = '\0';
 
-		if (fileDirLen != 0)
-		{
-			memcpy(path, filePath, fileDirLen);
-			memcpy(path + fileDirLen, buffer + line->start, pathLen - fileDirLen);
-		}
+        if (fileDirLen != 0)
+        {
+            memcpy(path, filePath, fileDirLen);
+            memcpy(path + fileDirLen, buffer + line->start, pathLen - fileDirLen);
+        }
 
-		Texture* texture = ATexture->Get(path);
-		AArrayList_Add(outTextureAtlas->textureList, texture);
+        Texture* texture = ATexture->Get(path);
+        AArrayList_Add(outTextureAtlas->textureList, texture);
 
-		Read("size");
-		Read("format");
-		Read("filter");
-		Read("repeat");
+        Read("size");
+        Read("format");
+        Read("filter");
+        Read("repeat");
 
-		while (true)
-		{
-			// texture quad name
-			ABufferReader->ReadLine(buffer, range, line);
+        while (true)
+        {
+            // texture quad name
+            ABufferReader->ReadLine(buffer, range, line);
 
-			if (line->start == line->end)
-			{
-				break;
-			}
+            if (line->start == line->end)
+            {
+                break;
+            }
 
-			// make the line to string
-			buffer[line->end]     = '\0';
-			char* textureQuadName = buffer + line->start;
+            // make the line to string
+            buffer[line->end]     = '\0';
+            char* textureQuadName = buffer + line->start;
 
-			Read("rotate");
-			bool isRotate = ABufferReader->TryFindString(buffer, line, "true");
-			ALog_A(isRotate == false, "ATextureAtlas not support rotation");
+            Read("rotate");
+            bool isRotate = ABufferReader->TryFindString(buffer, line, "true");
+            ALog_A(isRotate == false, "ATextureAtlas not support rotation");
 
-			char* str;
+            char* str;
 
-			Read("xy:");
-			// make the line to string
-			buffer[line->end] = '\0';
+            Read("xy:");
+            // make the line to string
+            buffer[line->end] = '\0';
 
-			str               = strtok(buffer + line->start, ",");
-			ALog_A(str != NULL, "ATextureAtlas can not find x number in xy");
-			int x             = atoi(str);
+            str               = strtok(buffer + line->start, ",");
+            ALog_A(str != NULL, "ATextureAtlas can not find x number in xy");
+            int x             = atoi(str);
 
-			str               = strtok(NULL, ",");
-			ALog_A(str != NULL, "ATextureAtlas can not find y number in xy");
-			int y             = atoi(str);
+            str               = strtok(NULL, ",");
+            ALog_A(str != NULL, "ATextureAtlas can not find y number in xy");
+            int y             = atoi(str);
 
-			Read("size:");
-			// make the line to string
-			buffer[line->end] = '\0';
+            Read("size:");
+            // make the line to string
+            buffer[line->end] = '\0';
 
-			str               = strtok(buffer + line->start, ",");
-			ALog_A(str != NULL, "ATextureAtlas can not find width number in size");
-			int width         = atoi(str);
+            str               = strtok(buffer + line->start, ",");
+            ALog_A(str != NULL, "ATextureAtlas can not find width number in size");
+            int width         = atoi(str);
 
-			str               = strtok(NULL, ",");
-			ALog_A(str != NULL, "ATextureAtlas can not find height number in size");
-			int height        = atoi(str);
+            str               = strtok(NULL, ",");
+            ALog_A(str != NULL, "ATextureAtlas can not find height number in size");
+            int height        = atoi(str);
 
-			Read("orig");
-			Read("offset");
-			Read("index");
+            Read("orig");
+            Read("offset");
+            Read("index");
 
-			TextureAtlasQuad atlasQuad[1];
-			AQuad->Init(AGLTool_ToGLWidth(width), AGLTool_ToGLHeight(height), atlasQuad->quad);
+            TextureAtlasQuad atlasQuad[1];
+            AQuad->Init(AGLTool_ToGLWidth(width), AGLTool_ToGLHeight(height), atlasQuad->quad);
 
             atlasQuad->textureIndex         = outTextureAtlas->textureList->size - 1;
             atlasQuad->quad->offsetTextureX = AGLTool_ToGLWidth (x);
             atlasQuad->quad->offsetTextureY = AGLTool_ToGLHeight(y);
             atlasQuad->atlas                = outTextureAtlas;
 
-			AArrayStrMap->TryPut(outTextureAtlas->quadMap, textureQuadName, atlasQuad);
-		}
-	}
+            AArrayStrMap->TryPut(outTextureAtlas->quadMap, textureQuadName, atlasQuad);
+        }
+    }
 
-	AArrayList->Shrink(outTextureAtlas->quadMap->elementList);
-	AArrayList->Shrink(outTextureAtlas->textureList);
+    AArrayList->Shrink(outTextureAtlas->quadMap->elementList);
+    AArrayList->Shrink(outTextureAtlas->textureList);
     free(buffer);
 }
 
@@ -144,8 +144,8 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
 
 static void Release(TextureAtlas* textureAtlas)
 {
-	AArrayStrMap->Release(textureAtlas->quadMap);
-	AArrayList  ->Release(textureAtlas->textureList);
+    AArrayStrMap->Release(textureAtlas->quadMap);
+    AArrayList  ->Release(textureAtlas->textureList);
 
     bool isRemoved = AArrayStrMap->TryRemove(textureAtlasMap, textureAtlas->filePath);
     ALog_A(isRemoved, "ATextureAtlas release not found %s", textureAtlas->filePath);
@@ -176,6 +176,6 @@ static TextureAtlas* Get(char* filePath)
 
 struct ATextureAtlas ATextureAtlas[1] =
 {
-	Get,
-	Release,
+    Get,
+    Release,
 };

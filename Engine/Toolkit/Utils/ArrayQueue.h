@@ -26,45 +26,45 @@ typedef struct
     /**
      * Holde all elements
      */
-	ArrayList elementList[1];
+    ArrayList elementList[1];
 }
 ArrayQueue;
 
 
 struct AArrayQueue
 {
-	ArrayQueue* (*Create)            (int elementTypeSize);
-	void        (*Init)              (int elementTypeSize, ArrayQueue* outArrayQueue);
+    ArrayQueue* (*Create)            (int elementTypeSize);
+    void        (*Init)              (int elementTypeSize, ArrayQueue* outArrayQueue);
 
-	ArrayQueue* (*CreateWithCapacity)(int elementTypeSize, int capacity);
-	void        (*InitWithCapacity)  (int elementTypeSize, int capacity, ArrayQueue* outArrayQueue);
+    ArrayQueue* (*CreateWithCapacity)(int elementTypeSize, int capacity);
+    void        (*InitWithCapacity)  (int elementTypeSize, int capacity, ArrayQueue* outArrayQueue);
 
-	void        (*Release)           (ArrayQueue* arrayQueue);
+    void        (*Release)           (ArrayQueue* arrayQueue);
 
-	/**
-	 * Push element from elementPtr into ArrayQueue
-	 *
-	 * elementPtr: point to element
-	 *
-	 * return elementPtr in ArrayQueue
-	 */
-	void*       (*Push)              (ArrayQueue* arrayQueue, void* elementPtr);
+    /**
+     * Push element from elementPtr into ArrayQueue
+     *
+     * elementPtr: point to element
+     *
+     * return elementPtr in ArrayQueue
+     */
+    void*       (*Push)              (ArrayQueue* arrayQueue, void* elementPtr);
 
-	/**
-	 * Pop element from ArrayQueue
-	 * return top elementPtr in ArrayQueue, if no element return defaultElementPtr
-	 */
-	void*       (*Pop)               (ArrayQueue* arrayQueue, void* defaultElementPtr);
+    /**
+     * Pop element from ArrayQueue
+     * return top elementPtr in ArrayQueue, if no element return defaultElementPtr
+     */
+    void*       (*Pop)               (ArrayQueue* arrayQueue, void* defaultElementPtr);
 
-	/**
-	 * Remove element at index range in [topIndex, ArrayQueue size - 1]
-	 */
-	void        (*RemoveAt)          (ArrayQueue* arrayQueue, int   index);
+    /**
+     * Remove element at index range in [topIndex, ArrayQueue size - 1]
+     */
+    void        (*RemoveAt)          (ArrayQueue* arrayQueue, int   index);
 
-	/**
-	 * Clear arrayList and reset topIndex to 0
-	 */
-	void        (*Clear)             (ArrayQueue* arrayQueue);
+    /**
+     * Clear arrayList and reset topIndex to 0
+     */
+    void        (*Clear)             (ArrayQueue* arrayQueue);
 };
 
 
@@ -84,19 +84,19 @@ extern struct AArrayQueue AArrayQueue[1];
  * use like ArrayQueue queue[1] = AArrayQueue_Init(elementType, increase)
  */
 #define AArrayQueue_Init(elementType, increase)      \
-	{                                        \
-		{                                    \
-			0,                               \
-			AArrayList_Init(elementType, increase),  \
-		}                                    \
-	}
+    {                                                \
+        {                                            \
+            0,                                       \
+            AArrayList_Init(elementType, increase),  \
+        }                                            \
+    }
 
 
 /**
  * Shortcut of AArrayQueue->Push
  */
 #define AArrayQueue_Push(arrayQueue, element) \
-	AArrayQueue->Push(arrayQueue, &(element))
+    AArrayQueue->Push(arrayQueue, &(element))
 
 
 /**
@@ -104,7 +104,7 @@ extern struct AArrayQueue AArrayQueue[1];
  * return element
  */
 #define AArrayQueue_Pop(arrayQueue, elementType) \
-	(*(elementType*) AArrayQueue->Pop(arrayQueue, NULL_PTR))
+    (*(elementType*) AArrayQueue->Pop(arrayQueue, NULL_PTR))
 
 
 /**
@@ -112,7 +112,7 @@ extern struct AArrayQueue AArrayQueue[1];
  * return element
  */
 #define AArrayQueue_PopWithDefault(arrayQueue, elementType, defaultValue) \
-	(*(elementType*) AArrayQueue->Pop(arrayQueue, &(defaultValue)))
+    (*(elementType*) AArrayQueue->Pop(arrayQueue, &(defaultValue)))
 
 
 /**
@@ -120,7 +120,7 @@ extern struct AArrayQueue AArrayQueue[1];
  * return elementPtr
  */
 #define AArrayQueue_PopPtr(arrayQueue, elementType) \
-	((elementType*) AArrayQueue->Pop(arrayQueue, NULL))
+    ((elementType*) AArrayQueue->Pop(arrayQueue, NULL))
 
 
 /**
@@ -128,7 +128,7 @@ extern struct AArrayQueue AArrayQueue[1];
  * return elementPtr
  */
 #define AArrayQueue_PopPtrWithDefault(arrayQueue, elementType, defaultValue) \
-	((elementType*) AArrayQueue->Pop(arrayQueue, &(defaultValue)))
+    ((elementType*) AArrayQueue->Pop(arrayQueue, &(defaultValue)))
 
 
 #endif

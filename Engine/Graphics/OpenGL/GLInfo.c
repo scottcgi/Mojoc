@@ -23,18 +23,18 @@ static void Init()
     char* extensions = (char*) glGetString(GL_EXTENSIONS);
 
     ALog_D
-	(
-		"vendor = %s \n renderer = %s \n version = %s \n extensions = %s",
-    	 vendor, renderer, version, extensions
-	);
+    (
+        "vendor = %s \n renderer = %s \n version = %s \n extensions = %s",
+         vendor, renderer, version, extensions
+    );
 
     if(strstr(version, "OpenGL ES 3.") != NULL)
     {
-    	AGLInfo->version = 3.0f;
+        AGLInfo->version = 3.0f;
     }
     else
     {
-    	AGLInfo->version = 2.0f;
+        AGLInfo->version = 2.0f;
     }
     
     glGetFloatv  (GL_ALIASED_POINT_SIZE_RANGE,           AGLInfo->pointSizeRange);
@@ -52,7 +52,7 @@ static void Init()
 
 struct AGLInfo AGLInfo[1] =
 {
-	{
-		.Init = Init
-	}
+    {
+        .Init = Init
+    }
 };

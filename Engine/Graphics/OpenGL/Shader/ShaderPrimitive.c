@@ -21,13 +21,13 @@
 
 static void Use(Matrix4* mvpMatrix, Color* color, GLint pointSize)
 {
-	if (AShader->program != AShaderPrimitive->program)
-	{
-	    AShader->program = AShaderPrimitive->program;
+    if (AShader->program != AShaderPrimitive->program)
+    {
+        AShader->program = AShaderPrimitive->program;
 
-	    glUseProgram             (AShaderPrimitive->program);
-	    glEnableVertexAttribArray(AShaderPrimitive->attribPosition);
-	}
+        glUseProgram             (AShaderPrimitive->program);
+        glEnableVertexAttribArray(AShaderPrimitive->attribPosition);
+    }
 
     // passed matrix into shader program
     glUniformMatrix4fv(AShaderPrimitive->uniformMVPMatrix, 1,        false,    mvpMatrix->m);
@@ -38,65 +38,65 @@ static void Use(Matrix4* mvpMatrix, Color* color, GLint pointSize)
 
 static void Init()
 {
-	AShaderPrimitive->program = AGLTool->LoadProgram
-	(
+    AShaderPrimitive->program = AGLTool->LoadProgram
+    (
         AString_Make
-		(
-			precision highp float;
-			uniform   mat4  uMVPMatrix;
-			attribute vec2  aPosition;
-			uniform   float uPointSize;
+        (
+            precision highp float;
+            uniform   mat4  uMVPMatrix;
+            attribute vec2  aPosition;
+            uniform   float uPointSize;
 
-			void main()
-			{
-				gl_Position  = uMVPMatrix * vec4(aPosition, 0.0, 1.0);
-				gl_PointSize = uPointSize;
-			}
-		),
+            void main()
+            {
+                gl_Position  = uMVPMatrix * vec4(aPosition, 0.0, 1.0);
+                gl_PointSize = uPointSize;
+            }
+        ),
 
         AString_Make
-		(
+        (
             precision lowp float;
-			uniform   vec4  uColor;
+            uniform   vec4  uColor;
 
-			void main()
-			{
-			  gl_FragColor = uColor;
-			}
-		)
-	);
+            void main()
+            {
+              gl_FragColor = uColor;
+            }
+        )
+    );
 
     // get the attribute locations
-	AShaderPrimitive->attribPosition   = glGetAttribLocation(AShaderPrimitive->program,  "aPosition");
-	AShaderPrimitive->uniformMVPMatrix = glGetUniformLocation(AShaderPrimitive->program, "uMVPMatrix");
-	AShaderPrimitive->uniformColor     = glGetUniformLocation(AShaderPrimitive->program, "uColor");
-	AShaderPrimitive->uniformPointSize = glGetUniformLocation(AShaderPrimitive->program, "uPointSize");
+    AShaderPrimitive->attribPosition   = glGetAttribLocation(AShaderPrimitive->program,  "aPosition");
+    AShaderPrimitive->uniformMVPMatrix = glGetUniformLocation(AShaderPrimitive->program, "uMVPMatrix");
+    AShaderPrimitive->uniformColor     = glGetUniformLocation(AShaderPrimitive->program, "uColor");
+    AShaderPrimitive->uniformPointSize = glGetUniformLocation(AShaderPrimitive->program, "uPointSize");
 
-	ALog_A
-	(
-		AShaderPrimitive->uniformMVPMatrix != -1,
-	    "AShaderPrimitive could not glGetUniformLocation for uMVPMatrix"
-	);
+    ALog_A
+    (
+        AShaderPrimitive->uniformMVPMatrix != -1,
+        "AShaderPrimitive could not glGetUniformLocation for uMVPMatrix"
+    );
 
-	ALog_A
-	(
-		AShaderPrimitive->uniformColor != -1,
-	    "AShaderPrimitive could not glGetUniformLocation for uColor"
-	);
+    ALog_A
+    (
+        AShaderPrimitive->uniformColor != -1,
+        "AShaderPrimitive could not glGetUniformLocation for uColor"
+    );
 
-	ALog_A
-	(
-		AShaderPrimitive->uniformPointSize != -1,
-		"AShaderPrimitive could not glGetUniformLocation for uPointSize"
-	);
+    ALog_A
+    (
+        AShaderPrimitive->uniformPointSize != -1,
+        "AShaderPrimitive could not glGetUniformLocation for uPointSize"
+    );
 }
 
 
 struct AShaderPrimitive AShaderPrimitive[1] =
 {
-	{
-		.Use  = Use,
-		.Init = Init,
-	}
+    {
+        .Use  = Use,
+        .Init = Init,
+    }
 };
 

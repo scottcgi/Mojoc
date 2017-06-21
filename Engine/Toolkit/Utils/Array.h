@@ -18,29 +18,29 @@
 
 typedef struct
 {
-	/**
-	 * Elements memory space ptr
-	 */
-	void* data;
+    /**
+     * Elements memory space ptr
+     */
+    void* data;
 
-	/**
-	 * Elements count
-	 */
-	int   length;
+    /**
+     * Elements count
+     */
+    int   length;
 }
 Array;
 
 
 struct AArray
 {
-	/**
-	 * Array struct space and elements space in one malloc
-	 * the data ptr hold the offset of malloc return address
-	 *
-	 * elementTypeSize: sizeof element type
-	 * length         : elements count
-	 */
-	Array* (*Create)(int elementTypeSize, int length);
+    /**
+     * Array struct space and elements space in one malloc
+     * the data ptr hold the offset of malloc return address
+     *
+     * elementTypeSize: sizeof element type
+     * length         : elements count
+     */
+    Array* (*Create)(int elementTypeSize, int length);
 };
 
 
@@ -63,11 +63,11 @@ extern struct AArray AArray[1];
  * ...        : each element
  */
 #define AArray_Make(elementType, length, ...) \
-	(Array[1])                                \
-	{                                         \
-		(elementType[length]) {__VA_ARGS__},  \
-		length,                               \
-	}
+    (Array[1])                                \
+    {                                         \
+        (elementType[length]) {__VA_ARGS__},  \
+        length,                               \
+    }
 
 
 /**
@@ -78,10 +78,10 @@ extern struct AArray AArray[1];
  * ...        : each element
  */
 #define AArray_Init(elementType, length, ...) \
-	{                                         \
-		(elementType[length]) {__VA_ARGS__},  \
-		length,                               \
-	}
+    {                                         \
+        (elementType[length]) {__VA_ARGS__},  \
+        length,                               \
+    }
 
 
 /**
@@ -91,7 +91,7 @@ extern struct AArray AArray[1];
  * elementType: element data type
  */
 #define AArray_GetData(array, elementType) \
-	(elementType*) ((array)->data)
+    (elementType*) ((array)->data)
 
 
 /**
@@ -102,7 +102,7 @@ extern struct AArray AArray[1];
  * elementType: element data type
  */
 #define AArray_Get(array, index, elementType) \
-	(AArray_GetData(array, elementType))[index]
+    (AArray_GetData(array, elementType))[index]
 
 
 /**
@@ -113,7 +113,7 @@ extern struct AArray AArray[1];
  * elementType: element data type
  */
 #define AArray_GetPtr(array, index, elementType) \
-	(AArray_GetData(array, elementType) + (index))
+    (AArray_GetData(array, elementType) + (index))
 
 
 /**
@@ -125,7 +125,7 @@ extern struct AArray AArray[1];
  * elementType: element data type
  */
 #define AArray_Set(array, index, element, elementType) \
-	AArray_Get(array, index, elementType) = element
+    AArray_Get(array, index, elementType) = element
 
 
 #endif
