@@ -38,10 +38,10 @@ struct Component
     int                                        order;
 
     /**
-     * When append child order auto increase by increaseOrder add last child order
-     * default 50
+     * When append child order increase by deltaOrder
+     * default 100
      */
-    int                                        increaseOrder;
+    int                                        deltaOrder;
 
     /**
      * Component's parent in a tree structure
@@ -157,18 +157,20 @@ struct AComponent
      */
     void            (*Release)              (Component* component);
 
+//----------------------------------------------------------------------------------------------------------------------
+
     /**
-     * Add Component into parent children list
+     * Add child into parent's children list
      */
     void            (*AddChild)             (Component* parent, Component* child, int order);
 
     /**
-     * Add child and auto child order by appendZOrder add last child order
+     * Append child and auto set child order by deltaOrder
      */
     void            (*AppendChild)          (Component* parent, Component* child);
 
     /**
-     *  Remove Component from children list reindex other children
+     *  Remove child from parent's children list and reindex other children
      */
     void            (*RemoveChild)          (Component* parent, Component* child);
 
@@ -180,7 +182,9 @@ struct AComponent
     /**
      * Reorder all children after changed child's order
      */
-    void            (*ReorderChildren)      (Component* parent);
+    void            (*ReorderAllChildren)   (Component* parent);
+
+//----------------------------------------------------------------------------------------------------------------------
 
     /**
      * Add observer to sender, will receive notification by sender
@@ -193,26 +197,18 @@ struct AComponent
     void            (*RemoveObserver)       (Component* sender, Component* observer);
 
     /**
-     * Call self and children's ComponentState update
-     */
-    void            (*Update)               (Component* component, float deltaSeconds);
-
-    /**
-     * Call self and children's ComponentState onMessage
+     * Call self and children's ComponentState OnMessage
      * if return true means consumed event then will stop event pass
      */
     bool            (*SendMessage)          (Component* component, void* sender, int subject, void* extraData);
 
-    /**
-     * Call children's ComponentState onMessage
-     * if return true means consumed event then will stop event pass
-     */
-    bool            (*SendMessageToChildren)(Component* component, void* sender, int subject, void* extraData);
 
     /**
      * Notify sender all observer's ComponentState OnMessage
      */
     void            (*Notify)               (Component* sender, int subject, void* extraData);
+
+//----------------------------------------------------------------------------------------------------------------------
 
     /**
      * Change Component current active State
@@ -225,10 +221,17 @@ struct AComponent
      */
     ComponentState* (*AddState)             (Component* component, int stateId, ComponentStateOnMessage onMessage, ComponentStateUpdate update);
 
+//----------------------------------------------------------------------------------------------------------------------
+
     /**
      * Set Component active state
      */
     void            (*SetActive)            (Component* component, bool isActive);
+
+    /**
+     * Call self and children's ComponentState update
+     */
+    void            (*Update)               (Component* component, float deltaSeconds);
 };
 
 

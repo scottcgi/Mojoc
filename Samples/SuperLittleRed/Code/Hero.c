@@ -365,7 +365,7 @@ static inline bool OnKeepMessage(Component* component, void* sender, int subject
 
 static inline bool OnDizzyMessage(Component* component, void* sender, int subject, void* extraData)
 {
-    InputTouch* touch = AArray_Get((Array *) extraData, 0, InputTouch*);
+    InputTouch* touch = AArray_Get((Array*) extraData, 0, InputTouch*);
 
     switch (touch->type)
     {

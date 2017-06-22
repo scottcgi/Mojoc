@@ -22,7 +22,7 @@ static void Init(Component* outComponent)
     AUserData_Init(outComponent->userData);
 
     outComponent->order         = 0;
-    outComponent->increaseOrder = 50;
+    outComponent->deltaOrder    = 100;
     outComponent->parent        = NULL;
     outComponent->isActive      = true;
 
@@ -89,7 +89,7 @@ static void AppendChild(Component* parent, Component* child)
 
     if (parent->childMap->elementList->size == 0)
     {
-        order = parent->increaseOrder;
+        order = parent->deltaOrder;
     }
     else
     {
@@ -99,14 +99,14 @@ static void AppendChild(Component* parent, Component* child)
                     parent->childMap->elementList->size - 1,
                     Component*
                 )
-                ->order + parent->increaseOrder;
+                ->order + parent->deltaOrder;
     }
 
     AddChild(parent, child, order);
 }
 
 
-static void    RemoveChild(Component* parent, Component* child)
+static void RemoveChild(Component* parent, Component* child)
 {
     ALog_A(parent!= NULL && child != NULL, "AComponent RemoveChild failed, parent and child can not NULL");
 
@@ -148,7 +148,7 @@ static int Compare(const void* a, const void* b)
 }
 
 
-static void ReorderChildren(Component* parent)
+static void ReorderAllChildren(Component* parent)
 {
     // renew all children key
     for (int i = 0; i < parent->childMap->elementList->size; i++)
@@ -165,6 +165,9 @@ static void ReorderChildren(Component* parent)
         Compare
     );
 }
+
+
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static void AddObserver(Component* sender, Component* observer)
@@ -193,46 +196,6 @@ static void RemoveObserver(Component* sender, Component* observer)
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static void Update(Component* component, float deltaSeconds)
-{
-    if (component->isActive)
-    {
-        if (component->curState->Update != NULL)
-        {
-            component->curState->Update(component, deltaSeconds);
-        }
-
-        for (int i = 0;;)
-        {
-            while (i + 3 < component->childMap->elementList->size)
-            {
-                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i,     Component*), deltaSeconds);
-                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i + 1, Component*), deltaSeconds);
-                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i + 2, Component*), deltaSeconds);
-                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i + 3, Component*), deltaSeconds);
-
-                i += 4;
-            }
-
-            while (i < component->childMap->elementList->size)
-            {
-                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i++, Component*), deltaSeconds);
-            }
-
-            break;
-        }
-
-        if (component->curState->UpdateAfter != NULL)
-        {
-            component->curState->UpdateAfter(component, deltaSeconds);
-        }
-    }
-}
-
-
 static bool SendMessage(Component* component, void* sender, int subject, void* extraData)
 {
     if (component->isActive)
@@ -242,28 +205,8 @@ static bool SendMessage(Component* component, void* sender, int subject, void* e
             return true;
         }
 
-        // big order first
+        // big order first, the last update the first response
         for (int i = component->childMap->elementList->size - 1; i > -1 ; i--)
-        {
-            // if in OnMessage method remove parent child more than twice
-            // the i index will overflow
-            if (AComponent->SendMessage(AArrayIntMap_GetAt(component->childMap, i, Component*), sender, subject, extraData))
-            {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-
-static bool SendMessageToChildren(Component* component, void* sender, int subject, void* extraData)
-{
-    if (component->isActive)
-    {
-        // big order first
-        for (int i = component->childMap->elementList->size - 1; i > -1; i--)
         {
             // if in OnMessage method remove parent child more than twice
             // the i index will overflow
@@ -327,6 +270,7 @@ static void SetState(Component* component, int stateId)
     }
 }
 
+
 static ComponentState* AddState(Component* component, int stateId, ComponentStateOnMessage onMessage, ComponentStateUpdate update)
 {
     ALog_A(component != NULL, "AComponent AddState failed, component can not NULL");
@@ -347,6 +291,9 @@ static ComponentState* AddState(Component* component, int stateId, ComponentStat
 }
 
 
+//----------------------------------------------------------------------------------------------------------------------
+
+
 static void SetActive(Component* component, bool isActive)
 {
     component->isActive = isActive;
@@ -354,6 +301,43 @@ static void SetActive(Component* component, bool isActive)
     for (int i = 0; i < component->childMap->elementList->size; i++)
     {
         AArrayIntMap_GetAt(component->childMap, i, Component*)->isActive = isActive;
+    }
+}
+
+
+static void Update(Component* component, float deltaSeconds)
+{
+    if (component->isActive)
+    {
+        if (component->curState->Update != NULL)
+        {
+            component->curState->Update(component, deltaSeconds);
+        }
+
+        for (int i = 0;;)
+        {
+            while (i + 3 < component->childMap->elementList->size)
+            {
+                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i,     Component*), deltaSeconds);
+                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i + 1, Component*), deltaSeconds);
+                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i + 2, Component*), deltaSeconds);
+                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i + 3, Component*), deltaSeconds);
+
+                i += 4;
+            }
+
+            while (i < component->childMap->elementList->size)
+            {
+                AComponent->Update(AArrayIntMap_GetAt(component->childMap, i++, Component*), deltaSeconds);
+            }
+
+            break;
+        }
+
+        if (component->curState->UpdateAfter != NULL)
+        {
+            component->curState->UpdateAfter(component, deltaSeconds);
+        }
     }
 }
 
@@ -368,16 +352,15 @@ struct AComponent AComponent[1] =
     AppendChild,
     RemoveChild,
     RemoveAllChildren,
-    ReorderChildren,
+    ReorderAllChildren,
+
     AddObserver,
     RemoveObserver,
-
-    Update,
     SendMessage,
-    SendMessageToChildren,
     Notify,
 
     SetState,
     AddState,
     SetActive,
+    Update,
 };

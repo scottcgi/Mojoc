@@ -140,7 +140,7 @@ struct AMesh
     /**
      * Reorder all SubMesh draw order by index, not changed pos in children
      */
-    void      (*ReorderChildren)   (Mesh* mesh);
+    void      (*ReorderAllChildren)(Mesh* mesh);
 
     /**
      * Combine SubMesh data into buffer when draw function upload to openGL

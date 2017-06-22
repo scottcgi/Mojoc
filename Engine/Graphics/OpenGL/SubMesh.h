@@ -34,7 +34,7 @@ struct SubMesh
     Mesh*         parent;
 
     /**
-     * Index in Mesh for Mesh ReorderChildren
+     * Index in Mesh for Mesh ReorderAllChildren
      */
     int           index;
 

@@ -1002,7 +1002,7 @@ static void DrawOrderApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
 
     for (int i = 0; i < meshList->size; i++)
     {
-        AMesh->ReorderChildren
+        AMesh->ReorderAllChildren
         (
             AArrayList_GetPtr(meshList, i, Mesh)
         );

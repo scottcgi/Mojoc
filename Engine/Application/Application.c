@@ -133,7 +133,7 @@ static void Destroy()
 
 static void Touch(Array(InputTouch*)* touchData)
 {
-    AComponent->SendMessageToChildren
+    AComponent->SendMessage
     (
         AApplication->component,
         AApplication,

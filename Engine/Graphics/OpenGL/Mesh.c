@@ -17,7 +17,7 @@
 #include "Engine/Graphics/Graphics.h"
 
 
-static void ReorderChildren(Mesh* mesh)
+static void ReorderAllChildren(Mesh* mesh)
 {
     ArrayList* children        = mesh->childList;
     // SubMesh keep original indexDataOffset
@@ -708,7 +708,7 @@ struct AMesh AMesh[1] =
 
     AddChildWithData,
     AddChildWithQuad,
-    ReorderChildren,
+    ReorderAllChildren,
     GenerateBuffer,
     Render,
 };
