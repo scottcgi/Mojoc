@@ -18,8 +18,8 @@ Mojoc is **licensed** under the [MIT License](https://github.com/scottcgi/Mojoc/
 * The only need programming skill is **`C language`** with **`C99`**.
 * In platform-independent code, the **`C Standard Library`** is only tool that Mojoc used, in others Mojoc build everything.
 * Mojoc has own unique **`code style`**.
-    * Details here: [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style)
-* Mojoc use extremely lightweight **`OOC`** (Object Oriented C) programing model.
-    * Details here: [Mojoc OOC model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C))
+    * See Details: [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style)
+* Mojoc use extremely lightweight **`OOC (Object Oriented C)`** programing model.
+    * See Details: [Mojoc OOC model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C))
 * Mojoc application architecture based on **`Component`**, **`State-Machine`**, **`Message-Driven`**.
-    * Details here: [Mojoc Component](https://github.com/scottcgi/Mojoc/wiki/Component-Based,-State-Machine,-Message-Driven-Architecture)
+    * See Details: [Mojoc Component](https://github.com/scottcgi/Mojoc/wiki/Component-Based,-State-Machine,-Message-Driven-Architecture)
