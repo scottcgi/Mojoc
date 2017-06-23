@@ -38,3 +38,8 @@ Mojoc is **licensed** under the [MIT License](https://github.com/scottcgi/Mojoc/
     * [Json](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/Json.h), implement the independent **`json parser`**.
     * [Tween](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/Tween.h), implement the independent **`tween animation`**.
     * [TweenTool](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/TweenTool.h), implement the **`interface`** of tween animation **`chain calls`**.
+    
+* [Platform](https://github.com/scottcgi/Mojoc/tree/master/Engine/Toolkit/Platform) provide platform related tools implementation.
+    * [File](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Platform/File.h), **`interface`** of native file operation.
+        * [Android File](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Platform/Android/File.c), implement **`android`** file operation.
+        * [IOS File](https://github.com/scottcgi/Mojoc/tree/master/Engine/Toolkit/Platform/IOS), implement **`ios`** file operation.
