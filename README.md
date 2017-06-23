@@ -44,5 +44,8 @@ Mojoc is **licensed** under the [MIT License](https://github.com/scottcgi/Mojoc/
         * [Android File.c](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Platform/Android/File.c), implement **`android`** file operation.
         * [IOS File.c](https://github.com/scottcgi/Mojoc/tree/master/Engine/Toolkit/Platform/IOS), implement **`ios`** file operation.
 
-* [Math](https://github.com/scottcgi/Mojoc/tree/master/Engine/Toolkit/Math) provide **`mathematical`** related algorithm implementation.
+* [Math](https://github.com/scottcgi/Mojoc/tree/master/Engine/Toolkit/Math) provide **`mathematical`** related **`algorithm`** implementation.
     * [Math.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Math/Math.h), implement math **`formulas`** and define math **`constants`**.
+    * [Matrix.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Math/Matrix.h), implement all the **`matrix operations`** .
+    * [TweenEase.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Math/TweenEase.h), implement the standard **`tween algorithm`**.
+    * [Vector.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Math/Vector.h), implement **`vector operations`**.
