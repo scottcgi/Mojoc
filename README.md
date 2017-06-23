@@ -32,7 +32,6 @@ Mojoc is **licensed** under the [MIT License](https://github.com/scottcgi/Mojoc/
 [Toolkit](https://github.com/scottcgi/Mojoc/tree/master/Engine/Toolkit) module is **`development kit`** of C language. Provide basic **`data structure`** and **`algorithm`** support.
 
 * [Utils](https://github.com/scottcgi/Mojoc/tree/master/Engine/Toolkit/Utils) provide basic **`data storage tools`** and **`algorithm structure`**.
-
     * [Generic Array](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/Array.h)
     * [ArrayIntMap](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/ArrayIntMap.h), implement the **`int key`** dictionary.
     * [ArrayIntSet](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/ArrayIntSet.h), implement the **`int key`** set.
@@ -41,7 +40,7 @@ Mojoc is **licensed** under the [MIT License](https://github.com/scottcgi/Mojoc/
     * [ArrayStrMap](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/ArrayStrMap.h), implement the **`string key`** dictionary.
     * [BufferReader](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/BufferReader.h), implement the **`byte`** stream read.
     * [Coroutine](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/Coroutine.h), implement the **`simple`** and **`effective`** coroutine for C.
-    * [FileTool](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/FileTool.h), impement the cross-platfom **`file`** read and write.
+    * [FileTool](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/FileTool.h), impement the cross-platfom **`file read and write`**.
     * [Json](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/Json.h), implement the independent **`json parser`**.
     * [Tween](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/Tween.h), implement the independent **`tween animation`**.
-    * [TweenTool](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/TweenTool.h), implement the interface of tween animation **`chain calls`**.
+    * [TweenTool](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/TweenTool.h), implement the **`interface`** of tween animation **`chain calls`**.
