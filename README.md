@@ -51,3 +51,8 @@ Mojoc is **licensed** under the [MIT License](https://github.com/scottcgi/Mojoc/
     * [Vector.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Math/Vector.h), implement **`vector operations`**.
 
 * [Head](https://github.com/scottcgi/Mojoc/tree/master/Engine/Toolkit/Head) provide **`simple structure`** definition and operation.
+
+
+#### `Mojoc ThirdParty Module`
+
+[ThirdParty](https://github.com/scottcgi/Mojoc/tree/master/Engine/ThirdParty) module is **`prebuild`** third party **`library`**, that can **`direct called`** by Mojoc engine. So the third party need to provide different **`prebuild lib file`** for native platforms of Mojoc support. Currently only **`PNG`** library.
