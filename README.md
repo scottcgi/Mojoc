@@ -27,12 +27,16 @@ Mojoc is **licensed** under the [MIT License](https://github.com/scottcgi/Mojoc/
 * Mojoc application architecture based on **`Component`**, **`State-Machine`**, **`Message-Driven`**.
     * See Details: [Mojoc Component](https://github.com/scottcgi/Mojoc/wiki/Component-Based,-State-Machine,-Message-Driven-Architecture)
 
-##### `Mojoc Toolkit Module`
+#### `Mojoc Toolkit Module`
 
 [Toolkit](https://github.com/scottcgi/Mojoc/tree/master/Engine/Toolkit) module is **`development kit`** of C language. Provide basic **`data structure`** and **`algorithm`** support.
 
-* [Utils](https://github.com/scottcgi/Mojoc/tree/master/Engine/Toolkit/Utils) provide basic **`tools`** and **`data structure`**.
+* [Utils](https://github.com/scottcgi/Mojoc/tree/master/Engine/Toolkit/Utils) provide basic **`data storage tools`**.
     * [Generic Array](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/Array.h)
     * [ArrayIntMap](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/ArrayIntMap.h), implement the **`int key`** dictionary.
     * [ArrayIntSet](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/ArrayIntSet.h), implement the **`int key`** set.
-    
+    * [Generic ArrayList](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/ArrayList.h)
+    * [Generic ArrayQueue](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/ArrayQueue.h), implement the **`generic queue`** by ArrayList.
+    * [ArrayStrMap](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/ArrayStrMap.h), implement the **`string key`** dictionary.
+    * [BufferReader](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/BufferReader.h), implement the **`byte`** stream read.
+    * [Coroutine](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Utils/Coroutine.h), implement the **`simple`** and **`effective`** coroutine for C.
