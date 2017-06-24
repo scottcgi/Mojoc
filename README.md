@@ -55,4 +55,8 @@ Mojoc is **licensed** under the [MIT License](https://github.com/scottcgi/Mojoc/
 
 #### `Mojoc ThirdParty Module`
 
-[ThirdParty](https://github.com/scottcgi/Mojoc/tree/master/Engine/ThirdParty) module is **`prebuild`** third party **`library`**, that can **`direct called`** by Mojoc engine. So the third party need to provide different **`prebuild lib file`** for native platforms of Mojoc support. Currently only **`PNG`** library.
+[ThirdParty](https://github.com/scottcgi/Mojoc/tree/master/Engine/ThirdParty) module is **`prebuild`** third party **`libraries`**, that can **`direct called`** by Mojoc engine. So the third party need to provide different **`prebuild lib files`** for native platforms of Mojoc support. Currently only contains **`PNG`** library.
+
+#### `Mojoc Graphics Module`
+
+[Graphics](https://github.com/scottcgi/Mojoc/tree/master/Engine/Graphics) module is draw layer implemented by **`OpenGLES3`**, and provide **`drawing tools`** and **`implementations`**.
