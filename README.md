@@ -60,3 +60,13 @@ Mojoc is **licensed** under the [MIT License](https://github.com/scottcgi/Mojoc/
 #### `Mojoc Graphics Module`
 
 [Graphics](https://github.com/scottcgi/Mojoc/tree/master/Engine/Graphics) module is draw layer implemented by **`OpenGLES3`**, and provide **`drawing tools`** and **`implementations`**.
+
+* [Draw](https://github.com/scottcgi/Mojoc/tree/master/Engine/Graphics/Draw) provide basic abstract **`drawing layer`**.
+    * [Drawable.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Graphics/Draw/Drawable.h), implement transform about **`translate`**, **`rotate`**, **`scale`**. Construct a recursive tree drawing structure. Also can extend own drawing object on **`Drawable`**.
+    * [Quad.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Graphics/Draw/Quad.h), implement a abstract **`rect`** in texture.
+    
+* [OpenGL](https://github.com/scottcgi/Mojoc/tree/master/Engine/Graphics/OpenGL) provide **`OpenGLES rendering`** functions.
+    * [Platform](https://github.com/scottcgi/Mojoc/tree/master/Engine/Graphics/OpenGL/Platform) provide OpenGLES **`cross-platform`** config.
+        * [EGLTool.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Graphics/OpenGL/Platform/EGLTool.h), implement **`EGL`** configs and functions.
+    * [Shader](https://github.com/scottcgi/Mojoc/tree/master/Engine/Graphics/OpenGL/Shader) provide **`build-in shader`** implementation.
+    * [Camera.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Graphics/OpenGL/Camera.h), implement **`camera`** settings.
