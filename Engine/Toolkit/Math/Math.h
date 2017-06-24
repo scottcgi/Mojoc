@@ -58,7 +58,7 @@ extern struct AMath AMath[1];
 #define RADIAN_TO_DEGREE 57.29577951308232
 
 
-#define    MATH_PI       3.141592653589793
+#define MATH_PI          3.141592653589793
 
 
 #define MATH_2PI         6.283185307179586

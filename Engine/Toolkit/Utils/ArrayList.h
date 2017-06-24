@@ -26,7 +26,7 @@ typedef struct
     /**
      * The sizeof element type
      */
-    int                   elementTypeSize;
+    int                elementTypeSize;
 
     /**
      * Element count

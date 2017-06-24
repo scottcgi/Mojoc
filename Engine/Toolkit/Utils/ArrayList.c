@@ -39,7 +39,7 @@ static inline void AddCapacity(ArrayList* arrayList, int increase)
 
 /*
 ------------------------------------------------------------------------------------------------------------------------
-    //set increase data to 0, but it seems not very necessary
+    // set increase data to 0, but it seems not very necessary
     memset
     (
         (char*) data + arrayList->elementTypeSize * arrayList->array->length,
@@ -299,23 +299,19 @@ static void SetSize(ArrayList* arrayList, int size)
 {
     arrayList->size = size;
 
-    if (arrayList->elementArray->length >= size)
+    if (arrayList->elementArray->length < size)
     {
-        return;
+        AddCapacity(arrayList, size - arrayList->elementArray->length);
     }
-
-    AddCapacity(arrayList, size - arrayList->elementArray->length);
 }
 
 
 static void SetCapacity(ArrayList* arrayList, int capacity)
 {
-    if (arrayList->elementArray->length >= capacity)
+    if (arrayList->elementArray->length < capacity)
     {
-        return;
+        AddCapacity(arrayList, capacity - arrayList->elementArray->length);
     }
-    
-    AddCapacity(arrayList, capacity - arrayList->elementArray->length);
 }
 
 

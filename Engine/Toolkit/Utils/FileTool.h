@@ -50,7 +50,7 @@ struct AFileTool
      *
      * relativeFilePath:
      *     Android: assets
-     *        IOS    : NSBundle
+     *        IOS : NSBundle
      *
      * return buffer pointer, need to free it after using
      */
@@ -62,7 +62,7 @@ struct AFileTool
      *
      * relativeFilePath:
      *     Android: assets
-     *        IOS    : NSBundle
+     *        IOS : NSBundle
      *
      * return buffer pointer, need to free it after using
      */
