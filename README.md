@@ -69,4 +69,6 @@ Mojoc is **licensed** under the [MIT License](https://github.com/scottcgi/Mojoc/
     * [Platform](https://github.com/scottcgi/Mojoc/tree/master/Engine/Graphics/OpenGL/Platform) provide OpenGLES **`cross-platform`** config.
         * [EGLTool.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Graphics/OpenGL/Platform/EGLTool.h), implement **`EGL`** configs and functions.
     * [Shader](https://github.com/scottcgi/Mojoc/tree/master/Engine/Graphics/OpenGL/Shader) provide **`build-in shader`** implementation.
+    
     * [Camera.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Graphics/OpenGL/Camera.h), implement **`camera`** settings.
+    * [GLInfo.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Graphics/OpenGL/GLInfo.h), record **`OpenGLES`** some **`attributes`**.
