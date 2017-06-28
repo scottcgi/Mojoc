@@ -51,3 +51,8 @@ Now there is only one sample, which is the **`simplfied version`** of published 
       ```
 
     * [Code Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/Code) is sample code **`shared`** between android and ios.
+
+
+## FAQ
+
+* #### Why not C++ ?
