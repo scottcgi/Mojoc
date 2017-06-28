@@ -36,4 +36,6 @@ Mojoc has made a cross-platform **`android`** and **`ios`** game on the **`App S
 ## Samples
 The samples are **`complete`**, **`can play`**, **`present the Mojoc features`** game demo. Each platform provides its own **`platform editor`** for project build. For example, android use **`AndroidStudio`**, ios use **`XCode`**, windows use **`Visual Studio`**.
 
-Now there is only one sample, which is the **`simplfied version`** of published game [Super Little Red](#published-games).
+Now there is only one sample, which is the **`simplfied version`** of published game [Super Little Red](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed).
+
+#### How to running _?_
