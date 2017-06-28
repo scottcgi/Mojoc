@@ -58,4 +58,4 @@ Now there is only one sample, which is the **`simplfied version`** of published 
 * #### Why not C++ ?
     * There are **`plenty`** of C++ game engines, but pure C game engines are much **`rarer`**. I don't want to **`repeat`**, I hope to be **`differently`**.
     * The **`core idea`** of creating a game engine is **`less`** and **`simple`**, which is consistent with the **`C`** language.
-    * At the very **`beginning`**, I had a **`sense`** of how to build a **`complex`** project with pure **`C`** language.  And I just follow the **`inside feelings`** to **`try`** and **`practice`**.
+    * At the very **`beginning`**, I had a **`sense`** of how to build a **`complex`** project with pure **`C`** language.  And I just follow the **`inside feelings`** to **`try`** and **`practice`**.
