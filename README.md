@@ -38,15 +38,16 @@ The samples are **`complete`**, **`can play`**, **`present the Mojoc features`**
 
 Now there is only one sample, which is the **`simplfied version`** of published game [Super Little Red](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed).
 
-#### How to running ?
-* [IOS Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/IOS) is **`XCode project`** that all set up well, just open it with XCode. The only thing need to be set is switch Mojoc **`platform macro`** in [Platform.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Platform/Platform.h).
-  ```c
-  #define PLATFORM_TARGET PLATFORM_IOS
-  ```
-  
-* [Android Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/Android) is **`AndroidStudio project`** that all set up well, just open it with AndroidStudio. The only thing need to be set is switch Mojoc **`platform macro`** in [Platform.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Platform/Platform.h).
-  ```c
-  #define PLATFORM_TARGET PLATFORM_ANDROID
-  ```
+* #### How to running ?
 
-* [Code Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/Code) is sample code **`shared`** between android and ios.
+    * [IOS Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/IOS) is **`XCode project`** that all set up well, just open it with XCode. The only thing need to be set is switch Mojoc **`platform macro`** in [Platform.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Platform/Platform.h).
+      ```c
+      #define PLATFORM_TARGET PLATFORM_IOS
+      ```
+  
+    * [Android Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/Android) is **`AndroidStudio project`** that all set up well, just open it with AndroidStudio. The only thing need to be set is switch Mojoc **`platform macro`** in [Platform.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Platform/Platform.h).
+      ```c
+      #define PLATFORM_TARGET PLATFORM_ANDROID
+      ```
+
+    * [Code Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/Code) is sample code **`shared`** between android and ios.
