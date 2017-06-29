@@ -57,5 +57,6 @@ Now there is only one sample, which is the **`simplfied version`** of published 
 
 * #### Why not C++ ?
     * There are **`plenty`** of C++ game engines, but pure C game engines are much **`rarer`**. I don't want to **`repeat`**, I hope to be **`differently`**.
-    * The **`core idea`** of creating a game engine is **`less`** and **`simple`**, which is consistent with the **`C`** language.
-    * At the very **`beginning`**, I had a **`sense`** of how to build a **`complex`** project with pure **`C`** language.  And I just follow the **`inside feelings`** to **`try`** and **`practice`**.
+    * The **`core idea`** of game engine I want to create is **`less`** and **`simple`**, which is consistent with the **`C`** language.
+    * At the **`beginning`**, I had a **`idea`** of how to build a **`complex`** project with pure **`C`** language. I want to test the **`feasibility`** of the **`idea`**, that is **`Mojoc`**.
+    * The C language is **`simple`** but **`powerful`**, it can implement a lot of **`interesting`** things. **Why not C** ?
