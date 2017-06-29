@@ -79,4 +79,6 @@ Now there is only one sample, which is the **`simplfied version`** of published 
 
   **`Mojoc`** started in **`2012`** as a **`spare`** time project. At first, the Mojoc **`hosted`** in **`Google Code`** website, and use **`Eclipse + CDT + ADT`** development, focus on **`android`** platform. Everyday after my **`daytime`** work, usually at 10 night, I spent **`one or two`** hours to develop Mojoc. After **`5`** years, Mojoc became basically **`available`** and developed the **`first`** mobile game.
     
-  In the time of development, I **`experienced`** a lot of **`repetition`** and **`thinking`**. For a long time, maybe **`3`** years, I not very sure and clear how to use C language to **`simulate OOP`** and keep it **`simple and uniform`**. So I **`tried`** a lot of ways, **`repeated`** the process, **`write code`**, **`modify`**, **`refactor`**, **`change ideas`**, **`delete code`**, **`rewrite again`** and so on.
+  In the time of **`development`**, I **`experienced`** a lot of **`repetition`** and **`thinking`**. For a long time, maybe **`3`** years, I not very sure and clear how to use C language to **`simulate OOP`** and keep it **`simple and uniform`**. So I **`tried`** a lot of ways, **`repeated`** the process, **`write code`**, **`modify`**, **`refactor`**, **`change ideas`**, **`delete code`**, **`rewrite again`** and so on.
+  
+  But **`in the end`**, I created unique methods [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style) and [Mojoc OOC model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C))
