@@ -62,6 +62,16 @@ Now there is only one sample, which is the **`simplfied version`** of published 
     * The C language is **`simple`** but **`powerful`**, it can implement a lot of **`interesting`** things. **Why not C** ?
     
 * #### What is the meaning of Mojoc name ? 
-  > Mojoc = Mojo + c  
-   
+   ```
+   Mojoc = Mojo + c
+   ```
     The **`c`** means the **`C language`**.
+    
+ * #### Who designed the logo and what is the meaning of it ?
+    Yes, I **`designed`**. The logo is a **`creature`** made up of **`Mojoc`** letters.
+    ```
+    M : ears  
+    OO: eyes  
+    J : body  
+    C : tail
+    ```
