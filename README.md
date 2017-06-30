@@ -23,7 +23,7 @@ Mojoc is **licensed** under the [MIT License](https://github.com/scottcgi/Mojoc/
     * [Mojoc OOC Model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C))
 * Mojoc application architecture based on **`Component`**, **`State-Machine`**, **`Message-Driven`**. 
     * [Mojoc Component Architecture](https://github.com/scottcgi/Mojoc/wiki/Component-Architecture)
-* More detail **`features`** see 
+* More **`feature`** details see 
     * [Mojoc Main Features](https://github.com/scottcgi/Mojoc/wiki/Main-Features)
     
 ## Published Games
@@ -94,3 +94,19 @@ Now there is only one sample, which is the **`simplfied version`** of published 
 
 
 ## Roadmap
+_The roadmap gives the direction of Mojoc development._
+
+* Graphics
+  * Support **`Primitive Restart`** and **`DrawInstance`**.
+  * Support **`Sampler Objects`** and **`Immutable Textures`**.
+  * Support dynamic **`Multi-Texture Unit`** rendering.
+  * Use **`material`** system control **`shaders`**.
+  * Use **`PointSprite`** for particle system.
+  * Maybe **`graphics layer`** compatible with **`Vulkan`**, **`Metal`** and **`D3D`**.:scream:
+   
+* Extension
+  * Update **`spine editor runtime`** to new version. _(Mojoc implements own spine editor runtime)_
+  * Support **`bitmap fonts`**.
+  * Support simple **`UI`** component such as **`ListScrollView`**.
+  
+* Physics  
