@@ -89,7 +89,8 @@ Now there is only one sample, which is the **`simplfied version`** of published 
   For now, it is **`not recommended`** to use Mojoc make game. Be honest Mojoc is **`not yet`** quite perfect. There are many **`improvements`** and **`refinements`**, and I'm **`working`** on it. But now, Mojoc's **`code architecture`** and **`programming model`** have been established. So Mojoc very **`suitable`** for **`learning`** and **`understanding`** how to use C language to build game engine.
   
 * #### What is the future plan about Mojoc ?
-  The **`short term goal`** is use Mojoc make more games.  
-  The **`long term goal`**  is **`editor`**, **`workflow`**, **`visual game development`**.
+  The **`short term goal`** is use Mojoc make more games.   
+  The **`long  term goal`**  is **`editor`**, **`workflow`**, **`visual game development`**.
 
 
+## Roadmap
