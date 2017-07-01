@@ -94,4 +94,8 @@ Now there is only one sample, which is the **`simplfied version`** of published 
 
 
 ## Roadmap
-The [Mojoc roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the **`direction`** of the Mojoc development.
+The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the **`direction`** of the Mojoc development.
+
+## About Me
+In short, my **`programming`** work started in **`2008`**, and **`3`** years **`java server`** development, **`6`** years **`mobile game`** development. Finally, in **`2017`**, became an **`independent`** game developer and **`created`** my own **`game engine Mojoc`**.
+
