@@ -94,29 +94,4 @@ Now there is only one sample, which is the **`simplfied version`** of published 
 
 
 ## Roadmap
-_The roadmap gives the direction of Mojoc development._
-
-* #### Graphics
-  * Support **`Primitive Restart`** and **`DrawInstance`**.
-  * Support **`Sampler Objects`** and **`Immutable Textures`**.
-  * Support dynamic **`Multi-Texture Unit`** rendering.
-  * Use **`material`** system control **`shaders`**.
-  * Use **`PointSprite`** for particle system.
-  * Maybe **`graphics layer`** compatible with **`Vulkan`**, **`Metal`** and **`D3D`**.:scream:
-   
-* #### Extension
-  * Update **`spine editor runtime`** to new version. _(Mojoc implements own spine editor runtime)_
-  * Support **`bitmap fonts`**.
-  * Support simple **`UI`** component such as **`ListScrollView`**.
-  
-* #### Physics
-  * Support **`motion simulation`** after rigid body collision.
-  * Support **`mutual restriction`** and **`linkage`** between rigid bodies.
-  * Support more **`physical motion`** simulations.
-  
-* #### Toolkit  
-  * Generic **`iteration`** interface, it's a **`step-by-step calculation`** that can be driven by **`coroutine`**.
-  * Memory **`management strategy`** for many to one.
-  * More **`algorithm`** implementation.
-  
-* #### Others 
+The [Mojoc roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the **`direction`** of the Mojoc development.
