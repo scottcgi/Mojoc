@@ -1,6 +1,6 @@
-<img src="https://github.com/scottcgi/Mojoc/raw/master/Docs/Pic/Logo.png" width="176.4" height="228.2" alt="Mojoc Logo" title="Mojoc Logo" />
+<img src="https://github.com/scottcgi/Mojoc/raw/master/Docs/Pic/Logo.png" width="176" height="228" alt="Mojoc Logo" title="Mojoc Logo" />
 
-## Mojoc v0.1
+## Mojoc v0.0.0
 
 Mojoc is **`open-source`**, **`cross-platform`**, **`pure C`** game engine. It is based on **OpenGLES3** and written in **`C99`**. It works on **`IOS`** and **`Android`** currently, but easily extended to **`other platforms`**, and will support **`more platforms`** in the future.
 
@@ -96,6 +96,10 @@ Now there is only one sample, which is the **`simplfied version`** of published 
 ## Roadmap
 The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the **`direction`** of the Mojoc development.
 
+## Version Number
+`0.0.0` _means_
+**`Big Move`** **.** **`Function Changes`** **.** **`Bug Fix Numbers`**
+
 ## About Me
-In short, my **`programming`** work started in **`2008`**, and **`3`** years **`java server`** development, **`6`** years **`mobile game`** development. Finally, in **`2017`**, became an **`independent`** game developer and **`created`** my own **`game engine Mojoc`**.
+**`In short`**, my **`programming`** work started in **`2008`**, and **`3`** years **`java server`** development, **`6`** years **`mobile game`** development. Finally, in **`2017`**, became an **`independent`** game developer and **`created`** my own **`game engine Mojoc`**.
 
