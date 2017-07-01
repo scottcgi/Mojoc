@@ -1,4 +1,4 @@
-<img src="https://github.com/scottcgi/Mojoc/raw/master/Docs/Pic/Logo.png" width = "176.4" height = "228.2" alt = "Mojoc Logo" />
+<img src="https://github.com/scottcgi/Mojoc/raw/master/Docs/Pic/Logo.png" width="176.4" height="228.2" alt="Mojoc Logo" title="Mojoc Logo" />
 
 ## Mojoc v0.1
 
