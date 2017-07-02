@@ -3,9 +3,9 @@
  *
  * This code is licensed under the MIT License.
  *
- * Since : 2013-6-27
- * Author: scott.cgi
- * Version: 0.1
+ * Since  : 2013-6-27
+ * Author : scott.cgi
+ * Version: 0.0.0
  */
 
 

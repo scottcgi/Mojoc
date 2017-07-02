@@ -1,8 +1,11 @@
 /*
  * Copyright (c) scott.cgi All Rights Reserved.
  *
- * Since : 2015-4-13
- * Author: scott.cgi
+ * This code is licensed under the MIT License.
+ *
+ * Since  : 2015-4-13
+ * Author : scott.cgi
+ * Version: 0.0.0
  */
 
 

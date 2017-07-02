@@ -5,7 +5,7 @@
  *
  * Since  : 2017-3-14
  * Author : scott.cgi
- * Version: 0.1
+ * Version: 0.0.0
  */
 
 #ifndef BRIDGING_HEADER_H
