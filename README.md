@@ -4,8 +4,7 @@
 
 Mojoc is **`open-source`**, **`cross-platform`**, **`pure C`** game engine. It is based on **OpenGLES3** and written in **`C99`**. It works on **`IOS`** and **`Android`** currently, but easily extended to **`other platforms`**, and will support **`more platforms`** in the future.
 
-* **Version number** [`0.0.0`] _means_  
-  * **`Big Move`** **.** **`Function Changes`** **.** **`Bug Fix Numbers`**
+* **Version number** [`0.0.0`] _means =>_ **`Big Move`** **.** **`Function Changes`** **.** **`Bug Fix Numbers`**
  
 *  **`Released version`** will be here [releases](https://github.com/scottcgi/Mojoc/releases).
 
