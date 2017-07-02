@@ -100,7 +100,10 @@ Now there is only one sample, which is the **`simplfied version`** of published 
 * #### What is the future plan about Mojoc ?
   The **`short term goal`** is use Mojoc make more games.   
   The **`long  term goal`**  is **`editor`**, **`workflow`**, **`visual game development`**.
-
+  
+* #### Why **`developed`** Mojoc ?
+  * It's my **`coding passion`**. :bowtie:
+  
 
 ## Roadmap
 The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the **`direction`** of the Mojoc development.
@@ -109,3 +112,11 @@ The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the **
 ## About Me
 **`In short`**, my **`programming`** work started in **`2008`**, and **`3`** years **`java server`** development, **`6`** years **`mobile game`** development. Finally, in **`2017`**, became an **`independent`** game developer and **`created`** my own **`game engine Mojoc`**.
 
+
+## Support & Donation
+  Welcome [Fork](https://github.com/scottcgi/Mojoc/issues#fork-destination-box), [Issues](https://github.com/scottcgi/Mojoc/issues), **`Star`**, **`Watch`**. Any **`Question`**, **`Suggestion`** or **`Ideas`**, can send mail to me **`scott.cgi@qq.com`**. If Mojoc **`inspired`** you, if you **`like it`**, if you want to **`support`** Mojoc, **`you can`** _=>_ 
+  * **`Play`** Mojoc [Published Games](#published-games).
+  * **`Donation`** by [Paypal Link](https://www.paypal.me/scottcgi/1.28). :grin:
+  
+#
+:sunny::crescent_moon: _+_ :confused::coffee: _+_ :computer::bug: _=_ :octocat::grin: _=>_  :loop:
