@@ -114,9 +114,9 @@ The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the **
 
 
 ## Support & Donation
-  Welcome [Fork](https://github.com/scottcgi/Mojoc/issues#fork-destination-box), [Issues](https://github.com/scottcgi/Mojoc/issues), **`Star`**, **`Watch`**. Any **`Question`**, **`Suggestion`** or **`Ideas`**, can send mail to me **`scott.cgi@qq.com`**. If Mojoc **`inspired`** you, if you **`like it`**, if you want to **`support`** Mojoc, **`you can`** _=>_ 
+  Welcome [fork](https://github.com/scottcgi/Mojoc/issues#fork-destination-box), [issues](https://github.com/scottcgi/Mojoc/issues), **`star`**, **`watch`**. Any **`question`**, **`suggestion`** or **`ideas`**, can send mail to me **`scott.cgi@qq.com`**. If Mojoc **`inspired`** you, if you **`like it`**, if you want to **`support`** Mojoc, **`you can`** _=>_ 
   * **`Play`** Mojoc [Published Games](#published-games).
-  * **`Donation`** by [Paypal Link](https://www.paypal.me/scottcgi/1.28). :grin:
+  * **`Donation`** via [Paypal](https://www.paypal.me/scottcgi/1.28), if **`buy`** me a coffee, I will **`turn`** the **`coffee`** into **`code`**. :grin:
   
 #
 :sunny::crescent_moon: _`+`_ :confused::coffee: _`+`_ :computer::bug: _`=`_ :octocat::grin: _`=>`_ (:loop:) 
