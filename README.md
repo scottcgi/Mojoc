@@ -119,4 +119,4 @@ The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the **
   * **`Donation`** by [Paypal Link](https://www.paypal.me/scottcgi/1.28). :grin:
   
 #
-:sunny::crescent_moon: _+_ :confused::coffee: _+_ :computer::bug: _=_ :octocat::grin: _=>_  :loop:
+:sunny::crescent_moon: _`+`_ :confused::coffee: _`+`_ :computer::bug: _`=`_ :octocat::grin: _`=>`_ (:loop:) 
