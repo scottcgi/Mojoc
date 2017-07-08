@@ -119,4 +119,4 @@ The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the **
   * **`Donation`** via [Paypal](https://www.paypal.me/scottcgi/1.28), if **`buy`** me a coffee, I will **`turn`** the **`coffee`** into **`code`**. :grin:
   
 #
-:sunny::crescent_moon: _`+`_ :confused::coffee: _`+`_ :computer::bug: _`=`_ :octocat::grin: _`=>`_ (:loop:) 
+(:loop:) _`=>`_  :sunny::coffee::computer::bug::coffee::crescent_moon:
