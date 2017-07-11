@@ -173,7 +173,7 @@ typedef enum
      * Flag drawable position scale rotate translate parent change
      */
     DrawableState_Transform           = DrawableState_Parent    |
-                                                      DrawableState_PositionX |
+                                        DrawableState_PositionX |
                                         DrawableState_PositionY |
                                         DrawableState_PositionZ |
                                         DrawableState_ScaleX    |
