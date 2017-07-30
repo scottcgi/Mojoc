@@ -15,29 +15,24 @@ import android.view.View;
  * Version: 0.0.0
  *
  */
-public class Activity extends NativeActivity
-{
+public class Activity extends NativeActivity {
+
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         this.getWindow()
             .getDecorView()
-            .setSystemUiVisibility
-            (
+            .setSystemUiVisibility(
                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION  |
                View.SYSTEM_UI_FLAG_FULLSCREEN       |
                View.SYSTEM_UI_FLAG_IMMERSIVE        |
-               View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            );
+               View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         super.onResume();
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if (keyCode == KeyEvent.KEYCODE_BACK)
-        {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             return true;
         }
 
