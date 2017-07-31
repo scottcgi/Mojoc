@@ -4,7 +4,7 @@
 
 Mojoc is open-source, cross-platform, pure C game engine. It is based on **OpenGLES3** and written in C99. It works on IOS and Android currently, but easily extended to other platforms, and will support more platforms in the future.
 
-* **Version number** [`0.0.0`] _means =>_ Big Move **.** Function Changes **.** Bug Fix Numbers
+* Version number v0.0.0 _means =>_ Big Move **.** Function Changes **.** Bug Fix Numbers
  
 * Released version will be here [releases](https://github.com/scottcgi/Mojoc/releases).
 
@@ -17,7 +17,7 @@ Mojoc is open-source, cross-platform, pure C game engine. It is based on **OpenG
 ![Mojoc Engine Architecture](https://github.com/scottcgi/Mojoc/raw/master/Docs/Pic/Architecture.png "Mojoc Engine Architecture")
 
 ## License
-Mojoc is **licensed** under the [MIT License](https://github.com/scottcgi/Mojoc/blob/master/LICENSE "Mojoc Under MIT License").
+Mojoc is licensed under the [MIT License](https://github.com/scottcgi/Mojoc/blob/master/LICENSE "Mojoc Under MIT License").
 
 ## Core Idea
 Less is more, Simple is best, More complex thinking keep less and simple.
@@ -116,7 +116,7 @@ In short, my programming work started in 2008, and 3 years java server developme
 ## Support & Donation
   Welcome [fork](https://github.com/scottcgi/Mojoc/issues#fork-destination-box), [issues](https://github.com/scottcgi/Mojoc/issues), star, watch. Any questions, suggestions or ideas, can send mail to me scott.cgi@qq.com. If Mojoc inspired you, valuable to you, if you like it, enjoy it, if you want to support it, you can _=>_ 
   * Play Mojoc [Published Games](#published-games).
-  * Donation via [Paypal](https://www.paypal.me/scottcgi/1.28), if buy me a coffee, I will turn the coffee into code. :bowtie:
+  * Donation via [Paypal](https://www.paypal.me/scottcgi/1.28), if buy me a coffee, I will turn the coffee into code.
   
 #
-(:loop:) _`=>`_  :sunny::coffee::computer::bug::coffee::crescent_moon:
+_(:loop:) => {_:sunny::coffee::computer::bug::coffee::crescent_moon:_}_
