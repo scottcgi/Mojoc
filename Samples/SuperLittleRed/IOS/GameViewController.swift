@@ -11,24 +11,21 @@
 import GLKit
 import OpenGLES
 
-class GameViewController: GLKViewController
-{
+class GameViewController: GLKViewController {
     var context: EAGLContext? = nil
     
-    deinit
-    {
+    deinit {
         EAGLContext.setCurrent(nil)
     }
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.context = EAGLContext(api: .openGLES3)
         
-        if (self.context == nil)
-        {
+        if (self.context == nil) {
             print("Failed to create ES context")
         }
+        
         EAGLContext.setCurrent(self.context)
 
 //----------------------------------------------------------------------------------------------
@@ -42,25 +39,23 @@ class GameViewController: GLKViewController
 
 //----------------------------------------------------------------------------------------------
         
-        AApplication.GLReady(Int32(view.bounds.size.width * view.contentScaleFactor), Int32(view.bounds.size.height * view.contentScaleFactor));
+        AApplication.GLReady(Int32(view.bounds.size.width * view.contentScaleFactor),
+                             Int32(view.bounds.size.height * view.contentScaleFactor))
     }
     
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
-        if self.isViewLoaded && (self.view.window != nil)
-        {
+        if self.isViewLoaded && (self.view.window != nil) {
             self.view    = nil
             self.context = nil
             EAGLContext.setCurrent(nil)
         }
     }
     
-    func update()
-    {
+    func update() {
         // application main loop
-        AApplication.Loop();
+        AApplication.Loop()
     }
     
     
@@ -72,24 +67,24 @@ class GameViewController: GLKViewController
     var        touchDict    = [UITouch : Int]()
     var        inputTouches = [UnsafeMutablePointer<InputTouch>]()
     
-    func touch()
-    {
-        var array = Mojoc.Array(data: UnsafeMutableRawPointer.init(mutating: inputTouches), length: Int32(inputTouches.count))
+    func touch() {
+        var array = Mojoc.Array(data: UnsafeMutableRawPointer.init(mutating: inputTouches),
+                                length: Int32(inputTouches.count))
         
-        AApplication.Touch(&array);
+        AApplication.Touch(&array)
         
         // clear for next use
         inputTouches.removeAll()
     }
 
     
-    func touchReleased(_ touches: Set<UITouch>, _ inputTouchType: InputTouchType)
-    {
-        for touch in touches
-        {
+    func touchReleased(_ touches: Set<UITouch>, _ inputTouchType: InputTouchType) {
+        for touch in touches {
             let fingerId = touchDict[touch]
             let tp       = touch.location (in: self.view)
-            let it       = AInput.SetTouch(Int32(fingerId!), Float(tp.x * self.view.contentScaleFactor), Float(tp.y * self.view.contentScaleFactor), inputTouchType);
+            let it       = AInput.SetTouch(Int32(fingerId!),
+                                           Float(tp.x * self.view.contentScaleFactor),
+                                           Float(tp.y * self.view.contentScaleFactor), inputTouchType)
                 
             // collect InputTouch pointer
             inputTouches.append(it!)
@@ -105,19 +100,18 @@ class GameViewController: GLKViewController
     }
     
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
-    {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         var index = 0
         
-        for touch in touches
-        {
-            for fingerId in index...fingerIds.count
-            {
+        for touch in touches {
+            for fingerId in index...fingerIds.count {
                 // find unused finger id
-                if fingerIds[fingerId] == false
-                {
+                if fingerIds[fingerId] == false {
                     let tp = touch.location (in: self.view)
-                    let it = AInput.SetTouch(Int32(fingerId), Float(tp.x * self.view.contentScaleFactor), Float(tp.y * self.view.contentScaleFactor), InputTouchType_Down);
+                    let it = AInput.SetTouch(Int32(fingerId),
+                                             Float(tp.x * self.view.contentScaleFactor),
+                                             Float(tp.y * self.view.contentScaleFactor),
+                                             InputTouchType_Down)
                     
                     // collect InputTouch pointer
                     inputTouches.append(it!)
@@ -131,7 +125,7 @@ class GameViewController: GLKViewController
                     // next search pos
                     index               = fingerId + 1
                     
-                    break;
+                    break
                 }
             }
         }
@@ -140,13 +134,13 @@ class GameViewController: GLKViewController
     }
     
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
-    {
-        for touch in touches
-        {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
             let fingerId = touchDict[touch]
             let tp       = touch.location (in: self.view)
-            let it       = AInput.SetTouch(Int32(fingerId!), Float(tp.x * self.view.contentScaleFactor), Float(tp.y * self.view.contentScaleFactor), InputTouchType_Move);
+            let it       = AInput.SetTouch(Int32(fingerId!),
+                                           Float(tp.x * self.view.contentScaleFactor),
+                                           Float(tp.y * self.view.contentScaleFactor), InputTouchType_Move)
                 
             // collect InputTouch pointer
             inputTouches.append(it!)
@@ -156,14 +150,12 @@ class GameViewController: GLKViewController
     }
     
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
-    {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.touchReleased(touches, InputTouchType_Up)
     }
     
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?)
-    {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.touchReleased(touches, InputTouchType_Cancel)
     }
 }
