@@ -16,12 +16,24 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-#define CheckIndex(tag) \
-    ALog_A(index >= 0 && index <  arrayIntMap->elementList->size, "AArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
+#define CheckIndex(tag)                                        \
+    ALog_A                                                     \
+    (                                                          \
+        index >= 0 && index <  arrayIntMap->elementList->size, \
+        "AArrayIntMap" tag "index = %d, size = %d, invalid",   \
+        index,                                                 \
+        arrayIntMap->elementList->size                         \
+    );
 
 
-#define CheckInsertIndex(tag) \
-    ALog_A(index >= 0 && index <= arrayIntMap->elementList->size, "AArrayIntMap" tag "index = %d, size = %d, invalid", index, arrayIntMap->elementList->size);
+#define CheckInsertIndex(tag)                                  \
+    ALog_A                                                     \
+    (                                                          \
+        index >= 0 && index <= arrayIntMap->elementList->size, \
+        "AArrayIntMap" tag "index = %d, size = %d, invalid",   \
+        index,                                                 \
+        arrayIntMap->elementList->size                         \
+    );
 
 
 
@@ -79,7 +91,9 @@ static void* TryPut(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 
     if (guess < 0)
     {
-        ArrayIntMapElement* element = (ArrayIntMapElement*) malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
+        ArrayIntMapElement* element = (ArrayIntMapElement*)
+                                      malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
+
         element->key                = key;
         element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
 
@@ -98,7 +112,8 @@ static void* Get(ArrayIntMap* arrayIntMap, intptr_t key, void* defaultValuePtr)
 {
     int guess = BinarySearch(arrayIntMap->elementList, key);
 
-    return guess >= 0 ? AArrayList_Get(arrayIntMap->elementList, guess, ArrayIntMapElement*)->valuePtr : defaultValuePtr;
+    return guess >= 0 ?
+           AArrayList_Get(arrayIntMap->elementList, guess, ArrayIntMapElement*)->valuePtr : defaultValuePtr;
 }
 
 
@@ -109,11 +124,11 @@ static void* TrySet(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
     if (guess >= 0)
     {
         return memcpy
-            (
-                AArrayList_Get(arrayIntMap->elementList, guess, ArrayIntMapElement*)->valuePtr,
-                valuePtr,
-                arrayIntMap->valueTypeSize
-            );
+               (
+                   AArrayList_Get(arrayIntMap->elementList, guess, ArrayIntMapElement*)->valuePtr,
+                   valuePtr,
+                   arrayIntMap->valueTypeSize
+               );
     }
     else
     {

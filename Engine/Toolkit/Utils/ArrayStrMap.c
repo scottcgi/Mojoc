@@ -16,12 +16,24 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-#define CheckIndex(tag) \
-    ALog_A(index >= 0 && index < arrayStrMap->elementList->size,  "AArrayStrMap " tag " index = %d, size = %d, invalid", index, arrayStrMap->elementList->size)
+#define CheckIndex(tag)                                        \
+    ALog_A                                                     \
+    (                                                          \
+        index >= 0 && index < arrayStrMap->elementList->size,  \
+        "AArrayStrMap " tag " index = %d, size = %d, invalid", \
+        index,                                                 \
+        arrayStrMap->elementList->size                         \
+    )
 
 
-#define CheckInsertIndex(tag) \
-    ALog_A(index >= 0 && index <= arrayStrMap->elementList->size, "AArrayStrMap " tag " index = %d, size = %d, invalid", index, arrayStrMap->elementList->size)
+#define CheckInsertIndex(tag)                                  \
+    ALog_A                                                     \
+    (                                                          \
+        index >= 0 && index <= arrayStrMap->elementList->size, \
+        "AArrayStrMap " tag " index = %d, size = %d, invalid", \
+        index,                                                 \
+        arrayStrMap->elementList->size                         \
+    )
 
 
 /**
@@ -93,7 +105,8 @@ static void* TryPut(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
     if (guess < 0)
     {
         int                 valueTypeSize = arrayStrMap->valueTypeSize;
-        ArrayStrMapElement* element       = (ArrayStrMapElement*) malloc(sizeof(ArrayStrMapElement) + valueTypeSize + keyLength);
+        ArrayStrMapElement* element       = (ArrayStrMapElement*)
+                                            malloc(sizeof(ArrayStrMapElement) + valueTypeSize + keyLength);
 
         element->keyLength                = keyLength;
         element->valuePtr                 = (char*) element + sizeof(ArrayStrMapElement);
@@ -114,7 +127,9 @@ static void* TryPut(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
 static void* Get(ArrayStrMap* arrayStrMap, char* key, void* defaultValuePtr)
 {
     int guess = BinarySearch(arrayStrMap->elementList, key, (int) strlen(key) + 1);
-    return guess >= 0 ? AArrayList_Get(arrayStrMap->elementList, guess, ArrayStrMapElement*)->valuePtr : defaultValuePtr;
+
+    return guess >= 0 ?
+           AArrayList_Get(arrayStrMap->elementList, guess, ArrayStrMapElement*)->valuePtr : defaultValuePtr;
 }
 
 

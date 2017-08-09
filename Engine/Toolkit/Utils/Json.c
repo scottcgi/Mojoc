@@ -429,23 +429,23 @@ static inline JsonValue* ParseArray(char** jsonPtr)
         // add Array element
         AArrayList_Add(list, value);
          
-         SkipWhiteSpace(jsonPtr);
+        SkipWhiteSpace(jsonPtr);
 
-         if (**jsonPtr == ',')
-         {
-             (*jsonPtr)++;
+        if (**jsonPtr == ',')
+        {
+            (*jsonPtr)++;
 
-             SkipWhiteSpace(jsonPtr);
+            SkipWhiteSpace(jsonPtr);
 
-             if (**jsonPtr == ']')
-             {
-                 goto ParseArrayEnd;
-             }
-         }
-         else
-         {
-             break;
-         }
+            if (**jsonPtr == ']')
+            {
+                goto ParseArrayEnd;
+            }
+        }
+        else
+        {
+            break;
+        }
     }
     while (true);
     
