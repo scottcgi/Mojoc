@@ -350,7 +350,7 @@ static inline float GetWorldScaleX(Drawable* drawable)
         parent = parent->parent;
     }
 
-    // The scale in the x,y,z axis is the length of the matrix column vector values
+    // the scale in the x,y,z axis is the length of the matrix column vector values
     Vector3 vector[1] =
     {
         {
