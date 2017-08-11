@@ -110,9 +110,9 @@ static void Draw(Drawable* meshDrawable)
             {
                 float  opacity     = subMesh->drawable->blendColor->a * meshDrawable->blendColor->a;
                 float* opacityData = (float*) (
-                                                (char*) mesh->vertexArr->data +
-                                                mesh->opacityDataOffset       +
-                                                subMesh->opacityDataOffset
+                                                  (char*) mesh->vertexArr->data +
+                                                  mesh->opacityDataOffset       +
+                                                  subMesh->opacityDataOffset
                                               );
 
                 for (int j = 0; j < subMesh->vertexCount; j++)

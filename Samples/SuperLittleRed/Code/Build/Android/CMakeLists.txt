@@ -26,16 +26,16 @@ add_library(
     SuperLittleRed SHARED
 
     ../../AppInit.c
-  	../../Tool.c
-  	../../GameMap.c
-  	../../Hero.c
-  	../../Enemy.c
-  	../../EnemyAI.c
-  	../../GameActor.c
-  	../../HUD.c
-  	../../UI.c
-  	../../GameData.c
-  	../../AudioTool.c
+    ../../Tool.c
+    ../../GameMap.c
+    ../../Hero.c
+    ../../Enemy.c
+    ../../EnemyAI.c
+    ../../GameActor.c
+    ../../HUD.c
+    ../../UI.c
+    ../../GameData.c
+    ../../AudioTool.c
 )
 
 

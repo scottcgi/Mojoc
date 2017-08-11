@@ -178,7 +178,7 @@ static void LoadTexture(char* filePath, Texture* outTexture)
      float width;
      float height;
 
-     void* pixels = AImage->CreatePixelDataFromPng(filePath, &width, &height);
+     void* pixels = AImage->CreatePixelDataFromPNG(filePath, &width, &height);
      ALog_A(pixels != NULL, "AGLTool LoadTexture failed, no pixels data");
 
      // load the data into the bound outTexture

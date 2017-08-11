@@ -23,7 +23,7 @@ struct AImage
      *
      * return NULL when error happened
      */
-     void* (*CreatePixelDataFromPng)(char* filePath, float* outWidth, float* outHeight);
+     void* (*CreatePixelDataFromPNG)(char* filePath, float* outWidth, float* outHeight);
 };
 
 

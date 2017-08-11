@@ -21,13 +21,13 @@
 /**
  * Callback for libpng read data
  */
-static void ReadPngData(png_structp pngPtr, png_bytep data, png_size_t length)
+static void ReadPNGData(png_structp pngPtr, png_bytep data, png_size_t length)
 {
     AFile->Read(png_get_io_ptr(pngPtr), data, length);
 }
 
 
-static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outHeight)
+static void* CreatePixelDataFromPNG(char* filePath, float* outWidth, float* outHeight)
 {
     void* pixelData = NULL;
     File* file      = NULL;
@@ -40,7 +40,7 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
         AFile->Read(file, head, 8);
         if (png_sig_cmp(head, 0, 8))
         {
-            ALog_E("AImage CreatePixelDataFromPng file %s, is not PNG", filePath);
+            ALog_E("AImage CreatePixelDataFromPNG file %s, is not PNG", filePath);
             break;
         }
 
@@ -52,7 +52,7 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
         png_structp pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
         if (!pngPtr)
         {
-            ALog_E("AImage CreatePixelDataFromPng unable to create PNG structure: %s", filePath);
+            ALog_E("AImage CreatePixelDataFromPNG unable to create PNG structure: %s", filePath);
             break;
         }
 
@@ -62,7 +62,7 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
         if (infoPtr == NULL)
         {
             png_destroy_read_struct(&pngPtr, NULL, NULL);
-            ALog_E("AImage CreatePixelDataFromPng unable to create PNG info : %s", filePath);
+            ALog_E("AImage CreatePixelDataFromPNG unable to create PNG info : %s", filePath);
             break;
         }
 
@@ -70,7 +70,7 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
         if (endInfo == NULL)
         {
             png_destroy_read_struct(&pngPtr, &infoPtr, NULL);
-            ALog_E("AImage CreatePixelDataFromPng unable to create PNG end info : %s", filePath);
+            ALog_E("AImage CreatePixelDataFromPNG unable to create PNG end info : %s", filePath);
             break;
         }
 
@@ -81,14 +81,14 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
         {
           // free all of the memory associated with the png_ptr and info_ptr
           png_destroy_read_struct(&pngPtr, &infoPtr, &endInfo);
-          ALog_E("AImage CreatePixelDataFromPng readPng failed during setjmp : %s", filePath);
+          ALog_E("AImage CreatePixelDataFromPNG readPng failed during setjmp : %s", filePath);
           break;
         }
 
         // if you are using replacement read functions, instead of calling
         // png_init_io() here you would call:
         // where user_io_ptr is a structure you want available to the callbacks
-        png_set_read_fn(pngPtr, file, ReadPngData);
+        png_set_read_fn(pngPtr, file, ReadPNGData);
 
         // if we have already read some of the signature
         png_set_sig_bytes(pngPtr, 8);
@@ -151,7 +151,7 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
         if (pixelData == NULL)
         {
             png_destroy_read_struct(&pngPtr, &infoPtr, &endInfo);
-            ALog_E("AImage CreatePixelDataFromPng unable to allocate PNG pixel data while loading %s", filePath);
+            ALog_E("AImage CreatePixelDataFromPNG unable to allocate PNG pixel data while loading %s", filePath);
             break;
         }
 
@@ -186,6 +186,6 @@ static void* CreatePixelDataFromPng(char* filePath, float* outWidth, float* outH
 
 struct AImage AImage[1] =
 {
-    CreatePixelDataFromPng,
+    CreatePixelDataFromPNG,
 };
 

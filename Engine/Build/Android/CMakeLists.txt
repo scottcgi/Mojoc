@@ -55,64 +55,64 @@ add_library(
 
 ################ MojocGraphics ################
 
-	../../Graphics/Graphics.c
+    ../../Graphics/Graphics.c
 
-	../../Graphics/OpenGL/Shader/ShaderSprite.c
-	../../Graphics/OpenGL/Shader/ShaderPrimitive.c
-	../../Graphics/OpenGL/Shader/ShaderMesh.c
-	../../Graphics/OpenGL/Shader/Shader.c
+    ../../Graphics/OpenGL/Shader/ShaderSprite.c
+    ../../Graphics/OpenGL/Shader/ShaderPrimitive.c
+    ../../Graphics/OpenGL/Shader/ShaderMesh.c
+    ../../Graphics/OpenGL/Shader/Shader.c
 
-	../../Graphics/OpenGL/Sprite.c
+    ../../Graphics/OpenGL/Sprite.c
 
-	../../Graphics/OpenGL/Camera.c
-	../../Graphics/OpenGL/GLPrimitive.c
-	../../Graphics/OpenGL/GLInfo.c
-	../../Graphics/OpenGL/GLTool.c
-	../../Graphics/OpenGL/Texture.c
-	../../Graphics/OpenGL/Mesh.c
-	../../Graphics/OpenGL/SubMesh.c
+    ../../Graphics/OpenGL/Camera.c
+    ../../Graphics/OpenGL/GLPrimitive.c
+    ../../Graphics/OpenGL/GLInfo.c
+    ../../Graphics/OpenGL/GLTool.c
+    ../../Graphics/OpenGL/Texture.c
+    ../../Graphics/OpenGL/Mesh.c
+    ../../Graphics/OpenGL/SubMesh.c
     ../../Graphics/OpenGL/Platform/EGLTool.c
 
-	../../Graphics/Draw/Quad.c
-	../../Graphics/Draw/Drawable.c
-	../../Graphics/Draw/Color.c
+    ../../Graphics/Draw/Quad.c
+    ../../Graphics/Draw/Drawable.c
+    ../../Graphics/Draw/Color.c
 
-	../../Graphics/Utils/Image.c
-	../../Graphics/Tween/TweenDrawable.c
+    ../../Graphics/Utils/Image.c
+    ../../Graphics/Tween/TweenDrawable.c
 
 ################ MojocPhysics ################
 
-	../../Physics/PhysicsWorld.c
-	../../Physics/PhysicsBody.c
-	../../Physics/Physics.c
-	../../Physics/PhysicsCollision.c
+    ../../Physics/PhysicsWorld.c
+    ../../Physics/PhysicsBody.c
+    ../../Physics/Physics.c
+    ../../Physics/PhysicsCollision.c
 
 ################ MojocApplication ################
 
-	../../Application/Application.c
-	../../Application/Scheduler.c
-	../../Application/Component.c
+    ../../Application/Application.c
+    ../../Application/Scheduler.c
+    ../../Application/Component.c
     ../../Application/Input.c
-	../../Application/Platform/Android/NativeGlue.c
+    ../../Application/Platform/Android/NativeGlue.c
     ../../Application/Platform/Android/JniTool.c
 
 ################ MojocExtension ################
 
-	../../Extension/Extension.c
-	../../Extension/Particle/Particle.c
-	../../Extension/Particle/ParticleEmitterData.c
-	../../Extension/Particle/ParticleEmitter.c
+    ../../Extension/Extension.c
+    ../../Extension/Particle/Particle.c
+    ../../Extension/Particle/ParticleEmitterData.c
+    ../../Extension/Particle/ParticleEmitter.c
 
-	../../Extension/Spine/SkeletonData.c
-	../../Extension/Spine/SkeletonBone.c
-	../../Extension/Spine/Skeleton.c
-	../../Extension/Spine/SkeletonTimeline.c
-	../../Extension/Spine/SkeletonSlot.c
-	../../Extension/Spine/SkeletonAnimationPlayer.c
+    ../../Extension/Spine/SkeletonData.c
+    ../../Extension/Spine/SkeletonBone.c
+    ../../Extension/Spine/Skeleton.c
+    ../../Extension/Spine/SkeletonTimeline.c
+    ../../Extension/Spine/SkeletonSlot.c
+    ../../Extension/Spine/SkeletonAnimationPlayer.c
 
-	../../Extension/TextureAtlas.c
-	../../Extension/Font.c
-	../../Extension/DrawAtlas.c
+    ../../Extension/TextureAtlas.c
+    ../../Extension/Font.c
+    ../../Extension/DrawAtlas.c
 
 ################ MojocAudio ################
     ../../Audio/Platform/Android/Audio.c
