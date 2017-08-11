@@ -116,7 +116,7 @@ In short, my programming work started in 2008, and 3 years java server developme
 ## Support & Donation
   Welcome [fork](https://github.com/scottcgi/Mojoc/issues#fork-destination-box), [issues](https://github.com/scottcgi/Mojoc/issues), star, watch. Any questions, suggestions or ideas, can send mail to me scott.cgi@qq.com. If Mojoc inspired you, valuable to you, if you like it, enjoy it, if you want to support it, you can _=>_ 
   * Play Mojoc [Published Games](#published-games).
-  * Donation via [Paypal](https://www.paypal.me/scottcgi/1.28), if buy me a coffee, I will turn the coffee into code.
+  * Donation via [Paypal](https://www.paypal.me/scottcgi0/1.28), if buy me a coffee, I will turn the coffee into code.
   
 #
 _(:loop:) => {_:sunny::coffee::computer::bug::coffee::crescent_moon:_}_
