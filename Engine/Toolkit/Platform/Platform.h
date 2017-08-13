@@ -15,7 +15,7 @@
 
 #define PLATFORM_ANDROID 0
 #define PLATFORM_IOS     1
-#define PLATFORM_TARGET  PLATFORM_ANDROID
+#define PLATFORM_TARGET  PLATFORM_IOS
 
 
 //----------------------------------------------------------------------------------------------------------------------

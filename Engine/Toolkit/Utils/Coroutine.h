@@ -158,7 +158,7 @@ extern struct ACoroutine ACoroutine[1];
     {                                         \
         goto *coroutine->step;                \
     }                                         \
-    coroutine->state = CoroutineState_Running \
+    coroutine->state = CoroutineState_Running 
 
 
 #define ACoroutine_End() \

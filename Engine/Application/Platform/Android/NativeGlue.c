@@ -25,6 +25,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#include "Engine/Application/Application.h"
 #include "Engine/Toolkit/Utils/FileTool.h"
 #include "Engine/Graphics/OpenGL/Platform/EGLTool.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -341,6 +342,9 @@ static void* ThreadRun(void* param)
                 AApplication->Resized           (ANativeWindow_getWidth(AData->window), ANativeWindow_getHeight(AData->window));
                 AData->mainThreadCallback = MainThread_OnNull;
                 break;
+
+            case MainThread_OnWait:
+                break;
         }
     }
 
@@ -479,7 +483,7 @@ static void OnLowMemory(ANativeActivity* activity)
 
 void ANativeActivity_OnCreate(ANativeActivity* activity, void* savedState, size_t savedStateSize)
 {
-    ALog_D("ANativeActivityOnCreate Start");
+    ALog_D("ANativeActivity_OnCreate Start");
     nativeActivity                                  = activity;
 
     activity->callbacks->onStart                    = OnStart;
