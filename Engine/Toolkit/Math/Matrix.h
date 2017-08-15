@@ -153,8 +153,7 @@ struct AMatrix
                               );
 
     /**
-     * Define a projection matrix in terms of a field of view angle
-     * an aspect ratio, and z clip planes
+     * Define a projection matrix in terms of a field of view angle an aspect ratio, and z clip planes
      */
     void  (*Perspective)     (float fovy, float aspect, float near, float far, Matrix4* outProjection);
 

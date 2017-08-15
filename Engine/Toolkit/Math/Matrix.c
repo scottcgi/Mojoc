@@ -35,28 +35,6 @@ static void MultiplyMM(Matrix4* left, Matrix4* right, Matrix4* outMatrix4)
     outMatrix4->m13 = left->m1 * right->m12 + left->m5 * right->m13 + left->m9  * right->m14 + left->m13 * right->m15;
     outMatrix4->m14 = left->m2 * right->m12 + left->m6 * right->m13 + left->m10 * right->m14 + left->m14 * right->m15;
     outMatrix4->m15 = left->m3 * right->m12 + left->m7 * right->m13 + left->m11 * right->m14 + left->m15 * right->m15;
-
-/*
-------------------------------------------------------------------------------------------------------------------------
-    for (int i = 0; i < 4; i++)
-    {
-        int i4 = i * 4;
-
-        for (int j = 0; j < 4; j++)
-        {
-            float s = 0.0f;
-
-            for (int k = 0; k < 4; k++)
-            {
-                s += left->m[k * 4 + j] * right->m[i4 + k];
-            }
-
-            outMatrix4->m[i4 + j] = s;
-        }
-    }
-------------------------------------------------------------------------------------------------------------------------
-*/
-
 }
 
 
@@ -112,18 +90,6 @@ static void MultiplyMV4(Matrix4* matrix4, float x, float y, float z, float w, Ve
     outVector4->y = matrix4->m1 * x + matrix4->m5 * y + matrix4->m9  * z + matrix4->m13 * w;
     outVector4->z = matrix4->m2 * x + matrix4->m6 * y + matrix4->m10 * z + matrix4->m14 * w;
     outVector4->w = matrix4->m3 * x + matrix4->m7 * y + matrix4->m11 * z + matrix4->m15 * w;
-
-/*
-------------------------------------------------------------------------------------------------------------------------
-  for (int i = 0; i < 4; i++)
-  {
-      outVector4->v[i] = matrix4->m[i + 4 * 0] * x +
-                         matrix4->m[i + 4 * 1] * y +
-                         matrix4->m[i + 4 * 2] * z +
-                         matrix4->m[i + 4 * 3] * w;
-  }
-------------------------------------------------------------------------------------------------------------------------
-*/
 }
 
 
@@ -132,18 +98,6 @@ static void multiplyMV3(Matrix4* matrix4, float x, float y, float z, Vector3* ou
     outVector3->x = matrix4->m0 * x + matrix4->m4 * y + matrix4->m8  * z + matrix4->m12;
     outVector3->y = matrix4->m1 * x + matrix4->m5 * y + matrix4->m9  * z + matrix4->m13;
     outVector3->z = matrix4->m2 * x + matrix4->m6 * y + matrix4->m10 * z + matrix4->m14;
-
-/*
-------------------------------------------------------------------------------------------------------------------------
-    for (int i = 0; i < 3; i++)
-    {
-        outVector3->v[i] = matrix4->m[i + 4 * 0] * x +
-                           matrix4->m[i + 4 * 1] * y +
-                           matrix4->m[i + 4 * 2] * z +
-                           matrix4->m[i + 4 * 3];
-    }
-------------------------------------------------------------------------------------------------------------------------
-*/
 }
 
 
@@ -151,18 +105,6 @@ static void MultiplyMV2(Matrix4* matrix4, float x, float y, Vector2* outVector2)
 {
     outVector2->x = matrix4->m0 * x + matrix4->m4 * y + matrix4->m8 + matrix4->m12;
     outVector2->y = matrix4->m1 * x + matrix4->m5 * y + matrix4->m9 + matrix4->m13;
-
-/*
-------------------------------------------------------------------------------------------------------------------------
-    for (int i = 0; i < 2; i++)
-    {
-        outVector2->v[i] = matrix4->m[i + 4 * 0] * x +
-                           matrix4->m[i + 4 * 1] * y +
-                           matrix4->m[i + 4 * 2] +
-                           matrix4->m[i + 4 * 3];
-    }
-------------------------------------------------------------------------------------------------------------------------
-*/
 }
 
 
@@ -374,7 +316,7 @@ static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
     Matrix4 temp2[1];
     MultiplyMM(matrix4, temp1, temp2);
 
-//     memcpy(matrix->m, temp2->m, sizeof(Matrix4));
+//  memcpy(matrix->m, temp2->m, sizeof(Matrix4));
     *matrix4 = *temp2;
 }
 
@@ -515,17 +457,6 @@ static void Scale(Matrix4* matrix4, float sx, float sy, float sz)
     matrix4->m8  *= sz;
     matrix4->m9  *= sz;
     matrix4->m10 *= sz;
-
-/*
-------------------------------------------------------------------------------------------------------------------------
-    for (int i = 0; i < 3; i++)
-    {
-        matrix4->m[i]     *= sx;
-        matrix4->m[i + 4] *= sy;
-        matrix4->m[i + 8] *= sz;
-    }
-------------------------------------------------------------------------------------------------------------------------
-*/
 }
 
 
@@ -589,21 +520,21 @@ static void Inverse(Matrix4* matrix4, Matrix4* outInverse)
     outInverse->m14 = (-matrix4->m12 * a3 + matrix4->m13 * a1 - matrix4->m14 * a0) * scalar;
     outInverse->m15 = ( matrix4->m8  * a3 - matrix4->m9  * a1 + matrix4->m10 * a0) * scalar;
 
-//    return true;
+//  return true;
 }
 
 
 static void Transpose(Matrix4* matrix, Matrix4* outTranspose)
 {
     *outTranspose = *(Matrix4[])
-    {
-        {
-            matrix->m0, matrix->m4, matrix->m8,  matrix->m12,
-            matrix->m1, matrix->m5, matrix->m9,  matrix->m13,
-            matrix->m2, matrix->m6, matrix->m10, matrix->m14,
-            matrix->m3, matrix->m7, matrix->m11, matrix->m15,
-        }
-    };
+                     {
+                         {
+                             matrix->m0, matrix->m4, matrix->m8,  matrix->m12,
+                             matrix->m1, matrix->m5, matrix->m9,  matrix->m13,
+                             matrix->m2, matrix->m6, matrix->m10, matrix->m14,
+                             matrix->m3, matrix->m7, matrix->m11, matrix->m15,
+                         }
+                     };
 }
 
 
@@ -669,14 +600,10 @@ static void InverseTranspose(Matrix4* matrix4, Matrix4* outInverseTranspose)
     outInverseTranspose->m14 = (-matrix4->m3 * a3 + matrix4->m7  * a1 - matrix4->m11 * a0) * scalar;
     outInverseTranspose->m15 = ( matrix4->m2 * a3 - matrix4->m6  * a1 + matrix4->m10 * a0) * scalar;
 
-//    return true;
+//  return true;
 }
 
 
-/**
- * Define a projection matrix in terms of a field of view angle
- * an aspect ratio, and z clip planes
- */
 static void Perspective(float fovy, float aspect, float near, float far, Matrix4* outProjection)
 {
     ALog_A
@@ -685,7 +612,7 @@ static void Perspective(float fovy, float aspect, float near, float far, Matrix4
         "AMatrix Perspective failed, because far == near"
     );
 
-    float f               = 1.0f / (float) tan(fovy * (MATH_PI / 360.0f));
+    float f               = 1.0f / (float) tan(fovy * MATH_PI360);
     float rangeReciprocal = 1.0f / (near - far);
 
     outProjection->m0     = f / aspect;

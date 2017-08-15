@@ -451,18 +451,18 @@ static void Init(Texture* texture, Mesh* outMesh)
     Quad quad[1];
     AQuad->Init(texture->width, texture->height, quad);
 
-    Drawable* drawable               = outMesh->drawable;
+    Drawable* drawable                  = outMesh->drawable;
     ADrawable->Init(drawable);
 
     // override
-    drawable->Draw                   = Draw;
-    drawable->Render                 = Render;
+    drawable->Draw                      = Draw;
+    drawable->Render                    = Render;
 
     ADrawable_SetState(drawable, DrawableState_IsUpdateMVP);
 
     outMesh->texture                    = texture;
-    outMesh->vboIds[MeshBuffer_Index]  = 0;
-    outMesh->vboIds[MeshBuffer_Vertex] = 0;
+    outMesh->vboIds[MeshBuffer_Index]   = 0;
+    outMesh->vboIds[MeshBuffer_Vertex]  = 0;
 
     outMesh->vaoId                      = 0;
     outMesh->vertexArr                  = NULL;

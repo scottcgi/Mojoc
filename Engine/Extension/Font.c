@@ -11,9 +11,8 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <Engine/Toolkit/Utils/ArrayIntSet.h>
 
-#include "Engine/Toolkit/Utils/ArrayList.h"
+#include "Engine/Toolkit/Utils/ArrayIntSet.h"
 #include "Engine/Extension/Font.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
