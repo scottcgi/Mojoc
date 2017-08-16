@@ -10,12 +10,11 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <Engine/Graphics/OpenGL/Sprite.h>
-#include <Engine/Toolkit/Utils/TweenTool.h>
 
+#include "Engine/Graphics/OpenGL/Sprite.h"
+#include "Engine/Toolkit/Utils/TweenTool.h"
 #include "Engine/Audio/Platform/Audio.h"
 #include "Engine/Graphics/Graphics.h"
-#include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Application/Application.h"
 #include "Engine/Application/Scheduler.h"
 #include "Engine/Extension/Font.h"

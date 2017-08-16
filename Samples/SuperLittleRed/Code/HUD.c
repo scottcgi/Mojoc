@@ -266,20 +266,20 @@ static void Init()
     AHUD->tryAgainCount = 0;
 
     roundText = AFont->GetText(AGameActor->talkFont);
-    AFont->SetString      (roundText, "Round");
-    ADrawable_SetScaleSame2(roundText->drawable, 1.5f);
-    ADrawable_SetPositionY (roundText->drawable, 0.2f);
-    ADrawable_SetPositionX (roundText->drawable, -roundText->drawable->width * 1.5f / 2);
-    ADrawable_SetOpacity   (roundText->drawable, 0.0f);
+    AFont->SetString          (roundText, "Round");
+    ADrawable_SetScaleSame2   (roundText->drawable, 1.5f);
+    ADrawable_SetPositionY    (roundText->drawable, 0.2f);
+    ADrawable_SetPositionX    (roundText->drawable, -roundText->drawable->width * 1.5f / 2);
+    ADrawable_SetOpacity      (roundText->drawable, 0.0f);
 
     roundNumText = AFont->GetText(AGameActor->talkFont);
-    ADrawable_SetScaleSame2(roundNumText->drawable, 1.2f);
-    ADrawable_SetPositionY (roundNumText->drawable, 0.2018f);
-    ADrawable_SetPositionX (roundNumText->drawable, -roundText->drawable->positionX);
-    ADrawable_SetOpacity   (roundNumText->drawable, 0.0f);
+    ADrawable_SetScaleSame2      (roundNumText->drawable, 1.2f);
+    ADrawable_SetPositionY       (roundNumText->drawable, 0.2018f);
+    ADrawable_SetPositionX       (roundNumText->drawable, -roundText->drawable->positionX);
+    ADrawable_SetOpacity         (roundNumText->drawable, 0.0f);
 
     timeText = AFont->GetText(AGameActor->talkFont);
-    ADrawable_SetOpacity(timeText->drawable, 0.0f);
+    ADrawable_SetOpacity     (timeText->drawable, 0.0f);
     ADrawable_SetParent
     (
         timeText->drawable,
@@ -407,7 +407,7 @@ static bool CostPower(float cost)
                   ->SetOnComplete  (TalkTextTweenActionOnComplete)
                   ->SetUserData0Ptr(text)
 
-                  ->RunActions   (text->drawable);
+                  ->RunActions     (text->drawable);
 
         return false;
     }
@@ -468,7 +468,7 @@ static void CloseCurtain(SkeletonAnimationPlayerOnActionOver callback)
 //----------------------------------------------------------------------------------------------------------------------
 
     AFont->SetInt           (roundNumText, ++AHUD->tryAgainCount);
-    ADrawable_SetParent      (roundNumText->drawable, AGameMap->beforeDrawable);
+    ADrawable_SetParent     (roundNumText->drawable, AGameMap->beforeDrawable);
 
     ATweenTool->AddFadeTo   (1.0, 2.0f)
               ->SetEaseType (TweenEaseType_SineInOut)

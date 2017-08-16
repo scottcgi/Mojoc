@@ -357,6 +357,7 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                             break;
 
 //----------------------------------------------------------------------------------------------------------------------
+
                         case HUD_Stone:
                             if (AGameData->stone > 0)
                             {

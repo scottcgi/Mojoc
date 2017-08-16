@@ -17,6 +17,7 @@
 #include "Engine/Physics/PhysicsWorld.h"
 #include "Engine/Toolkit/Head/Struct.h"
 
+#include "Enemy.h"
 #include "GameActor.h"
 #include "GameMap.h"
 #include "Hero.h"
@@ -24,7 +25,6 @@
 #include "EnemyAI.h"
 #include "GameData.h"
 #include "HUD.h"
-#include "Enemy.h"
 #include "AudioTool.h"
 
 
