@@ -49,9 +49,7 @@ static ArrayList  (Arrow*) arrowList[1] = AArrayList_Init  (Arrow*, 25);
 
 
 #ifdef APP_DEBUG
-
 static Drawable debugCollisionBoundingBox[1];
-
 #endif
 
 
@@ -73,9 +71,9 @@ static void Update(Component* component, float deltaSeconds)
         }
 
 
-#ifdef APP_DEBUG
+        #ifdef APP_DEBUG
         ADrawable->Draw(debugCollisionBoundingBox);
-#endif
+        #endif
     }
 
     for (int i = 0; i < arrowSet->elementList->size; i++)
@@ -93,12 +91,12 @@ static void Update(Component* component, float deltaSeconds)
         ADrawable->Draw(drawable);
 
 
-#ifdef APP_DEBUG
+        #ifdef APP_DEBUG
         if (body != NULL)
         {
             ADrawable->Draw(arrow->debugDrawable);
         }
-#endif
+        #endif
     }
 }
 
@@ -1070,11 +1068,11 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                             arrow->enemy   = NULL;
 
 
-#ifdef APP_DEBUG
+                            #ifdef APP_DEBUG
                             ADrawable->Init(arrow->debugDrawable);
                             arrow->debugDrawable->userData->slot0->ptrValue = arrow;
                             arrow->debugDrawable->Render                    = DebugRender;
-#endif
+                            #endif
 
 
                             component->userData->slot0->ptrValue = arrow;
@@ -1166,9 +1164,9 @@ static void Init()
         APhysicsBody_SetState         (AHero->collisionBoxBody, PhysicsBodyState_IsFixed);
 
 
-#ifdef APP_DEBUG
+        #ifdef APP_DEBUG
         ASkeletonAnimationPlayer->InitSlotBoundingBoxDrawable(AHero->player, "CollisionBox", debugCollisionBoundingBox);
-#endif
+        #endif
     }
 
     AHero->bowHandDrawable      = ASkeletonAnimationPlayer_GetBone(AHero->player, "righthand-up")->drawable;

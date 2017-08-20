@@ -41,9 +41,7 @@ static ArrayIntSet(drawable*)          dropSet          [1] = AArrayIntSet_Init(
 
 
 #ifdef APP_DEBUG
-
 static ArrayIntSet(DropCollisionItem*) collisionItemDebugDrawSet[1] = AArrayIntSet_Init(DropCollisionItem*, 10);
-
 #endif
 
 
@@ -69,7 +67,7 @@ static void Update(Component* component, float deltaSeconds)
     ASkeletonAnimationPlayer_Update(AHUD->curtainPlayer, deltaSeconds);
 
 
-#ifdef APP_DEBUG
+    #ifdef APP_DEBUG
 
     for (int i = 0; i < collisionItemDebugDrawSet->elementList->size; i++)
     {
@@ -84,7 +82,7 @@ static void Update(Component* component, float deltaSeconds)
         }
     }
 
-#endif
+    #endif
     
 
     if (isCostEnergy == false)
@@ -630,9 +628,9 @@ static void OnItemFade(TweenAction* action)
     AArrayIntSet->TryRemove(dropSet, (intptr_t) item->drawable);
 
 
-#ifdef APP_DEBUG
+    #ifdef APP_DEBUG
     AArrayIntSet->TryRemove(collisionItemDebugDrawSet, (intptr_t) item);
-#endif
+    #endif
 }
 
 
@@ -691,20 +689,20 @@ static inline DropCollisionItem* DropItem(int bodySize, int bodyId, int collisio
         APhysicsBody_SetState(item->body, PhysicsBodyState_IsFixed);
 
 
-#ifdef APP_DEBUG
+        #ifdef APP_DEBUG
         ADrawable->Init(item->debugDrawable);
         item->debugDrawable->userData->slot0->ptrValue = item;
         item->debugDrawable->Render                    = DebugRender;
-#endif
+        #endif
 
     }
 
     APhysicsBody_SetState(item->body, PhysicsBodyState_IsFreeze);
 
 
-#ifdef APP_DEBUG
+    #ifdef APP_DEBUG
     AArrayIntSet->TryAdd(collisionItemDebugDrawSet, (intptr_t) item);
-#endif
+    #endif
 
     return item;
 }

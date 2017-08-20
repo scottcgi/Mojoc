@@ -34,9 +34,7 @@ static Drawable*      cloud3Drawable = NULL;
 
 
 #ifdef APP_DEBUG
-
 static Drawable       debugDrawable[1];
-
 #endif
 
 
@@ -44,9 +42,9 @@ static void Update(Component* component, float deltaSeconds)
 {
     ASkeletonAnimationPlayer_Update(AGameMap->mapPlayer, deltaSeconds);
 
-#ifdef APP_DEBUG
+    #ifdef APP_DEBUG
     ADrawable->Draw(debugDrawable);
-#endif
+    #endif
 }
 
 
@@ -182,9 +180,9 @@ static void RandomMap()
     APhysicsBody_SetCollisionGroup(groundBody, CollisionGroup_HeroBody | CollisionGroup_EnemyBody);
 
 
-#ifdef APP_DEBUG
+    #ifdef APP_DEBUG
     ASkeletonAnimationPlayer->InitSlotBoundingBoxDrawable(AGameMap->mapPlayer, "GroudPos", debugDrawable);
-#endif
+    #endif
 }
 
 
