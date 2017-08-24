@@ -36,7 +36,7 @@ typedef struct
 TweenData;
 
 
-static ArrayIntMap(tweendId, TweenData*) dataMap   [1] = AArrayIntMap_Init(TweenData*,   25);
+static ArrayIntMap(tweenId, TweenData*)  dataMap   [1] = AArrayIntMap_Init(TweenData*,   25);
 static ArrayList  (TweenData*)           dataList  [1] = AArrayList_Init  (TweenData*,   25);
 static ArrayList  (TweenAction*)         actionList[1] = AArrayList_Init  (TweenAction*, 25);
 
