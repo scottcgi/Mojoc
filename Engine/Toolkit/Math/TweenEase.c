@@ -232,7 +232,7 @@ static float CircularInOut(float from, float to, float time)
 {
     if (time < 0.5f)
     {
-        return VALUE * 0.5f * (1.0f - sqrtf(1.0f - 4.0 * time * time));
+        return VALUE * 0.5f * (1.0f - sqrtf(1.0f - 4.0f * time * time));
     }
     else
     {
