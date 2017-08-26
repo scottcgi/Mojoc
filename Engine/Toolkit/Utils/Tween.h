@@ -28,8 +28,7 @@ typedef void  (*TweenActionValueOnSet)(void* target, float value);
 typedef struct
 {
     /**
-     * The action will reach to this value
-     * depend on isRelative
+     * The action will reach to this value depends on isRelative
      */
     float                 value;
 
@@ -54,7 +53,7 @@ typedef struct
     TweenActionValueOnSet OnSet;
 
     /**
-     * The motion is relative or absolute default true
+     * The value is relative or absolute, default true
      */
     bool                  isRelative;
 
@@ -90,17 +89,17 @@ struct TweenAction
     float                        curTime;
 
     /**
-     * Means action running in queue or immediately default true
+     * Means action running in queue or immediately, default true
      */
     bool                         isQueue;
 
     /**
-     * TweenActionValue list transform concurrently
+     * TweenActionValue list changing concurrently
      */
     ArrayList(TweenActionValue)  actionValueList[1];
 
     /**
-     * When action complete callback, passed action and userData
+     * When action complete callback, pass action
      */
     TweenActionOnComplete        OnComplete;
 };
