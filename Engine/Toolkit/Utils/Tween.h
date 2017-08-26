@@ -95,7 +95,7 @@ struct TweenAction
     bool                         isQueue;
 
     /**
-     * TweenActionValue list Transform concurrently
+     * TweenActionValue list transform concurrently
      */
     ArrayList(TweenActionValue)  actionValueList[1];
 
