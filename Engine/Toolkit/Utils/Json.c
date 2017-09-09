@@ -353,7 +353,7 @@ static inline void* ParseNumber(char** jsonPtr)
 #undef PARSE_NUMBER_VALIDATE_BY_STRTOF
 
 
-static inline int SkipString(char** jsonPtr)
+static inline int SkipString(char **jsonPtr)
 {
     // skip '\"'
     (*jsonPtr)++;
@@ -361,40 +361,38 @@ static inline int SkipString(char** jsonPtr)
     char c     = **jsonPtr;
     int  count = 0;
 
+    // check end '\"'
     while (c != '\"')
     {
-        // skip escaped quotes
-        if (c == '\\')
+        if (c != '\\')
         {
-            do
-            {
-                count += 2;
-                c      = *(*jsonPtr + count);
-            }
-            while (c == '\\');
+            count++;
         }
         else
         {
-            count++;
-            c = *(*jsonPtr + count);
+            // skip escaped quotes
+            count += 2;
         }
+
+        c = *(*jsonPtr + count);
     }
 
-    // how many char skip
+    // skip whole string include the end '\"'
+    *jsonPtr += count + 1;
+
+    // how many char skipped
     return count;
 }
 
 
 static inline JsonValue* ParseString(char** jsonPtr)
 {
-    int        count          = SkipString(jsonPtr);
-    JsonValue* value          = CreateJsonValue((void*) (*jsonPtr), (count + 1) * sizeof(char), JsonType_String);
+    int        length         = SkipString(jsonPtr);
+    char*      start          = *jsonPtr - length - 1;
+    JsonValue* value          = CreateJsonValue((void*) start, (length + 1) * sizeof(char), JsonType_String);
     
-    value->jsonString[count]  = '\0';
+    value->jsonString[length] = '\0';
 
-    // skip whole string include the other '\"'
-    *jsonPtr                 += count + 1;
-    
     ALog_D("Json string = %s", value->stringValue);
     
     return value;
@@ -415,16 +413,15 @@ static inline JsonValue* ParseArray(char** jsonPtr)
     // skip '['
     (*jsonPtr)++;
 
-    SkipWhiteSpace(jsonPtr);
-    
-    // empty array
-    if (**jsonPtr == ']')
-    {
-        goto ParseArrayEnd;
-    }
-    
     do
     {
+        SkipWhiteSpace(jsonPtr);
+
+        if (**jsonPtr == ']')
+        {
+            break;
+        }
+
         JsonValue* value = ParseValue(jsonPtr);
         // add Array element
         AArrayList_Add(list, value);
@@ -434,25 +431,15 @@ static inline JsonValue* ParseArray(char** jsonPtr)
         if (**jsonPtr == ',')
         {
             (*jsonPtr)++;
-
-            SkipWhiteSpace(jsonPtr);
-
-            if (**jsonPtr == ']')
-            {
-                goto ParseArrayEnd;
-            }
         }
         else
         {
+            SkipWhiteSpace(jsonPtr);
+            ALog_A(**jsonPtr == ']', "Json Array not has ']', error char = %c ", **jsonPtr);
             break;
         }
     }
     while (true);
-    
-    SkipWhiteSpace(jsonPtr);
-    ALog_A(**jsonPtr == ']', "Json Array not has ']', error char = %c ", **jsonPtr);
-
-ParseArrayEnd:
 
     // skip ']'
     (*jsonPtr)++;
@@ -472,30 +459,19 @@ static inline JsonValue* ParseObject(char** jsonPtr)
     // skip '{'
     (*jsonPtr)++;
 
-    SkipWhiteSpace(jsonPtr);
-    
-    // empty object
-    if (**jsonPtr == '}')
-    {
-        goto ParseObjectEnd;
-    }
-    
     do
     {
         SkipWhiteSpace(jsonPtr);
 
         if (**jsonPtr == '}')
         {
-            goto ParseObjectEnd;
+            break;
         }
         
         ALog_A(**jsonPtr == '\"', "Json object parse error, char = %c, should be '\"' ", **jsonPtr);
 
         int   keyLen = SkipString(jsonPtr);
-        char* key    = (char*) *jsonPtr;
-
-        // skip whole string include the other '\"'
-        *jsonPtr += keyLen + 1;
+        char* key    = *jsonPtr - keyLen - 1;
 
         SkipWhiteSpace(jsonPtr);
         ALog_A((**jsonPtr) == ':', "Json object parse error, char = %c, should be ':' ", **jsonPtr);
@@ -524,16 +500,12 @@ static inline JsonValue* ParseObject(char** jsonPtr)
         }
         else
         {
+            SkipWhiteSpace(jsonPtr);
+            ALog_A(**jsonPtr == '}', "Json Object not has '}', error char = %c ", **jsonPtr);
             break;
         }
-
     }
     while (true);
-
-    SkipWhiteSpace(jsonPtr);
-    ALog_A(**jsonPtr == '}', "Json Object not has '}', error char = %c ", **jsonPtr);
-
-ParseObjectEnd:
 
     // skip '}'
     (*jsonPtr)++;
@@ -554,11 +526,11 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 
     switch (c)
     {
-        case '[':
-            return ParseArray(jsonPtr);
-
         case '{':
             return ParseObject(jsonPtr);
+
+        case '[':
+            return ParseArray(jsonPtr);
 
         case '\"':
             return ParseString(jsonPtr);
