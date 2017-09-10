@@ -280,11 +280,21 @@ struct AJsonArray AJsonArray[1] =
 // skip whitespace and CR/LF
 static inline void SkipWhiteSpace(char** jsonPtr)
 {
-    char* json = *jsonPtr;
+    char* json  = *jsonPtr;
 
-    while (*json == ' ' || *json == '\t' || *json == '\n' || *json == '\r')
+    while (true)
     {
-        json++;
+        switch (*json)
+        {
+            case ' ' :
+            case '\t':
+            case '\n':
+            case '\r':
+                json++;
+                continue;
+        }
+
+        break;
     }
 
     ALog_A(json != NULL, "The Json parse error on NULL, json is incomplete");
@@ -331,8 +341,30 @@ static inline void* ParseNumber(char** jsonPtr)
     do
     {
         c = *(++json);
+
+        switch (c)
+        {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case '-':
+            case '+':
+            case '.':
+            case 'e':
+            case 'E':
+                continue;
+        }
+
+        break;
     }
-    while (isdigit(c) || c == '-' || c == '.' || c == 'e' || c == 'E');
+    while (true);
 
     // insert number string end
     *json = '\0';
@@ -535,22 +567,30 @@ static inline JsonValue* ParseValue(char** jsonPtr)
         case '\"':
             return ParseString(jsonPtr);
 
-        default:
-            if (isdigit(c) || c == '-')
-            {
-                return ParseNumber(jsonPtr);
-            }
-            else if (strncmp(*jsonPtr, "null", 4) == 0)
-            {
-                ALog_D("Json null");
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        case '-':
+            return ParseNumber(jsonPtr);
 
-                (*jsonPtr) += 4;
+        case 'f':
+        {
+            char* json = *jsonPtr;
 
-                // copy with '\0'
-                return CreateJsonValue("null", 5, JsonType_String);
-
-            }
-            else if (strncmp(*jsonPtr, "false", 5) == 0)
+            if
+            (
+                json[1] == 'a' &&
+                json[2] == 'l' &&
+                json[3] == 's' &&
+                json[4] == 'e'
+            )
             {
                 ALog_D("Json false");
 
@@ -558,9 +598,20 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 
                 // copy with '\0'
                 return CreateJsonValue("false", 6, JsonType_String);
-
             }
-            else if (strncmp(*jsonPtr, "true", 4) == 0)
+            break;
+        }
+
+        case 't':
+        {
+            char* json = *jsonPtr;
+
+            if
+            (
+                json[1] == 'r' &&
+                json[2] == 'u' &&
+                json[3] == 'e'
+            )
             {
                 ALog_D("Json true");
 
@@ -569,13 +620,35 @@ static inline JsonValue* ParseValue(char** jsonPtr)
                 // copy with '\0'
                 return CreateJsonValue("true", 5, JsonType_String);
             }
-            else
-            {
-                ALog_A(false, "Invalid json value type, error char = %c", c);
-            }
+            break;
+        }
 
+        case 'n':
+        {
+            char* json = *jsonPtr;
+
+            if
+            (
+                json[1] == 'u' &&
+                json[2] == 'l' &&
+                json[3] == 'l'
+            )
+            {
+                ALog_D("Json null");
+
+                (*jsonPtr) += 4;
+
+                // copy with '\0'
+                return CreateJsonValue("null", 5, JsonType_String);
+            }
+            break;
+        }
+
+        default:
             break;
     }
+
+    ALog_A(false, "Invalid json value type, error char = %c", c);
 
     return NULL;
 }
