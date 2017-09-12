@@ -12,7 +12,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <ctype.h>
 
 #include "Engine/Toolkit/Utils/Json.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -277,7 +276,6 @@ struct AJsonArray AJsonArray[1] =
 //----------------------------------------------------------------------------------------------------------------------
 
 
-// skip whitespace and CR/LF
 static inline void SkipWhiteSpace(char** jsonPtr)
 {
     char* json  = *jsonPtr;
@@ -335,14 +333,11 @@ static inline void* ParseNumber(char** jsonPtr)
 
 static inline void* ParseNumber(char** jsonPtr)
 {
-    char* json = (char*) *jsonPtr;
-    char  c;
+    char* json = *jsonPtr;
 
-    do
+    while (true)
     {
-        c = *(++json);
-
-        switch (c)
+        switch (*(++json))
         {
             case '0':
             case '1':
@@ -364,18 +359,18 @@ static inline void* ParseNumber(char** jsonPtr)
 
         break;
     }
-    while (true);
 
+    char c = *json;
     // insert number string end
-    *json = '\0';
+    *json  = '\0';
     ALog_D("Json number = %s", *jsonPtr);
 
     JsonValue* value = CreateJsonValue(NULL, 0, JsonType_Float);
     value->jsonFloat = atof(*jsonPtr);
 
     // restore char after number
-    *json             = c;
-    *jsonPtr          = json;
+    *json            = c;
+    *jsonPtr         = json;
 
     return value;
 }
@@ -387,14 +382,14 @@ static inline void* ParseNumber(char** jsonPtr)
 
 static inline int SkipString(char **jsonPtr)
 {
-    // skip '\"'
+    // skip '"'
     (*jsonPtr)++;
 
     char c     = **jsonPtr;
     int  count = 0;
 
-    // check end '\"'
-    while (c != '\"')
+    // check end '"'
+    while (c != '"')
     {
         if (c != '\\')
         {
@@ -409,7 +404,7 @@ static inline int SkipString(char **jsonPtr)
         c = *(*jsonPtr + count);
     }
 
-    // skip whole string include the end '\"'
+    // skip whole string include the end '"'
     *jsonPtr += count + 1;
 
     // how many char skipped
@@ -500,7 +495,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
             break;
         }
         
-        ALog_A(**jsonPtr == '\"', "Json object parse error, char = %c, should be '\"' ", **jsonPtr);
+        ALog_A(**jsonPtr == '"', "Json object parse error, char = %c, should be '\"' ", **jsonPtr);
 
         int   keyLen = SkipString(jsonPtr);
         char* key    = *jsonPtr - keyLen - 1;
@@ -564,7 +559,7 @@ static inline JsonValue* ParseValue(char** jsonPtr)
         case '[':
             return ParseArray(jsonPtr);
 
-        case '\"':
+        case '"':
             return ParseString(jsonPtr);
 
         case '0':
