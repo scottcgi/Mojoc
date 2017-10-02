@@ -86,37 +86,21 @@ Now there is only one sample, which is the simplfied version of published game [
    ```
 * #### How Mojoc was born ?
 
-  Mojoc started in 2012 as a spare time project. At first, the Mojoc hosted in Google Code website, and use Eclipse + CDT + ADT development, focus on android platform. Everyday after my daytime work, usually at 10 night, I spent one or two hours to develop Mojoc. After 5 years, Mojoc became basically available and developed the first mobile game.
+  Mojoc started in 2012 as a spare time project. At first, the Mojoc hosted in Google Code website, and use Eclipse + CDT + ADT + NDK development, focus on android platform. 
     
   In the time of development, I experienced a lot of repetition and thinking. For a long time, I was not very sure and clear how to use C language to simulate OOP and keep it simple and uniform. So I tried a lot of ideas, repeated the process, write code, modify, refactor, change ideas, delete code, rewrite again and so on.
   
   But in the end, I developed unique rules [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style) and [Mojoc OOC Model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C)) that make me feel right and great, when follow this rules to develop Mojoc.
 
-  In 2017, through long time hard work, Mojoc becomes a simple, easy and small game engine, and released the first version.
 
 * #### What kind of games Mojoc can do ?
   For now, it is not recommended to use Mojoc make game. Be honest Mojoc is not yet quite perfect. There are many improvements and refinements, and I'm working on it. But now, Mojoc's code architecture and programming model have been established. So Mojoc very suitable for learning and understanding how to use C language to build game engine.
   
-* #### What is the future plan about Mojoc ?
-  The short term goal is use Mojoc make more games.   
-  The long  term goal  is editor, workflow, visual game development.
-  
-* #### Why developed Mojoc ?
-  * It's my coding passion. 
-  
-
 ## Roadmap
 The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the direction of the Mojoc development.
 
 
-## About Me
-In short, my programming work started in 2008, and 3 years java server development, 6 years mobile game development. Finally, in 2017, became an independent game developer and created my own game engine Mojoc.
-
-
 ## Support & Donation
-  Welcome [fork](https://github.com/scottcgi/Mojoc/issues#fork-destination-box), [issues](https://github.com/scottcgi/Mojoc/issues), star, watch. Any questions, suggestions or ideas, can send mail to me scott.cgi@qq.com. If Mojoc inspired you, valuable to you, if you like it, enjoy it, if you want to support it, you can _=>_ 
   * Play Mojoc [Published Games](#published-games).
-  * Donation via [Paypal](https://www.paypal.me/scottcgi0/1.28), if buy me a coffee, I will turn the coffee into code.
+  * Donation via [Paypal](https://www.paypal.me/scottcgi0/1.28).
   
-#
-_(:loop:) => {_:sunny::coffee::computer::bug::coffee::crescent_moon:_}_
