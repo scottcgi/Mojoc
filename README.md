@@ -86,7 +86,7 @@ Now there is only one sample, which is the simplfied version of published game [
    ```
 * #### How Mojoc was born ?
 
-  Mojoc started in 2012 as a spare time project. At first, the Mojoc hosted in Google Code website, and use Eclipse + CDT + ADT + NDK development, focus on android platform. 
+  Mojoc started in 2012 as a spare time project. At first, the Mojoc use Eclipse + CDT + ADT + NDK development, focus on android platform. 
     
   In the time of development, I experienced a lot of repetition and thinking. For a long time, I was not very sure and clear how to use C language to simulate OOP and keep it simple and uniform. So I tried a lot of ideas, repeated the process, write code, modify, refactor, change ideas, delete code, rewrite again and so on.
   
@@ -102,5 +102,5 @@ The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the di
 
 ## Support & Donation
   * Play Mojoc [Published Games](#published-games).
-  * Donation via [Paypal](https://www.paypal.me/scottcgi0/1.28).
+  * Donation via [Paypal](https://www.paypal.me/PayScottcgi/0.99).
   
