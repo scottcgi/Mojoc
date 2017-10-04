@@ -29,7 +29,7 @@ Less is more, Simple is best, More complex thinking keep less and simple.
 * Mojoc application architecture based on Component, State-Machine, Message-Driven. 
   * [Mojoc Component Architecture](https://github.com/scottcgi/Mojoc/wiki/Component-Architecture)
 * More feature details see 
-  * [Mojoc Main Features](https://github.com/scottcgi/Mojoc/wiki/Main-Features)
+  * [Mojoc Code Details](https://github.com/scottcgi/Mojoc/wiki/Code-Details)
     
 ## Published Games
 Mojoc has made a cross-platform android and ios game on the App Store and Google Play. And I will use Mojoc to make more games.
