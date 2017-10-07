@@ -46,8 +46,8 @@ struct  SkeletonAnimationPlayer
      */
     float                  preTime;
 
-    /** T
-     * he preAnimationData mix to preAnimationData current time
+    /**
+     * The preAnimationData mix to preAnimationData current time
      */
     float                  mixTime;
 

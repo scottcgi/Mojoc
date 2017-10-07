@@ -217,10 +217,14 @@ struct ASkeletonTimeline
      */
     void (*SetCurve)          (SkeletonCurveTimeline*      curveTimeline,  int frameIndex, float cx1,  float cy1, float cx2, float cy2);
 
-    /** Set the time and angle of the specified keyframe */
+    /**
+     * Set the time and angle of the specified keyframe
+     */
     void (*SetRotateFrame)    (SkeletonRotateTimeline*     rotateTimeline, int frameIndex, float time, float angle);
 
-    /** Set the time and value of the specified keyframe */
+    /**
+     * Set the time and value of the specified keyframe
+     */
     void (*SetTranslateFrame) (SkeletonTranslateTimeline*  translateTimeline,  int frameIndex, float time, float x, float y);
     void (*SetColorFrame)     (SkeletonColorTimeline*      colorTimeline,      int frameIndex, float time, Color*             color);
     void (*SetAttachmentFrame)(SkeletonAttachmentTimeline* attachmentTimeline, int frameIndex, float time, char*              attachmentName);

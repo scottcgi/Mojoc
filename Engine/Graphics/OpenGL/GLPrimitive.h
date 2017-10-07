@@ -22,16 +22,24 @@
 
 struct AGLPrimitive
 {
-    /** Default 1.0f */
+    /**
+     * Default 1.0f
+     */
     GLfloat  pointSize;
 
-    /** Default 1.0f */
+    /**
+     * Default 1.0f
+     */
     GLfloat  lineWidth;
 
-    /** Default {1.0f, 1.0f, 1.0f, 1.0f} */
+    /**
+     * Default {1.0f, 1.0f, 1.0f, 1.0f}
+     */
     Color    color[1];
 
-    /** Default NULL */
+    /**
+     * Default NULL
+     */
     Matrix4* modelMatrix;
 
     /**
