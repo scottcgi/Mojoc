@@ -150,7 +150,7 @@ static inline float AGLTool_ToScreenHeight(float glHeight)
  */
 static inline float AGLTool_ToScreenX(float glX)
 {
-    return     AGLTool_ToScreenWidth(glX + AGLTool->screenRatio);
+    return AGLTool_ToScreenWidth(glX + AGLTool->screenRatio);
 }
 
 

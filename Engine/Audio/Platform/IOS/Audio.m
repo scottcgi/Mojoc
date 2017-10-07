@@ -11,9 +11,9 @@
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 #ifdef IS_PLATFORM_IOS
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 #include <stddef.h>
@@ -32,21 +32,21 @@ static ArrayList  (AudioPlayer*)    destroyList[1] = AArrayList_Init  (sizeof(Au
 static ArrayList  (AudioPlayer*)    loopList   [1] = AArrayList_Init  (sizeof(AudioPlayer*), 5 );
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static inline void* GetAudioData(char* filePath, ALsizei* outDataSize, ALenum* outDataFormat, ALsizei* outSampleRate)
 {
-    AudioStreamBasicDescription	fileFormat;
-    AudioStreamBasicDescription	outputFormat;
-    SInt64						fileLengthInFrames = 0;
-    UInt32						propertySize       = sizeof(fileFormat);
-    ExtAudioFileRef			    audioFileRef       = NULL;
-    void*						data               = NULL;
+    AudioStreamBasicDescription  fileFormat;
+    AudioStreamBasicDescription  outputFormat;
+    SInt64                       fileLengthInFrames = 0;
+    UInt32                       propertySize       = sizeof(fileFormat);
+    ExtAudioFileRef              audioFileRef       = NULL;
+    void*                        data               = NULL;
 
-    NSString*                   path               = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:filePath] ofType:nil];
-    CFURLRef                    fileUrl            = CFURLCreateWithString(kCFAllocatorDefault, (CFStringRef) path, NULL);
-    OSStatus				    error              = ExtAudioFileOpenURL(fileUrl, &audioFileRef);
+    NSString*                    path               = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:filePath] ofType:nil];
+    CFURLRef                     fileUrl            = CFURLCreateWithString(kCFAllocatorDefault, (CFStringRef) path, NULL);
+    OSStatus                     error              = ExtAudioFileOpenURL(fileUrl, &audioFileRef);
     
     CFRelease(fileUrl);
     
@@ -61,13 +61,26 @@ static inline void* GetAudioData(char* filePath, ALsizei* outDataSize, ALenum* o
     
     if (error != noErr)
     {
-        ALog_E("Audio GetAudioData ExtAudioFileGetProperty(kExtAudioFileProperty_FileDataFormat) failed, error = %x, filePath = %s", (int) error, filePath);
+        ALog_E
+        (
+            "Audio GetAudioData ExtAudioFileGetProperty(kExtAudioFileProperty_FileDataFormat) failed,"
+            "error = %x, filePath = %s",
+            (int) error,
+             filePath
+        );
+
         goto Exit;
     }
     
     if (fileFormat.mChannelsPerFrame > 2)
     {
-        ALog_E("Audio GetAudioData unsupported format, channel count = %u is greater than stereo, filePath = %s", (unsigned int) fileFormat.mChannelsPerFrame, filePath);
+        ALog_E
+        (
+            "Audio GetAudioData unsupported format, channel count = %u is greater than stereo, filePath = %s",
+            (unsigned int) fileFormat.mChannelsPerFrame,
+             filePath
+        );
+
         goto Exit;
     }
     
@@ -87,7 +100,14 @@ static inline void* GetAudioData(char* filePath, ALsizei* outDataSize, ALenum* o
     
     if(error != noErr)
     {
-        ALog_E("Audio GetAudioData ExtAudioFileSetProperty(kExtAudioFileProperty_ClientDataFormat) failed, error = %x, filePath = %s", (int) error, filePath);
+        ALog_E
+        (
+            "Audio GetAudioData ExtAudioFileSetProperty(kExtAudioFileProperty_ClientDataFormat) failed,"
+            "error = %x, filePath = %s",
+            (int) error,
+             filePath
+        );
+
         goto Exit;
     }
     
@@ -97,11 +117,18 @@ static inline void* GetAudioData(char* filePath, ALsizei* outDataSize, ALenum* o
     
     if(error != noErr)
     {
-        ALog_E("Audio GetAudioData ExtAudioFileGetProperty(kExtAudioFileProperty_FileLengthFrames) failed, error = %x, filePath = %s", (int) error, filePath);
+        ALog_E
+        (
+            "Audio GetAudioData ExtAudioFileGetProperty(kExtAudioFileProperty_FileLengthFrames) failed,"
+            "error = %x, filePath = %s",
+            (int) error,
+             filePath
+        );
+
         goto Exit;
     }
     
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
     
     // read all the data into memory
     UInt32 framesToRead = (UInt32) fileLengthInFrames;
@@ -119,7 +146,7 @@ static inline void* GetAudioData(char* filePath, ALsizei* outDataSize, ALenum* o
         
         if (data != NULL)
         {
-            AudioBufferList	dataBuffer;
+            AudioBufferList    dataBuffer;
             dataBuffer.mNumberBuffers              = 1;
             dataBuffer.mBuffers[0].mDataByteSize   = dataSize;
             dataBuffer.mBuffers[0].mNumberChannels = outputFormat.mChannelsPerFrame;
@@ -143,8 +170,9 @@ static inline void* GetAudioData(char* filePath, ALsizei* outDataSize, ALenum* o
     {
         data = AArrayStrMap_GetAt(fileDataMap, index, void*);
     }
-    
-Exit:
+
+
+    Exit:
     
     // dispose the ExtAudioFileRef, it is no longer needed
     if (audioFileRef != 0)
@@ -156,7 +184,7 @@ Exit:
 }
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static ALCdevice*                device                 = NULL;
@@ -171,7 +199,7 @@ struct AudioPlayer
 };
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static void Update(float deltaSeconds)
@@ -272,7 +300,7 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
         ALog_E("Audio InitPlayer attach audio data to buffer failed, error = %x, filePath = %s", error, filePath);
     }
     
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
     
     alGenSources(1, &player->sourceId);
     if((error = alGetError())!= AL_NO_ERROR)
@@ -410,6 +438,7 @@ static void Release()
     alcCloseDevice(device);
 }
 
+
 struct AAudio AAudio[1] =
 {
     Init,
@@ -428,6 +457,6 @@ struct AAudio AAudio[1] =
 };
 
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 #endif
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
