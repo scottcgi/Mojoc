@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef EGL_TOOL_H
 #define EGL_TOOL_H
 

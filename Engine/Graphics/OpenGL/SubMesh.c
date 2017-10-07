@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <string.h>
 #include "Engine/Graphics/Graphics.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
@@ -136,7 +135,7 @@ static SubMesh* CreateWithQuad(Texture* texture, Quad* quad)
 {
     SubMesh* subMesh = (SubMesh*) malloc
                                   (
-                                      sizeof(SubMesh)          +
+                                      sizeof(SubMesh)         +
                                       Quad_IndexNumBytes      +
                                       Quad_UVNumBytes         +
                                       Quad_Position3NumBytes

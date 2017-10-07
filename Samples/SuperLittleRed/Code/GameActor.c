@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include "Engine/Application/Application.h"
 #include "Engine/Application/Scheduler.h"
 #include "Engine/Extension/Particle/ParticleEmitter.h"

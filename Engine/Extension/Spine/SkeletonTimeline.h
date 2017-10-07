@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef SKELETON_TIMELINE_H
 #define SKELETON_TIMELINE_H
 
@@ -197,18 +196,17 @@ SkeletonDeformTimeline;
 
 struct ASkeletonTimeline
 {
-    SkeletonRotateTimeline*     (*CreateRotate)      (int frameCount, int boneIndex);
-    SkeletonTranslateTimeline*  (*CreateTranslate)   (int frameCount, int boneIndex);
-    SkeletonScaleTimeline*      (*CreateScale)       (int frameCount, int boneIndex);
-    SkeletonColorTimeline*      (*CreateColor)       (int frameCount);
-    SkeletonAttachmentTimeline* (*CreateAttachment)  (int frameCount);
-    SkeletonEventTimeline*      (*CreateEvent)       (int frameCount);
-    SkeletonDrawOrderTimeline*  (*CreateDrawOrder)   (int frameCount);
-    SkeletonDeformTimeline*     (*CreateDeform)      (int frameCount);
+    SkeletonRotateTimeline*     (*CreateRotate)    (int frameCount, int boneIndex);
+    SkeletonTranslateTimeline*  (*CreateTranslate) (int frameCount, int boneIndex);
+    SkeletonScaleTimeline*      (*CreateScale)     (int frameCount, int boneIndex);
+    SkeletonColorTimeline*      (*CreateColor)     (int frameCount);
+    SkeletonAttachmentTimeline* (*CreateAttachment)(int frameCount);
+    SkeletonEventTimeline*      (*CreateEvent)     (int frameCount);
+    SkeletonDrawOrderTimeline*  (*CreateDrawOrder) (int frameCount);
+    SkeletonDeformTimeline*     (*CreateDeform)    (int frameCount);
 
-
-    void                        (*SetLinear)         (SkeletonCurveTimeline* curveTimeline, int frameIndex);
-    void                        (*SetStepped)        (SkeletonCurveTimeline* curveTimeline, int frameIndex);
+    void (*SetLinear) (SkeletonCurveTimeline* curveTimeline, int frameIndex);
+    void (*SetStepped)(SkeletonCurveTimeline* curveTimeline, int frameIndex);
 
     /**
      * Sets the control handle positions for an interpolation bezier curve
@@ -217,19 +215,18 @@ struct ASkeletonTimeline
      * cx1 and cx2 are from 0 to 1, representing the percent of time between the two keyframes
      * cy1 and cy2 are the percent of the difference between the keyframe's values
      */
-    void                        (*SetCurve)          (SkeletonCurveTimeline* curveTimeline, int frameIndex, float cx1, float cy1, float cx2, float cy2);
-
+    void (*SetCurve)          (SkeletonCurveTimeline*      curveTimeline,  int frameIndex, float cx1,  float cy1, float cx2, float cy2);
 
     /** Set the time and angle of the specified keyframe */
-    void                        (*SetRotateFrame)    (SkeletonRotateTimeline*     rotateTimeline,     int frameIndex, float time, float angle);
+    void (*SetRotateFrame)    (SkeletonRotateTimeline*     rotateTimeline, int frameIndex, float time, float angle);
 
     /** Set the time and value of the specified keyframe */
-    void                        (*SetTranslateFrame) (SkeletonTranslateTimeline*  translateTimeline,  int frameIndex, float time, float x, float y);
-    void                        (*SetColorFrame)     (SkeletonColorTimeline*      colorTimeline,      int frameIndex, float time, Color*             color);
-    void                        (*SetAttachmentFrame)(SkeletonAttachmentTimeline* attachmentTimeline, int frameIndex, float time, char*              attachmentName);
-    void                        (*SetEventFrame)     (SkeletonEventTimeline*      eventTimeline,      int frameIndex, float time, SkeletonEventData* eventData);
-    void                        (*SetDrawOrderFrame) (SkeletonDrawOrderTimeline*  drawOrderTimeline,  int frameIndex, float time, Array(int)*        drawOrder);
-    void                        (*SetDeformFrame)    (SkeletonDeformTimeline*     deformTimeline,     int frameIndex, float time, Array(float)*      vertices);
+    void (*SetTranslateFrame) (SkeletonTranslateTimeline*  translateTimeline,  int frameIndex, float time, float x, float y);
+    void (*SetColorFrame)     (SkeletonColorTimeline*      colorTimeline,      int frameIndex, float time, Color*             color);
+    void (*SetAttachmentFrame)(SkeletonAttachmentTimeline* attachmentTimeline, int frameIndex, float time, char*              attachmentName);
+    void (*SetEventFrame)     (SkeletonEventTimeline*      eventTimeline,      int frameIndex, float time, SkeletonEventData* eventData);
+    void (*SetDrawOrderFrame) (SkeletonDrawOrderTimeline*  drawOrderTimeline,  int frameIndex, float time, Array(int)*        drawOrder);
+    void (*SetDeformFrame)    (SkeletonDeformTimeline*     deformTimeline,     int frameIndex, float time, Array(float)*      vertices);
 };
 
 

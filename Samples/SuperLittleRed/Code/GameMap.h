@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef GAME_MAP_H
 #define GAME_MAP_H
 

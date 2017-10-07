@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef HUD_H
 #define HUD_H
 
@@ -28,9 +27,9 @@ typedef struct
     int          collisionGroup;
     int          bodyId;
 
-#ifdef APP_DEBUG
+    #ifdef APP_DEBUG
     Drawable     debugDrawable[1];
-#endif
+    #endif
 }
 DropCollisionItem;
 

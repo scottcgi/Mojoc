@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef ARRAY_LIST_H
 #define ARRAY_LIST_H
 

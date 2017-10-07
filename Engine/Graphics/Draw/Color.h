@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef COLOR_H
 #define COLOR_H
 
@@ -36,6 +35,7 @@ extern struct AColor AColor[1];
 
 
 #define COLOR_WHITE {1.0f, 1.0f, 1.0f, 1.0f}
+#define COLOR_BLACK {0.0f, 0.0f, 0.0f, 0.0f}
 
 
 #endif

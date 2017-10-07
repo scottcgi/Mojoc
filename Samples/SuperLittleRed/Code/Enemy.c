@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include "Engine/Toolkit/Utils/ArrayIntSet.h"
 #include "Engine/Toolkit/Head/UserData.h"
 #include "Engine/Toolkit/Utils/TweenTool.h"
@@ -58,7 +57,7 @@ static void Update(Component* component, float deltaSeconds)
     ASkeletonAnimationPlayer_Update(enemy->hurtEffect,  deltaSeconds);
     ASkeletonAnimationPlayer_Update(enemy->dizzyEffect, deltaSeconds);
 
-#ifdef APP_DEBUG
+    #ifdef APP_DEBUG
     if (enemy->collisionBoxBody != NULL)
     {
         ADrawable->Draw(enemy->debugCollisionBoundingBox);
@@ -68,7 +67,7 @@ static void Update(Component* component, float deltaSeconds)
     {
         ADrawable->Draw(enemy->debugAttackBoundingBox);
     }
-#endif
+    #endif
 }
 
 
@@ -142,8 +141,6 @@ static void OnHurt(PhysicsBody* self, PhysicsBody* other, float deltaSeconds)
                               ->SetOnComplete  (WoodStopActionOnComplete)
                               ->SetQueue       (false)
                               ->RunActions     (enemyDrawable);
-
-                    goto ScheduleOnce;
                 }
             }
             else if (AMath_Random() < 0.9f)
@@ -155,7 +152,6 @@ static void OnHurt(PhysicsBody* self, PhysicsBody* other, float deltaSeconds)
                 AComponent->SetState(enemy->component, EnemyState_Stand);
             }
 
-ScheduleOnce:
             AScheduler->ScheduleOnce(WoodStopSchedulerUpdate, 0.5f)->userData->slot0->ptrValue = enemy;
         }
 
@@ -357,7 +353,13 @@ static void Delete(Enemy* enemy)
     {
         ATween->TryCompleteAllActions
         (
-            AArrayList_Get(enemy->arrowSet->elementList, enemy->arrowSet->elementList->size - 1, Arrow*)->sprite->drawable,
+            AArrayList_Get
+            (
+                enemy->arrowSet->elementList,
+                enemy->arrowSet->elementList->size - 1,
+                Arrow*
+            )
+            ->sprite->drawable,
             true
         );
     }
@@ -512,7 +514,12 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
 
                 if (fabsf(enemyDrawable->positionX - posX) < AGameData->dizzyDistance)
                 {
-                    AScheduler->ScheduleOnce(Dizzy, fabsf(enemyDrawable->positionX - posX) / 3)->userData->slot0->ptrValue = enemy;
+                    AScheduler->ScheduleOnce
+                    (
+                        Dizzy,
+                        fabsf(enemyDrawable->positionX - posX) / 3
+                    )
+                    ->userData->slot0->ptrValue = enemy;
                 }
                 else
                 {
@@ -694,7 +701,11 @@ static Enemy* Create(char* filePath, float bornX, float bornY)
     if (collisionSlot != NULL)
     {
         enemy->collisionBoxDrawable                         = collisionSlot->bone->drawable;
-        enemy->collisionBoxBody                             = APhysicsWorld->AddBody(PhysicsShape_Polygon, ASkeletonSlot_GetBoundingBox(collisionSlot)->vertexArr);
+        enemy->collisionBoxBody                             = APhysicsWorld->AddBody
+                                                              (
+                                                                  PhysicsShape_Polygon,
+                                                                  ASkeletonSlot_GetBoundingBox(collisionSlot)->vertexArr
+                                                              );
         enemy->collisionBoxBody->OnCollision                = OnHurt;
         enemy->collisionBoxBody->userData->slot0->ptrValue  = enemy;
         APhysicsBody_SetCollisionGroup(enemy->collisionBoxBody, CollisionGroup_EnemyBody | CollisionGroup_EnemyAttack);
@@ -702,25 +713,39 @@ static Enemy* Create(char* filePath, float bornX, float bornY)
 
         ATool->InitBox(enemy->collisionBoxBody, 2.0f, 2.0f);
 
-#ifdef APP_DEBUG
-        ASkeletonAnimationPlayer->InitSlotBoundingBoxDrawable(enemy->player, "CollisionBox", enemy->debugCollisionBoundingBox);
-#endif
+        #ifdef APP_DEBUG
+        ASkeletonAnimationPlayer->InitSlotBoundingBoxDrawable
+        (
+            enemy->player,
+            "CollisionBox",
+            enemy->debugCollisionBoundingBox
+        );
+        #endif
     }
 
     SkeletonSlot* attackSlot = ASkeletonAnimationPlayer_GetSlot(enemy->player, "AttackBox");
     if (attackSlot != NULL)
     {
         enemy->attackBoxDrawable                         = attackSlot->bone->drawable;
-        enemy->attackBoxBody                             = APhysicsWorld->AddBody(PhysicsShape_Polygon, ASkeletonSlot_GetBoundingBox(attackSlot)->vertexArr);
+        enemy->attackBoxBody                             = APhysicsWorld->AddBody
+                                                           (
+                                                               PhysicsShape_Polygon,
+                                                               ASkeletonSlot_GetBoundingBox(attackSlot)->vertexArr
+                                                           );
         enemy->attackBoxBody->userData->slot0->ptrValue  = enemy;
         APhysicsBody_SetCollisionGroup(enemy->attackBoxBody, CollisionGroup_EnemyAttack | CollisionGroup_Attack);
         APhysicsBody_SetState         (enemy->attackBoxBody, PhysicsBodyState_IsFixed);
 
         ATool->InitBox(enemy->attackBoxBody, 2.0f, 2.0f);
 
-#ifdef APP_DEBUG
-        ASkeletonAnimationPlayer->InitSlotBoundingBoxDrawable(enemy->player, "AttackBox", enemy->debugAttackBoundingBox);
-#endif
+        #ifdef APP_DEBUG
+        ASkeletonAnimationPlayer->InitSlotBoundingBoxDrawable
+        (
+            enemy->player,
+            "AttackBox",
+            enemy->debugAttackBoundingBox
+        );
+        #endif
     }
 
     if (AEnemyAI->isInit == false)

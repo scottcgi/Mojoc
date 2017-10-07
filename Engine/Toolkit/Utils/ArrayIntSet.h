@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef ARRAY_INT_SET_H
 #define ARRAY_INT_SET_H
 

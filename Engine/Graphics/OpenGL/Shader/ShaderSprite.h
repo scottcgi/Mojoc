@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef SHADER_SPRITE_H
 #define SHADER_SPRITE_H
 

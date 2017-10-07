@@ -57,8 +57,6 @@ static void LoadingUpdate(Scheduler* scheduler, float deltaSeconds)
 
 
 #define INIT_FUNCTION_COUNT 6
-
-
 static void (*Inits[INIT_FUNCTION_COUNT])();
 static int  progressSize = INIT_FUNCTION_COUNT + ENEMY_KINDS_COUNT * 5;
 

@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <stdbool.h>
 
 #include "Engine/Toolkit/Toolkit.h"

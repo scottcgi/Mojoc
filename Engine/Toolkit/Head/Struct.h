@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef STRUCT_H
 #define STRUCT_H
 

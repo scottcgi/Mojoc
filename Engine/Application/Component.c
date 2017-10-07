@@ -8,11 +8,10 @@
  * Version: 0.0.0
  */
 
-
 #include <string.h>
 #include <stdlib.h>
-#include <Engine/Toolkit/Utils/ArrayIntSet.h>
 
+#include "Engine/Toolkit/Utils/ArrayIntSet.h"
 #include "Engine/Application/Component.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
@@ -26,14 +25,14 @@ static void Init(Component* outComponent)
     outComponent->parent        = NULL;
     outComponent->isActive      = true;
 
-    AArrayIntMap->Init            (sizeof(Component*),         outComponent->childMap);
-    AArrayIntSet->Init            (                            outComponent->observerSet);
+    AArrayIntMap->Init(sizeof(Component*), outComponent->childMap);
+    AArrayIntSet->Init(outComponent->observerSet);
     AArrayIntMap->InitWithCapacity(sizeof(ComponentState*), 1, outComponent->stateMap);
 
     outComponent->stateMap->elementList->increase = 5;
-    outComponent->defaultState                    = AComponent->AddState(outComponent, ComponentState_Default, NULL, NULL);
-    outComponent->curState                        = outComponent->defaultState;
-    outComponent->preState                        = outComponent->defaultState;
+    outComponent->defaultState = AComponent->AddState(outComponent, ComponentState_Default, NULL, NULL);
+    outComponent->curState     = outComponent->defaultState;
+    outComponent->preState     = outComponent->defaultState;
 }
 
 

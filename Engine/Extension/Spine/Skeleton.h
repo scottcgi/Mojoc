@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef SKELETON_H
 #define SKELETON_H
 

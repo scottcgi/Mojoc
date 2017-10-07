@@ -8,9 +8,8 @@
  * Version: 0.0.0
  */
 
-
-#ifndef HERO_H
-#define HERO_H
+#ifndef  HERO_H
+#define  HERO_H
 
 
 #include "Engine/Extension/Spine/SkeletonAnimationPlayer.h"
@@ -79,9 +78,9 @@ typedef struct
     Enemy*       enemy;
     ArrowHitType hitType;
 
-#ifdef APP_DEBUG
+    #ifdef APP_DEBUG
     Drawable     debugDrawable[1];
-#endif
+    #endif
 }
 Arrow;
 

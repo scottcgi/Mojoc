@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef COROUTINE_H
 #define COROUTINE_H
 

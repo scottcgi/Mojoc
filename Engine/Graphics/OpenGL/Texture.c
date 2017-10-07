@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <stdlib.h>
 #include "Engine/Graphics/OpenGL/Texture.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"

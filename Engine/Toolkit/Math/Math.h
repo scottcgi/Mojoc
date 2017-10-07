@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef MATH_H
 #define MATH_H
 

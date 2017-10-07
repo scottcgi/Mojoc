@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <string.h>
 
 #include "Engine/Toolkit/Head/UserData.h"

@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef PLATFORM_H
 #define PLATFORM_H
 

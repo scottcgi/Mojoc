@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef COMPONENT_H
 #define COMPONENT_H
 

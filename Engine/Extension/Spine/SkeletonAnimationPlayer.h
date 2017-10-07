@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef SKELETON_ANIMATION_PLAYER_H
 #define SKELETON_ANIMATION_PLAYER_H
 

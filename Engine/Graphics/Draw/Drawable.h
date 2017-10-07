@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef DRAWABLE_H
 #define DRAWABLE_H
 
@@ -192,7 +191,6 @@ typedef enum
 DrawableState;
 
 
-
 typedef struct Drawable Drawable;
 struct  Drawable
 {
@@ -280,7 +278,6 @@ struct  Drawable
       */
      void (*Render)(Drawable* drawable);
 };
-
 
 
 struct ADrawable

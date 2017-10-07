@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <stdbool.h>
 #include <string.h>
 
@@ -144,14 +143,14 @@ static inline SkeletonCurveType GetCurveType(SkeletonCurveTimeline* curveTimelin
 */
 
 
-static const float  subDivStep   = 1.0f        / BEZIER_SEGMENTS;
-static const float  subDivStep2  = subDivStep  * subDivStep;
-static const float  subDivStep3  = subDivStep2 * subDivStep;
-static const float  pre1         = 3           * subDivStep;
-static const float  pre2         = 3           * subDivStep2;
-static const float  pre4         = 6           * subDivStep2;
-static const float  pre5         = 6           * subDivStep3;
-static const float  subDivPre    = subDivStep3 / pre5;
+static const float  subDivStep  = 1.0f        / BEZIER_SEGMENTS;
+static const float  subDivStep2 = subDivStep  * subDivStep;
+static const float  subDivStep3 = subDivStep2 * subDivStep;
+static const float  pre1        = 3           * subDivStep;
+static const float  pre2        = 3           * subDivStep2;
+static const float  pre4        = 6           * subDivStep2;
+static const float  pre5        = 6           * subDivStep3;
+static const float  subDivPre   = subDivStep3 / pre5;
 
 
 static void SetCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, float cx1, float cy1, float cx2, float cy2)
@@ -1106,9 +1105,11 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
 
         case SkeletonAttachmentDataType_SkinnedMesh:
         {
-            SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachment = (SkeletonSkinnedMeshAttachmentData*) deformTimeline->attachmentData->childPtr;
-            positionArr                                              = skinnedMeshAttachment->weightVertexArr;
-            position                                                 = AArray_GetData(positionArr, float);
+            SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachment =
+                (SkeletonSkinnedMeshAttachmentData*) deformTimeline->attachmentData->childPtr;
+
+            positionArr = skinnedMeshAttachment->weightVertexArr;
+            position    = AArray_GetData(positionArr, float);
 
             break;
         }

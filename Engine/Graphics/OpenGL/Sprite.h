@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef SPRITE_H
 #define SPRITE_H
 

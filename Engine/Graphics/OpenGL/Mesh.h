@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef MESH_H
 #define MESH_H
 

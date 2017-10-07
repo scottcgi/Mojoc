@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <stdio.h>
 
 #include "Engine/Application/Input.h"
@@ -204,8 +203,8 @@ static void inline CloseUITween(TweenActionOnComplete OnComplete)
                     false,
                     TweenEaseType_BackOut
                 )
-              ->SetOnComplete (OnComplete)
-              ->RunActions    (drawable);
+              ->SetOnComplete(OnComplete)
+              ->RunActions   (drawable);
 
     if (OnComplete == NULL)
     {

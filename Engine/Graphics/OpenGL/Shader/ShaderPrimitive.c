@@ -9,7 +9,6 @@
  *
  */
 
-
 #include <stdbool.h>
 #include "Engine/Toolkit/Head/String.h"
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"

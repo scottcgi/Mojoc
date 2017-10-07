@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef ARRAY_INT_MAP_H
 #define ARRAY_INT_MAP_H
 

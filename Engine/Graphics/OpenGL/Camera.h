@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef CAMERA_H
 #define CAMERA_H
 

@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include "Engine/Audio/Platform/Audio.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Application/Application.h"

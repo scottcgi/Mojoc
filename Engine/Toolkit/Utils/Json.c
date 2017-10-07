@@ -70,7 +70,6 @@ static void Release(JsonValue* value)
 }
 
 
-
 static inline JsonValue* CreateJsonValue(void* data, size_t valueSize, JsonType type)
 {
     JsonValue* value = (JsonValue*) malloc(sizeof(JsonValue) + valueSize);

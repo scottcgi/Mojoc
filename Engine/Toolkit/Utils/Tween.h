@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef TWEEN_H
 #define TWEEN_H
 

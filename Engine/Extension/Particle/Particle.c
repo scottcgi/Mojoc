@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <stdlib.h>
 #include "Engine/Extension/Particle/Particle.h"
 

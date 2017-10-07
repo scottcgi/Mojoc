@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef ARRAY_QUEUE_H
 #define ARRAY_QUEUE_H
 

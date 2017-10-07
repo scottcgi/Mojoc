@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef BITWISE_H
 #define BITWISE_H
 

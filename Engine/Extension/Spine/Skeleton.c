@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include "Engine/Extension/Spine/Skeleton.h"
 #include "Engine/Toolkit/Head/Struct.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -19,8 +18,15 @@
 
 static inline SubMesh* GetAttachmentSubMesh(Skeleton* skeleton, SkeletonAttachmentData* skeletonAttachmentData)
 {
-    int meshIndex    = *(int*) ((char*) (skeletonAttachmentData)->childPtr + skeletonAttachmentMeshOffset   [(skeletonAttachmentData)->type]);
-    int subMeshIndex = *(int*) ((char*) (skeletonAttachmentData)->childPtr + skeletonAttachmentSubMeshOffset[(skeletonAttachmentData)->type]);
+    int meshIndex    = *(int*) (
+                                   (char*) (skeletonAttachmentData)->childPtr +
+                                   skeletonAttachmentMeshOffset[(skeletonAttachmentData)->type]
+                               );
+
+    int subMeshIndex = *(int*) (
+                                   (char*) (skeletonAttachmentData)->childPtr +
+                                   skeletonAttachmentSubMeshOffset[(skeletonAttachmentData)->type]
+                               );
 
     return AArrayList_Get
            (

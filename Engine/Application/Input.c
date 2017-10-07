@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Application/Input.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"

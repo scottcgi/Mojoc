@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
@@ -323,7 +322,7 @@ static void* ThreadRun(void* param)
                 // guaranteed to be accepted by ANativeWindow_SetBuffersGeometry()
                 // As soon as we picked a EGLConfig, we can safely reconfigure the
                 // ANativeWindow buffers to match, using EGL_NATIVE_VISUAL_ID
-                eglGetConfigAttrib              (AData->display, AData->config, EGL_NATIVE_VISUAL_ID, &AData->format);
+                eglGetConfigAttrib(AData->display, AData->config, EGL_NATIVE_VISUAL_ID, &AData->format);
                 ANativeWindow_setBuffersGeometry(AData->window,  0, 0, AData->format);
 
                 AApplication->GLReady
@@ -337,9 +336,9 @@ static void* ThreadRun(void* param)
 
             case MainThread_OnResized:
                 // call in main thread
-                AEGLTool->ResetSurface          (AData->window, AData->display, AData->context, AData->config, &AData->surface);
+                AEGLTool->ResetSurface(AData->window, AData->display, AData->context, AData->config, &AData->surface);
                 ANativeWindow_setBuffersGeometry(AData->window, 0, 0, AData->format);
-                AApplication->Resized           (ANativeWindow_getWidth(AData->window), ANativeWindow_getHeight(AData->window));
+                AApplication->Resized(ANativeWindow_getWidth(AData->window), ANativeWindow_getHeight(AData->window));
                 AData->mainThreadCallback = MainThread_OnNull;
                 break;
 

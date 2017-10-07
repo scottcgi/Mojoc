@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include "Engine/Physics/PhysicsWorld.h"
 #include "Engine/Toolkit/Utils/ArrayIntSet.h"
 #include "Engine/Physics/PhysicsCollision.h"

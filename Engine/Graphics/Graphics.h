@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 

@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef GAME_ACTOR_H
 #define GAME_ACTOR_H
 

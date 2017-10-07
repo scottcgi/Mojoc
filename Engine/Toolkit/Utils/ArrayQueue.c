@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <stdlib.h>
 #include "Engine/Toolkit/Utils/ArrayQueue.h"
 #include "Engine/Toolkit/Platform/Log.h"

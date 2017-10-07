@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef APPLICATION_H
 #define APPLICATION_H
 

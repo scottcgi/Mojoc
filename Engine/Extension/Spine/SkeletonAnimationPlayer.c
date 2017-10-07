@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <math.h>
 #include "Engine/Toolkit/Head/UserData.h"
 #include "Engine/Extension/Spine/SkeletonAnimationPlayer.h"

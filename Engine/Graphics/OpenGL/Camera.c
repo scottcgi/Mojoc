@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include "Engine/Graphics/OpenGL/Camera.h"
 
 

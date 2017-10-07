@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <string.h>
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Graphics/OpenGL/GLInfo.h"
@@ -37,16 +36,16 @@ static void Init()
         AGLInfo->version = 2.0f;
     }
     
-    glGetFloatv  (GL_ALIASED_POINT_SIZE_RANGE,           AGLInfo->pointSizeRange);
-    glGetFloatv  (GL_ALIASED_LINE_WIDTH_RANGE,           AGLInfo->lineWidthRange);
+    glGetFloatv  (GL_ALIASED_POINT_SIZE_RANGE,          AGLInfo->pointSizeRange);
+    glGetFloatv  (GL_ALIASED_LINE_WIDTH_RANGE,          AGLInfo->lineWidthRange);
 
-    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS,                &AGLInfo->maxVertexAttribs);
-    glGetIntegerv(GL_MAX_VERTEX_UNIFORM_VECTORS,        &AGLInfo->maxVertexUniformVectors);
-    glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_VECTORS,      &AGLInfo->maxFragmentUniformVectors);
-    glGetIntegerv(GL_MAX_VARYING_VECTORS,               &AGLInfo->maxVaryingVectors);
-    glGetIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS,    &AGLInfo->maxVertexTextureImageUnits);
-    glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,  &AGLInfo->maxCombinedTextureImageUnits);
-    glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS,           &AGLInfo->maxTextureImageUnits);
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS,               &AGLInfo->maxVertexAttribs);
+    glGetIntegerv(GL_MAX_VERTEX_UNIFORM_VECTORS,       &AGLInfo->maxVertexUniformVectors);
+    glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_VECTORS,     &AGLInfo->maxFragmentUniformVectors);
+    glGetIntegerv(GL_MAX_VARYING_VECTORS,              &AGLInfo->maxVaryingVectors);
+    glGetIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS,   &AGLInfo->maxVertexTextureImageUnits);
+    glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &AGLInfo->maxCombinedTextureImageUnits);
+    glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS,          &AGLInfo->maxTextureImageUnits);
 }
 
 

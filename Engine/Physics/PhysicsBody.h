@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef PHYSICS_BODY_H
 #define PHYSICS_BODY_H
 

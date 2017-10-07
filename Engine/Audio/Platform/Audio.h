@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef AUDIO_H
 #define AUDIO_H
 
@@ -17,8 +16,6 @@
 
 
 typedef struct AudioPlayer AudioPlayer;
-
-
 struct AAudio
 {
     /**

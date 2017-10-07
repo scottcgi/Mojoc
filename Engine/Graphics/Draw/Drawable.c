@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <stdlib.h>
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Graphics/Draw/Drawable.h"
@@ -618,10 +617,10 @@ static void Init(Drawable* outDrawable)
     ADrawable_SetState
     (
         outDrawable,
-        DrawableState_Transform      |
+        DrawableState_Transform     |
         DrawableState_UpdateInverse |
-        DrawableState_Color          |
-        DrawableState_IsBlendColor |
+        DrawableState_Color         |
+        DrawableState_IsBlendColor  |
         DrawableState_DrawChanged
     );
 }

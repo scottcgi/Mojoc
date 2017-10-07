@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef SKELETON_BONE_H
 #define SKELETON_BONE_H
 

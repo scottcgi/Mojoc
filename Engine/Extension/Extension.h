@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef EXTENSION_H
 #define EXTENSION_H
 

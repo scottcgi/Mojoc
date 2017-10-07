@@ -8,14 +8,12 @@
  * Version: 0.0.0
  */
 
-
 #include <stddef.h>
 
 #include "Engine/Toolkit/Head/UserData.h"
 #include "Engine/Application/Scheduler.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Audio/Platform/Audio.h"
-
 #include "AudioTool.h"
 
 

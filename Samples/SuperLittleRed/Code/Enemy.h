@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef ENEMY_H
 #define ENEMY_H
 
@@ -18,7 +17,6 @@
 #include "Engine/Application/Component.h"
 #include "Engine/Toolkit/Utils/Tween.h"
 #include "Engine/Toolkit/Utils/ArrayIntSet.h"
-
 #include "Config.h"
 
 
@@ -77,13 +75,12 @@ typedef struct
     PhysicsBody*                  collisionBoxBody;
     Drawable*                     collisionBoxDrawable;
 
-#ifdef APP_DEBUG
+    #ifdef APP_DEBUG
     Drawable                      debugAttackBoundingBox   [1];
     Drawable                      debugCollisionBoundingBox[1];
-#endif
+    #endif
 }
 Enemy;
-
 
 
 struct AEnemy

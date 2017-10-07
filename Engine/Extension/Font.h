@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef FONT_H
 #define FONT_H
 

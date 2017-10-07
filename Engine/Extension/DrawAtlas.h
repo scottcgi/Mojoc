@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef DRAW_ATLAS_H
 #define DRAW_ATLAS_H
 

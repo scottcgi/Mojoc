@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef PARTICLE_H
 #define PARTICLE_H
 

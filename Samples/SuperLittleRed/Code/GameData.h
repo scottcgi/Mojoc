@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef GAME_DATA_H
 #define GAME_DATA_H
 

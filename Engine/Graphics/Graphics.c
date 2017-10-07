@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include "Engine/Graphics/Graphics.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderMesh.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderSprite.h"

@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 

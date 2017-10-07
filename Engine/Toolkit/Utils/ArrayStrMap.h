@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef ARRAY_STR_MAP_H
 #define ARRAY_STR_MAP_H
 

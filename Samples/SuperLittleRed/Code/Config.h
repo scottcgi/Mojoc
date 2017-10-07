@@ -8,12 +8,11 @@
  * Version: 0.0.0
  */
 
-
 #ifndef CONFIG_H
 #define CONFIG_H
 
 
-// #define APP_DEBUG
+//#define APP_DEBUG
 
 
 #endif

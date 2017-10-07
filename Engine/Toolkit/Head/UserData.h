@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef USER_DATA_H
 #define USER_DATA_H
 

@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <stdio.h>
 #include <string.h>
 
@@ -221,7 +220,6 @@ static void OnHit(PhysicsBody* self, PhysicsBody* other, float deltaSeconds)
 
 
 #ifdef APP_DEBUG
-
 static void DebugRender(Drawable* drawable)
 {
     Arrow* arrow = (Arrow*) drawable->userData->slot0->ptrValue;
@@ -232,7 +230,6 @@ static void DebugRender(Drawable* drawable)
     AGLPrimitive->modelMatrix = AGameMap->beforeDrawable->modelMatrix;
     AGLPrimitive->DrawPolygon(arrow->body->positionArr);
 }
-
 #endif
 
 

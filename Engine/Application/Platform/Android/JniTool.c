@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include "Engine/Application/Platform/Android/JniTool.h"
 
 
@@ -19,8 +18,6 @@
 
 #include <android/native_activity.h>
 #include <stdbool.h>
-
-
 #include "Engine/Toolkit/Platform/Log.h"
 
 

@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef GL_INFO_H
 #define GL_INFO_H
 

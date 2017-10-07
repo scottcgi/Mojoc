@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef JNI_TOOL_H
 #define JNI_TOOL_H
 
@@ -40,17 +39,17 @@ struct AJniTool
 ------------------------------------------------------------------------------------------------------------------------
 Must Called in same thread with OpenGL
 
-    className:
-        pass to FindClass which is java class name with package like "java/lang/ClassLoader"
+className:
+    pass to FindClass which is java class name with package like "java/lang/ClassLoader"
 
-    methodName:
-        java class method name like "getClassLoader"
+methodName:
+    java class method name like "getClassLoader"
 
-    paramCode:
-        java class method arguments like "()Ljava/lang/ClassLoader;"
+paramCode:
+    java class method arguments like "()Ljava/lang/ClassLoader;"
 
-    ...:
-        varargs parameter which are method arguments
+...:
+    varargs parameter which are method arguments
 ------------------------------------------------------------------------------------------------------------------------
 */
 

@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef GL_PRIMITIVE_H
 #define GL_PRIMITIVE_H
 

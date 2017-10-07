@@ -16,9 +16,9 @@
 #include "Enemy.h"
 
 
-#define ENEMY_KINDS_COUNT   1
-#define KILL_INCREASE_SCALE 10
-#define TIME_INCREASE_SCALE 5
+#define  ENEMY_KINDS_COUNT   1
+#define  KILL_INCREASE_SCALE 10
+#define  TIME_INCREASE_SCALE 5
 
 
 struct AEnemyAI

@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef MATRIX_H
 #define MATRIX_H
 

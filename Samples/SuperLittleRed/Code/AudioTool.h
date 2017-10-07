@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef AUDIO_TOOL_H
 #define AUDIO_TOOL_H
 

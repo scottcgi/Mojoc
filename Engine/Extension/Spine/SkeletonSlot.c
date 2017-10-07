@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <string.h>
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 #include "Engine/Extension/Spine/SkeletonSlot.h"
@@ -26,14 +25,20 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
             SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->childPtr;
             SubMesh*                      subMesh              = AArrayList_Get
                                                                  (
-                                                                     AArrayList_GetPtr(slot->skeleton->meshList, regionAttachmentData->meshIndex, Mesh)->childList,
+                                                                     AArrayList_GetPtr
+                                                                     (
+                                                                         slot->skeleton->meshList,
+                                                                         regionAttachmentData->meshIndex,
+                                                                         Mesh
+                                                                     )
+                                                                     ->childList,
                                                                      regionAttachmentData->subMeshIndex,
                                                                      SubMesh*
                                                                  );
 
-            drawable                                           = subMesh->drawable;
-            drawable->width                                    = regionAttachmentData->width;
-            drawable->height                                   = regionAttachmentData->height;
+            drawable         = subMesh->drawable;
+            drawable->width  = regionAttachmentData->width;
+            drawable->height = regionAttachmentData->height;
 
             ADrawable_SetParent   (drawable, slot->bone->drawable);
             ADrawable_SetPosition2(drawable, regionAttachmentData->x, regionAttachmentData->y);
@@ -48,14 +53,20 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
             SkeletonMeshAttachmentData* meshAttachmentData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
             SubMesh*                    subMesh            = AArrayList_Get
                                                              (
-                                                                 AArrayList_GetPtr(slot->skeleton->meshList, meshAttachmentData->meshIndex, Mesh)->childList,
+                                                                 AArrayList_GetPtr
+                                                                 (
+                                                                     slot->skeleton->meshList,
+                                                                     meshAttachmentData->meshIndex,
+                                                                     Mesh
+                                                                 )
+                                                                 ->childList,
                                                                  meshAttachmentData->subMeshIndex,
                                                                  SubMesh*
                                                              );
 
-            drawable                                       = subMesh->drawable;
-            drawable->width                                = meshAttachmentData->width;
-            drawable->height                               = meshAttachmentData->height;
+            drawable         = subMesh->drawable;
+            drawable->width  = meshAttachmentData->width;
+            drawable->height = meshAttachmentData->height;
             ADrawable_SetParent(drawable, slot->bone->drawable);
 
             break;
@@ -66,16 +77,22 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
             SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData = (SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr;
             SkeletonMeshAttachmentData*        meshAttachmentData        = skinnedMeshAttachmentData->meshAttachmentData;
             SubMesh*                           subMesh                   = AArrayList_Get
-                                                                              (
-                                                                             AArrayList_GetPtr(slot->skeleton->meshList, meshAttachmentData->meshIndex, Mesh)->childList,
+                                                                           (
+                                                                             AArrayList_GetPtr
+                                                                             (
+                                                                                 slot->skeleton->meshList,
+                                                                                 meshAttachmentData->meshIndex,
+                                                                                 Mesh
+                                                                             )
+                                                                             ->childList,
                                                                              meshAttachmentData->subMeshIndex,
                                                                              SubMesh*
                                                                            );
 
-            float*                             positions                 = AArray_GetData(subMesh->positionArr,                       float);
-            int*                               bones                     = AArray_GetData(skinnedMeshAttachmentData->boneArr,         int);
-            float*                             weights                   = AArray_GetData(skinnedMeshAttachmentData->weightArr,       float);
-            float*                             weightVertices            = AArray_GetData(skinnedMeshAttachmentData->weightVertexArr, float);
+            float*  positions      = AArray_GetData(subMesh->positionArr,                       float);
+            int*    bones          = AArray_GetData(skinnedMeshAttachmentData->boneArr,         int);
+            float*  weights        = AArray_GetData(skinnedMeshAttachmentData->weightArr,       float);
+            float*  weightVertices = AArray_GetData(skinnedMeshAttachmentData->weightVertexArr, float);
 
             for (int i = 0, w = 0, v = 0, p = 0; i < skinnedMeshAttachmentData->boneArr->length; p += 3)
             {

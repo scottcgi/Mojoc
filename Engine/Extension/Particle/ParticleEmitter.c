@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <math.h>
 #include "Engine/Extension/Particle/ParticleEmitter.h"
 #include "Engine/Toolkit/Head/Struct.h"

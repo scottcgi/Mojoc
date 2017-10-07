@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef INPUT_H
 #define INPUT_H
 

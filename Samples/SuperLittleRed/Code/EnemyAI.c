@@ -27,10 +27,8 @@
 #include "GameData.h"
 
 
-static ArrayIntSet woodSet[1];
-
-
-static ArrayIntSet* sets[] =
+static ArrayIntSet  woodSet[1];
+static ArrayIntSet* sets   [1] =
 {
     woodSet,
 };

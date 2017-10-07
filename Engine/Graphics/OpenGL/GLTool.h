@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef GL_TOOL_H
 #define GL_TOOL_H
 

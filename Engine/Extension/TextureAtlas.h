@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef TEXTURE_ATLAS_H
 #define TEXTURE_ATLAS_H
 

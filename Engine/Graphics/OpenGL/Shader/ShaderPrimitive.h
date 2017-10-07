@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef SHADER_PRIMITIVE_H
 #define SHADER_PRIMITIVE_H
 

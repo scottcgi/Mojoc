@@ -8,11 +8,10 @@
  * Version: 0.0.0
  */
 
-
 #include <stdio.h>
 #include <string.h>
 
-#include <Engine/Toolkit/Utils/ArrayIntSet.h>
+#include "Engine/Toolkit/Utils/ArrayIntSet.h"
 #include "Engine/Toolkit/Head/UserData.h"
 #include "Engine/Extension/Font.h"
 #include "Engine/Graphics/OpenGL/GLPrimitive.h"
@@ -68,7 +67,6 @@ static void Update(Component* component, float deltaSeconds)
 
 
     #ifdef APP_DEBUG
-
     for (int i = 0; i < collisionItemDebugDrawSet->elementList->size; i++)
     {
         DropCollisionItem* item = AArrayList_Get(collisionItemDebugDrawSet->elementList, i, DropCollisionItem*);
@@ -81,7 +79,6 @@ static void Update(Component* component, float deltaSeconds)
             );
         }
     }
-
     #endif
     
 
@@ -242,22 +239,29 @@ static void Init()
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    AHUD->energyLengthDrawable  = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,           "EnergyLength")          ->drawable;
-    AHUD->energyDrawable        = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,           "Energy")                ->drawable;
-    AHUD->tombstoneDrawable     = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,           "Tombstone")             ->drawable;
-    AHUD->tombstoneHeight       = ASkeleton_GetSubMesh            (AHUD->hudPlayer->skeleton, "Tombstone", "Tombstone")->drawable->height;
+    AHUD->energyLengthDrawable  = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "EnergyLength")->drawable;
+    AHUD->energyDrawable        = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "Energy")      ->drawable;
+    AHUD->tombstoneDrawable     = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "Tombstone")   ->drawable;
+    AHUD->upDrawable            = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "Up")          ->drawable;
+    AHUD->downDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "Down")        ->drawable;
+
     AHUD->tombstoneBornY        = AHUD->tombstoneDrawable->positionY;
-    AHUD->upDrawable            = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,           "Up")                    ->drawable;
-    AHUD->downDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,           "Down")                  ->drawable;
+    AHUD->tombstoneHeight       = ASkeleton_GetSubMesh
+                                  (
+                                      AHUD->hudPlayer->skeleton,
+                                      "Tombstone",
+                                      "Tombstone"
+                                  )
+                                  ->drawable->height;
 
     ADrawable_SetInVisible(AHUD->tombstoneDrawable);
 
-    AHUD->heartDrawable         = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,           "Heart")                 ->drawable;
-    AHUD->coinDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,           "Coin")                  ->drawable;
-    AHUD->stoneDrawable         = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,           "Stone")                 ->drawable;
-    AHUD->woodDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,           "Wood")                  ->drawable;
-    AHUD->killDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,           "Kill")                  ->drawable;
-    AHUD->energyPointerDrawable = ASkeletonAnimationPlayer_GetSubMesh(AHUD->hudPlayer,       "Pointer", "Pointer")     ->drawable;
+    AHUD->heartDrawable         = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,    "Heart")->drawable;
+    AHUD->coinDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,    "Coin") ->drawable;
+    AHUD->stoneDrawable         = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,    "Stone")->drawable;
+    AHUD->woodDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,    "Wood") ->drawable;
+    AHUD->killDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,    "Kill") ->drawable;
+    AHUD->energyPointerDrawable = ASkeletonAnimationPlayer_GetSubMesh(AHUD->hudPlayer, "Pointer", "Pointer")->drawable;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -603,7 +607,6 @@ static void DropStone()
 
 
 #ifdef APP_DEBUG
-
 static void DebugRender(Drawable* drawable)
 {
     DropCollisionItem* item   = (DropCollisionItem*) drawable->userData->slot0->ptrValue;
@@ -614,7 +617,6 @@ static void DebugRender(Drawable* drawable)
     AGLPrimitive->modelMatrix = AGameMap->beforeDrawable->modelMatrix;
     AGLPrimitive->DrawPolygon(item->body->positionArr);
 }
-
 #endif
 
 

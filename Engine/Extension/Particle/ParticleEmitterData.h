@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef PARTICLE_EMITTER_DATA_H
 #define PARTICLE_EMITTER_DATA_H
 

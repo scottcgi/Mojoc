@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef JSON_H
 #define JSON_H
 

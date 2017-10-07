@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef SUB_MESH_H
 #define SUB_MESH_H
 

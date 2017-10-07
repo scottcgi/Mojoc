@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #include <math.h>
 #include "Engine/Toolkit/Math/Matrix.h"
 #include "Engine/Toolkit/Platform/Log.h"

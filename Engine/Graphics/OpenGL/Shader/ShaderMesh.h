@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef SHADER_MESH_H
 #define SHADER_MESH_H
 

@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef UI_H
 #define UI_H
 

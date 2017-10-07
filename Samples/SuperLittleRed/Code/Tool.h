@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef TOOL_H
 #define TOOL_H
 

@@ -8,7 +8,6 @@
  * Version: 0.0.0
  */
 
-
 #ifndef BUFFER_READER_H
 #define BUFFER_READER_H
 
