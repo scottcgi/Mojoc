@@ -350,7 +350,7 @@ static void Render(Drawable* drawable)
     if (AGraphics->isUseVAO)
     {
 
-UseVAO:
+        UseVAO:
 
         glBindVertexArray(mesh->vaoId);
 
@@ -372,7 +372,7 @@ UseVAO:
         // load the vertex index
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[MeshBuffer_Index]);
 
-UseVBO:
+        UseVBO:
 
         BindVBO(mesh);
 

@@ -433,7 +433,7 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                 else
                 {
 
-HUDTouch:  // click on HUD
+                    HUDTouch:  // click on HUD
 
                     curPlayer = AHUD->hudPlayer;
 
