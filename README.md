@@ -90,7 +90,7 @@ Now there is only one sample, which is the simplfied version of published game [
 
 
 * #### What kind of games Mojoc can do ?
-  For now, it is not recommended to use Mojoc make game. Be honest Mojoc is not yet quite perfect. There are many improvements and refinements, and I'm working on it. But now, Mojoc's code architecture and programming model have been established. So Mojoc very suitable for learning and understanding how to use C language to build game engine.
+  For now, it is not recommended to use Mojoc to make games. Be honest Mojoc is not yet quite perfect. There are many improvements and refinements, and I'm working on it. But now, Mojoc's code architecture and programming model have been established. So Mojoc very suitable for learning and understanding how to use C language to build game engine.
   
 ## Roadmap
 The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the direction of the Mojoc development.
