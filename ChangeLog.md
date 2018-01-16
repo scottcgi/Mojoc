@@ -1,4 +1,7 @@
+## v0.4.7
+_`2018.1.16 UTC+8 17:12`_
 
+* Update copyright. (+0.1.0)
 * Optimize Json ParseNumber and code format. (+0.0.1)
 * Json optimize if else to switch case. (+0.0.1)
 * Refactor Json ParseObject, ParseArray and SkipString fucntions. (+0.1.0)
