@@ -1,11 +1,10 @@
 /*
- * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
  *
  * This code is licensed under the MIT License.
  *
- * Since  : 2016/11/13
- * Author : scott.cgi
- * Version: 0.0.0
+ * Since : 2016/11/13
+ * Author: scott.cgi
  */
 
 #include <stdlib.h>
