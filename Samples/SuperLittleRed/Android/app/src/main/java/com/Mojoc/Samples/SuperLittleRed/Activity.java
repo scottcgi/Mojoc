@@ -6,14 +6,12 @@ import android.view.KeyEvent;
 import android.view.View;
 
 /**
- * Copyright (c) 2012-2017 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
  *
  * This code is licensed under the MIT License.
  *
- * Since  : 2015-03-02
- * Author : scott.cgi
- * Version: 0.0.0
- *
+ * Since : 2015-03-02
+ * Author: scott.cgi
  */
 public class Activity extends NativeActivity {
 
