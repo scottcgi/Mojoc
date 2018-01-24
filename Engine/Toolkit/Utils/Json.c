@@ -459,7 +459,6 @@ static inline JsonValue* ParseArray(char** jsonPtr)
         }
         else
         {
-            SkipWhiteSpace(jsonPtr);
             ALog_A(**jsonPtr == ']', "Json Array not has ']', error char = %c ", **jsonPtr);
             break;
         }
@@ -525,7 +524,6 @@ static inline JsonValue* ParseObject(char** jsonPtr)
         }
         else
         {
-            SkipWhiteSpace(jsonPtr);
             ALog_A(**jsonPtr == '}', "Json Object not has '}', error char = %c ", **jsonPtr);
             break;
         }
