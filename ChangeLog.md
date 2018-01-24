@@ -1,3 +1,6 @@
+
+* Optimize JSON function SkipWhiteSpace call in ParseArray and ParseObject. (+0.0.1)
+
 ## v0.4.7
 _`2018.1.16 UTC+8 17:12`_
 
