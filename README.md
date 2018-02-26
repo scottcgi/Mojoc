@@ -33,7 +33,7 @@ Less is more, Simple is best, More complex thinking keep less and simple.
 ## Published Games
 Mojoc has made a cross-platform android and ios game on the App Store and Google Play. And I will use Mojoc to make more games.
 * Super Little Red is bow and arrow shooting game, very challenging your operation.
-  * [App Store](https://itunes.apple.com/us/app/id1242353775)
+  * [App Store](https://itunes.apple.com/cn/app/id1242353775)
   * [Google Play](https://play.google.com/store/apps/details?id=com.SuperLittleRed)
   * [Tap Tap](https://www.taptap.com/app/45524)
 
