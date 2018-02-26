@@ -2,7 +2,7 @@
 
 ## Mojoc v0.4.7
 
-Mojoc is an open-source, cross-platform, pure C game engine. It is based on OpenGLES3 and written in C99. It currently works on IOS and Android, but can easily be extended to other platforms, and will support more platforms in the future.
+Mojoc is an open-source, cross-platform, pure C game engine. It is based on OpenGLES3 and written in C99. It currently works on iOS and Android, but can easily be extended to other platforms, and will support more platforms in the future.
 
 * Released version in [releases](https://github.com/scottcgi/Mojoc/releases).
 * Release changes in [changelog](https://github.com/scottcgi/Mojoc/blob/master/ChangeLog.md).
@@ -15,30 +15,30 @@ Mojoc is an open-source, cross-platform, pure C game engine. It is based on Open
 Mojoc is licensed under the [MIT License](https://github.com/scottcgi/Mojoc/blob/master/LICENSE "Mojoc Under MIT License").
 
 ## Core Idea
-Less is more, Simple is better, More complex thinking keep less and simple.
+Less is more, simple is better, simplify complex ideas.
 
 ## Features
 
-* The only programming skill needed is C99 language.
-* In platform-independent code, the C Standard Library is only tool that Mojoc used, in others Mojoc build everything.
-* Mojoc has its own unique code style. 
+* The only programming skill needed is the C99 language.
+* In platform-independent code, Mojoc uses only the standard C library, platform-specific code is all handled by Mojoc.
+* Mojoc has its own unique coding style. 
   * [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style)
 * Mojoc uses an extremely lightweight OOC (Object Oriented C) programming model. 
   * [Mojoc OOC Model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C))
-* Mojoc application architecture is based on Component, State-Machine, Message-Driven. 
+* Mojoc application architecture is based on components, state-machines and is message-driven. 
   * [Mojoc Component Architecture](https://github.com/scottcgi/Mojoc/wiki/Component-Architecture)
 * For more feature details see 
   * [Mojoc Code Details](https://github.com/scottcgi/Mojoc/wiki/Code-Details)
     
 ## Published Games
 Mojoc has been used for a cross-platform Android and iOS game on the App Store and Google Play. I will be using Mojoc to make more games.
-* Super Little Red is a bow and arrow shooting game, very challenging your operation.
+* Super Little Red is a bow and arrow shooting game, very challenging for your coordination.
   * [App Store](https://itunes.apple.com/cn/app/id1242353775)
   * [Google Play](https://play.google.com/store/apps/details?id=com.SuperLittleRed)
   * [Tap Tap](https://www.taptap.com/app/45524)
 
 ## Samples
-The samples are complete, can be run, and show the Mojoc features game demo. Each platform provides its own platform editor for building projects. For example, Android uses AndroidStudio, iOS uses XCode, Windows uses Visual Studio.
+The samples are complete, can be run, and show the Mojoc features in a game demo. Each platform provides its own platform editor for building projects. For example, Android uses AndroidStudio, iOS uses XCode, Windows uses Visual Studio.
 
 Currently there is only one sample, which is a simplfied version of the published game [Super Little Red](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed).
 
