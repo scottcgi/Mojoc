@@ -31,14 +31,14 @@ Less is more, simple is better, simplify complex ideas.
   * [Mojoc Code Details](https://github.com/scottcgi/Mojoc/wiki/Code-Details)
     
 ## Published Games
-Mojoc has been used for a cross-platform Android and iOS game on the App Store and Google Play. I will be using Mojoc to make more games.
+Mojoc has been used for a cross-platform Android and IOS game on the App Store and Google Play. I will be using Mojoc to make more games.
 * Super Little Red is a bow and arrow shooting game, very challenging for your coordination.
   * [App Store](https://itunes.apple.com/cn/app/id1242353775)
   * [Google Play](https://play.google.com/store/apps/details?id=com.SuperLittleRed)
   * [Tap Tap](https://www.taptap.com/app/45524)
 
 ## Samples
-The samples are complete, can be run, and show the Mojoc features in a game demo. Each platform provides its own platform editor for building projects. For example, Android uses AndroidStudio, iOS uses XCode, Windows uses Visual Studio.
+The samples are complete, can be run, and show the Mojoc features in a game demo. Each platform provides its own platform editor for building projects. For example, Android uses AndroidStudio, IOS uses XCode, Windows uses Visual Studio.
 
 Currently there is only one sample, which is a simplfied version of the published game [Super Little Red](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed).
 
@@ -54,7 +54,7 @@ Currently there is only one sample, which is a simplfied version of the publishe
     #define PLATFORM_TARGET PLATFORM_ANDROID
     ```
 
-  * [Code Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/Code) is the sample code shared between Android and iOS.
+  * [Code Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/Code) is the sample code shared between Android and IOS.
 
 
 ## FAQ
