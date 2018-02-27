@@ -44,26 +44,26 @@ Currently there is only one sample, which is a simplfied version of the publishe
 
 * #### How to run?
 
-  * [IOS Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/IOS) is an XCode project that is all set up, just open it with XCode. The only thing needed to be set is the Mojoc platform macro in [Platform.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Platform/Platform.h).
+  * [IOS Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/IOS) is an XCode project that is all set up, just open it with XCode. The only thing needed to be set is the Mojoc platform macro in [Platform.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Platform/Platform.h).
     ```c
     #define PLATFORM_TARGET PLATFORM_IOS
     ```
   
-  * [Android Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/Android) is an AndroidStudio project that is all set up, just open it with AndroidStudio. The only thing needed to be set is the Mojoc platform macro in [Platform.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Platform/Platform.h).
+  * [Android Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/Android) is an AndroidStudio project that is all set up, just open it with AndroidStudio. The only thing needed to be set is the Mojoc platform macro in [Platform.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Platform/Platform.h).
     ```c
     #define PLATFORM_TARGET PLATFORM_ANDROID
     ```
 
-  * [Code Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/Code) is the sample code shared between Android and iOS.
+  * [Code Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/Code) is the sample code shared between Android and iOS.
 
 
 ## FAQ
 
 * #### Why not C++?
-  * There are plenty of C++ game engines, but pure C game engines are much rarer. I don't want to reinvent wheels, I hope to be different.
-  * The core idea of the game engine I want to create is to be smaller and simple, which is consistent with the C language.
-  * At the beginning, I had an idea of how to build a complex project with pure C language. I want to test the feasibility of the idea, that is Mojoc.
-  * The C language is simple yet powerful, it can do a lot of interesting things. **Why not C**?
+  * There are plenty of C++ game engines, but pure C game engines are much rarer. I don't want to reinvent wheels, I hope to be different.
+  * The core idea of the game engine I want to create is to be smaller and simple, which is consistent with the C language.
+  * At the beginning, I had an idea of how to build a complex project with pure C language. I want to test the feasibility of the idea, that is Mojoc.
+  * The C language is simple yet powerful, it can do a lot of interesting things. **Why not C**?
     
 * #### What is the meaning of the name Mojoc? 
   ```
@@ -81,15 +81,15 @@ Currently there is only one sample, which is a simplfied version of the publishe
    ```
 * #### How was Mojoc was born?
 
-  Mojoc started in 2012 as a spare time project. At first, Mojoc used Eclipse + CDT + ADT + NDK for development, and was focused on Android platform. 
+  Mojoc started in 2012 as a spare time project. At first, Mojoc used Eclipse + CDT + ADT + NDK for development, and was focused on Android platform. 
     
-  During the development I experienced a lot of repetition and thinking. For a long time I was not very sure and clear about how to use the C language to simulate OOP and keep it simple and uniform. So I tried a lot of ideas, repeated the process, wrote code, modified, refactored, changed the ideas, deleted some code, rewritten it again and so on.
+  During the development I experienced a lot of repetition and thinking. For a long time I was not very sure and clear about how to use the C language to simulate OOP and keep it simple and uniform. So I tried a lot of ideas, repeated the process, wrote code, modified, refactored, changed the ideas, deleted some code, rewritten it again and so on.
   
-  But in the end, I developed a unique rule set, the [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style), and [Mojoc OOC Model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C)) that felt right and nice, then I followed the rules to develop Mojoc.
+  But in the end, I developed a unique rule set, the [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style), and [Mojoc OOC Model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C)) that felt right and nice, then I followed the rules to develop Mojoc.
 
 
 * #### What kind of games can Mojoc do?
-  For now, it is not recommended to use Mojoc to make games. To be honest, Mojoc is not yet quite perfect. There are many improvements and refinements left to be made, that I'm currently working on. But Mojoc's code architecture and programming model have already been established. Mojoc is therefore very suitable for learning and understanding of how to use the C language to build game engine.
+  For now, it is not recommended to use Mojoc to make games. To be honest, Mojoc is not yet quite perfect. There are many improvements and refinements left to be made, that I'm currently working on. But Mojoc's code architecture and programming model have already been established. Mojoc is therefore very suitable for learning and understanding of how to use the C language to build game engine.
   
 ## Roadmap
 The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the direction of the Mojoc development.
@@ -97,5 +97,5 @@ The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the di
 
 ## Support & Donation
   * Play Mojoc [Published Games](#published-games).
-  * Donate via [Paypal](https://www.paypal.me/PayScottcgi/0.99).
+  * Donate via [Paypal](https://www.paypal.me/PayScottcgi/0.99).
   
