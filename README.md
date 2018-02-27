@@ -69,16 +69,16 @@ Currently there is only one sample, which is a simplfied version of the publishe
   ```
   Mojoc = Mojo + c
   ```
-  The c stand for the C language.
+  The c stand for the C language.
     
- * #### Who designed the logo and what is its meaning?
-   I designed it. The logo is an unknown creature made up of 'Mojoc' letters.
-   ```
-   M : ears  
-   OO: eyes  
-   J : body  
-   C : tail
-   ```
+* #### Who designed the logo and what is its meaning?
+  I designed it. The logo is an unknown creature made up of 'Mojoc' letters.
+  ```
+  M : ears  
+  OO: eyes  
+  J : body  
+  C : tail
+  ```
 * #### How was Mojoc was born?
 
   Mojoc started in 2012 as a spare time project. At first, Mojoc used Eclipse + CDT + ADT + NDK for development, and was focused on Android platform. 
