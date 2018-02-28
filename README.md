@@ -20,7 +20,7 @@ Less is more, simple is better, simplify complex ideas.
 ## Features
 
 * The only programming skill needed is the C99 language.
-* In platform-independent code, Mojoc uses only the standard C library, platform-specific code is all handled by Mojoc.
+* In platform-independent code, Mojoc uses only the standard C library, no dependence on third-party libraries.
 * Mojoc has its own unique coding style. 
   * [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style)
 * Mojoc uses an extremely lightweight OOC (Object Oriented C) programming model. 
