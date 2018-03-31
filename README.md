@@ -95,7 +95,7 @@ Currently there is only one sample, which is a simplfied version of the publishe
 The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the direction of the Mojoc development.
 
 
-## Support & Donation
-  * Play Mojoc [Published Games](#published-games).
-  * Donate via [Paypal](https://www.paypal.me/PayScottcgi/0.99).
+## Support
+  * :video_game:Play Mojoc [Published Games](#published-games).
+  * :coffee:Buy me a coffee via [Paypal](https://www.paypal.me/PayScottcgi/0.99).
   
