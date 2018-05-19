@@ -33,35 +33,36 @@ static inline bool TestPolygonPolygonFull(Array(float)* polygonA, Array(float)* 
             float vertexY = AArray_Get(polygonB, j        + 1, float);
             float preY    = AArray_Get(polygonB, preIndex + 1, float);
 
+            // whether point on the y area of vector
             if ((vertexY < y && preY >= y) || (preY < y && vertexY >= y))
             {
                 float vertexX = AArray_Get(polygonB, j, float);
 
                 // cross product between vector (x - vertexX, y - vertexY) and (preX - vertexX, preY - vertexY)
                 // result is (x - vertexX) * (preY - vertexY) - (y - vertexY) * (preX - vertexX)
-                // if result zero means point (x, y) on vector (preX - vertexX, preY - vertexY)
-                // if result positive means point on left  vector
-                // if result negative means point on right vector
+                // if result zero means point (x, y) on the vector (preX - vertexX, preY - vertexY)
+                // if result positive means point on the right of vector
+                // if result negative means point on the left  of vector
                 if (vertexX + (y - vertexY) / (preY - vertexY) * (AArray_Get(polygonB, preIndex, float) - vertexX) <= x)
                 {
-                    leftCount++;
+                    rightCount++;
                 }
                 else
                 {
-                    rightCount++;
+                    leftCount++;
                 }
             }
 
             preIndex = j;
         }
 
-        if (leftCount % 2 != 0)
+        if (rightCount % 2 != 0)
         {
             return true;
         }
     }
 
-    return leftCount != 0 && leftCount == rightCount;
+    return rightCount != 0 && leftCount == rightCount;
 }
 
 
@@ -85,17 +86,19 @@ static inline bool TestPolygonPolygon(Array(float)* polygonA, Array(float)* poly
             float vertexY = AArray_Get(polygonB, j        + 1, float);
             float preY    = AArray_Get(polygonB, preIndex + 1, float);
 
+            // whether point on the y area of vector
             if ((vertexY < y && preY >= y) || (preY < y && vertexY >= y))
             {
                 float vertexX = AArray_Get(polygonB, j, float);
 
                 // cross product between vector (x - vertexX, y - vertexY) and (preX - vertexX, preY - vertexY)
                 // result is (x - vertexX) * (preY - vertexY) - (y - vertexY) * (preX - vertexX)
-                // if result zero means point (x, y) on vector (preX - vertexX, preY - vertexY)
-                // if result positive means point on left  vector
-                // if result negative means point on right vector
+                // if result zero means point (x, y) on the vector (preX - vertexX, preY - vertexY)
+                // if result positive means point on the right of vector
+                // if result negative means point on the left  of vector
                 if (vertexX + (y - vertexY) / (preY - vertexY) * (AArray_Get(polygonB, preIndex, float) - vertexX) <= x)
                 {
+                    // point on the right
                     inside = !inside;
                 }
             }
@@ -129,16 +132,22 @@ static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
         float x = AArray_Get(lineA, i,     float);
         float y = AArray_Get(lineA, i + 1, float);
 
+        // whether point on the y area of vector
         if ((vertexY1 < y && vertexY2 >= y) || (vertexY2 < y && vertexY1 >= y))
         {
-            // cross product between vector (x - vertexX1, y - vertexY1) and (vertexX2 - vertexX1, vertexY2 - vertexY1)
-            // result is (x - vertexX1) * (vertexY2 - vertexY1) - (y - vertexY1) * (vertexX2 - vertexX1)
+            // cross product between vector (x - vertexX, y - vertexY) and (preX - vertexX, preY - vertexY)
+            // result is (x - vertexX) * (preY - vertexY) - (y - vertexY) * (preX - vertexX)
+            // if result zero means point (x, y) on the vector (preX - vertexX, preY - vertexY)
+            // if result positive means point on the right of vector
+            // if result negative means point on the left  of vector
             if (vertexX1 + (y - vertexY1) / (vertexY2 - vertexY1) * (vertexX2 - vertexX1) <= x)
             {
+                // right
                 flag[i >> 1] = 1;
             }
             else
             {
+                // left
                 flag[i >> 1] = 2;
             }
         }
@@ -164,16 +173,22 @@ static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
         float x = AArray_Get(lineB, i,     float);
         float y = AArray_Get(lineB, i + 1, float);
 
+        // whether point on the y area of vector
         if ((vertexY1 < y && vertexY2 >= y) || (vertexY2 < y && vertexY1 >= y))
         {
-            // cross product between vector (x - vertexX1, y - vertexY1) and (vertexX2 - vertexX1, vertexY2 - vertexY1)
-            // result is (x - vertexX1) * (vertexY2 - vertexY1) - (y - vertexY1) * (vertexX2 - vertexX1)
+            // cross product between vector (x - vertexX, y - vertexY) and (preX - vertexX, preY - vertexY)
+            // result is (x - vertexX) * (preY - vertexY) - (y - vertexY) * (preX - vertexX)
+            // if result zero means point (x, y) on the vector (preX - vertexX, preY - vertexY)
+            // if result positive means point on the right of vector
+            // if result negative means point on the left  of vector
             if (vertexX1 + (y - vertexY1) / (vertexY2 - vertexY1) * (vertexX2 - vertexX1) <= x)
             {
+                // right
                 flag[i >> 1] = 1;
             }
             else
             {
+                // left
                 flag[i >> 1] = 2;
             }
         }
@@ -200,17 +215,19 @@ static inline bool TestPolygonPoint(Array(float)* polygon, Array(float)* point)
         float vertexY = vertexData[i        + 1];
         float preY    = vertexData[preIndex + 1];
 
+        // whether point on the y area of vector
         if ((vertexY < y && preY >= y) || (preY < y && vertexY >= y))
         {
             float vertexX = vertexData[i];
 
             // cross product between vector (x - vertexX, y - vertexY) and (preX - vertexX, preY - vertexY)
             // result is (x - vertexX) * (preY - vertexY) - (y - vertexY) * (preX - vertexX)
-            // if result zero means point (x, y) on vector (preX - vertexX, preY - vertexY)
-            // if result positive means point on left  vector
-            // if result negative means point on right vector
+            // if result zero means point (x, y) on the vector (preX - vertexX, preY - vertexY)
+            // if result positive means point on the right of vector
+            // if result negative means point on the left  of vector
             if (vertexX + (y - vertexY) / (preY - vertexY) * (vertexData[preIndex] - vertexX) <= x)
             {
+                // point on the right
                 inside = !inside;
             }
         }

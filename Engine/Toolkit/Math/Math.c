@@ -22,20 +22,23 @@ static bool TestPolygonPoint(Array(float)* vertexArr, float x, float y)
         float vertexY = vertexData[i + 1];
         float preY    = vertexData[preIndex + 1];
 
+        // whether point on the y area of vector
         if ((vertexY < y && preY >= y) || (preY < y && vertexY >= y))
         {
             float vertexX = vertexData[i];
 
             // cross product between vector (x - vertexX, y - vertexY) and (preX - vertexX, preY - vertexY)
             // result is (x - vertexX) * (preY - vertexY) - (y - vertexY) * (preX - vertexX)
-            // if result zero means point (x, y) on vector (preX - vertexX, preY - vertexY)
-            // if result positive means point on left  vector
-            // if result negative means point on right vector
+            // if result zero means point (x, y) on the vector (preX - vertexX, preY - vertexY)
+            // if result positive means point on the right of vector
+            // if result negative means point on the left  of vector
             if (vertexX + (y - vertexY) / (preY - vertexY) * (vertexData[preIndex] - vertexX) <= x)
             {
+                // point on the right
                 inside = !inside;
             }
         }
+
 
         preIndex = i;
     }
