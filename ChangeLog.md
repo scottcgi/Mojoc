@@ -1,4 +1,4 @@
-* Fix point and polygon collision algorithm error.(+0.0.1)
+* Fix point and polygon collision algorithm error. (+0.0.1)
 * Optimize JSON function SkipWhiteSpace call in ParseArray and ParseObject. (+0.0.1)
 
 ## v0.4.7
