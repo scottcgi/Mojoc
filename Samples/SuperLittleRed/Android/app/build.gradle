@@ -1,13 +1,13 @@
 apply plugin: "com.android.application"
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 25
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.Mojoc.Samples.SuperLittleRed"
-        minSdkVersion 18
+        minSdkVersion 21
         ndk {
-            abiFilters "armeabi-v7a"
+            abiFilters "armeabi-v7a", "arm64-v8a"
         }
         externalNativeBuild {
             cmake {
