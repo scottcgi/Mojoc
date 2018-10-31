@@ -8,7 +8,7 @@
  */
 
 #ifndef ARRAY_LIST_H
-#define ARRAY_LIST_H
+#define  ARRAY_LIST_H
 
 
 #include "Engine/Toolkit/Utils/Array.h"
@@ -151,7 +151,7 @@ extern struct AArrayList AArrayList[1];
 /**
  * Initialize constant ArrayList
  */
-#define AArrayList_Init(elementType, increase) \
+#define AArrayList_Init(elementType, increase)  \
     {                                          \
         increase,                              \
         sizeof(elementType),                   \
@@ -166,7 +166,7 @@ extern struct AArrayList AArrayList[1];
 /**
  * Initialize constant ArrayList with fixed capacity, unable to expansion capacity
  */
-#define AArayList_InitFix(elementType, capacity, size, ...) \
+#define AArayList_InitFix(elementType, capacity, size, ...)  \
     {                                                       \
         0,                                                  \
         sizeof(elementType),                                \

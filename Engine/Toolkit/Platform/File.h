@@ -40,7 +40,7 @@ struct AFile
      *
      * relativeFilePath:
      *     Android: assets
-     *        IOS    : NSBundle
+     *        IOS : NSBundle
      *
      * returns < 0 if direct fd access is not possible (for example, if the asset is compressed)
      */

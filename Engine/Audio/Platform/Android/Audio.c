@@ -44,12 +44,21 @@ struct AudioPlayer
     SLPlayItf   play;
     SLSeekItf   seek;
     SLVolumeItf volume;
+    int         waitCallbackCount;
 };
 
 
-static ArrayList(AudioPlayer*) cacheList   [1] = AArrayList_Init(sizeof(AudioPlayer*), 20);
-static ArrayList(AudioPlayer*) destroyList [1] = AArrayList_Init(sizeof(AudioPlayer*), 20);
-static ArrayList(AudioPlayer*) loopList    [1] = AArrayList_Init(sizeof(AudioPlayer*), 5);
+static ArrayList(AudioPlayer*) cacheList    [1] = AArrayList_Init(sizeof(AudioPlayer*), 20);
+static ArrayList(AudioPlayer*) destroyList  [1] = AArrayList_Init(sizeof(AudioPlayer*), 20);
+static ArrayList(AudioPlayer*) loopList     [1] = AArrayList_Init(sizeof(AudioPlayer*), 5);
+static ArrayList(AudioPlayer*) testErrorList[1] = AArrayList_Init(sizeof(AudioPlayer*), 5);
+
+
+enum
+{
+    AudioPlayer_WaitMax  = 120,
+    AudioPlayer_WaitOver = -1,
+};
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -60,8 +69,29 @@ static void Update(float deltaSeconds)
     while (destroyList->size > 0)
     {
         AudioPlayer* player = AArrayList_Pop(destroyList, AudioPlayer*);
-        AArrayList_Add(cacheList, player);
         (*player->object)->Destroy(player->object);
+        AArrayList_Add(cacheList, player);
+    }
+
+    for (int i = testErrorList->size - 1; i > -1 ; i--)
+    {
+        AudioPlayer* player = AArrayList_Get(testErrorList, i, AudioPlayer*);
+
+        if (player->waitCallbackCount == AudioPlayer_WaitOver)
+        {
+            AArrayList->RemoveByLast(testErrorList, i);
+        }
+        else if (player->waitCallbackCount >= AudioPlayer_WaitMax)
+        {
+            // player callback not called, maybe E/libOpenSLES: Error after prepare: 1
+            AArrayList->RemoveByLast(testErrorList, i);
+            (*player->object)->Destroy(player->object);
+            AArrayList_Add(cacheList, player);
+        }
+        else
+        {
+            player->waitCallbackCount++;
+        }
     }
 }
 
@@ -112,17 +142,34 @@ static void Init()
 }
 
 
-static void PlayerCallback(SLPlayItf caller, void *pContext, SLuint32 event)
+static SLmillisecond inline GetDuration(AudioPlayer* player)
 {
-    // play finish
-    if (event == SL_PLAYEVENT_HEADATEND)
-    {
-        AudioPlayer* player = (AudioPlayer*) pContext;
-        AArrayList_Add(destroyList, player);
-        (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_PAUSED);
-    }
+    SLresult      result;
+    SLmillisecond msec;
+
+    result = (*player->play)->GetDuration(player->play, &msec);
+    ALog_A(result == SL_RESULT_SUCCESS, "AAudio GetDuration error = %x", result);
+
+    return msec;
 }
 
+
+static void PlayerCallback(SLPlayItf caller, void *pContext, SLuint32 event)
+{
+    AudioPlayer* player = (AudioPlayer*) pContext;
+
+    if (event == SL_PLAYEVENT_HEADATEND)
+    {
+        // play finish
+        AArrayList_Add(destroyList, player);
+        (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_PAUSED);
+        player->waitCallbackCount = AudioPlayer_WaitOver;
+    }
+    else if (event == SL_PLAYEVENT_HEADATNEWPOS)
+    {
+        player->waitCallbackCount = AudioPlayer_WaitOver;
+    }
+}
 
 static inline void InitPlayer(char* filePath, AudioPlayer* player)
 {
@@ -153,7 +200,7 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
                                                           );
 
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer CreateAudioPlayer error = %x", result);
-
+    
     // realize the player
     result = (*player->object)->Realize(player->object, SL_BOOLEAN_FALSE);
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer Realize playerObject error = %x", result);
@@ -166,7 +213,7 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
     result = (*player->play)->RegisterCallback(player->play, PlayerCallback, player);
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer RegisterCallback error = %x", result);
 
-    result = (*player->play)->SetCallbackEventsMask(player->play,  SL_PLAYEVENT_HEADATEND);
+    result = (*player->play)->SetCallbackEventsMask(player->play,  SL_PLAYEVENT_HEADATEND | SL_PLAYEVENT_HEADATNEWPOS);
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer SetCallbackEventsMask error = %x", result);
 
     // get the seek interface
@@ -174,26 +221,28 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
     ALog_A(result == SL_RESULT_SUCCESS, "Audio CreatePlayer GetInterface seek error = %x", result);
 
     // disable looping
-    result = (*player->seek)->SetLoop(player->seek, SL_BOOLEAN_FALSE, 0, SL_TIME_UNKNOWN);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer SetLoop error = %x", result);
+    // result = (*player->seek)->SetLoop(player->seek, SL_BOOLEAN_FALSE, 0, SL_TIME_UNKNOWN);
+    // ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer SetLoop error = %x", result);
 
     // get the volume interface
     result = (*player->object)->GetInterface(player->object, SL_IID_VOLUME, &player->volume);
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer GetInterface volume error = %x", result);
+
+    player->waitCallbackCount = 0;
 }
 
 
 static void SetLoop(AudioPlayer* player, bool isLoop)
 {
     SLboolean isLoopEnabled;
-    (*player->seek)->GetLoop(player->seek, &isLoopEnabled, 0, SL_TIME_UNKNOWN);
+    (*player->seek)->GetLoop(player->seek, &isLoopEnabled, 0, GetDuration(player));
 
     if (isLoopEnabled == (SLboolean) isLoop)
     {
         return;
     }
 
-    SLresult result = (*player->seek)->SetLoop(player->seek, (SLboolean) isLoop, 0, SL_TIME_UNKNOWN);
+    SLresult result = (*player->seek)->SetLoop(player->seek, (SLboolean) isLoop, 0, GetDuration(player));
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio SetLoop error = %x", result);
 
     if (isLoop)
@@ -228,6 +277,7 @@ static void SetPlay(AudioPlayer* player)
     // set the player's state
     SLresult result = (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_PLAYING);
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio SetPlay error = %x", result);
+    AArrayList_Add(testErrorList, player);
 }
 
 
