@@ -38,7 +38,7 @@ Mojoc has been used for a cross-platform Android and IOS game on the App Store a
   * [Tap Tap](https://www.taptap.com/app/45524)
 
 ## Samples
-The samples are complete, can be run, and show the Mojoc features in a game demo. Each platform provides its own platform editor for building projects. For example, Android uses AndroidStudio, IOS uses XCode, Windows uses Visual Studio.
+The samples are complete, can be run, and show the Mojoc features in a game demo. Each platform provides its own platform editor for building projects. For example, Android uses AndroidStudio, IOS uses XCode.
 
 Currently there is only one sample, which is a simplfied version of the published game [Super Little Red](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed).
 
