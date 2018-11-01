@@ -43,7 +43,8 @@ static inline void* GetAudioData(char* filePath, ALsizei* outDataSize, ALenum* o
     ExtAudioFileRef              audioFileRef       = NULL;
     void*                        data               = NULL;
 
-    NSString*                    path               = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:filePath] ofType:nil];
+    NSString*                    path               = [[NSBundle mainBundle] pathForResource:
+                                                      [NSString stringWithUTF8String:filePath] ofType:nil];
     CFURLRef                     fileUrl            = CFURLCreateWithString(kCFAllocatorDefault, (CFStringRef) path, NULL);
     OSStatus                     error              = ExtAudioFileOpenURL(fileUrl, &audioFileRef);
     
