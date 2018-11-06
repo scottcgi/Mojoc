@@ -52,11 +52,10 @@ class GameViewController: GLKViewController {
         }
     }
     
-    func update() {
+    override func glkView(_ view: GLKView, drawIn rect: CGRect) {
         // application main loop
         AApplication.Loop()
     }
-    
     
 //----------------------------------------------------------------------------------------------
     
