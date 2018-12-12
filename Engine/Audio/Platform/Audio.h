@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 2012-2017 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
  *
  * This code is licensed under the MIT License.
  *
@@ -8,7 +8,7 @@
  */
 
 #ifndef AUDIO_H
-#define AUDIO_H
+#define  AUDIO_H
 
 
 #include <stdbool.h>

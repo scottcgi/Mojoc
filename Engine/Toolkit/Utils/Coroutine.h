@@ -69,7 +69,7 @@ struct Coroutine
     /**
      * Record coroutine run step
      */
-    void*                 step;
+    int                   step;
 
     /**
      * Coroutine implement function
@@ -144,23 +144,16 @@ extern struct ACoroutine ACoroutine[1];
     AArrayList_GetPtr(coroutine->params, index, type)
 
 
-/**
- * Construct goto label with line number
- */
-#define ACoroutine_StepName(line) Step##line
-#define ACoroutine_Step(line)     ACoroutine_StepName(line)
+#define ACoroutine_Begin()                             \
+    switch (coroutine->step)                          \
+    {                                                 \
+        case 0:                                       \
+            coroutine->state = CoroutineState_Running
 
 
-#define ACoroutine_Begin()                    \
-    if (coroutine->step != NULL)              \
-    {                                         \
-        goto *coroutine->step;                \
-    }                                         \
-    coroutine->state = CoroutineState_Running 
-
-
-#define ACoroutine_End() \
-    coroutine->state = CoroutineState_Finish
+#define ACoroutine_End()                      \
+    }                                        \
+    coroutine->state = CoroutineState_Finish \
 
 
 /**
@@ -168,13 +161,13 @@ extern struct ACoroutine ACoroutine[1];
  *
  * waitFrameCount: CoroutineRun wait frames and running again
  */
-#define ACoroutine_YieldFrames(waitFrames)                  \
-    coroutine->waitValue    = waitFrames;                   \
-    coroutine->curWaitValue = 0.0f;                         \
-    coroutine->waitType     = CoroutineWaitType_Frames;     \
-    coroutine->step         = &&ACoroutine_Step(__LINE__);  \
-    return;                                                 \
-    ACoroutine_Step(__LINE__):
+#define ACoroutine_YieldFrames(waitFrames)               \
+    coroutine->waitValue    = waitFrames;               \
+    coroutine->curWaitValue = 0.0f;                     \
+    coroutine->waitType     = CoroutineWaitType_Frames; \
+    coroutine->step         = __LINE__;                 \
+    return;                                             \
+    case __LINE__:
 
 
 /**
@@ -182,13 +175,13 @@ extern struct ACoroutine ACoroutine[1];
  *
  * waitSecond: CoroutineRun wait seconds and running again
  */
-#define ACoroutine_YieldSeconds(waitSeconds)                \
-    coroutine->waitValue    = waitSeconds;                  \
-    coroutine->curWaitValue = 0.0f;                         \
-    coroutine->waitType     = CoroutineWaitType_Seconds;    \
-    coroutine->step         = &&ACoroutine_Step(__LINE__);  \
-    return;                                                 \
-    ACoroutine_Step(__LINE__):
+#define ACoroutine_YieldSeconds(waitSeconds)              \
+    coroutine->waitValue    = waitSeconds;               \
+    coroutine->curWaitValue = 0.0f;                      \
+    coroutine->waitType     = CoroutineWaitType_Seconds; \
+    coroutine->step         = __LINE__;                  \
+    return;                                              \
+    case __LINE__:
 
 
 /**
@@ -196,23 +189,24 @@ extern struct ACoroutine ACoroutine[1];
  *
  * waitCoroutine: CoroutineRun wait other Coroutine finished and running again
  */
-#define ACoroutine_YieldCoroutine(waitCoroutine)            \
+#define ACoroutine_YieldCoroutine(waitCoroutine)             \
     coroutine->waitValue    = 0.0f;                         \
     coroutine->curWaitValue = 0.0f;                         \
     coroutine->waitType     = CoroutineWaitType_Coroutines; \
     AArrayList_Add((waitCoroutine)->waits, coroutine);      \
-    coroutine->step         = &&ACoroutine_Step(__LINE__);  \
+    coroutine->step         = __LINE__;                     \
     return;                                                 \
-    ACoroutine_Step(__LINE__):
+    case __LINE__:
 
 
 /**
- * Called between ACoroutine_Begin and ACoroutine_End
- * sotp coroutine running
+ * Called between ACoroutine_Begin and ACoroutine_End.
+ *
+ * Stop coroutine running and jump out ACoroutine_Begin and ACoroutine_End.
  */
-#define ACoroutine_YieldBreak()               \
+#define ACoroutine_YieldBreak()                \
     coroutine->state = CoroutineState_Finish; \
-    return
+    break
 
 
 #endif
