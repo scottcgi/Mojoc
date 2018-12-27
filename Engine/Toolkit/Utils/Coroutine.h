@@ -8,7 +8,7 @@
  */
 
 #ifndef COROUTINE_H
-#define COROUTINE_H
+#define  COROUTINE_H
 
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
