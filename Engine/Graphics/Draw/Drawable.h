@@ -8,7 +8,7 @@
  */
 
 #ifndef DRAWABLE_H
-#define DRAWABLE_H
+#define  DRAWABLE_H
 
 
 #include <stdbool.h>
@@ -23,13 +23,11 @@
 
 
 /**
- * If contains 'is' the state can set and clear
- * else the state will automatically set and clear
+ * If contains 'Is' the state can set(add) and clear
+ * else the state will automatically set(add) and clear
  */
 typedef enum
 {
-    DrawableState_Null              = 0,
-
     /**
      * Whether drawable is invisible
      */
@@ -44,8 +42,6 @@ typedef enum
      * Whether drawable calculate blendColor by parent
      */
     DrawableState_IsBlendColor      = 1 << 2,
-
-//----------------------------------------------------------------------------------------------------------------------
 
     /**
      * Flag drawable inverse matrix need update
@@ -85,8 +81,6 @@ typedef enum
      * Flag drawable parent change
      */
     DrawableState_Parent             = 1 << 8,
-
-//----------------------------------------------------------------------------------------------------------------------
 
     /**
      * Flag drawable position x change
@@ -182,9 +176,9 @@ typedef enum
                                         DrawableState_RotationZ,
 
     /**
-     * Flag drawable state change
+     * Flag drawable transform and color change
      */
-    DrawableState_Change              = DrawableState_Transform |
+    DrawableState_Draw                = DrawableState_Transform |
                                         DrawableState_Color,
 }
 DrawableState;
@@ -193,13 +187,13 @@ DrawableState;
 typedef struct Drawable Drawable;
 struct  Drawable
 {
-     UserData  userData[1];
+     UserData      userData[1];
 
      /**
       * Default 0.0f, use openGL coordinate
       */
-     float     width;
-     float     height;
+     float          width;
+     float          height;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -207,31 +201,31 @@ struct  Drawable
       * If has parent will render use parent modelMatrix
       * parent invisible child will stop rendering
       */
-     Drawable* parent;
+     Drawable*     parent;
 
      /**
       * Default 0.0f
       */
-     float     positionX;
-     float     positionY;
-     float     positionZ;
+     float          positionX;
+     float          positionY;
+     float          positionZ;
 
      /**
       * Default 1.0f
       */
-     float     scaleX;
-     float     scaleY;
-     float     scaleZ;
+     float          scaleX;
+     float          scaleY;
+     float          scaleZ;
 
      /**
       * Default0.0f Clockwise [0.0f - 360.0f]
       */
-     float     rotationZ;
+     float          rotationZ;
 
      /**
       * Each [0.0f, 1.0f], default (1.0f, 1.0f, 1.0f, 1.0f)
       */
-     Color     color        [1];
+     Color         color        [1];
 
      /**
       * If set DrawableState_IsBlendColor
@@ -241,29 +235,29 @@ struct  Drawable
       *
       * default (1.0f, 1.0f, 1.0f, 1.0f)
       */
-     Color     blendColor   [1];
+     Color         blendColor   [1];
 
 //----------------------------------------------------------------------------------------------------------------------
 
      /**
       * Cached MVP matrix when property changed will update
       */
-     Matrix4   mvpMatrix    [1];
+     Matrix4       mvpMatrix    [1];
 
      /**
       * Cached model matrix when property changed will update
       */
-     Matrix4   modelMatrix  [1];
+     Matrix4       modelMatrix  [1];
 
      /**
       * Cached inverse model matrix
       */
-     Matrix4   inverseMatrix[1];
+     Matrix4       inverseMatrix[1];
 
      /**
-      * Identifier property has changed
+      * Flag the property changes
       */
-     int       state;
+     DrawableState state;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -392,15 +386,15 @@ static inline bool ADrawable_CheckState(Drawable* drawable, DrawableState checkS
 }
 
 
-static inline void ADrawable_SetState(Drawable* drawable, DrawableState setState)
+static inline void ADrawable_AddState(Drawable* drawable, DrawableState addState)
 {
-    ABitwise_Set(drawable->state, setState);
+    ABitwise_Add(drawable->state, addState);
 }
 
 
-static inline void ADrawable_SetOnlyState(Drawable* drawable, DrawableState setOnlyState)
+static inline void ADrawable_SetState(Drawable* drawable, DrawableState setState)
 {
-    ABitwise_SetOnly(drawable->state, setOnlyState);
+    ABitwise_Set(drawable->state, setState);
 }
 
 
@@ -410,9 +404,9 @@ static inline void ADrawable_ClearState(Drawable* drawable, DrawableState clearS
 }
 
 
-static inline void ADrawable_ClearAndSetState(Drawable* drawable, DrawableState clearState, DrawableState setState)
+static inline void ADrawable_ClearAndAddState(Drawable* drawable, DrawableState clearState, DrawableState addState)
 {
-    ABitwise_ClearAndSet(drawable->state, clearState, setState);
+    ABitwise_ClearAndAdd(drawable->state, clearState, addState);
 }
 
 
@@ -427,7 +421,7 @@ static inline void ADrawable_SetVisible(Drawable* drawable)
 
 static inline void ADrawable_SetInVisible(Drawable* drawable)
 {
-    ADrawable_SetState(drawable, DrawableState_IsInvisible);
+    ADrawable_AddState(drawable, DrawableState_IsInvisible);
 }
 
 
@@ -443,7 +437,7 @@ static inline bool ADrawable_CheckVisible(Drawable* drawable)
 static inline void ADrawable_SetParent(Drawable* drawable, Drawable* parent)
 {
     drawable->parent = parent;
-    ADrawable_SetState(drawable, DrawableState_Parent);
+    ADrawable_AddState(drawable, DrawableState_Parent);
 }
 
 
@@ -453,14 +447,14 @@ static inline void ADrawable_SetParent(Drawable* drawable, Drawable* parent)
 static inline void ADrawable_SetPositionX(Drawable* drawable, float positionX)
 {
     drawable->positionX = positionX;
-    ADrawable_SetState(drawable, DrawableState_PositionX);
+    ADrawable_AddState(drawable, DrawableState_PositionX);
 }
 
 
 static inline void ADrawable_SetPositionY(Drawable* drawable, float positionY)
 {
     drawable->positionY = positionY;
-    ADrawable_SetState(drawable, DrawableState_PositionY);
+    ADrawable_AddState(drawable, DrawableState_PositionY);
 }
 
 
@@ -468,7 +462,7 @@ static inline void ADrawable_SetPosition2(Drawable* drawable, float positionX, f
 {
     drawable->positionX = positionX;
     drawable->positionY = positionY;
-    ADrawable_SetState(drawable, DrawableState_Position2);
+    ADrawable_AddState(drawable, DrawableState_Position2);
 }
 
 
@@ -476,7 +470,7 @@ static inline void ADrawable_SetPositionSame2(Drawable* drawable, float position
 {
     drawable->positionX = position;
     drawable->positionY = position;
-    ADrawable_SetState(drawable, DrawableState_Position2);
+    ADrawable_AddState(drawable, DrawableState_Position2);
 }
 
 
@@ -491,14 +485,14 @@ static inline void ADrawable_SetPositionSame2(Drawable* drawable, float position
 static inline void ADrawable_SetScaleX(Drawable* drawable, float scaleX)
 {
     drawable->scaleX = scaleX;
-    ADrawable_SetState(drawable, DrawableState_ScaleX);
+    ADrawable_AddState(drawable, DrawableState_ScaleX);
 }
 
 
 static inline void ADrawable_SetScaleY(Drawable* drawable, float scaleY)
 {
     drawable->scaleY = scaleY;
-    ADrawable_SetState(drawable, DrawableState_ScaleY);
+    ADrawable_AddState(drawable, DrawableState_ScaleY);
 }
 
 
@@ -506,7 +500,7 @@ static inline void ADrawable_SetScale2(Drawable* drawable, float scaleX, float s
 {
     drawable->scaleX = scaleX;
     drawable->scaleY = scaleY;
-    ADrawable_SetState(drawable, DrawableState_Scale2);
+    ADrawable_AddState(drawable, DrawableState_Scale2);
 }
 
 
@@ -514,7 +508,7 @@ static inline void ADrawable_SetScaleSame2(Drawable* drawable, float scale)
 {
     drawable->scaleX = scale;
     drawable->scaleY = scale;
-    ADrawable_SetState(drawable, DrawableState_Scale2);
+    ADrawable_AddState(drawable, DrawableState_Scale2);
 }
 
 
@@ -524,7 +518,7 @@ static inline void ADrawable_SetScaleSame2(Drawable* drawable, float scale)
 static inline void ADrawable_SetRotationZ(Drawable* drawable, float rotationZ)
 {
     drawable->rotationZ = rotationZ;
-    ADrawable_SetState(drawable, DrawableState_RotationZ);
+    ADrawable_AddState(drawable, DrawableState_RotationZ);
 }
 
 
@@ -536,7 +530,7 @@ static inline void ADrawable_SetRGB(Drawable* drawable, float red, float green, 
     drawable->color->r = red;
     drawable->color->g = green;
     drawable->color->b = blue;
-    ADrawable_SetState(drawable, DrawableState_RGB);
+    ADrawable_AddState(drawable, DrawableState_RGB);
 }
 
 
@@ -545,14 +539,14 @@ static inline void ADrawable_SetRGBSame(Drawable* drawable, float rgb)
     drawable->color->r = rgb;
     drawable->color->g = rgb;
     drawable->color->b = rgb;
-    ADrawable_SetState(drawable, DrawableState_RGB);
+    ADrawable_AddState(drawable, DrawableState_RGB);
 }
 
 
 static inline void ADrawable_SetOpacity(Drawable* drawable, float opacity)
 {
     drawable->color->a = opacity;
-    ADrawable_SetState(drawable, DrawableState_Opacity);
+    ADrawable_AddState(drawable, DrawableState_Opacity);
 }
 
 
@@ -562,7 +556,7 @@ static inline void ADrawable_SetRGBA(Drawable* drawable, float red, float green,
     drawable->color->g = green;
     drawable->color->b = blue;
     drawable->color->a = opacity;
-    ADrawable_SetState(drawable, DrawableState_Color);
+    ADrawable_AddState(drawable, DrawableState_Color);
 }
 
 
@@ -572,20 +566,20 @@ static inline void ADrawable_SetRGBASame(Drawable* drawable, float rgba)
     drawable->color->g = rgba;
     drawable->color->b = rgba;
     drawable->color->a = rgba;
-    ADrawable_SetState(drawable, DrawableState_Color);
+    ADrawable_AddState(drawable, DrawableState_Color);
 }
 
 
 static inline void ADrawable_SetColor(Drawable* drawable, Color* color)
 {
     *drawable->color = *color;
-    ADrawable_SetState(drawable, DrawableState_Color);
+    ADrawable_AddState(drawable, DrawableState_Color);
 }
 
 
 static inline void ADrawable_SetBlendColor(Drawable* drawable)
 {
-    ADrawable_SetState(drawable, DrawableState_IsBlendColor);
+    ADrawable_AddState(drawable, DrawableState_IsBlendColor);
 }
 
 

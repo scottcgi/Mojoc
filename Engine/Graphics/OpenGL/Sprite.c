@@ -103,7 +103,7 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
     ADrawable->Init(drawable);
 
     // calculate and cache drawable mvp matrix
-    ADrawable_SetState(drawable, DrawableState_IsUpdateMVP);
+    ADrawable_AddState(drawable, DrawableState_IsUpdateMVP);
 
     AQuad->MaxSize(quadArr, &drawable->width, &drawable->height);
     sprite->texture                    = texture;

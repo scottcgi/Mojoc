@@ -76,7 +76,7 @@ static void Draw(Drawable* drawable)
             }
 
             // flag transform for child and flag need update inverse
-            ADrawable_SetState(drawable, DrawableState_TransformChanged | DrawableState_UpdateInverse);
+            ADrawable_AddState(drawable, DrawableState_TransformChanged | DrawableState_UpdateInverse);
         }
         else
         {
@@ -101,7 +101,7 @@ static void Draw(Drawable* drawable)
                     drawable->blendColor->a = drawable->color->a * drawable->parent->blendColor->a;
 
                     // flag rgb for child
-                    ADrawable_SetState(drawable, DrawableState_OpacityChanged);
+                    ADrawable_AddState(drawable, DrawableState_OpacityChanged);
                 }
                 else
                 {
@@ -116,7 +116,7 @@ static void Draw(Drawable* drawable)
                     drawable->blendColor->b = drawable->color->b * drawable->parent->blendColor->b;
 
                     // flag opacity for child
-                    ADrawable_SetState(drawable, DrawableState_RGBChanged);
+                    ADrawable_AddState(drawable, DrawableState_RGBChanged);
                 }
                 else
                 {
@@ -131,7 +131,7 @@ static void Draw(Drawable* drawable)
                     drawable->blendColor->a = drawable->color->a;
 
                     // flag rgb for child
-                    ADrawable_SetState(drawable, DrawableState_OpacityChanged);
+                    ADrawable_AddState(drawable, DrawableState_OpacityChanged);
                 }
                 else
                 {
@@ -146,7 +146,7 @@ static void Draw(Drawable* drawable)
                     drawable->blendColor->b = drawable->color->b;
 
                     // flag opacity for child
-                    ADrawable_SetState(drawable, DrawableState_RGBChanged);
+                    ADrawable_AddState(drawable, DrawableState_RGBChanged);
                 }
                 else
                 {
@@ -168,8 +168,8 @@ static void Draw(Drawable* drawable)
             drawable->Draw(drawable);
         }
 
-        // clear self all state change
-        ADrawable_ClearAndSetState(drawable, DrawableState_Change, DrawableState_DrawChanged);
+        // clear self all draw state change
+        ADrawable_ClearAndAddState(drawable, DrawableState_Draw, DrawableState_DrawChanged);
 
         // if has render push into queue
         if (drawable->Render != NULL)
@@ -613,7 +613,7 @@ static void Init(Drawable* outDrawable)
 
     // first born make matrix update
     // first born inverse matrix need update
-    ADrawable_SetState
+    ADrawable_AddState
     (
         outDrawable,
         DrawableState_Transform     |

@@ -456,7 +456,7 @@ static void Init(Texture* texture, Mesh* outMesh)
     drawable->Draw                      = Draw;
     drawable->Render                    = Render;
 
-    ADrawable_SetState(drawable, DrawableState_IsUpdateMVP);
+    ADrawable_AddState(drawable, DrawableState_IsUpdateMVP);
 
     outMesh->texture                    = texture;
     outMesh->vboIds[MeshBuffer_Index]   = 0;
@@ -499,7 +499,7 @@ static inline void InitBuffer(Mesh* mesh)
         memcpy(uvData                        + subMesh->uvDataOffset,       subMesh->uvArr->data,       subMesh->uvArr->length       * sizeof(float));
 
         // make drawable property update to buffer
-        ADrawable_SetState(subMesh->drawable, DrawableState_Change);
+        ADrawable_AddState(subMesh->drawable, DrawableState_Draw);
     }
 
     mesh->fromIndex = 0;

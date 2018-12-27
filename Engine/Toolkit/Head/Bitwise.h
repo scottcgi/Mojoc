@@ -8,7 +8,7 @@
  */
 
 #ifndef BITWISE_H
-#define BITWISE_H
+#define  BITWISE_H
 
 
 /*
@@ -20,24 +20,28 @@
 */
 
 
-#define ABitwise_Set(bitState,     bits) \
+#define ABitwise_Add(bitState, bits)   \
     ((bitState)  |= (bits))
 
 
-#define ABitwise_SetOnly(bitState, bits) \
+#define ABitwise_Set(bitState, bits)   \
     ((bitState)   = (bits))
 
 
-#define ABitwise_Clear(bitState,   bits) \
+#define ABitwise_Clear(bitState, bits) \
     ((bitState)  &= ~(bits))
 
 
-#define ABitwise_Check(bitState,   bits) \
+#define ABitwise_Check(bitState, bits) \
     (((bitState) & (bits)) != 0)
 
 
-#define ABitwise_ClearAndSet(bitState, clearBits, setBits) \
-    ((bitState)  = ((bitState) & ~(clearBits)) | (setBits))
+#define ABitwise_ClearAndAdd(bitState, clearBits, addBits) \
+    ((bitState)  = ((bitState) & ~(clearBits)) | (addBits))
+
+
+#define ABitwise_ClearAll(bitState) \
+    ((bitState)  = 0)
 
 
 #endif
