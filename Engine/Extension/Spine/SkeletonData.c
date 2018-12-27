@@ -1340,7 +1340,7 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 
             for (int k = 0; k < attachmentMap->elementList->size; k++)
             {
-                // char*                   attachmentName = AArrayStrMap->GetKey(attachmentMap, k);
+                // char*                attachmentName = AArrayStrMap->GetKey(attachmentMap, k);
                 SkeletonAttachmentData* attachmentData = AArrayStrMap_GetAt(attachmentMap, k, SkeletonAttachmentData*);
 
                 if (attachmentData->type == SkeletonAttachmentDataType_BoundingBox)
@@ -1414,14 +1414,14 @@ static SkeletonData* Get(char* filePath)
         InitAtlas(skeletonData, path);
 
         skeletonData->filePath = AArrayStrMap_GetKey
-                                 (
-                                     AArrayStrMap_TryPut(skeletonDataMap, filePath, skeletonData),
-                                     skeletonDataMap->valueTypeSize
-                                 );
+                                (
+                                    AArrayStrMap_TryPut(skeletonDataMap, filePath, skeletonData),
+                                    skeletonDataMap->valueTypeSize
+                                );
     }
 
-//    Release(skeletonData);
-//    ALog_A(0, "Stop");
+//  Release(skeletonData);
+//  ALog_A(0, "Stop");
 
     return skeletonData;
 }
