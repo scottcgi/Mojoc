@@ -13,7 +13,7 @@
 
 #include <stdbool.h>
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
-#include "Engine/Toolkit/Head/Define.h"
+#include "Engine/Toolkit/HeaderUtils/Define.h"
 
 
 struct AGLInfo

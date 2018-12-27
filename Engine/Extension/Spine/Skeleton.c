@@ -8,9 +8,9 @@
  */
 
 #include "Engine/Extension/Spine/Skeleton.h"
-#include "Engine/Toolkit/Head/Struct.h"
+#include "Engine/Toolkit/HeaderUtils/Struct.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Toolkit/Head/Define.h"
+#include "Engine/Toolkit/HeaderUtils/Define.h"
 #include "Engine/Extension/Spine/SkeletonTimeline.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 

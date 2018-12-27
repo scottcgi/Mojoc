@@ -8,7 +8,7 @@
  */
 
 #ifndef USER_DATA_H
-#define USER_DATA_H
+#define  USER_DATA_H
 
 
 #include <stddef.h>
@@ -17,7 +17,7 @@
 typedef union
 {
     int   intValue;
-    float floatValue;
+    float  floatValue;
     void* ptrValue;
     char* stringValue;
 }

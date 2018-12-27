@@ -20,7 +20,7 @@
 
 
 #include <jni.h>
-#include "Engine/Toolkit/Head/Define.h"
+#include "Engine/Toolkit/HeaderUtils/Define.h"
 
 
 typedef struct

@@ -11,7 +11,7 @@
 #include "Engine/Graphics/OpenGL/Mesh.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderMesh.h"
-#include "Engine/Toolkit/Head/Struct.h"
+#include "Engine/Toolkit/HeaderUtils/Struct.h"
 #include "Engine/Graphics/Graphics.h"
 
 

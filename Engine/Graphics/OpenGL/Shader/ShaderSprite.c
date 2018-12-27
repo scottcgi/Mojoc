@@ -14,7 +14,7 @@
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Graphics/OpenGL/Shader/Shader.h"
-#include "Engine/Toolkit/Head/String.h"
+#include "Engine/Toolkit/HeaderUtils/String.h"
 
 
 static void Use(Matrix4* mvpMatrix, Color* color)

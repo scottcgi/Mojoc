@@ -3,18 +3,18 @@
  *
  * This code is licensed under the MIT License.
  *
- * Since : 2016-10-2
+ * Since : 2017-6-16
  * Author: scott.cgi
  */
 
-#ifndef DEFINE_H
-#define DEFINE_H
+#ifndef STRING_H
+#define  STRING_H
 
 
 /**
- * The pointer point NULL
+ * Make str to string
  */
-#define NULL_PTR (void*[]) {NULL}
+#define AString_Make(str) #str
 
 
 #endif

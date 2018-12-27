@@ -15,11 +15,11 @@
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Toolkit/Math/Matrix.h"
 #include "Engine/Toolkit/Math/Math.h"
-#include "Engine/Toolkit/Head/Bitwise.h"
+#include "Engine/Toolkit/HeaderUtils/Bitwise.h"
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Graphics/Draw/Color.h"
 #include "Engine/Toolkit/Math/Vector.h"
-#include "Engine/Toolkit/Head/UserData.h"
+#include "Engine/Toolkit/HeaderUtils/UserData.h"
 
 
 /**

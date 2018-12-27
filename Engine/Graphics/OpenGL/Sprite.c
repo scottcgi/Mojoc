@@ -11,7 +11,7 @@
 
 #include "Engine/Graphics/OpenGL/MeshDefine.h"
 #include "Engine/Graphics/OpenGL/Sprite.h"
-#include "Engine/Toolkit/Head/Struct.h"
+#include "Engine/Toolkit/HeaderUtils/Struct.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderSprite.h"
 #include "Engine/Graphics/Graphics.h"
 

@@ -12,9 +12,9 @@
 
 
 #include "Engine/Toolkit/Math/Matrix.h"
-#include "Engine/Toolkit/Head/Bitwise.h"
+#include "Engine/Toolkit/HeaderUtils/Bitwise.h"
 #include "Engine/Toolkit/Utils/Array.h"
-#include "Engine/Toolkit/Head/UserData.h"
+#include "Engine/Toolkit/HeaderUtils/UserData.h"
 
 
 typedef enum
