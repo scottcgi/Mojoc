@@ -42,9 +42,9 @@ static inline void UpdateMotion(PhysicsBody* body, float deltaSeconds)
 
     APhysicsBody->UpdateMotion(body, deltaSeconds);
 
-    if (AMath_TestFloatEqual(body->velocityX, 0.0f) && AMath_TestFloatEqual(body->velocityY, 0.0f))
+    // if (AMath_TestFloatEqual(body->velocityX, 0.0f) && AMath_TestFloatEqual(body->velocityY, 0.0f))
     {
-        APhysicsBody_SetState(body, PhysicsBodyState_Sleeping);
+        // stop motion
     }
 }
 
@@ -55,7 +55,7 @@ static void Update(float deltaSeconds)
     {
         PhysicsBody* body = AArrayList_Get(bodySet->elementList, i, PhysicsBody*);
 
-        if (APhysicsBody_CheckState(body, PhysicsBodyState_NoCollision) == false)
+        if (body->state != PhysicsBodyState_Freeze)
         {
             // test collision
             for (int fromIndex = i + 1; fromIndex < bodySet->elementList->size; fromIndex++)
@@ -64,14 +64,11 @@ static void Update(float deltaSeconds)
 
                 if
                 (
-                    APhysicsBody_CheckState(otherBody, PhysicsBodyState_NoCollision) == false &&
-                    (body->collisionGroup & otherBody->collisionGroup)               == 0     &&
+                    otherBody->state     != PhysicsBodyState_Freeze         &&
+                    (body->collisionGroup & otherBody->collisionGroup) == 0 && // collisionGroup no identical bits
                     APhysicsCollision->TestCollision(body, otherBody)
                 )
                 {
-                    APhysicsBody_ClearAndSetState(body,      PhysicsBodyState_Sleeping, PhysicsBodyState_Collision);
-                    APhysicsBody_ClearAndSetState(otherBody, PhysicsBodyState_Sleeping, PhysicsBodyState_Collision);
-
                     if (body->OnCollision != NULL)
                     {
                         body->OnCollision(body, otherBody, deltaSeconds);
@@ -85,7 +82,7 @@ static void Update(float deltaSeconds)
             }
         }
 
-        if (APhysicsBody_CheckState(body, PhysicsBodyState_NoMotion) == false)
+        if (body->state != PhysicsBodyState_Freeze && body->state != PhysicsBodyState_Fixed)
         {
             // after test collision can update motion
             UpdateMotion(body, deltaSeconds);
