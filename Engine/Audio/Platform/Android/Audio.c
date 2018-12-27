@@ -130,10 +130,7 @@ static void Init()
     result = (*engineObject)->GetInterface(engineObject, SL_IID_ENGINE, &engineEngine);
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio Init GetInterface error");
 
-    SLInterfaceID ids[0];
-    SLboolean     req[0];
-
-    result = (*engineEngine)->CreateOutputMix(engineEngine, &outputMixObject, 0, ids, req);
+    result = (*engineEngine)->CreateOutputMix(engineEngine, &outputMixObject, 0, NULL, NULL);
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio Init CreateOutputMix error = %x", result);
 
     // realize the output mix
@@ -167,7 +164,10 @@ static void PlayerCallback(SLPlayItf caller, void *pContext, SLuint32 event)
     }
     else if (event == SL_PLAYEVENT_HEADATNEWPOS)
     {
+        // callback normal
         player->waitCallbackCount = AudioPlayer_WaitOver;
+        // remove SL_PLAYEVENT_HEADATNEWPOS
+        (*player->play)->SetCallbackEventsMask(player->play,  SL_PLAYEVENT_HEADATEND);
     }
 }
 
