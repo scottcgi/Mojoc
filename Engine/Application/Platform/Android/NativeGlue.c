@@ -27,11 +27,7 @@
 #include "Engine/Toolkit/Utils/FileTool.h"
 #include "Engine/Graphics/OpenGL/Platform/EGLTool.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Application/Application.h"
 #include "Engine/Application/Input.h"
-
-
-ANativeActivity* nativeActivity;
 
 
 enum
@@ -43,7 +39,7 @@ enum
 
 typedef volatile enum
 {
-    MainThread_OnNull,
+    MainThread_OnLoop,
     MainThread_OnWait,
     MainThread_OnResized,
     MainThread_OnPause,
@@ -56,31 +52,25 @@ MainThreadCallback;
 
 //----------------------------------------------------------------------------------------------------------------------
 
+ANativeActivity*      nativeActivity;
+AConfiguration*        nativeActivityConfig;
 
-static struct
-{
-    EGLDisplay      display;
-    EGLSurface      surface;
-    EGLContext      context;
-    EGLConfig       config;
-    EGLint          format;
+static EGLDisplay     eglDisplay;
+static EGLSurface     eglSurface;
+static EGLContext     eglContext;
+static EGLConfig       eglConfig;
+static EGLint         eglFormat;
 
-    AConfiguration* assetConfig;
-    ANativeWindow*  window;
-    ALooper*        looper;
-    AInputQueue*    inputQueue;
+static ANativeWindow* nativeWindow;
+static ALooper*       looper;
+static AInputQueue*   inputQueue;
 
-    // volatile make sure not optimized by the compiler
-    // because two threads modify mainThreadCallback
-    volatile MainThreadCallback mainThreadCallback;
-}
-AData[1] =
-{
-    {
-        .mainThreadCallback = MainThread_OnWait,
-    }
-};
-
+/**
+ * The volatile make sure not optimized by the compiler,
+ * because two threads will modify mainThreadCallback.
+ */
+static volatile MainThreadCallback mainThreadCallback = MainThread_OnWait;
+static bool     isOnFirstResized                      = true;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -261,11 +251,11 @@ static int LooperOnInputEvent(int fd, int events, void* data)
 {
     AInputEvent* event;
 
-    while (AInputQueue_getEvent(AData->inputQueue, &event) >= 0)
+    while (AInputQueue_getEvent(inputQueue, &event) >= 0)
     {
-        if (AInputQueue_preDispatchEvent(AData->inputQueue, event) == 0)
+        if (AInputQueue_preDispatchEvent(inputQueue, event) == 0)
         {
-            AInputQueue_finishEvent(AData->inputQueue, event, OnInputEvent(event));
+            AInputQueue_finishEvent(inputQueue, event, OnInputEvent(event));
         }
     }
 
@@ -275,15 +265,13 @@ static int LooperOnInputEvent(int fd, int events, void* data)
 
 static void* ThreadRun(void* param)
 {
-    AData->looper = ALooper_prepare(0);
-
-//----------------------------------------------------------------------------------------------------------------------
+    looper = ALooper_prepare(0);
 
     while (true)
     {
-        switch (AData->mainThreadCallback)
+        switch (mainThreadCallback)
         {
-            case MainThread_OnNull:
+            case MainThread_OnLoop:
                 // handle event
                 ALooper_pollAll(0, NULL, NULL, NULL);
 
@@ -291,54 +279,62 @@ static void* ThreadRun(void* param)
                 AApplication->Loop();
 
                 // render buffer
-                eglSwapBuffers(AData->display, AData->surface);
+                eglSwapBuffers(eglDisplay, eglSurface);
                 continue;
 
             case MainThread_OnDestroy:
                 // call in main thread
-                AEGLTool->DestroyEGL(&AData->display, &AData->context, &AData->surface);
+                AEGLTool->DestroyEGL(&eglDisplay, &eglContext, &eglSurface);
                 AApplication->Destroy();
                 return NULL;
 
             case MainThread_OnPause: // sometimes before resized
                 // call in main thread
                 AApplication->Pause();
-                AData->mainThreadCallback = MainThread_OnWait;
+                mainThreadCallback = MainThread_OnWait;
                 continue;
 
             case MainThread_OnResume:
                 // call in main thread
                 AApplication->Resume();
-                AData->mainThreadCallback = MainThread_OnNull;
+
+                if (isOnFirstResized)
+                {
+                    mainThreadCallback = MainThread_OnWait;
+                }
+                else
+                {
+                    mainThreadCallback = MainThread_OnLoop;
+                }
                 break;
 
             case MainThread_OnFirstResized:
                 // we need create EGL and use openGL in one thread
                 // call in main thread
-                AEGLTool->CreateEGL(AData->window, &AData->display, &AData->context, &AData->surface, &AData->config);
+                AEGLTool->CreateEGL(nativeWindow, &eglDisplay, &eglContext, &eglSurface, &eglConfig);
 
                 // EGL_NATIVE_VISUAL_ID is an attribute of the EGLConfig that is
                 // guaranteed to be accepted by ANativeWindow_SetBuffersGeometry()
                 // As soon as we picked a EGLConfig, we can safely reconfigure the
                 // ANativeWindow buffers to match, using EGL_NATIVE_VISUAL_ID
-                eglGetConfigAttrib(AData->display, AData->config, EGL_NATIVE_VISUAL_ID, &AData->format);
-                ANativeWindow_setBuffersGeometry(AData->window,  0, 0, AData->format);
+                eglGetConfigAttrib(eglDisplay, eglConfig, EGL_NATIVE_VISUAL_ID, &eglFormat);
+                ANativeWindow_setBuffersGeometry(nativeWindow,  0, 0, eglFormat);
 
                 AApplication->GLReady
                 (
-                    ANativeWindow_getWidth (AData->window),
-                    ANativeWindow_getHeight(AData->window)
+                    ANativeWindow_getWidth (nativeWindow),
+                    ANativeWindow_getHeight(nativeWindow)
                 );
 
-                AData->mainThreadCallback = MainThread_OnNull;
+                mainThreadCallback = MainThread_OnLoop;
                 break;
 
             case MainThread_OnResized:
                 // call in main thread
-                AEGLTool->ResetSurface(AData->window, AData->display, AData->context, AData->config, &AData->surface);
-                ANativeWindow_setBuffersGeometry(AData->window, 0, 0, AData->format);
-                AApplication->Resized(ANativeWindow_getWidth(AData->window), ANativeWindow_getHeight(AData->window));
-                AData->mainThreadCallback = MainThread_OnNull;
+                AEGLTool->ResetSurface(nativeWindow, eglDisplay, eglContext, eglConfig, &eglSurface);
+                ANativeWindow_setBuffersGeometry(nativeWindow, 0, 0, eglFormat);
+                AApplication->Resized(ANativeWindow_getWidth(nativeWindow), ANativeWindow_getHeight(nativeWindow));
+                mainThreadCallback = MainThread_OnLoop;
                 break;
 
             case MainThread_OnWait:
@@ -362,7 +358,7 @@ static void OnStart(ANativeActivity* activity)
 static void OnResume(ANativeActivity* activity)
 {
     ALog_D("ANativeActivity OnResume");
-    AData->mainThreadCallback = MainThread_OnResume;
+    mainThreadCallback = MainThread_OnResume;
 }
 
 
@@ -380,7 +376,7 @@ static void* OnSaveInstanceState(ANativeActivity* activity, size_t* outSaveSize)
 static void OnPause(ANativeActivity* activity)
 {
     ALog_D("ANativeActivity OnPause");
-    AData->mainThreadCallback = MainThread_OnPause;
+    mainThreadCallback = MainThread_OnPause;
 }
 
 
@@ -393,7 +389,7 @@ static void OnStop(ANativeActivity* activity)
 static void OnDestroy(ANativeActivity* activity)
 {
     ALog_D("ANativeActivity OnDestroy");
-    AData->mainThreadCallback = MainThread_OnDestroy;
+    mainThreadCallback = MainThread_OnDestroy;
 }
 
 
@@ -406,24 +402,23 @@ static void OnWindowFocusChanged(ANativeActivity* activity, int hasFocus)
 static void OnNativeWindowCreated(ANativeActivity* activity, ANativeWindow* window)
 {
     ALog_D("ANativeActivity OnNativeWindowCreated");
-    AData->window = window;
+    nativeWindow = window;
 }
 
 
 static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* window)
 {
     ALog_D("ANativeActivity OnNativeWindowResized");
-    AData->window = window;
+    nativeWindow = window;
 
-    static bool isFirst = true;
-    if (isFirst)
+    if (isOnFirstResized)
     {
-        isFirst = false;
-        AData->mainThreadCallback = MainThread_OnFirstResized;
+        isOnFirstResized   = false;
+        mainThreadCallback = MainThread_OnFirstResized;
     }
     else
     {
-        AData->mainThreadCallback = MainThread_OnResized;
+        mainThreadCallback = MainThread_OnResized;
     }
 }
 
@@ -431,29 +426,29 @@ static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* wind
 static void OnNativeWindowRedrawNeeded(ANativeActivity* activity, ANativeWindow* window)
 {
     ALog_D("ANativeActivity OnNativeWindowRedrawNeeded");
-    AData->mainThreadCallback = MainThread_OnNull;
+    mainThreadCallback = MainThread_OnLoop;
 }
 
 
 static void OnNativeWindowDestroyed(ANativeActivity* activity, ANativeWindow* window)
 {
     ALog_D("ANativeActivity OnNativeWindowDestroyed");
-    AData->mainThreadCallback = MainThread_OnWait;
+    mainThreadCallback = MainThread_OnWait;
 }
 
 
-static void OnInputQueueCreated(ANativeActivity* activity, AInputQueue* inputQueue)
+static void OnInputQueueCreated(ANativeActivity* activity, AInputQueue* queue)
 {
     ALog_D("ANativeActivity OnInputQueueCreated");
-    AData->inputQueue = inputQueue;
-    AInputQueue_attachLooper(inputQueue, AData->looper, LooperId_Input, LooperOnInputEvent, NULL);
+    inputQueue = queue;
+    AInputQueue_attachLooper(inputQueue, looper, LooperId_Input, LooperOnInputEvent, NULL);
 }
 
 
-static void OnInputQueueDestroyed(ANativeActivity* activity, AInputQueue* inputQueue)
+static void OnInputQueueDestroyed(ANativeActivity* activity, AInputQueue* queue)
 {
     ALog_D("ANativeActivity OnInputQueueDestroyed");
-    AInputQueue_detachLooper(inputQueue);
+    AInputQueue_detachLooper(queue);
 }
 
 
@@ -466,7 +461,7 @@ static void OnContentRectChanged(ANativeActivity* activity, const ARect* rect)
 static void OnConfigurationChanged(ANativeActivity* activity)
 {
     ALog_D("ANativeActivity OnConfigurationChanged");
-    AConfiguration_fromAssetManager(AData->assetConfig, activity->assetManager);
+    AConfiguration_fromAssetManager(nativeActivityConfig, activity->assetManager);
 }
 
 
@@ -483,7 +478,6 @@ void ANativeActivity_OnCreate(ANativeActivity* activity, void* savedState, size_
 {
     ALog_D("ANativeActivity_OnCreate Start");
     nativeActivity                                  = activity;
-
     activity->callbacks->onStart                    = OnStart;
     activity->callbacks->onResume                   = OnResume;
     activity->callbacks->onSaveInstanceState        = OnSaveInstanceState;
@@ -498,15 +492,15 @@ void ANativeActivity_OnCreate(ANativeActivity* activity, void* savedState, size_
     activity->callbacks->onInputQueueCreated        = OnInputQueueCreated;
     activity->callbacks->onInputQueueDestroyed      = OnInputQueueDestroyed;
     activity->callbacks->onContentRectChanged       = OnContentRectChanged;
-    activity->callbacks->onConfigurationChanged     = OnConfigurationChanged;
+    activity->callbacks->onConfigurationChanged      = OnConfigurationChanged;
     activity->callbacks->onLowMemory                = OnLowMemory;
 
     AApplication->Init();
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    AData->assetConfig = AConfiguration_new();
-    AConfiguration_fromAssetManager(AData->assetConfig, activity->assetManager);
+    nativeActivityConfig = AConfiguration_new();
+    AConfiguration_fromAssetManager(nativeActivityConfig, activity->assetManager);
 
     pthread_t      thread[1];
     pthread_attr_t attr  [1];
