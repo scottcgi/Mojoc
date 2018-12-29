@@ -19,7 +19,7 @@
 typedef struct Scheduler Scheduler;
 struct  Scheduler
 {
-    UserData  userData[1];
+    UserData userData[1];
 
     /**
      * Schedule interval time for update method called
@@ -30,7 +30,7 @@ struct  Scheduler
      * Whether cancel scheduler default false
      * once isCancel set true scheduler will remove and free
      */
-    bool      isCancel;
+    bool     isCancel;
 
     /**
      * Current schedule time

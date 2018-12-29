@@ -320,12 +320,7 @@ static void* ThreadRun(void* param)
                 eglGetConfigAttrib(eglDisplay, eglConfig, EGL_NATIVE_VISUAL_ID, &eglFormat);
                 ANativeWindow_setBuffersGeometry(nativeWindow,  0, 0, eglFormat);
 
-                AApplication->GLReady
-                (
-                    ANativeWindow_getWidth (nativeWindow),
-                    ANativeWindow_getHeight(nativeWindow)
-                );
-
+                AApplication->GLReady(ANativeWindow_getWidth (nativeWindow), ANativeWindow_getHeight(nativeWindow));
                 mainThreadCallback = MainThread_OnLoop;
                 break;
 
