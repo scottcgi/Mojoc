@@ -204,21 +204,21 @@ struct  Drawable
      Drawable*     parent;
 
      /**
-      * Default 0.0f
+      * Local position, default 0.0f
       */
      float          positionX;
      float          positionY;
      float          positionZ;
 
      /**
-      * Default 1.0f
+      * Local scale, default 1.0f
       */
      float          scaleX;
      float          scaleY;
      float          scaleZ;
 
      /**
-      * Default0.0f Clockwise [0.0f - 360.0f]
+      * Local rotationZ, default 0.0f clockwise [0.0f - 360.0f]
       */
      float          rotationZ;
 
@@ -285,12 +285,12 @@ struct ADrawable
       *
       * if render method implemented will push into render queue for flush openGL command
       */
-    void      (*Draw)                  (Drawable* drawable);
+    void     (*Draw)                  (Drawable* drawable);
 
     /**
      * Rendering Drawable queue and clear it wait for next frame
      */
-    void      (*RenderQueue)           ();
+    void     (*RenderQueue)           ();
 
     /**
      * Convert local x in parent coordinate to world x
@@ -305,9 +305,9 @@ struct ADrawable
     float     (*ConvertToWorldY)       (Drawable* localParent, float localY);
 
     /**
-     * Convert localPoint in parent coordinate to world coordinate
+     * Convert localV2 in parent coordinate to world coordinate
      */
-    void      (*ConvertToWorldPoint)   (Drawable* localParent, Vector2* localPoint, Vector2* outWorldPoint);
+    void     (*ConvertToWorldV2)      (Drawable* localParent, Vector2* localV2, Vector2* outWorldV2);
 
     /**
      * Convert world x to local x in parent coordinate
@@ -322,15 +322,15 @@ struct ADrawable
     float     (*ConvertToLocalY)       (Drawable* localParent, float worldY);
 
     /**
-     * Convert worldPoint to localPoint in parent coordinate
+     * Convert worldV2 to local coordinate in parent
      */
-    void      (*ConvertToLocalPoint)   (Drawable* localParent, Vector2* worldPoint, Vector2* outLocalPoint);
+    void     (*ConvertToLocalV2)      (Drawable* localParent, Vector2* worldV2, Vector2* outLocalV2);
 
     /**
      * Convert drawable transform to parent, will change parent and scale position rotationZ for parent coordinate
      * if parent NULL will convert to world coordinate
      */
-    void      (*ConvertToParent)       (Drawable* drawable, Drawable* parent);
+    void     (*ConvertToParent)       (Drawable* drawable, Drawable* parent);
 
 
     /**
@@ -347,10 +347,9 @@ struct ADrawable
 
 
     /**
-     * Convert localPointA in parentA to localPointB in parentB
+     * Convert localV2A in parentA to outLocalV2B in parentB
      */
-    void      (*ConvertBetweenLocal)   (Drawable* parentA, Vector2* localPointA, Drawable* parentB, Vector2* outLocalPointB);
-
+    void     (*ConvertBetweenLocalV2) (Drawable* parentA, Vector2* localV2A, Drawable* parentB, Vector2* outLocalV2B);
 
     /**
      * If Drawable has flip will transform rotationZ to flipped value
@@ -371,6 +370,11 @@ struct ADrawable
      * Get drawable scaleY in world
      */
     float     (*GetWorldScaleY)        (Drawable* drawable);
+
+    /**
+     * Get drawable scale vector2 in world
+     */
+    void     (*GetWorldScale2)        (Drawable* drawable, Vector2* outScale2);
 };
 
 
@@ -474,12 +478,7 @@ static inline void ADrawable_SetPositionSame2(Drawable* drawable, float position
 }
 
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    All property set just make dirty flag
-    so the model matrix will apply changes until nearest frame draw called
-------------------------------------------------------------------------------------------------------------------------
-*/
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static inline void ADrawable_SetScaleX(Drawable* drawable, float scaleX)
