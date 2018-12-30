@@ -8,6 +8,7 @@
  */
 
 #include <stdlib.h>
+#include <Engine/Toolkit/Math/Vector.h>
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Graphics/Draw/Drawable.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -46,7 +47,7 @@ static void Draw(Drawable* drawable)
             else
             {
                 // self under identity matrix
-                *drawable->modelMatrix = *(Matrix4[]) MATRIX4_IDENTITY;
+                *drawable->modelMatrix = *(Matrix4[1]) MATRIX4_IDENTITY;
             }
 
             AMatrix->Translate
@@ -333,10 +334,10 @@ static inline float GetWorldRotationZ(Drawable* drawable)
 }
 
 
-static inline float GetWorldScaleX(Drawable* drawable)
+static float GetWorldScaleX(Drawable* drawable)
 {
-    int       sign   = drawable->scaleX < 0.0f ? -1 : 1;
     Drawable* parent = drawable->parent;
+    int       sign   = drawable->scaleX < 0.0f ? -1 : 1;
 
     while (parent != NULL)
     {
@@ -348,24 +349,22 @@ static inline float GetWorldScaleX(Drawable* drawable)
         parent = parent->parent;
     }
 
-    // the scale in the x,y,z axis is the length of the matrix column vector values
+    // the scaleX in the x,y,z axis is the length of the matrix column vector values
     Vector3 vector[1] =
-    {
-        {
-            drawable->modelMatrix->m0,
-            drawable->modelMatrix->m1,
-            drawable->modelMatrix->m2,
-        }
-    };
+    {{
+        drawable->modelMatrix->m0,
+        drawable->modelMatrix->m1,
+        drawable->modelMatrix->m2,
+    }};
 
     return AVector3_Length(vector) * sign;
 }
 
 
-static inline float GetWorldScaleY(Drawable* drawable)
+static float GetWorldScaleY(Drawable* drawable)
 {
-    int       sign   = drawable->scaleY < 0.0f ? -1 : 1;
     Drawable* parent = drawable->parent;
+    int       sign   = drawable->scaleY < 0.0f ? -1 : 1;
 
     while (parent != NULL)
     {
@@ -377,17 +376,58 @@ static inline float GetWorldScaleY(Drawable* drawable)
         parent = parent->parent;
     }
 
-    // The scale in the x,y,z axis is the length of the matrix column vector values
+    // the scaleY in the x,y,z axis is the length of the matrix column vector values
     Vector3 vector[1] =
-    {
-        {
-            drawable->modelMatrix->m4,
-            drawable->modelMatrix->m5,
-            drawable->modelMatrix->m6,
-        }
-    };
+    {{
+        drawable->modelMatrix->m4,
+        drawable->modelMatrix->m5,
+        drawable->modelMatrix->m6,
+    }};
 
     return AVector3_Length(vector) * sign;
+}
+
+
+
+static void GetWorldScaleV2(Drawable* drawable, Vector2* outScaleV2)
+{
+    Drawable* parent = drawable->parent;
+    int       signX  = drawable->scaleX < 0.0f ? -1 : 1;
+    int       signY  = drawable->scaleY < 0.0f ? -1 : 1;
+
+    while (parent != NULL)
+    {
+        if (parent->scaleX < 0.0f)
+        {
+            signX = -signX;
+        }
+
+        if (parent->scaleY < 0.0f)
+        {
+            signY = -signY;
+        }
+
+        parent = parent->parent;
+    }
+
+    // the scale in the x,y,z axis is the length of the matrix column vector values
+
+    Vector3 vectorX[1] =
+    {{
+         drawable->modelMatrix->m0,
+         drawable->modelMatrix->m1,
+         drawable->modelMatrix->m2,
+     }};
+
+    Vector3 vectorY[1] =
+    {{
+         drawable->modelMatrix->m4,
+         drawable->modelMatrix->m5,
+         drawable->modelMatrix->m6,
+     }};
+
+    outScaleV2->x = AVector3_Length(vectorX) * signX;
+    outScaleV2->y = AVector3_Length(vectorY) * signY;
 }
 
 
@@ -452,8 +492,9 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
 {
     Vector2 worldV2[1];
     float    worldRotationZ = GetWorldRotationZ(drawable);
-    float    worldScaleX    = GetWorldScaleX   (drawable);
-    float    worldScaleY    = GetWorldScaleY   (drawable);
+
+    Vector2 worldScaleV2[1];
+    GetWorldScaleV2(drawable, worldScaleV2);
 
     if (drawable->parent != NULL)
     {
@@ -461,8 +502,7 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
     }
     else
     {
-        Matrix4 model[1] = MATRIX4_IDENTITY;
-        AMatrix->MultiplyMV2(model, drawable->positionX, drawable->positionY , worldV2);
+        AMatrix->MultiplyMV2((Matrix4[]) MATRIX4_IDENTITY, drawable->positionX, drawable->positionY , worldV2);
     }
 
     float rotationZ;
@@ -473,25 +513,25 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
         ConvertToLocalV2      (parent,   worldV2,    localV2);
         ADrawable_SetPosition2(drawable, localV2->x, localV2->y);
 
-        float parentScaleX = GetWorldScaleX(parent);
-        float parentScaleY = GetWorldScaleY(parent);
+        Vector2 parentScaleV2[1];
+        GetWorldScaleV2(parent, parentScaleV2);
 
-        ALog_A(parentScaleX != 0.0f, "ADrawable ConvertToParent failed, parent getWorldScaleX can not 0.0f");
-        ALog_A(parentScaleY != 0.0f, "ADrawable ConvertToParent failed, parent getWorldScaleY can not 0.0f");
+        ALog_A(parentScaleV2->x != 0.0f, "ADrawable ConvertToParent failed, parent world scale x can not 0.0f");
+        ALog_A(parentScaleV2->y != 0.0f, "ADrawable ConvertToParent failed, parent world scale y can not 0.0f");
 
-        ADrawable_SetScale2(drawable, worldScaleX / parentScaleX, worldScaleY / parentScaleY);
+        ADrawable_SetScale2(drawable, worldScaleV2->x / parentScaleV2->x, worldScaleV2->y / parentScaleV2->y);
 
         // if parent flipped Convert world rotationZ to parent flipped coordinate
 
         float parentRotationZ = GetWorldRotationZ(parent);
 
-        if (parentScaleX < 0.0f)
+        if (parentScaleV2->x < 0.0f)
         {
             worldRotationZ  = 180.0f - worldRotationZ;
             parentRotationZ = 180.0f - parentRotationZ;
         }
 
-        if (parentScaleY < 0.0f)
+        if (parentScaleV2->y < 0.0f)
         {
             worldRotationZ  = -worldRotationZ;
             parentRotationZ = -parentRotationZ;
@@ -504,8 +544,8 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
     {
         rotationZ = worldRotationZ;
 
-        ADrawable_SetPosition2(drawable, worldV2->x, worldV2->y);
-        ADrawable_SetScale2   (drawable, worldScaleX,   worldScaleY);
+        ADrawable_SetPosition2(drawable, worldV2->x,        worldV2->y);
+        ADrawable_SetScale2   (drawable, worldScaleV2->x,   worldScaleV2->y);
     }
 
     if (drawable->scaleX < 0.0f)
@@ -605,7 +645,7 @@ static void Init(Drawable* outDrawable)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-   *outDrawable->modelMatrix   = *(Matrix4[]) MATRIX4_IDENTITY;
+   *outDrawable->modelMatrix   = *(Matrix4[1]) MATRIX4_IDENTITY;
     outDrawable->state         = 0;
     outDrawable->Draw          = NULL;
     outDrawable->Render        = NULL;
@@ -659,4 +699,5 @@ struct ADrawable ADrawable[1] =
     GetWorldRotationZ,
     GetWorldScaleX,
     GetWorldScaleY,
+    GetWorldScaleV2,
 };

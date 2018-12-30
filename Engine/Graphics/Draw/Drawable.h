@@ -374,7 +374,7 @@ struct ADrawable
     /**
      * Get drawable scale vector2 in world
      */
-    void     (*GetWorldScale2)        (Drawable* drawable, Vector2* outScale2);
+    void     (*GetWorldScaleV2)       (Drawable* drawable, Vector2* outScaleV2);
 };
 
 
