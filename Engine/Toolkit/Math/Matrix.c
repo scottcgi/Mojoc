@@ -101,20 +101,26 @@ static void multiplyMV3(Matrix4* matrix4, float x, float y, float z, Vector3* ou
 
 static void MultiplyMV2(Matrix4* matrix4, float x, float y, Vector2* outVector2)
 {
-    outVector2->x = matrix4->m0 * x + matrix4->m4 * y + matrix4->m8 + matrix4->m12;
-    outVector2->y = matrix4->m1 * x + matrix4->m5 * y + matrix4->m9 + matrix4->m13;
+    outVector2->x = matrix4->m0 * x + matrix4->m4 * y + matrix4->m12;
+    outVector2->y = matrix4->m1 * x + matrix4->m5 * y + matrix4->m13;
 }
 
 
 static float MultiplyMX(Matrix4* matrix4, float x)
 {
-    return matrix4->m0 * x + matrix4->m8 + matrix4->m12;
+    return matrix4->m0 * x + matrix4->m12;
 }
 
 
 static float MultiplyMY(Matrix4* matrix4, float y)
 {
-    return matrix4->m5 * y + matrix4->m9 + matrix4->m13;
+    return matrix4->m5 * y + matrix4->m13;
+}
+
+
+static float MultiplyMZ(Matrix4* matrix4, float z)
+{
+   return matrix4->m10 * z + matrix4->m14;
 }
 
 
@@ -247,18 +253,6 @@ static void Translate(Matrix4* matrix4, float x, float y, float z)
     matrix4->m12 += matrix4->m0 * x + matrix4->m4 * y + matrix4->m8  * z;
     matrix4->m13 += matrix4->m1 * x + matrix4->m5 * y + matrix4->m9  * z;
     matrix4->m14 += matrix4->m2 * x + matrix4->m6 * y + matrix4->m10 * z;
-
-/*
-------------------------------------------------------------------------------------------------------------------------
-    // always 1
-    matrix4->m15 += matrix4->m3 * x + matrix4->m7 * y + matrix4->m11 * z;
-
-    for (int i = 0; i < 4; i++)
-    {
-        matrix4->m[i + 12] += matrix4->m[i] * x + matrix4->m[i + 4] * y + matrix4->m[i + 8] * z;
-    }
-------------------------------------------------------------------------------------------------------------------------
-*/
 }
 
 
@@ -772,6 +766,7 @@ struct AMatrix AMatrix[1] =
     MultiplyMV2,
     MultiplyMX,
     MultiplyMY,
+    MultiplyMZ,
 
     Translate,
     Rotate,

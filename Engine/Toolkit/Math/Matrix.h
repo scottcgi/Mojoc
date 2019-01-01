@@ -58,12 +58,12 @@ struct AMatrix
     void  (*MultiplyMV4)     (Matrix4* matrix4, float x, float y, float z, float w, Vector4* outVector4);
 
     /**
-     * Multiply matrix4 * vector3, w default 1.0f into outVector3
+     * Multiply matrix4 * vector3 into outVector3
      */
     void  (*MultiplyMV3)     (Matrix4* matrix4, float x, float y, float z, Vector3* outVector3);
 
     /**
-     * Multiply matrix4 * vector2, z and w default 1.0f into outVector2
+     * Multiply matrix4 * vector2 into outVector2
      */
     void  (*MultiplyMV2)     (Matrix4* matrix4, float x, float y, Vector2* outVector2);
 
@@ -76,6 +76,11 @@ struct AMatrix
      * Multiply matrix4 * y, return transformed y
      */
     float (*MultiplyMY)      (Matrix4* matrix4, float y);
+
+    /**
+     * Multiply matrix4 * z, return transformed z
+     */
+    float (*MultiplyMZ)      (Matrix4* matrix4, float z);
 
     /**
      * Translate matrix4 with vector3

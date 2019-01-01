@@ -608,8 +608,8 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
 
 static float ConvertBetweenLocalPositionX(Drawable* parentA, float localPositionX, Drawable* parentB)
 {
-    ALog_A(parentA != NULL, "ADrawable ConvertBetweenLocalPositionX parentA not NULL");
-    ALog_A(parentB != NULL, "ADrawable ConvertBetweenLocalPositionX parentB not NULL");
+    ALog_A(parentA != NULL, "ADrawable ConvertBetweenLocalPositionX parentA can not NULL !");
+    ALog_A(parentB != NULL, "ADrawable ConvertBetweenLocalPositionX parentB can not NULL !");
 
     return ConvertToLocalPositionX(parentB, AMatrix->MultiplyMX(parentA->modelMatrix, localPositionX));
 }
