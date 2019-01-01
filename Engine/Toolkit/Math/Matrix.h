@@ -30,15 +30,13 @@ typedef union
 Matrix4;
 
 
-#define MATRIX4_IDENTITY           \
-    {                              \
-       {                           \
+#define MATRIX4_IDENTITY            \
+    {{                             \
            1.0f, 0.0f, 0.0f, 0.0f, \
            0.0f, 1.0f, 0.0f, 0.0f, \
            0.0f, 0.0f, 1.0f, 0.0f, \
            0.0f, 0.0f, 0.0f, 1.0f, \
-       }                           \
-    }
+    }}
 
 
 struct AMatrix

@@ -28,6 +28,8 @@
  */
 typedef enum
 {
+    DrawableState_Null              = 0,
+    
     /**
      * Whether drawable is invisible
      */
@@ -275,8 +277,8 @@ struct  Drawable
 
 struct ADrawable
 {
-    Drawable* (*Create)                ();
-    void      (*Init)                  (Drawable* outDrawable);
+    Drawable* (*Create)                       ();
+    void      (*Init)                         (Drawable* outDrawable);
 
      /**
       * Transform model matrix and calculate mvp matrix if need
@@ -285,96 +287,125 @@ struct ADrawable
       *
       * if render method implemented will push into render queue for flush openGL command
       */
-    void     (*Draw)                  (Drawable* drawable);
+    void      (*Draw)                         (Drawable* drawable);
 
     /**
      * Rendering Drawable queue and clear it wait for next frame
      */
-    void     (*RenderQueue)           ();
+    void      (*RenderQueue)                  ();
 
     /**
-     * Convert local x in parent coordinate to world x
-     * return world x
+     * Convert localPositionX in localParent to world.
+     * return world position x
      */
-    float     (*ConvertToWorldX)       (Drawable* localParent, float localX);
+    float      (*ConvertToWorldPositionX)      (Drawable* localParent, float localPositionX);
 
     /**
-     * Convert local y in parent coordinate to world y
-     * return world y
+     * Convert localPositionY in localParent to world.
+     * return world position y
      */
-    float     (*ConvertToWorldY)       (Drawable* localParent, float localY);
+    float      (*ConvertToWorldPositionY)      (Drawable* localParent, float localPositionY);
 
     /**
-     * Convert localV2 in parent coordinate to world coordinate
+     * Convert localPositionV2 in localParent to world.
      */
-    void     (*ConvertToWorldV2)      (Drawable* localParent, Vector2* localV2, Vector2* outWorldV2);
+    void      (*ConvertToWorldPositionV2)     (
+                                                  Drawable* localParent,
+                                                  Vector2*  localPositionV2,
+                                                  Vector2*  outWorldPositionV2
+                                              );
 
     /**
-     * Convert world x to local x in parent coordinate
-     * return local x
+     * Convert worldPositionX to localParent.
+     * return local position x
      */
-    float     (*ConvertToLocalX)       (Drawable* localParent, float worldX);
+    float      (*ConvertToLocalPositionX)      (Drawable* localParent, float worldPositionX);
 
     /**
-     * Convert world y to local y in parent coordinate
-     * return local y
+     * Convert worldPositionY to localParent.
+     * return local position y
      */
-    float     (*ConvertToLocalY)       (Drawable* localParent, float worldY);
+    float     (*ConvertToLocalPositionY)       (Drawable* localParent, float worldPositionY);
 
     /**
-     * Convert worldV2 to local coordinate in parent
+     * Convert worldPositionV2 to localParent.
      */
-    void     (*ConvertToLocalV2)      (Drawable* localParent, Vector2* worldV2, Vector2* outLocalV2);
+    void     (*ConvertToLocalPositionV2)      (Drawable* localParent, Vector2* worldPositionV2, Vector2* outLocalPositionV2);
 
     /**
-     * Convert drawable transform to parent, will change parent and scale position rotationZ for parent coordinate
-     * if parent NULL will convert to world coordinate
+     * Set drawable parent and keep world transform.
+     * if parent NULL will convert to world
      */
-    void     (*ConvertToParent)       (Drawable* drawable, Drawable* parent);
-
-
-    /**
-     * Convert local x in parentA to parentB
-     * return local x in parentB
-     */
-    float     (*ConvertBetweenLocalX)  (Drawable* parentA, float localXA, Drawable* parentB);
-
-    /**
-     * Convert local y in parentA to ParentB
-     * return local y in parentB
-     */
-    float     (*ConvertBetweenLocalY)  (Drawable* parentA, float localYA, Drawable* parentB);
+    void     (*ConvertToParent)               (Drawable* drawable, Drawable* parent);
 
 
     /**
-     * Convert localV2A in parentA to outLocalV2B in parentB
+     * Convert localPositionX in parentA to parentB.
+     * return local position x in parentB
      */
-    void     (*ConvertBetweenLocalV2) (Drawable* parentA, Vector2* localV2A, Drawable* parentB, Vector2* outLocalV2B);
+    float     (*ConvertBetweenLocalPositionX)  (Drawable* parentA, float localPositionX, Drawable* parentB);
+
+    /**
+     * Convert localPositionY in parentA to ParentB.
+     * return local position y in parentB
+     */
+    float     (*ConvertBetweenLocalPositionY)  (Drawable* parentA, float localPositionY, Drawable* parentB);
+
+
+    /**
+     * Convert localPositionV2 in parentA to outLocalPositionV2 in parentB
+     */
+    void     (*ConvertBetweenLocalPositionV2) (
+                                                  Drawable* parentA,
+                                                  Vector2*  localPositionV2,
+                                                  Drawable* parentB,
+                                                  Vector2*  outLocalPositionV2
+                                              );
 
     /**
      * If Drawable has flip will transform rotationZ to flipped value
      */
-    float     (*GetFlipRotationZ)      (Drawable* drawable, float rotationZ);
+    float     (*GetFlipRotationZ)              (Drawable* drawable, float rotationZ);
 
     /**
      * Get drawable rotationZ in world
      */
-    float     (*GetWorldRotationZ)     (Drawable* drawable);
+    float     (*GetWorldRotationZ)             (Drawable* drawable);
 
     /**
      * Get drawable scaleX in world
      */
-    float     (*GetWorldScaleX)        (Drawable* drawable);
+    float     (*GetWorldScaleX)                (Drawable* drawable);
 
     /**
      * Get drawable scaleY in world
      */
-    float     (*GetWorldScaleY)        (Drawable* drawable);
+    float     (*GetWorldScaleY)                (Drawable* drawable);
 
     /**
-     * Get drawable scale vector2 in world
+     * Get drawable scale Vector2 in world
      */
-    void     (*GetWorldScaleV2)       (Drawable* drawable, Vector2* outScaleV2);
+    void     (*GetWorldScaleV2)               (Drawable* drawable, Vector2* outScaleV2);
+
+    /**
+     * Get drawable position x in world
+     */
+    float    (*GetWorldPositionX)              (Drawable* drawable);
+
+    /**
+     * Get drawable position x in world
+     */
+    float    (*GetWorldPositionY)              (Drawable* drawable);
+
+    /**
+     * Get drawable position Vector2 in world
+     */
+    void    (*GetWorldPositionV2)             (Drawable* drawable, Vector2* outPositionV2);
+
+    /**
+     * Get drawable position Vector3 in world
+     */
+    void    (*GetWorldPositionV3)             (Drawable* drawable, Vector3* outPositionV3);
 };
 
 
@@ -423,7 +454,7 @@ static inline void ADrawable_SetVisible(Drawable* drawable)
 }
 
 
-static inline void ADrawable_SetInVisible(Drawable* drawable)
+static inline void ADrawable_SetInvisible(Drawable* drawable)
 {
     ADrawable_AddState(drawable, DrawableState_IsInvisible);
 }

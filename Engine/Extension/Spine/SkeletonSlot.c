@@ -159,7 +159,7 @@ static void SetAttachmentData(SkeletonSlot* slot, SkeletonAttachmentData* attach
 
         if (subMesh != NULL)
         {
-            ADrawable_SetInVisible(subMesh->drawable);
+            ADrawable_SetInvisible(subMesh->drawable);
         }
     }
 

@@ -127,7 +127,7 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
 
                 if (subMesh != NULL)
                 {
-                    ADrawable_SetInVisible(subMesh->drawable);
+                    ADrawable_SetInvisible(subMesh->drawable);
                 }
 
                 slot->attachmentData = NULL;
@@ -400,7 +400,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
         }
 
         // first born invisible
-        ADrawable_SetInVisible(subMesh->drawable);
+        ADrawable_SetInvisible(subMesh->drawable);
     }
 
     for (int i = 0; i < skeleton->meshList->size; i++)

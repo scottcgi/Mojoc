@@ -89,14 +89,17 @@ static void Draw(Drawable* drawable)
         // check color flag
         if
         (
-            ADrawable_CheckState(drawable, DrawableState_Color)
-            ||
+            ADrawable_CheckState(drawable, DrawableState_Color) ||
             (isHasParent && ADrawable_CheckState(drawable->parent, DrawableState_ColorChanged))
         )
         {
             if (isHasParent && ADrawable_CheckState(drawable, DrawableState_IsBlendColor))
             {
-                if (ADrawable_CheckState(drawable, DrawableState_Opacity) || ADrawable_CheckState(drawable->parent, DrawableState_OpacityChanged))
+                if
+                (
+                    ADrawable_CheckState(drawable, DrawableState_Opacity) ||
+                    ADrawable_CheckState(drawable->parent, DrawableState_OpacityChanged)
+                )
                 {
                     // blend opacity
                     drawable->blendColor->a = drawable->color->a * drawable->parent->blendColor->a;
@@ -109,7 +112,11 @@ static void Draw(Drawable* drawable)
                     ADrawable_ClearState(drawable, DrawableState_OpacityChanged);
                 }
 
-                if (ADrawable_CheckState(drawable, DrawableState_RGB) || ADrawable_CheckState(drawable->parent, DrawableState_RGBChanged))
+                if
+                (
+                    ADrawable_CheckState(drawable, DrawableState_RGB) ||
+                    ADrawable_CheckState(drawable->parent, DrawableState_RGBChanged)
+                )
                 {
                     // blend rgb
                     drawable->blendColor->r = drawable->color->r * drawable->parent->blendColor->r;
@@ -431,28 +438,64 @@ static void GetWorldScaleV2(Drawable* drawable, Vector2* outScaleV2)
 }
 
 
+static float GetWorldPositionX(Drawable* drawable)
+{
+    ALog_A(drawable->parent != NULL, "ADrawable GetWorldPositionX the drawable parent can not NULL !");
+    return AMatrix->MultiplyMX(drawable->parent->modelMatrix, drawable->positionX);
+}
+
+
+static float GetWorldPositionY(Drawable* drawable)
+{
+    ALog_A(drawable->parent != NULL, "ADrawable GetWorldPositionY the drawable parent can not NULL !");
+    return AMatrix->MultiplyMX(drawable->parent->modelMatrix, drawable->positionY);
+}
+
+
+static void GetWorldPositionV2(Drawable* drawable, Vector2* outPositionV2)
+{
+    ALog_A(drawable->parent != NULL, "ADrawable GetWorldPositionV2 the drawable parent can not NULL !");
+    AMatrix->MultiplyMV2(drawable->parent->modelMatrix, drawable->positionX, drawable->positionY, outPositionV2);
+}
+
+
+static void GetWorldPositionV3(Drawable* drawable, Vector3* outPositionV3)
+{
+    ALog_A(drawable->parent != NULL, "ADrawable GetWorldPositionV3 the drawable parent can not NULL !");
+    
+    AMatrix->MultiplyMV3
+    (
+        drawable->parent->modelMatrix,
+        drawable->positionX,
+        drawable->positionY,
+        drawable->positionZ,
+        outPositionV3
+    );
+}
+
+
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float ConvertToWorldX(Drawable* localParent, float localX)
+static float ConvertToWorldPositionX(Drawable* localParent, float localPositionX)
 {
-    return AMatrix->MultiplyMX(localParent->modelMatrix, localX);
+    return AMatrix->MultiplyMX(localParent->modelMatrix, localPositionX);
 }
 
 
-static float ConvertToWorldY(Drawable* localParent, float localY)
+static float ConvertToWorldPositionY(Drawable* localParent, float localPositionY)
 {
-    return AMatrix->MultiplyMY(localParent->modelMatrix, localY);
+    return AMatrix->MultiplyMY(localParent->modelMatrix, localPositionY);
 }
 
 
-static void ConvertToWorldV2(Drawable* localParent, Vector2* localV2, Vector2* outWorld2)
+static void ConvertToWorldPositionV2(Drawable* localParent, Vector2* localPositionV2, Vector2* outWorldPositionV2)
 {
-    AMatrix->MultiplyMV2(localParent->modelMatrix, localV2->x, localV2->y , outWorld2);
+    AMatrix->MultiplyMV2(localParent->modelMatrix, localPositionV2->x, localPositionV2->y , outWorldPositionV2);
 }
 
 
-static float ConvertToLocalX(Drawable* localParent, float worldX)
+static float ConvertToLocalPositionX(Drawable* localParent, float worldPositionX)
 {
     if (ADrawable_CheckState(localParent, DrawableState_UpdateInverse))
     {
@@ -460,11 +503,11 @@ static float ConvertToLocalX(Drawable* localParent, float worldX)
         AMatrix->Inverse(localParent->modelMatrix, localParent->inverseMatrix);
     }
 
-    return AMatrix->MultiplyMX(localParent->inverseMatrix, worldX);
+    return AMatrix->MultiplyMX(localParent->inverseMatrix, worldPositionX);
 }
 
 
-static float ConvertToLocalY(Drawable* localParent, float worldY)
+static float ConvertToLocalPositionY(Drawable* localParent, float worldPositionY)
 {
     if (ADrawable_CheckState(localParent, DrawableState_UpdateInverse))
     {
@@ -472,11 +515,11 @@ static float ConvertToLocalY(Drawable* localParent, float worldY)
         AMatrix->Inverse(localParent->modelMatrix, localParent->inverseMatrix);
     }
 
-    return AMatrix->MultiplyMY(localParent->inverseMatrix, worldY);
+    return AMatrix->MultiplyMY(localParent->inverseMatrix, worldPositionY);
 }
 
 
-static void ConvertToLocalV2(Drawable* localParent, Vector2* worldV2, Vector2* outLocalV2)
+static void ConvertToLocalPositionV2(Drawable* localParent, Vector2* worldPositionV2, Vector2* outLocalPositionV2)
 {
     if (ADrawable_CheckState(localParent, DrawableState_UpdateInverse))
     {
@@ -484,13 +527,13 @@ static void ConvertToLocalV2(Drawable* localParent, Vector2* worldV2, Vector2* o
         AMatrix->Inverse(localParent->modelMatrix, localParent->inverseMatrix);
     }
 
-    AMatrix->MultiplyMV2(localParent->inverseMatrix, worldV2->x, worldV2->y, outLocalV2);
+    AMatrix->MultiplyMV2(localParent->inverseMatrix, worldPositionV2->x, worldPositionV2->y, outLocalPositionV2);
 }
 
 
 static void ConvertToParent(Drawable* drawable, Drawable* parent)
 {
-    Vector2 worldV2[1];
+    Vector2 worldPositionV2[1];
     float    worldRotationZ = GetWorldRotationZ(drawable);
 
     Vector2 worldScaleV2[1];
@@ -498,20 +541,20 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
 
     if (drawable->parent != NULL)
     {
-        AMatrix->MultiplyMV2(drawable->parent->modelMatrix, drawable->positionX, drawable->positionY , worldV2);
+        AMatrix->MultiplyMV2(drawable->parent->modelMatrix, drawable->positionX, drawable->positionY , worldPositionV2);
     }
     else
     {
-        AMatrix->MultiplyMV2((Matrix4[]) MATRIX4_IDENTITY, drawable->positionX, drawable->positionY , worldV2);
+        AMatrix->MultiplyMV2((Matrix4[]) MATRIX4_IDENTITY, drawable->positionX, drawable->positionY , worldPositionV2);
     }
 
     float rotationZ;
 
     if (parent != NULL)
     {
-        Vector2 localV2[1];
-        ConvertToLocalV2      (parent,   worldV2,    localV2);
-        ADrawable_SetPosition2(drawable, localV2->x, localV2->y);
+        Vector2 localPositionV2[1];
+        ConvertToLocalPositionV2(parent,   worldPositionV2,    localPositionV2);
+        ADrawable_SetPosition2  (drawable, localPositionV2->x, localPositionV2->y);
 
         Vector2 parentScaleV2[1];
         GetWorldScaleV2(parent, parentScaleV2);
@@ -544,8 +587,8 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
     {
         rotationZ = worldRotationZ;
 
-        ADrawable_SetPosition2(drawable, worldV2->x,        worldV2->y);
-        ADrawable_SetScale2   (drawable, worldScaleV2->x,   worldScaleV2->y);
+        ADrawable_SetPosition2(drawable, worldPositionV2->x, worldPositionV2->y);
+        ADrawable_SetScale2   (drawable, worldScaleV2->x,    worldScaleV2->y);
     }
 
     if (drawable->scaleX < 0.0f)
@@ -563,34 +606,40 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
 }
 
 
-static float ConvertBetweenLocalX(Drawable* parentA, float localXA, Drawable* parentB)
+static float ConvertBetweenLocalPositionX(Drawable* parentA, float localPositionX, Drawable* parentB)
 {
-    ALog_A(parentA != NULL, "ADrawable ConvertBetweenLocalX parentA not NULL");
-    ALog_A(parentB != NULL, "ADrawable ConvertBetweenLocalX parentB not NULL");
+    ALog_A(parentA != NULL, "ADrawable ConvertBetweenLocalPositionX parentA not NULL");
+    ALog_A(parentB != NULL, "ADrawable ConvertBetweenLocalPositionX parentB not NULL");
 
-    return ConvertToLocalX(parentB, AMatrix->MultiplyMX(parentA->modelMatrix, localXA));
+    return ConvertToLocalPositionX(parentB, AMatrix->MultiplyMX(parentA->modelMatrix, localPositionX));
 }
 
 
-static float ConvertBetweenLocalY(Drawable* parentA, float localYA, Drawable* parentB)
+static float ConvertBetweenLocalPositionY(Drawable* parentA, float localPositionY, Drawable* parentB)
 {
-    ALog_A(parentA != NULL, "ADrawable ConvertBetweenLocalY parentA not NULL");
-    ALog_A(parentB != NULL, "ADrawable ConvertBetweenLocalY parentB not NULL");
+    ALog_A(parentA != NULL, "ADrawable ConvertBetweenLocalPositionY parentA not NULL");
+    ALog_A(parentB != NULL, "ADrawable ConvertBetweenLocalPositionY parentB not NULL");
 
-    return ConvertToLocalY(parentB, AMatrix->MultiplyMY(parentA->modelMatrix, localYA));
+    return ConvertToLocalPositionY(parentB, AMatrix->MultiplyMY(parentA->modelMatrix, localPositionY));
 }
 
 
-static void ConvertBetweenLocalV2(Drawable* parentA, Vector2* localV2A, Drawable* parentB, Vector2* outLocalV2B)
+static void ConvertBetweenLocalPositionV2
+(
+    Drawable* parentA,
+    Vector2*  localPositionV2,
+    Drawable* parentB,
+    Vector2*  outLocalPositionV2
+)
 {
-    ALog_A(parentA     != NULL, "ADrawable ConvertBetweenLocal parentA     not NULL");
-    ALog_A(localV2A    != NULL, "ADrawable ConvertBetweenLocal localV2A    not NULL");
-    ALog_A(parentB     != NULL, "ADrawable ConvertBetweenLocal parentB     not NULL");
-    ALog_A(outLocalV2B != NULL, "ADrawable ConvertBetweenLocal outLocalV2B not NULL");
+    ALog_A(parentA            != NULL, "ADrawable ConvertBetweenLocal parentA            not NULL");
+    ALog_A(localPositionV2    != NULL, "ADrawable ConvertBetweenLocal localPositionV2    not NULL");
+    ALog_A(parentB            != NULL, "ADrawable ConvertBetweenLocal parentB            not NULL");
+    ALog_A(outLocalPositionV2 != NULL, "ADrawable ConvertBetweenLocal outLocalPositionV2 not NULL");
 
-    Vector2 worldVector2[1];
-    AMatrix->MultiplyMV2 (parentA->modelMatrix,  localV2A->x, localV2A->y, worldVector2);
-    ConvertToLocalV2     (parentB, worldVector2, outLocalV2B);
+    Vector2 worldPositionV2[1];
+    AMatrix->MultiplyMV2    (parentA->modelMatrix,  localPositionV2->x, localPositionV2->y, worldPositionV2);
+    ConvertToLocalPositionV2(parentB, worldPositionV2, outLocalPositionV2);
 }
 
 
@@ -646,7 +695,7 @@ static void Init(Drawable* outDrawable)
 //----------------------------------------------------------------------------------------------------------------------
 
    *outDrawable->modelMatrix   = *(Matrix4[1]) MATRIX4_IDENTITY;
-    outDrawable->state         = 0;
+    outDrawable->state         = DrawableState_Null;
     outDrawable->Draw          = NULL;
     outDrawable->Render        = NULL;
 
@@ -681,23 +730,27 @@ struct ADrawable ADrawable[1] =
     Draw,
     RenderQueue,
 
-    ConvertToWorldX,
-    ConvertToWorldY,
-    ConvertToWorldV2,
+    ConvertToWorldPositionX,
+    ConvertToWorldPositionY,
+    ConvertToWorldPositionV2,
 
-    ConvertToLocalX,
-    ConvertToLocalY,
-    ConvertToLocalV2,
+    ConvertToLocalPositionX,
+    ConvertToLocalPositionY,
+    ConvertToLocalPositionV2,
 
     ConvertToParent,
 
-    ConvertBetweenLocalX,
-    ConvertBetweenLocalY,
-    ConvertBetweenLocalV2,
+    ConvertBetweenLocalPositionX,
+    ConvertBetweenLocalPositionY,
+    ConvertBetweenLocalPositionV2,
 
     GetFlipRotationZ,
     GetWorldRotationZ,
     GetWorldScaleX,
     GetWorldScaleY,
     GetWorldScaleV2,
+    GetWorldPositionX,
+    GetWorldPositionY,
+    GetWorldPositionV2,
+    GetWorldPositionV3,
 };

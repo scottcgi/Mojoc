@@ -201,7 +201,7 @@ static void SetString(FontText* text, char* str)
 
             if (ADrawable_CheckVisible(subMesh->drawable))
             {
-                ADrawable_SetInVisible(subMesh->drawable);
+                ADrawable_SetInvisible(subMesh->drawable);
             }
 
             AArrayList->Remove(text->usedSubMeshList, i);
@@ -330,7 +330,7 @@ static void ReuseText(FontText* text)
     for (int i = 0; i < text->usedSubMeshList->size; i++)
     {
         SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
-        ADrawable_SetInVisible(subMesh->drawable);
+        ADrawable_SetInvisible(subMesh->drawable);
         AArrayList_Add(text->font->unusedSubMeshList, subMesh);
     }
 

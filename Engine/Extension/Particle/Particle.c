@@ -26,7 +26,7 @@ static void Init(SubMesh* subMesh, Particle* outParticle)
     outParticle->isActive = false;
     outParticle->subMesh  = subMesh;
 
-    ADrawable_SetInVisible(subMesh->drawable);
+    ADrawable_SetInvisible(subMesh->drawable);
 }
 
 

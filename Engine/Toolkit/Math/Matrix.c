@@ -267,7 +267,7 @@ static void Translate(Matrix4* matrix4, float x, float y, float z)
  */
 static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
 {
-    angle     = AMath_ToRadian(angle);
+    angle    = AMath_ToRadian(angle);
     float s   = sinf(angle);
     float c   = cosf(angle);
     float len = AVector2_Length3(x, y, z);
@@ -290,26 +290,24 @@ static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
     float zs = z * s;
 
     Matrix4 temp1[1] =
-    {
-        {
-            x  * x  * nc + c,
-            xy * nc + zs,
-            zx * nc - ys,
-            0.0f,
+    {{
+        x  * x  * nc + c,
+        xy * nc + zs,
+        zx * nc - ys,
+        0.0f,
 
-            xy * nc - zs,
-            y  * y  * nc + c,
-            yz * nc + xs,
-            0.0f,
+        xy * nc - zs,
+        y  * y  * nc + c,
+        yz * nc + xs,
+        0.0f,
 
-            zx * nc + ys,
-            yz * nc - xs,
-            z  * z  * nc + c,
-            0.0f,
+        zx * nc + ys,
+        yz * nc - xs,
+        z  * z  * nc + c,
+        0.0f,
 
-            0.0f, 0.0f, 0.0f, 1.0f,
-        }
-    };
+        0.0f, 0.0f, 0.0f, 1.0f,
+    }};
 
     Matrix4 temp2[1];
     MultiplyMM(matrix4, temp1, temp2);
@@ -320,7 +318,7 @@ static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
 
 static void RotateX(Matrix4* matrix4, float angle)
 {
-    angle   = AMath_ToRadian(angle);
+    angle  = AMath_ToRadian(angle);
 
     float s = sinf(angle);
     float c = cosf(angle);
@@ -343,10 +341,10 @@ static void RotateX(Matrix4* matrix4, float angle)
 ------------------------------------------------------------------------------------------------------------------------
 */
 
-    float m4     = matrix4->m4;
-    float m5     = matrix4->m5;
-    float m6     = matrix4->m6;
-    float m7     = matrix4->m7;
+    float m4      = matrix4->m4;
+    float m5      = matrix4->m5;
+    float m6      = matrix4->m6;
+    float m7      = matrix4->m7;
 
     matrix4->m4  =  m4 *  c + matrix4->m8  * s;
     matrix4->m5  =  m5 *  c + matrix4->m9  * s;
@@ -362,7 +360,7 @@ static void RotateX(Matrix4* matrix4, float angle)
 
 static void RotateY(Matrix4* matrix4, float angle)
 {
-    angle    = AMath_ToRadian(angle);
+    angle   = AMath_ToRadian(angle);
     float s  = sinf(angle);
     float c  = cosf(angle);
 
@@ -384,10 +382,10 @@ static void RotateY(Matrix4* matrix4, float angle)
 ------------------------------------------------------------------------------------------------------------------------
 */
 
-    float m0     = matrix4->m0;
-    float m1     = matrix4->m1;
-    float m2     = matrix4->m2;
-    float m3     = matrix4->m3;
+    float m0      = matrix4->m0;
+    float m1      = matrix4->m1;
+    float m2      = matrix4->m2;
+    float m3      = matrix4->m3;
 
     matrix4->m0  = m0 * c + matrix4->m8  * -s;
     matrix4->m1  = m1 * c + matrix4->m9  * -s;
@@ -403,7 +401,7 @@ static void RotateY(Matrix4* matrix4, float angle)
 
 static void RotateZ(Matrix4* matrix4, float angle)
 {
-    angle    = AMath_ToRadian(angle);
+    angle   = AMath_ToRadian(angle);
     float s  = sinf(angle);
     float c  = cosf(angle);
 
@@ -425,10 +423,10 @@ static void RotateZ(Matrix4* matrix4, float angle)
 ------------------------------------------------------------------------------------------------------------------------
 */
 
-    float m0    = matrix4->m0;
-    float m1    = matrix4->m1;
-    float m2    = matrix4->m2;
-    float m3    = matrix4->m3;
+    float m0     = matrix4->m0;
+    float m1     = matrix4->m1;
+    float m2     = matrix4->m2;
+    float m3     = matrix4->m3;
 
     matrix4->m0 = m0 *  c + matrix4->m4 * s;
     matrix4->m1 = m1 *  c + matrix4->m5 * s;
@@ -460,19 +458,19 @@ static void Scale(Matrix4* matrix4, float sx, float sy, float sz)
 
 static void Inverse(Matrix4* matrix4, Matrix4* outInverse)
 {
-    float a0  = matrix4->m0  * matrix4->m5  - matrix4->m1  * matrix4->m4;
-    float a1  = matrix4->m0  * matrix4->m6  - matrix4->m2  * matrix4->m4;
-    float a2  = matrix4->m0  * matrix4->m7  - matrix4->m3  * matrix4->m4;
-    float a3  = matrix4->m1  * matrix4->m6  - matrix4->m2  * matrix4->m5;
-    float a4  = matrix4->m1  * matrix4->m7  - matrix4->m3  * matrix4->m5;
-    float a5  = matrix4->m2  * matrix4->m7  - matrix4->m3  * matrix4->m6;
+    float a0 = matrix4->m0  * matrix4->m5  - matrix4->m1  * matrix4->m4;
+    float a1 = matrix4->m0  * matrix4->m6  - matrix4->m2  * matrix4->m4;
+    float a2 = matrix4->m0  * matrix4->m7  - matrix4->m3  * matrix4->m4;
+    float a3 = matrix4->m1  * matrix4->m6  - matrix4->m2  * matrix4->m5;
+    float a4 = matrix4->m1  * matrix4->m7  - matrix4->m3  * matrix4->m5;
+    float a5 = matrix4->m2  * matrix4->m7  - matrix4->m3  * matrix4->m6;
 
-    float b0  = matrix4->m8  * matrix4->m13 - matrix4->m9  * matrix4->m12;
-    float b1  = matrix4->m8  * matrix4->m14 - matrix4->m10 * matrix4->m12;
-    float b2  = matrix4->m8  * matrix4->m15 - matrix4->m11 * matrix4->m12;
-    float b3  = matrix4->m9  * matrix4->m14 - matrix4->m10 * matrix4->m13;
-    float b4  = matrix4->m9  * matrix4->m15 - matrix4->m11 * matrix4->m13;
-    float b5  = matrix4->m10 * matrix4->m15 - matrix4->m11 * matrix4->m14;
+    float b0 = matrix4->m8  * matrix4->m13 - matrix4->m9  * matrix4->m12;
+    float b1 = matrix4->m8  * matrix4->m14 - matrix4->m10 * matrix4->m12;
+    float b2 = matrix4->m8  * matrix4->m15 - matrix4->m11 * matrix4->m12;
+    float b3 = matrix4->m9  * matrix4->m14 - matrix4->m10 * matrix4->m13;
+    float b4 = matrix4->m9  * matrix4->m15 - matrix4->m11 * matrix4->m13;
+    float b5 = matrix4->m10 * matrix4->m15 - matrix4->m11 * matrix4->m14;
 
 /*
 ------------------------------------------------------------------------------------------------------------------------
@@ -490,7 +488,6 @@ static void Inverse(Matrix4* matrix4, Matrix4* outInverse)
 */
 
     float scalar = 1.0f / (a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0);
-
 
 /*
 ------------------------------------------------------------------------------------------------------------------------
@@ -524,15 +521,13 @@ static void Inverse(Matrix4* matrix4, Matrix4* outInverse)
 
 static void Transpose(Matrix4* matrix, Matrix4* outTranspose)
 {
-    *outTranspose = *(Matrix4[])
-                     {
-                         {
-                             matrix->m0, matrix->m4, matrix->m8,  matrix->m12,
-                             matrix->m1, matrix->m5, matrix->m9,  matrix->m13,
-                             matrix->m2, matrix->m6, matrix->m10, matrix->m14,
-                             matrix->m3, matrix->m7, matrix->m11, matrix->m15,
-                         }
-                     };
+    *outTranspose = *(Matrix4[1])
+                     {{
+                         matrix->m0, matrix->m4, matrix->m8,  matrix->m12,
+                         matrix->m1, matrix->m5, matrix->m9,  matrix->m13,
+                         matrix->m2, matrix->m6, matrix->m10, matrix->m14,
+                         matrix->m3, matrix->m7, matrix->m11, matrix->m15,
+                     }};
 }
 
 
@@ -613,25 +608,25 @@ static void Perspective(float fovy, float aspect, float near, float far, Matrix4
     float f               = 1.0f / (float) tan(fovy * MATH_PI360);
     float rangeReciprocal = 1.0f / (near - far);
 
-    outProjection->m0     = f / aspect;
-    outProjection->m1     = 0.0f;
-    outProjection->m2     = 0.0f;
-    outProjection->m3     = 0.0f;
+    outProjection->m0    = f / aspect;
+    outProjection->m1    = 0.0f;
+    outProjection->m2    = 0.0f;
+    outProjection->m3    = 0.0f;
 
-    outProjection->m4     = 0.0f;
-    outProjection->m5     = f;
-    outProjection->m6     = 0.0f;
-    outProjection->m7     = 0.0f;
+    outProjection->m4    = 0.0f;
+    outProjection->m5    = f;
+    outProjection->m6    = 0.0f;
+    outProjection->m7    = 0.0f;
 
-    outProjection->m8     = 0.0f;
-    outProjection->m9     = 0.0f;
-    outProjection->m10    = (far + near) * rangeReciprocal;
-    outProjection->m11    = -1.0f;
+    outProjection->m8    = 0.0f;
+    outProjection->m9    = 0.0f;
+    outProjection->m10   = (far + near) * rangeReciprocal;
+    outProjection->m11   = -1.0f;
 
-    outProjection->m12    = 0.0f;
-    outProjection->m13    = 0.0f;
-    outProjection->m14    = 2.0f * far * near * rangeReciprocal;
-    outProjection->m15    = 0.0f;
+    outProjection->m12   = 0.0f;
+    outProjection->m13   = 0.0f;
+    outProjection->m14   = 2.0f * far * near * rangeReciprocal;
+    outProjection->m15   = 0.0f;
 }
 
 
@@ -643,9 +638,9 @@ static void Ortho(float left, float right, float bottom, float top, float near, 
         "AMatrix Ortho failed because right == left || top == bottom || far == near"
     );
 
-    float width        = 1.0f / (right - left);
-    float height       = 1.0f / (top   - bottom);
-    float depth        = 1.0f / (far   - near);
+    float width         = 1.0f / (right - left);
+    float height        = 1.0f / (top   - bottom);
+    float depth         = 1.0f / (far   - near);
 
     outProjection->m0  = 2.0f * width;  // x
     outProjection->m1  = 0.0f;
@@ -680,9 +675,9 @@ static void Frustum(float left, float right, float bottom, float top, float near
         "AMatrix Frustum failed because right == left || top == bottom || near == far || near <= 0.0f || far <= 0.0f"
     );
 
-    float width        = 1.0f / (right - left);
-    float height       = 1.0f / (top - bottom);
-    float depth        = 1.0f / (near - far);
+    float width         = 1.0f / (right - left);
+    float height        = 1.0f / (top - bottom);
+    float depth         = 1.0f / (near - far);
 
     outProjection->m0  = 2.0f * (near * width);  // x
     outProjection->m1  = 0.0f;
@@ -724,9 +719,9 @@ static void LookAt
 
     // normalize f
     float rlf  = AVector2_Normalize3(fx, fy, fz);
-    fx        *= rlf;
-    fy        *= rlf;
-    fz        *= rlf;
+    fx       *= rlf;
+    fy       *= rlf;
+    fz       *= rlf;
 
     // compute s = f x up (x means "cross product")
     float sx  = fy * upZ - fz * upY;
@@ -735,9 +730,9 @@ static void LookAt
 
     // and normalize s
     float rls = AVector2_Normalize3(sx, sy, sz);
-    sx       *= rls;
-    sy       *= rls;
-    sz       *= rls;
+    sx      *= rls;
+    sy      *= rls;
+    sz      *= rls;
 
     // compute u = s x f
     float ux  = sy * fz - sz * fy;
