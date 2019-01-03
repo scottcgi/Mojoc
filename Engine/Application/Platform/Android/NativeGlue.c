@@ -44,7 +44,7 @@ typedef volatile enum
     MainThread_OnResized,
     MainThread_OnPause,
     MainThread_OnResume,
-    MainThread_OnFirstResized,
+    MainThread_OnNeedCreateEGL,
     MainThread_OnDestroy,
 }
 MainThreadCallback;
@@ -67,10 +67,13 @@ static AInputQueue*   inputQueue;
 
 /**
  * The volatile make sure not optimized by the compiler,
- * because two threads will modify mainThreadCallback.
+ * because two threads one set and another get,
+ * but look at one thread, it seems never modified.
  */
 static volatile MainThreadCallback mainThreadCallback = MainThread_OnWait;
-static bool     isOnFirstResized                      = true;
+static          bool               isNeedCreateEGL    = true;
+static          bool               isPaused           = true;
+
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -112,7 +115,8 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                 // not first pointer down
                 case AMOTION_EVENT_ACTION_POINTER_DOWN:
                 {
-                    int indexDown = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+                    int indexDown = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
+                                    AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
 
                     AApplication->Touch
                     (
@@ -128,7 +132,6 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                             )
                         )
                     );
-
                     break;
                 }
 
@@ -149,7 +152,6 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                             )
                         )
                     );
-
                     break;
                 }
 
@@ -157,7 +159,8 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                 // not first pointer up
                 case AMOTION_EVENT_ACTION_POINTER_UP:
                 {
-                    int indexUp = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+                    int indexUp = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
+                                  AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
 
                     AApplication->Touch
                     (
@@ -173,7 +176,6 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                             )
                         )
                     );
-
                     break;
                 }
 
@@ -227,7 +229,6 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                     (
                         (Array[]) {touches, count}
                     );
-
                     break;
                 }
 
@@ -263,7 +264,7 @@ static int LooperOnInputEvent(int fd, int events, void* data)
 }
 
 
-static void* ThreadRun(void* param)
+static void* ThreadRun(void* params)
 {
     looper = ALooper_prepare(0);
 
@@ -283,34 +284,22 @@ static void* ThreadRun(void* param)
                 continue;
 
             case MainThread_OnDestroy:
-                // call in main thread
                 AEGLTool->DestroyEGL(&eglDisplay, &eglContext, &eglSurface);
                 AApplication->Destroy();
                 return NULL;
 
             case MainThread_OnPause: // sometimes before resized
-                // call in main thread
                 AApplication->Pause();
                 mainThreadCallback = MainThread_OnWait;
                 continue;
 
             case MainThread_OnResume:
-                // call in main thread
                 AApplication->Resume();
-
-                if (isOnFirstResized)
-                {
-                    mainThreadCallback = MainThread_OnWait;
-                }
-                else
-                {
-                    mainThreadCallback = MainThread_OnLoop;
-                }
+                mainThreadCallback = MainThread_OnWait;
                 break;
 
-            case MainThread_OnFirstResized:
+            case MainThread_OnNeedCreateEGL:
                 // we need create EGL and use openGL in one thread
-                // call in main thread
                 AEGLTool->CreateEGL(nativeWindow, &eglDisplay, &eglContext, &eglSurface, &eglConfig);
 
                 // EGL_NATIVE_VISUAL_ID is an attribute of the EGLConfig that is
@@ -320,15 +309,23 @@ static void* ThreadRun(void* param)
                 eglGetConfigAttrib(eglDisplay, eglConfig, EGL_NATIVE_VISUAL_ID, &eglFormat);
                 ANativeWindow_setBuffersGeometry(nativeWindow,  0, 0, eglFormat);
 
-                AApplication->GLReady(ANativeWindow_getWidth (nativeWindow), ANativeWindow_getHeight(nativeWindow));
+                AApplication->GLReady
+                (
+                    ANativeWindow_getWidth (nativeWindow),
+                    ANativeWindow_getHeight(nativeWindow)
+                );
                 mainThreadCallback = MainThread_OnLoop;
+                isNeedCreateEGL    = false;
                 break;
 
             case MainThread_OnResized:
-                // call in main thread
                 AEGLTool->ResetSurface(nativeWindow, eglDisplay, eglContext, eglConfig, &eglSurface);
                 ANativeWindow_setBuffersGeometry(nativeWindow, 0, 0, eglFormat);
-                AApplication->Resized(ANativeWindow_getWidth(nativeWindow), ANativeWindow_getHeight(nativeWindow));
+                AApplication->Resized
+                (
+                    ANativeWindow_getWidth(nativeWindow),
+                    ANativeWindow_getHeight(nativeWindow)
+                );
                 mainThreadCallback = MainThread_OnLoop;
                 break;
 
@@ -354,6 +351,7 @@ static void OnResume(ANativeActivity* activity)
 {
     ALog_D("ANativeActivity OnResume");
     mainThreadCallback = MainThread_OnResume;
+    isPaused           = false;
 }
 
 
@@ -361,9 +359,7 @@ static void* OnSaveInstanceState(ANativeActivity* activity, size_t* outSaveSize)
 {
     ALog_D("ANativeActivity OnSaveInstanceState");
     *outSaveSize = 0;
-
     AApplication->SaveData();
-
     return NULL;
 }
 
@@ -372,6 +368,7 @@ static void OnPause(ANativeActivity* activity)
 {
     ALog_D("ANativeActivity OnPause");
     mainThreadCallback = MainThread_OnPause;
+    isPaused           = true;
 }
 
 
@@ -404,24 +401,12 @@ static void OnNativeWindowCreated(ANativeActivity* activity, ANativeWindow* wind
 static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* window)
 {
     ALog_D("ANativeActivity OnNativeWindowResized");
-    nativeWindow = window;
-
-    if (isOnFirstResized)
-    {
-        isOnFirstResized   = false;
-        mainThreadCallback = MainThread_OnFirstResized;
-    }
-    else
-    {
-        mainThreadCallback = MainThread_OnResized;
-    }
 }
 
 
 static void OnNativeWindowRedrawNeeded(ANativeActivity* activity, ANativeWindow* window)
 {
     ALog_D("ANativeActivity OnNativeWindowRedrawNeeded");
-    mainThreadCallback = MainThread_OnLoop;
 }
 
 
@@ -450,6 +435,17 @@ static void OnInputQueueDestroyed(ANativeActivity* activity, AInputQueue* queue)
 static void OnContentRectChanged(ANativeActivity* activity, const ARect* rect)
 {
     ALog_D("ANativeActivity OnContentRectChanged");
+    if (isPaused == false)
+    {
+        if (isNeedCreateEGL)
+        {
+            mainThreadCallback = MainThread_OnNeedCreateEGL;
+        }
+        else
+        {
+            mainThreadCallback = MainThread_OnResized;
+        }
+    }
 }
 
 
