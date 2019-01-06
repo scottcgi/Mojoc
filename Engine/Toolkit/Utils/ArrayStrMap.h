@@ -153,13 +153,11 @@ static inline char* AArrayStrMap_GetKey(void* valuePtr, int valueTypeSize)
  * Initialize constant ArrayStrMap
  * use like ArrayStrMap map[1] = AArrayStrMap_Init(valueType, increase)
  */
-#define AArrayStrMap_Init(valueType, increase)              \
-    {                                                       \
-        {                                                   \
-            sizeof(valueType),                              \
-            AArrayList_Init(ArrayStrMapElement*, increase), \
-          }                                                 \
-    }
+#define AArrayStrMap_Init(valueType, increase)             \
+    {{                                                    \
+          sizeof(valueType),                              \
+          AArrayList_Init(ArrayStrMapElement*, increase), \
+    }}
 
 
 /**

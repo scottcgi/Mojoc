@@ -35,8 +35,8 @@
 
 
 /**
- * Search index of key, if negative not found then return "-insertIndex - 1"
- * so insert index is "-BinarySearch() - 1"
+ * Search index of key, if negative not found then return "-insertIndex - 1",
+ * so insert index is "-BinarySearch() - 1".
  */
 static inline int BinarySearch(ArrayList* elementList, char* key, int keyLength)
 {
@@ -78,7 +78,8 @@ static inline int BinarySearch(ArrayList* elementList, char* key, int keyLength)
         }
      }
 
-    // if guess == high the guess is bigger than key in ArrayStrMap and insert value at guess
+    // if guess == high
+    // the guess is bigger than key in ArrayStrMap and insert value at guess
 
     if (guess == low)
     {
@@ -110,7 +111,6 @@ static void* TryPut(ArrayStrMap* arrayStrMap, char* key, void* valuePtr)
         element->valuePtr                 = (char*) element + sizeof(ArrayStrMapElement);
         element->key                      = (char*) element->valuePtr + valueTypeSize;
         memcpy((void*) element->key, key, keyLength);
-
         AArrayList_Insert(arrayStrMap->elementList, -guess - 1, element);
 
         return memcpy(element->valuePtr, valuePtr, valueTypeSize);
@@ -157,11 +157,7 @@ static bool TryRemove(ArrayStrMap* arrayStrMap, char* key)
 
     if (guess >= 0)
     {
-        free
-        (
-            AArrayList_Get(arrayStrMap->elementList, guess, ArrayStrMapElement*)
-        );
-
+        free(AArrayList_Get(arrayStrMap->elementList, guess, ArrayStrMapElement*));
         AArrayList->Remove(arrayStrMap->elementList, guess);
 
         return true;
@@ -175,10 +171,7 @@ static void Clear(ArrayStrMap* arrayStrMap)
 {
     for (int i = 0; i < arrayStrMap->elementList->size; i++)
     {
-        free
-        (
-            AArrayList_Get(arrayStrMap->elementList, i, ArrayStrMapElement*)
-        );
+        free(AArrayList_Get(arrayStrMap->elementList, i, ArrayStrMapElement*));
     }
 
     AArrayList->Clear(arrayStrMap->elementList);
@@ -241,11 +234,7 @@ static void RemoveAt(ArrayStrMap* arrayStrMap, int index)
 {
     CheckIndex("RemoveAt");
 
-    free
-    (
-        AArrayList_Get(arrayStrMap->elementList, index, ArrayStrMapElement*)
-    );
-
+    free(AArrayList_Get(arrayStrMap->elementList, index, ArrayStrMapElement*));
     AArrayList->Remove(arrayStrMap->elementList, index);
 }
 
@@ -254,10 +243,7 @@ static void Release(ArrayStrMap* arrayStrMap)
 {
     for (int i = 0; i < arrayStrMap->elementList->size; i++)
     {
-        free
-        (
-            AArrayList_Get(arrayStrMap->elementList, i, ArrayStrMapElement*)
-        );
+        free(AArrayList_Get(arrayStrMap->elementList, i, ArrayStrMapElement*));
     }
 
     AArrayList->Release(arrayStrMap->elementList);

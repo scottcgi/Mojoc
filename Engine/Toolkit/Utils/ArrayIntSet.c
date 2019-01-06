@@ -7,14 +7,15 @@
  * Author: scott.cgi
  */
 
+
 #include <stdlib.h>
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Utils/ArrayIntSet.h"
 
 
 /**
- * Search index of key, if negative not found then return "-insertIndex - 1"
- * so insert index is "-BinarySearch() - 1"
+ * Search index of key, if negative not found then return "-insertIndex - 1",
+ * so insert index is "-BinarySearch() - 1".
  */
 static inline int BinarySearch(ArrayList* elementList, intptr_t key)
 {
@@ -43,7 +44,8 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
         }
     }
 
-    // if guess == high the guess is bigger than key and insert at guess
+    // if guess == high
+    // the guess is bigger than key and insert at guess
 
     if (guess == low)
     {
