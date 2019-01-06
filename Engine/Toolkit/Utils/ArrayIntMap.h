@@ -71,7 +71,7 @@ struct AArrayIntMap
 
 
     /**
-     * Get valuePtr by key, if no key found return defaultValutPtr
+     * Get valuePtr by key, if no key found return defaultValuePtr
      */
     void*        (*Get)               (ArrayIntMap* arrayIntMap, intptr_t key, void* defaultValuePtr);
 

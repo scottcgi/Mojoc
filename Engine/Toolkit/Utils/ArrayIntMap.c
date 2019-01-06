@@ -14,7 +14,7 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-#define CheckIndex(tag)                                        \
+#define CheckIndex(tag)                                         \
     ALog_A                                                     \
     (                                                          \
         index >= 0 && index <  arrayIntMap->elementList->size, \
@@ -24,7 +24,7 @@
     );
 
 
-#define CheckInsertIndex(tag)                                  \
+#define CheckInsertIndex(tag)                                   \
     ALog_A                                                     \
     (                                                          \
         index >= 0 && index <= arrayIntMap->elementList->size, \

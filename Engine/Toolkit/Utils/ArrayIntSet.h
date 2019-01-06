@@ -8,7 +8,7 @@
  */
 
 #ifndef ARRAY_INT_SET_H
-#define ARRAY_INT_SET_H
+#define  ARRAY_INT_SET_H
 
 
 #include <stdbool.h>
@@ -37,7 +37,7 @@ struct AArrayIntSet
     void         (*Release)           (ArrayIntSet* arrayIntSet);
 
     /**
-     * Add no repeat element to ArrayIntSet
+     * Add no repeat element to ArrayIntSet.
      *
      * if element not exist in ArrayIntSet
      *    return true
@@ -47,17 +47,17 @@ struct AArrayIntSet
     bool         (*TryAdd)            (ArrayIntSet* arrayIntSet, intptr_t element);
 
     /**
-     * If return true remove success else failed
+     * If remove success return true else failed.
      */
     bool         (*TryRemove)         (ArrayIntSet* arrayIntSet, intptr_t element);
 
     /**
-     * If return true element already in ArrayIntSet else not contains
+     * If element already in ArrayIntSet return true else not contains
      */
     bool         (*IsContains)        (ArrayIntSet* arrayIntSet, intptr_t element);
 
     /**
-     * Clear all value, reset size 0, and keep memory space
+     * Clear all values, reset size to 0, and keep memory space
      */
     void         (*Clear)             (ArrayIntSet* arrayIntSet);
 };
@@ -78,11 +78,9 @@ extern struct AArrayIntSet AArrayIntSet[1];
  * use like ArrayIntSet set[1] = AArrayIntSet_Init(elementType, increase)
  */
 #define AArrayIntSet_Init(elementType, increase) \
-    {                                            \
-        {                                        \
-            AArrayList_Init(intptr_t, increase), \
-        }                                        \
-    }
+    {{                                          \
+          AArrayList_Init(intptr_t, increase),  \
+    }}
 
 
 #endif

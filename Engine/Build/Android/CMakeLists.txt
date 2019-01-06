@@ -30,7 +30,7 @@ include_directories(
 add_library(
     Mojoc STATIC
 
-################ MojocToolkit ################
+################ MojocToolkit ####################
 
     ../../Toolkit/Toolkit.c
 
@@ -53,7 +53,7 @@ add_library(
 
     ../../Toolkit/Platform/Android/File.c
 
-################ MojocGraphics ################
+################ MojocGraphics ###################
 
     ../../Graphics/Graphics.c
 
@@ -80,7 +80,7 @@ add_library(
     ../../Graphics/Utils/Image.c
     ../../Graphics/Tween/TweenDrawable.c
 
-################ MojocPhysics ################
+################ MojocPhysics ####################
 
     ../../Physics/PhysicsWorld.c
     ../../Physics/PhysicsBody.c
