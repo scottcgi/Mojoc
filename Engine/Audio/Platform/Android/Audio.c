@@ -1,12 +1,15 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code is licensed under the MIT License:
+ * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
  *
  * Since : 2017-2-16
+ * Update: 2019-1-7
  * Author: scott.cgi
  */
 
+ 
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
@@ -26,17 +29,11 @@
 #include "Engine/Audio/Platform/Audio.h"
 
 
-//----------------------------------------------------------------------------------------------------------------------
-
-
 // engine interfaces
 static SLObjectItf engineObject    = NULL;
 static SLEngineItf engineEngine    = NULL;
 // output mix interfaces
 static SLObjectItf outputMixObject = NULL;
-
-
-//----------------------------------------------------------------------------------------------------------------------
 
 
 struct AudioPlayer
@@ -45,7 +42,7 @@ struct AudioPlayer
     SLPlayItf   play;
     SLSeekItf   seek;
     SLVolumeItf volume;
-    char *      name;
+    char*       name;
     int         waitCallbackCount;
 };
 
@@ -62,9 +59,6 @@ enum
     AudioPlayer_WaitMax  = 120,
     AudioPlayer_WaitOver = -1,
 };
-
-
-//----------------------------------------------------------------------------------------------------------------------
 
 
 static void Update(float deltaSeconds)
@@ -88,11 +82,11 @@ static void Update(float deltaSeconds)
         {
             // player callback not called, maybe E/libOpenSLES: Error after prepare: 1
 
-            ALog_E("AudioPlayer play name = %s not callback normal.", player->name);
-
             AArrayList->RemoveByLast(testErrorList, i);
             (*player->object)->Destroy(player->object);
             AArrayList_Add(cacheList, player);
+
+            ALog_E("AAudio play name = %s not callback normal.", player->name);
         }
         else
         {
@@ -164,15 +158,17 @@ static void PlayerCallback(SLPlayItf caller, void *pContext, SLuint32 event)
     if (event == SL_PLAYEVENT_HEADATEND)
     {
         // play finish
+
         AArrayList_Add(destroyList, player);
         (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_PAUSED);
         player->waitCallbackCount = AudioPlayer_WaitOver;
     }
     else if (event == SL_PLAYEVENT_HEADATNEWPOS)
     {
-        // callback normal
+        // play normal
+        
         player->waitCallbackCount = AudioPlayer_WaitOver;
-        // remove SL_PLAYEVENT_HEADATNEWPOS
+        // remove SL_PLAYEVENT_HEADATNEWPOS for reduce the number of callback
         (*player->play)->SetCallbackEventsMask(player->play,  SL_PLAYEVENT_HEADATEND);
     }
 }
@@ -184,26 +180,26 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
     int   fd = AFile->OpenFileDescriptor(filePath, &start, &length);
 
     // configure audio source
-    SLDataLocator_AndroidFD locFD      = {SL_DATALOCATOR_ANDROIDFD, fd, start, length};
-    SLDataFormat_MIME       formatMME  = {SL_DATAFORMAT_MIME, NULL, SL_CONTAINERTYPE_UNSPECIFIED};
-    SLDataSource            audioSrc   = {&locFD, &formatMME};
+    SLDataLocator_AndroidFD locFD     = {SL_DATALOCATOR_ANDROIDFD, fd, start, length};
+    SLDataFormat_MIME       formatMME = {SL_DATAFORMAT_MIME, NULL, SL_CONTAINERTYPE_UNSPECIFIED};
+    SLDataSource            audioSrc  = {&locFD, &formatMME};
 
     // configure audio sink
-    SLDataLocator_OutputMix locOutMix  = {SL_DATALOCATOR_OUTPUTMIX, outputMixObject};
-    SLDataSink              audioSnk   = {&locOutMix, NULL};
+    SLDataLocator_OutputMix locOutMix = {SL_DATALOCATOR_OUTPUTMIX, outputMixObject};
+    SLDataSink              audioSnk  = {&locOutMix, NULL};
 
     // create audio player
-    SLInterfaceID           ids[3]     = {SL_IID_SEEK,     SL_IID_PLAY,     SL_IID_VOLUME};
-    SLboolean               req[3]     = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE};
+    SLInterfaceID           ids[3]    = {SL_IID_SEEK,     SL_IID_PLAY,     SL_IID_VOLUME};
+    SLboolean               req[3]    = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE};
 
-    SLresult                result     = (*engineEngine)->CreateAudioPlayer
-                                                          (
-                                                               engineEngine,
-                                                               &player->object,
-                                                               &audioSrc,
-                                                               &audioSnk,
-                                                               3, ids, req
-                                                          );
+    SLresult                result    = (*engineEngine)->CreateAudioPlayer
+                                                         (
+                                                              engineEngine,
+                                                              &player->object,
+                                                              &audioSrc,
+                                                              &audioSnk,
+                                                              3, ids, req
+                                                         );
 
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer CreateAudioPlayer error = %x", result);
     
@@ -224,7 +220,7 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
 
     // get the seek interface
     result = (*player->object)->GetInterface(player->object, SL_IID_SEEK, &player->seek);
-    ALog_A(result == SL_RESULT_SUCCESS, "Audio CreatePlayer GetInterface seek error = %x", result);
+    ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer GetInterface seek error = %x", result);
 
     // disable looping
     // result = (*player->seek)->SetLoop(player->seek, SL_BOOLEAN_FALSE, 0, SL_TIME_UNKNOWN);
@@ -274,7 +270,7 @@ static void SetVolume(AudioPlayer* player, float volume)
 {
     ALog_A(volume >= 0.0f && volume <= 1.0f, "AAudio SetVolume volume %f not in [0.0, 1.0]", volume);
 
-    SLresult result = (*player->volume)->SetVolumeLevel(player->volume, (SLmillibel) ((1.0f - volume) * -5000));
+    SLresult result = (*player->volume)->SetVolumeLevel(player->volume, (SLmillibel) ((1.0f - volume) * -5000.0f));
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio SetVolume error = %x", result);
 }
 

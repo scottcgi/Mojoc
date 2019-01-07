@@ -1,11 +1,14 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code is licensed under the MIT License:
+ * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
  *
  * Since : 2017-2-16
+ * Update: 2019-1-7
  * Author: scott.cgi
  */
+
 
 #ifndef AUDIO_H
 #define  AUDIO_H
@@ -15,47 +18,47 @@
 
 
 typedef struct AudioPlayer AudioPlayer;
-struct AAudio
+struct  AAudio
 {
     /**
-     * Init audio engine
+     * Init audio engine.
      */
-    void         (*Init)            ();
+    void         (*Init)         ();
 
     /**
-     * Destroy audio engine
+     * Destroy audio engine.
      */
-    void         (*Release)         ();
+    void         (*Release)      ();
 
     /**
-     * Every frame update
+     * Every frame update.
      */
-    void         (*Update)          (float deltaSeconds);
+    void         (*Update)       (float deltaSeconds);
 
     /**
-     * Pause all loop AudioPlayer
+     * Pause all loop AudioPlayer.
      */
-    void         (*SetLoopPause)    ();
+    void         (*SetLoopPause) ();
 
     /**
-     * Resume all loop AudioPlayer
+     * Resume all loop AudioPlayer.
      */
-    void         (*SetLoopResume)   ();
+    void         (*SetLoopResume)();
 
     /**
-     * Cache by filePath
+     * Cache by filePath.
      */
-    AudioPlayer* (*GetPlayer)       (char* filePath);
+    AudioPlayer* (*GetPlayer)    (char* filePath);
 
     /**
-     * The volume range in [0.0, 1.0]
+     * The volume range in [0.0, 1.0].
      */
-    void         (*SetVolume)       (AudioPlayer* player, float volume);
-    void         (*SetLoop)         (AudioPlayer* player, bool  isLoop);
+    void         (*SetVolume)    (AudioPlayer* player, float volume);
+    void         (*SetLoop)      (AudioPlayer* player, bool isLoop);
 
-    void         (*SetPlay)         (AudioPlayer* player);
-    void         (*SetPause)        (AudioPlayer* player);
-    bool         (*IsPlaying)       (AudioPlayer* player);
+    void         (*SetPlay)      (AudioPlayer* player);
+    void         (*SetPause)     (AudioPlayer* player);
+    bool         (*IsPlaying)    (AudioPlayer* player);
 };
 
 
