@@ -1015,7 +1015,7 @@ static inline void ReadAnimationDrawOrders
         }
         else
         {
-            ALog_E("ASkeletonData ReadAnimationDrawOrders drawOrder offsets not found");
+            ALog_W("ASkeletonData ReadAnimationDrawOrders drawOrder offsets not found");
         }
 
         ASkeletonTimeline->SetDrawOrderFrame(drawOrderTimeline, frameIndex, time, drawOrderArr);

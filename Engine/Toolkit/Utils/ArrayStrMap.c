@@ -7,6 +7,7 @@
  * Author: scott.cgi
  */
 
+
 #include <string.h>
 #include <stdlib.h>
 
@@ -72,23 +73,23 @@ static inline int BinarySearch(ArrayList* elementList, char* key, int keyLength)
             }
             else if (cmp == 0)
             {
-                // cmp 0 means find the key
+                // find the key
                 return guess;
             }
         }
      }
 
     // if guess == high
-    // the guess is bigger than key in ArrayStrMap and insert value at guess
+    // the guess is bigger than key and insert value at guess
 
     if (guess == low)
     {
-        // the guess is smaller than key in ArrayStrMap and insert value behind
-        // or if ArrayStrMap empty then guess is -1, also do this make guess at 0
+        // the guess is smaller than key and insert value behind
+        // or if empty then guess is -1, also do this make guess at 0
         guess++;
     }
 
-    // when ArrayStrMap empty guess is 0, so we -1 make sure return negative value
+    // when empty guess is 0, so we -1 make sure return negative value
     return -guess - 1;
 }
 

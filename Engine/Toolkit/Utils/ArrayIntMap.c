@@ -66,16 +66,17 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
         }
     }
 
-    // if guess == high the guess is bigger than key in ArrayIntMap and insert value at guess
+    // if guess == high
+    // the guess is bigger than key and insert value at guess
 
     if (guess == low)
     {
-        // the guess is smaller than key in ArrayIntMap and insert value behind
-        // or if ArrayIntMap empty then guess is -1, also do this make guess at 0
+        // the guess is smaller than key and insert value behind
+        // or if empty then guess is -1, also do this make guess at 0
         guess++;
     }
 
-    // when ArrayIntMap empty guess is 0, so we -1 make sure return negative value
+    // when empty guess is 0, so we -1 make sure return negative value
     return -guess - 1;
 }
 

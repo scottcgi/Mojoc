@@ -43,6 +43,7 @@ add_library(
     ../../Toolkit/Utils/ArrayStrMap.c
     ../../Toolkit/Utils/ArrayIntMap.c
     ../../Toolkit/Utils/ArrayIntSet.c
+    ../../Toolkit/Utils/ArrayStrSet.c
     ../../Toolkit/Utils/ArrayQueue.c
     ../../Toolkit/Utils/BufferReader.c
     ../../Toolkit/Utils/Json.c
@@ -97,7 +98,7 @@ add_library(
     ../../Application/Platform/Android/JniTool.c
     ../../Application/Platform/Android/DeviceInfo.c
 
-################ MojocExtension ################
+################ MojocExtension ##################
 
     ../../Extension/Extension.c
     ../../Extension/Particle/Particle.c
@@ -115,7 +116,7 @@ add_library(
     ../../Extension/Font.c
     ../../Extension/DrawAtlas.c
 
-################ MojocAudio ################
+################ MojocAudio ######################
     ../../Audio/Platform/Android/Audio.c
 )
 

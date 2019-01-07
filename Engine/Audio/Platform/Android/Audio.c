@@ -20,6 +20,7 @@
 #include <SLES/OpenSLES_Android.h>
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
+#include "Engine/Toolkit/Utils/ArrayStrSet.h"
 #include "Engine/Toolkit/Platform/File.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Audio/Platform/Audio.h"
@@ -44,14 +45,16 @@ struct AudioPlayer
     SLPlayItf   play;
     SLSeekItf   seek;
     SLVolumeItf volume;
+    char *      name;
     int         waitCallbackCount;
 };
 
 
-static ArrayList(AudioPlayer*) cacheList    [1] = AArrayList_Init(sizeof(AudioPlayer*), 20);
-static ArrayList(AudioPlayer*) destroyList  [1] = AArrayList_Init(sizeof(AudioPlayer*), 20);
-static ArrayList(AudioPlayer*) loopList     [1] = AArrayList_Init(sizeof(AudioPlayer*), 5);
-static ArrayList(AudioPlayer*) testErrorList[1] = AArrayList_Init(sizeof(AudioPlayer*), 5);
+static ArrayList(AudioPlayer*) cacheList    [1] = AArrayList_Init (sizeof(AudioPlayer*), 20);
+static ArrayList(AudioPlayer*) destroyList  [1] = AArrayList_Init (sizeof(AudioPlayer*), 20);
+static ArrayList(AudioPlayer*) loopList     [1] = AArrayList_Init (sizeof(AudioPlayer*), 5);
+static ArrayList(AudioPlayer*) testErrorList[1] = AArrayList_Init (sizeof(AudioPlayer*), 5);
+static ArrayStrSet             audioNameSet [1] = ArrayStrSet_Init(20);
 
 
 enum
@@ -84,6 +87,9 @@ static void Update(float deltaSeconds)
         else if (player->waitCallbackCount >= AudioPlayer_WaitMax)
         {
             // player callback not called, maybe E/libOpenSLES: Error after prepare: 1
+
+            ALog_E("AudioPlayer play name = %s not callback normal.", player->name);
+
             AArrayList->RemoveByLast(testErrorList, i);
             (*player->object)->Destroy(player->object);
             AArrayList_Add(cacheList, player);
@@ -229,6 +235,7 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer GetInterface volume error = %x", result);
 
     player->waitCallbackCount = 0;
+    player->name              = AArrayStrSet->Get(audioNameSet, filePath);
 }
 
 
@@ -328,6 +335,12 @@ static void Release()
     engineObject    = NULL;
     engineEngine    = NULL;
     outputMixObject = NULL;
+
+    AArrayList->Release(cacheList);
+    AArrayList->Release(destroyList);
+    AArrayList->Release(loopList);
+    AArrayList->Release(testErrorList);
+    AArrayStrSet->Release(audioNameSet);
 }
 
 struct AAudio AAudio[1] =
