@@ -1,18 +1,19 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code is licensed under the MIT License:
+ * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
  *
- * Since : 2013-08-29
+ * Since : 2013-8-29
+ * Update: 2019-1-8
  * Author: scott.cgi
  */
+ 
 
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
-//----------------------------------------------------------------------------------------------------------------------
 #ifdef IS_PLATFORM_ANDROID
-//----------------------------------------------------------------------------------------------------------------------
 
 
 #include <android/native_activity.h>
@@ -87,6 +88,4 @@ struct AFile AFile[1] =
 };
 
 
-//----------------------------------------------------------------------------------------------------------------------
 #endif
-//----------------------------------------------------------------------------------------------------------------------

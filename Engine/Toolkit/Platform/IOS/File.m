@@ -1,18 +1,19 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code is licensed under the MIT License:
+ * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
  *
- * Since : 2013-08-29
+ * Since : 2013-8-29
+ * Update: 2019-1-8
  * Author: scott.cgi
  */
 
+ 
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
-//----------------------------------------------------------------------------------------------------------------------
 #ifdef IS_PLATFORM_IOS
-//----------------------------------------------------------------------------------------------------------------------
 
 
 #include <stdio.h>
@@ -26,7 +27,7 @@
 static File* Open(char* relativeFilePath)
 {
     NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:relativeFilePath] ofType:nil];
-    FILE*     file = fopen([path cStringUsingEncoding:NSMacOSRomanStringEncoding], "rb");
+    FILE*     file  = fopen([path cStringUsingEncoding:NSMacOSRomanStringEncoding], "rb");
     
     ALog_A(file != NULL, "AFile open error, file path = %s", relativeFilePath);
     
@@ -36,7 +37,7 @@ static File* Open(char* relativeFilePath)
 
 static int OpenFileDescriptor(char* relativeFilePath, long* outStart, long* outLength)
 {
-    FILE* file = (FILE*) Open(relativeFilePath);
+    FILE* file  = (FILE*) Open(relativeFilePath);
     int   fd   = fileno(file);
     
     fseek(file, 0, SEEK_END);
@@ -105,6 +106,4 @@ struct AFile AFile[1] =
 };
 
 
-//----------------------------------------------------------------------------------------------------------------------
 #endif
-//----------------------------------------------------------------------------------------------------------------------

@@ -138,6 +138,7 @@ static inline SkeletonCurveType GetCurveType(SkeletonCurveTimeline* curveTimelin
 
     return SkeletonCurveType_Bezier;
 }
+ 
 ------------------------------------------------------------------------------------------------------------------------
 */
 

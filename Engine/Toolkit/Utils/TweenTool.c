@@ -1,14 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code is licensed under the MIT License:
+ * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
  *
  * Since : 2016-6-24
+ * Update: 2019-1-8
  * Author: scott.cgi
  */
 
-#include <string.h>
 
+#include <string.h>
 #include "Engine/Toolkit/HeaderUtils/UserData.h"
 #include "Engine/Toolkit/Utils/TweenTool.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -32,11 +34,11 @@ static TweenActionValue* actionValue = NULL;
 
 
 #define CheckAction(tag) \
-    ALog_A(action      != NULL, "ATweenTool " tag " TweenAction not created");
+    ALog_A(action      != NULL, "ATweenTool " tag " TweenAction not created.");
 
 
 #define CheckActionValue(tag) \
-    ALog_A(actionValue != NULL, "ATweenTool " tag " TweenActionValue can not NULL");
+    ALog_A(actionValue != NULL, "ATweenTool " tag " TweenActionValue can not NULL.");
 
 
 static struct ATweenTool* AddAction()
@@ -361,6 +363,9 @@ static struct ATweenTool* SetUserData3String(char* userData)
 }
 
 
+//----------------------------------------------------------------------------------------------------------------------
+
+
 static struct ATweenTool* SetQueue(bool isQueue)
 {
     CheckAction("SetQueue");
@@ -481,7 +486,7 @@ static struct ATweenTool* SetFadeTo(float fadeTo)
 
 static void RunActions(void* target)
 {
-    ALog_A(target != NULL, "ATweenTool RunActions, target can not NULL");
+    ALog_A(target != NULL, "ATweenTool RunActions, target can not NULL.");
 
     for (int i = 0; i < actionArr->length; i++)
     {
@@ -511,13 +516,12 @@ static void* RunTargets()
         {
             ALog_A
             (
-                 action->target != NULL,
-                 "ATweenTool RunTargets, the {%d} action has actionValue, so must set target",
-                 i
+                action->target != NULL,
+                "ATweenTool RunTargets, the [%d] action has actionValue, so must set target.",
+                i
             );
         }
     }
-
 
     void* tweenId = ATween->RunActions(actionArr, NULL);
 
