@@ -1,14 +1,17 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code is licensed under the MIT License:
+ * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
  *
  * Since : 2013-1-26
+ * Update: 2019-1-8
  * Author: scott.cgi
  */
 
+ 
 #ifndef JSON_H
-#define JSON_H
+#define  JSON_H
 
 
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"
@@ -47,22 +50,22 @@ typedef struct
     union
     {
         /**
-         * JsonType_String
+         * For JsonType_String.
          */
         char*       jsonString;
 
         /**
-         * JsonType_Object
+         * For JsonType_Object.
          */
         JsonObject* jsonObject;
 
         /**
-         * JsonType_Array
+         * For JsonType_Array.
          */
         JsonArray*  jsonArray;
 
         /**
-         * JsonType_Float
+         * For JsonType_Float.
          */
         float       jsonFloat;
     };
@@ -74,36 +77,36 @@ struct AJsonObject
 {
     bool        (*GetBool)         (JsonObject* object, char* key, bool  defaultValue);
     int         (*GetInt)          (JsonObject* object, char* key, int   defaultValue);
-    float       (*GetFloat)        (JsonObject* object, char* key, float defaultValue);
+    float        (*GetFloat)        (JsonObject* object, char* key, float  defaultValue);
     JsonType    (*GetType)         (JsonObject* object, char* key);
 
     /**
-     * When JsonValue released string value will free
+     * When JsonValue released the string value will free.
      */
     char*       (*GetString)       (JsonObject* object, char* key, char* defaultValue);
 
     /**
-     * Not found return NULL
+     * If not found return NULL.
      */
     JsonObject* (*GetObject)       (JsonObject* object, char* key);
 
     /**
-     * Not found return NULL
+     * If not found return NULL.
      */
     JsonArray*  (*GetArray)        (JsonObject* object, char* key);
 
     /**
-     * Get JsonObject key
+     * Get JsonObject's key.
      */
-    char*       (*GetKey)          (JsonObject* object, int   index);
+    const char* (*GetKey)          (JsonObject* object, int   index);
 
     /**
-     * Get JsonObject in index of JsonObject map
+     * Get index of JsonObject in JsonObject map.
      */
     JsonObject* (*GetObjectByIndex)(JsonObject* object, int   index);
 
     /**
-     * Get JsonArray in index of JsonObject map
+     * Get index of JsonObject in JsonArray map.
      */
     JsonArray*  (*GetArrayByIndex) (JsonObject* object, int   index);
 };
@@ -116,11 +119,11 @@ struct AJsonArray
 {
     bool        (*GetBool)      (JsonArray* array, int index);
     int         (*GetInt)       (JsonArray* array, int index);
-    float       (*GetFloat)     (JsonArray* array, int index);
+    float        (*GetFloat)     (JsonArray* array, int index);
     JsonType    (*GetType)      (JsonArray* array, int index);
 
     /**
-     * When JsonValue released string value will free
+     * When JsonValue released the string value will free.
      */
     char*       (*GetString)    (JsonArray* array, int index);
     JsonObject* (*GetObject)    (JsonArray* array, int index);
@@ -135,20 +138,20 @@ extern struct AJsonArray AJsonArray[1];
 struct AJson
 {
     /**
-     * Parse with Json string, return root JsonValue
+     * Parse the Json string, return root JsonValue.
      */
     JsonValue* (*Parse)         (char* jsonString);
 
     /**
-     * Parse with Json file, return root JsonValue
+     * Parse the Json file, return root JsonValue.
      */
     JsonValue* (*ParseWithFile) (char* jsonPath);
 
     /**
-     * Release JsonValue member memory space and free itself
-     * if release root JsonValue will free all memory space
+     * Release JsonValue member memory space and free itself,
+     * if release root JsonValue will free all memory space.
      */
-    void       (*Release)       (JsonValue*  jsonValue);
+    void       (*Delete)        (JsonValue*  jsonValue);
 };
 
 

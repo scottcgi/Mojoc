@@ -1,12 +1,15 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code is licensed under the MIT License:
+ * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
  *
  * Since : 2016-6-8
+ * Update: 2019-1-8
  * Author: scott.cgi
  */
 
+ 
 #include "Engine/Toolkit/Utils/Tween.h"
 #include "Engine/Toolkit/Math/Math.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -17,17 +20,17 @@
 typedef struct
 {
     /**
-     * Target action value queue, run each after over
+     * Target's actions queue, run each after over.
      */
     ArrayQueue(TweenAction*) queue  [1];
 
     /**
-     * Target current running action value
+     * Target's current running action.
      */
     ArrayList(TweenAction*)  current[1];
 
     /**
-     * One running action of queue
+     * Current running action of queue.
      */
     TweenAction*             currentAction;
 }
@@ -94,7 +97,6 @@ static TweenAction* GetAction()
 static TweenActionValue* AddTweenActionValue(TweenAction* action)
 {
     TweenActionValue* actionValue = AArrayList_GetPtrAdd(action->actionValueList, TweenActionValue);
-
     actionValue->value            = 0.0f;
     actionValue->fromValue        = 0.0f;
     actionValue->toValue          = 0.0f;
@@ -113,7 +115,11 @@ static inline void SetActionValue(TweenAction* action)
     {
         TweenActionValue* actionValue = AArrayList_GetPtr(action->actionValueList, i, TweenActionValue);
 
-        ALog_A(actionValue->OnGet != NULL && actionValue->OnSet != NULL, "ATween SetActionValue action OnSet OnGet must not NULL");
+        ALog_A
+        (
+            actionValue->OnGet != NULL && actionValue->OnSet != NULL,
+            "ATween SetActionValue action OnSet and OnGet must not NULL."
+        );
 
         actionValue->fromValue = actionValue->OnGet(action->target);
 

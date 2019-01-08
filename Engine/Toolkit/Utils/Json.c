@@ -1,9 +1,11 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code is licensed under the MIT License:
+ * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
  *
  * Since : 2013-5-29
+ * Update: 2019-1-8
  * Author: scott.cgi
  */
 
@@ -18,11 +20,10 @@
 
 
 /**
- * The JsonValue which
- * if JsonType_Array  free each items and recursive
- * if JsonType_Object free each K-V   and recursive
+ * If the JsonValue is JsonType_Array,  then free each items and do recursively.
+ * if the JsonValue is JsonType_Object, then free each K-V   and do recursively.
  */
-static void Release(JsonValue* value)
+static void Delete(JsonValue* value)
 {
     // JsonValue hold the whole memory
     // so free JsonValue will be release JsonValue's memory
@@ -34,11 +35,10 @@ static void Release(JsonValue* value)
             ArrayList* list = value->jsonArray->valueList;
             for (int i = 0; i < list->size; i++)
             {
-                Release(AArrayList_Get(list, i, JsonValue*));
+                Delete(AArrayList_Get(list, i, JsonValue*));
             }
 
             AArrayList->Release(list);
-
             break;
         }
 
@@ -47,11 +47,10 @@ static void Release(JsonValue* value)
             ArrayStrMap* map = value->jsonObject->valueMap;
             for (int i = 0; i < map->elementList->size; i++)
             {
-                Release(AArrayStrMap_GetAt(map, i, JsonValue*));
+                Delete(AArrayStrMap_GetAt(map, i, JsonValue*));
             }
 
             AArrayStrMap->Release(map);
-
             break;
         }
             
@@ -177,7 +176,7 @@ static JsonType ObjectGetType(JsonObject* object, char* key)
 }
 
 
-static char* ObjectGetKey(JsonObject* object, int index)
+static const char* ObjectGetKey(JsonObject* object, int index)
 {
     return AArrayStrMap->GetKey(object->valueMap, index);
 }
@@ -293,14 +292,14 @@ static inline void SkipWhiteSpace(char** jsonPtr)
         break;
     }
 
-    ALog_A(json != NULL, "The Json parse error on NULL, json is incomplete");
+    ALog_A(json != NULL, "The Json parse error on NULL, json is incomplete.");
     
     *jsonPtr = json;
 }
 
 
 #define PARSE_NUMBER_VALIDATE_BY_STRTOF
-#ifdef  PARSE_NUMBER_VALIDATE_BY_STRTOF
+#ifdef PARSE_NUMBER_VALIDATE_BY_STRTOF
 
 
 static inline void* ParseNumber(char** jsonPtr)
@@ -665,5 +664,5 @@ struct AJson AJson[1] =
 {
     Parse,
     ParseWithFile,
-    Release,
+    Delete,
 };
