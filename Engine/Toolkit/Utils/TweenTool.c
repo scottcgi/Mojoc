@@ -235,130 +235,34 @@ static struct ATweenTool* AddFadeTo(float fadeTo, float duration)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static struct ATweenTool* SetUserData0Int(int userData)
+static struct ATweenTool* SetUserDataInt(int slotIndex, int value)
 {
-    CheckAction("SetUserData0Int");
-    action->userData->slot0->intValue = userData;
+    CheckAction("SetUserDataInt");
+    AUserData_SetSlotInt(action->userData, slotIndex, value);
     return ATweenTool;
 }
 
 
-static struct ATweenTool* SetUserData0Float(float userData)
+static struct ATweenTool* SetUserDataFloat(int slotIndex, float value)
 {
-    CheckAction("SetUserData0Float");
-    action->userData->slot0->floatValue = userData;
+    CheckAction("SetUserDataFloat");
+    AUserData_SetSlotFloat(action->userData, slotIndex, value);
     return ATweenTool;
 }
 
 
-static struct ATweenTool* SetUserData0Ptr(void* userData)
+static struct ATweenTool* SetUserDataPtr(int slotIndex, void* value)
 {
-    CheckAction("SetUserData0Ptr");
-    action->userData->slot0->ptrValue = userData;
+    CheckAction("SetUserDataPtr");
+    AUserData_SetSlotPtr(action->userData, slotIndex, value);
     return ATweenTool;
 }
 
 
-static struct ATweenTool* SetUserData0String(char* userData)
+static struct ATweenTool* SetUserDataString(int slotIndex, char* value)
 {
-    CheckAction("SetUserData0String");
-    action->userData->slot0->stringValue= userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData1Int(int userData)
-{
-    CheckAction("SetUserData1Int");
-    action->userData->slot1->intValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData1Float(float userData)
-{
-    CheckAction("SetUserData1Float");
-    action->userData->slot1->floatValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData1Ptr(void* userData)
-{
-    CheckAction("SetUserData1Ptr");
-    action->userData->slot1->ptrValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData1String(char* userData)
-{
-    CheckAction("SetUserData1String");
-    action->userData->slot1->stringValue= userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData2Int(int userData)
-{
-    CheckAction("SetUserData2Int");
-    action->userData->slot2->intValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData2Float(float userData)
-{
-    CheckAction("SetUserData2Float");
-    action->userData->slot2->floatValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData2Ptr(void* userData)
-{
-    CheckAction("SetUserData2Ptr");
-    action->userData->slot2->ptrValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData2String(char* userData)
-{
-    CheckAction("SetUserData2String");
-    action->userData->slot2->stringValue= userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData3Int(int userData)
-{
-    CheckAction("SetUserData3Int");
-    action->userData->slot3->intValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData3Float(float userData)
-{
-    CheckAction("SetUserData3Float");
-    action->userData->slot3->floatValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData3Ptr(void* userData)
-{
-    CheckAction("SetUserData3Ptr");
-    action->userData->slot3->ptrValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData3String(char* userData)
-{
-    CheckAction("SetUserData3String");
-    action->userData->slot3->stringValue= userData;
+    CheckAction("SetUserDataString");
+    AUserData_SetSlotString(action->userData, slotIndex, value);
     return ATweenTool;
 }
 
@@ -555,22 +459,11 @@ struct ATweenTool ATweenTool[1] =
     SetQueue,
     SetOnComplete,
     SetTarget,
-    SetUserData0Int,
-    SetUserData0Float,
-    SetUserData0Ptr,
-    SetUserData0String,
-    SetUserData1Int,
-    SetUserData1Float,
-    SetUserData1Ptr,
-    SetUserData1String,
-    SetUserData2Int,
-    SetUserData2Float,
-    SetUserData2Ptr,
-    SetUserData2String,
-    SetUserData3Int,
-    SetUserData3Float,
-    SetUserData3Ptr,
-    SetUserData3String,
+    SetUserDataInt,
+    SetUserDataFloat,
+    SetUserDataPtr,
+    SetUserDataString,
+
     GetAction,
 
     SetMoveX,

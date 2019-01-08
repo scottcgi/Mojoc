@@ -29,21 +29,69 @@ UserDataSlot;
 
 typedef struct
 {
-    UserDataSlot slot0[1];
-    UserDataSlot slot1[1];
-    UserDataSlot slot2[1];
-    UserDataSlot slot3[1];
+    UserDataSlot slots[4];
 }
 UserData;
 
 
 static inline void AUserData_Init(UserData* userData)
 {
-    userData->slot0->ptrValue = NULL;
-    userData->slot1->ptrValue = NULL;
-    userData->slot2->ptrValue = NULL;
-    userData->slot3->ptrValue = NULL;
+    userData->slots[0].ptrValue = NULL;
+    userData->slots[1].ptrValue = NULL;
+    userData->slots[2].ptrValue = NULL;
+    userData->slots[3].ptrValue = NULL;
 }
 
+
+static inline void AUserData_SetSlotInt(UserData* userData, int slotIndex, int value)
+{
+    userData->slots[slotIndex].intValue = value;
+}
+
+
+static inline void AUserData_SetSlotFloat(UserData* userData, int slotIndex, float value)
+{
+    userData->slots[slotIndex].floatValue = value;
+}
+
+
+static inline void AUserData_SetSlotPtr(UserData* userData, int slotIndex, void* value)
+{
+    userData->slots[slotIndex].ptrValue = value;
+}
+
+
+static inline void AUserData_SetSlotString(UserData* userData, int slotIndex, char* value)
+{
+    userData->slots[slotIndex].stringValue = value;
+}
+
+
+static inline int AUserData_GetSlotInt(UserData* userData, int slotIndex)
+{
+    return userData->slots[slotIndex].intValue;
+}
+
+
+static inline float AUserData_GetSlotFloat(UserData* userData, int slotIndex)
+{
+    return userData->slots[slotIndex].floatValue;
+}
+
+
+static inline void* AUserData_GetSlotPtr(UserData* userData, int slotIndex)
+{
+    return userData->slots[slotIndex].ptrValue;
+}
+
+
+static inline char* AUserData_GetSlotString(UserData* userData, int slotIndex)
+{
+    return userData->slots[slotIndex].stringValue;
+}
+
+
+#define AUserData_GetSlotPtrWithType(userData, slotIndex, type) \
+    ((type) userData->slots[slotIndex].ptrValue)
 
 #endif

@@ -183,7 +183,7 @@ static void Init(char* filePath, char* animationName, SkeletonAnimationPlayer* o
 
 static void Render(Drawable* drawable)
 {
-    SkeletonSlot* slot        = (SkeletonSlot*) drawable->userData->slot0->ptrValue;
+    SkeletonSlot* slot        = AUserData_GetSlotPtrWithType(drawable->userData, 0, SkeletonSlot*);
     *AGLPrimitive->color      = *slot->color;
     AGLPrimitive->modelMatrix = slot->bone->drawable->modelMatrix;
 
@@ -197,9 +197,8 @@ static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, char* s
     ALog_A(slot != NULL, "SkeletonAnimationPlayer InitSlotBoundingBoxDrawable not found SkeletonSlot by slotName = %s", slotName);
 
     ADrawable->Init(outDrawable);
-
-    outDrawable->userData->slot0->ptrValue = slot;
-    outDrawable->Render                     = Render;
+    AUserData_SetSlotPtr(outDrawable->userData, 0, slot);
+    outDrawable->Render = Render;
 }
 
 
