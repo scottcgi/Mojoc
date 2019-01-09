@@ -46,9 +46,13 @@ struct  AAudio
     void         (*SetLoopResume)();
 
     /**
-     * Cache by filePath.
+     * AudioPlayer will cache by relativeFilePath.
+     *
+     * relativeFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
      */
-    AudioPlayer* (*GetPlayer)    (char* filePath);
+    AudioPlayer* (*GetPlayer)    (const char* relativeFilePath);
 
     /**
      * The volume range in [0.0, 1.0].

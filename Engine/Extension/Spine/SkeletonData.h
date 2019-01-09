@@ -267,11 +267,15 @@ struct ASkeletonData
     float scale;
 
     /**
-     * Get SkeletonData by filePath, not found will create one
+     * Get SkeletonData by relativeJsonFilePath, not found will create one
      */
-    SkeletonData*           (*Get)                        (char*             filePath);
-    void                    (*Release)                    (SkeletonData*     skeletonData);
-    SkeletonAttachmentData* (*GetAttachmentDataBySkinData)(SkeletonSkinData* skinData, char* slotName, char* attachmentName);
+    SkeletonData*           (*Get)                        (const char*          relativeJsonFilePath);
+    void                    (*Release)                    (SkeletonData*        skeletonData);
+    SkeletonAttachmentData* (*GetAttachmentDataBySkinData)(
+                                                              SkeletonSkinData* skinData,
+                                                              const char*       slotName,
+                                                              const char*       attachmentName
+                                                          );
 };
 
 

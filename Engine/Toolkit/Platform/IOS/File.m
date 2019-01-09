@@ -24,7 +24,7 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-static File* Open(char* relativeFilePath)
+static File* Open(const char* relativeFilePath)
 {
     NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:relativeFilePath] ofType:nil];
     FILE*     file  = fopen([path cStringUsingEncoding:NSMacOSRomanStringEncoding], "rb");
@@ -35,7 +35,7 @@ static File* Open(char* relativeFilePath)
 }
 
 
-static int OpenFileDescriptor(char* relativeFilePath, long* outStart, long* outLength)
+static int OpenFileDescriptor(const char* relativeFilePath, long* outStart, long* outLength)
 {
     FILE* file  = (FILE*) Open(relativeFilePath);
     int   fd   = fileno(file);
@@ -84,9 +84,8 @@ static const char* GetAbsoluteDirPath()
     
     if (absoluteDirPath == NULL)
     {
-        NSString*   str = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        NSString* str   = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
         absoluteDirPath = malloc(str.length);
-        
         memcpy(absoluteDirPath, str.UTF8String, str.length);
     }
     

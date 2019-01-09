@@ -109,14 +109,27 @@ static inline JsonValue* CreateJsonValue(void* data, size_t valueSize, JsonType 
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static bool ObjectGetBool(JsonObject* object, char* key, bool defaultValue)
+static bool ObjectGetBool(JsonObject* object, const char* key, bool defaultValue)
 {
     JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
     return jsonValue != NULL ? strcmp(jsonValue->jsonString, "true") == 0 : defaultValue;
 }
 
 
-static int ObjectGetInt(JsonObject* object, char* key, int defaultValue)
+static int ObjectGetInt(JsonObject* object, const char* key, int defaultValue)
+{
+    JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
+    
+    if (jsonValue != NULL)
+    {
+        return (int) jsonValue->jsonFloat;
+    }
+    
+    return defaultValue;
+}
+
+
+static float ObjectGetFloat(JsonObject* object, const char* key, float defaultValue)
 {
     JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
     
@@ -129,41 +142,28 @@ static int ObjectGetInt(JsonObject* object, char* key, int defaultValue)
 }
 
 
-static float ObjectGetFloat(JsonObject* object, char* key, float defaultValue)
+static char* ObjectGetString(JsonObject* object, const char* key, const char* defaultValue)
 {
     JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
-    
-    if (jsonValue != NULL)
-    {
-        return jsonValue->jsonFloat;
-    }
-    
-    return defaultValue;
+    return jsonValue != NULL ? jsonValue->jsonString : (char*) defaultValue;
 }
 
 
-static char* ObjectGetString(JsonObject* object, char* key, char* defaultValue)
-{
-    JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
-    return jsonValue != NULL ? jsonValue->jsonString : defaultValue;
-}
-
-
-static JsonObject* ObjectGetObject(JsonObject* object, char* key)
+static JsonObject* ObjectGetObject(JsonObject* object, const char* key)
 {
     JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
     return jsonValue != NULL ? jsonValue->jsonObject : NULL;
 }
 
 
-static JsonArray* ObjectGetArray(JsonObject* object, char* key)
+static JsonArray* ObjectGetArray(JsonObject* object, const char* key)
 {
     JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
     return jsonValue != NULL ? jsonValue->jsonArray : NULL;
 }
 
 
-static JsonType ObjectGetType(JsonObject* object, char* key)
+static JsonType ObjectGetType(JsonObject* object, const char* key)
 {
     JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
 
@@ -220,7 +220,7 @@ static bool ArrayGetBool(JsonArray* array, int index)
 
 static int ArrayGetInt(JsonArray* array, int index)
 {
-    return AArrayList_Get(array->valueList, index, JsonValue*)->jsonFloat;
+    return (int) AArrayList_Get(array->valueList, index, JsonValue*)->jsonFloat;
 }
 
 static float ArrayGetFloat(JsonArray* array, int index)
@@ -287,6 +287,8 @@ static inline void SkipWhiteSpace(char** jsonPtr)
             case '\r':
                 json++;
                 continue;
+            default:
+                break;
         }
 
         break;
@@ -644,15 +646,15 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 }
 
 
-static JsonValue* Parse(char* jsonString)
+static JsonValue* Parse(const char* jsonString)
 {
     return ParseValue(&jsonString);
 }
 
 
-static JsonValue* ParseWithFile(char* jsonPath)
+static JsonValue* ParseFile(const char* relativeJsonFilePath)
 {
-    char*        jsonString = AFileTool->CreateStringFromRes(jsonPath);
+    char*        jsonString = AFileTool->CreateStringFromRes(relativeJsonFilePath);
     JsonValue*   value      = Parse(jsonString);
     free(jsonString);
 
@@ -663,6 +665,6 @@ static JsonValue* ParseWithFile(char* jsonPath)
 struct AJson AJson[1] =
 {
     Parse,
-    ParseWithFile,
+    ParseFile,
     Delete,
 };

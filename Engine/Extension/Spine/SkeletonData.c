@@ -125,8 +125,8 @@ static void Release(SkeletonData* skeletonData)
 static SkeletonAttachmentData* GetAttachmentDataBySkinData
 (
     SkeletonSkinData* skinData,
-    char*             slotName,
-    char*             attachmentName
+    const char*       slotName,
+    const char*       attachmentName
 )
 {
     ArrayStrMap* slotAttachmentMap = skinData->slotAttachmentMap;
@@ -144,7 +144,7 @@ static SkeletonAttachmentData* GetAttachmentDataBySkinData
 /**
  * return slot index in slotDataOrderArr or -1 not found
  */
-static inline int FindSlotIndex(SkeletonData* skeletonData, char* slotName)
+static inline int FindSlotIndex(SkeletonData* skeletonData, const char* slotName)
 {
     SkeletonSlotData* slotData = AArrayStrMap_Get(skeletonData->slotDataMap, slotName, SkeletonSlotData*);
     ALog_A(slotData != NULL, "ASkeletonData FindSlotIndex SlotData = %s is not found", slotName);
@@ -348,8 +348,8 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
     {
         const char* name                 = AJsonObject->GetKey          (attachmentDataMapObject, i);
         JsonObject* attachmentDataObject = AJsonObject->GetObjectByIndex(attachmentDataMapObject, i);
-        char*       attachmentType       = AJsonObject->GetString       (attachmentDataObject,    "type", NULL);
-        char*       attachmentName       = AJsonObject->GetString       (attachmentDataObject,    "name", NULL);
+        char*       attachmentType       = AJsonObject->GetString       (attachmentDataObject, "type", NULL);
+        const char* attachmentName       = AJsonObject->GetString       (attachmentDataObject, "name", NULL);
         int         length               = 0;
         int         nameLength           = 0;
 
@@ -1280,9 +1280,9 @@ static inline void ReadSkeletonData(JsonObject* root, SkeletonData* skeletonData
 }
 
 
-static inline void Parse(SkeletonData* skeletonData, char* jsonPath)
+static inline void Parse(SkeletonData* skeletonData, const char* relativeJsonFilePath)
 {
-    JsonValue*  value = AJson->ParseWithFile(jsonPath);
+    JsonValue*  value = AJson->ParseFile(relativeJsonFilePath);
     JsonObject* root  = value->jsonObject;
 
     // skeleton
@@ -1397,25 +1397,25 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 }
 
 
-static SkeletonData* Get(char* filePath)
+static SkeletonData* Get(const char* relativeJsonFilePath)
 {
-    SkeletonData* skeletonData = AArrayStrMap_Get(skeletonDataMap, filePath, SkeletonData*);
+    SkeletonData* skeletonData = AArrayStrMap_Get(skeletonDataMap, relativeJsonFilePath, SkeletonData*);
 
     if (skeletonData == NULL)
     {
         skeletonData = (SkeletonData*) malloc(sizeof(SkeletonData));
 
-        char path[strlen(filePath) + sizeof(".atlas.json")];
+        char path[strlen(relativeJsonFilePath) + sizeof(".atlas.json")];
 
-        sprintf(path, "%s.json",  filePath);
+        sprintf(path, "%s.json",  relativeJsonFilePath);
         Parse(skeletonData, path);
 
-        sprintf(path, "%s.atlas", filePath);
+        sprintf(path, "%s.atlas", relativeJsonFilePath);
         InitAtlas(skeletonData, path);
 
         skeletonData->filePath = AArrayStrMap_GetKey
                                 (
-                                    AArrayStrMap_TryPut(skeletonDataMap, filePath, skeletonData),
+                                    AArrayStrMap_TryPut(skeletonDataMap, relativeJsonFilePath, skeletonData),
                                     skeletonDataMap->valueTypeSize
                                 );
     }

@@ -1,12 +1,15 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code is licensed under the MIT License:
+ * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
  *
- * Since : 2016/11/13
+ * Since : 2016-11-13
+ * Update: 2019-1-9
  * Author: scott.cgi
  */
 
+ 
 #include <stdlib.h>
 #include "Engine/Toolkit/HeaderUtils/Define.h"
 #include "Engine/Toolkit/Utils/Coroutine.h"
@@ -24,16 +27,11 @@ static Coroutine* StartCoroutine(CoroutineRun Run)
     if (coroutine == NULL)
     {
         coroutine = (Coroutine*) malloc(sizeof(Coroutine));
-
-        AArrayList->Init(sizeof(void*),      coroutine->params);
-        coroutine->params->increase = 4;
-
         AArrayList->Init(sizeof(Coroutine*), coroutine->waits);
-        coroutine->waits->increase  = 4;
+        coroutine->waits->increase = 4;
     }
     else
     {
-        AArrayList->Clear(coroutine->params);
         AArrayList->Clear(coroutine->waits);
     }
 
@@ -44,6 +42,7 @@ static Coroutine* StartCoroutine(CoroutineRun Run)
     coroutine->waitType     = CoroutineWaitType_Null;
     coroutine->state        = CoroutineState_Ready;
 
+    AUserData_Init(coroutine->userData);
     AArrayList_Add(coroutineRunningList, coroutine);
 
     return coroutine;
@@ -80,12 +79,12 @@ static void Update(float deltaSeconds)
                     (
                         wait->state != CoroutineState_Finish,
                         "Coroutine [%p] can not finish before wait coroutine [%p] finish",
-                        wait, coroutine
+                        wait,
+                        coroutine
                     );
 
                     wait->waitType = CoroutineWaitType_Null;
                 }
-
                 continue;
             }
         }

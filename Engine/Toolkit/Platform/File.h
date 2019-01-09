@@ -34,7 +34,7 @@ struct AFile
      *     Android: assets
      *     IOS    : NSBundle
      */
-    File*       (*Open)              (char* relativeFilePath);
+    File*       (*Open)              (const char* relativeFilePath);
 
     /**
      * Open a new file descriptor that can be used to read the asset data.
@@ -46,7 +46,7 @@ struct AFile
      *
      * returns < 0 if direct fd access is not possible (for example, if the asset is compressed).
      */
-    int         (*OpenFileDescriptor)(char* relativeFilePath, long* outStart, long* outLength);
+    int         (*OpenFileDescriptor)(const char* relativeFilePath, long* outStart, long* outLength);
 
     /**
      * Close an opened file connection, free any related resources.

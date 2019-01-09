@@ -1,21 +1,23 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code is licensed under the MIT License:
+ * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
  *
  * Since : 2017-03-20
+ * Update: 2019-1-8
  * Author: scott.cgi
  */
 
-#include <string.h>
 
+#include <string.h>
 #include "Engine/Toolkit/Utils/FileTool.h"
 #include "Engine/Toolkit/Math/Math.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Platform/File.h"
 
 
-static int GetDirLength(char* filePath)
+static int GetDirLength(const char* filePath)
 {
     char* lastForwardSlash  = strrchr(filePath, '/');
     char* lastBackwardSlash = strrchr(filePath, '\\');
@@ -33,7 +35,7 @@ static int GetDirLength(char* filePath)
 }
 
 
-static char* CreateDataFrom(char* absoluteFilePath, long* outLength)
+static char* CreateDataFrom(const char* absoluteFilePath, long* outLength)
 {
     FILE* file   = fopen(absoluteFilePath, "rb");
 
@@ -51,12 +53,12 @@ static char* CreateDataFrom(char* absoluteFilePath, long* outLength)
 }
 
 
-static char* CreateStringFrom(char* absoluteFilePath)
+static char* CreateStringFrom(const char* absoluteFilePath)
 {
-    FILE* file     = fopen(absoluteFilePath, "rb");
+    FILE* file = fopen(absoluteFilePath, "rb");
 
     fseek(file, 0, SEEK_END);
-    long  length   = ftell(file);
+    long length = ftell(file);
     fseek(file, 0, SEEK_SET);
 
     char* buffer   = (char*) malloc(length + 1);
@@ -69,12 +71,9 @@ static char* CreateStringFrom(char* absoluteFilePath)
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static char* CreateDataFromRes(char* relativeFilePath, long* outLength)
+static char* CreateDataFromRes(const char* relativeFilePath, long* outLength)
 {
-    File* file   = AFile->Open(relativeFilePath);
+    File* file    = AFile->Open(relativeFilePath);
     long  length = AFile->GetLength(file);
     char* buffer = (char*) malloc(length);
     *outLength   = length;
@@ -86,9 +85,9 @@ static char* CreateDataFromRes(char* relativeFilePath, long* outLength)
 }
 
 
-static char* CreateStringFromRes(char* relativeFilePath)
+static char* CreateStringFromRes(const char* relativeFilePath)
 {
-    File* file     = AFile->Open(relativeFilePath);
+    File* file      = AFile->Open(relativeFilePath);
     long  length   = AFile->GetLength(file);
     char* buffer   = (char*) malloc(length + 1);
     buffer[length] = '\0';
@@ -100,14 +99,11 @@ static char* CreateStringFromRes(char* relativeFilePath)
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
-
-
 static const char* dir = NULL;
 static int         len = 0;
 
 
-static char* CreateDataFromDir(char* relativeDirFilePath, int* outLength)
+static char* CreateDataFromDir(const char* relativeDirFilePath, int* outLength)
 {
     if (dir == NULL)
     {
@@ -142,9 +138,9 @@ static char* CreateDataFromDir(char* relativeDirFilePath, int* outLength)
 }
 
 
-static void WriteDataToDir(char* relativeDirFilePath, void* data, int length)
+static void WriteDataToDir(const char* relativeDirFilePath, void* data, int length)
 {
-    ALog_A(data != NULL && length > -1, "AFileTool WriteDataToDir failed, data == NULL or length < 0");
+    ALog_A(data != NULL && length > -1, "AFileTool WriteDataToDir failed, data == NULL or length < 0.");
 
     if (dir == NULL)
     {

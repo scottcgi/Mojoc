@@ -1,14 +1,17 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code is licensed under the MIT License:
+ * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
  *
  * Since : 2013-4-6
+ * Update: 2019-19
  * Author: scott.cgi
  */
 
+
 #ifndef BUFFER_READER_H
-#define BUFFER_READER_H
+#define  BUFFER_READER_H
 
 
 #include <stdbool.h>
@@ -19,36 +22,35 @@
 struct ABufferReader
 {
     /**
-     * Read long from buffer data, where ArrayRange in buffer
+     * Read long from buffer data, where ArrayRange in buffer.
      */
-    int64_t (*ReadInt64)   (char* buffer, ArrayRange* range);
+    int64_t (*ReadInt64)   (const char* buffer, ArrayRange* range);
 
     /**
-     * Read int from buffer data, where ArrayRange in buffer
+     * Read int from buffer data, where ArrayRange in buffer.
      */
-    int32_t (*ReadInt32)   (char* buffer, ArrayRange* range);
+    int32_t (*ReadInt32)   (const char* buffer, ArrayRange* range);
 
     /**
-     * Read short from buffer data, where ArrayRange in buffer
+     * Read short from buffer data, where ArrayRange in buffer.
      */
-    int16_t (*ReadInt16)   (char* buffer, ArrayRange* range);
+    int16_t (*ReadInt16)   (const char* buffer, ArrayRange* range);
 
     /**
-     * Read byte from buffer data, where ArrayRange in buffer
+     * Read byte from buffer data, where ArrayRange in buffer.
      */
-    int8_t (*ReadInt8)     (char* buffer, ArrayRange* range);
+    int8_t (*ReadInt8)     (const char* buffer, ArrayRange* range);
 
     /**
-     * Read line from buffer data, where ArrayRange in buffer
-     * and record line ArrayRange
+     * Read line from buffer, and record line in ArrayRange.
      */
-    void   (*ReadLine)     (char* buffer, ArrayRange* range, ArrayRange* outLine);
+    void   (*ReadLine)     (const char* buffer, ArrayRange* range, ArrayRange* outLine);
 
     /**
-     * Find string in buffer and make range start after string
-     * return true found string or false not found
+     * Find string in buffer and make range start after string.
+     * return true found the string or false not found.
      */
-    bool   (*TryFindString)(char* buffer, ArrayRange* range, char* str);
+    bool   (*TryFindString)(const char* buffer, ArrayRange* range, const char* str);
 };
 
 

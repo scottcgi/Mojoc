@@ -24,7 +24,7 @@
 extern ANativeActivity* nativeActivity;
 
 
-static File* Open(char* relativeFilePath)
+static File* Open(const char* relativeFilePath)
 {
     AAsset* asset = AAssetManager_open(nativeActivity->assetManager, relativeFilePath, AASSET_MODE_UNKNOWN);
     ALog_A(asset != NULL, "AFile open failed, relative file path = %s", relativeFilePath);
@@ -33,7 +33,7 @@ static File* Open(char* relativeFilePath)
 }
 
 
-static int OpenFileDescriptor(char* relativeFilePath, long* outStart, long* outLength)
+static int OpenFileDescriptor(const char* relativeFilePath, long* outStart, long* outLength)
 {
     AAsset* asset = AAssetManager_open(nativeActivity->assetManager, relativeFilePath, AASSET_MODE_UNKNOWN);
 
@@ -66,7 +66,7 @@ static int Read(File* file, void* buffer, size_t count)
 
 static int Seek(File* file, long offset, int whence)
 {
-    return AAsset_seek((AAsset*) file, offset, whence);
+    return (int) AAsset_seek((AAsset*) file, offset, whence);
 }
 
 

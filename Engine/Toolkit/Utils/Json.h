@@ -75,40 +75,40 @@ JsonValue;
 
 struct AJsonObject
 {
-    bool        (*GetBool)         (JsonObject* object, char* key, bool  defaultValue);
-    int         (*GetInt)          (JsonObject* object, char* key, int   defaultValue);
-    float        (*GetFloat)        (JsonObject* object, char* key, float  defaultValue);
-    JsonType    (*GetType)         (JsonObject* object, char* key);
+    bool        (*GetBool)         (JsonObject* object, const char* key, bool  defaultValue);
+    int         (*GetInt)          (JsonObject* object, const char* key, int   defaultValue);
+    float        (*GetFloat)        (JsonObject* object, const char* key, float  defaultValue);
+    JsonType    (*GetType)         (JsonObject* object, const char* key);
 
     /**
      * When JsonValue released the string value will free.
      */
-    char*       (*GetString)       (JsonObject* object, char* key, char* defaultValue);
+    char*       (*GetString)       (JsonObject* object, const char* key, const char* defaultValue);
 
     /**
      * If not found return NULL.
      */
-    JsonObject* (*GetObject)       (JsonObject* object, char* key);
+    JsonObject* (*GetObject)       (JsonObject* object, const char* key);
 
     /**
      * If not found return NULL.
      */
-    JsonArray*  (*GetArray)        (JsonObject* object, char* key);
+    JsonArray*  (*GetArray)        (JsonObject* object, const char* key);
 
     /**
      * Get JsonObject's key.
      */
-    const char* (*GetKey)          (JsonObject* object, int   index);
+    const char* (*GetKey)          (JsonObject* object, int index);
 
     /**
      * Get index of JsonObject in JsonObject map.
      */
-    JsonObject* (*GetObjectByIndex)(JsonObject* object, int   index);
+    JsonObject* (*GetObjectByIndex)(JsonObject* object, int index);
 
     /**
      * Get index of JsonObject in JsonArray map.
      */
-    JsonArray*  (*GetArrayByIndex) (JsonObject* object, int   index);
+    JsonArray*  (*GetArrayByIndex) (JsonObject* object, int index);
 };
 
 
@@ -140,18 +140,22 @@ struct AJson
     /**
      * Parse the Json string, return root JsonValue.
      */
-    JsonValue* (*Parse)         (char* jsonString);
+    JsonValue* (*Parse)      (const char* jsonString);
 
     /**
-     * Parse the Json file, return root JsonValue.
+     * Parse the Json file from relativeJsonFilePath, return root JsonValue.
+     *
+     * relativeJsonFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
      */
-    JsonValue* (*ParseWithFile) (char* jsonPath);
+    JsonValue* (*ParseFile)  (const char* relativeJsonFilePath);
 
     /**
      * Release JsonValue member memory space and free itself,
      * if release root JsonValue will free all memory space.
      */
-    void       (*Delete)        (JsonValue*  jsonValue);
+    void       (*Delete)     (JsonValue* jsonValue);
 };
 
 

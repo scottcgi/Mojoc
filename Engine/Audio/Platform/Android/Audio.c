@@ -171,11 +171,11 @@ static void PlayerCallback(SLPlayItf caller, void *pContext, SLuint32 event)
     }
 }
 
-static inline void InitPlayer(char* filePath, AudioPlayer* player)
+static inline void InitPlayer(const char* relativeFilePath, AudioPlayer* player)
 {
     off_t start;
     off_t length;
-    int   fd = AFile->OpenFileDescriptor(filePath, &start, &length);
+    int   fd = AFile->OpenFileDescriptor(relativeFilePath, &start, &length);
 
     // configure audio source
     SLDataLocator_AndroidFD locFD     = {SL_DATALOCATOR_ANDROIDFD, fd, start, length};
@@ -229,7 +229,7 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
     ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer GetInterface volume error = %x", result);
 
     player->waitCallbackCount = 0;
-    player->name              = AArrayStrSet->Get(audioNameSet, filePath);
+    player->name              = AArrayStrSet->Get(audioNameSet, relativeFilePath);
 }
 
 
@@ -306,7 +306,7 @@ static bool IsPlaying(AudioPlayer* player)
 }
 
 
-static AudioPlayer* GetPlayer(char* filePath)
+static AudioPlayer* GetPlayer(const char* relativeFilePath)
 {
     AudioPlayer* player = AArrayList_Pop(cacheList, AudioPlayer*);
 
@@ -315,7 +315,7 @@ static AudioPlayer* GetPlayer(char* filePath)
         player = (AudioPlayer*) malloc(sizeof(AudioPlayer));
     }
 
-    InitPlayer(filePath, player);
+    InitPlayer(relativeFilePath, player);
 
     return player;
 }
@@ -330,10 +330,10 @@ static void Release()
     engineEngine    = NULL;
     outputMixObject = NULL;
 
-    AArrayList->Release(cacheList);
-    AArrayList->Release(destroyList);
-    AArrayList->Release(loopList);
-    AArrayList->Release(testErrorList);
+    AArrayList  ->Release(cacheList);
+    AArrayList  ->Release(destroyList);
+    AArrayList  ->Release(loopList);
+    AArrayList  ->Release(testErrorList);
     AArrayStrSet->Release(audioNameSet);
 }
 

@@ -1,12 +1,15 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code is licensed under the MIT License:
+ * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
  *
  * Since : 2013-4-6
+ * Update: 2019-1-9
  * Author: scott.cgi
  */
 
+ 
 #include "Engine/Toolkit/Utils/BufferReader.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
@@ -15,14 +18,13 @@
     ALog_A(range->start <= range->end, "AArrayRange " tag " start[%d] > end[%d]", range->start, range->end)
 
 
-static int64_t ReadInt64(char* buffer, ArrayRange* range)
+static int64_t ReadInt64(const char* buffer, ArrayRange* range)
 {
     CheckIndex("ReadInt64");
     
-    int   pos     = range->start;
-    char* data    = buffer + pos;
-
-    range->start += sizeof(int64_t);
+    int          pos = range->start;
+    const char* data = buffer + pos;
+    range->start    += sizeof(int64_t);
     
     return (
                 ((int64_t)(data[0] & 0xff) << 56) +
@@ -37,69 +39,57 @@ static int64_t ReadInt64(char* buffer, ArrayRange* range)
 }
 
 
-/**
- * Read int from buffer data, where ArrayRange in buffer
- */
-static int32_t ReadInt32(char* buffer, ArrayRange* range)
+static int32_t ReadInt32(const char* buffer, ArrayRange* range)
 {
     CheckIndex("ReadInt32");
     
-    int   pos        = range->start;
-    char* data       = buffer + pos;
+    int         pos  = range->start;
+    const char* data = buffer + pos;
 
     int   ch1        = data[0];
     int   ch2        = data[1];
     int   ch3        = data[2];
     int   ch4        = data[3];
-
     range->start    += sizeof(int32_t);
 
     return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
 }
 
 
-/**
- * Read short from buffer data, where ArrayRange in buffer
- */
-static int16_t ReadInt16(char* buffer, ArrayRange* range)
+static int16_t ReadInt16(const char* buffer, ArrayRange* range)
 {
     CheckIndex("ReadInt16");
     
-    int   pos     = range->start;
-    char* data    = buffer + pos;
+    int         pos  = range->start;
+    const char* data = buffer + pos;
 
-    int   ch1     = data[0];
-    int   ch2     = data[1];
+    int16_t     ch1  = data[0];
+    int16_t     ch2  = data[1];
 
-    range->start += sizeof(int16_t);
+    range->start    += sizeof(int16_t);
 
     return ((ch1 << 8) + (ch2 << 0));
 }
 
 
-/**
- * Read byte from buffer data, where ArrayRange in buffer
- */
-static int8_t ReadInt8(char* buffer, ArrayRange* range)
+static int8_t ReadInt8(const char* buffer, ArrayRange* range)
 {
     CheckIndex("ReadInt8");
     
-    int   pos     = range->start;
-    char* data    = buffer + pos;
-
-    range->start += sizeof(int8_t);
+    int         pos  = range->start;
+    const char* data = buffer + pos;
+    range->start    += sizeof(int8_t);
 
     return data[0];
 }
 
 
-static void ReadLine(char* buffer, ArrayRange* range, ArrayRange* outLine)
+static void ReadLine(const char* buffer, ArrayRange* range, ArrayRange* outLine)
 {
     CheckIndex("ReadLine");
 
     int start      = range->start;
     int end        = range->end;
-
     outLine->start = outLine->end = start;
 
     for (; start <= end; start++)
@@ -131,16 +121,16 @@ static void ReadLine(char* buffer, ArrayRange* range, ArrayRange* outLine)
 
     if (start < end)
     {
-        start++; // next new start
+        // next new start
+        start++;
     }
 
     range->start = start;
-
     ALog_D("AArrayRange ReadLine: string = %.*s", outLine->end - outLine->start + 1, buffer + outLine->start);
 }
 
 
-static bool TryFindString(char* buffer, ArrayRange* range, char* str)
+static bool TryFindString(const char* buffer, ArrayRange* range, char* str)
 {
     CheckIndex("TryFindString");
 
