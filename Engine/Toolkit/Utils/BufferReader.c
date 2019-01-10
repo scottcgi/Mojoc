@@ -14,17 +14,28 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-#define CheckIndex(tag) \
-    ALog_A(range->start <= range->end, "AArrayRange " tag " start[%d] > end[%d]", range->start, range->end)
+#define CheckRange(tag)                                            \
+    ALog_A                                                        \
+    (                                                             \
+        range->start <= range->end,                               \
+        "ABufferReader " tag " range error start[%d] > end[%d].", \
+        range->start,                                             \
+        range->end                                                \
+    )
+
+#define ReadLineLog() \
+    ALog_D("ABufferReader ReadLine = %.*s", outLine->end - outLine->start + 1, buffer + outLine->start)
 
 
 static int64_t ReadInt64(const char* buffer, ArrayRange* range)
 {
-    CheckIndex("ReadInt64");
-    
-    int          pos = range->start;
+    CheckRange("ReadInt64");
+
+    int         pos  = range->start;
     const char* data = buffer + pos;
     range->start    += sizeof(int64_t);
+
+    CheckRange("after ReadInt64");
     
     return (
                 ((int64_t)(data[0] & 0xff) << 56) +
@@ -41,7 +52,7 @@ static int64_t ReadInt64(const char* buffer, ArrayRange* range)
 
 static int32_t ReadInt32(const char* buffer, ArrayRange* range)
 {
-    CheckIndex("ReadInt32");
+    CheckRange("ReadInt32");
     
     int         pos  = range->start;
     const char* data = buffer + pos;
@@ -52,13 +63,15 @@ static int32_t ReadInt32(const char* buffer, ArrayRange* range)
     int   ch4        = data[3];
     range->start    += sizeof(int32_t);
 
+    CheckRange("after ReadInt32");
+
     return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
 }
 
 
 static int16_t ReadInt16(const char* buffer, ArrayRange* range)
 {
-    CheckIndex("ReadInt16");
+    CheckRange("ReadInt16");
     
     int         pos  = range->start;
     const char* data = buffer + pos;
@@ -68,17 +81,21 @@ static int16_t ReadInt16(const char* buffer, ArrayRange* range)
 
     range->start    += sizeof(int16_t);
 
+    CheckRange("after ReadInt16");
+
     return ((ch1 << 8) + (ch2 << 0));
 }
 
 
 static int8_t ReadInt8(const char* buffer, ArrayRange* range)
 {
-    CheckIndex("ReadInt8");
+    CheckRange("ReadInt8");
     
     int         pos  = range->start;
     const char* data = buffer + pos;
     range->start    += sizeof(int8_t);
+
+    CheckRange("after ReadInt8");
 
     return data[0];
 }
@@ -86,82 +103,137 @@ static int8_t ReadInt8(const char* buffer, ArrayRange* range)
 
 static void ReadLine(const char* buffer, ArrayRange* range, ArrayRange* outLine)
 {
-    CheckIndex("ReadLine");
+    CheckRange("ReadLine");
 
     int start      = range->start;
     int end        = range->end;
-    outLine->start = outLine->end = start;
+    outLine->start = start;
+    outLine->end   = start;
 
     for (; start <= end; start++)
     {
         if (buffer[start] == '\n')
         {
             outLine->end = start;
-            break;
+
+            if (start != end)
+            {
+                // move to new start
+                range->start = start + 1;
+            }
+            else
+            {
+                // scan over
+                range->start = end;
+            }
+
+            ReadLineLog();
+            return;
         }
         else if (buffer[start] == '\r')
         {
-            if (start < end)
+            if (start != end)
             {
-                char c = buffer[start + 1];
-
-                if (c == '\n')
+                // check next char
+                start++;
+                
+                if (buffer[start] == '\n')
                 {
-                    start++;
+                    outLine->end = start;
+
+                    if (start != end)
+                    {
+                        // move to new start
+                        range->start = start + 1;
+                    }
+                    else
+                    {
+                        // scan over
+                        range->start = end;
+                    }
                 }
                 else
                 {
-                    outLine->end = start;
+                    // back to '\r'
+                    outLine->end = start - 1;
+                    // start is next
+                    range->start = start;
                 }
-
-                break;
             }
+            else
+            {
+                outLine->end = start;
+                // scan over
+                range->start = end;
+            }
+
+            ReadLineLog();
+            return;
         }
     }
 
-    if (start < end)
-    {
-        // next new start
-        start++;
-    }
-
-    range->start = start;
-    ALog_D("AArrayRange ReadLine: string = %.*s", outLine->end - outLine->start + 1, buffer + outLine->start);
+    // not found newline char
+    outLine->end = end;
+    range->end   = end;
+    ReadLineLog();
 }
 
 
-static bool TryFindString(const char* buffer, ArrayRange* range, char* str)
+static bool TryFindString(const char* buffer, ArrayRange* range, const char* str)
 {
-    CheckIndex("TryFindString");
+    CheckRange("TryFindString");
 
-    int  start   = range->start;
-    int  end     = range->end;
-    int  pos     = 0;
-    bool isFound = false;
+    int  start = range->start;
+    int  end   = range->end;
+    int  pos   = 0;
+    char first  = str[pos];
 
     for (; start <= end; start++)
     {
-        if (buffer[start] == str[pos])
+        if (buffer[start] == first)
         {
-            while (str[pos] && buffer[start] == str[pos])
+            while (true)
             {
-                start++;
                 pos++;
-            }
 
-            if (str[pos] == '\0')
-            {
-                isFound = true;
-            }
+                if (str[pos] == '\0')
+                {
+                    if (start != end)
+                    {
+                        // move to next char
+                        range->start = start + 1;
+                    }
+                    else
+                    {
+                        // scan over
+                        range->start = end;
+                    }
 
-            break;
+                    ALog_D("ABufferReader TryFindString found str = %s", str);
+                    return true;
+                }
+
+                start++;
+
+                if (start > end)
+                {
+                    goto NotFoundStr;
+                }
+
+                if (buffer[start] != str[pos])
+                {
+                    // reset to first
+                    pos = 0;
+                    break;
+                }
+            }
         }
     }
 
-    // next new start
-    range->start = start;
-
-    return isFound;
+    NotFoundStr:
+    ALog_D("ABufferReader TryFindString not found str = %s", str);
+    // keep range->start
+    return false;
 }
 
 
@@ -176,5 +248,5 @@ struct ABufferReader ABufferReader[1] =
 };
 
 
-#undef CheckIndex
+#undef ReadLineLog
 

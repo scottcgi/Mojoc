@@ -52,7 +52,7 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
         ABufferReader->ReadLine(buffer, range, line);
 
         int  fileDirLen = AFileTool->GetDirLength(filePath);
-        int  pathLen    = fileDirLen + (line->end - line->start);
+        int  pathLen   = fileDirLen + (line->end - line->start);
         char path[pathLen + 1];
 
         path[pathLen] = '\0';

@@ -64,7 +64,7 @@ static float GetScale(ParticleScaledValue* scaledValue, float percent)
 {
     int    endIndex  = -1;
     int    length    = scaledValue->timelineArr->length;
-    float* timelines = AArray_GetData(scaledValue->timelineArr, float);
+    float*  timelines = AArray_GetData(scaledValue->timelineArr, float);
 
     // timeline is x axis points
     for (int i = 1; i < length; i++)
