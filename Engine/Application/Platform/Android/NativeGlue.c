@@ -401,6 +401,17 @@ static void OnNativeWindowCreated(ANativeActivity* activity, ANativeWindow* wind
 static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* window)
 {
     ALog_D("ANativeActivity OnNativeWindowResized");
+
+    // when start app and from back to front screen
+
+    if (isNeedCreateEGL == false)
+    {
+        mainThreadCallback = MainThread_OnResized;
+    }
+    else
+    {
+        mainThreadCallback = MainThread_OnNeedCreateEGL;
+    }
 }
 
 
@@ -435,13 +446,12 @@ static void OnInputQueueDestroyed(ANativeActivity* activity, AInputQueue* queue)
 static void OnContentRectChanged(ANativeActivity* activity, const ARect* rect)
 {
     ALog_D("ANativeActivity OnContentRectChanged");
+
+    // when start app and lock/unlock screen
+
     if (isPaused == false)
     {
-        if (isNeedCreateEGL)
-        {
-            mainThreadCallback = MainThread_OnNeedCreateEGL;
-        }
-        else
+        if (mainThreadCallback != MainThread_OnLoop && mainThreadCallback != MainThread_OnNeedCreateEGL)
         {
             mainThreadCallback = MainThread_OnResized;
         }

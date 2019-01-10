@@ -17,6 +17,7 @@
 #include "Engine/Toolkit/Utils/Json.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Utils/FileTool.h"
+#include "Json.h"
 
 
 /**
@@ -354,6 +355,8 @@ static inline void* ParseNumber(char** jsonPtr)
             case 'e':
             case 'E':
                 continue;
+            default:
+                break;
         }
 
         break;
@@ -365,7 +368,7 @@ static inline void* ParseNumber(char** jsonPtr)
     ALog_D("Json number = %s", *jsonPtr);
 
     JsonValue* value = CreateJsonValue(NULL, 0, JsonType_Float);
-    value->jsonFloat = atof(*jsonPtr);
+    value->jsonFloat = (float) atof(*jsonPtr);
 
     // restore char after number
     *json            = c;
@@ -419,7 +422,7 @@ static inline JsonValue* ParseString(char** jsonPtr)
     
     value->jsonString[length] = '\0';
 
-    ALog_D("Json string = %s", value->stringValue);
+    ALog_D("Json string = %s", value->jsonString);
     
     return value;
 }
