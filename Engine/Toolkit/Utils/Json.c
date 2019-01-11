@@ -301,10 +301,6 @@ static inline void SkipWhiteSpace(char** jsonPtr)
 }
 
 
-#define PARSE_NUMBER_VALIDATE_BY_STRTOF
-#ifdef PARSE_NUMBER_VALIDATE_BY_STRTOF
-
-
 static inline void* ParseNumber(char** jsonPtr)
 {
     char* endPtr;
@@ -312,74 +308,12 @@ static inline void* ParseNumber(char** jsonPtr)
     JsonValue* value = CreateJsonValue(NULL, 0, JsonType_Float);
     value->jsonFloat = strtof(*jsonPtr, &endPtr);
 
-    // record char after number
-    char c  = *endPtr;
-
-    // insert number string end
-    *endPtr = '\0';
-
-    ALog_D("Json number = %s", *jsonPtr);
-
-    // restore char after number
-    *endPtr  = c;
+    ALog_D("Json number = %.*s", (int) (endPtr - *jsonPtr), *jsonPtr);
+    
     *jsonPtr = endPtr;
 
     return value;
 }
-
-
-#else
-
-
-static inline void* ParseNumber(char** jsonPtr)
-{
-    char* json = *jsonPtr;
-
-    while (true)
-    {
-        switch (*(++json))
-        {
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
-            case '-':
-            case '+':
-            case '.':
-            case 'e':
-            case 'E':
-                continue;
-            default:
-                break;
-        }
-
-        break;
-    }
-
-    char c = *json;
-    // insert number string end
-    *json  = '\0';
-    ALog_D("Json number = %s", *jsonPtr);
-
-    JsonValue* value = CreateJsonValue(NULL, 0, JsonType_Float);
-    value->jsonFloat = (float) atof(*jsonPtr);
-
-    // restore char after number
-    *json            = c;
-    *jsonPtr         = json;
-
-    return value;
-}
-
-
-#endif
-#undef PARSE_NUMBER_VALIDATE_BY_STRTOF
 
 
 static inline int SkipString(char **jsonPtr)
