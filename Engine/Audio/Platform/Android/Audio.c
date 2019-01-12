@@ -88,7 +88,7 @@ static void Update(float deltaSeconds)
         }
         else
         {
-            player->waitCallbackCount++;
+            ++player->waitCallbackCount;
         }
     }
 }
@@ -96,7 +96,7 @@ static void Update(float deltaSeconds)
 
 static void SetLoopPause()
 {
-    for (int i = 0; i < loopList->size; i++)
+    for (int i = 0; i < loopList->size; ++i)
     {
         AAudio->SetPause(AArrayList_Get(loopList, i, AudioPlayer*));
     }
@@ -105,7 +105,7 @@ static void SetLoopPause()
 
 static void SetLoopResume()
 {
-    for (int i = 0; i < loopList->size; i++)
+    for (int i = 0; i < loopList->size; ++i)
     {
         AAudio->SetPlay(AArrayList_Get(loopList, i, AudioPlayer*));
     }
@@ -252,7 +252,7 @@ static void SetLoop(AudioPlayer* player, bool isLoop)
     }
     else
     {
-        for (int i = 0; i < loopList->size; i++)
+        for (int i = 0; i < loopList->size; ++i)
         {
             if (player == AArrayList_Get(loopList, i, AudioPlayer*))
             {

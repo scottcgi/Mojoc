@@ -67,7 +67,7 @@ static float GetScale(ParticleScaledValue* scaledValue, float percent)
     float*  timelines = AArray_GetData(scaledValue->timelineArr, float);
 
     // timeline is x axis points
-    for (int i = 1; i < length; i++)
+    for (int i = 1; i < length; ++i)
     {
         if (timelines[i] > percent)
         {
@@ -104,7 +104,7 @@ static void GetRGB(ParticleRGBValue* rgbValue, float percent, float outRGB[3])
     int    length       = rgbValue->timelineArr->length;
     float*  timelines    = AArray_GetData(rgbValue->timelineArr, float);
 
-    for (int i = 1; i < length; i++)
+    for (int i = 1; i < length; ++i)
     {
         if (timelines[i] > percent)
         {
@@ -167,7 +167,7 @@ static inline void LoadScaledValue(char* buffer, ArrayRange* range, ArrayRange* 
         float* scalings         = AArray_GetData(scaledValue->scalingArr, float);
 
         char scaling[sizeof("scaling") + 4];
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < length; ++i)
         {
             sprintf(scaling, "scaling%d:", i);
             scalings[i] = ReadFloat(buffer, range, line, scaling);
@@ -179,7 +179,7 @@ static inline void LoadScaledValue(char* buffer, ArrayRange* range, ArrayRange* 
         float* timelines         = AArray_GetData(scaledValue->timelineArr, float);
 
         char timeline[sizeof("timeline") + 4];
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < length; ++i)
         {
             sprintf(timeline, "timeline%d:", i);
             timelines[i] = ReadFloat(buffer, range, line, timeline);
@@ -201,7 +201,7 @@ static inline void LoadRGBValue(char* buffer, ArrayRange* range, ArrayRange* lin
     float* rgbs      = AArray_GetData(rgbValue->rgbArr, float);
 
     char colors[sizeof("colors") + 4];
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < length; ++i)
     {
         sprintf(colors, "colors%d:", i);
         rgbs[i] = ReadFloat(buffer, range, line, colors);
@@ -213,7 +213,7 @@ static inline void LoadRGBValue(char* buffer, ArrayRange* range, ArrayRange* lin
     float* timelines      = AArray_GetData(rgbValue->timelineArr, float);
 
     char timeline[sizeof("timeline") + 4];
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < length; ++i)
     {
         sprintf(timeline, "timeline%d:", i);
         timelines[i] = ReadFloat(buffer, range, line, timeline);

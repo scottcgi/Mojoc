@@ -50,7 +50,7 @@ static void Release(Component* component)
     AArrayIntMap->Release(component->childMap);
     AArrayIntSet->Release(component->observerSet);
 
-    for (int i = 0; i < component->stateMap->elementList->size; i++)
+    for (int i = 0; i < component->stateMap->elementList->size; ++i)
     {
         free(AArrayIntMap_GetAt(component->stateMap, i, ComponentState*));
     }
@@ -126,7 +126,7 @@ static void RemoveAllChildren(Component* parent)
 {
     ALog_A(parent != NULL, "AComponent RemoveAllChildren failed, parent can not NULL");
 
-    for (int i = 0; i < parent->childMap->elementList->size; i++)
+    for (int i = 0; i < parent->childMap->elementList->size; ++i)
     {
         Component* child = AArrayIntMap_GetAt(parent->childMap, i, Component*);
         child->parent    = NULL;
@@ -149,7 +149,7 @@ static int Compare(const void* a, const void* b)
 static void ReorderAllChildren(Component* parent)
 {
     // renew all children key
-    for (int i = 0; i < parent->childMap->elementList->size; i++)
+    for (int i = 0; i < parent->childMap->elementList->size; ++i)
     {
         ArrayIntMapElement* element = AArrayList_Get(parent->childMap->elementList, i, ArrayIntMapElement*);
         element->key                = (*(Component**) element->valuePtr)->order;
@@ -225,7 +225,7 @@ static void Notify(Component* sender, int subject, void* extraData)
 
     if (sender->isActive)
     {
-        for (int i = 0; i < sender->observerSet->elementList->size; i++)
+        for (int i = 0; i < sender->observerSet->elementList->size; ++i)
         {
             Component* observer = AArrayList_Get(sender->observerSet->elementList, i, Component*);
 
@@ -296,7 +296,7 @@ static void SetActive(Component* component, bool isActive)
 {
     component->isActive = isActive;
 
-    for (int i = 0; i < component->childMap->elementList->size; i++)
+    for (int i = 0; i < component->childMap->elementList->size; ++i)
     {
         AArrayIntMap_GetAt(component->childMap, i, Component*)->isActive = isActive;
     }

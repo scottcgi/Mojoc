@@ -21,7 +21,7 @@ static void ReorderAllChildren(Mesh* mesh)
     // SubMesh keep original indexDataOffset
     int        indexDataOffset = 0;
 
-    for (int i = 0; i < children->size; i++)
+    for (int i = 0; i < children->size; ++i)
     {
         SubMesh* subMesh = AArrayList_Get(children, i, SubMesh*);
 
@@ -60,7 +60,7 @@ static void Draw(Drawable* meshDrawable)
     bool  isChangedOpacity = ADrawable_CheckState(meshDrawable, DrawableState_OpacityChanged);
     bool  isChangedRGB     = ADrawable_CheckState(meshDrawable, DrawableState_RGBChanged);
 
-    for (int i = 0; i < mesh->childList->size; i++)
+    for (int i = 0; i < mesh->childList->size; ++i)
     {
         SubMesh* subMesh = AArrayList_Get(mesh->childList, i, SubMesh*);
 
@@ -113,7 +113,7 @@ static void Draw(Drawable* meshDrawable)
                                                   subMesh->opacityDataOffset
                                               );
 
-                for (int j = 0; j < subMesh->vertexCount; j++)
+                for (int j = 0; j < subMesh->vertexCount; ++j)
                 {
                     opacityData[j] = opacity;
                 }
@@ -142,7 +142,7 @@ static void Draw(Drawable* meshDrawable)
                                             subMesh->rgbDataOffset
                                           );
 
-                for (int j = 0; j < subMesh->vertexCount; j++)
+                for (int j = 0; j < subMesh->vertexCount; ++j)
                 {
                     int index          = j * 3;
                     rgbData[index]     = r;
@@ -175,7 +175,7 @@ static void Draw(Drawable* meshDrawable)
             if (ADrawable_CheckState(subMesh->drawable, DrawableState_DrawChanged))
             {
                 float opacity = subMesh->drawable->blendColor->a * meshDrawable->blendColor->a;
-                for (int j = 0; j < subMesh->vertexCount; j++)
+                for (int j = 0; j < subMesh->vertexCount; ++j)
                 {
                     opacityData[j] = opacity;
                 }
@@ -298,7 +298,7 @@ static void Render(Drawable* drawable)
         // in no vao state update sub data
         if (AGraphics->isUseMapBuffer)
         {
-            for (int i = 0; i < mesh->vboSubDataList->size; i++)
+            for (int i = 0; i < mesh->vboSubDataList->size; ++i)
             {
                 VBOSubData* subData   = AArrayList_GetPtr(mesh->vboSubDataList, i, VBOSubData);
                 void*       mappedPtr = glMapBufferRange
@@ -321,7 +321,7 @@ static void Render(Drawable* drawable)
         }
         else
         {
-            for (int i = 0; i < mesh->vboSubDataList->size; i++)
+            for (int i = 0; i < mesh->vboSubDataList->size; ++i)
             {
                 VBOSubData* subData = AArrayList_GetPtr(mesh->vboSubDataList, i, VBOSubData);
                 glBufferSubData(subData->target, subData->offset, subData->length, subData->data);
@@ -490,7 +490,7 @@ static inline void InitBuffer(Mesh* mesh)
 
     char* uvData            = (char*) mesh->vertexArr->data + mesh->uvDataOffset;
 
-    for (int i = 0; i < mesh->childList->size; i++)
+    for (int i = 0; i < mesh->childList->size; ++i)
     {
         SubMesh* subMesh = AArrayList_Get(mesh->childList, i, SubMesh*);
 
@@ -525,7 +525,7 @@ static Mesh* Create(Texture* texture)
 
 static inline SubMesh* AddChild(Mesh* mesh, SubMesh* subMesh)
 {
-    for (int i = 0; i < subMesh->indexArr->length; i++)
+    for (int i = 0; i < subMesh->indexArr->length; ++i)
     {
         // each child index add before children vertex count
         AArray_Get(subMesh->indexArr, i, short) += mesh->vertexCountOffset;
@@ -665,7 +665,7 @@ static void Release(Mesh* mesh)
 {
     ReleaseBuffer(mesh);
 
-    for (int i = 0; i < mesh->childList->size; i++)
+    for (int i = 0; i < mesh->childList->size; ++i)
     {
         free(AArrayList_Get(mesh->childList, i, SubMesh*));
     }
@@ -678,7 +678,7 @@ static void Release(Mesh* mesh)
 
 static void Clear(Mesh* mesh)
 {
-    for (int i = 0; i < mesh->childList->size; i++)
+    for (int i = 0; i < mesh->childList->size; ++i)
     {
         free(AArrayList_Get(mesh->childList, i, SubMesh*));
     }

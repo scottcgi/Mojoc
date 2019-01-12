@@ -34,7 +34,7 @@ static void Delete(JsonValue* value)
         case JsonType_Array:
         {
             ArrayList* list = value->jsonArray->valueList;
-            for (int i = 0; i < list->size; i++)
+            for (int i = 0; i < list->size; ++i)
             {
                 Delete(AArrayList_Get(list, i, JsonValue*));
             }
@@ -46,7 +46,7 @@ static void Delete(JsonValue* value)
         case JsonType_Object:
         {
             ArrayStrMap* map = value->jsonObject->valueMap;
-            for (int i = 0; i < map->elementList->size; i++)
+            for (int i = 0; i < map->elementList->size; ++i)
             {
                 Delete(AArrayStrMap_GetAt(map, i, JsonValue*));
             }
@@ -286,12 +286,11 @@ static inline void SkipWhiteSpace(char** jsonPtr)
             case '\t':
             case '\n':
             case '\r':
-                json++;
+                ++json;
                 continue;
             default:
                 break;
         }
-
         break;
     }
 
@@ -319,7 +318,7 @@ static inline void* ParseNumber(char** jsonPtr)
 static inline int SkipString(char **jsonPtr)
 {
     // skip '"'
-    (*jsonPtr)++;
+    ++(*jsonPtr);
 
     char c     = **jsonPtr;
     int  count = 0;
@@ -329,7 +328,7 @@ static inline int SkipString(char **jsonPtr)
     {
         if (c != '\\')
         {
-            count++;
+            ++count;
         }
         else
         {
@@ -374,7 +373,7 @@ static inline JsonValue* ParseArray(char** jsonPtr)
     ALog_D("Json Array: [");
     
     // skip '['
-    (*jsonPtr)++;
+    ++(*jsonPtr);
 
     do
     {
@@ -393,7 +392,7 @@ static inline JsonValue* ParseArray(char** jsonPtr)
 
         if (**jsonPtr == ',')
         {
-            (*jsonPtr)++;
+            ++(*jsonPtr);
         }
         else
         {
@@ -404,7 +403,7 @@ static inline JsonValue* ParseArray(char** jsonPtr)
     while (true);
 
     // skip ']'
-    (*jsonPtr)++;
+    ++(*jsonPtr);
     ALog_D("] JsonArray element count = %d", list->size);
     
     return jsonValue;
@@ -419,7 +418,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
     ALog_D("Json Object: {");
     
     // skip '{'
-    (*jsonPtr)++;
+    ++(*jsonPtr);
 
     do
     {
@@ -439,7 +438,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
         ALog_A((**jsonPtr) == ':', "Json object parse error, char = %c, should be ':' ", **jsonPtr);
 
         // skip ':'
-        (*jsonPtr)++;
+        ++(*jsonPtr);
         JsonValue*  value = ParseValue(jsonPtr);
         char        c     = key[keyLen];
 
@@ -458,7 +457,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
 
         if (**jsonPtr == ',')
         {
-            (*jsonPtr)++;
+            ++(*jsonPtr);
         }
         else
         {
@@ -469,7 +468,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
     while (true);
 
     // skip '}'
-    (*jsonPtr)++;
+    ++(*jsonPtr);
     ALog_D("} JsonObject elements count = %d", map->elementList->size);
 
     return jsonValue;

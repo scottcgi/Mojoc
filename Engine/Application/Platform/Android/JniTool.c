@@ -129,7 +129,7 @@ static jvalue CallObjectMethod(jobject object, char* methodName, char* paramCode
     ALog_A
     (
         methodId != NULL,
-        "AJniTool CallObjectMethod can not get methodID, methodName = %s, paramCode = %s",
+        "AJniTool CallObjectMethod cannot get methodID, methodName = %s, paramCode = %s",
         methodName,
         paramCode
     );
@@ -137,12 +137,7 @@ static jvalue CallObjectMethod(jobject object, char* methodName, char* paramCode
     char* p = paramCode;
 
     // skip '()' to find out the return type
-    while (*p != ')')
-    {
-        p++;
-    }
-    // skip ')'
-    p++;
+    while (*p++ != ')');
 
     va_list  args;
     va_start(args, paramCode);
@@ -217,12 +212,7 @@ static inline jvalue CallClassMethodV(jclass cls, char* methodName, char* paramC
     char* p = paramCode;
 
     // skip '()' to find out the return type
-    while (*p != ')')
-    {
-        p++;
-    }
-    // skip ')'
-    p++;
+    while (*p++ != ')');
 
     jvalue value;
     switch (*p)

@@ -392,7 +392,7 @@ static void RunActions(void* target)
 {
     ALog_A(target != NULL, "ATweenTool RunActions, target can not NULL.");
 
-    for (int i = 0; i < actionArr->length; i++)
+    for (int i = 0; i < actionArr->length; ++i)
     {
         TweenAction* action = AArray_Get(actionArr, i, TweenAction*);
 
@@ -412,7 +412,7 @@ static void RunActions(void* target)
 
 static void* RunTargets()
 {
-    for (int i = 0; i < actionArr->length; i++)
+    for (int i = 0; i < actionArr->length; ++i)
     {
         TweenAction* action = AArray_Get(actionArr, i, TweenAction*);
 

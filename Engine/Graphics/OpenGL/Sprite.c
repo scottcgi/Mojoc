@@ -118,7 +118,7 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 
     drawable->Render                   = Render;
 
-    for (int i = 0; i < quadArr->length; i++)
+    for (int i = 0; i < quadArr->length; ++i)
     {
         AQuad->GetQuadVertex(AArray_GetPtr(quadArr, i, Quad), texture,  (float*) sprite->vertexArr->data + i * Quad_VertexNum);
         AQuad->GetQuadIndex (i * 4, (short*) sprite->indexArr->data + i * Quad_IndexNum);

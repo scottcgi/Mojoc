@@ -88,7 +88,7 @@ static FontText* GetText(Font* font)
 
 static void Draw(Font* font)
 {
-    for (int i = 0; i < font->fontTextSet->elementList->size; i++)
+    for (int i = 0; i < font->fontTextSet->elementList->size; ++i)
     {
         ADrawable->Draw
         (
@@ -117,7 +117,7 @@ static inline TextureAtlasQuad* GetAtlasQuad(FontText* text, char* str, int inde
 static inline void SetNewChar(FontText* text, char* str, int len)
 {
     // set text new char
-    for (int i = 0; i < len; i++)
+    for (int i = 0; i < len; ++i)
     {
         TextureAtlasQuad* atlasQuad = GetAtlasQuad(text, str, i);
         SubMesh*          subMesh   = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
@@ -151,7 +151,7 @@ static void SetString(FontText* text, char* str)
         int originalSize = children->size;
 
         // add chars more than text has
-        for (int i = text->usedSubMeshList->size; i < len; i++)
+        for (int i = text->usedSubMeshList->size; i < len; ++i)
         {
             TextureAtlasQuad* atlasQuad = GetAtlasQuad(text, str, i);
             SubMesh*          subMesh;
@@ -216,7 +216,7 @@ static void SetString(FontText* text, char* str)
     {
         case FontTextAlignment_HorizontalLeft:
         {
-            for (int i = 0; i < text->usedSubMeshList->size; i++)
+            for (int i = 0; i < text->usedSubMeshList->size; ++i)
             {
                 SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 
@@ -252,7 +252,7 @@ static void SetString(FontText* text, char* str)
 
         case FontTextAlignment_VerticalTop:
         {
-            for (int i = 0; i < text->usedSubMeshList->size; i++)
+            for (int i = 0; i < text->usedSubMeshList->size; ++i)
             {
                 SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 
@@ -264,7 +264,6 @@ static void SetString(FontText* text, char* str)
                 ADrawable_SetPositionY(subMesh->drawable, text->drawable->height);
                 text->drawable->height -= subMesh->drawable->height + text->charSpacing;
             }
-
             break;
         }
 
@@ -311,7 +310,7 @@ static void Reuse(Font* font)
 {
     ALog_A(font->textureAtlas != NULL, "AFont Reuse font %p already reused", font);
 
-    for (int i = 0; i < font->fontTextSet->elementList->size; i++)
+    for (int i = 0; i < font->fontTextSet->elementList->size; ++i)
     {
         FontText* text = AArrayList_Get(font->fontTextSet->elementList, i, FontText*);
         text->font     = NULL;
@@ -327,7 +326,7 @@ static void ReuseText(FontText* text)
 {
     ALog_A(text->font != NULL, "AFont ReuseText text %p already reused", text);
 
-    for (int i = 0; i < text->usedSubMeshList->size; i++)
+    for (int i = 0; i < text->usedSubMeshList->size; ++i)
     {
         SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
         ADrawable_SetInvisible(subMesh->drawable);

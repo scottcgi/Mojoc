@@ -51,7 +51,7 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
     {
         // the guess is smaller than key and insert behind
         // or if empty then guess is -1, also do this make guess at 0
-        guess++;
+        ++guess;
     }
 
     // when empty guess is 0, so we -1 make sure return negative value

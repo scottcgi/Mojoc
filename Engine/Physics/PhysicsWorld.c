@@ -51,14 +51,14 @@ static inline void UpdateMotion(PhysicsBody* body, float deltaSeconds)
 
 static void Update(float deltaSeconds)
 {
-    for (int i = 0; i < bodySet->elementList->size; i++)
+    for (int i = 0; i < bodySet->elementList->size; ++i)
     {
         PhysicsBody* body = AArrayList_Get(bodySet->elementList, i, PhysicsBody*);
 
         if (body->state != PhysicsBodyState_Freeze)
         {
             // test collision
-            for (int fromIndex = i + 1; fromIndex < bodySet->elementList->size; fromIndex++)
+            for (int fromIndex = i + 1; fromIndex < bodySet->elementList->size; ++fromIndex)
             {
                 PhysicsBody* otherBody = AArrayList_Get(bodySet->elementList, fromIndex, PhysicsBody*);
 

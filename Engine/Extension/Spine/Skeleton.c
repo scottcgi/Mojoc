@@ -47,7 +47,7 @@ static inline void InitBone(Skeleton* skeleton, SkeletonData* skeletonData)
     SkeletonBone*      bones       = AArray_GetData(skeleton->boneArr,              SkeletonBone);
     SkeletonBoneData** boneDatas   = AArray_GetData(skeletonData->boneDataOrderArr, SkeletonBoneData*);
 
-    for (int i = 0; i < skeleton->boneArr->length; i++)
+    for (int i = 0; i < skeleton->boneArr->length; ++i)
     {
         SkeletonBoneData* boneData = boneDatas[i];
         SkeletonBone*     bone     = bones + i;
@@ -83,7 +83,7 @@ static inline void InitSlot(Skeleton* skeleton, SkeletonData* skeletonData)
     SkeletonSlot**     slotOrders    = AArray_GetData(skeleton->slotOrderArr,         SkeletonSlot*);
     SkeletonSlotData** slotDatas     = AArray_GetData(skeletonData->slotDataOrderArr, SkeletonSlotData*);
 
-    for (int i = 0; i < skeleton->slotArr->length; i++)
+    for (int i = 0; i < skeleton->slotArr->length; ++i)
     {
         SkeletonSlotData* slotData   = slotDatas[i];
         SkeletonSlot*     slot       = AArray_GetPtr(skeleton->slotArr, i, SkeletonSlot);
@@ -112,7 +112,7 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
     if (skeleton->curSkinData != skeleton->skeletonData->skinDataDefault)
     {
         // first invisible before skin
-        for (int i = 0; i < skeleton->curSkinData->slotAttachmentMap->elementList->size; i++)
+        for (int i = 0; i < skeleton->curSkinData->slotAttachmentMap->elementList->size; ++i)
         {
             SkeletonSlot* slot = AArrayStrMap_Get
                                  (
@@ -137,7 +137,7 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    for (int i = 0; i < skinData->slotAttachmentMap->elementList->size; i++)
+    for (int i = 0; i < skinData->slotAttachmentMap->elementList->size; ++i)
     {
         SkeletonSlot* slot = AArrayStrMap_Get
                              (
@@ -167,24 +167,18 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
 
 static void ResetBones(Skeleton* skeleton)
 {
-    for (int i = 0; i < skeleton->boneArr->length; i++)
+    for (int i = 0; i < skeleton->boneArr->length; ++i)
     {
-        ASkeletonBone->SetToSetupPose
-        (
-            AArray_GetPtr(skeleton->boneArr, i, SkeletonBone)
-        );
+        ASkeletonBone->SetToSetupPose(AArray_GetPtr(skeleton->boneArr, i, SkeletonBone));
     }
 }
 
 
 static void ResetSlots(Skeleton* skeleton)
 {
-    for (int i = 0; i < skeleton->slotOrderArr->length; i++)
+    for (int i = 0; i < skeleton->slotOrderArr->length; ++i)
     {
-        ASkeletonSlot->SetToSetupPose
-        (
-            AArray_Get(skeleton->slotOrderArr, i, SkeletonSlot*)
-        );
+        ASkeletonSlot->SetToSetupPose(AArray_Get(skeleton->slotOrderArr, i, SkeletonSlot*));
     }
 }
 
@@ -223,7 +217,7 @@ static void Release(Skeleton* skeleton)
     free(skeleton->slotOrderArr);
     skeleton->slotOrderArr = NULL;
 
-    for (int j = 0; j < skeleton->meshList->size; j++)
+    for (int j = 0; j < skeleton->meshList->size; ++j)
     {
         AMesh->Release(AArrayList_GetPtr(skeleton->meshList, j, Mesh));
     }
@@ -236,7 +230,7 @@ static void Release(Skeleton* skeleton)
 
 static void Apply(Skeleton* skeleton, SkeletonAnimationData* animationData, float time, float mixPercent)
 {
-    for (int i = 0; i < animationData->timelineArr->size; i++)
+    for (int i = 0; i < animationData->timelineArr->size; ++i)
     {
         SkeletonTimeline* timeline = AArrayList_Get(animationData->timelineArr, i, SkeletonTimeline*);
         timeline->Apply(timeline, skeleton, time, mixPercent);
@@ -248,7 +242,7 @@ static void Draw(Drawable* drawable)
 {
     Skeleton* skeleton = AStruct_GetParent2(drawable, Skeleton);
 
-    for (int i = 0; i < skeleton->boneArr->length; i++)
+    for (int i = 0; i < skeleton->boneArr->length; ++i)
     {
         ADrawable->Draw(AArray_GetPtr(skeleton->boneArr, i, SkeletonBone)->drawable);
     }
@@ -258,7 +252,7 @@ static void Draw(Drawable* drawable)
     SubMesh* startSubMesh = NULL;
     SubMesh* subMesh;
 
-    for (int i = 0; i < skeleton->slotOrderArr->length; i++)
+    for (int i = 0; i < skeleton->slotOrderArr->length; ++i)
     {
         SkeletonSlot* slot = AArray_Get(skeleton->slotOrderArr, i, SkeletonSlot*);
 
@@ -296,7 +290,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 {
     AArrayList->InitWithCapacity(sizeof(Mesh), skeletonData->textureAtlas->textureList->size, skeleton->meshList);
 
-    for (int i = 0; i < skeletonData->textureAtlas->textureList->size; i++)
+    for (int i = 0; i < skeletonData->textureAtlas->textureList->size; ++i)
     {
         Texture* texture = AArrayList_Get      (skeletonData->textureAtlas->textureList, i, Texture*);
         Mesh*    mesh    = AArrayList_GetPtrAdd(skeleton->meshList, Mesh);
@@ -304,7 +298,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
         AMesh->Init(texture, mesh);
     }
 
-    for (int i = 0; i < skeletonData->attachmentDataList->size; i++)
+    for (int i = 0; i < skeletonData->attachmentDataList->size; ++i)
     {
         SkeletonAttachmentData* attachmentData = AArrayList_Get(skeletonData->attachmentDataList, i, SkeletonAttachmentData*);
         SubMesh*                subMesh        = NULL;
@@ -330,7 +324,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 
                 if (ASkeletonData->scale != 1.0f)
                 {
-                    for (int l = 0; l < subMesh->positionArr->length; l++)
+                    for (int l = 0; l < subMesh->positionArr->length; ++l)
                     {
                         AArray_Get(subMesh->positionArr, l, float) *= ASkeletonData->scale;
                     }
@@ -403,7 +397,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
         ADrawable_SetInvisible(subMesh->drawable);
     }
 
-    for (int i = 0; i < skeleton->meshList->size; i++)
+    for (int i = 0; i < skeleton->meshList->size; ++i)
     {
         AMesh->GenerateBuffer(AArrayList_GetPtr(skeleton->meshList, i, Mesh));
     }

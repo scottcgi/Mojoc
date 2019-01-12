@@ -97,10 +97,11 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
             {
                 float wx = 0.0f;
                 float wy = 0.0f;
-                int   k  = bones[i] + i + 1;
-                i++;
+                int  k  = bones[i] + i + 1;
+                
+                ++i;
 
-                for (; i < k; i++, w++, v += 3)
+                for (; i < k; ++i, ++w, v += 3)
                 {
                     int           boneIndex  = bones[i];
                     SkeletonBone* bone       = AArray_GetPtr(slot->skeleton->boneArr, boneIndex, SkeletonBone);

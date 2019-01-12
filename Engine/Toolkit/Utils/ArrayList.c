@@ -76,8 +76,8 @@ static void* GetInsert(ArrayList* arrayList, int index)
     void* from = (char*) arrayList->elementArray->data + arrayList->elementTypeSize * index;
     void* to   = (char*) from                          + arrayList->elementTypeSize;
 
-    memmove(to, from, arrayList->elementTypeSize * (arrayList->size - index));
-    arrayList->size++;
+    // from and to overlap so cannot use memcpy
+    memmove(to, from, arrayList->elementTypeSize * ((arrayList->size++) - index));
 
     return from;
 }

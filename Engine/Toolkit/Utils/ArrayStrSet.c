@@ -67,7 +67,7 @@ static inline int BinarySearch(ArrayList* elementList, char* str, int strLength)
     {
         // the guess is smaller than key and insert value behind
         // or if empty then guess is -1, also do this make guess at 0
-        guess++;
+        ++guess;
     }
 
     // when empty guess is 0, so we -1 make sure return negative value
@@ -80,7 +80,7 @@ static inline int BinarySearch(ArrayList* elementList, char* str, int strLength)
 
 static void Release(ArrayStrSet* arrayStrSet)
 {
-    for (int i = 0; i < arrayStrSet->elementList->size; i++)
+    for (int i = 0; i < arrayStrSet->elementList->size; ++i)
     {
         free(AArrayList_Get(arrayStrSet->elementList, i, ArrayStrSetElement*));
     }
@@ -170,7 +170,7 @@ static bool IsContains(ArrayStrSet* arrayStrSet, char* str)
 
 static void Clear(ArrayStrSet* arrayStrSet)
 {
-    for (int i = 0; i < arrayStrSet->elementList->size; i++)
+    for (int i = 0; i < arrayStrSet->elementList->size; ++i)
     {
         free(AArrayList_Get(arrayStrSet->elementList, i, ArrayStrSetElement*));
     }

@@ -158,11 +158,11 @@ static void* CreatePixelDataFromPNG(char* filePath, float* outWidth, float* outH
         // see the png_read_row() method below:
         int numberPasses = png_set_interlace_handling(pngPtr);
 
-        for (int pass = 0; pass < numberPasses; pass++)
+        for (int pass = 0; pass < numberPasses; ++pass)
         {
-            for (int row = 0; row < pngHeight; row++)
+            for (int row = 0; row < pngHeight; ++row)
             {
-               png_read_row(pngPtr, ((unsigned char*)pixelData + (row * rowBytes)), NULL);
+               png_read_row(pngPtr, ((unsigned char*) pixelData + (row * rowBytes)), NULL);
             }
         }
 

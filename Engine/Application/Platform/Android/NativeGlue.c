@@ -182,10 +182,10 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 
                 case AMOTION_EVENT_ACTION_MOVE:
                 {
-                    int count = AMotionEvent_getPointerCount(event);
+                    int count = (int) AMotionEvent_getPointerCount(event);
                     InputTouch* touches[count];
 
-                    for (int i = 0; i < count; i++)
+                    for (int i = 0; i < count; ++i)
                     {
                         InputTouch* touch = AInput->SetTouch
                                             (
@@ -209,10 +209,10 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 
                 case AMOTION_EVENT_ACTION_CANCEL:
                 {
-                    int count = AMotionEvent_getPointerCount(event);
+                    int count = (int) AMotionEvent_getPointerCount(event);
                     InputTouch* touches[count];
 
-                    for (int i = 0; i < count; i++)
+                    for (int i = 0; i < count; ++i)
                     {
                         InputTouch* touch = AInput->SetTouch
                                             (

@@ -168,8 +168,8 @@ static void SetCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, float
     float  dfy    = cy1 * pre1 + tmpy * pre2 + dddfy * subDivPre;
 
     float* curves = AArray_GetData(curveTimeline->curveArr, float);
-    int    i      = frameIndex * bezierSize;
-    curves[i++]   = SkeletonCurveType_Bezier;
+    int    i     = frameIndex * bezierSize;
+    curves[i++]  = SkeletonCurveType_Bezier;
 
     float  x      = dfx;
     float  y      = dfy;
@@ -203,7 +203,7 @@ static inline float GetCurvePercent(SkeletonCurveTimeline* curveTimeline, int fr
 
         case SkeletonCurveType_Bezier:
         {
-            i++;
+            ++i;
             percent = AMath_Clamp(percent, 0.0f, 1.0f);
 
             float x = 0.0f;
@@ -758,7 +758,7 @@ static void AttachmentRelease(SkeletonTimeline* skeletonTimeline )
 {
     SkeletonAttachmentTimeline* attachmentTimeline = (SkeletonAttachmentTimeline*) skeletonTimeline->childPtr;
 
-    for (int i = 0; i < attachmentTimeline->attachmentNameArr->length; i++)
+    for (int i = 0; i < attachmentTimeline->attachmentNameArr->length; ++i)
     {
         free(AArray_Get(attachmentTimeline->attachmentNameArr, i, char*));
     }
@@ -854,7 +854,7 @@ static void EventRelease(SkeletonTimeline* skeletonTimeline)
     free(eventTimeline->frameArr);
     eventTimeline->frameArr = NULL;
 
-    for (int i = 0; i < eventTimeline->eventArr->length; i++)
+    for (int i = 0; i < eventTimeline->eventArr->length; ++i)
     {
         free(AArray_Get(eventTimeline->eventArr, i, SkeletonEventData*));
     }
@@ -897,7 +897,7 @@ static void DrawOrderRelease(SkeletonTimeline* skeletonTimeline)
     free(drawOrderTimeline->frameArr);
     drawOrderTimeline->frameArr = NULL;
 
-    for (int i = 0; i < drawOrderTimeline->drawOrderArr->length; i++)
+    for (int i = 0; i < drawOrderTimeline->drawOrderArr->length; ++i)
     {
         free(AArray_Get(drawOrderTimeline->drawOrderArr, i, Array(int)*));
     }
@@ -958,7 +958,7 @@ static void DrawOrderApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
         drawOrder = AArray_GetData(drawOrderArr, int);
     }
 
-    for (int i = 0; i < skeleton->slotArr->length; i++)
+    for (int i = 0; i < skeleton->slotArr->length; ++i)
     {
         SkeletonSlot* slot;
 
@@ -977,7 +977,7 @@ static void DrawOrderApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
         {
             ArrayList* attachmentDataList = slot->slotData->attachmentDataList;
 
-            for(int j = 0; j < attachmentDataList->size; j++)
+            for(int j = 0; j < attachmentDataList->size; ++j)
             {
                 SubMesh* subMesh = ASkeleton->GetAttachmentSubMesh
                                    (
@@ -985,7 +985,7 @@ static void DrawOrderApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
                                        AArrayList_Get(attachmentDataList, j, SkeletonAttachmentData*)
                                    );
 
-                for (int k = 0; k < meshList->size; k++)
+                for (int k = 0; k < meshList->size; ++k)
                 {
                     Mesh* mesh = AArrayList_GetPtr(meshList, k, Mesh);
 
@@ -999,7 +999,7 @@ static void DrawOrderApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
         }
     }
 
-    for (int i = 0; i < meshList->size; i++)
+    for (int i = 0; i < meshList->size; ++i)
     {
         AMesh->ReorderAllChildren
         (
@@ -1042,7 +1042,7 @@ static void DeformRelease(SkeletonTimeline *skeletonTimeline)
     free(deformTimeline->frameArr);
     deformTimeline->frameArr = NULL;
 
-    for (int i = 0; i < deformTimeline->vertexArr->length; i++)
+    for (int i = 0; i < deformTimeline->vertexArr->length; ++i)
     {
         free(AArray_Get(deformTimeline->vertexArr, i, Array(float)*));
     }

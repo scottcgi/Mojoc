@@ -111,7 +111,7 @@ static TweenActionValue* AddTweenActionValue(TweenAction* action)
 
 static inline void SetActionValue(TweenAction* action)
 {
-    for (int i = 0; i < action->actionValueList->size; i++)
+    for (int i = 0; i < action->actionValueList->size; ++i)
     {
         TweenActionValue* actionValue = AArrayList_GetPtr(action->actionValueList, i, TweenActionValue);
 
@@ -164,7 +164,7 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    for (int i = 0; i < actions->length; i++)
+    for (int i = 0; i < actions->length; ++i)
     {
         TweenAction* action = AArray_Get(actions, i, TweenAction*);
 
@@ -189,7 +189,7 @@ static bool TryRemoveAction(void* tweenId, TweenAction* action)
 
     if (tween != NULL)
     {
-        for (int i = 0; i < tween->current->size; i++)
+        for (int i = 0; i < tween->current->size; ++i)
         {
             TweenAction* tweenAction = AArrayList_Get(tween->current, i, TweenAction*);
 
@@ -209,7 +209,7 @@ static bool TryRemoveAction(void* tweenId, TweenAction* action)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-        for (int i = tween->queue->topIndex; i < tween->queue->elementList->size; i++)
+        for (int i = tween->queue->topIndex; i < tween->queue->elementList->size; ++i)
         {
             TweenAction* tweenAction = AArrayList_Get(tween->queue->elementList, i, TweenAction*);
 
@@ -235,13 +235,9 @@ static bool TryRemoveAllActions(void* tweenId)
     {
         Tween* tween = AArrayIntMap_GetAt(tweenMap, index, Tween*);
 
-        for (int i = 0; i < tween->current->size; i++)
+        for (int i = 0; i < tween->current->size; ++i)
         {
-            AArrayList_Add
-            (
-                actionList,
-                AArrayList_Get(tween->current, i, TweenAction*)
-            );
+            AArrayList_Add(actionList, AArrayList_Get(tween->current, i, TweenAction*));
         }
         AArrayList->Clear(tween->current);
 
@@ -266,7 +262,7 @@ static bool TryRemoveAllActions(void* tweenId)
 
 static inline void SetActionComplete(TweenAction* action, bool isFireOnComplete)
 {
-    for (int k = 0; k < action->actionValueList->size; k++)
+    for (int k = 0; k < action->actionValueList->size; ++k)
     {
         TweenActionValue* actionValue = AArrayList_GetPtr(action->actionValueList, k, TweenActionValue);
 
@@ -292,10 +288,9 @@ static bool TryCompleteAllActions(void* tweenId, bool isFireOnComplete)
     {
         Tween* tween = AArrayIntMap_GetAt(tweenMap, index, Tween*);
 
-        for (int i = 0; i < tween->current->size; i++)
+        for (int i = 0; i < tween->current->size; ++i)
         {
             TweenAction* action = AArrayList_Get(tween->current, i, TweenAction*);
-
             SetActionComplete(action, isFireOnComplete);
             AArrayList_Add(actionList, action);
         }
@@ -376,7 +371,7 @@ static void Update(float deltaSeconds)
 
             if (action->curTime < action->duration)
             {
-                for (int k = 0; k < action->actionValueList->size; k++)
+                for (int k = 0; k < action->actionValueList->size; ++k)
                 {
                     TweenActionValue* actionValue = AArrayList_GetPtr(action->actionValueList, k, TweenActionValue);
 
@@ -396,15 +391,10 @@ static void Update(float deltaSeconds)
             }
             else
             {
-                for (int k = 0; k < action->actionValueList->size; k++)
+                for (int k = 0; k < action->actionValueList->size; ++k)
                 {
                     TweenActionValue* actionValue = AArrayList_GetPtr(action->actionValueList, k, TweenActionValue);
-
-                    actionValue->OnSet
-                    (
-                        action->target,
-                        actionValue->toValue
-                    );
+                    actionValue->OnSet(action->target, actionValue->toValue);
                 }
 
 //----------------------------------------------------------------------------------------------------------------------

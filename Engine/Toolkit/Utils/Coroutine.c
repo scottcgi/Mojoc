@@ -71,7 +71,7 @@ static void Update(float deltaSeconds)
                 AArrayList_Add(coroutineCacheList, coroutine);
 
                 // set waiting coroutines execute forward
-                for (int j = 0; j < coroutine->waits->size; j++)
+                for (int j = 0; j < coroutine->waits->size; ++j)
                 {
                     Coroutine* wait = AArrayList_Get(coroutine->waits, j, Coroutine*);
 

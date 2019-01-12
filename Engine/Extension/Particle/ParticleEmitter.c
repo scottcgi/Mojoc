@@ -186,7 +186,7 @@ static inline void AddParticles(ParticleEmitter* emitter, int count)
 {
     emitter->activeCount += count;
 
-    for (int i = 0; i < emitter->particleArr->length; i++)
+    for (int i = 0; i < emitter->particleArr->length; ++i)
     {
         Particle* particle = AArray_GetPtr(emitter->particleArr, i, Particle);
         if (particle->isActive == false)
@@ -313,7 +313,7 @@ static void Render(Drawable* drawable)
 
 static void Update(ParticleEmitter* emitter, float deltaSeconds)
 {
-    for (int i = 0; i < emitter->particleArr->length; i++)
+    for (int i = 0; i < emitter->particleArr->length; ++i)
     {
         Particle* particle = AArray_GetPtr(emitter->particleArr, i, Particle);
         if (particle->isActive)
@@ -417,7 +417,7 @@ static void Init(ParticleEmitterData* emitterData, Texture* texture, ParticleEmi
     AArrayList->SetCapacity(children, max);
     outEmitter->particleArr   = AArray->Create(sizeof(Particle), max);
 
-    for (int i = 0; i < max; i++)
+    for (int i = 0; i < max; ++i)
     {
         Quad quad[1];
         AQuad->Init(texture->width, texture->height, quad);

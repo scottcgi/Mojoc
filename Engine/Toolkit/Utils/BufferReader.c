@@ -111,7 +111,7 @@ static void ReadLine(const char* buffer, ArrayRange* range, ArrayRange* outLine)
     outLine->start = start;
     outLine->end   = start;
 
-    for (; start <= end; start++)
+    for (; start <= end; ++start)
     {
         if (buffer[start] == '\n')
         {
@@ -136,7 +136,7 @@ static void ReadLine(const char* buffer, ArrayRange* range, ArrayRange* outLine)
             if (start != end)
             {
                 // check next char
-                start++;
+                ++start;
                 
                 if (buffer[start] == '\n')
                 {
@@ -190,7 +190,7 @@ static bool TryFindStringByLoop(const char* buffer, ArrayRange* range, const cha
     char first  = str[0];
     int  cmp;
 
-    for (; start <= end; start++)
+    for (; start <= end; ++start)
     {
         // always test from first char
         if (buffer[start] == first)
@@ -200,7 +200,7 @@ static bool TryFindStringByLoop(const char* buffer, ArrayRange* range, const cha
 
             while (true)
             {
-                pos++;
+                ++pos;
 
                 if (str[pos] == '\0')
                 {
@@ -226,7 +226,7 @@ static bool TryFindStringByLoop(const char* buffer, ArrayRange* range, const cha
                     return true;
                 }
 
-                cmp++;
+                ++cmp;
 
                 if (cmp > end)
                 {

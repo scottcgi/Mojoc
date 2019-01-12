@@ -73,7 +73,7 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
     {
         // the guess is smaller than key and insert value behind
         // or if empty then guess is -1, also do this make guess at 0
-        guess++;
+        ++guess;
     }
 
     // when empty guess is 0, so we -1 make sure return negative value
@@ -158,7 +158,7 @@ static bool TryRemove(ArrayIntMap* arrayIntMap, intptr_t key)
 
 static void Clear(ArrayIntMap* arrayIntMap)
 {
-    for (int i = 0; i < arrayIntMap->elementList->size; i++)
+    for (int i = 0; i < arrayIntMap->elementList->size; ++i)
     {
         free
         (
@@ -232,7 +232,7 @@ static void RemoveAt(ArrayIntMap* arrayIntMap, int index)
 
 static void Release(ArrayIntMap* arrayIntMap)
 {
-    for (int i = 0; i < arrayIntMap->elementList->size; i++)
+    for (int i = 0; i < arrayIntMap->elementList->size; ++i)
     {
         free
         (

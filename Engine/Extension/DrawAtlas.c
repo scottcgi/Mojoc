@@ -89,16 +89,12 @@ static void Reuse(DrawAtlas* drawAtlas)
 {
     ALog_A(drawAtlas->textureAtlas != NULL, "ADrawAtlas Reuse drawAtlas %p already reused", drawAtlas);
 
-    for (int i = 0; i < drawAtlas->quadList->size; i++)
+    for (int i = 0; i < drawAtlas->quadList->size; ++i)
     {
-        ADrawable_SetInvisible
-        (
-            AArrayList_Get(drawAtlas->quadList, i, Drawable*)
-        );
+        ADrawable_SetInvisible(AArrayList_Get(drawAtlas->quadList, i, Drawable*));
     }
 
     drawAtlas->textureAtlas = NULL;
-
     AArrayList_Add(drawAtlasList, drawAtlas);
 }
 

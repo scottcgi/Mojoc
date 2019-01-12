@@ -45,11 +45,11 @@ static inline bool TestPolygonPolygonFull(Array(float)* polygonA, Array(float)* 
                 // if result negative means point on the left  of vector
                 if (vertexX + (y - vertexY) / (preY - vertexY) * (AArray_Get(polygonB, preIndex, float) - vertexX) <= x)
                 {
-                    rightCount++;
+                    ++rightCount;
                 }
                 else
                 {
-                    leftCount++;
+                    ++leftCount;
                 }
             }
 
