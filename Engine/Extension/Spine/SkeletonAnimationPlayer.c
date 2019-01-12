@@ -38,7 +38,7 @@ static inline void UpdateNormal(SkeletonAnimationPlayer* player, float deltaSeco
 
         if (player->loop > 0)
         {
-            player->loop--;
+            --player->loop;
         }
 
         player->curTime = 0.0f;

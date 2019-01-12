@@ -204,7 +204,7 @@ static bool SendMessage(Component* component, void* sender, int subject, void* e
         }
 
         // big order first, the last update the first response
-        for (int i = component->childMap->elementList->size - 1; i > -1 ; i--)
+        for (int i = component->childMap->elementList->size - 1; i > -1 ; --i)
         {
             // if in OnMessage method remove parent child more than twice
             // the i index will overflow

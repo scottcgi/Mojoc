@@ -51,7 +51,7 @@ static Coroutine* StartCoroutine(CoroutineRun Run)
 
 static void Update(float deltaSeconds)
 {
-    for (int i = coroutineRunningList->size - 1; i > -1; i--)
+    for (int i = coroutineRunningList->size - 1; i > -1; --i)
     {
         Coroutine* coroutine = AArrayList_Get(coroutineRunningList, i, Coroutine*);
 

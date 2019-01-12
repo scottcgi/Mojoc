@@ -68,7 +68,7 @@ static void Update(float deltaSeconds)
         AArrayList_Add(cacheList, player);
     }
 
-    for (int i = testErrorList->size - 1; i > -1 ; i--)
+    for (int i = testErrorList->size - 1; i > -1 ; --i)
     {
         AudioPlayer* player = AArrayList_Get(testErrorList, i, AudioPlayer*);
 

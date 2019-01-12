@@ -192,9 +192,7 @@ static inline void AddParticles(ParticleEmitter* emitter, int count)
         if (particle->isActive == false)
         {
             ActivateParticle(emitter, particle);
-            count--;
-
-            if (count == 0)
+            if (--count == 0)
             {
                 break;
             }
@@ -212,7 +210,7 @@ static inline void UpdateParticle(ParticleEmitter* emitter, Particle* particle, 
     {
         particle->isActive = false;
         AParticle->Reset(particle);
-        emitter->activeCount--;
+        --emitter->activeCount;
         return;
     }
 

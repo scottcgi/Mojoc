@@ -195,7 +195,7 @@ static void SetString(FontText* text, char* str)
         SetNewChar(text, str, len);
 
         // text has more chars remove it
-        for (int i = text->usedSubMeshList->size - 1; i >= len; i--)
+        for (int i = text->usedSubMeshList->size - 1; i >= len; --i)
         {
             SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 
@@ -234,7 +234,7 @@ static void SetString(FontText* text, char* str)
 
         case FontTextAlignment_HorizontalRight:
         {
-            for (int i = text->usedSubMeshList->size - 1; i > -1; i--)
+            for (int i = text->usedSubMeshList->size - 1; i > -1; --i)
             {
                 SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 
@@ -269,7 +269,7 @@ static void SetString(FontText* text, char* str)
 
         case FontTextAlignment_VerticalBottom:
         {
-            for (int i = text->usedSubMeshList->size - 1; i > -1; i--)
+            for (int i = text->usedSubMeshList->size - 1; i > -1; --i)
             {
                 SubMesh* subMesh = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 

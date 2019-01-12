@@ -338,7 +338,7 @@ static bool HasAction(void* tweenId)
 
 static void Update(float deltaSeconds)
 {
-    for (int i = tweenMap->elementList->size - 1; i > -1; i--)
+    for (int i = tweenMap->elementList->size - 1; i > -1; --i)
     {
         Tween* tween = AArrayIntMap_GetAt(tweenMap, i, Tween*);
 
@@ -365,7 +365,7 @@ static void Update(float deltaSeconds)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-        for (int j = tween->current->size - 1; j > -1; j--)
+        for (int j = tween->current->size - 1; j > -1; --j)
         {
             TweenAction* action = AArrayList_Get(tween->current, j, TweenAction*);
 

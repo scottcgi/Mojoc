@@ -232,7 +232,7 @@ static void RemoveByLast(ArrayList* arrayList, int index)
     CheckIndex("RemoveByLast", index);
 
     // now size equal last index
-    arrayList->size--;
+    --arrayList->size;
 
     if (index != arrayList->size)
     {

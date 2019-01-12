@@ -1004,7 +1004,7 @@ static inline void ReadAnimationDrawOrders
 
             // drawOrder have all offset index
             // fill in unchanged index to drawOrder by reverse order
-            for (int j = slotCount - 1; j > -1; j--)
+            for (int j = slotCount - 1; j > -1; --j)
             {
                 if (drawOrder[j] == -1)
                 {

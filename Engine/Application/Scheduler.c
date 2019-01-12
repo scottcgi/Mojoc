@@ -58,7 +58,7 @@ static Scheduler* ScheduleOnce(SchedulerUpdate Update, float intervalTime)
 
 static void Update(float deltaSeconds)
 {
-    for (int i = schedulerRun->size - 1; i > -1; i--)
+    for (int i = schedulerRun->size - 1; i > -1; --i)
     {
         Scheduler* scheduler = AArrayList_Get(schedulerRun, i, Scheduler*);
 
