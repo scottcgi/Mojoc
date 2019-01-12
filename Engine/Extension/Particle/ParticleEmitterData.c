@@ -102,7 +102,7 @@ static void GetRGB(ParticleRGBValue* rgbValue, float percent, float outRGB[3])
     int    startIndex   =  0;
     int    endIndex     = -1;
     int    length       = rgbValue->timelineArr->length;
-    float* timelines    = AArray_GetData(rgbValue->timelineArr, float);
+    float*  timelines    = AArray_GetData(rgbValue->timelineArr, float);
 
     for (int i = 1; i < length; i++)
     {

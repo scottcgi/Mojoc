@@ -9,7 +9,8 @@
  * Author: scott.cgi
  */
 
- 
+#include <string.h>
+#include <Engine/Toolkit/HeaderUtils/ArrayRange.h>
 #include "Engine/Toolkit/Utils/BufferReader.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
@@ -179,29 +180,34 @@ static void ReadLine(const char* buffer, ArrayRange* range, ArrayRange* outLine)
 }
 
 
-static bool TryFindString(const char* buffer, ArrayRange* range, const char* str)
+static bool TryFindStringByLoop(const char* buffer, ArrayRange* range, const char* str)
 {
     CheckRange("TryFindString");
 
     int  start = range->start;
     int  end   = range->end;
     int  pos   = 0;
-    char first  = str[pos];
+    char first  = str[0];
+    int  cmp;
 
     for (; start <= end; start++)
     {
+        // always test from first char
         if (buffer[start] == first)
         {
+            // compare from start
+            cmp = start;
+
             while (true)
             {
                 pos++;
 
                 if (str[pos] == '\0')
                 {
-                    if (start != end)
+                    if (cmp != end)
                     {
                         // move to next char
-                        range->start = start + 1;
+                        range->start = cmp + 1;
                     }
                     else
                     {
@@ -209,20 +215,28 @@ static bool TryFindString(const char* buffer, ArrayRange* range, const char* str
                         range->start = end;
                     }
 
-                    ALog_D("ABufferReader TryFindString found str = %s", str);
+                    ALog_D
+                    (
+                        "ABufferReader TryFindString found str = %.*s, after str = '%c'",
+                        cmp - start + 1,
+                        buffer + start,
+                        buffer[range->start]
+                    );
+
                     return true;
                 }
 
-                start++;
+                cmp++;
 
-                if (start > end)
+                if (cmp > end)
                 {
+                    // scan over
                     goto NotFoundStr;
                 }
 
-                if (buffer[start] != str[pos])
+                if (buffer[cmp] != str[pos])
                 {
-                    // reset to first
+                    // compare failure reset to first
                     pos = 0;
                     break;
                 }
@@ -237,6 +251,48 @@ static bool TryFindString(const char* buffer, ArrayRange* range, const char* str
 }
 
 
+static bool TryFindStringByMemcmp(const char* buffer, ArrayRange* range, const char* str)
+{
+    CheckRange("TryFindString");
+
+    char* bufferStart = (char*) buffer + range->start;
+    int   len1        = range->end     - range->start + 1; // count [start, end]
+    int   len2        = (int)   strlen(str);
+
+    while (len1 >= len2)
+    {
+        if (memcmp(bufferStart, str, len2) == 0)
+        {
+            // move to next char
+            // newStart + 1 = ((range->end - len1 + 1) + len2 - 1) + 1
+            range->start = range->end - len1 + len2 + 1;
+
+            if (range->start > range->end)
+            {
+                range->start = range->end;
+            }
+
+            ALog_D
+            (
+                "ABufferReader TryFindString found str = %.*s, after str = '%c'",
+                len2,
+                bufferStart,
+                buffer[range->start]
+            );
+            
+            return true;
+        }
+
+        --len1;
+        ++bufferStart;
+    }
+
+    ALog_D("ABufferReader TryFindString not found str = %s", str);
+    // keep range->start
+    return false;
+}
+
+
 struct ABufferReader ABufferReader[1] =
 {
     ReadInt64,
@@ -244,7 +300,7 @@ struct ABufferReader ABufferReader[1] =
     ReadInt16,
     ReadInt8,
     ReadLine,
-    TryFindString,
+    TryFindStringByMemcmp,
 };
 
 
