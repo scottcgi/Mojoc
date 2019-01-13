@@ -315,7 +315,6 @@ static void* ThreadRun(void* params)
                     ANativeWindow_getHeight(nativeWindow)
                 );
                 mainThreadCallback = MainThread_OnLoop;
-                isNeedCreateEGL    = false;
                 break;
 
             case MainThread_OnResized:
@@ -407,10 +406,13 @@ static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* wind
     if (isNeedCreateEGL == false)
     {
         mainThreadCallback = MainThread_OnResized;
+        ALog_D("ANativeActivity in OnNativeWindowResized do MainThread_OnResized");
     }
     else
     {
+        isNeedCreateEGL    = false;
         mainThreadCallback = MainThread_OnNeedCreateEGL;
+        ALog_D("ANativeActivity in OnNativeWindowResized do MainThread_OnNeedCreateEGL");
     }
 }
 
@@ -451,9 +453,13 @@ static void OnContentRectChanged(ANativeActivity* activity, const ARect* rect)
 
     if (isPaused == false)
     {
-        if (mainThreadCallback != MainThread_OnLoop && mainThreadCallback != MainThread_OnNeedCreateEGL)
+        if (isNeedCreateEGL == false)
         {
-            mainThreadCallback = MainThread_OnResized;
+            if (mainThreadCallback != MainThread_OnNeedCreateEGL)
+            {
+                mainThreadCallback = MainThread_OnResized;
+                ALog_D("ANativeActivity in OnContentRectChanged do MainThread_OnResized");
+            }
         }
     }
 }
