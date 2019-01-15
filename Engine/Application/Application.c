@@ -50,8 +50,8 @@ static void Init()
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    int   length;
-    void* data = AFileTool->CreateDataFromDir((char*) saveDataFileName, &length);
+    long  length;
+    void* data = AFileTool->CreateDataFromDir(saveDataFileName, &length);
 
     if (data != NULL)
     {
@@ -143,11 +143,10 @@ static void Touch(Array(InputTouch*)* touchData)
 
 static void SaveData()
 {
-    void* outSaveData;
-    int   outSize;
+    void*  outSaveData;
+    size_t outSize;
     AApplication->callbacks->OnSaveData(&outSaveData, &outSize);
-
-    AFileTool->WriteDataToDir((char*) saveDataFileName, outSaveData, outSize);
+    AFileTool->WriteDataToDir(saveDataFileName, outSaveData, outSize);
 }
 
 

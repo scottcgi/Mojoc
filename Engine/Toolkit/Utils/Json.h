@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-1-26
  * Update: 2019-1-8
@@ -18,6 +20,9 @@
 #include "Engine/Toolkit/Utils/ArrayList.h"
 
 
+/**
+ * Json value type.
+ */
 typedef enum
 {
     JsonType_Object,
@@ -29,6 +34,9 @@ typedef enum
 JsonType;
 
 
+/**
+ * For json object that contains a set of k-v pairs.
+ */
 typedef struct
 {
    ArrayStrMap(objectKey, JsonValue*) valueMap[1];
@@ -36,6 +44,9 @@ typedef struct
 JsonObject;
 
 
+/**
+ * For json array that contains a list of json value.
+ */
 typedef struct
 {
    ArrayList(JsonValue*) valueList[1];
@@ -43,6 +54,9 @@ typedef struct
 JsonArray;
 
 
+/**
+ * One json value.
+ */
 typedef struct
 {
     JsonType type;
@@ -65,7 +79,7 @@ typedef struct
         JsonArray*  jsonArray;
 
         /**
-         * For JsonType_Float.
+         * For JsonType_Float and int value.
          */
         float       jsonFloat;
     };
@@ -73,6 +87,9 @@ typedef struct
 JsonValue;
 
 
+/**
+ * Get kinds of value from JsonObject.
+ */
 struct AJsonObject
 {
     bool        (*GetBool)         (JsonObject* object, const char* key, bool  defaultValue);
@@ -115,6 +132,9 @@ struct AJsonObject
 extern struct AJsonObject AJsonObject[1];
 
 
+/**
+ * Get kinds of value from JsonArray.
+ */
 struct AJsonArray
 {
     bool        (*GetBool)      (JsonArray* array, int index);
@@ -135,6 +155,9 @@ struct AJsonArray
 extern struct AJsonArray AJsonArray[1];
 
 
+/**
+ * Parse Json string or file.
+ */
 struct AJson
 {
     /**

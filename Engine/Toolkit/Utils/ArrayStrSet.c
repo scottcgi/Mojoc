@@ -1,26 +1,28 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2019-1-3
+ * Update: 2019-1-14
  * Author: scott.cgi
  */
 
 
 #include <stdlib.h>
 #include <string.h>
-
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Utils/ArrayStrSet.h"
-#include "ArrayStrSet.h"
 
 
 /**
  * Search index of key, if negative not found then return "-insertIndex - 1",
  * so insert index is "-BinarySearch() - 1".
  */
-static inline int BinarySearch(ArrayList* elementList, char* str, int strLength)
+static inline int BinarySearch(ArrayList* elementList, const char* str, int strLength)
 {
     int high  = elementList->size;
     int low   = -1;
@@ -61,11 +63,11 @@ static inline int BinarySearch(ArrayList* elementList, char* str, int strLength)
     }
 
     // if guess == high
-    // the guess is bigger than key and insert value at guess
+    // the guess is bigger than key index and insert value at guess
 
     if (guess == low)
     {
-        // the guess is smaller than key and insert value behind
+        // the guess is smaller than key index and insert value behind
         // or if empty then guess is -1, also do this make guess at 0
         ++guess;
     }
@@ -73,9 +75,6 @@ static inline int BinarySearch(ArrayList* elementList, char* str, int strLength)
     // when empty guess is 0, so we -1 make sure return negative value
     return -guess - 1;
 }
-
-
-//----------------------------------------------------------------------------------------------------------------------
 
 
 static void Release(ArrayStrSet* arrayStrSet)
@@ -122,7 +121,7 @@ static ArrayStrSet* Create()
 }
 
 
-static char* Get(ArrayStrSet* arrayStrSet, char* str)
+static const char* Get(ArrayStrSet* arrayStrSet, const char* str)
 {
     int                 strLength = (int) strlen(str) + 1;
     int                 guess     = BinarySearch(arrayStrSet->elementList, str, strLength);
@@ -134,7 +133,7 @@ static char* Get(ArrayStrSet* arrayStrSet, char* str)
         element->strLength = strLength;
         element->str       = (char*) element + sizeof(ArrayStrSetElement);
 
-        memcpy((void*) element->str, str, strLength);
+        memcpy((void*) element->str, str, (size_t) strLength);
         AArrayList_Insert(arrayStrSet->elementList, -guess - 1, element);
     }
     else
@@ -146,7 +145,7 @@ static char* Get(ArrayStrSet* arrayStrSet, char* str)
 }
 
 
-static bool TryRemove(ArrayStrSet* arrayStrSet, char* str)
+static bool TryRemove(ArrayStrSet* arrayStrSet, const char* str)
 {
     int guess = BinarySearch(arrayStrSet->elementList, str, (int) strlen(str) + 1);
 
@@ -162,7 +161,7 @@ static bool TryRemove(ArrayStrSet* arrayStrSet, char* str)
 }
 
 
-static bool IsContains(ArrayStrSet* arrayStrSet, char* str)
+static bool IsContains(ArrayStrSet* arrayStrSet, const char* str)
 {
     return BinarySearch(arrayStrSet->elementList, str, (int) strlen(str) + 1) >= 0;
 }

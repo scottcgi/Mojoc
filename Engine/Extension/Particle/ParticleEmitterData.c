@@ -229,7 +229,7 @@ static inline void LoadRGBValue(char* buffer, ArrayRange* range, ArrayRange* lin
 static void Init(char* filePath, ParticleEmitterData* outEmitterData)
 {
     long  size;
-    char* buffer = AFileTool->CreateDataFromRes(filePath, &size);
+    char* buffer = AFileTool->CreateDataFromRelative(filePath, &size);
 
     ArrayRange range[1] = {0, (int) size - 1};
     ArrayRange line [1];

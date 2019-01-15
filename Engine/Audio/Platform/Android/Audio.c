@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2017-2-16
  * Update: 2019-1-7
@@ -40,15 +42,15 @@ struct AudioPlayer
     SLPlayItf   play;
     SLSeekItf   seek;
     SLVolumeItf volume;
-    char*       name;
+    const char* name;
     int         waitCallbackCount;
 };
 
 
-static ArrayList(AudioPlayer*) cacheList    [1] = AArrayList_Init (sizeof(AudioPlayer*), 20);
-static ArrayList(AudioPlayer*) destroyList  [1] = AArrayList_Init (sizeof(AudioPlayer*), 20);
-static ArrayList(AudioPlayer*) loopList     [1] = AArrayList_Init (sizeof(AudioPlayer*), 5);
-static ArrayList(AudioPlayer*) testErrorList[1] = AArrayList_Init (sizeof(AudioPlayer*), 5);
+static ArrayList(AudioPlayer*) cacheList    [1] = AArrayList_Init (AudioPlayer*, 20);
+static ArrayList(AudioPlayer*) destroyList  [1] = AArrayList_Init (AudioPlayer*, 20);
+static ArrayList(AudioPlayer*) loopList     [1] = AArrayList_Init (AudioPlayer*, 5);
+static ArrayList(AudioPlayer*) testErrorList[1] = AArrayList_Init (AudioPlayer*, 5);
 static ArrayStrSet             audioNameSet [1] = ArrayStrSet_Init(20);
 
 
@@ -235,8 +237,10 @@ static inline void InitPlayer(const char* relativeFilePath, AudioPlayer* player)
 
 static void SetLoop(AudioPlayer* player, bool isLoop)
 {
-    SLboolean isLoopEnabled;
-    (*player->seek)->GetLoop(player->seek, &isLoopEnabled, 0, GetDuration(player));
+    SLboolean     isLoopEnabled;
+    SLmillisecond startPos;
+    SLmillisecond endPos;
+    (*player->seek)->GetLoop(player->seek, &isLoopEnabled, &startPos, &endPos);
 
     if (isLoopEnabled == (SLboolean) isLoop)
     {

@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-3-14
  * Update: 2019-1-8
@@ -18,7 +20,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 The biteState is usually an expression,
 but the inline function can not use expression for bitState,
-so if not use macro we need pass the third parameter that's bitState owner.
+so if not use macro we need pass the third parameter that is the bitState owner.
 ------------------------------------------------------------------------------------------------------------------------
 */
 

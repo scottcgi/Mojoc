@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2017-2-16
  * Update: 2019-1-7
@@ -17,7 +19,14 @@
 #include <stdbool.h>
 
 
+/**
+ * Play one audio file.
+ */
 typedef struct AudioPlayer AudioPlayer;
+
+/**
+ * Manage and control all AudioPlayers.
+ */
 struct  AAudio
 {
     /**
@@ -31,17 +40,17 @@ struct  AAudio
     void         (*Release)      ();
 
     /**
-     * Every frame update.
+     * Every frame update by game loop.
      */
     void         (*Update)       (float deltaSeconds);
 
     /**
-     * Pause all loop AudioPlayer.
+     * Pause all looping AudioPlayer.
      */
     void         (*SetLoopPause) ();
 
     /**
-     * Resume all loop AudioPlayer.
+     * Resume all looping AudioPlayer.
      */
     void         (*SetLoopResume)();
 

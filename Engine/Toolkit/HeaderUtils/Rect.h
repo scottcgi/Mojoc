@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-2-1
  * Update: 2019-1-8
@@ -17,6 +19,9 @@
 #include <stdbool.h>
 
 
+/**
+ * A rectangle.
+ */
 typedef struct
 {
     float left;
@@ -27,12 +32,18 @@ typedef struct
 Rect;
 
 
+/**
+ * Test whether one point inside rect.
+ */
 static inline bool ARect_TestPoint(Rect* rect, float x, float y)
 {
     return (x >= rect->left && x <= rect->right && y >= rect->bottom && y <= rect->top);
 }
 
 
+/**
+ * Test whether one rect intersects another rect.
+ */
 static inline bool ARect_TestRect(Rect* rectA, Rect* rectB)
 {
     return !(

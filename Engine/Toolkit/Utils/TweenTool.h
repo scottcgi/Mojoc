@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2016-6-24
  * Update: 2019-1-8
@@ -18,6 +20,9 @@
 #include "Engine/Toolkit/Utils/Tween.h"
 
 
+/**
+ * Get and Set methods for get and set TweenActionValue.
+ */
 typedef struct
 {
     TweenActionValueOnGet OnGet;
@@ -26,6 +31,9 @@ typedef struct
 TweenActionValueGetSet;
 
 
+/**
+ * Various TweenActionValueGetSets need to be implemented.
+ */
 struct ATweenActionValueGetSetImpl
 {
     TweenActionValueGetSet moveX  [1];
@@ -45,6 +53,9 @@ struct ATweenActionValueGetSetImpl
 extern struct ATweenActionValueGetSetImpl ATweenActionValueGetSetImpl[1];
 
 
+/**
+ * Easy-to-use for tween, and can use chain calls.
+ */
 struct ATweenTool
 {
     /**

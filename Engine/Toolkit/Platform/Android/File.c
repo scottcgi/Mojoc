@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-8-29
  * Update: 2019-1-8
@@ -16,6 +18,7 @@
 #ifdef IS_PLATFORM_ANDROID
 
 
+#include <string.h>
 #include <android/native_activity.h>
 #include "Engine/Toolkit/Platform/File.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -36,12 +39,10 @@ static File* Open(const char* relativeFilePath)
 static int OpenFileDescriptor(const char* relativeFilePath, long* outStart, long* outLength)
 {
     AAsset* asset = AAssetManager_open(nativeActivity->assetManager, relativeFilePath, AASSET_MODE_UNKNOWN);
-
-    // open asset as file descriptor
-    int fd = AAsset_openFileDescriptor(asset, outStart, outLength);
+    int     fd    = AAsset_openFileDescriptor(asset, (off_t) outStart, (off_t) outLength);
     ALog_A(fd >= 0, "AFile OpenFileDescriptor failed, relative file path = %s", relativeFilePath);
     AAsset_close(asset);
-
+    
     return fd;
 }
 
@@ -54,7 +55,7 @@ static void Close(File* file)
 
 static long GetLength(File* file)
 {
-    return AAsset_getLength((AAsset*) file);
+    return (long) AAsset_getLength((AAsset*) file);
 }
 
 
@@ -64,14 +65,26 @@ static int Read(File* file, void* buffer, size_t count)
 }
 
 
-static int Seek(File* file, long offset, int whence)
+static long Seek(File* file, long offset, int whence)
 {
-    return (int) AAsset_seek((AAsset*) file, offset, whence);
+    return (long) AAsset_seek((AAsset*) file, (off_t) offset, whence);
 }
 
 
-static const char* GetAbsoluteDirPath()
+static const char* GetAbsoluteDirPath(int* outPathLength)
 {
+    static int length = -1;
+
+    if (length == -1)
+    {
+        length = (int) strlen(nativeActivity->internalDataPath);
+    }
+
+    if (outPathLength != NULL)
+    {
+        *outPathLength = length;
+    }
+
     return nativeActivity->internalDataPath;
 }
 

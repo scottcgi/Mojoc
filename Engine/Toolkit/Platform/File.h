@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-08-27
  * Update: 2019-1-8
@@ -20,11 +22,15 @@
 
 /**
  * Related to platform directory.
+ * 
  * Android: assets   files
- * IOS:     NSBundle files
+ * IOS    : NSBundle files
  */
 typedef struct File File;
 
+/**
+ * File access API.
+ */
 struct AFile
 {
     /**
@@ -38,7 +44,6 @@ struct AFile
 
     /**
      * Open a new file descriptor that can be used to read the asset data.
-     * if the start or length cannot be represented by a 32-bit number, it will be truncated.
      *
      * relativeFilePath:
      *     Android: assets
@@ -59,26 +64,28 @@ struct AFile
     long        (*GetLength)         (File* file);
 
     /**
-     * Read count bytes of data from the current offset,
+     * Read count bytes of data from the current offset.
      * return the number of bytes read, zero on EOF, or < 0 on error.
      */
     int         (*Read)              (File* file, void* buffer, size_t count);
 
     /**
-     * Seek to the specified offset,
-     * the whence uses the same constants as fseek().
+     * Seek to the specified offset.
+     * the whence uses the same constants (SEEK_SET, SEEK_CUR, SEEK_END) as fseek().
      *
      * return the new position on success, or -1 on error.
      */
-    int         (*Seek)              (File* file, long offset, int whence);
+     long       (*Seek)              (File* file, long offset, int whence);
 
     /**
-     * The absolute path related to platform directory, read only.
+     * The absolute path related to platform directory.
+     * if outPathLength not NULL, will set the strlen(absoluteDirPath).
      *
-     * Android: internal data directory
-     * IOS    : document data directory
+     * absoluteDirPath:
+     *     Android: internal data directory
+     *     IOS    : document data directory
      */
-    const char* (*GetAbsoluteDirPath)();
+    const char* (*GetAbsoluteDirPath)(int* outPathLength);
 };
 
 

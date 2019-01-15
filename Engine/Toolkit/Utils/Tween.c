@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2016-6-8
  * Update: 2019-1-8
@@ -207,8 +209,6 @@ static bool TryRemoveAction(void* tweenId, TweenAction* action)
             }
         }
 
-//----------------------------------------------------------------------------------------------------------------------
-
         for (int i = tween->queue->topIndex; i < tween->queue->elementList->size; ++i)
         {
             TweenAction* tweenAction = AArrayList_Get(tween->queue->elementList, i, TweenAction*);
@@ -240,8 +240,6 @@ static bool TryRemoveAllActions(void* tweenId)
             AArrayList_Add(actionList, AArrayList_Get(tween->current, i, TweenAction*));
         }
         AArrayList->Clear(tween->current);
-
-//----------------------------------------------------------------------------------------------------------------------
 
         TweenAction* action;
         while ((action = AArrayQueue_Pop(tween->queue, TweenAction*)))
@@ -295,8 +293,6 @@ static bool TryCompleteAllActions(void* tweenId, bool isFireOnComplete)
             AArrayList_Add(actionList, action);
         }
         AArrayList->Clear(tween->current);
-
-//----------------------------------------------------------------------------------------------------------------------
 
         TweenAction* action;
         while ((action = AArrayQueue_Pop(tween->queue, TweenAction*)))
@@ -363,8 +359,6 @@ static void Update(float deltaSeconds)
             continue;
         }
 
-//----------------------------------------------------------------------------------------------------------------------
-
         for (int j = tween->current->size - 1; j > -1; --j)
         {
             TweenAction* action = AArrayList_Get(tween->current, j, TweenAction*);
@@ -396,8 +390,6 @@ static void Update(float deltaSeconds)
                     TweenActionValue* actionValue = AArrayList_GetPtr(action->actionValueList, k, TweenActionValue);
                     actionValue->OnSet(action->target, actionValue->toValue);
                 }
-
-//----------------------------------------------------------------------------------------------------------------------
 
                 // action complete
                 if (action->OnComplete != NULL)

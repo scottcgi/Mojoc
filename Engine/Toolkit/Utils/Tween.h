@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2016-6-8
  * Update: 2019-1-8
@@ -21,14 +23,24 @@
 #include "Engine/Toolkit/HeaderUtils/UserData.h"
 
 
+/**
+ * Get target value when TweenActionValue need to init.
+ */
 typedef float (*TweenActionValueOnGet)(void* target);
+
+/**
+ * Set target value when TweenActionValue already changed value in one frame.
+ */
 typedef void (*TweenActionValueOnSet)(void* target, float value);
 
 
+/**
+ * One value in TweenAction that can tween easing.
+ */
 typedef struct
 {
     /**
-     * The action will reach to this value depends on isRelative.
+     * The action will reach to this value that depends on isRelative.
      */
     float                 value;
 
@@ -65,18 +77,25 @@ typedef struct
 TweenActionValue;
 
 
+/**
+ * Can tween easing a list of TweenActionValues.
+ */
 typedef struct TweenAction TweenAction;
+
+/**
+ * When TweenAction finished callback.
+ */
 typedef void   (*TweenActionOnComplete)(TweenAction* action);
 
 
 struct TweenAction
 {
-    UserData                     userData[1];
+    UserData                    userData[1];
 
     /**
      * Target execute TweenAction.
      */
-    void*                        target;
+    void*                       target;
 
     /**
      * The action running duration time.
@@ -91,20 +110,23 @@ struct TweenAction
     /**
      * Means action running in queue or immediately, default true.
      */
-    bool                         isQueue;
+    bool                        isQueue;
 
     /**
      * TweenActionValue list changing concurrently.
      */
-    ArrayList(TweenActionValue)  actionValueList[1];
+    ArrayList(TweenActionValue) actionValueList[1];
 
     /**
      * When action complete callback.
      */
-    TweenActionOnComplete        OnComplete;
+    TweenActionOnComplete       OnComplete;
 };
 
 
+/**
+ * Manage and control all TweenActions.
+ */
 struct ATween
 {
     /**

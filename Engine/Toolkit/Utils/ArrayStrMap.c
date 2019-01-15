@@ -1,16 +1,19 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-5-20
+ * Update: 2019-114
  * Author: scott.cgi
  */
 
 
 #include <string.h>
 #include <stdlib.h>
-
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
@@ -80,11 +83,11 @@ static inline int BinarySearch(ArrayList* elementList, const char* key, int keyL
      }
 
     // if guess == high
-    // the guess is bigger than key and insert value at guess
+    // the guess is bigger than key index and insert value at guess
 
     if (guess == low)
     {
-        // the guess is smaller than key and insert value behind
+        // the guess is smaller than key index and insert value behind
         // or if empty then guess is -1, also do this make guess at 0
         ++guess;
     }

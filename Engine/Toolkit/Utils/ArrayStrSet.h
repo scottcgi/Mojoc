@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2019-1-3
  * Update: 2019-11
@@ -19,14 +21,27 @@
 #include "Engine/Toolkit/Utils/ArrayList.h"
 
 
+/**
+ * The actual element store in ArrayStrSet.
+ */
 typedef struct
 {
-    char* str;
-    int   strLength;
+    /**
+     * The str data will copy into ArrayStrSetElement malloc space.
+     */
+    const char* str;
+    
+    /**
+     * The length of str, include '\0'.
+     */
+    int         strLength;
 }
 ArrayStrSetElement;
 
 
+/**
+ * A set of elements that not repeated and ordered by element's str.
+ */
 typedef struct
 {
     ArrayList(ArrayStrSetElement*) elementList[1];
@@ -34,6 +49,9 @@ typedef struct
 ArrayStrSet;
 
 
+/**
+ * Control ArrayStrSet.
+ */
 struct AArrayStrSet
 {
     ArrayStrSet* (*Create)            ();
@@ -45,9 +63,9 @@ struct AArrayStrSet
     void         (*Release)           (ArrayStrSet* arrayStrSet);
 
     /**
-     * Get str in ArrayStrSet, if str not found will add first then return.
+     * Get str in ArrayStrSet, if str not found will add and return.
      */
-    char*        (*Get)               (ArrayStrSet* arrayStrSet, char* str);
+    const char*  (*Get)               (ArrayStrSet* arrayStrSet, const char* str);
 
     /**
      * If remove success
@@ -55,7 +73,7 @@ struct AArrayStrSet
      * else
      *     not found str in ArrayStrSet
      */
-    bool         (*TryRemove)         (ArrayStrSet* arrayStrSet, char* str);
+    bool         (*TryRemove)         (ArrayStrSet* arrayStrSet, const char* str);
 
     /**
      * If contains str
@@ -63,7 +81,7 @@ struct AArrayStrSet
      * else
      *     not contains
      */
-    bool         (*IsContains)        (ArrayStrSet* arrayStrSet, char* str);
+    bool         (*IsContains)        (ArrayStrSet* arrayStrSet, const char* str);
 
     /**
      * Clear all values, reset size to 0, and keep memory space.
@@ -76,8 +94,8 @@ extern struct AArrayStrSet AArrayStrSet[1];
 
 
 /**
- * Initialize constant ArrayStrSet.
- * Example: ArrayStrSet set[1] = ArrayStrSet_Init(increase)
+ * Init constant ArrayStrSet.
+ * example: ArrayStrSet set[1] = ArrayStrSet_Init(increase)
  */
 #define ArrayStrSet_Init(increase)                       \
     {{                                                  \

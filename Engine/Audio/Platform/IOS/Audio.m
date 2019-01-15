@@ -25,10 +25,10 @@
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"
 
 
-static ArrayStrMap(filePath, void*) fileDataMap[1] = AArrayStrMap_Init(sizeof(void*),        20);
-static ArrayList  (AudioPlayer*)    cacheList  [1] = AArrayList_Init  (sizeof(AudioPlayer*), 20);
-static ArrayList  (AudioPlayer*)    destroyList[1] = AArrayList_Init  (sizeof(AudioPlayer*), 20);
-static ArrayList  (AudioPlayer*)    loopList   [1] = AArrayList_Init  (sizeof(AudioPlayer*), 5 );
+static ArrayStrMap(filePath, void*)  fileDataMap [1] = AArrayStrMap_Init(void*,        20);
+static ArrayList  (AudioPlayer*)    cacheList  [1] = AArrayList_Init  (AudioPlayer*, 20);
+static ArrayList  (AudioPlayer*)    destroyList[1] = AArrayList_Init  (AudioPlayer*, 20);
+static ArrayList  (AudioPlayer*)    loopList   [1] = AArrayList_Init  (AudioPlayer*, 5 );
 
 
 //----------------------------------------------------------------------------------------------------------------------

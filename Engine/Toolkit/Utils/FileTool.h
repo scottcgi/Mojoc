@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2017-03-20
  * Update: 2019-1-8
@@ -18,25 +20,36 @@
 #include <stdio.h>
 
 
+/**
+ * A tool for access file by file string path.
+ */
 struct AFileTool
 {
     /**
      * Get file directory length in file path string, include last slash '/' or '\\'.
      * return 0 when no directory.
      */
-    int   (*GetDirLength)       (const char* filePath);
+    int   (*GetDirLength)            (const char* filePath);
 
     /**
      * Read all file data into malloc buffer, and close file.
-     * return buffer ptr, and need to free it after using.
+     *
+     * if file not exist
+     *     return NULL
+     * else
+     *     return buffer ptr, and need to free it after using.
      */
-    char* (*CreateDataFrom)     (const char* absoluteFilePath, long* outLength);
+    char* (*CreateDataFromAbsolute)  (const char* absoluteFilePath, long* outLength);
 
     /**
-     * Read all file data into malloc buffer, end with '\0' , and close file.
-     * return buffer ptr, and need to free it after using.
+     * Read all file data into malloc buffer, end with '\0', and close file.
+     *
+     * if file not exist
+     *     return NULL
+     * else
+     *     return buffer ptr, and need to free it after using.
      */
-    char* (*CreateStringFrom)   (const char* absoluteFilePath);
+    char* (*CreateStringFromAbsolute)(const char* absoluteFilePath);
 
     /**
      * Indirect use AFile, read all file data into malloc buffer, and close file.
@@ -47,7 +60,7 @@ struct AFileTool
      *
      * return buffer ptr, and need to free it after using.
      */
-    char* (*CreateDataFromRes)  (const char* relativeFilePath, long* outLength);
+    char* (*CreateDataFromRelative)  (const char* relativeFilePath, long* outLength);
 
     /**
      * Indirect use AFile, read all file data into malloc buffer, end with '\0', and close file.
@@ -58,13 +71,13 @@ struct AFileTool
      *
      * return buffer ptr, and need to free it after using.
      */
-    char* (*CreateStringFromRes)(const char* relativeFilePath);
+    char* (*CreateStringFromRelative)(const char* relativeFilePath);
 
     /**
-     * Indirect use AFile's GetAbsoluteDirPath(),
-     * read all file data into malloc buffer, and close file.
+     * Read all file data into malloc buffer, and close file.
+     * the relativeDirFilePath is relative AFile->GetAbsoluteDirPath().
      *
-     * relativeDirFilePath:
+     * absoluteDirPath:
      *     Android: internal data directory
      *     IOS    : document data directory
      *
@@ -73,20 +86,19 @@ struct AFileTool
      * else
      *     return buffer ptr, and need to free it after using.
      */
-    char* (*CreateDataFromDir)  (const char* relativeDirFilePath, int* outLength);
-
+    char* (*CreateDataFromDir)       (const char* relativeDirFilePath, long* outLength);
 
     /**
-     * Indirect use AFile's GetAbsoluteDirPath(),
-     * write data into relativeFilePath, and close file.
+     * Write data into relativeDirFilePath, and close file.
+     * the relativeDirFilePath is relative AFile->GetAbsoluteDirPath().
      *
-     * relativeDirFilePath:
+     * absoluteDirPath:
      *     Android: internal data directory
      *     IOS    : document data directory
      *
      * if file not exist will created.
      */
-     void (*WriteDataToDir)     (const char* relativeDirFilePath, void* data, int length);
+     void (*WriteDataToDir)          (const char* relativeDirFilePath, void* data, size_t length);
 };
 
 

@@ -66,12 +66,12 @@ typedef struct
      * outSaveData: the persistent data ptr will be saved
      * outLength  : the persistent data bytes count
      */
-    void (*OnSaveData)        (void** outSaveData, int* outLength);
+    void (*OnSaveData)        (void** outSaveData, size_t* outLength);
 
     /**
      * Called when application init and have saved data
      */
-    void (*OnInitWithSavedData)(void* savedData,   int  length);
+    void (*OnInitWithSavedData)(void* savedData, size_t length);
 }
 ApplicationCallbacks;
 

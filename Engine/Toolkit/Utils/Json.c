@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-5-29
  * Update: 2019-1-8
@@ -17,7 +19,6 @@
 #include "Engine/Toolkit/Utils/Json.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Utils/FileTool.h"
-#include "Json.h"
 
 
 /**
@@ -590,7 +591,7 @@ static JsonValue* Parse(const char* jsonString)
 
 static JsonValue* ParseFile(const char* relativeJsonFilePath)
 {
-    char*        jsonString = AFileTool->CreateStringFromRes(relativeJsonFilePath);
+    char*        jsonString = AFileTool->CreateStringFromRelative(relativeJsonFilePath);
     JsonValue*   value      = Parse(jsonString);
     free(jsonString);
 

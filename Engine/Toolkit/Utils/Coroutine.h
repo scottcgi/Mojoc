@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2016-11-13
  * UPdate: 2019-18
@@ -14,7 +16,7 @@
 #define  COROUTINE_H
 
 
-#include <Engine/Toolkit/HeaderUtils/UserData.h>
+#include "Engine/Toolkit/HeaderUtils/UserData.h"
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Toolkit/HeaderUtils/Define.h"
 
@@ -64,7 +66,14 @@ typedef enum
 CoroutineState;
 
 
+/**
+ *  A Coroutine can suspend execution and wait for execution again.
+ */
 typedef struct Coroutine Coroutine;
+
+/**
+ * A Coroutine running function.
+ */
 typedef void   (*CoroutineRun)(Coroutine* coroutine);
 
 
@@ -88,7 +97,7 @@ struct Coroutine
     CoroutineState        state;
 
     /**
-     * Coroutine wait value to execute.
+     * Coroutine wait value to continue execute.
      */
     float                  waitValue;
 
@@ -103,12 +112,15 @@ struct Coroutine
     CoroutineWaitType     waitType;
 
     /**
-     * Hold Coroutines wait for this Coroutine to finish.
+     * Store Coroutines that wait for this Coroutine to finish.
      */
     ArrayList(Coroutine*) waits [1];
 };
 
 
+/**
+ * Control all Coroutines.
+ */
 struct ACoroutine
 {
     /**
@@ -126,6 +138,9 @@ struct ACoroutine
 extern struct ACoroutine ACoroutine[1];
 
 
+/**
+ * Mark the Coroutine area begin.
+ */
 #define ACoroutine_Begin()                               \
     switch (coroutine->step)                            \
     {                                                   \
@@ -133,13 +148,18 @@ extern struct ACoroutine ACoroutine[1];
             coroutine->state = CoroutineState_Running
 
 
+/**
+* Mark the Coroutine area end.
+*/
 #define ACoroutine_End()                                 \
     }                                                   \
     coroutine->state = CoroutineState_Finish            \
 
 
 /**
- * Called between ACoroutine_Begin and ACoroutine_End.
+ * Yield execution and wait number of frames then execution again.
+ * called between ACoroutine_Begin and ACoroutine_End.
+ *
  * waitFrames: CoroutineRun wait frames and running again
  */
 #define ACoroutine_YieldFrames(waitFrames)               \
@@ -152,7 +172,9 @@ extern struct ACoroutine ACoroutine[1];
 
 
 /**
- * Called between ACoroutine_Begin and ACoroutine_End.
+ * Yield execution and wait number of seconds then execution again.
+ * called between ACoroutine_Begin and ACoroutine_End.
+ * 
  * waitSeconds: CoroutineRun wait seconds and running again
  */
 #define ACoroutine_YieldSeconds(waitSeconds)             \
@@ -165,7 +187,9 @@ extern struct ACoroutine ACoroutine[1];
 
 
 /**
- * Called between ACoroutine_Begin and ACoroutine_End.
+ * Yield execution and wait other Coroutine finished then execution again.
+ * called between ACoroutine_Begin and ACoroutine_End.
+ * 
  * waitCoroutine: CoroutineRun wait other Coroutine finished and running again
  */
 #define ACoroutine_YieldCoroutine(waitCoroutine)             \
@@ -179,8 +203,8 @@ extern struct ACoroutine ACoroutine[1];
 
 
 /**
- * Called between ACoroutine_Begin and ACoroutine_End.
- * Stop coroutine running and jump out ACoroutine_Begin and ACoroutine_End.
+ * Just stop Coroutine running and jump out ACoroutine_Begin and ACoroutine_End.
+ * called between ACoroutine_Begin and ACoroutine_End.
  */
 #define ACoroutine_YieldBreak()                \
     coroutine->state = CoroutineState_Finish; \

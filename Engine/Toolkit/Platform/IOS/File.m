@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License:
- * https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-8-29
  * Update: 2019-1-8
@@ -58,9 +60,11 @@ static void Close(File* file)
 
 static long GetLength(File* file)
 {
-    fseek((FILE*) file, 0, SEEK_END);
-    long length = ftell((FILE*) file);
-    fseek((FILE*) file, 0, SEEK_SET);
+    FILE* f = (FILE*) file;
+    
+    fseek(f, 0, SEEK_END);
+    long length = ftell(f);
+    fseek(f, 0, SEEK_SET);
     
     return length;
 }
@@ -68,25 +72,49 @@ static long GetLength(File* file)
 
 static int Read(File* file, void* buffer, size_t count)
 {
-    return (int) fread(buffer, count, 1, (FILE*) file);
+    FILE*  f    = (FILE*) file;
+    size_t read = fread(buffer, count, 1, f);
+
+    if (ferror(f) != 0)
+    {
+        clearerr(f);
+        return -1;
+    }
+
+    return (int) read;
 }
 
 
-static int Seek(File* file, long offset, int whence)
+static long Seek(File* file, long offset, int whence)
 {
-    return fseek((FILE*) file, offset, whence);
+    FILE* f = (FILE*) file;
+
+    if (fseek(f, offset, whence) == 0)
+    {
+        fseek(f, 0, SEEK_SET);
+        return ftell(f); // success return new position
+    }
+
+    return -1; // error
 }
 
 
-static const char* GetAbsoluteDirPath()
+static const char* GetAbsoluteDirPath(int* outPathLength)
 {
-    static char* absoluteDirPath = NULL;
+    static const char* absoluteDirPath = NULL;
+    static int         length          = -1;
     
     if (absoluteDirPath == NULL)
     {
         NSString* str   = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
         absoluteDirPath = malloc(str.length);
         memcpy(absoluteDirPath, str.UTF8String, str.length);
+        length          = str.length;
+    }
+
+    if (outPathLength != NULL)
+    {
+        *outPathLength = length;
     }
     
     return absoluteDirPath;
