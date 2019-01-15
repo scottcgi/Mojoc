@@ -166,13 +166,13 @@ struct AJson
     JsonValue* (*Parse)      (const char* jsonString);
 
     /**
-     * Parse the Json file from relativeJsonFilePath, return root JsonValue.
+     * Parse the Json file from jsonResourceFilePath, return root JsonValue.
      *
-     * relativeJsonFilePath:
+     * jsonResourceFilePath:
      *     Android: assets
      *     IOS    : NSBundle
      */
-    JsonValue* (*ParseFile)  (const char* relativeJsonFilePath);
+    JsonValue* (*ParseFile)  (const char* jsonResourceFilePath);
 
     /**
      * Release JsonValue member memory space and free itself,

@@ -275,9 +275,9 @@ struct AJsonArray AJsonArray[1] =
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static inline void SkipWhiteSpace(char** jsonPtr)
+static inline void SkipWhiteSpace(const char** jsonPtr)
 {
-    char* json  = *jsonPtr;
+    const char* json  = *jsonPtr;
 
     while (true)
     {
@@ -301,7 +301,7 @@ static inline void SkipWhiteSpace(char** jsonPtr)
 }
 
 
-static inline void* ParseNumber(char** jsonPtr)
+static inline void* ParseNumber(const char** jsonPtr)
 {
     char* endPtr;
 
@@ -316,7 +316,7 @@ static inline void* ParseNumber(char** jsonPtr)
 }
 
 
-static inline int SkipString(char **jsonPtr)
+static inline int SkipString(const char **jsonPtr)
 {
     // skip '"'
     ++(*jsonPtr);
@@ -348,11 +348,11 @@ static inline int SkipString(char **jsonPtr)
 }
 
 
-static inline JsonValue* ParseString(char** jsonPtr)
+static inline JsonValue* ParseString(const char** jsonPtr)
 {
-    int        length         = SkipString(jsonPtr);
-    char*      start          = *jsonPtr - length - 1;
-    JsonValue* value          = CreateJsonValue((void*) start, (length + 1) * sizeof(char), JsonType_String);
+    int         length = SkipString(jsonPtr);
+    const char* start  = *jsonPtr - length - 1;
+    JsonValue*  value  = CreateJsonValue((void*) start, (length + 1) * sizeof(char), JsonType_String);
     
     value->jsonString[length] = '\0';
 
@@ -363,10 +363,10 @@ static inline JsonValue* ParseString(char** jsonPtr)
 
 
 // predefine
-static inline JsonValue* ParseValue(char** jsonPtr);
+static inline JsonValue* ParseValue(const char** jsonPtr);
 
 
-static inline JsonValue* ParseArray(char** jsonPtr)
+static inline JsonValue* ParseArray(const char** jsonPtr)
 {
     JsonValue* jsonValue = CreateJsonValue(NULL, sizeof(JsonArray), JsonType_Array);
     ArrayList* list      = jsonValue->jsonArray->valueList;
@@ -411,7 +411,7 @@ static inline JsonValue* ParseArray(char** jsonPtr)
 }
 
 
-static inline JsonValue* ParseObject(char** jsonPtr)
+static inline JsonValue* ParseObject(const char** jsonPtr)
 {
     JsonValue*   jsonValue = CreateJsonValue(NULL, sizeof(JsonObject), JsonType_Object);
     ArrayStrMap* map       = jsonValue->jsonObject->valueMap;
@@ -433,7 +433,8 @@ static inline JsonValue* ParseObject(char** jsonPtr)
         ALog_A(**jsonPtr == '"', "Json object parse error, char = %c, should be '\"' ", **jsonPtr);
 
         int   keyLen = SkipString(jsonPtr);
-        char* key    = *jsonPtr - keyLen - 1;
+        // the key string need a end char '\0', and will be changed back after use
+        char* key    = (char*) *jsonPtr - keyLen - 1;
 
         SkipWhiteSpace(jsonPtr);
         ALog_A((**jsonPtr) == ':', "Json object parse error, char = %c, should be ':' ", **jsonPtr);
@@ -479,7 +480,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
 /**
  * ParseValue changed the *jsonPtr, so if *jsonPtr is direct malloc will cause error
  */
-static inline JsonValue* ParseValue(char** jsonPtr)
+static inline JsonValue* ParseValue(const char** jsonPtr)
 {
     SkipWhiteSpace(jsonPtr);
 
@@ -511,7 +512,7 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 
         case 'f':
         {
-            char* json = *jsonPtr;
+            const char* json = *jsonPtr;
 
             if
             (
@@ -533,7 +534,7 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 
         case 't':
         {
-            char* json = *jsonPtr;
+            const char* json = *jsonPtr;
 
             if
             (
@@ -554,7 +555,7 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 
         case 'n':
         {
-            char* json = *jsonPtr;
+            const char* json = *jsonPtr;
 
             if
             (
@@ -589,9 +590,9 @@ static JsonValue* Parse(const char* jsonString)
 }
 
 
-static JsonValue* ParseFile(const char* relativeJsonFilePath)
+static JsonValue* ParseFile(const char* jsonResourceFilePath)
 {
-    char*        jsonString = AFileTool->CreateStringFromResource(relativeJsonFilePath);
+    char*        jsonString = AFileTool->CreateStringFromResource(jsonResourceFilePath);
     JsonValue*   value      = Parse(jsonString);
     free(jsonString);
 
