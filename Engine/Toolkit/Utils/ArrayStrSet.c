@@ -14,7 +14,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Utils/ArrayStrSet.h"
 
 
@@ -44,7 +43,7 @@ static inline int BinarySearch(ArrayList* elementList, const char* str, int strL
         }
         else if (element->strLength == strLength)
         {
-            int cmp = memcmp(element->str, str, strLength);
+            int cmp = memcmp(element->str, str, (size_t) strLength);
 
             if (cmp < 0)
             {

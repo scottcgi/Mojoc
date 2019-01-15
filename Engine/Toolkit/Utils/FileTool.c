@@ -88,9 +88,9 @@ static char* CreateStringFromAbsolute(const char* absoluteFilePath)
 }
 
 
-static char* CreateDataFromRelative(const char* relativeFilePath, long* outLength)
+static char* CreateDataFromResource(const char* resourceFilePath, long* outLength)
 {
-    File* file    = AFile->Open(relativeFilePath);
+    File* file    = AFile->Open(resourceFilePath);
     long  length = AFile->GetLength(file);
     char* buffer = (char*) malloc((size_t) length);
     *outLength   = length;
@@ -102,9 +102,9 @@ static char* CreateDataFromRelative(const char* relativeFilePath, long* outLengt
 }
 
 
-static char* CreateStringFromRelative(const char* relativeFilePath)
+static char* CreateStringFromResource(const char* resourceFilePath)
 {
-    File* file      = AFile->Open(relativeFilePath);
+    File* file      = AFile->Open(resourceFilePath);
     long  length   = AFile->GetLength(file);
     char* buffer   = (char*) malloc((size_t) length + 1);
     buffer[length] = '\0';
@@ -116,10 +116,10 @@ static char* CreateStringFromRelative(const char* relativeFilePath)
 }
 
 
-static char* CreateDataFromDir(const char* relativeDirFilePath, long* outLength)
+static char* CreateDataFromRelative(const char* relativeDirFilePath, long* outLength)
 {
     int         dirPathLength;
-    const char* dirPath = AFile->GetAbsoluteDirPath(&dirPathLength);
+    const char* dirPath = AFile->GetInternalDataPath(&dirPathLength);
 
     char path[dirPathLength + strlen(relativeDirFilePath) + 2];
     sprintf(path, "%s/%s", dirPath, relativeDirFilePath);
@@ -128,12 +128,12 @@ static char* CreateDataFromDir(const char* relativeDirFilePath, long* outLength)
 }
 
 
-static void WriteDataToDir(const char* relativeDirFilePath, void* data, size_t length)
+static void WriteDataToRelative(const char* relativeDirFilePath, void* data, size_t length)
 {
     ALog_A(data != NULL, "AFileTool WriteDataToDir failed, data == NULL.");
 
     int         dirPathLength;
-    const char* dirPath = AFile->GetAbsoluteDirPath(&dirPathLength);
+    const char* dirPath = AFile->GetInternalDataPath(&dirPathLength);
 
     char path[dirPathLength + strlen(relativeDirFilePath) + 2];
     sprintf(path, "%s/%s", dirPath, relativeDirFilePath);
@@ -150,9 +150,9 @@ struct AFileTool AFileTool[1] =
     CreateDataFromAbsolute,
     CreateStringFromAbsolute,
 
-    CreateDataFromRelative,
-    CreateStringFromRelative,
+    CreateDataFromResource,
+    CreateStringFromResource,
 
-    CreateDataFromDir,
-    WriteDataToDir,
+    CreateDataFromRelative,
+    WriteDataToRelative,
 };

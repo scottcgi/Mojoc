@@ -29,45 +29,46 @@
 typedef struct File File;
 
 /**
- * File access API.
+ * Resource File access API.
  */
 struct AFile
 {
     /**
-     * Open file from platform directory with relative file path.
+     * Open a file from platform resource directory by file path.
      *
-     * relativeFilePath:
+     * resourceFilePath:
      *     Android: assets
      *     IOS    : NSBundle
      */
-    File*       (*Open)              (const char* relativeFilePath);
+    File*       (*Open)               (const char* resourceFilePath);
 
     /**
-     * Open a new file descriptor that can be used to read the asset data.
+     * Open a file descriptor from platform resource directory by file path.
+     * it can be used to read the file data.
      *
-     * relativeFilePath:
+     * resourceFilePath:
      *     Android: assets
      *     IOS    : NSBundle
      *
-     * returns < 0 if direct fd access is not possible (for example, if the asset is compressed).
+     * returns < 0 if direct fd access is not possible (for example, if the file is compressed).
      */
-    int         (*OpenFileDescriptor)(const char* relativeFilePath, long* outStart, long* outLength);
+    int         (*OpenFileDescriptor) (const char* resourceFilePath, long* outStart, long* outLength);
 
     /**
      * Close an opened file connection, free any related resources.
      */
-    void        (*Close)             (File* file);
+    void        (*Close)              (File* file);
 
     /**
      * Return file length.
      */
-    long        (*GetLength)         (File* file);
+    long        (*GetLength)          (File* file);
 
     /**
      * Read count bytes of data from the current offset.
      * return the number of bytes read, zero on EOF, or < 0 on error.
      */
-    int         (*Read)              (File* file, void* buffer, size_t count);
+    int         (*Read)               (File* file, void* buffer, size_t count);
 
     /**
      * Seek to the specified offset.
@@ -75,17 +76,17 @@ struct AFile
      *
      * return the new position on success, or -1 on error.
      */
-     long       (*Seek)              (File* file, long offset, int whence);
+     long       (*Seek)               (File* file, long offset, int whence);
 
     /**
-     * The absolute path related to platform directory.
-     * if outPathLength not NULL, will set the strlen(absoluteDirPath).
+     * The internal data path related to platform directory.
+     * if outPathLength not NULL, will set the strlen(internalDataPath).
      *
-     * absoluteDirPath:
+     * internalDataPath:
      *     Android: internal data directory
      *     IOS    : document data directory
      */
-    const char* (*GetAbsoluteDirPath)(int* outPathLength);
+    const char* (*GetInternalDataPath)(int* outPathLength);
 };
 
 

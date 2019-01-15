@@ -51,7 +51,7 @@ static void Init()
 //----------------------------------------------------------------------------------------------------------------------
 
     long  length;
-    void* data = AFileTool->CreateDataFromDir(saveDataFileName, &length);
+    void* data = AFileTool->CreateDataFromRelative(saveDataFileName, &length);
 
     if (data != NULL)
     {
@@ -146,7 +146,7 @@ static void SaveData()
     void*  outSaveData;
     size_t outSize;
     AApplication->callbacks->OnSaveData(&outSaveData, &outSize);
-    AFileTool->WriteDataToDir(saveDataFileName, outSaveData, outSize);
+    AFileTool->WriteDataToRelative(saveDataFileName, outSaveData, outSize);
 }
 
 

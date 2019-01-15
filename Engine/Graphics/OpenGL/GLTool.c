@@ -139,8 +139,8 @@ static GLuint LoadProgram(char* vertexSource, char* fragmentSource)
 
 GLuint LoadProgramByFile(char* vertexShaderPath, char* fragmentShaderPath)
 {
-    char*  vSource = AFileTool->CreateStringFromRelative(vertexShaderPath);
-    char*  fSource = AFileTool->CreateStringFromRelative(fragmentShaderPath);
+    char*  vSource = AFileTool->CreateStringFromResource(vertexShaderPath);
+    char*  fSource = AFileTool->CreateStringFromResource(fragmentShaderPath);
     GLuint program = AGLTool  ->LoadProgram             (vSource, fSource);
 
     free((void*) vSource);

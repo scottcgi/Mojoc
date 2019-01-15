@@ -29,80 +29,6 @@
     ALog_D("ABufferReader ReadLine = %.*s", outLine->end - outLine->start + 1, buffer + outLine->start)
 
 
-static int64_t ReadInt64(const char* buffer, ArrayRange* range)
-{
-    CheckRange("ReadInt64");
-
-    int         pos  = range->start;
-    const char* data = buffer + pos;
-    range->start    += sizeof(int64_t);
-
-    CheckRange("after ReadInt64");
-    
-    return (
-                ((int64_t)(data[0] & 0xff) << 56) +
-                ((int64_t)(data[1] & 0xff) << 48) +
-                ((int64_t)(data[2] & 0xff) << 40) +
-                ((int64_t)(data[3] & 0xff) << 32) +
-                ((int64_t)(data[4] & 0xff) << 24) +
-                (         (data[5] & 0xff) << 16) +
-                (         (data[6] & 0xff) <<  8) +
-                (         (data[7] & 0xff) <<  0)
-           );
-}
-
-
-static int32_t ReadInt32(const char* buffer, ArrayRange* range)
-{
-    CheckRange("ReadInt32");
-    
-    int         pos  = range->start;
-    const char* data = buffer + pos;
-
-    int   ch1        = data[0];
-    int   ch2        = data[1];
-    int   ch3        = data[2];
-    int   ch4        = data[3];
-    range->start    += sizeof(int32_t);
-
-    CheckRange("after ReadInt32");
-
-    return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
-}
-
-
-static int16_t ReadInt16(const char* buffer, ArrayRange* range)
-{
-    CheckRange("ReadInt16");
-    
-    int         pos  = range->start;
-    const char* data = buffer + pos;
-
-    int16_t     ch1  = data[0];
-    int16_t     ch2  = data[1];
-
-    range->start    += sizeof(int16_t);
-
-    CheckRange("after ReadInt16");
-
-    return ((ch1 << 8) + (ch2 << 0));
-}
-
-
-static int8_t ReadInt8(const char* buffer, ArrayRange* range)
-{
-    CheckRange("ReadInt8");
-    
-    int         pos  = range->start;
-    const char* data = buffer + pos;
-    range->start    += sizeof(int8_t);
-
-    CheckRange("after ReadInt8");
-
-    return data[0];
-}
-
-
 static void ReadLine(const char* buffer, ArrayRange* range, ArrayRange* outLine)
 {
     CheckRange("ReadLine");
@@ -296,10 +222,6 @@ static bool TryFindStringByMemcmp(const char* buffer, ArrayRange* range, const c
 
 struct ABufferReader ABufferReader[1] =
 {
-    ReadInt64,
-    ReadInt32,
-    ReadInt16,
-    ReadInt8,
     ReadLine,
     TryFindStringByMemcmp,
 };

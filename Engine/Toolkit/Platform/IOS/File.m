@@ -19,6 +19,7 @@
 
 
 #include <stdio.h>
+#include <string.h>
 #include <Foundation/Foundation.h>
 
 #include "Engine/Toolkit/Platform/File.h"
@@ -26,17 +27,18 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-static File* Open(const char* relativeFilePath)
+static File* Open(const char* resourceFilePath)
 {
-    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:relativeFilePath] ofType:nil];
+    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:resourceFilePath] ofType:nil];
     FILE*     file  = fopen([path cStringUsingEncoding:NSMacOSRomanStringEncoding], "rb");
     
-    ALog_A(file != NULL, "AFile open error, file path = %s", relativeFilePath);
+    ALog_A(file != NULL, "AFile open error, file path = %s", resourceFilePath);
     
     return (File*) file;
 }
 
 
+// TODO: fix implementation
 static int OpenFileDescriptor(const char* relativeFilePath, long* outStart, long* outLength)
 {
     FILE* file  = (FILE*) Open(relativeFilePath);
@@ -99,25 +101,25 @@ static long Seek(File* file, long offset, int whence)
 }
 
 
-static const char* GetAbsoluteDirPath(int* outPathLength)
+static const char* GetInternalDataPath(int* outPathLength)
 {
-    static const char* absoluteDirPath = NULL;
-    static int         length          = -1;
+    static char* internalDataPath = NULL;
+    static int   length           = -1;
     
-    if (absoluteDirPath == NULL)
+    if (internalDataPath == NULL)
     {
-        NSString* str   = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-        absoluteDirPath = malloc(str.length);
-        memcpy(absoluteDirPath, str.UTF8String, str.length);
-        length          = str.length;
+        NSString* str    = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        internalDataPath = malloc(str.length);
+        length           = str.length;
+        memcpy(internalDataPath, str.UTF8String, str.length);
     }
 
     if (outPathLength != NULL)
     {
         *outPathLength = length;
     }
-    
-    return absoluteDirPath;
+
+    return internalDataPath;
 }
 
 
@@ -129,7 +131,7 @@ struct AFile AFile[1] =
     GetLength,
     Read,
     Seek,
-    GetAbsoluteDirPath,
+    GetInternalDataPath,
 };
 
 

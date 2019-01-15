@@ -54,30 +54,30 @@ struct AFileTool
     /**
      * Indirect use AFile, read all file data into malloc buffer, and close file.
      *
-     * relativeFilePath:
+     * resourceFilePath:
      *     Android: assets
      *     IOS    : NSBundle
      *
      * return buffer ptr, and need to free it after using.
      */
-    char* (*CreateDataFromRelative)  (const char* relativeFilePath, long* outLength);
+    char* (*CreateDataFromResource)  (const char* resourceFilePath, long* outLength);
 
     /**
      * Indirect use AFile, read all file data into malloc buffer, end with '\0', and close file.
      *
-     * relativeFilePath:
+     * resourceFilePath:
      *     Android: assets
      *     IOS    : NSBundle
      *
      * return buffer ptr, and need to free it after using.
      */
-    char* (*CreateStringFromRelative)(const char* relativeFilePath);
+    char* (*CreateStringFromResource)(const char* resourceFilePath);
 
     /**
      * Read all file data into malloc buffer, and close file.
-     * the relativeDirFilePath is relative AFile->GetAbsoluteDirPath().
+     * the relativeFilePath is relative internalDataPath from AFile->GetInternalDataPath().
      *
-     * absoluteDirPath:
+     * internalDataPath:
      *     Android: internal data directory
      *     IOS    : document data directory
      *
@@ -86,19 +86,19 @@ struct AFileTool
      * else
      *     return buffer ptr, and need to free it after using.
      */
-    char* (*CreateDataFromDir)       (const char* relativeDirFilePath, long* outLength);
+    char* (*CreateDataFromRelative)  (const char* relativeFilePath, long* outLength);
 
     /**
      * Write data into relativeDirFilePath, and close file.
-     * the relativeDirFilePath is relative AFile->GetAbsoluteDirPath().
+     * the relativeFilePath is relative internalDataPath from AFile->GetInternalDataPath().
      *
-     * absoluteDirPath:
+     * internalDataPath:
      *     Android: internal data directory
      *     IOS    : document data directory
      *
      * if file not exist will created.
      */
-     void (*WriteDataToDir)          (const char* relativeDirFilePath, void* data, size_t length);
+     void (*WriteDataToRelative)     (const char* relativeFilePath, void* data, size_t length);
 };
 
 

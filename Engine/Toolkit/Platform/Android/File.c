@@ -27,20 +27,20 @@
 extern ANativeActivity* nativeActivity;
 
 
-static File* Open(const char* relativeFilePath)
+static File* Open(const char* resourceFilePath)
 {
-    AAsset* asset = AAssetManager_open(nativeActivity->assetManager, relativeFilePath, AASSET_MODE_UNKNOWN);
-    ALog_A(asset != NULL, "AFile open failed, relative file path = %s", relativeFilePath);
+    AAsset* asset = AAssetManager_open(nativeActivity->assetManager, resourceFilePath, AASSET_MODE_UNKNOWN);
+    ALog_A(asset != NULL, "AFile open failed, relative file path = %s", resourceFilePath);
 
     return (File*) asset;
 }
 
 
-static int OpenFileDescriptor(const char* relativeFilePath, long* outStart, long* outLength)
+static int OpenFileDescriptor(const char* resourceFilePath, long* outStart, long* outLength)
 {
-    AAsset* asset = AAssetManager_open(nativeActivity->assetManager, relativeFilePath, AASSET_MODE_UNKNOWN);
+    AAsset* asset = AAssetManager_open(nativeActivity->assetManager, resourceFilePath, AASSET_MODE_UNKNOWN);
     int     fd    = AAsset_openFileDescriptor(asset, (off_t) outStart, (off_t) outLength);
-    ALog_A(fd >= 0, "AFile OpenFileDescriptor failed, relative file path = %s", relativeFilePath);
+    ALog_A(fd >= 0, "AFile OpenFileDescriptor failed, relative file path = %s", resourceFilePath);
     AAsset_close(asset);
     
     return fd;
@@ -71,7 +71,7 @@ static long Seek(File* file, long offset, int whence)
 }
 
 
-static const char* GetAbsoluteDirPath(int* outPathLength)
+static const char* GetInternalDataPath(int* outPathLength)
 {
     static int length = -1;
 
@@ -97,7 +97,7 @@ struct AFile AFile[1] =
     GetLength,
     Read,
     Seek,
-    GetAbsoluteDirPath,
+    GetInternalDataPath,
 };
 
 

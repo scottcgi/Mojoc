@@ -27,26 +27,6 @@
 struct ABufferReader
 {
     /**
-     * Read long from range in buffer, and move range->start behind.
-     */
-    int64_t (*ReadInt64)   (const char* buffer, ArrayRange* range);
-
-    /**
-     * Read int from range in buffer, and move range->start behind.
-     */
-    int32_t (*ReadInt32)   (const char* buffer, ArrayRange* range);
-
-    /**
-     * Read short from range in buffer, and move range->start behind.
-     */
-    int16_t (*ReadInt16)   (const char* buffer, ArrayRange* range);
-
-    /**
-     * Read byte from range in buffer, and move range->start behind.
-     */
-    int8_t (*ReadInt8)     (const char* buffer, ArrayRange* range);
-
-    /**
      * Read line from range in buffer, move range->start to newline, and record line in outLine.
      * the outLine->end may be '\n' or '\r' or range->end (not found newline char).
      */
