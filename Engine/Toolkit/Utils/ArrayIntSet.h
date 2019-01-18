@@ -1,11 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2017-4-23
+ * Update: 2019-1-17
  * Author: scott.cgi
  */
+
 
 #ifndef ARRAY_INT_SET_H
 #define  ARRAY_INT_SET_H
@@ -16,16 +21,23 @@
 #include "Engine/Toolkit/Utils/ArrayList.h"
 
 
+/**
+ * A set of elements that not repeated and ordered by element's int value.
+ * element type must compatible with integer.
+ */
 typedef struct
 {
     /**
-     * Hold all Elements, element type must compatible with integer
+     * Stores all Elements.
      */
     ArrayList(intptr_t) elementList[1];
 }
 ArrayIntSet;
 
 
+/**
+ * Control ArrayIntSet.
+ */
 struct AArrayIntSet
 {
     ArrayIntSet* (*Create)            ();
@@ -52,12 +64,12 @@ struct AArrayIntSet
     bool         (*TryRemove)         (ArrayIntSet* arrayIntSet, intptr_t element);
 
     /**
-     * If element already in ArrayIntSet return true else not contains
+     * If element already in ArrayIntSet return true else not contains.
      */
     bool         (*IsContains)        (ArrayIntSet* arrayIntSet, intptr_t element);
 
     /**
-     * Clear all values, reset size to 0, and keep memory space
+     * Clear all elements, reset size to 0, and keep memory spac.
      */
     void         (*Clear)             (ArrayIntSet* arrayIntSet);
 };
@@ -67,20 +79,20 @@ extern struct AArrayIntSet AArrayIntSet[1];
 
 
 /**
- * Marked ArrayIntSet element type
- * element type must compatible with integer
+ * Marked ArrayIntSet element type.
+ * element type must compatible with integer.
  */
 #define ArrayIntSet(elementType) ArrayIntSet
 
 
 /**
- * Initialize constant ArrayIntSet, element type must compatible with integer
- * use like ArrayIntSet set[1] = AArrayIntSet_Init(elementType, increase)
+ * Init constant ArrayIntSet.
+ * example: ArrayIntSet set[1] = AArrayIntSet_Init(elementType, increase)
  */
 #define AArrayIntSet_Init(elementType, increase) \
-    {{                                          \
-          AArrayList_Init(intptr_t, increase),  \
-    }}
+    {                                           \
+         AArrayList_Init(intptr_t, increase),   \
+    }
 
 
 #endif

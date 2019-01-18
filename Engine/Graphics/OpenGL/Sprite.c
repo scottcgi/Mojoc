@@ -150,11 +150,7 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 
             glBindVertexArray(sprite->vaoId);
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    with vao has own state
---------------------------------------------------------------------------------------------------
-*/
+            // with vao has own state
 
             glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIds[MeshBuffer_Vertex]);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[MeshBuffer_Index]);

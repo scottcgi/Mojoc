@@ -84,7 +84,7 @@ struct AArrayStrSet
     bool         (*IsContains)        (ArrayStrSet* arrayStrSet, const char* str);
 
     /**
-     * Clear all values, reset size to 0, and keep memory space.
+     * Clear all elements, reset size to 0, and keep memory space.
      */
     void         (*Clear)             (ArrayStrSet* arrayStrSet);
 };
@@ -97,10 +97,10 @@ extern struct AArrayStrSet AArrayStrSet[1];
  * Init constant ArrayStrSet.
  * example: ArrayStrSet set[1] = ArrayStrSet_Init(increase)
  */
-#define ArrayStrSet_Init(increase)                       \
-    {{                                                  \
-         AArrayList_Init(ArrayStrSetElement*, increase),\
-    }}
+#define ArrayStrSet_Init(increase)                      \
+    {                                                  \
+        AArrayList_Init(ArrayStrSetElement*, increase),\
+    }
 
 
 #endif

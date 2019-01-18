@@ -1,14 +1,19 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2014-5-30
+ * Update: 2019-1-18
  * Author: scott.cgi
  */
 
+
 #ifndef PHYSICS_WORLD_H
-#define PHYSICS_WORLD_H
+#define  PHYSICS_WORLD_H
 
 
 #include "Engine/Toolkit/HeaderUtils/Rect.h"
@@ -16,24 +21,27 @@
 #include "Engine/Toolkit/Math/Vector.h"
 
 
+/**
+ * Control and set up physics world.
+ */
 struct APhysicsWorld
 {
     Vector2 gravity;
     Rect    range;
 
     /**
-     * Add body in PhysicsWorld with shape and vertex
-     * the vertexArr will copy into Body
+     * Add body in PhysicsWorld by shape and vertices.
+     * the vertexArr will copy into PhysicsBody.
      */
     PhysicsBody* (*AddBody)    (PhysicsShape shape, Array(float)* vertexArr);
 
     /**
-     * Destroy PhysicsBody from world
+     * Destroy PhysicsBody from world.
      */
     void         (*DestroyBody)(PhysicsBody* body);
 
     /**
-     * Every frame update PhysicsBody
+     * Called every frame by game loop.
      */
     void         (*Update)     (float deltaSeconds);
 };

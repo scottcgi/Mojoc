@@ -625,7 +625,6 @@ static void GenerateBuffer(Mesh* mesh)
         // so we clear all sub data update
         AArrayList->Clear(mesh->vboSubDataList);
 
-//----------------------------------------------------------------------------------------------------------------------
 
         if (AGraphics->isUseVAO)
         {
@@ -636,11 +635,7 @@ static void GenerateBuffer(Mesh* mesh)
 
             glBindVertexArray(mesh->vaoId);
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    with vao has own state
-------------------------------------------------------------------------------------------------------------------------
-*/
+            // with vao has own state
 
             // load the vertex data
             glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIds[MeshBuffer_Vertex]);

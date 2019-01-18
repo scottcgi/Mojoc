@@ -69,11 +69,7 @@ struct ATweenTool
      */
     struct ATweenTool* (*AddInterval)(float duration);
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Add one TweenAction with TweenActionValues.
-------------------------------------------------------------------------------------------------------------------------
-*/
+    /* Add one TweenAction with TweenActionValues. */
 
     struct ATweenTool* (*AddMoveX)     (float moveX,   float duration);
     struct ATweenTool* (*AddMoveY)     (float moveY,   float duration);
@@ -103,11 +99,7 @@ struct ATweenTool
     struct ATweenTool* (*AddRotateZ)   (float rotateZ, float duration);
     struct ATweenTool* (*AddFadeTo)    (float fadeTo,  float duration);
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Set TweenAction property for current context.
-------------------------------------------------------------------------------------------------------------------------
-*/
+    /* Set TweenAction property for current context. */
 
     struct ATweenTool* (*SetDuration)           (float                  duration);
     struct ATweenTool* (*SetQueue)              (bool                  isQueue);
@@ -124,11 +116,7 @@ struct ATweenTool
      */
     struct ATweenTool* (*GetAction)             (TweenAction**         outActionPtr);
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Set new TweenActionValue into context TweenAction.
-------------------------------------------------------------------------------------------------------------------------
-*/
+    /* Set new TweenActionValue into context TweenAction. */
 
     struct ATweenTool* (*SetMoveX)     (float moveX);
     struct ATweenTool* (*SetMoveY)     (float moveY);
@@ -145,11 +133,7 @@ struct ATweenTool
     struct ATweenTool* (*SetRotateZ)   (float rotateZ);
     struct ATweenTool* (*SetFadeTo)    (float fadeTo);
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Set TweenActionValue property for current context.
-------------------------------------------------------------------------------------------------------------------------
-*/
+    /* Set TweenActionValue property for current context. */
 
     struct ATweenTool* (*SetRelative)(bool          isRelative);
     struct ATweenTool* (*SetEaseType)(TweenEaseType easeType);

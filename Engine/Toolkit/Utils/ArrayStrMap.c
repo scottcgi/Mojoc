@@ -7,7 +7,7 @@
  * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-5-20
- * Update: 2019-114
+ * Update: 2019-1-14
  * Author: scott.cgi
  */
 
@@ -51,7 +51,7 @@ static inline int BinarySearch(ArrayList* elementList, const char* key, int keyL
     while (high - low > 1)
     {
         // not consider int overflow
-        guess                       = (high + low) >> 1;
+        guess                       = (high + low) >> 1; // NOLINT(hicpp-signed-bitwise)
         ArrayStrMapElement* element = AArrayList_Get(elementList, guess, ArrayStrMapElement*);
 
         if (element->keyLength < keyLength)
@@ -64,7 +64,7 @@ static inline int BinarySearch(ArrayList* elementList, const char* key, int keyL
         }
         else if (element->keyLength == keyLength)
         {
-            int cmp = memcmp(element->key, key, keyLength);
+            int cmp = memcmp(element->key, key, (size_t) keyLength);
 
             if (cmp < 0)
             {
@@ -114,10 +114,10 @@ static void* TryPut(ArrayStrMap* arrayStrMap, const char* key, void* valuePtr)
         element->keyLength                = keyLength;
         element->valuePtr                 = (char*) element + sizeof(ArrayStrMapElement);
         element->key                      = (char*) element->valuePtr + valueTypeSize;
-        memcpy((void*) element->key, key, keyLength);
+        memcpy((void*) element->key, key, (size_t) keyLength);
         AArrayList_Insert(arrayStrMap->elementList, -guess - 1, element);
 
-        return memcpy(element->valuePtr, valuePtr, valueTypeSize);
+        return memcpy(element->valuePtr, valuePtr, (size_t) valueTypeSize);
     }
     else
     {
@@ -145,7 +145,7 @@ static void* TrySet(ArrayStrMap* arrayStrMap, const char* key, void* valuePtr)
                (
                    AArrayList_Get(arrayStrMap->elementList, guess, ArrayStrMapElement*)->valuePtr,
                    valuePtr,
-                   arrayStrMap->valueTypeSize
+                   (size_t) arrayStrMap->valueTypeSize
                );
     }
     else
@@ -193,11 +193,11 @@ static void* InsertAt(ArrayStrMap* arrayStrMap, const char* key, int index, void
     element->keyLength          = keyLength;
     element->valuePtr           = (char*) element + sizeof(ArrayStrMapElement);
     element->key                = (char*) element->valuePtr + valueTypeSize;
-    memcpy((void*) element->key, key, keyLength);
+    memcpy((void*) element->key, key, (size_t) keyLength);
 
     AArrayList_Insert( arrayStrMap->elementList, index, element);
 
-    return memcpy(element->valuePtr, valuePtr, valueTypeSize);
+    return memcpy(element->valuePtr, valuePtr, (size_t) valueTypeSize);
 }
 
 
@@ -229,7 +229,7 @@ static void* SetAt(ArrayStrMap* arrayStrMap, int index, void* valuePtr)
            (
                AArrayList_Get(arrayStrMap->elementList, index, ArrayStrMapElement*)->valuePtr,
                valuePtr,
-               arrayStrMap->valueTypeSize
+               (size_t) arrayStrMap->valueTypeSize
            );
 }
 

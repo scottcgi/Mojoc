@@ -34,23 +34,22 @@ JniMethodInfo;
 
 struct AJniTool
 {
-/*
-------------------------------------------------------------------------------------------------------------------------
-Must Called in same thread with OpenGL
 
-className:
+    /*
+    Must Called in same thread as OpenGL.
+
+    className:
     pass to FindClass which is java class name with package like "java/lang/ClassLoader"
 
-methodName:
+    methodName:
     java class method name like "getClassLoader"
 
-paramCode:
+    paramCode:
     java class method arguments like "()Ljava/lang/ClassLoader;"
 
-...:
-    varargs parameter which are method arguments
-------------------------------------------------------------------------------------------------------------------------
-*/
+    ...:
+    varargs parameter which are method arguments.
+    */
 
     void   (*GetMethodInfo)      (char*   className, char* methodName, char* paramCode, JniMethodInfo* outJniMethodInfo);
     void   (*GetStaticMethodInfo)(char*   className, char* methodName, char* paramCode, JniMethodInfo* outJniMethodInfo);

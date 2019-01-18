@@ -1,15 +1,19 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-5-20
+ * Update: 2019-1-17
  * Author: scott.cgi
  */
 
+
 #include <string.h>
 #include <stdlib.h>
-
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
@@ -21,7 +25,7 @@
         "AArrayIntMap" tag "index = %d, size = %d, invalid",   \
         index,                                                 \
         arrayIntMap->elementList->size                         \
-    );
+    )
 
 
 #define CheckInsertIndex(tag)                                   \
@@ -31,13 +35,13 @@
         "AArrayIntMap" tag "index = %d, size = %d, invalid",   \
         index,                                                 \
         arrayIntMap->elementList->size                         \
-    );
+    )
 
 
 
 /**
- * Search index of key, if negative not found then return "-insertIndex - 1"
- * so insert index is "-BinarySearch() - 1"
+ * Search index of key, if negative not found then return "-insertIndex - 1",
+ * so insert index is "-BinarySearch() - 1".
  */
 static inline int BinarySearch(ArrayList* elementList, intptr_t key)
 {
@@ -48,7 +52,7 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
     while (high - low > 1)
     {
         // not consider int overflow
-        guess               = (high + low) >> 1;
+        guess               = (high + low) >> 1; // NOLINT(hicpp-signed-bitwise)
         intptr_t elementKey = AArrayList_Get(elementList, guess, ArrayIntMapElement*)->key;
 
         if (elementKey < key)
@@ -67,11 +71,11 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
     }
 
     // if guess == high
-    // the guess is bigger than key and insert value at guess
+    // the guess is bigger than key index and insert value at guess
 
     if (guess == low)
     {
-        // the guess is smaller than key and insert value behind
+        // the guess is smaller than key index and insert value behind
         // or if empty then guess is -1, also do this make guess at 0
         ++guess;
     }
@@ -79,9 +83,6 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
     // when empty guess is 0, so we -1 make sure return negative value
     return -guess - 1;
 }
-
-
-//----------------------------------------------------------------------------------------------------------------------
 
 
 static void* TryPut(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
@@ -98,7 +99,7 @@ static void* TryPut(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 
         AArrayList_Insert(arrayIntMap->elementList, -guess - 1, element);
 
-        return memcpy(element->valuePtr, valuePtr, arrayIntMap->valueTypeSize);
+        return memcpy(element->valuePtr, valuePtr, (size_t) arrayIntMap->valueTypeSize);
     }
     else
     {
@@ -126,7 +127,7 @@ static void* TrySet(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
                (
                    AArrayList_Get(arrayIntMap->elementList, guess, ArrayIntMapElement*)->valuePtr,
                    valuePtr,
-                   arrayIntMap->valueTypeSize
+                   (size_t) arrayIntMap->valueTypeSize
                );
     }
     else
@@ -180,7 +181,7 @@ static void* InsertAt(ArrayIntMap* arrayIntMap, intptr_t key, int index, void* v
     element->key                = key;
     element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
 
-    return memcpy(element->valuePtr, valuePtr, arrayIntMap->valueTypeSize);
+    return memcpy(element->valuePtr, valuePtr, (size_t) arrayIntMap->valueTypeSize);
 }
 
 
@@ -212,7 +213,7 @@ static void* SetAt(ArrayIntMap* arrayIntMap, int index, void* valuePtr)
            (
                AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)->valuePtr,
                valuePtr,
-               arrayIntMap->valueTypeSize
+               (size_t) arrayIntMap->valueTypeSize
            );
 }
 

@@ -108,7 +108,6 @@ static inline void SetStepped(SkeletonCurveTimeline* curveTimeline, int frameInd
 
 
 /*
-------------------------------------------------------------------------------------------------------------------------
 
 static inline int GetFrameCount(SkeletonCurveTimeline* curveTimeline)
 {
@@ -139,7 +138,6 @@ static inline SkeletonCurveType GetCurveType(SkeletonCurveTimeline* curveTimelin
     return SkeletonCurveType_Bezier;
 }
  
-------------------------------------------------------------------------------------------------------------------------
 */
 
 

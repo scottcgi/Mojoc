@@ -1,32 +1,52 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-2-4
+ * Update: 2019-1-17
  * Author: scott.cgi
  */
 
+
 #include <string.h>
 #include <stdlib.h>
-
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-#define CheckIndex(tag, index) \
-    ALog_A(((index) < arrayList->size && (index) >= 0),  "AArrayList " tag " failed index error, index = %d, size = %d", index, arrayList->size);
+#define CheckIndex(tag, index)                                           \
+    ALog_A                                                              \
+    (                                                                   \
+        ((index) < arrayList->size && (index) >= 0),                    \
+        "AArrayList " tag " failed index error, index = %d, size = %d", \
+        index,                                                          \
+        arrayList->size                                                 \
+    )                                                                    
 
 
-#define CheckInsertIndex(tag) \
-    ALog_A(((index) <= arrayList->size && (index) >= 0), "AArrayList " tag " failed index error, index = %d, size = %d", index, arrayList->size);
+#define CheckInsertIndex(tag)                                            \
+    ALog_A                                                              \
+    (                                                                   \
+        ((index) <= arrayList->size && (index) >= 0),                   \
+        "AArrayList " tag " failed index error, index = %d, size = %d", \
+        index,                                                          \
+        arrayList->size                                                 \
+    )
 
 
 static inline void AddCapacity(ArrayList* arrayList, int increase)
 {
-    ALog_A(increase > 0, "AArrayList AddCapacity failed, increase = %d can not <= 0", increase);
+    ALog_A(increase > 0, "AArrayList AddCapacity failed, increase = %d cannot <= 0", increase);
 
-    void* data = realloc(arrayList->elementArray->data, (increase + arrayList->elementArray->length) * arrayList->elementTypeSize);
+    void* data = realloc
+                 (
+                     arrayList->elementArray->data,
+                     (size_t) (increase + arrayList->elementArray->length) * arrayList->elementTypeSize
+                 );
 
     ALog_A
     (
@@ -34,18 +54,6 @@ static inline void AddCapacity(ArrayList* arrayList, int increase)
         "AArrayList AddCapacity failed, unable to realloc memory, size = %d, length = %d, increase = %d",
         arrayList->size, arrayList->elementArray->length, increase
     );
-
-/*
-------------------------------------------------------------------------------------------------------------------------
-    // set increase data to 0, but it seems not very necessary
-    memset
-    (
-        (char*) data + arrayList->elementTypeSize * arrayList->array->length,
-         0,
-         arrayList->elementTypeSize * increase
-    );
-------------------------------------------------------------------------------------------------------------------------
-*/
 
     arrayList->elementArray->data    = data;
     arrayList->elementArray->length += increase;
@@ -77,7 +85,7 @@ static void* GetInsert(ArrayList* arrayList, int index)
     void* to   = (char*) from                          + arrayList->elementTypeSize;
 
     // from and to overlap so cannot use memcpy
-    memmove(to, from, arrayList->elementTypeSize * ((arrayList->size++) - index));
+    memmove(to, from, (size_t) arrayList->elementTypeSize * ((arrayList->size++) - index));
 
     return from;
 }
@@ -85,37 +93,38 @@ static void* GetInsert(ArrayList* arrayList, int index)
 
 static void* Add(ArrayList* arrayList, void* elementPtr)
 {
-    return memcpy(GetAdd(arrayList), elementPtr, arrayList->elementTypeSize);
+    return memcpy(GetAdd(arrayList), elementPtr, (size_t) arrayList->elementTypeSize);
 }
 
 
 static void* Insert(ArrayList* arrayList, int index, void* elementPtr)
 {
-    return memcpy(GetInsert(arrayList, index), elementPtr, arrayList->elementTypeSize);
+    return memcpy(GetInsert(arrayList, index), elementPtr, (size_t) arrayList->elementTypeSize);
 }
 
 
 /*
-------------------------------------------------------------------------------------------------------------------------
+
 // use macro instead
 static void* Get(ArrayList* arrayList, int index)
 {
     CheckIndex("Get", index);
-    return (char*) arrayList->array->data + arrayList->elementTypeSize * index;
+    return (char*) arrayList->elementArray->data + arrayList->elementTypeSize * index;
 }
-------------------------------------------------------------------------------------------------------------------------
-*/
 
 
-/*
-------------------------------------------------------------------------------------------------------------------------
 // use macro instead
 static void Set(ArrayList* arrayList, int index, void* elementPtr)
 {
     CheckIndex("Set", index);
-    memcpy((char*) arrayList->array->data + arrayList->elementTypeSize * index, elementPtr, arrayList->elementTypeSize);
+    memcpy
+    (
+        (char*)  arrayList->elementArray->data + arrayList->elementTypeSize * index,
+        elementPtr,
+        (size_t) arrayList->elementTypeSize
+    );
 }
-------------------------------------------------------------------------------------------------------------------------
+
 */
 
 
@@ -152,9 +161,9 @@ static void AddArray(ArrayList* arrayList, void* data, int length, int elementTy
 
     memcpy
     (
-        (char*) arrayList->elementArray->data + arrayList->elementTypeSize * arrayList->size,
+        (char*)  arrayList->elementArray->data + arrayList->elementTypeSize * arrayList->size,
         data,
-        arrayList->elementTypeSize * length
+        (size_t) arrayList->elementTypeSize * length
     );
 
     arrayList->size += length;
@@ -174,20 +183,8 @@ static void Remove(ArrayList* arrayList, int index)
         void* from = (char*) to                            + arrayList->elementTypeSize;
 
         // move between index and last index element
-        memcpy(to, from, arrayList->elementTypeSize * (arrayList->size - index));
-
-        // set last element 0, but it seems not very necessary
-        // memset((char*) arrayList->array->data + arrayList->elementTypeSize * arrayList->size, 0, arrayList->elementTypeSize);
+        memcpy(to, from,  (size_t) arrayList->elementTypeSize * (arrayList->size - index));
     }
-/*
-------------------------------------------------------------------------------------------------------------------------
-    else
-    {
-        // remove the last element only set 0, but it seems not very necessary
-        // memset((char*) arrayList->array->data + arrayList->elementTypeSize * index, 0, arrayList->elementTypeSize);
-    }
-------------------------------------------------------------------------------------------------------------------------
-*/
 }
 
 
@@ -208,22 +205,8 @@ static void RemoveRange(ArrayList* arrayList, int fromIndex, int toIndex)
         void* from  = (char*) to                            + arrayList->elementTypeSize * num;
 
         // move between lastIndex and toIndex element
-        memcpy(to, from, arrayList->elementTypeSize * (lastIndex - toIndex));
-
-        // set last range elements 0, but it seems not very necessary
-        // memset((char*) arrayList->array->data + arrayList->elementTypeSize * arrayList->size, 0, arrayList->elementTypeSize * num);
-
+        memcpy(to, from, (size_t) arrayList->elementTypeSize * (lastIndex - toIndex));
     }
-
-/*
-------------------------------------------------------------------------------------------------------------------------
-    else
-    {
-        // range reach the end, but it seems not very necessary
-        // memset((char*) arrayList->array->data + arrayList->elementTypeSize * fromIndex, 0, arrayList->elementTypeSize * num);
-    }
-------------------------------------------------------------------------------------------------------------------------
-*/
 }
 
 
@@ -238,30 +221,17 @@ static void RemoveByLast(ArrayList* arrayList, int index)
     {
         memcpy
         (
-            (char*) arrayList->elementArray->data + arrayList->elementTypeSize * index,
-            (char*) arrayList->elementArray->data + arrayList->elementTypeSize * arrayList->size,
-            arrayList->elementTypeSize
+            (char*)  arrayList->elementArray->data + arrayList->elementTypeSize * index,
+            (char*)  arrayList->elementArray->data + arrayList->elementTypeSize * arrayList->size,
+            (size_t) arrayList->elementTypeSize
         );
     }
-
-/*
-------------------------------------------------------------------------------------------------------------------------
-    else
-    {
-        // remove the last element only set 0, but it seems not very necessary
-        // memset((char*) arrayList->array->data + arrayList->elementTypeSize * index, 0, arrayList->elementTypeSize);
-    }
-------------------------------------------------------------------------------------------------------------------------
-*/
 }
 
 
 static void Clear(ArrayList* arrayList)
 {
     arrayList->size = 0;
-
-    // set data 0, but it seems not very necessary
-    // memset(arrayList->array->data, 0, arrayList->elementTypeSize * arrayList->size);
 }
 
 
@@ -275,7 +245,7 @@ static void Shrink(ArrayList* arrayList)
     }
     else
     {
-        void* data = realloc(arrayList->elementArray->data, arrayList->size * arrayList->elementTypeSize);
+        void* data = realloc(arrayList->elementArray->data, (size_t) arrayList->size * arrayList->elementTypeSize);
         ALog_A(data, "AArrayList Shrink error, size = %d ", arrayList->size);
 
         arrayList->elementArray->data   = data;
@@ -385,8 +355,6 @@ struct AArrayList AArrayList[1] =
     GetInsert,
     Add,
     Insert,
-//    get,
-//    set,
     Pop,
     AddArray,
     Remove,

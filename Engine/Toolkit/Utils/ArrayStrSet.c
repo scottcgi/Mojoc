@@ -30,7 +30,7 @@ static inline int BinarySearch(ArrayList* elementList, const char* str, int strL
     while (high - low > 1)
     {
         // not consider int overflow
-        guess                       = (high + low) >> 1;
+        guess                       = (high + low) >> 1; // NOLINT(hicpp-signed-bitwise)
         ArrayStrSetElement* element = AArrayList_Get(elementList, guess, ArrayStrSetElement*);
 
         if (element->strLength < strLength)

@@ -109,7 +109,7 @@ struct AArrayStrMap
     bool         (*TryRemove)          (ArrayStrMap* arrayStrMap, const char* key);
 
     /**
-     * Clear all values, reset size to 0, and keep memory space.
+     * Clear all elements, reset size to 0, and keep memory space.
      */
     void         (*Clear)              (ArrayStrMap* arrayStrMap);
 
@@ -171,11 +171,11 @@ static inline const char* AArrayStrMap_GetKey(void* valuePtr, int valueTypeSize)
  * Init constant ArrayStrMap.
  * example: ArrayStrMap map[1] = AArrayStrMap_Init(valueType, increase)
  */
-#define AArrayStrMap_Init(valueType, increase)             \
-    {{                                                    \
-          sizeof(valueType),                              \
-          AArrayList_Init(ArrayStrMapElement*, increase), \
-    }}
+#define AArrayStrMap_Init(valueType, increase)           \
+    {                                                   \
+        sizeof(valueType),                              \
+        AArrayList_Init(ArrayStrMapElement*, increase), \
+    }
 
 
 /**

@@ -1,11 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-1-6
+ * Update: 2019-1-17
  * Author: scott.cgi
  */
+
 
 #include <math.h>
 #include "Engine/Toolkit/Math/Matrix.h"
@@ -125,9 +130,8 @@ static float MultiplyMZ(Matrix4* matrix4, float z)
 
 
 /*
-------------------------------------------------------------------------------------------------------------------------
-// matrix4 must be identity matrix
 
+// matrix4 must be identity matrix
 static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
 {
 
@@ -239,14 +243,14 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
         }
     }
 }
-------------------------------------------------------------------------------------------------------------------------
+ 
 */
 
 
 /**
- * The OpenGL column matrix multiply vector
- * matrix index 048 is matrix column
- * 048 multiply vector means x do vector sum for final vector's x
+ * The OpenGL column matrix multiply vector.
+ * matrix index 048 is matrix column.
+ * 048 multiply vector means x do vector sum for final vector's x.
  */
 static void Translate(Matrix4* matrix4, float x, float y, float z)
 {
@@ -257,7 +261,7 @@ static void Translate(Matrix4* matrix4, float x, float y, float z)
 
 
 /**
- * Rotate identity matrix4 and multiply matrix4
+ * Rotate identity matrix4 and multiply matrix4.
  */
 static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
 {
@@ -318,7 +322,6 @@ static void RotateX(Matrix4* matrix4, float angle)
     float c = cosf(angle);
 
 /*
-------------------------------------------------------------------------------------------------------------------------
     Matrix4 temp1[1] =
     {
         1.0f, 0.0f, 0.0f, 0.0f,
@@ -332,7 +335,6 @@ static void RotateX(Matrix4* matrix4, float angle)
 
     // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
     *matrix4 = *temp2;
-------------------------------------------------------------------------------------------------------------------------
 */
 
     float m4      = matrix4->m4;
@@ -359,7 +361,6 @@ static void RotateY(Matrix4* matrix4, float angle)
     float c  = cosf(angle);
 
 /*
-------------------------------------------------------------------------------------------------------------------------
     Matrix4 temp1[1] =
     {
            c, 0.0f,   -s, 0.0f,
@@ -373,7 +374,6 @@ static void RotateY(Matrix4* matrix4, float angle)
 
     // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
     *matrix4 = *temp2;
-------------------------------------------------------------------------------------------------------------------------
 */
 
     float m0      = matrix4->m0;
@@ -400,7 +400,6 @@ static void RotateZ(Matrix4* matrix4, float angle)
     float c  = cosf(angle);
 
 /*
-------------------------------------------------------------------------------------------------------------------------
     Matrix4 temp1[1] =
     {
            c,    s, 0.0f, 0.0f,
@@ -414,7 +413,6 @@ static void RotateZ(Matrix4* matrix4, float angle)
 
     // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
     *matrix4 = *temp2;
-------------------------------------------------------------------------------------------------------------------------
 */
 
     float m0     = matrix4->m0;
@@ -467,7 +465,6 @@ static void Inverse(Matrix4* matrix4, Matrix4* outInverse)
     float b5 = matrix4->m10 * matrix4->m15 - matrix4->m11 * matrix4->m14;
 
 /*
-------------------------------------------------------------------------------------------------------------------------
     // calculate the determinant
     float det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
@@ -478,16 +475,11 @@ static void Inverse(Matrix4* matrix4, Matrix4* outInverse)
     }
 
     float scalar = 1.0f / det;
-------------------------------------------------------------------------------------------------------------------------
 */
 
     float scalar = 1.0f / (a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0);
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    support the case where matrix == result
-------------------------------------------------------------------------------------------------------------------------
-*/
+    // support the case where matrix == result
 
     outInverse->m0  = ( matrix4->m5  * b5 - matrix4->m6  * b4 + matrix4->m7  * b3) * scalar;
     outInverse->m1  = (-matrix4->m1  * b5 + matrix4->m2  * b4 - matrix4->m3  * b3) * scalar;
@@ -526,7 +518,7 @@ static void Transpose(Matrix4* matrix, Matrix4* outTranspose)
 
 
 /**
- * Transpose first then inverse
+ * Transpose and inverse.
  */
 static void InverseTranspose(Matrix4* matrix4, Matrix4* outInverseTranspose)
 {
@@ -545,7 +537,6 @@ static void InverseTranspose(Matrix4* matrix4, Matrix4* outInverseTranspose)
     float b5 = matrix4->m10 * matrix4->m15 - matrix4->m14 * matrix4->m11;
 
 /*
-------------------------------------------------------------------------------------------------------------------------
     // calculate the determinant
     float det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
@@ -556,16 +547,11 @@ static void InverseTranspose(Matrix4* matrix4, Matrix4* outInverseTranspose)
     }
 
     float scalar = 1.0f / det;
-------------------------------------------------------------------------------------------------------------------------
 */
 
     float scalar = 1.0f / (a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0);
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    support the case where matrix == result
-------------------------------------------------------------------------------------------------------------------------
-*/
+    // support the case where matrix == result
 
     outInverseTranspose->m0  = ( matrix4->m5 * b5 - matrix4->m9  * b4 + matrix4->m13 * b3) * scalar;
     outInverseTranspose->m1  = (-matrix4->m4 * b5 + matrix4->m8  * b4 - matrix4->m12 * b3) * scalar;
@@ -658,15 +644,13 @@ static void Ortho(float left, float right, float bottom, float top, float near, 
 }
 
 
-/**
- * Define a projection matrix in terms of six clip planes
- */
 static void Frustum(float left, float right, float bottom, float top, float near, float far, Matrix4* outProjection)
 {
     ALog_A
     (
         right != left && top != bottom && near != far && near > 0.0f && far > 0.0f,
-        "AMatrix Frustum failed because right == left || top == bottom || near == far || near <= 0.0f || far <= 0.0f"
+        "AMatrix Frustum failed,"
+        " because right == left || top == bottom || near == far || near <= 0.0f || far <= 0.0f"
     );
 
     float width         = 1.0f / (right - left);

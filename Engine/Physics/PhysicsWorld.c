@@ -1,11 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2014-5-30
+ * Update: 2019-1-18
  * Author: scott.cgi
  */
+
 
 #include "Engine/Physics/PhysicsWorld.h"
 #include "Engine/Toolkit/Utils/ArrayIntSet.h"
@@ -15,24 +20,21 @@
 static ArrayIntSet(PhysicsBody*) bodySet[1] = AArrayIntSet_Init(PhysicsBody*, 20);
 
 
-//----------------------------------------------------------------------------------------------------------------------
-
-
 static inline void UpdateMotion(PhysicsBody* body, float deltaSeconds)
 {
     // cache v0
-    float vx         = body->velocityX;
-    float vy         = body->velocityY;
+    float vx           = body->velocityX;
+    float vy           = body->velocityY;
 
     // get final velocity in x and y direction
     // v1 = at + v0
-    body->velocityX += (body->accelerationX + APhysicsWorld->gravity.x) * deltaSeconds;
-    body->velocityY += (body->accelerationY + APhysicsWorld->gravity.y) * deltaSeconds;
+    body->velocityX  += (body->accelerationX + APhysicsWorld->gravity.x) * deltaSeconds;
+    body->velocityY  += (body->accelerationY + APhysicsWorld->gravity.y) * deltaSeconds;
 
     // get delta distance in x and y indirection
     // s = (v0 + v1) * t / 2
-    float dx         = (body->velocityX + vx) * deltaSeconds * 0.5f;
-    float dy         = (body->velocityY + vy) * deltaSeconds * 0.5f;
+    float dx          = (body->velocityX + vx) * deltaSeconds * 0.5f;
+    float dy          = (body->velocityY + vy) * deltaSeconds * 0.5f;
 
     // increase x and y distance
     body->positionX += dx;
@@ -65,7 +67,8 @@ static void Update(float deltaSeconds)
                 if
                 (
                     otherBody->state     != PhysicsBodyState_Freeze         &&
-                    (body->collisionGroup & otherBody->collisionGroup) == 0 && // collisionGroup no identical bits
+                    // collisionGroup no identical bits
+                    (body->collisionGroup & otherBody->collisionGroup) == 0 && // NOLINT(hicpp-signed-bitwise)
                     APhysicsCollision->TestCollision(body, otherBody)
                 )
                 {
@@ -109,10 +112,8 @@ static void DestroyBody(PhysicsBody* body)
 
 
 struct APhysicsWorld APhysicsWorld[1] =
-{
-    {
-        .AddBody     = AddBody,
-        .DestroyBody = DestroyBody,
-        .Update      = Update,
-    }
-};
+{{
+    .AddBody     = AddBody,
+    .DestroyBody = DestroyBody,
+    .Update      = Update,
+}};

@@ -23,12 +23,12 @@ struct  SkeletonBoneData
 {
     SkeletonBoneData* parent;
     char*             name;
-    float             length;
-    float             x;
-    float             y;
-    float             rotationZ;
-    float             scaleX;
-    float             scaleY;
+    float              length;
+    float              x;
+    float              y;
+    float              rotationZ;
+    float              scaleX;
+    float              scaleY;
     bool              isInheritScale;
     bool              isInheritRotation;
 };
@@ -193,8 +193,8 @@ SkeletonMeshAttachmentData;
 typedef struct
 {
     Array(int)                 boneArr           [1];
-    Array(float)               weightArr         [1];
-    Array(float)               weightVertexArr   [1];
+    Array(float)                weightArr         [1];
+    Array(float)                weightVertexArr   [1];
     SkeletonMeshAttachmentData meshAttachmentData[1];
 }
 SkeletonSkinnedMeshAttachmentData;
@@ -267,9 +267,9 @@ struct ASkeletonData
     float scale;
 
     /**
-     * Get SkeletonData by relativeJsonFilePath, not found will create one
+     * Get SkeletonData by jsonFilePath, not found will create one.
      */
-    SkeletonData*           (*Get)                        (const char*          relativeJsonFilePath);
+    SkeletonData*           (*Get)                        (const char*          jsonFilePath);
     void                    (*Release)                    (SkeletonData*        skeletonData);
     SkeletonAttachmentData* (*GetAttachmentDataBySkinData)(
                                                               SkeletonSkinData* skinData,

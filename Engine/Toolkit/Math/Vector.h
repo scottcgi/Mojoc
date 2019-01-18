@@ -1,15 +1,19 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2014-6-19
+ * Update: 2019-1-17
  * Author: scott.cgi
  */
 
 
 #ifndef VECTOR_H
-#define VECTOR_H
+#define  VECTOR_H
 
 
 #include <math.h>
@@ -54,7 +58,7 @@ typedef union
 Vector4;
 
 
-static inline float AVector2_Length(Vector2* vec2)
+static inline float AVector2_LengthV2(Vector2* vec2)
 {
     return sqrtf(vec2->x * vec2->x + vec2->y * vec2->y);
 }

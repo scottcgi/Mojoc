@@ -1,39 +1,50 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-2-1
+ * Updata: 2017-1-17
  * Author: scott.cgi
  */
 
+
 #ifndef ARRAY_H
-#define ARRAY_H
+#define  ARRAY_H
 
 
 #include "Engine/Toolkit/HeaderUtils/Define.h"
 
 
+/**
+ * The array with length.
+ */
 typedef struct
 {
     /**
-     * Elements memory space ptr
+     * Elements memory space ptr.
      */
     void* data;
 
     /**
-     * Elements count
+     * Elements count.
      */
     int   length;
 }
 Array;
 
 
+/**
+ * Control Array.
+ */
 struct AArray
 {
     /**
-     * Array struct space and elements space in one malloc
-     * the data ptr hold the offset of malloc return address
+     * Array struct space and elements space in one malloc.
+     * the data ptr store the offset of malloc return address.
      *
      * elementTypeSize: sizeof element type
      * length         : elements count
@@ -46,44 +57,43 @@ extern struct AArray AArray[1];
 
 
 /**
- * Marked Array element type
- *
+ * Marked Array element type.
  * elementType: element data type
  */
 #define Array(elementType) Array
 
 
 /**
- * Create Array composite literal
+ * Create Array composite literal.
  *
  * elementType: element data type
  * length     : element count
  * ...        : each element
  */
 #define AArray_Make(elementType, length, ...) \
-    (Array[1])                                \
-    {                                         \
-        (elementType[length]) {__VA_ARGS__},  \
-        length,                               \
+    (Array[1])                               \
+    {                                        \
+        (elementType[length]) {__VA_ARGS__}, \
+        length,                              \
     }
 
 
 /**
- * Initialize constant Array
+ * Init constant Array.
  *
  * elementType: element data type
  * length     : element count
  * ...        : each element
  */
 #define AArray_Init(elementType, length, ...) \
-    {                                         \
-        (elementType[length]) {__VA_ARGS__},  \
-        length,                               \
+    {                                        \
+        (elementType[length]) {__VA_ARGS__}, \
+        length,                              \
     }
 
 
 /**
- * Get Array data patr
+ * Get Array data ptr with type.
  *
  * array      : Array ptr
  * elementType: element data type
@@ -93,7 +103,7 @@ extern struct AArray AArray[1];
 
 
 /**
- * Get element at index
+ * Get element at index.
  *
  * array      : Array ptr
  * index      : element index of array
@@ -104,7 +114,7 @@ extern struct AArray AArray[1];
 
 
 /**
- * Get element ptr at index
+ * Get element ptr at index.
  *
  * array      : Array ptr
  * index      : element index of array
@@ -115,7 +125,7 @@ extern struct AArray AArray[1];
 
 
 /**
- * Set element at index
+ * Set element at index.
  *
  * array      : Array ptr
  * index      : element index of array

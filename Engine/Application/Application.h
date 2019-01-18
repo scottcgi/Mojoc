@@ -91,11 +91,7 @@ struct AApplication
      */
     ApplicationCallbacks  callbacks[1];
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    These functions called in target platform
-------------------------------------------------------------------------------------------------------------------------
-*/
+    /* These functions called in target platform. */
 
     /**
      * Initialize each modules

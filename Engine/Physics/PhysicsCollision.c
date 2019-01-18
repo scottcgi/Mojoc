@@ -1,19 +1,24 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2014-7-23
+ * Update: 2019-1-18
  * Author: scott.cgi
  */
+
 
 #include "Engine/Physics/PhysicsCollision.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
 
 /**
- * Test polygonA each vertex in polygonB, true inside or false outside
- * can test through and cross each others
+ * Test polygonA each vertex in polygonB, return true inside or false outside.
+ * can test through and cross each others.
  */
 static inline bool TestPolygonPolygonFull(Array(float)* polygonA, Array(float)* polygonB)
 {
@@ -67,8 +72,8 @@ static inline bool TestPolygonPolygonFull(Array(float)* polygonA, Array(float)* 
 
 
 /**
- * Test polygonA each vertex in polygonB, true inside or false outside
- * not test through and cross each others
+ * Test polygonA each vertex in polygonB,return true inside or false outside.
+ * not test through and cross each others.
  */
 static inline bool TestPolygonPolygon(Array(float)* polygonA, Array(float)* polygonB)
 {
@@ -117,11 +122,11 @@ static inline bool TestPolygonPolygon(Array(float)* polygonA, Array(float)* poly
 
 
 /**
- * Test one lineA intersect lineB
+ * Test one lineA intersect lineB.
  */
 static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
 {
-    int   flag[2]  = {0, 0};
+    int  flag[2]   = {0, 0};
     float vertexX1 = AArray_Get(lineB, 0, float);
     float vertexX2 = AArray_Get(lineB, 2, float);
     float vertexY1 = AArray_Get(lineB, 1, float);
@@ -143,12 +148,12 @@ static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
             if (vertexX1 + (y - vertexY1) / (vertexY2 - vertexY1) * (vertexX2 - vertexX1) <= x)
             {
                 // right
-                flag[i >> 1] = 1;
+                flag[i >> 1] = 1; // NOLINT(hicpp-signed-bitwise)
             }
             else
             {
                 // left
-                flag[i >> 1] = 2;
+                flag[i >> 1] = 2; // NOLINT(hicpp-signed-bitwise)
             }
         }
     }
@@ -160,8 +165,8 @@ static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
     }
 
 
-    flag[0]  = 0;
-    flag[1]  = 0;
+    flag[0]   = 0;
+    flag[1]   = 0;
 
     vertexX1 = AArray_Get(lineA, 0, float);
     vertexX2 = AArray_Get(lineA, 2, float);
@@ -184,12 +189,12 @@ static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
             if (vertexX1 + (y - vertexY1) / (vertexY2 - vertexY1) * (vertexX2 - vertexX1) <= x)
             {
                 // right
-                flag[i >> 1] = 1;
+                flag[i >> 1] = 1; // NOLINT(hicpp-signed-bitwise)
             }
             else
             {
                 // left
-                flag[i >> 1] = 2;
+                flag[i >> 1] = 2; // NOLINT(hicpp-signed-bitwise)
             }
         }
     }
@@ -200,15 +205,15 @@ static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
 
 
 /**
- * Test polygon contains point, true inside or false outside
+ * Test polygon contains one point, return true inside or false outside.
  */
 static inline bool TestPolygonPoint(Array(float)* polygon, Array(float)* point)
 {
-    bool   inside     = false;
-    int    preIndex   = polygon->length - 2;
+    bool  inside     = false;
+    int   preIndex   = polygon->length - 2;
     float* vertexData = AArray_GetData(polygon, float);
-    float  x          = AArray_Get(polygon, 0,  float);
-    float  y          = AArray_Get(polygon, 1,  float);
+    float  x          = AArray_Get    (point,   0, float);
+    float  y          = AArray_Get    (point,   1, float);
 
     for (int i = 0; i < polygon->length; i += 2)
     {
@@ -242,23 +247,27 @@ static inline bool TestPolygonPoint(Array(float)* polygon, Array(float)* point)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-enum
+typedef enum
 {
-    PhysicsShape_PolygonPloygon = PhysicsShape_Polygon | PhysicsShape_Polygon,
-    PhysicsShape_PloygonLine    = PhysicsShape_Polygon | PhysicsShape_Line,
-    PhysicsShape_LineLine       = PhysicsShape_Line    | PhysicsShape_Line,
-    PhysicsShape_PloygonPoint   = PhysicsShape_Polygon | PhysicsShape_Point,
-};
+    PhysicsShape_PolygonPolygon = PhysicsShape_Polygon,
+    PhysicsShape_PolygonLine    = PhysicsShape_Polygon | PhysicsShape_Line,  // NOLINT(hicpp-signed-bitwise)
+    PhysicsShape_LineLine       = PhysicsShape_Line,
+    PhysicsShape_PolygonPoint   = PhysicsShape_Polygon | PhysicsShape_Point, // NOLINT(hicpp-signed-bitwise)
+}
+PhysicsShapeCollision;
 
 
 static bool TestCollision(PhysicsBody* bodyA, PhysicsBody* bodyB)
 {
-    switch (bodyA->shape | bodyB->shape)
-    {
-        case PhysicsShape_PolygonPloygon:
-            return TestPolygonPolygon(bodyA->positionArr, bodyB->positionArr) || TestPolygonPolygon(bodyB->positionArr, bodyA->positionArr);
+    PhysicsShapeCollision shapeCollision = (PhysicsShapeCollision) (bodyA->shape | bodyB->shape);
 
-        case PhysicsShape_PloygonLine:
+    switch (shapeCollision)
+    {
+        case PhysicsShape_PolygonPolygon:
+            return TestPolygonPolygon(bodyA->positionArr, bodyB->positionArr) ||
+                   TestPolygonPolygon(bodyB->positionArr, bodyA->positionArr);
+
+        case PhysicsShape_PolygonLine:
             // only consider line vertex in polygon
             if (bodyA->shape == PhysicsShape_Line)
             {
@@ -272,7 +281,7 @@ static bool TestCollision(PhysicsBody* bodyA, PhysicsBody* bodyB)
         case PhysicsShape_LineLine:
             return TestLineLine(bodyA->positionArr, bodyB->positionArr);
 
-        case PhysicsShape_PloygonPoint:
+        case PhysicsShape_PolygonPoint:
             // only consider point in polygon
             if (bodyA->shape == PhysicsShape_Polygon)
             {
@@ -282,9 +291,15 @@ static bool TestCollision(PhysicsBody* bodyA, PhysicsBody* bodyB)
             {
                 return TestPolygonPoint(bodyB->positionArr, bodyA->positionArr);
             }
+        default:
+            ALog_A
+            (
+                false,
+                "APhysicsCollision can not test collision between shape %d and %d",
+                bodyA->shape,
+                bodyB->shape
+            );
     }
-
-    ALog_A(false, "APhysicsCollision can not test collision between shape %d and %d", bodyA->shape, bodyB->shape);
 
     return false;
 }

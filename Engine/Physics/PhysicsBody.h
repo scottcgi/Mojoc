@@ -1,14 +1,19 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2014-6-3
+ * Update: 2019-1-18
  * Author: scott.cgi
  */
 
+
 #ifndef PHYSICS_BODY_H
-#define PHYSICS_BODY_H
+#define  PHYSICS_BODY_H
 
 
 #include "Engine/Toolkit/Math/Matrix.h"
@@ -29,17 +34,17 @@ PhysicsShape;
 typedef enum
 {
     /**
-     * Can motion can collision
+     * Can motion can collision.
      */
     PhysicsBodyState_Normal,
 
     /**
-     * No motion can collision
+     * No motion can collision.
      */
     PhysicsBodyState_Fixed,
 
     /**
-     * No motion no collision
+     * No motion no collision.
      */
     PhysicsBodyState_Freeze,
 }
@@ -55,7 +60,7 @@ struct  PhysicsBody
     UserData         userData[1];
 
     /**
-     * Default -1 used to identify PhysicsBody
+     * Used to identify PhysicsBody, default -1.
      */
     int              userId;
 

@@ -1,9 +1,13 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2017-4-23
+ * Update: 2019-1-17
  * Author: scott.cgi
  */
 
@@ -26,7 +30,7 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
     while (high - low > 1)
     {
         // not consider int overflow
-        guess            = (high + low) >> 1;
+        guess            = (high + low) >> 1; // NOLINT(hicpp-signed-bitwise)
         intptr_t element = AArrayList_Get(elementList, guess, intptr_t);
 
         if (element < key)
@@ -45,11 +49,11 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
     }
 
     // if guess == high
-    // the guess is bigger than key and insert at guess
+    // the guess is bigger than key index and insert at guess
 
     if (guess == low)
     {
-        // the guess is smaller than key and insert behind
+        // the guess is smaller than key index and insert behind
         // or if empty then guess is -1, also do this make guess at 0
         ++guess;
     }
@@ -57,9 +61,6 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
     // when empty guess is 0, so we -1 make sure return negative value
     return -guess - 1;
 }
-
-
-//----------------------------------------------------------------------------------------------------------------------
 
 
 static void Release(ArrayIntSet* arrayIntSet)

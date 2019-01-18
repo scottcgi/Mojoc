@@ -163,22 +163,22 @@ struct AJson
     /**
      * Parse the Json string, return root JsonValue.
      */
-    JsonValue* (*Parse)      (const char* jsonString);
+    JsonValue* (*Parse)                (const char* jsonString);
 
     /**
-     * Parse the Json file from jsonResourceFilePath, return root JsonValue.
+     * Parse the Json file from jsonFilePath, return root JsonValue.
      *
-     * jsonResourceFilePath:
+     * jsonFilePath:
      *     Android: assets
      *     IOS    : NSBundle
      */
-    JsonValue* (*ParseFile)  (const char* jsonResourceFilePath);
+    JsonValue* (*ParseFileFromResource)(const char* jsonFilePath);
 
     /**
      * Release JsonValue member memory space and free itself,
      * if release root JsonValue will free all memory space.
      */
-    void       (*Delete)     (JsonValue* jsonValue);
+    void       (*Delete)               (JsonValue* jsonValue);
 };
 
 
