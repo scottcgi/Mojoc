@@ -17,7 +17,7 @@
 #include "Engine/Physics/PhysicsCollision.h"
 
 
-static ArrayIntSet(PhysicsBody*) bodySet[1] = AArrayIntSet_Init(PhysicsBody*, 20);
+static ArrayIntSet(PhysicsBody*) bodyInWorldSet[1] = AArrayIntSet_Init(PhysicsBody*, 20);
 
 
 static inline void UpdateMotion(PhysicsBody* body, float deltaSeconds)
@@ -53,21 +53,21 @@ static inline void UpdateMotion(PhysicsBody* body, float deltaSeconds)
 
 static void Update(float deltaSeconds)
 {
-    for (int i = 0; i < bodySet->elementList->size; ++i)
+    for (int i = 0; i < bodyInWorldSet->elementList->size; ++i)
     {
-        PhysicsBody* body = AArrayList_Get(bodySet->elementList, i, PhysicsBody*);
+        PhysicsBody* body = AArrayList_Get(bodyInWorldSet->elementList, i, PhysicsBody*);
 
         if (body->state != PhysicsBodyState_Freeze)
         {
             // test collision
-            for (int fromIndex = i + 1; fromIndex < bodySet->elementList->size; ++fromIndex)
+            for (int fromIndex = i + 1; fromIndex < bodyInWorldSet->elementList->size; ++fromIndex)
             {
-                PhysicsBody* otherBody = AArrayList_Get(bodySet->elementList, fromIndex, PhysicsBody*);
+                PhysicsBody* otherBody = AArrayList_Get(bodyInWorldSet->elementList, fromIndex, PhysicsBody*);
 
                 if
                 (
-                    otherBody->state     != PhysicsBodyState_Freeze         &&
-                    // collisionGroup no identical bits
+                    otherBody->state != PhysicsBodyState_Freeze &&
+                    // check collisionGroup whether has same bit
                     (body->collisionGroup & otherBody->collisionGroup) == 0 && // NOLINT(hicpp-signed-bitwise)
                     APhysicsCollision->TestCollision(body, otherBody)
                 )
@@ -98,7 +98,7 @@ static void Update(float deltaSeconds)
 static PhysicsBody* AddBody(PhysicsShape shape, Array(float)* vertexArr)
 {
     PhysicsBody* body = APhysicsBody->Create(shape, vertexArr);
-    AArrayIntSet->TryAdd(bodySet, (intptr_t) body);
+    AArrayIntSet->TryAdd(bodyInWorldSet, (intptr_t) body);
 
     return body;
 }
@@ -106,14 +106,15 @@ static PhysicsBody* AddBody(PhysicsShape shape, Array(float)* vertexArr)
 
 static void DestroyBody(PhysicsBody* body)
 {
-    AArrayIntSet->TryRemove(bodySet, (intptr_t) body);
+    AArrayIntSet->TryRemove(bodyInWorldSet, (intptr_t) body);
     free(body);
 }
 
 
 struct APhysicsWorld APhysicsWorld[1] =
 {{
-    .AddBody     = AddBody,
-    .DestroyBody = DestroyBody,
-    .Update      = Update,
+    {0.0f, 0.0f},
+    AddBody,
+    DestroyBody,
+    Update,
 }};

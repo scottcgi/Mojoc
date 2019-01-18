@@ -17,7 +17,7 @@
 
 
 /**
- * Toolkit module controller.
+ * Manage Toolkit module.
  */
 struct AToolkit
 {

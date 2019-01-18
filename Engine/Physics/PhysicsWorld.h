@@ -27,7 +27,6 @@
 struct APhysicsWorld
 {
     Vector2 gravity;
-    Rect    range;
 
     /**
      * Add body in PhysicsWorld by shape and vertices.

@@ -24,6 +24,7 @@
 
 typedef enum
 {
+    PhysicsShape_NULL    = 0,
     PhysicsShape_Polygon = 1,
     PhysicsShape_Line    = 1 << 2,
     PhysicsShape_Point   = 1 << 3,
@@ -33,6 +34,11 @@ PhysicsShape;
 
 typedef enum
 {
+    /**
+     * Not add in physics world yet.
+     */
+    PhysicsBodyState_OutsideWorld,
+
     /**
      * Can motion can collision.
      */
@@ -51,9 +57,6 @@ typedef enum
 PhysicsBodyState;
 
 
-/**
- * Recommended cache and reused
- */
 typedef struct PhysicsBody PhysicsBody;
 struct  PhysicsBody
 {
@@ -75,43 +78,51 @@ struct  PhysicsBody
     PhysicsShape     shape;
 
     /**
-     * PhysicsBody current state
+     * PhysicsBody current state.
      */
     PhysicsBodyState state;
 
     /**
-     * Pow of 2, default 0
-     * body can collision between different collisionGroup (no identical bits)
+     * Pow of 2, default 0.
+     * body can collision between different collisionGroup (no same bit).
      */
     int              collisionGroup;
 
     /**
-     * Hold born vertices, do not modify
+     * Store born vertices. (read only)
      */
     Array(float)      vertexArr  [1];
 
     /**
-     * The vertices after transformed
+     * The vertices after transformed.
      */
     Array(float)      positionArr[1];
 
     /**
-     * When body collision callback
+     * When body collision callback.
      */
     void (*OnCollision)(PhysicsBody* self, PhysicsBody* other, float deltaSeconds);
 };
 
 
+/**
+ * Manage and Control PhysicsBody.
+ */
 struct APhysicsBody
 {
     /**
-     * Create body with shape by vertices
-     * if shape not support will return NULL
+     * Create body with shape and vertices.
+     *
+     * the vertexArr will copy into PhysicsBody,
+     * and the PhysicsBody's vertexArr and positionArr are same when init,
+     * and all data create by one malloc.
+     *
+     * if shape not support will return NULL.
      */
     PhysicsBody* (*Create)      (PhysicsShape shape, Array(float)* vertexArr);
 
     /**
-     * Update body shape motion
+     * Update body motion.
      */
     void         (*UpdateMotion)(PhysicsBody* body, float deltaSeconds);
 
@@ -124,27 +135,39 @@ extern struct APhysicsBody APhysicsBody[1];
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static inline bool APhysicsBody_CheckCollisionGroup(PhysicsBody* physicsBody, int checkCollisionGroup)
+/**
+ *  Check physicsBody whether has same bit in collisionGroup.
+ */
+static inline bool APhysicsBody_CheckCollisionGroup(PhysicsBody* physicsBody, int collisionGroup)
 {
-    return ABitwise_Check(physicsBody->collisionGroup, checkCollisionGroup);
+    return ABitwise_Check(physicsBody->collisionGroup, collisionGroup); // NOLINT(hicpp-signed-bitwise)
 }
 
 
-static inline void APhysicsBody_AddCollisionGroup(PhysicsBody* physicsBody, int addCollisionGroup)
+/**
+ * Add collisionGroup to physicsBody.
+ */
+static inline void APhysicsBody_AddCollisionGroup(PhysicsBody* physicsBody, int collisionGroup)
 {
-    ABitwise_Add(physicsBody->collisionGroup, addCollisionGroup);
+    ABitwise_Add(physicsBody->collisionGroup, collisionGroup);
 }
 
 
-static inline void APhysicsBody_SetCollisionGroup(PhysicsBody* physicsBody, int setCollisionGroup)
+/**
+ * Set collisionGroup to physicsBody.
+ */
+static inline void APhysicsBody_SetCollisionGroup(PhysicsBody* physicsBody, int collisionGroup)
 {
-    ABitwise_Set(physicsBody->collisionGroup, setCollisionGroup);
+    ABitwise_Set(physicsBody->collisionGroup, collisionGroup);
 }
 
 
-static inline void APhysicsBody_ClearCollisionGroup(PhysicsBody* physicsBody, int clearCollisionGroup)
+/**
+ * Clear collisionGroup in physicsBody.
+ */
+static inline void APhysicsBody_ClearCollisionGroup(PhysicsBody* physicsBody, int collisionGroup)
 {
-    ABitwise_Clear(physicsBody->collisionGroup, clearCollisionGroup);
+    ABitwise_Clear(physicsBody->collisionGroup, collisionGroup);  // NOLINT(hicpp-signed-bitwise)
 }
 
 
