@@ -25,7 +25,7 @@
  * If the JsonValue is JsonType_Array,  then free each items and do recursively.
  * if the JsonValue is JsonType_Object, then free each K-V   and do recursively.
  */
-static void Delete(JsonValue* value)
+static void Destroy(JsonValue* value)
 {
     // JsonValue hold the whole memory
     // so free JsonValue will be release JsonValue's memory
@@ -37,7 +37,7 @@ static void Delete(JsonValue* value)
             ArrayList* list = value->jsonArray->valueList;
             for (int i = 0; i < list->size; ++i)
             {
-                Delete(AArrayList_Get(list, i, JsonValue*));
+                Destroy(AArrayList_Get(list, i, JsonValue*));
             }
 
             AArrayList->Release(list);
@@ -49,7 +49,7 @@ static void Delete(JsonValue* value)
             ArrayStrMap* map = value->jsonObject->valueMap;
             for (int i = 0; i < map->elementList->size; ++i)
             {
-                Delete(AArrayStrMap_GetAt(map, i, JsonValue*));
+                Destroy(AArrayStrMap_GetAt(map, i, JsonValue*));
             }
 
             AArrayStrMap->Release(map);
@@ -604,5 +604,5 @@ struct AJson AJson[1] =
 {
     Parse,
     ParseFileFromResource,
-    Delete,
+    Destroy,
 };

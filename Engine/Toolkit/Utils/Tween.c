@@ -27,26 +27,26 @@ typedef struct
     ArrayQueue(TweenAction*) queue  [1];
 
     /**
-     * Target's current running action.
+     * Target's current running actions.
      */
     ArrayList(TweenAction*)  current[1];
 
     /**
-     * Current running action of queue.
+     * A queue action currently is running in current list.
      */
-    TweenAction*             currentAction;
+    TweenAction*             queueAction;
 }
 Tween;
 
 
-static ArrayIntMap(tweenId, Tween*) tweenMap  [1] = AArrayIntMap_Init(Tween*,       25);
-static ArrayList  (Tween*)          tweenList [1] = AArrayList_Init  (Tween*,       25);
-static ArrayList  (TweenAction*)    actionList[1] = AArrayList_Init  (TweenAction*, 25);
+static ArrayIntMap(tweenId, Tween*) tweenRunningMap[1] = AArrayIntMap_Init(Tween*,       25);
+static ArrayList  (Tween*)          tweenCacheList [1] = AArrayList_Init  (Tween*,       25);
+static ArrayList  (TweenAction*)    actionCacheList[1] = AArrayList_Init  (TweenAction*, 25);
 
 
 static inline Tween* GetTween()
 {
-    Tween* tween = AArrayList_Pop(tweenList, Tween*);
+    Tween* tween = AArrayList_Pop(tweenCacheList, Tween*);
 
     if (tween == NULL)
     {
@@ -64,7 +64,7 @@ static inline Tween* GetTween()
         AArrayList ->Clear(tween->current);
     }
 
-    tween->currentAction = NULL;
+    tween->queueAction = NULL;
 
     return tween;
 }
@@ -72,7 +72,7 @@ static inline Tween* GetTween()
 
 static TweenAction* GetAction()
 {
-    TweenAction* action = AArrayList_Pop(actionList, TweenAction*);
+    TweenAction* action = AArrayList_Pop(actionCacheList, TweenAction*);
 
     if (action == NULL)
     {
@@ -147,20 +147,20 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
         tween   = GetTween();
         tweenId = tween;
 
-        AArrayIntMap_TryPut(tweenMap, tweenId, tween);
+        AArrayIntMap_TryPut(tweenRunningMap, tweenId, tween);
     }
     else
     {
-        int index = AArrayIntMap->GetIndex(tweenMap, (intptr_t) tweenId);
+        int index = AArrayIntMap->GetIndex(tweenRunningMap, (intptr_t) tweenId);
 
         if (index < 0)
         {
             tween = GetTween();
-            AArrayIntMap_InsertAt(tweenMap, tweenId, -index - 1, tween);
+            AArrayIntMap_InsertAt(tweenRunningMap, tweenId, -index - 1, tween);
         }
         else
         {
-            tween = AArrayIntMap_GetAt(tweenMap, index, Tween*);
+            tween = AArrayIntMap_GetAt(tweenRunningMap, index, Tween*);
         }
     }
 
@@ -187,7 +187,7 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
 
 static bool TryRemoveAction(void* tweenId, TweenAction* action)
 {
-    Tween* tween = AArrayIntMap_Get(tweenMap, tweenId, Tween*);
+    Tween* tween = AArrayIntMap_Get(tweenRunningMap, tweenId, Tween*);
 
     if (tween != NULL)
     {
@@ -197,13 +197,13 @@ static bool TryRemoveAction(void* tweenId, TweenAction* action)
 
             if (action == tweenAction)
             {
-                if (action == tween->currentAction)
+                if (action == tween->queueAction)
                 {
-                    tween->currentAction = NULL;
+                    tween->queueAction = NULL;
                 }
 
                 AArrayList->RemoveByLast(tween->current, i);
-                AArrayList_Add(actionList, action);
+                AArrayList_Add(actionCacheList, action);
 
                 return true;
             }
@@ -216,7 +216,7 @@ static bool TryRemoveAction(void* tweenId, TweenAction* action)
             if (action == tweenAction)
             {
                 AArrayQueue->RemoveAt(tween->queue, i);
-                AArrayList_Add(actionList, action);
+                AArrayList_Add(actionCacheList, action);
 
                 return true;
             }
@@ -229,27 +229,27 @@ static bool TryRemoveAction(void* tweenId, TweenAction* action)
 
 static bool TryRemoveAllActions(void* tweenId)
 {
-    int index = AArrayIntMap->GetIndex(tweenMap, (intptr_t) tweenId);
+    int index = AArrayIntMap->GetIndex(tweenRunningMap, (intptr_t) tweenId);
 
     if (index >= 0)
     {
-        Tween* tween = AArrayIntMap_GetAt(tweenMap, index, Tween*);
+        Tween* tween = AArrayIntMap_GetAt(tweenRunningMap, index, Tween*);
 
         for (int i = 0; i < tween->current->size; ++i)
         {
-            AArrayList_Add(actionList, AArrayList_Get(tween->current, i, TweenAction*));
+            AArrayList_Add(actionCacheList, AArrayList_Get(tween->current, i, TweenAction*));
         }
         AArrayList->Clear(tween->current);
 
         TweenAction* action;
         while ((action = AArrayQueue_Pop(tween->queue, TweenAction*)))
         {
-            AArrayList_Add(actionList, action);
+            AArrayList_Add(actionCacheList, action);
         }
 
-        // if currentAction not NULL it must be in tweenData->current
+        // if queueAction not NULL it must be in tweenData->current
         // so just set NULL
-        tween->currentAction = NULL;
+        tween->queueAction = NULL;
 
         return true;
     }
@@ -280,17 +280,17 @@ static inline void SetActionComplete(TweenAction* action, bool isFireOnComplete)
 
 static bool TryCompleteAllActions(void* tweenId, bool isFireOnComplete)
 {
-    int index = AArrayIntMap->GetIndex(tweenMap, (intptr_t) tweenId);
+    int index = AArrayIntMap->GetIndex(tweenRunningMap, (intptr_t) tweenId);
 
     if (index >= 0)
     {
-        Tween* tween = AArrayIntMap_GetAt(tweenMap, index, Tween*);
+        Tween* tween = AArrayIntMap_GetAt(tweenRunningMap, index, Tween*);
 
         for (int i = 0; i < tween->current->size; ++i)
         {
             TweenAction* action = AArrayList_Get(tween->current, i, TweenAction*);
             SetActionComplete(action, isFireOnComplete);
-            AArrayList_Add(actionList, action);
+            AArrayList_Add(actionCacheList, action);
         }
         AArrayList->Clear(tween->current);
 
@@ -298,12 +298,12 @@ static bool TryCompleteAllActions(void* tweenId, bool isFireOnComplete)
         while ((action = AArrayQueue_Pop(tween->queue, TweenAction*)))
         {
             SetActionComplete(action, isFireOnComplete);
-            AArrayList_Add(actionList, action);
+            AArrayList_Add(actionCacheList, action);
         }
 
-        // if currentAction not NULL it must be in tweenData->current
+        // if queueAction not NULL it must be in tweenData->current
         // so just set NULL
-        tween->currentAction = NULL;
+        tween->queueAction = NULL;
 
         return true;
     }
@@ -314,11 +314,11 @@ static bool TryCompleteAllActions(void* tweenId, bool isFireOnComplete)
 
 static bool HasAction(void* tweenId)
 {
-    int index = AArrayIntMap->GetIndex(tweenMap, (intptr_t) tweenId);
+    int index = AArrayIntMap->GetIndex(tweenRunningMap, (intptr_t) tweenId);
 
     if (index >= 0)
     {
-        Tween* tween = AArrayIntMap_GetAt(tweenMap, index, Tween*);
+        Tween* tween = AArrayIntMap_GetAt(tweenRunningMap, index, Tween*);
 
         if (tween->current->size > 0 || tween->queue->elementList->size > 0)
         {
@@ -334,28 +334,28 @@ static bool HasAction(void* tweenId)
 
 static void Update(float deltaSeconds)
 {
-    for (int i = tweenMap->elementList->size - 1; i > -1; --i)
+    for (int i = tweenRunningMap->elementList->size - 1; i > -1; --i)
     {
-        Tween* tween = AArrayIntMap_GetAt(tweenMap, i, Tween*);
+        Tween* tween = AArrayIntMap_GetAt(tweenRunningMap, i, Tween*);
 
-        // get current action of queue actions
-        if (tween->currentAction == NULL)
+        // get a queue action to run
+        if (tween->queueAction == NULL)
         {
-            tween->currentAction = AArrayQueue_Pop(tween->queue, TweenAction*);
+            tween->queueAction = AArrayQueue_Pop(tween->queue, TweenAction*);
 
-            if (tween->currentAction != NULL)
+            if (tween->queueAction != NULL)
             {
-                // add current action into current array
-                AArrayList_Add (tween->current, tween->currentAction);
-                SetActionValue(tween->currentAction);
+                // add the running queue action into current list
+                AArrayList_Add (tween->current, tween->queueAction);
+                SetActionValue(tween->queueAction);
             }
         }
 
         if (tween->current->size == 0)
         {
             // all actions complete so remove tweenData and push to cache
-            AArrayList_Add        (tweenList, tween);
-            AArrayIntMap->RemoveAt(tweenMap,  i);
+            AArrayList_Add        (tweenCacheList, tween);
+            AArrayIntMap->RemoveAt(tweenRunningMap,  i);
             continue;
         }
 
@@ -397,13 +397,13 @@ static void Update(float deltaSeconds)
                     action->OnComplete(action);
                 }
 
-                if (tween->currentAction == action)
+                if (tween->queueAction == action)
                 {
-                    tween->currentAction = NULL;
+                    tween->queueAction = NULL;
                 }
 
                 AArrayList->RemoveByLast(tween->current, j);
-                AArrayList_Add(actionList, action);
+                AArrayList_Add(actionCacheList, action);
             }
         }
     }

@@ -1304,7 +1304,7 @@ static inline void Parse(SkeletonData* skeletonData, const char* jsonFilePath)
     ReadAnimationData(root, skeletonData);
 
     // json
-    AJson->Delete(value);
+    AJson->Destroy(value);
 }
 
 

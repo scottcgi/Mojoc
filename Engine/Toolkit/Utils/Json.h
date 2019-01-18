@@ -178,7 +178,7 @@ struct AJson
      * Release JsonValue member memory space and free itself,
      * if release root JsonValue will free all memory space.
      */
-    void       (*Delete)               (JsonValue* jsonValue);
+    void       (*Destroy)              (JsonValue* jsonValue);
 };
 
 
