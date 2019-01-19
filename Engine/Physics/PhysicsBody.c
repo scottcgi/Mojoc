@@ -7,7 +7,7 @@
  * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2014-6-3
- * UPdate: 2019-1-18
+ * Update: 2019-1-18
  * Author: scott.cgi
  */
 
@@ -15,6 +15,7 @@
 #include <string.h>
 #include "Engine/Physics/PhysicsBody.h"
 #include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Physics/PhysicsWorld.h"
 
 
 static inline PhysicsBody* CreateBody(Array(float)* vertexArr, PhysicsShape shape)
@@ -26,11 +27,10 @@ static inline PhysicsBody* CreateBody(Array(float)* vertexArr, PhysicsShape shap
     body->vertexArr->data     = (char*) body + sizeof(PhysicsBody);
     memcpy(body->vertexArr->data, vertexArr->data, (size_t) size);
 
-    body->positionArr->length = vertexArr->length;
-    body->positionArr->data   = (char*) body->vertexArr->data + size;
-    memcpy(body->positionArr->data, vertexArr->data, (size_t) size);
+    body->transformedVertexArr->length = vertexArr->length;
+    body->transformedVertexArr->data   = (char*) body->vertexArr->data + size;
+    memcpy(body->transformedVertexArr->data, vertexArr->data, (size_t) size);
 
-    
     AUserData_Init(body->userData);
 
     body->userId         = -1;
@@ -96,20 +96,56 @@ static PhysicsBody* Create(PhysicsShape shape, Array(float)* vertexArr)
 }
 
 
-static void UpdateMotion(PhysicsBody* body, float deltaSeconds)
+static void ResetVertices(PhysicsBody* body)
 {
-    float  cos       = AMath_Cos(body->rotationZ);
-    float  sin       = AMath_Sin(body->rotationZ);
-    float* positions = AArray_GetData(body->positionArr, float);
-    float* vertices  = AArray_GetData(body->vertexArr,   float);
+    memcpy
+    (
+        body->transformedVertexArr->data,
+        body->vertexArr->data,
+        body->transformedVertexArr->length * sizeof(float)
+    );
+}
 
-    for (int i = 0; i < body->positionArr->length; i += 2)
+
+static void Update(PhysicsBody* body, float deltaSeconds)
+{
+    // cache v0
+    float vx           = body->velocityX;
+    float vy           = body->velocityY;
+
+    // get final velocity in x and y direction
+    // v1 = at + v0
+    body->velocityX  += (body->accelerationX + APhysicsWorld->gravity.x) * deltaSeconds;
+    body->velocityY  += (body->accelerationY + APhysicsWorld->gravity.y) * deltaSeconds;
+
+    // get delta distance in x and y indirection
+    // s = (v0 + v1) * t / 2
+    float dx           = (body->velocityX + vx) * deltaSeconds * 0.5f;
+    float dy           = (body->velocityY + vy) * deltaSeconds * 0.5f;
+
+    // increase x and y distance
+    body->positionX  += dx;
+    body->positionY  += dy;
+
+    body->rotationZ   = AMath_Atan2(dx, dy);
+
+    float  cos         = AMath_Cos(body->rotationZ);
+    float  sin         = AMath_Sin(body->rotationZ);
+    float* vertices    = AArray_GetData(body->vertexArr, float);
+    float* transformed = AArray_GetData(body->transformedVertexArr, float);
+
+    for (int i = 0; i < body->transformedVertexArr->length; i += 2)
     {
         float x = vertices[i];
         float y = vertices[i + 1];
 
-        positions[i]     = x * cos - y * sin + body->positionX;
-        positions[i + 1] = x * sin + y * cos + body->positionY;
+        transformed[i]     = x * cos - y * sin + body->positionX;
+        transformed[i + 1] = x * sin + y * cos + body->positionY;
+    }
+
+    // if (AMath_TestFloatEqual(body->velocityX, 0.0f) && AMath_TestFloatEqual(body->velocityY, 0.0f))
+    {
+        // stop motion
     }
 }
 
@@ -117,5 +153,6 @@ static void UpdateMotion(PhysicsBody* body, float deltaSeconds)
 struct APhysicsBody APhysicsBody[1] =
 {
     Create,
-    UpdateMotion,
+    ResetVertices,
+    Update,
 };

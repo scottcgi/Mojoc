@@ -91,12 +91,12 @@ struct  PhysicsBody
     /**
      * Store born vertices. (read only)
      */
-    Array(float)      vertexArr  [1];
+    Array(float)      vertexArr[1];
 
     /**
      * The vertices after transformed.
      */
-    Array(float)      positionArr[1];
+    Array(float)      transformedVertexArr[1];
 
     /**
      * When body collision callback.
@@ -113,18 +113,23 @@ struct APhysicsBody
     /**
      * Create body with shape and vertices.
      *
-     * the vertexArr will copy into PhysicsBody,
-     * and the PhysicsBody's vertexArr and positionArr are same when init,
+     * the vertexArr will copy into body,
+     * and the body's vertexArr and transformedVertexArr are same when init,
      * and all data create by one malloc.
      *
      * if shape not support will return NULL.
      */
-    PhysicsBody* (*Create)      (PhysicsShape shape, Array(float)* vertexArr);
+    PhysicsBody* (*Create)       (PhysicsShape shape, Array(float)* vertexArr);
 
     /**
-     * Update body motion.
+     * Reset body's transformedVertexArr to vertexArr.
      */
-    void         (*UpdateMotion)(PhysicsBody* body, float deltaSeconds);
+    void         (*ResetVertices)(PhysicsBody* body);
+
+    /**
+     * Simulate body motion and update transformedVertexArr by position, rotation.
+     */
+    void         (*Update)       (PhysicsBody* body, float deltaSeconds);
 
 };
 

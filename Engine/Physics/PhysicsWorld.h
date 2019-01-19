@@ -16,7 +16,6 @@
 #define  PHYSICS_WORLD_H
 
 
-#include "Engine/Toolkit/HeaderUtils/Rect.h"
 #include "Engine/Physics/PhysicsBody.h"
 #include "Engine/Toolkit/Math/Vector.h"
 
@@ -29,13 +28,14 @@ struct APhysicsWorld
     Vector2 gravity;
 
     /**
-     * Add body in PhysicsWorld by shape and vertices.
-     * the vertexArr will copy into PhysicsBody.
+     * Create body and add in PhysicsWorld.
      */
     PhysicsBody* (*AddBody)    (PhysicsShape shape, Array(float)* vertexArr);
 
     /**
-     * Destroy PhysicsBody from world.
+     * Remove PhysicsBody from world and free it.
+     * 
+     * important: after DestroyBody the body will be invalidated.
      */
     void         (*DestroyBody)(PhysicsBody* body);
 

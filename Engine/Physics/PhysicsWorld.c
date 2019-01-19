@@ -20,37 +20,6 @@
 static ArrayIntSet(PhysicsBody*) bodyInWorldSet[1] = AArrayIntSet_Init(PhysicsBody*, 20);
 
 
-static inline void UpdateMotion(PhysicsBody* body, float deltaSeconds)
-{
-    // cache v0
-    float vx           = body->velocityX;
-    float vy           = body->velocityY;
-
-    // get final velocity in x and y direction
-    // v1 = at + v0
-    body->velocityX  += (body->accelerationX + APhysicsWorld->gravity.x) * deltaSeconds;
-    body->velocityY  += (body->accelerationY + APhysicsWorld->gravity.y) * deltaSeconds;
-
-    // get delta distance in x and y indirection
-    // s = (v0 + v1) * t / 2
-    float dx          = (body->velocityX + vx) * deltaSeconds * 0.5f;
-    float dy          = (body->velocityY + vy) * deltaSeconds * 0.5f;
-
-    // increase x and y distance
-    body->positionX += dx;
-    body->positionY += dy;
-
-    body->rotationZ  = AMath_Atan2(dx, dy);
-
-    APhysicsBody->UpdateMotion(body, deltaSeconds);
-
-    // if (AMath_TestFloatEqual(body->velocityX, 0.0f) && AMath_TestFloatEqual(body->velocityY, 0.0f))
-    {
-        // stop motion
-    }
-}
-
-
 static void Update(float deltaSeconds)
 {
     for (int i = 0; i < bodyInWorldSet->elementList->size; ++i)
@@ -88,7 +57,7 @@ static void Update(float deltaSeconds)
         if (body->state != PhysicsBodyState_Freeze && body->state != PhysicsBodyState_Fixed)
         {
             // after test collision can update motion
-            UpdateMotion(body, deltaSeconds);
+            APhysicsBody->Update(body, deltaSeconds);
         }
     }
 }

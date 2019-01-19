@@ -264,32 +264,32 @@ static bool TestCollision(PhysicsBody* bodyA, PhysicsBody* bodyB)
     switch (shapeCollision)
     {
         case PhysicsShape_PolygonPolygon:
-            return TestPolygonPolygon(bodyA->positionArr, bodyB->positionArr) ||
-                   TestPolygonPolygon(bodyB->positionArr, bodyA->positionArr);
+            return TestPolygonPolygon(bodyA->transformedVertexArr, bodyB->transformedVertexArr) ||
+                   TestPolygonPolygon(bodyB->transformedVertexArr, bodyA->transformedVertexArr);
 
         case PhysicsShape_PolygonLine:
             // only consider line vertex in polygon
             if (bodyA->shape == PhysicsShape_Line)
             {
-                return TestPolygonPolygonFull(bodyA->positionArr, bodyB->positionArr);
+                return TestPolygonPolygonFull(bodyA->transformedVertexArr, bodyB->transformedVertexArr);
             }
             else
             {
-                return TestPolygonPolygonFull(bodyB->positionArr, bodyA->positionArr);
+                return TestPolygonPolygonFull(bodyB->transformedVertexArr, bodyA->transformedVertexArr);
             }
 
         case PhysicsShape_LineLine:
-            return TestLineLine(bodyA->positionArr, bodyB->positionArr);
+            return TestLineLine(bodyA->transformedVertexArr, bodyB->transformedVertexArr);
 
         case PhysicsShape_PolygonPoint:
             // only consider point in polygon
             if (bodyA->shape == PhysicsShape_Polygon)
             {
-                return TestPolygonPoint(bodyA->positionArr, bodyB->positionArr);
+                return TestPolygonPoint(bodyA->transformedVertexArr, bodyB->transformedVertexArr);
             }
             else
             {
-                return TestPolygonPoint(bodyB->positionArr, bodyA->positionArr);
+                return TestPolygonPoint(bodyB->transformedVertexArr, bodyA->transformedVertexArr);
             }
         default:
             ALog_A

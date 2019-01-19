@@ -175,8 +175,10 @@ struct AJson
     JsonValue* (*ParseFileFromResource)(const char* jsonFilePath);
 
     /**
-     * Release JsonValue member memory space and free itself,
-     * if release root JsonValue will free all memory space.
+     * Destroy JsonValue member memory space and free itself,
+     * if Destroy root JsonValue will free all memory space.
+     *
+     * important: after Destroy the jsonValue will be invalidated.
      */
     void       (*Destroy)              (JsonValue* jsonValue);
 };
