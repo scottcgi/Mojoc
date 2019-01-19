@@ -150,7 +150,7 @@ GLuint LoadProgramByFile(char* vertexShaderPath, char* fragmentShaderPath)
 }
 
 
-static void LoadTexture(char* filePath, Texture* outTexture)
+static void LoadTexture(const char* filePath, Texture* outTexture)
 {
      GLuint textureId;
 

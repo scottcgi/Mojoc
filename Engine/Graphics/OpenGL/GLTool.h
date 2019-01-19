@@ -78,7 +78,7 @@ struct AGLTool
     /**
      * Load texture from file
      */
-    void (*LoadTexture)            (char* filePath, Texture* outTexture);
+    void (*LoadTexture)            (const char* filePath, Texture* outTexture);
 };
 
 

@@ -1,14 +1,19 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2012-12-29
+ * Update: 2019-1-19
  * Author: scott.cgi
  */
 
+
 #ifndef TEXTURE_H
-#define TEXTURE_H
+#define  TEXTURE_H
 
 
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
@@ -18,45 +23,48 @@
 typedef struct
 {
     /**
-     *  The openGL generated texture id
+     *  The openGL generated texture id.
      */
     GLuint id;
 
     /**
-     * The texture width
+     * The texture width.
      */
-    float  width;
+    float   width;
 
     /**
-     * The texture height
+     * The texture height.
      */
-    float  height;
+    float   height;
 
     /**
-     * All texture chaced in ArrayStrMap by filePath
-     *
-     * filePath: ArrayStrMap's key
+     * All texture cache in ArrayStrMap by filePath.
      */
-    char*  filePath;
+    const char* filePath;
 }
 Texture;
 
 
 /**
- * Cache all texture with filePath as key
+ * Manage and control Texture.
  */
 struct ATexture
 {
     /**
-     * Get Texture by filePath, not found will create one
+     * Get Texture by resourceFilePath, not found will create one.
+     *
+     * resourceFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
      */
-    Texture*  (*Get)    (char* filePath);
+    Texture*  (*Get)    (const char* resourceFilePath);
 
     /**
-     * Release texture memory both in GPU and CPU
-     * removed from cache
+     * Destroy texture memory both in GPU and CPU, and removed from cache.
+     *
+     * important: after Destroy the texture will be invalidated.
      */
-    void      (*Release)(Texture* texture);
+    void      (*Destroy)(Texture* texture);
 };
 
 

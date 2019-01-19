@@ -106,7 +106,7 @@ struct  PhysicsBody
 
 
 /**
- * Manage and Control PhysicsBody.
+ * Control PhysicsBody.
  */
 struct APhysicsBody
 {

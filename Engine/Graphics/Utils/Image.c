@@ -1,11 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-08-30
+ * Update: 2019-1-19
  * Author: scott.cgi
  */
+
 
 #include <stdbool.h>
 #include <setjmp.h>
@@ -17,7 +22,7 @@
 
 
 /**
- * Callback for libpng read data
+ * Callback for libpng read data.
  */
 static void ReadPNGData(png_structp pngPtr, png_bytep data, png_size_t length)
 {
@@ -25,20 +30,20 @@ static void ReadPNGData(png_structp pngPtr, png_bytep data, png_size_t length)
 }
 
 
-static void* CreatePixelDataFromPNG(char* filePath, float* outWidth, float* outHeight)
+static void* CreatePixelDataFromPNG(char* resourceFilePath, float* outWidth, float* outHeight)
 {
     void* pixelData = NULL;
-    File* file      = NULL;
+    File* file       = NULL;
 
     do
     {
-        file = AFile->Open(filePath);
+        file = AFile->Open(resourceFilePath);
 
         unsigned char head[8];
         AFile->Read(file, head, 8);
         if (png_sig_cmp(head, 0, 8))
         {
-            ALog_E("AImage CreatePixelDataFromPNG file %s, is not PNG", filePath);
+            ALog_E("AImage CreatePixelDataFromPNG file is not PNG, %s", resourceFilePath);
             break;
         }
 
@@ -50,17 +55,16 @@ static void* CreatePixelDataFromPNG(char* filePath, float* outWidth, float* outH
         png_structp pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
         if (!pngPtr)
         {
-            ALog_E("AImage CreatePixelDataFromPNG unable to create PNG structure: %s", filePath);
+            ALog_E("AImage CreatePixelDataFromPNG png_create_read_struct error, %s", resourceFilePath);
             break;
         }
 
-        // allocate/initialize the memory for image information.  REQUIRED
+        // allocate / initialize the memory for image information - REQUIRED
         png_infop infoPtr = png_create_info_struct(pngPtr);
-
         if (infoPtr == NULL)
         {
             png_destroy_read_struct(&pngPtr, NULL, NULL);
-            ALog_E("AImage CreatePixelDataFromPNG unable to create PNG info : %s", filePath);
+            ALog_E("AImage CreatePixelDataFromPNG png_create_info_struct infoPtr error, %s", resourceFilePath);
             break;
         }
 
@@ -68,7 +72,7 @@ static void* CreatePixelDataFromPNG(char* filePath, float* outWidth, float* outH
         if (endInfo == NULL)
         {
             png_destroy_read_struct(&pngPtr, &infoPtr, NULL);
-            ALog_E("AImage CreatePixelDataFromPNG unable to create PNG end info : %s", filePath);
+            ALog_E("AImage CreatePixelDataFromPNG png_create_info_struct endInfo error, %s", resourceFilePath);
             break;
         }
 
@@ -79,7 +83,7 @@ static void* CreatePixelDataFromPNG(char* filePath, float* outWidth, float* outH
         {
           // free all of the memory associated with the png_ptr and info_ptr
           png_destroy_read_struct(&pngPtr, &infoPtr, &endInfo);
-          ALog_E("AImage CreatePixelDataFromPNG readPng failed during setjmp : %s", filePath);
+          ALog_E("AImage CreatePixelDataFromPNG during setjmp error, %s", resourceFilePath);
           break;
         }
 
@@ -109,7 +113,7 @@ static void* CreatePixelDataFromPNG(char* filePath, float* outWidth, float* outH
 
         // force palette images to be expanded to 24-bit RGB
         // it may include alpha channel
-        if (colorType == PNG_COLOR_TYPE_PALETTE)
+        if (colorType == PNG_COLOR_TYPE_PALETTE)  // NOLINT(hicpp-signed-bitwise)
         {
             png_set_palette_to_rgb(pngPtr);
         }
@@ -149,7 +153,7 @@ static void* CreatePixelDataFromPNG(char* filePath, float* outWidth, float* outH
         if (pixelData == NULL)
         {
             png_destroy_read_struct(&pngPtr, &infoPtr, &endInfo);
-            ALog_E("AImage CreatePixelDataFromPNG unable to allocate PNG pixel data while loading %s", filePath);
+            ALog_E("AImage CreatePixelDataFromPNG malloc PNG pixel data error, %s", resourceFilePath);
             break;
         }
 
@@ -157,7 +161,6 @@ static void* CreatePixelDataFromPNG(char* filePath, float* outWidth, float* outH
         // png_read_image() To see how to handle interlacing passes
         // see the png_read_row() method below:
         int numberPasses = png_set_interlace_handling(pngPtr);
-
         for (int pass = 0; pass < numberPasses; ++pass)
         {
             for (int row = 0; row < pngHeight; ++row)
