@@ -1,9 +1,13 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2016-8-7
+ * Update: 2019-1-19
  * Author: scott.cgi
  */
 
@@ -22,13 +26,14 @@ static inline void InitSubMesh(SubMesh* subMesh, float width, float height)
     subMesh->parent             = NULL;
     subMesh->index              = -1;
 
+    subMesh->vertexCount        = 0;
+    subMesh->indexOffset        = 0;
+
     subMesh->positionDataOffset = 0;
     subMesh->uvDataOffset       = 0;
     subMesh->indexDataOffset    = 0;
     subMesh->opacityDataOffset  = 0;
     subMesh->rgbDataOffset      = 0;
-    subMesh->indexOffset        = 0;
-    subMesh->vertexCount        = 0;
 
     subMesh->drawable->width    = width;
     subMesh->drawable->height   = height;

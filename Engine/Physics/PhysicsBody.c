@@ -126,11 +126,10 @@ static void Update(PhysicsBody* body, float deltaSeconds)
     // increase x and y distance
     body->positionX  += dx;
     body->positionY  += dy;
-
     body->rotationZ   = AMath_Atan2(dx, dy);
 
-    float  cos         = AMath_Cos(body->rotationZ);
-    float  sin         = AMath_Sin(body->rotationZ);
+    float  cosRZ       = AMath_Cos(body->rotationZ);
+    float  sinRZ       = AMath_Sin(body->rotationZ);
     float* vertices    = AArray_GetData(body->vertexArr, float);
     float* transformed = AArray_GetData(body->transformedVertexArr, float);
 
@@ -139,11 +138,11 @@ static void Update(PhysicsBody* body, float deltaSeconds)
         float x = vertices[i];
         float y = vertices[i + 1];
 
-        transformed[i]     = x * cos - y * sin + body->positionX;
-        transformed[i + 1] = x * sin + y * cos + body->positionY;
+        transformed[i]     = x * cosRZ - y * sinRZ + body->positionX;
+        transformed[i + 1] = x * sinRZ + y * cosRZ + body->positionY;
     }
 
-    // if (AMath_TestFloatEqual(body->velocityX, 0.0f) && AMath_TestFloatEqual(body->velocityY, 0.0f))
+//  if (AMath_TestFloatEqual(body->velocityX, 0.0f) && AMath_TestFloatEqual(body->velocityY, 0.0f))
     {
         // stop motion
     }

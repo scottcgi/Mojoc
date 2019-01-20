@@ -144,10 +144,10 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
 //  matrix4->m14 = 0.0f;
 //  matrix4->m15 = 1.0f;
 
-    angle     = AMath_ToRadian(angle);
+    angle    = AMath_ToRadian(angle);
     float s   = sinf(angle);
     float c   = cosf(angle);
-    int   dir = ((x != 0.0f) << 2) | ((y != 0.0f) << 1) | (z != 0.0f);
+    int  dir = ((x != 0.0f) << 2) | ((y != 0.0f) << 1) | (z != 0.0f);
 
     switch (dir)
     {
@@ -155,7 +155,9 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
             break;
 
         case 1:
-        { // x y z  0 0 1
+        {
+            // x y z  0 0 1
+            
             matrix4->m0  = c;
             matrix4->m1  = s;
             matrix4->m2  = 0.0f;
@@ -173,7 +175,9 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
 
 
         case 4:
-        { // x y z  1 0 0
+        {
+            // x y z  1 0 0
+            
             matrix4->m0  = 1.0f;
             matrix4->m1  = 0.0f;
             matrix4->m2  = 0.0f;
@@ -191,7 +195,9 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
 
 
         case 2:
-        { // x y z  0 1 0
+        {
+            // x y z  0 1 0
+            
             matrix4->m0  = c;
             matrix4->m1  = 0.0f;
             matrix4->m2  = -s;
@@ -310,8 +316,7 @@ static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
     Matrix4 temp2[1];
     MultiplyMM(matrix4, temp1, temp2);
 
-//  memcpy(matrix->m, temp2->m, sizeof(Matrix4));
-    *matrix4 = *temp2;
+    *matrix4 = *temp2; // memcpy(matrix->m, temp2->m, sizeof(Matrix4));
 }
 
 static void RotateX(Matrix4* matrix4, float angle)
@@ -333,8 +338,7 @@ static void RotateX(Matrix4* matrix4, float angle)
     Matrix4 temp2[1];
     MultiplyMM(matrix4, temp1, temp2);
 
-    // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
-    *matrix4 = *temp2;
+    *matrix4 = *temp2; // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
 */
 
     float m4      = matrix4->m4;
@@ -372,8 +376,7 @@ static void RotateY(Matrix4* matrix4, float angle)
     Matrix4 temp2[1];
     MultiplyMM(matrix4, temp1, temp2);
 
-    // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
-    *matrix4 = *temp2;
+    *matrix4 = *temp2; // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
 */
 
     float m0      = matrix4->m0;
@@ -411,8 +414,7 @@ static void RotateZ(Matrix4* matrix4, float angle)
     Matrix4 temp2[1];
     MultiplyMM(matrix4, temp1, temp2);
 
-    // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
-    *matrix4 = *temp2;
+    *matrix4 = *temp2; // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
 */
 
     float m0     = matrix4->m0;

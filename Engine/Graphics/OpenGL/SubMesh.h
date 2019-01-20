@@ -23,6 +23,9 @@
 
 /**
  * The child of Mesh that render part of Texture.
+ * 
+ * the SubMesh has an array of vertices,
+ * and each vertex has position (xyz), uv coordinates, and vertex indices.
  */
 struct SubMesh
 {
@@ -40,6 +43,7 @@ struct SubMesh
 
     /**
      * Index in Mesh for Mesh ReorderAllChildren.
+     * default -1.
      */
     int           index;
 
@@ -47,17 +51,16 @@ struct SubMesh
 
     Array(float*)  positionArr[1];
     Array(float*)  uvArr      [1];
-
-    /**
-     * Careful 4 byte aligned.
-     */
-    Array(short*) indexArr  [1];
+    Array(short*) indexArr   [1];
 
 //----------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * All vertices count.
+     */
     int           vertexCount;
     int           indexOffset;
-
+    
     int           positionDataOffset;
     int           uvDataOffset;
     int           rgbDataOffset;
@@ -66,20 +69,24 @@ struct SubMesh
 };
 
 
+/**
+ * Control SubMesh.
+ */
 struct ASubMesh
 {
     /**
-     * The positionArr(has x y z) uvArr and indexArr will copy in
+     * The positionArr (array of xyz), uvArr (array of uv), indexArr will copy into SubMesh,
+     * and all data create by one malloc.
      */
     SubMesh* (*CreateWithData)(Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr);
 
     /**
-     * The positionArr uvArr and indexArr will calculate by Quad in Texture
+     * The positionArr, uvArr, indexArr will calculated by quad that in texture.
      */
     SubMesh* (*CreateWithQuad)(Texture* texture, Quad* quad);
 
     /**
-     * Update SubMesh data by Quad
+     * Update SubMesh all data by quad that in texture.
      */
     void     (*SetWithQuad)   (SubMesh* subMesh, Texture* texture, Quad* quad);
 };

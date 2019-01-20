@@ -9,7 +9,7 @@
 
 
 #ifndef MESH_DEFINE_H
-#define MESH_DEFINE_H
+#define  MESH_DEFINE_H
 
 
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
@@ -32,60 +32,64 @@ enum
 enum
 {
     /**
-     * One vertex with x, y, z
+     * x, y, z
      */
      MeshVertex_Position3Size  = 3,
 
     /**
-     * One vertex has u, v
+     * u, v
      */
      MeshVertex_UVSize         = 2,
 
     /**
-     * One vertex has opacity
+     * opacity
      */
      MeshVertex_OpacitySize    = 1,
 
     /**
-     * One vertex has r,g,b
+     * r, g, b
      */
      MeshVertex_RGBSize        = 3,
 
     /**
-     * One vertex with x, y
+     * x, y.
      */
      MeshVertex_Position2Size  = 2,
 
-
+     /**
+      * One vertex size.
+      */
      MeshVertex_Size           = MeshVertex_Position2Size + MeshVertex_UVSize,
 
 
     /**
-     * 3(x,y,z) * 4(float size)
+     * 3 (x ,y z) * 4 (float size)
      */
     MeshVertex_Position3Stride = 12,
 
     /**
-     * 2(u,v) * 4(float size)
+     * 2 (u, v) * 4 (float size)
      */
     MeshVertex_UVStride        = 8,
 
     /**
-     * 1 * 4(float size)
+     * 1 * 4 (float size)
      */
     MeshVertex_OpacityStride   = 4,
 
     /**
-     * 3(r,g,b) * 4(float size)
+     * 3 (r, g, b) * 4 (float size)
      */
     MeshVertex_RGBStride       = 12,
 
     /**
-     * 2(x,y) * 4(float size)
+     * 2 (x, y) * 4 (float size)
      */
     MeshVertex_Position2Stride = 8,
 
-
+    /**
+     * One vertex stride.
+     */
     MeshVertex_VertexStride    = MeshVertex_Position2Stride + MeshVertex_UVStride,
 };
 
@@ -93,40 +97,39 @@ enum
 enum
 {
     /**
-     * Two triangles vertex 6(points)
+     * Two triangles (012, 230) has 6 vertices (2 vertices repeats).
      */
     Quad_IndexNum                 = 6,
     Quad_IndexNumBytes            = Quad_IndexNum     * sizeof(short),
 
     /**
-     * 3(x,y,z) * 4(points)
+     *  3 (x, y, z) * 4 (vertices)
      */
     Quad_Position3Num             = 12,
     Quad_Position3NumBytes        = Quad_Position3Num * sizeof(float),
 
     /**
-     * 2(u,v) * 4(points)
+     * 2 (u, v) * 4 (vertices)
      */
     Quad_UVNum                    = 8,
     Quad_UVNumBytes               = Quad_UVNum        * sizeof(float),
 
     /**
-     * 1 * 4(points)
+     * 1 * 4 (vertices)
      */
     Quad_OpacityNum               = 4,
     Quad_OpacityNumBytes          = Quad_OpacityNum   * sizeof(float),
 
     /**
-     * 3(r,g,b) * 4(points)
+     * 3 (r, g ,b) * 4 (vertices)
      */
     Quad_RGBNum                   = 12,
     Quad_RGBNumBytes              = Quad_RGBNum       * sizeof(float),
 
     /**
-     * 2(x,y) * 4(points)
+     * 2 (x, y) * 4 (vertices)
      */
     Quad_Position2Num             = 8,
-
 
     Quad_VertexNum                = Quad_Position2Num + Quad_UVNum,
     Quad_VertexNumBytes           = Quad_VertexNum    * sizeof(float),
