@@ -19,7 +19,7 @@
 
 static void* Push(ArrayQueue* arrayQueue, void* elementPtr)
 {
-    if (arrayQueue->topIndex > 0 && arrayQueue->topIndex == arrayQueue->elementList->elementArray->length)
+    if (arrayQueue->topIndex > 0 && arrayQueue->topIndex == arrayQueue->elementList->elementArr->length)
     {
         AArrayList->RemoveRange(arrayQueue->elementList, 0, arrayQueue->topIndex - 1);
         arrayQueue->topIndex = 0;
@@ -36,7 +36,7 @@ static void* Pop(ArrayQueue* arrayQueue, void* defaultElementPtr)
         return defaultElementPtr;
     }
 
-    return (char*) arrayQueue->elementList->elementArray->data +
+    return (char*) arrayQueue->elementList->elementArr->data +
                    arrayQueue->elementList->elementTypeSize    *
                    (arrayQueue->topIndex++);
 }

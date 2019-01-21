@@ -157,7 +157,7 @@ static void ReorderAllChildren(Component* parent)
 
     qsort
     (
-        parent->childMap->elementList->elementArray->data,
+        parent->childMap->elementList->elementArr->data,
         parent->childMap->elementList->size,
         sizeof(ArrayIntMapElement*),
         Compare
