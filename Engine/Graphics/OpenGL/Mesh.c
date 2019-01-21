@@ -80,7 +80,7 @@ static void Draw(Drawable* meshDrawable)
                 float* positionData = (float*) ((char*) mesh->vertexArr->data + subMesh->positionDataOffset);
 
                 // the born position data transformed(translate, scale, rotate) by SubMesh modelMatrix
-                for (int j = 0; j < subMesh->positionArr->length; j += MeshVertex_Position3Size)
+                for (int j = 0; j < subMesh->positionArr->length; j += Mesh_VertexPositionSize)
                 {
                     AMatrix->MultiplyMV3
                     (
@@ -204,10 +204,10 @@ static inline void BindVBO(Mesh* mesh)
     glVertexAttribPointer
     (
         AShaderMesh->attribPosition,
-        MeshVertex_Position3Size,
+        Mesh_VertexPositionSize,
         GL_FLOAT,
         false,
-        MeshVertex_Position3Stride,
+        Mesh_VertexPositionStride,
         0
     );
 
@@ -215,10 +215,10 @@ static inline void BindVBO(Mesh* mesh)
     glVertexAttribPointer
     (
         AShaderMesh->attribTexcoord,
-        MeshVertex_UVSize,
+        Mesh_VertexUVSize,
         GL_FLOAT,
         false,
-        MeshVertex_UVStride,
+        Mesh_VertexUVStride,
         (GLvoid*) (intptr_t) mesh->uvDataOffset
     );
 
@@ -226,10 +226,10 @@ static inline void BindVBO(Mesh* mesh)
     glVertexAttribPointer
     (
         AShaderMesh->attribOpacity,
-        MeshVertex_OpacitySize,
+        Mesh_VertexOpacitySize,
         GL_FLOAT,
         false,
-        MeshVertex_OpacityStride,
+        Mesh_VertexOpacityStride,
         (GLvoid*) (intptr_t) mesh->opacityDataOffset
     );
 
@@ -237,10 +237,10 @@ static inline void BindVBO(Mesh* mesh)
     glVertexAttribPointer
     (
         AShaderMesh->attribRGB,
-        MeshVertex_RGBSize,
+        Mesh_VertexRGBSize,
         GL_FLOAT,
         false,
-        MeshVertex_RGBStride,
+        Mesh_VertexRGBStride,
         (GLvoid*) (intptr_t) mesh->rgbDataOffset
     );
 }
@@ -290,10 +290,10 @@ static void Render(Drawable* drawable)
     if (mesh->vboSubDataList->size > 0)
     {
         // load the vertex data
-        glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIds[MeshBuffer_Vertex]);
+        glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIds[Mesh_BufferVertex]);
 
         // load the vertex index
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[MeshBuffer_Index]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[Mesh_BufferIndex]);
 
         // in no vao state update sub data
         if (AGraphics->isUseMapBuffer)
@@ -367,9 +367,9 @@ static void Render(Drawable* drawable)
     else if (AGraphics->isUseVBO)
     {
         // load the vertex data
-        glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIds[MeshBuffer_Vertex]);
+        glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIds[Mesh_BufferVertex]);
         // load the vertex index
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[MeshBuffer_Index]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[Mesh_BufferIndex]);
 
         UseVBO:
 
@@ -393,10 +393,10 @@ static void Render(Drawable* drawable)
         glVertexAttribPointer
         (
             AShaderMesh->attribPosition,
-            MeshVertex_Position3Size,
+            Mesh_VertexPositionSize,
             GL_FLOAT,
             false,
-            MeshVertex_Position3Stride,
+            Mesh_VertexPositionStride,
             mesh->vertexArr->data
         );
 
@@ -404,10 +404,10 @@ static void Render(Drawable* drawable)
         glVertexAttribPointer
         (
             AShaderMesh->attribTexcoord,
-            MeshVertex_UVSize,
+            Mesh_VertexUVSize,
             GL_FLOAT,
             false,
-            MeshVertex_UVStride,
+            Mesh_VertexUVStride,
             (char*) mesh->vertexArr->data + mesh->uvDataOffset
         );
 
@@ -415,10 +415,10 @@ static void Render(Drawable* drawable)
         glVertexAttribPointer
         (
             AShaderMesh->attribOpacity,
-            MeshVertex_OpacitySize,
+            Mesh_VertexOpacitySize,
             GL_FLOAT,
             false,
-            MeshVertex_OpacityStride,
+            Mesh_VertexOpacityStride,
             (char*) mesh->vertexArr->data + mesh->opacityDataOffset
         );
 
@@ -426,10 +426,10 @@ static void Render(Drawable* drawable)
         glVertexAttribPointer
         (
             AShaderMesh->attribRGB,
-            MeshVertex_RGBSize,
+            Mesh_VertexRGBSize,
             GL_FLOAT,
             false,
-            MeshVertex_RGBStride,
+            Mesh_VertexRGBStride,
             (char*) mesh->vertexArr->data + mesh->rgbDataOffset
         );
 
@@ -459,8 +459,8 @@ static void Init(Texture* texture, Mesh* outMesh)
     ADrawable_AddState(drawable, DrawableState_IsUpdateMVP);
 
     outMesh->texture                    = texture;
-    outMesh->vboIds[MeshBuffer_Index]   = 0;
-    outMesh->vboIds[MeshBuffer_Vertex]  = 0;
+    outMesh->vboIds[Mesh_BufferIndex]   = 0;
+    outMesh->vboIds[Mesh_BufferVertex]  = 0;
 
     outMesh->vaoId                      = 0;
     outMesh->vertexArr                  = NULL;
@@ -586,9 +586,9 @@ static inline void ReleaseBuffer(Mesh* mesh)
 
     if (AGraphics->isUseVBO)
     {
-        glDeleteBuffers(MeshBuffer_Num, mesh->vboIds);
-        mesh->vboIds[MeshBuffer_Index]  = 0;
-        mesh->vboIds[MeshBuffer_Vertex] = 0;
+        glDeleteBuffers(Mesh_BufferNum, mesh->vboIds);
+        mesh->vboIds[Mesh_BufferIndex]  = 0;
+        mesh->vboIds[Mesh_BufferVertex] = 0;
 
         if (AGraphics->isUseVAO)
         {
@@ -608,17 +608,17 @@ static void GenerateBuffer(Mesh* mesh)
 
     if (AGraphics->isUseVBO)
     {
-        if (mesh->vboIds[MeshBuffer_Vertex] == 0)
+        if (mesh->vboIds[Mesh_BufferVertex] == 0)
         {
-            glGenBuffers(MeshBuffer_Num, mesh->vboIds);
+            glGenBuffers(Mesh_BufferNum, mesh->vboIds);
         }
 
         // vertex
-        glBindBuffer(GL_ARRAY_BUFFER, mesh->vboIds[MeshBuffer_Vertex]);
+        glBindBuffer(GL_ARRAY_BUFFER, mesh->vboIds[Mesh_BufferVertex]);
         glBufferData(GL_ARRAY_BUFFER, mesh->vertexArr->length * sizeof(float), mesh->vertexArr->data, GL_DYNAMIC_DRAW);
 
         // index
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[MeshBuffer_Index]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[Mesh_BufferIndex]);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indexArr->length * sizeof(short), mesh->indexArr->data, GL_STATIC_DRAW);
 
         // vertexArr and indexArr data pointer changed
@@ -638,9 +638,9 @@ static void GenerateBuffer(Mesh* mesh)
             // with vao has own state
 
             // load the vertex data
-            glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIds[MeshBuffer_Vertex]);
+            glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIds[Mesh_BufferVertex]);
             // load the vertex index
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[MeshBuffer_Index]);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[Mesh_BufferIndex]);
 
             glEnableVertexAttribArray(AShaderMesh->attribPosition);
             glEnableVertexAttribArray(AShaderMesh->attribTexcoord);

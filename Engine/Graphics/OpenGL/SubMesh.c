@@ -42,39 +42,34 @@ static inline void InitSubMesh(SubMesh* subMesh, float width, float height)
 
 static SubMesh* CreateWithData(Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr)
 {
-    int      indexLength    = indexArr->length    * sizeof(short);
-    int      uvLength       = uvArr->length       * sizeof(float);
-    int      positionLength = positionArr->length * sizeof(float);
-    SubMesh* subMesh        = (SubMesh*) malloc
-                                         (
-                                            sizeof(SubMesh)  +
-                                            indexLength      +
-                                            uvLength         +
-                                            positionLength
-                                         );
+    int      indexDataSize       = indexArr->length    * sizeof(short);
+    int      uvDataSize          = uvArr->length       * sizeof(float);
+    int      positionDataSize    = positionArr->length * sizeof(float);
+    SubMesh* subMesh             = (SubMesh*) malloc(sizeof(SubMesh) + indexDataSize + uvDataSize + positionDataSize);
 
     subMesh->uvArr->length       = uvArr->length;
     subMesh->uvArr->data         = (char*) subMesh + sizeof(SubMesh);
-    memcpy(subMesh->uvArr->data, uvArr->data, uvLength);
+    memcpy(subMesh->uvArr->data, uvArr->data, (size_t) uvDataSize);
 
     subMesh->positionArr->length = positionArr->length;
-    subMesh->positionArr->data   = (char*) subMesh->uvArr->data + uvLength;
-    memcpy(subMesh->positionArr->data, positionArr->data, positionLength);
+    subMesh->positionArr->data   = (char*) subMesh->uvArr->data + uvDataSize;
+    memcpy(subMesh->positionArr->data, positionArr->data, (size_t) positionDataSize);
 
 
     subMesh->indexArr->length    = indexArr->length;
-    subMesh->indexArr->data      = (char*) subMesh->positionArr->data + positionLength;
-    memcpy(subMesh->indexArr->data, indexArr->data, indexLength);
+    subMesh->indexArr->data      = (char*) subMesh->positionArr->data + (size_t) positionDataSize;
+    memcpy(subMesh->indexArr->data, indexArr->data, (size_t) indexDataSize);
 
 //----------------------------------------------------------------------------------------------------------------------
 
     float* positionData = AArray_GetData(subMesh->positionArr, float);
     float  minX         = positionData[0];
-    float  maxX         = positionData[0];
+    float  maxX         = minX;
     float  minY         = positionData[1];
-    float  maxY         = positionData[1];
+    float  maxY         = minY;
 
-    for (int i = MeshVertex_Position3Size; i < subMesh->positionArr->length; i += MeshVertex_Position3Size)
+    // calculate SubMesh area
+    for (int i = Mesh_VertexPositionSize; i < subMesh->positionArr->length; i += Mesh_VertexPositionSize)
     {
         float x = positionData[i];
         float y = positionData[i + 1];
@@ -116,13 +111,13 @@ static void SetWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
 
     ALog_A(mesh != NULL, "ASubMesh SetWithQuad subMesh must has parent");
 
-    int uvDataLen = subMesh->uvArr->length * sizeof(float);
+    int uvDataSize = subMesh->uvArr->length * sizeof(float);
 
     memcpy
     (
         (char*) mesh->vertexArr->data + mesh->uvDataOffset + subMesh->uvDataOffset,
         subMesh->uvArr->data,
-        uvDataLen
+        uvDataSize
     );
 
     if (AGraphics->isUseVBO)
@@ -130,7 +125,7 @@ static void SetWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
         VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
         subData->target     = GL_ARRAY_BUFFER;
         subData->offset     = mesh->uvDataOffset + subMesh->uvDataOffset;
-        subData->length     = uvDataLen;
+        subData->length     = uvDataSize;
         subData->data       = subMesh->uvArr->data;
     }
 }
@@ -138,13 +133,8 @@ static void SetWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
 
 static SubMesh* CreateWithQuad(Texture* texture, Quad* quad)
 {
-    SubMesh* subMesh = (SubMesh*) malloc
-                                  (
-                                      sizeof(SubMesh)         +
-                                      Quad_IndexNumBytes      +
-                                      Quad_UVNumBytes         +
-                                      Quad_Position3NumBytes
-                                  );
+    SubMesh* subMesh = (SubMesh*)
+                       malloc(sizeof(SubMesh) + Quad_IndexSize + Quad_UVSize + Quad_Position3Size);
 
 
     subMesh->indexArr->length     = Quad_IndexNum;
@@ -152,11 +142,11 @@ static SubMesh* CreateWithQuad(Texture* texture, Quad* quad)
     AQuad->GetQuadIndex(0, subMesh->indexArr->data);
 
     subMesh->uvArr->length        = Quad_UVNum;
-    subMesh->uvArr->data          = (char*) subMesh->indexArr->data + Quad_IndexNumBytes;
+    subMesh->uvArr->data          = (char*) subMesh->indexArr->data + Quad_IndexSize;
     AQuad->GetQuadUV(quad, texture, subMesh->uvArr->data);
 
     subMesh->positionArr->length  = Quad_Position3Num;
-    subMesh->positionArr->data    = (char*) subMesh->uvArr->data + Quad_UVNumBytes;
+    subMesh->positionArr->data    = (char*) subMesh->uvArr->data + Quad_UVSize;
     AQuad->GetQuadPosition3(quad, subMesh->positionArr->data);
 
     InitSubMesh(subMesh, quad->width, quad->height);

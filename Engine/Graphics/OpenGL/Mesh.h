@@ -8,7 +8,7 @@
  */
 
 #ifndef MESH_H
-#define MESH_H
+#define  MESH_H
 
 
 #include "Engine/Toolkit/Utils/ArrayList.h"
@@ -79,7 +79,7 @@ struct Mesh
     /**
      * If use VBO is array buffer id
      */
-    GLuint                vboIds[MeshBuffer_Num];
+    GLuint                vboIds[Mesh_BufferNum];
 
     /**
      * If use VAO is generated id else 0

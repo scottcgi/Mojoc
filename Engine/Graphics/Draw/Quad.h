@@ -11,9 +11,50 @@
 #define QUAD_H
 
 
-#include "Engine/Graphics/OpenGL/MeshDefine.h"
 #include "Engine/Toolkit/Utils/Array.h"
 #include "Engine/Graphics/OpenGL/Texture.h"
+
+
+enum
+{
+    /**
+     * Two triangles (012, 230) has 6 vertices (2 vertices repeats).
+     */
+    Quad_IndexNum      = 6,
+    Quad_IndexSize     = Quad_IndexNum     * sizeof(short),
+
+    /**
+     *  3 (x, y, z) * 4 (vertices)
+     */
+    Quad_Position3Num  = 12,
+    Quad_Position3Size = Quad_Position3Num * sizeof(float),
+
+    /**
+     * 2 (u, v) * 4 (vertices)
+     */
+    Quad_UVNum         = 8,
+    Quad_UVSize        = Quad_UVNum        * sizeof(float),
+
+    /**
+     * 1 * 4 (vertices)
+     */
+    Quad_OpacityNum    = 4,
+    Quad_OpacitySize   = Quad_OpacityNum   * sizeof(float),
+
+    /**
+     * 3 (r, g ,b) * 4 (vertices)
+     */
+    Quad_RGBNum        = 12,
+    Quad_RGBSize       = Quad_RGBNum       * sizeof(float),
+
+    /**
+     * 2 (x, y) * 4 (vertices)
+     */
+    Quad_Position2Num  = 8,
+
+    Quad_VertexNum     = Quad_Position2Num + Quad_UVNum,
+    Quad_VertexSize    = Quad_VertexNum    * sizeof(float),
+};
 
 
 /**

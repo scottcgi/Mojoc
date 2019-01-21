@@ -119,7 +119,7 @@ static void GetQuadVertex(Quad* quad, Texture* texture, float outVertexData[Quad
                 tw, ty, // TexCoord 3
             }
         ),
-        Quad_VertexNumBytes
+        Quad_VertexSize
     );
 }
 
@@ -147,7 +147,7 @@ static void GetQuadPosition3(Quad* quad, float outBornPositionData[Quad_Position
                 qw, qy, 0.0f, // Position 3
             }
         ),
-        Quad_Position3NumBytes
+        Quad_Position3Size
     );
 }
 
@@ -175,7 +175,7 @@ static void GetQuadUV(Quad* quad, Texture* texture, float outUVData[Quad_UVNum])
                 tw, ty, // TexCoord 3
             }
         ),
-        Quad_UVNumBytes
+        Quad_UVSize
     );
 }
 
@@ -197,7 +197,7 @@ static void GetQuadIndex(int vertexNumBefore, short outIndexData[Quad_IndexNum])
                 (short) (0 + vertexNumBefore),
             }
         ),
-        Quad_IndexNumBytes
+        Quad_IndexSize
     );
 }
 

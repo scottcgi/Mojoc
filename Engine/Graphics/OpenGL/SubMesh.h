@@ -61,7 +61,7 @@ struct SubMesh
     int           vertexCount;
 
     /**
-     * The offset in parent Mesh indexArr length.
+     * The offset index in parent Mesh indexArr.
      */
     int           indexOffset;
 
