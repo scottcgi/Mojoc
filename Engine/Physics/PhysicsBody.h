@@ -89,7 +89,7 @@ struct  PhysicsBody
     int              collisionGroup;
 
     /**
-     * Store born vertices. (read only)
+     * Store born vertices.
      */
     Array(float)      vertexArr[1];
 

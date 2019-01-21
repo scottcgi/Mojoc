@@ -27,10 +27,13 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
     int low   = -1;
     int guess = -1;
 
-    while (high - low > 1)
+    while (high - low > 1) // prevent infinite loops
     {
-        // not consider int overflow
-        guess            = (high + low) >> 1; // NOLINT(hicpp-signed-bitwise)
+        // (high + low) always positive, so convert to unsigned
+        // then the '>>' is unsigned move right
+        // so the overflow will be handled correctly
+        // because sign bit shift to right and 0 will be added
+        guess            = (unsigned int) (high + low) >> 1; // NOLINT(hicpp-signed-bitwise)
         intptr_t element = AArrayList_Get(elementList, guess, intptr_t);
 
         if (element < key)
@@ -43,7 +46,7 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
         }
         else if (element == key)
         {
-            // find the key
+            // find the key, the guess is positive value
             return guess;
         }
     }
@@ -53,12 +56,12 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
 
     if (guess == low)
     {
-        // the guess is smaller than key index and insert behind
-        // or if empty then guess is -1, also do this make guess at 0
+        // the guess is smaller than key index and insert behind,
+        // or if list empty then guess is -1, also do this make guess at 0
         ++guess;
     }
 
-    // when empty guess is 0, so we -1 make sure return negative value
+    // when list empty guess is 0, so we -1 make sure return negative value
     return -guess - 1;
 }
 

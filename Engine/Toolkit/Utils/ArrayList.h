@@ -35,7 +35,7 @@ typedef struct
     int                elementTypeSize;
 
     /**
-     * Element count.
+     * Elements count.
      */
     int                size;
 

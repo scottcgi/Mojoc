@@ -148,12 +148,12 @@ static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
             if (vertexX1 + (y - vertexY1) / (vertexY2 - vertexY1) * (vertexX2 - vertexX1) <= x)
             {
                 // right
-                flag[i >> 1] = 1; // NOLINT(hicpp-signed-bitwise)
+                flag[(unsigned int) i >> 1] = 1; // NOLINT(hicpp-signed-bitwise)
             }
             else
             {
                 // left
-                flag[i >> 1] = 2; // NOLINT(hicpp-signed-bitwise)
+                flag[(unsigned int) i >> 1] = 2; // NOLINT(hicpp-signed-bitwise)
             }
         }
     }
@@ -189,12 +189,12 @@ static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
             if (vertexX1 + (y - vertexY1) / (vertexY2 - vertexY1) * (vertexX2 - vertexX1) <= x)
             {
                 // right
-                flag[i >> 1] = 1; // NOLINT(hicpp-signed-bitwise)
+                flag[(unsigned int) i >> 1] = 1; // NOLINT(hicpp-signed-bitwise)
             }
             else
             {
                 // left
-                flag[i >> 1] = 2; // NOLINT(hicpp-signed-bitwise)
+                flag[(unsigned int) i >> 1] = 2; // NOLINT(hicpp-signed-bitwise)
             }
         }
     }

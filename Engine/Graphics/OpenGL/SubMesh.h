@@ -59,12 +59,35 @@ struct SubMesh
      * All vertices count.
      */
     int           vertexCount;
+
+    /**
+     * The offset in parent Mesh indexArr length.
+     */
     int           indexOffset;
-    
+
+    /**
+     * The offset of position data in parent Mesh vertexArr.
+     */
     int           positionDataOffset;
+
+    /**
+     * The offset of uv data in parent Mesh vertexArr.
+     */
     int           uvDataOffset;
+
+    /**
+     * The offset of rgb data in parent Mesh vertexArr.
+     */
     int           rgbDataOffset;
+
+    /**
+     * The offset of opacity data in parent Mesh vertexArr.
+     */
     int           opacityDataOffset;
+
+    /**
+     * The offset of index data in parent Mesh indexArr.
+     */
     int           indexDataOffset;
 };
 
@@ -75,7 +98,7 @@ struct SubMesh
 struct ASubMesh
 {
     /**
-     * The positionArr (array of xyz), uvArr (array of uv), indexArr will copy into SubMesh,
+     * The positionArr (array of xyz), uvArr (array of uv), indexArr (one vertex one index) will copy into SubMesh,
      * and all data create by one malloc.
      */
     SubMesh* (*CreateWithData)(Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr);

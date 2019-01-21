@@ -67,8 +67,8 @@ extern struct AArray AArray[1];
  * Create Array composite literal.
  *
  * elementType: element data type
- * length     : element count
- * ...        : each element
+ * length     : elements count
+ * ...        : each elements
  */
 #define AArray_Make(elementType, length, ...) \
     (Array[1])                               \
@@ -82,8 +82,8 @@ extern struct AArray AArray[1];
  * Init constant Array.
  *
  * elementType: element data type
- * length     : element count
- * ...        : each element
+ * length     : elements count
+ * ...        : each elements
  */
 #define AArray_Init(elementType, length, ...) \
     {                                        \
@@ -129,7 +129,7 @@ extern struct AArray AArray[1];
  *
  * array      : Array ptr
  * index      : element index of array
- * element    : variable
+ * element    : element value
  * elementType: element data type
  */
 #define AArray_Set(array, index, element, elementType) \
