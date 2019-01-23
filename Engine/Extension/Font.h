@@ -53,6 +53,9 @@ FontTextAlignment;
 
 typedef struct
 {
+    /**
+     * The base class for provide draw functions.
+     */
     Drawable             drawable       [1];
 
     /**

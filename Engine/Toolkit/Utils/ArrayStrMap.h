@@ -55,7 +55,7 @@ typedef struct
     int                            valueTypeSize;
 
     /**
-     * Stores all ArrayStrMapElements.
+     * Store all ArrayStrMapElements.
      */
     ArrayList(ArrayStrMapElement*) elementList[1];
 }
@@ -164,16 +164,16 @@ static inline const char* AArrayStrMap_GetKey(void* valuePtr, int valueTypeSize)
 /**
  * Marked ArrayStrMap key and value.
  */
-#define ArrayStrMap(keyName, valueType) ArrayStrMap
+#define ArrayStrMap(keyName, ValueType) ArrayStrMap
 
 
 /**
  * Init constant ArrayStrMap.
- * example: ArrayStrMap map[1] = AArrayStrMap_Init(valueType, increase)
+ * example: ArrayStrMap map[1] = AArrayStrMap_Init(ValueType, increase)
  */
-#define AArrayStrMap_Init(valueType, increase)           \
+#define AArrayStrMap_Init(ValueType, increase)           \
     {                                                   \
-        sizeof(valueType),                              \
+        sizeof(ValueType),                              \
         AArrayList_Init(ArrayStrMapElement*, increase), \
     }
 
@@ -189,16 +189,16 @@ static inline const char* AArrayStrMap_GetKey(void* valuePtr, int valueTypeSize)
  * Shortcut of AArrayStrMap->Get.
  * return value.
  */
-#define AArrayStrMap_Get(arrayStrMap, key, valueType) \
-    (*(valueType*) AArrayStrMap->Get(arrayStrMap, key, NULL_PTR))
+#define AArrayStrMap_Get(arrayStrMap, key, ValueType) \
+    (*(ValueType*) AArrayStrMap->Get(arrayStrMap, key, NULL_PTR))
 
 
 /**
  * Shortcut of AArrayStrMap->Get.
  * return valuePtr.
  */
-#define AArrayStrMap_GetPtr(arrayStrMap, key, valueType) \
-    ((valueType*) AArrayStrMap->Get(arrayStrMap, key, NULL))
+#define AArrayStrMap_GetPtr(arrayStrMap, key, ValueType) \
+    ((ValueType*) AArrayStrMap->Get(arrayStrMap, key, NULL))
 
 
 /**
@@ -219,16 +219,16 @@ static inline const char* AArrayStrMap_GetKey(void* valuePtr, int valueTypeSize)
  * Shortcut of AArrayStrMap->GetAt.
  * return value.
  */
-#define AArrayStrMap_GetAt(arrayStrMap, index, valueType) \
-    (*(valueType*) AArrayStrMap->GetAt(arrayStrMap, index))
+#define AArrayStrMap_GetAt(arrayStrMap, index, ValueType) \
+    (*(ValueType*) AArrayStrMap->GetAt(arrayStrMap, index))
 
 
 /**
  * Shortcut of AArrayStrMap->GetAt.
  * return valuePtr.
  */
-#define AArrayStrMap_GetPtrAt(arrayStrMap, index, valueType) \
-    ((valueType*) AArrayStrMap->GetAt(arrayStrMap, index))
+#define AArrayStrMap_GetPtrAt(arrayStrMap, index, ValueType) \
+    ((ValueType*) AArrayStrMap->GetAt(arrayStrMap, index))
 
 
 /**

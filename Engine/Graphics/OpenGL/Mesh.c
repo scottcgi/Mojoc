@@ -1,11 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2016-8-5
+ * Update: 2019-1-23
  * Author: scott.cgi
  */
+
 
 #include <string.h>
 #include "Engine/Graphics/OpenGL/Mesh.h"
@@ -30,16 +35,16 @@ static void ReorderAllChildren(Mesh* mesh)
             subMesh = AArrayList_Get(children, subMesh->index, SubMesh*);
         }
 
-        int indexDataByteLength = subMesh->indexArr->length * sizeof(short);
+        int indexDataByteSize = subMesh->indexArr->length * sizeof(short);
 
         memcpy
         (
-            (char*) mesh->indexArr->data + indexDataOffset,
+            (char*)  mesh->indexArr->data + indexDataOffset,
             subMesh->indexArr->data,
-            indexDataByteLength
+            (size_t) indexDataByteSize
         );
 
-        indexDataOffset += indexDataByteLength;
+        indexDataOffset += indexDataByteSize;
     }
 
     if (AGraphics->isUseVBO)
@@ -56,7 +61,7 @@ static void ReorderAllChildren(Mesh* mesh)
 
 static void Draw(Drawable* meshDrawable)
 {
-    Mesh* mesh             = AStruct_GetParent3  (meshDrawable, Mesh, drawable);
+    Mesh* mesh             = AStruct_GetParentWithName  (meshDrawable, Mesh, drawable);
     bool  isChangedOpacity = ADrawable_CheckState(meshDrawable, DrawableState_OpacityChanged);
     bool  isChangedRGB     = ADrawable_CheckState(meshDrawable, DrawableState_RGBChanged);
 
@@ -79,7 +84,7 @@ static void Draw(Drawable* meshDrawable)
                 float* bornData     = AArray_GetData(subMesh->positionArr, float);
                 float* positionData = (float*) ((char*) mesh->vertexArr->data + subMesh->positionDataOffset);
 
-                // the born position data transformed(translate, scale, rotate) by SubMesh modelMatrix
+                // the born position data transformed (translate, scale, rotate) by SubMesh modelMatrix
                 for (int j = 0; j < subMesh->positionArr->length; j += Mesh_VertexPositionSize)
                 {
                     AMatrix->MultiplyMV3
@@ -108,10 +113,10 @@ static void Draw(Drawable* meshDrawable)
             {
                 float  opacity     = subMesh->drawable->blendColor->a * meshDrawable->blendColor->a;
                 float* opacityData = (float*) (
-                                                  (char*) mesh->vertexArr->data +
-                                                  mesh->opacityDataOffset       +
-                                                  subMesh->opacityDataOffset
-                                              );
+                                                (char*) mesh->vertexArr->data +
+                                                mesh->opacityDataOffset       +
+                                                subMesh->opacityDataOffset
+                                            );
 
                 for (int j = 0; j < subMesh->vertexCount; ++j)
                 {
@@ -123,7 +128,7 @@ static void Draw(Drawable* meshDrawable)
                     VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
                     subData->target     = GL_ARRAY_BUFFER;
                     subData->offset     = mesh->opacityDataOffset + subMesh->opacityDataOffset;
-                    subData->length     = subMesh->vertexCount * sizeof(float);
+                    subData->length     = subMesh->vertexCount    * sizeof(float);
                     subData->data       = opacityData;
                 }
             }
@@ -140,7 +145,7 @@ static void Draw(Drawable* meshDrawable)
                                             (char*) mesh->vertexArr->data +
                                             mesh->rgbDataOffset           +
                                             subMesh->rgbDataOffset
-                                          );
+                                        );
 
                 for (int j = 0; j < subMesh->vertexCount; ++j)
                 {
@@ -154,7 +159,7 @@ static void Draw(Drawable* meshDrawable)
                 {
                     VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
                     subData->target     = GL_ARRAY_BUFFER;
-                    subData->offset     = mesh->rgbDataOffset + subMesh->rgbDataOffset;
+                    subData->offset     = mesh->rgbDataOffset  + subMesh->rgbDataOffset;
                     subData->length     = subMesh->vertexCount * 3 * sizeof(float);
                     subData->data       = rgbData;
                 }
@@ -167,10 +172,10 @@ static void Draw(Drawable* meshDrawable)
         if (isDrawnBefore != isDrawnAfter)
         {
             float* opacityData = (float*) (
-                                                (char*) mesh->vertexArr->data +
-                                              mesh->opacityDataOffset       +
-                                              subMesh->opacityDataOffset
-                                          );
+                                            (char*) mesh->vertexArr->data +
+                                            mesh->opacityDataOffset       +
+                                            subMesh->opacityDataOffset
+                                        );
 
             if (ADrawable_CheckState(subMesh->drawable, DrawableState_DrawChanged))
             {
@@ -190,7 +195,7 @@ static void Draw(Drawable* meshDrawable)
                 VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
                 subData->target     = GL_ARRAY_BUFFER;
                 subData->offset     = mesh->opacityDataOffset + subMesh->opacityDataOffset;
-                subData->length     = subMesh->vertexCount * sizeof(float);
+                subData->length     = subMesh->vertexCount    * sizeof(float);
                 subData->data       = opacityData;
             }
         }
@@ -248,7 +253,7 @@ static inline void BindVBO(Mesh* mesh)
 
 static void Render(Drawable* drawable)
 {
-    Mesh* mesh = AStruct_GetParent2(drawable, Mesh);
+    Mesh* mesh = AStruct_GetParent(drawable, Mesh);
 
     if (mesh->childList->size == 0)
     {
@@ -280,7 +285,7 @@ static void Render(Drawable* drawable)
                     );
     }
 
-    // all SubMesh under Mesh matrix
+    // all children SubMesh under Mesh matrix
     AShaderMesh->Use(drawable->mvpMatrix);
 
     glBindTexture(GL_TEXTURE_2D, mesh->texture->id);
@@ -306,16 +311,10 @@ static void Render(Drawable* drawable)
                                             subData->target,
                                             subData->offset,
                                             subData->length,
-                                            GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT
+                                            GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT // NOLINT(hicpp-signed-bitwise)
                                         );
 
-                memcpy
-                (
-                    mappedPtr,
-                    subData->data,
-                    subData->length
-                );
-
+                memcpy(mappedPtr, subData->data, (size_t) subData->length);
                 glUnmapBuffer(subData->target);
             }
         }
@@ -332,7 +331,7 @@ static void Render(Drawable* drawable)
 
         if (AGraphics->isUseVAO)
         {
-            // clean VBO bind
+            // clear VBO bind
             glBindBuffer(GL_ARRAY_BUFFER,         0);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -383,7 +382,7 @@ static void Render(Drawable* drawable)
             (GLvoid*) (intptr_t) fromChild->indexDataOffset
         );
 
-        // clean VBO bind
+        // clearAddChildWithData VBO bind
         glBindBuffer(GL_ARRAY_BUFFER,         0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
@@ -466,27 +465,35 @@ static void Init(Texture* texture, Mesh* outMesh)
     outMesh->vertexArr                  = NULL;
     outMesh->indexArr                   = NULL;
 
-    outMesh->vertexCountOffset          = 0;
-    outMesh->positionDataLength         = 0;
-    outMesh->uvDataLength               = 0;
-    outMesh->rgbDataLength              = 0;
-    outMesh->opacityDataLength          = 0;
-    outMesh->indexDataLength            = 0;
+    outMesh->vertexCount                = 0;
+    outMesh->positionDataSize           = 0;
+    outMesh->uvDataSize                 = 0;
+    outMesh->rgbDataSize                = 0;
+    outMesh->opacityDataSize            = 0;
+    outMesh->indexDataSize              = 0;
 
-    AArrayQueue->Init(sizeof(int),             outMesh->drawRangeQueue);
-    AArrayList ->Init(sizeof(SubMesh*),        outMesh->childList);
-    AArrayList ->Init(sizeof(VBOSubData),      outMesh->vboSubDataList);
-    outMesh->vboSubDataList->increase = outMesh->childList->increase * 4;
+    AArrayQueue->Init(sizeof(int),        outMesh->drawRangeQueue);
+    AArrayList ->Init(sizeof(SubMesh*),   outMesh->childList);
+    AArrayList ->Init(sizeof(VBOSubData), outMesh->vboSubDataList);
+    outMesh->vboSubDataList->increase   = outMesh->childList->increase * 4;
 }
 
 static inline void InitBuffer(Mesh* mesh)
 {
-    mesh->vertexArr         = AArray->Create(sizeof(float), mesh->positionDataLength  + mesh->uvDataLength + mesh->opacityDataLength + mesh->rgbDataLength);
-    mesh->indexArr          = AArray->Create(sizeof(short), mesh->indexDataLength);
+    mesh->vertexArr         = AArray->Create
+                              (
+                                  sizeof(float),
+                                  mesh->positionDataSize +
+                                  mesh->uvDataSize       +
+                                  mesh->opacityDataSize  +
+                                  mesh->rgbDataSize
+                              );
 
-    mesh->uvDataOffset      = mesh->positionDataLength                                * sizeof(float);
-    mesh->opacityDataOffset = mesh->uvDataOffset            + mesh->uvDataLength      * sizeof(float);
-    mesh->rgbDataOffset     = mesh->opacityDataOffset       + mesh->opacityDataLength * sizeof(float);
+    mesh->indexArr          = AArray->Create(sizeof(short), mesh->indexDataSize);
+
+    mesh->uvDataOffset      = mesh->positionDataSize                                * sizeof(float);
+    mesh->opacityDataOffset = mesh->uvDataOffset            + mesh->uvDataSize      * sizeof(float);
+    mesh->rgbDataOffset     = mesh->opacityDataOffset       + mesh->opacityDataSize * sizeof(float);
 
     char* uvData            = (char*) mesh->vertexArr->data + mesh->uvDataOffset;
 
@@ -494,9 +501,23 @@ static inline void InitBuffer(Mesh* mesh)
     {
         SubMesh* subMesh = AArrayList_Get(mesh->childList, i, SubMesh*);
 
-        memcpy((char*) mesh->indexArr->data  + subMesh->indexDataOffset,    subMesh->indexArr->data,    subMesh->indexArr->length    * sizeof(short));
-        memcpy((char*) mesh->vertexArr->data + subMesh->positionDataOffset, subMesh->positionArr->data, subMesh->positionArr->length * sizeof(float));
-        memcpy(uvData                        + subMesh->uvDataOffset,       subMesh->uvArr->data,       subMesh->uvArr->length       * sizeof(float));
+        memcpy
+        (
+            (char*) mesh->indexArr->data +
+            subMesh->indexDataOffset,
+            subMesh->indexArr->data,
+            subMesh->indexArr->length    * sizeof(short)
+        );
+        
+        memcpy
+        (
+          (char*) mesh->vertexArr->data  +
+          subMesh->positionDataOffset,
+          subMesh->positionArr->data,
+          subMesh->positionArr->length   * sizeof(float)
+        );
+
+        memcpy(uvData + subMesh->uvDataOffset, subMesh->uvArr->data, subMesh->uvArr->length * sizeof(float));
 
         // make drawable property update to buffer
         ADrawable_AddState(subMesh->drawable, DrawableState_Draw);
@@ -528,27 +549,27 @@ static inline SubMesh* AddChild(Mesh* mesh, SubMesh* subMesh)
     for (int i = 0; i < subMesh->indexArr->length; ++i)
     {
         // each child index add before children vertex count
-        AArray_Get(subMesh->indexArr, i, short) += mesh->vertexCountOffset;
+        AArray_Get(subMesh->indexArr, i, short) += mesh->vertexCount;
     }
 
     subMesh->index              = mesh->childList->size;
     subMesh->parent             = mesh;
 
-    subMesh->positionDataOffset = mesh->positionDataLength * sizeof(float);
-    subMesh->uvDataOffset       = mesh->uvDataLength       * sizeof(float);
-    subMesh->opacityDataOffset  = mesh->opacityDataLength  * sizeof(float);
-    subMesh->rgbDataOffset      = mesh->rgbDataLength      * sizeof(float);
-    subMesh->indexDataOffset    = mesh->indexDataLength    * sizeof(short);
+    subMesh->positionDataOffset = mesh->positionDataSize * sizeof(float);
+    subMesh->uvDataOffset       = mesh->uvDataSize       * sizeof(float);
+    subMesh->opacityDataOffset  = mesh->opacityDataSize  * sizeof(float);
+    subMesh->rgbDataOffset      = mesh->rgbDataSize      * sizeof(float);
+    subMesh->indexDataOffset    = mesh->indexDataSize    * sizeof(short);
 
-    subMesh->indexOffset        = mesh->indexDataLength;
+    subMesh->indexOffset        = mesh->indexDataSize;
     subMesh->vertexCount        = subMesh->positionArr->length / 3;
 
-    mesh->vertexCountOffset    += subMesh->vertexCount;
-    mesh->positionDataLength   += subMesh->positionArr->length;
-    mesh->uvDataLength         += subMesh->uvArr->length;
-    mesh->opacityDataLength    += subMesh->vertexCount;
-    mesh->rgbDataLength        += subMesh->positionArr->length;
-    mesh->indexDataLength      += subMesh->indexArr->length;
+    mesh->vertexCount          += subMesh->vertexCount;
+    mesh->positionDataSize     += subMesh->positionArr->length;
+    mesh->uvDataSize           += subMesh->uvArr->length;
+    mesh->opacityDataSize      += subMesh->vertexCount;
+    mesh->rgbDataSize          += subMesh->positionArr->length;
+    mesh->indexDataSize        += subMesh->indexArr->length;
 
     AArrayList_Add(mesh->childList, subMesh);
 
@@ -558,21 +579,13 @@ static inline SubMesh* AddChild(Mesh* mesh, SubMesh* subMesh)
 
 static SubMesh* AddChildWithData(Mesh* mesh, Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr)
 {
-    return AddChild
-           (
-               mesh,
-               ASubMesh->CreateWithData(positionArr, uvArr, indexArr)
-           );
+    return AddChild(mesh, ASubMesh->CreateWithData(positionArr, uvArr, indexArr));
 }
 
 
 static SubMesh* AddChildWithQuad(Mesh* mesh, Quad* quad)
 {
-    return AddChild
-           (
-               mesh,
-               ASubMesh->CreateWithQuad(mesh->texture, quad)
-           );
+    return AddChild(mesh, ASubMesh->CreateWithQuad(mesh->texture, quad));
 }
 
 
@@ -589,12 +602,12 @@ static inline void ReleaseBuffer(Mesh* mesh)
         glDeleteBuffers(Mesh_BufferNum, mesh->vboIds);
         mesh->vboIds[Mesh_BufferIndex]  = 0;
         mesh->vboIds[Mesh_BufferVertex] = 0;
+    }
 
-        if (AGraphics->isUseVAO)
-        {
-            glDeleteVertexArrays(1, &mesh->vaoId);
-            mesh->vaoId = 0;
-        }
+    if (AGraphics->isUseVAO)
+    {
+        glDeleteVertexArrays(1, &mesh->vaoId);
+        mesh->vaoId = 0;
     }
 }
 
@@ -615,16 +628,25 @@ static void GenerateBuffer(Mesh* mesh)
 
         // vertex
         glBindBuffer(GL_ARRAY_BUFFER, mesh->vboIds[Mesh_BufferVertex]);
-        glBufferData(GL_ARRAY_BUFFER, mesh->vertexArr->length * sizeof(float), mesh->vertexArr->data, GL_DYNAMIC_DRAW);
+        glBufferData
+        (
+            GL_ARRAY_BUFFER,
+            mesh->vertexArr->length * sizeof(float),
+            mesh->vertexArr->data, GL_DYNAMIC_DRAW
+        );
 
         // index
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[Mesh_BufferIndex]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indexArr->length * sizeof(short), mesh->indexArr->data, GL_STATIC_DRAW);
+        glBufferData
+        (
+            GL_ELEMENT_ARRAY_BUFFER,
+            mesh->indexArr->length * sizeof(short),
+            mesh->indexArr->data, GL_STATIC_DRAW
+        );
 
         // vertexArr and indexArr data pointer changed
         // so we clear all sub data update
         AArrayList->Clear(mesh->vboSubDataList);
-
 
         if (AGraphics->isUseVAO)
         {
@@ -682,12 +704,12 @@ static void Clear(Mesh* mesh)
     AArrayList ->Clear(mesh->vboSubDataList);
     AArrayQueue->Clear(mesh->drawRangeQueue);
 
-    mesh->vertexCountOffset  = 0;
-    mesh->positionDataLength = 0;
-    mesh->uvDataLength       = 0;
-    mesh->rgbDataLength      = 0;
-    mesh->opacityDataLength  = 0;
-    mesh->indexDataLength    = 0;
+    mesh->vertexCount      = 0;
+    mesh->positionDataSize = 0;
+    mesh->uvDataSize       = 0;
+    mesh->rgbDataSize      = 0;
+    mesh->opacityDataSize  = 0;
+    mesh->indexDataSize    = 0;
 }
 
 

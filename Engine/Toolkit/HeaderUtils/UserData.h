@@ -33,7 +33,7 @@ UserDataSlot;
 
 
 /**
- * Stores user custom data in UserDataSlot array.
+ * Store user custom data in UserDataSlot array.
  */
 typedef struct
 {
@@ -42,6 +42,9 @@ typedef struct
 UserData;
 
 
+/**
+ * Init UserData all slot data.
+ */
 static inline void AUserData_Init(UserData* userData)
 {
     userData->slots[0].ptrValue = NULL;
@@ -51,55 +54,82 @@ static inline void AUserData_Init(UserData* userData)
 }
 
 
+/**
+ * Set UserData slot value from slotIndex by int.
+ */
 static inline void AUserData_SetSlotInt(UserData* userData, int slotIndex, int value)
 {
     userData->slots[slotIndex].intValue = value;
 }
 
 
+/**
+ * Set UserData slot value from slotIndex by float.
+ */
 static inline void AUserData_SetSlotFloat(UserData* userData, int slotIndex, float value)
 {
     userData->slots[slotIndex].floatValue = value;
 }
 
 
+/**
+ * Set UserData slot value from slotIndex by ptr.
+ */
 static inline void AUserData_SetSlotPtr(UserData* userData, int slotIndex, void* value)
 {
     userData->slots[slotIndex].ptrValue = value;
 }
 
 
+/**
+ * Set UserData slot value from slotIndex by string.
+ */
 static inline void AUserData_SetSlotString(UserData* userData, int slotIndex, char* value)
 {
     userData->slots[slotIndex].stringValue = value;
 }
 
 
+/**
+ * Get UserData slot int value from slotIndex.
+ */
 static inline int AUserData_GetSlotInt(UserData* userData, int slotIndex)
 {
     return userData->slots[slotIndex].intValue;
 }
 
 
+/**
+ * Get UserData slot float value from slotIndex.
+ */
 static inline float AUserData_GetSlotFloat(UserData* userData, int slotIndex)
 {
     return userData->slots[slotIndex].floatValue;
 }
 
 
+/**
+ * Get UserData slot ptr value from slotIndex.
+ */
 static inline void* AUserData_GetSlotPtr(UserData* userData, int slotIndex)
 {
     return userData->slots[slotIndex].ptrValue;
 }
 
 
+/**
+ * Get UserData slot string value from slotIndex.
+ */
 static inline char* AUserData_GetSlotString(UserData* userData, int slotIndex)
 {
     return userData->slots[slotIndex].stringValue;
 }
 
 
-#define AUserData_GetSlotPtrWithType(userData, slotIndex, type) \
-    ((type) userData->slots[slotIndex].ptrValue)
+/**
+ * Get slot ptr value with PtrType.
+ */
+#define AUserData_GetSlotPtrWithType(userData, slotIndex, PtrType) \
+    ((PtrType) userData->slots[slotIndex].ptrValue)
 
 #endif

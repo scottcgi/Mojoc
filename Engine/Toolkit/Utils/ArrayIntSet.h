@@ -28,7 +28,7 @@
 typedef struct
 {
     /**
-     * Stores all Elements.
+     * Store all Elements.
      */
     ArrayList(intptr_t) elementList[1];
 }
@@ -82,14 +82,14 @@ extern struct AArrayIntSet AArrayIntSet[1];
  * Marked ArrayIntSet element type.
  * element type must compatible with integer.
  */
-#define ArrayIntSet(elementType) ArrayIntSet
+#define ArrayIntSet(ElementType) ArrayIntSet
 
 
 /**
  * Init constant ArrayIntSet.
- * example: ArrayIntSet set[1] = AArrayIntSet_Init(elementType, increase)
+ * example: ArrayIntSet set[1] = AArrayIntSet_Init(ElementType, increase)
  */
-#define AArrayIntSet_Init(elementType, increase) \
+#define AArrayIntSet_Init(ElementType, increase) \
     {                                           \
          AArrayList_Init(intptr_t, increase),   \
     }

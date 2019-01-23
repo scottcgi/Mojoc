@@ -1,11 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2016-8-5
+ * Update: 2019-1-22
  * Author: scott.cgi
  */
+
 
 #ifndef MESH_H
 #define  MESH_H
@@ -21,7 +26,7 @@
 
 
 /**
- * Hold VBO data update to buffer
+ * The data update to VBO buffer by glBufferSubData.
  */
 typedef struct
 {
@@ -33,76 +38,120 @@ typedef struct
 VBOSubData;
 
 
+/**
+ * Render with texture by vertices, and the vertices info come from children SubMesh.
+ * implement Drawable's render for render self.
+ */
 struct Mesh
 {
-    Drawable             drawable      [1];
+    /**
+     * The base class for provide draw functions.
+     */
+    Drawable             drawable[1];
 
     /**
-     * Mesh render texture
+     * Render texture.
      */
     Texture*             texture;
 
     /**
-     * Draw from index, default first in children
+     * The index draw from , default first in children.
      */
     int                  fromIndex;
 
     /**
-     * Draw to index, default last in children
+     * The index draw to, default last in children.
      */
     int                  toIndex;
 
     /**
-     * Pair of from and to index SubMesh to draw
-     * if no range will default draw fromIndex to toIndex
+     * Every frame pop pair of [from, to] index in childList to draw.
+     * if no range will default draw fromIndex to toIndex.
      */
     ArrayQueue(int)      drawRangeQueue[1];
 
     /**
-     * Sometimes use fixed index for get child in children
-     * so can not change children order instead of use SubMesh index for sorting
+     * Mesh children provide vertices info to draw.
+     *
+     * Can not change children order directly, and use SubMesh index for sorting.
      */
-    ArrayList(SubMesh*)  childList     [1];
+    ArrayList(SubMesh*)  childList[1];
 
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
-     * All vertex data, every vertex has position, uv, color
+     * All vertices data from children SubMesh.
+     * data model: [all position data | all uv data | all opacity data | all rgb data]
      */
     Array(float)*         vertexArr;
 
     /**
-     * All vertex index data
+     * All vertices data from children SubMesh.
      */
     Array(short)*         indexArr;
 
     /**
-     * If use VBO is array buffer id
+     * If use VBO is the generated VBO ids else 0.
      */
     GLuint                vboIds[Mesh_BufferNum];
 
     /**
-     * If use VAO is generated id else 0
+     * If use VAO is the generated vao id else 0.
      */
     GLuint                vaoId;
 
     /**
-     * If use VBO update to buffer
+     * If use VBO use VBOSubData to update VBO buffer.
+     * VBOSubData in ArrayList malloc data.
      */
     ArrayList(VBOSubData) vboSubDataList[1];
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    int                   uvDataOffset;
-    int                   rgbDataOffset;
-    int                   opacityDataOffset;
-    int                   vertexCountOffset;
+    /**
+     * All vertices count.
+     */
+    int                   vertexCount;
 
-    int                   positionDataLength;
-    int                   uvDataLength;
-    int                   rgbDataLength;
-    int                   opacityDataLength;
-    int                   indexDataLength;
+    /**
+     * The uv data offset in vertexArr.
+     */
+    int                   uvDataOffset;
+
+    /**
+     * The rgb data offset in vertexArr.
+     */
+    int                   rgbDataOffset;
+
+    /**
+     * The opacity data offset in vertexArr.
+     */
+    int                   opacityDataOffset;
+
+    /**
+     * The position data bytes size.
+     */
+    int                   positionDataSize;
+
+    /**
+     * The UV data bytes size.
+     */
+    int                   uvDataSize;
+
+    /**
+     * The RGB data bytes size.
+     */
+    int                   rgbDataSize;
+
+    /**
+     * The opacity data bytes size.
+     */
+    int                   opacityDataSize;
+
+    /**
+     * The index data bytes size.
+     */
+    int                   indexDataSize;
 };
 
 
@@ -113,41 +162,42 @@ struct AMesh
     void      (*InitWithCapacity)  (Texture* texture,  int capacity, Mesh* outMesh);
 
     /**
-     * Call Mesh member's Release and free all SubMesh memory
+     * Release all member memory and all children SubMesh memory.
      */
     void      (*Release)           (Mesh* mesh);
 
     /**
-     * Clear children, drawRangeQueue, bufferSubDataList,
-     * ready to GenerateBuffer
+     * Clear children, drawRangeQueue, vboSubDataList, and ready to GenerateBuffer.
      */
     void      (*Clear)             (Mesh* mesh);
 
     /**
-     * The positionArr(has x y z) uvArr and indexArr will copy in SubMesh
-     * SubMesh set parent and index with Mesh and free by parent Release
+     * The positionArr, uvArr and indexArr will copy in SubMesh.
+     * SubMesh set parent and index by parent Mesh,
+     * and will free by parent Mesh Release.
      */
     SubMesh*  (*AddChildWithData)  (Mesh* mesh, Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr);
 
     /**
-     * SubMesh data calculate by Quad in Texture
-     * SubMesh set parent and index with spriteBatch and free by parent Release
+     * SubMesh data calculate by Quad.
+     * SubMesh set parent and index by parent Mesh,
+     * and will free by parent Mesh Release.
      */
     SubMesh*  (*AddChildWithQuad)  (Mesh* mesh, Quad* quad);
 
     /**
-     * Reorder all SubMesh draw order by index, not changed pos in children
+     * Reorder all SubMesh draw order by index.
      */
     void      (*ReorderAllChildren)(Mesh* mesh);
 
     /**
-     * Combine SubMesh data into buffer when draw function upload to openGL
-     * when SubMesh initialization, remove or add, need call this for generate buffer
+     * Combine all children SubMesh data into buffer that will upload to GPU.
+     * when SubMesh init, remove or add, need to call this for generate buffer.
      */
     void      (*GenerateBuffer)    (Mesh* mesh);
 
     /**
-     * Mesh implement Drawable's render
+     * The Mesh Drawable's render function implementation for render self.
      */
     void      (*Render)            (Drawable* drawable);
 };
@@ -156,6 +206,9 @@ struct AMesh
 extern struct AMesh AMesh[1];
 
 
+/**
+ * Mesh draw self.
+ */
 static inline void AMesh_Draw(Mesh* mesh)
 {
     ADrawable->Draw(mesh->drawable);
@@ -163,12 +216,12 @@ static inline void AMesh_Draw(Mesh* mesh)
 
 
 /**
- * Push startIndex and endIndex into drawRangeQueue
+ * Push fromIndex and toIndex into drawRangeQueue.
  */
-static inline void AMesh_PushDrawRange(Mesh* mesh, int startIndex, int endIndex)
+static inline void AMesh_PushDrawRange(Mesh* mesh, int fromIndex, int toIndex)
 {
-    AArrayQueue_Push(mesh->drawRangeQueue, startIndex);
-    AArrayQueue_Push(mesh->drawRangeQueue, endIndex);
+    AArrayQueue_Push(mesh->drawRangeQueue, fromIndex);
+    AArrayQueue_Push(mesh->drawRangeQueue, toIndex);
 }
 
 

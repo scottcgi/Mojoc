@@ -240,7 +240,7 @@ static void Apply(Skeleton* skeleton, SkeletonAnimationData* animationData, floa
 
 static void Draw(Drawable* drawable)
 {
-    Skeleton* skeleton = AStruct_GetParent2(drawable, Skeleton);
+    Skeleton* skeleton = AStruct_GetParent(drawable, Skeleton);
 
     for (int i = 0; i < skeleton->boneArr->length; ++i)
     {

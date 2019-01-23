@@ -37,7 +37,7 @@ static void* Pop(ArrayQueue* arrayQueue, void* defaultElementPtr)
     }
 
     return (char*) arrayQueue->elementList->elementArr->data +
-                   arrayQueue->elementList->elementTypeSize    *
+                   arrayQueue->elementList->elementTypeSize  *
                    (arrayQueue->topIndex++);
 }
 

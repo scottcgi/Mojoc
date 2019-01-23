@@ -208,13 +208,4 @@ static inline bool AMath_TestFloatEqual(float x, float y)
     (AMath_Min((max), AMath_Max((x), (min))))
 
 
-/**
- * Get x sign bit that only for little-endian.
- * if x >= 0 then  1
- * if x <  0 then -1
- */
-#define AMath_SignBit(x) \
-    (((signed char*) &(x))[sizeof(x) - 1] >> 7 | 1)
-
-
 #endif

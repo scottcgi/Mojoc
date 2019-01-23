@@ -75,7 +75,7 @@ static Drawable* GetQuad(DrawAtlas* drawAtlas, char* quadName)
 
         ASubMesh->SetWithQuad
         (
-            AStruct_GetParent2(drawable, SubMesh),
+            AStruct_GetParent(drawable, SubMesh),
             drawAtlas->mesh->texture,
             atlasQuad->quad
         );
@@ -101,7 +101,7 @@ static void Reuse(DrawAtlas* drawAtlas)
 
 static void ReuseQuad(DrawAtlas* drawAtlas, Drawable* drawable)
 {
-    SubMesh* subMesh = AStruct_GetParent2(drawable, SubMesh);
+    SubMesh* subMesh = AStruct_GetParent(drawable, SubMesh);
 
     ALog_A
     (

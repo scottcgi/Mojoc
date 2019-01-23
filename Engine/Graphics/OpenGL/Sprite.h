@@ -72,11 +72,14 @@ enum
 
 
 /**
- * Render with texture.
+ * Render with texture by vertices.
  * implement Drawable's render for render self.
  */
 typedef struct
 {
+    /**
+     * The base class for provide draw functions.
+     */
     Drawable      drawable[1];
 
     /**
@@ -91,6 +94,7 @@ typedef struct
 
     /**
      * If use VBO is NULL else buffer all vertex data.
+     * data model: [all position data | all uv data]
      */
     Array(float)*  vertexArr;
 

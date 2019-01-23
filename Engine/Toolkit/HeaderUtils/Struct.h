@@ -22,15 +22,16 @@
 /**
  * Get struct pointer from member pointer.
  */
-#define AStruct_GetParent2(memberPtr, structType) \
-    ((structType*) ((char*) memberPtr - offsetof(structType, memberPtr)))
+#define AStruct_GetParent(memberPtr, ParentType) \
+    ((ParentType*) ((char*) (memberPtr) - offsetof(ParentType, memberPtr)))
 
 
 /**
  * Get struct pointer from member pointer with memberName.
+ * this for memberPtr not same as memberName.
  */
-#define AStruct_GetParent3(memberPtr, structType, memberName) \
-    ((structType*) ((char*) memberPtr - offsetof(structType, memberName)))
+#define AStruct_GetParentWithName(memberPtr, ParentType, memberName) \
+    ((ParentType*) ((char*) (memberPtr) - offsetof(ParentType, memberName)))
 
 
 #endif

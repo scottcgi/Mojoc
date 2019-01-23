@@ -30,6 +30,7 @@
 struct SubMesh
 {
     /**
+     * The base class for provide draw functions.
      * if regenerate and the drawable parent invisible，then the parent influence will lost.
      */
     Drawable     drawable[1];
@@ -42,7 +43,7 @@ struct SubMesh
     Mesh*         parent;
 
     /**
-     * Index in Mesh for Mesh ReorderAllChildren.
+     * Index in Mesh, so change it will reorder SubMesh by Mesh ReorderAllChildren.
      * default -1.
      */
     int           index;
@@ -61,32 +62,32 @@ struct SubMesh
     int           vertexCount;
 
     /**
-     * The offset index in parent Mesh indexArr.
+     * The index offset in parent Mesh indexArr.
      */
     int           indexOffset;
 
     /**
-     * The offset of position data in parent Mesh vertexArr.
+     * The position data bytes offset in parent Mesh vertexArr.
      */
     int           positionDataOffset;
 
     /**
-     * The offset of uv data in parent Mesh vertexArr.
+     * The uv data bytes offset in parent Mesh vertexArr.
      */
     int           uvDataOffset;
 
     /**
-     * The offset of rgb data in parent Mesh vertexArr.
+     * The rgb data bytes offset in parent Mesh vertexArr.
      */
     int           rgbDataOffset;
 
     /**
-     * The offset of opacity data in parent Mesh vertexArr.
+     * The opacity bytes data offset in parent Mesh vertexArr.
      */
     int           opacityDataOffset;
 
     /**
-     * The offset of index data in parent Mesh indexArr.
+     * The index bytes data offset in parent Mesh indexArr.
      */
     int           indexDataOffset;
 };

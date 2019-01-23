@@ -21,7 +21,7 @@
 
 static void Render(Drawable* drawable)
 {
-    Sprite* sprite = AStruct_GetParent2(drawable, Sprite);
+    Sprite* sprite = AStruct_GetParent(drawable, Sprite);
 
     AShaderSprite->Use(drawable->mvpMatrix, sprite->drawable->blendColor);
 

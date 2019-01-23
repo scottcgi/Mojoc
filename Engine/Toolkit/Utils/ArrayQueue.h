@@ -29,7 +29,7 @@ typedef struct
     int       topIndex;
 
     /**
-     * Stores all elements.
+     * Store all elements.
      */
     ArrayList elementList[1];
 }
@@ -41,11 +41,11 @@ ArrayQueue;
  */
 struct AArrayQueue
 {
-    ArrayQueue* (*Create)            (int elementTypeSize);
-    void        (*Init)              (int elementTypeSize, ArrayQueue* outArrayQueue);
+    ArrayQueue* (*Create)            (int ElementTypeSize);
+    void        (*Init)              (int ElementTypeSize, ArrayQueue* outArrayQueue);
 
-    ArrayQueue* (*CreateWithCapacity)(int elementTypeSize, int capacity);
-    void        (*InitWithCapacity)  (int elementTypeSize, int capacity, ArrayQueue* outArrayQueue);
+    ArrayQueue* (*CreateWithCapacity)(int ElementTypeSize, int capacity);
+    void        (*InitWithCapacity)  (int ElementTypeSize, int capacity, ArrayQueue* outArrayQueue);
 
     void        (*Release)           (ArrayQueue* arrayQueue);
 
@@ -80,19 +80,19 @@ extern struct AArrayQueue AArrayQueue[1];
 
 /**
  * Marked ArrayQueue element type.
- * elementType: element data type
+ * ElementType: element data type
  */
-#define ArrayQueue(elementType) ArrayQueue
+#define ArrayQueue(ElementType) ArrayQueue
 
 
 /**
  * Init constant ArrayQueue.
- * example: ArrayQueue queue[1] = AArrayQueue_Init(elementType, increase)
+ * example: ArrayQueue queue[1] = AArrayQueue_Init(ElementType, increase)
  */
-#define AArrayQueue_Init(elementType, increase)   \
+#define AArrayQueue_Init(ElementType, increase)   \
     {                                            \
         0,                                       \
-        AArrayList_Init(elementType, increase),  \
+        AArrayList_Init(ElementType, increase),  \
     }
 
 
@@ -107,32 +107,32 @@ extern struct AArrayQueue AArrayQueue[1];
  * Shortcut of AArrayQueue->Pop.
  * return element.
  */
-#define AArrayQueue_Pop(arrayQueue, elementType) \
-    (*(elementType*) AArrayQueue->Pop(arrayQueue, NULL_PTR))
+#define AArrayQueue_Pop(arrayQueue, ElementType) \
+    (*(ElementType*) AArrayQueue->Pop(arrayQueue, NULL_PTR))
 
 
 /**
  * Shortcut of AArrayQueue->Pop.
  * return element.
  */
-#define AArrayQueue_PopWithDefault(arrayQueue, elementType, defaultValue) \
-    (*(elementType*) AArrayQueue->Pop(arrayQueue, &(defaultValue)))
+#define AArrayQueue_PopWithDefault(arrayQueue, ElementType, defaultValue) \
+    (*(ElementType*) AArrayQueue->Pop(arrayQueue, &(defaultValue)))
 
 
 /**
  * Shortcut of AArrayQueue->Pop.
  * return elementPtr.
  */
-#define AArrayQueue_PopPtr(arrayQueue, elementType) \
-    ((elementType*) AArrayQueue->Pop(arrayQueue, NULL))
+#define AArrayQueue_PopPtr(arrayQueue, ElementType) \
+    ((ElementType*) AArrayQueue->Pop(arrayQueue, NULL))
 
 
 /**
  * Shortcut of AArrayQueue->Pop.
  * return elementPtr.
  */
-#define AArrayQueue_PopPtrWithDefault(arrayQueue, elementType, defaultValue) \
-    ((elementType*) AArrayQueue->Pop(arrayQueue, &(defaultValue)))
+#define AArrayQueue_PopPtrWithDefault(arrayQueue, ElementType, defaultValue) \
+    ((ElementType*) AArrayQueue->Pop(arrayQueue, &(defaultValue)))
 
 
 #endif

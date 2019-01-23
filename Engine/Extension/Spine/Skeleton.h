@@ -20,7 +20,8 @@ typedef struct Skeleton Skeleton;
 struct  Skeleton
 {
     /**
-     * Has been implemented render if override must call the original
+     * The base class for provide draw functions.
+     * has been implemented render if override must call the original
      */
     Drawable                             drawable[1];
     ArrayStrMap(boneName, SkeletonBone*) boneMap [1];

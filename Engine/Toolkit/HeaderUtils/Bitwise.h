@@ -24,26 +24,43 @@ so if not use macro we need pass the third parameter that is the bitState owner.
 
 
 
+/**
+ * Add bits into biteState.
+ */
 #define ABitwise_Add(bitState, bits)   \
     ((bitState)  |= (bits))
 
 
+/**
+ * Set biteState bits.
+ */
 #define ABitwise_Set(bitState, bits)   \
     ((bitState)   = (bits))
 
 
+/**
+ * Clear bits from bitState.
+ */
 #define ABitwise_Clear(bitState, bits) \
     ((bitState)  &= ~(bits))
 
-
+/**
+ * Check biteState whether has bites.
+ */
 #define ABitwise_Check(bitState, bits) \
     (((bitState) & (bits)) != 0)
 
 
+/**
+ * Clear clearBits from bitState, and add addBits into.
+ */
 #define ABitwise_ClearAndAdd(bitState, clearBits, addBits) \
     ((bitState)  = ((bitState) & ~(clearBits)) | (addBits))
 
 
+/**
+ * Reset bitState to 0.
+ */
 #define ABitwise_ClearAll(bitState) \
     ((bitState)  = 0)
 
