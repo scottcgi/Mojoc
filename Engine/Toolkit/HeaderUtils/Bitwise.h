@@ -18,7 +18,7 @@
 
 /*
 The biteState is usually an expression,
-but the inline function can not use expression for bitState,
+but the inline function cannot use expression for bitState,
 so if not use macro we need pass the third parameter that is the bitState owner.
 */
 

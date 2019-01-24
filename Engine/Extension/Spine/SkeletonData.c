@@ -979,7 +979,7 @@ static inline void ReadAnimationDrawOrders
                 ALog_A
                 (
                     slotIndex != -1,
-                    "ASkeletonData ReadAnimationDrawOrders can not find slot by offset name = %s",
+                    "ASkeletonData ReadAnimationDrawOrders cannot find slot by offset name = %s",
                     slotName
                 );
 
@@ -1282,7 +1282,7 @@ static inline void ReadSkeletonData(JsonObject* root, SkeletonData* skeletonData
 
 static inline void Parse(SkeletonData* skeletonData, const char* jsonFilePath)
 {
-    JsonValue*  value = AJson->ParseFileFromResource(jsonFilePath);
+    JsonValue*  value = AJson->ParseFile(jsonFilePath);
     JsonObject* root  = value->jsonObject;
 
     // skeleton
@@ -1357,7 +1357,7 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
                 ALog_A
                 (
                     atlasQuad != NULL,
-                    "ASkeletonData InitAtlas can not find attachment in TextureAtlas by name = %s",
+                    "ASkeletonData InitAtlas cannot find attachment in TextureAtlas by name = %s",
                     attachmentData->name
                 );
 

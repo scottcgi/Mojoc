@@ -1,14 +1,19 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2012-12-22
+ * Update: 2019-1-23
  * Author: scott.cgi
  */
 
+
 #ifndef GL_TOOL_H
-#define GL_TOOL_H
+#define  GL_TOOL_H
 
 
 #include <stdbool.h>
@@ -20,65 +25,75 @@
 struct AGLTool
 {
     /**
-     * Screen pixel width
+     * Screen pixel width.
      */
     float screenWidth;
 
     /**
-     * Screen pixel height
+     * Screen pixel heigh.t
      */
     float screenHeight;
 
     /**
-     * Screen half pixel width
+     * Screen half pixel width.
      */
     float screenHalfWidth;
 
     /**
-     * Screen half pixel height
+     * Screen half pixel height.
      */
     float screenHalfHeight;
 
     /**
-     * Screen width / height
+     * Screen (width / height).
      */
     float screenRatio;
 
     /**
-     * Screen ratio / halfWidth
+     * Screen (ratio / halfWidth).
      */
     float ratioDivideHalfWidth;
 
     /**
-     * Screen halfWidth / ratio
+     * Screen (halfWidth / ratio).
      */
     float halfWidthDivideRatio;
 
     /**
-     * When screen changed called
+     * When screen rect changed called.
      */
     void   (*SetSize)              (int width, int height);
 
     /**
-     * Compile a shader
-     * shaderType is GL_VERTEX_SHADER or GL_FRAGMENT_SHADER
+     * Load and compile shader from shaderSourceStr.
+     * shaderType: GL_VERTEX_SHADER or GL_FRAGMENT_SHADER
+     *
+     * if success return shader id else 0.
      */
-    GLuint (*LoadShader)           (GLenum shaderType, char* shaderSource);
+    GLuint (*LoadShader)           (GLenum shaderType, const char* shaderSourceStr);
 
     /**
-     * Load vertex and fragment shader, create a program object, link program
+     * Load vertex and fragment shader, and create program object, link program object.
      */
-    GLuint (*LoadProgram)          (char* vertexSource, char* fragmentSource);
+    GLuint (*LoadProgram)          (const char* vertexSourceStr, const char* fragmentSourceStr);
 
     /**
-     * Create a program object by shader file path
+     * Create a program object from shader file path.
+     *
+     * vertexShaderFilePath and fragmentShaderFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
      */
-    GLuint (*LoadProgramByFile)    (char* vertexShaderPath, char* fragmentShaderPath);
+    GLuint (*LoadProgramFromFile)  (const char* vertexShaderFilePath, const char* fragmentShaderFilePath);
 
     /**
-     * Load texture from file
+     * Load texture from textureFilePath.
+     * 
+     * textureFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
      */
-    void (*LoadTexture)            (const char* filePath, Texture* outTexture);
+    void (*LoadTexture)            (const char* textureFilePath, Texture* outTexture);
 };
 
 
@@ -89,7 +104,7 @@ extern struct AGLTool AGLTool[1];
 
 
 /**
- * Convert screen width to openGL width
+ * Convert screen pixel width to openGL width.
  * same as (screenWidth) * AGLTool->screenRatio / AGLTool->screenHalfWidth
  */
 static inline float AGLTool_ToGLWidth(float screenWidth)
@@ -99,7 +114,7 @@ static inline float AGLTool_ToGLWidth(float screenWidth)
 
 
 /**
- * Convert pixel height to openGL height
+ * Convert screen pixel height to openGL height.
  */
 static inline float AGLTool_ToGLHeight(float screenHeight)
 {
@@ -108,7 +123,7 @@ static inline float AGLTool_ToGLHeight(float screenHeight)
 
 
 /**
- * Convert screen x to openGL x
+ * Convert screen pixel x to openGL x.
  */
 static inline float AGLTool_ToGLX(float screenX)
 {
@@ -117,7 +132,7 @@ static inline float AGLTool_ToGLX(float screenX)
 
 
 /**
- * Convert screen Y to openGL Y
+ * Convert screen pixel y to openGL y.
  */
 static inline float AGLTool_ToGLY(float screenY)
 {
@@ -126,7 +141,7 @@ static inline float AGLTool_ToGLY(float screenY)
 
 
 /**
- * Convert openGL Width to screen width
+ * Convert openGL Width to screen pixel width.
  * same as (glWidth) * AGLTool->screenHalfWidth / AGLTool->screenRatio
  */
 static inline float AGLTool_ToScreenWidth(float glWidth)
@@ -136,7 +151,7 @@ static inline float AGLTool_ToScreenWidth(float glWidth)
 
 
 /**
- * Convert openGL Height to screen height
+ * Convert openGL Height to screen screen pixel.
  */
 static inline float AGLTool_ToScreenHeight(float glHeight)
 {
@@ -145,7 +160,7 @@ static inline float AGLTool_ToScreenHeight(float glHeight)
 
 
 /**
- * Convert openGL x to screen x
+ * Convert openGL x to screen pixel x.
  */
 static inline float AGLTool_ToScreenX(float glX)
 {
@@ -154,7 +169,7 @@ static inline float AGLTool_ToScreenX(float glX)
 
 
 /**
- * Convert openGL y to screen y
+ * Convert openGL y to screen pixel y.
  */
 static inline float AGLTool_ToScreenY(float glY)
 {
@@ -163,8 +178,8 @@ static inline float AGLTool_ToScreenY(float glY)
 
 
 /**
- * Convert width to uv width
- * parameters both openGL or screen coordinate
+ * Convert width to uv width.
+ * parameters both openGL or pixel coordinate.
  */
 static inline float AGLTool_ToUVWidth(float width, float textureWidth)
 {
@@ -173,8 +188,8 @@ static inline float AGLTool_ToUVWidth(float width, float textureWidth)
 
 
 /**
- * Convert height to uv height
- * parameters both openGL or screen coordinate
+ * Convert height to uv height.
+ * parameters both openGL or pixel coordinate.
  */
 static inline float AGLTool_ToUVHeight(float height, float textureHeight)
 {

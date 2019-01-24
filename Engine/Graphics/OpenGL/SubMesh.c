@@ -68,7 +68,7 @@ static SubMesh* CreateWithData(Array(float)* positionArr, Array(float)* uvArr, A
     float  minY         = positionData[1];
     float  maxY         = minY;
 
-    // calculate SubMesh area
+    // calculate SubMesh size
     for (int i = Mesh_VertexPositionSize; i < subMesh->positionArr->length; i += Mesh_VertexPositionSize)
     {
         float x = positionData[i];
@@ -104,8 +104,8 @@ static void SetWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
     subMesh->drawable->width  = quad->width;
     subMesh->drawable->height = quad->height;
 
-    AQuad->GetQuadUV       (quad, texture, subMesh->uvArr->data);
-    AQuad->GetQuadPosition3(quad, subMesh->positionArr->data);
+    AQuad->GetUV       (quad, texture, subMesh->uvArr->data);
+    AQuad->GetPosition3(quad, subMesh->positionArr->data);
 
     Mesh* mesh = subMesh->parent;
 
@@ -139,15 +139,15 @@ static SubMesh* CreateWithQuad(Texture* texture, Quad* quad)
 
     subMesh->indexArr->length     = Quad_IndexNum;
     subMesh->indexArr->data       = (char*) subMesh + sizeof(SubMesh);
-    AQuad->GetQuadIndex(0, subMesh->indexArr->data);
+    AQuad->GetIndex(0, subMesh->indexArr->data);
 
     subMesh->uvArr->length        = Quad_UVNum;
     subMesh->uvArr->data          = (char*) subMesh->indexArr->data + Quad_IndexSize;
-    AQuad->GetQuadUV(quad, texture, subMesh->uvArr->data);
+    AQuad->GetUV(quad, texture, subMesh->uvArr->data);
 
     subMesh->positionArr->length  = Quad_Position3Num;
     subMesh->positionArr->data    = (char*) subMesh->uvArr->data + Quad_UVSize;
-    AQuad->GetQuadPosition3(quad, subMesh->positionArr->data);
+    AQuad->GetPosition3(quad, subMesh->positionArr->data);
 
     InitSubMesh(subMesh, quad->width, quad->height);
 

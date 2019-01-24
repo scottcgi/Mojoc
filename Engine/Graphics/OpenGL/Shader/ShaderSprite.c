@@ -1,14 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-1-8
+ * Update: 2019-1-24
  * Author: scott.cgi
  */
 
-#include <stdbool.h>
 
+#include <stdbool.h>
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderSprite.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -64,9 +68,8 @@ static void Init()
         )
     );
 
-    // Get the attribute locations
+    // get the attribute locations
     AShaderSprite->attribPositionTexcoord = glGetAttribLocation(AShaderSprite->program,  "aPositionTexcoord");
-    
     AShaderSprite->uniformSampler2D       = glGetUniformLocation(AShaderSprite->program, "uSampler2D");
     AShaderSprite->uniformMVPMatrix       = glGetUniformLocation(AShaderSprite->program, "uMVPMatrix");
     AShaderSprite->uniformColor           = glGetUniformLocation(AShaderSprite->program, "uColor");
@@ -74,29 +77,27 @@ static void Init()
     ALog_A
     (
         AShaderSprite->uniformSampler2D != -1,
-        "AShaderSprite could not glGetUniformLocation for uniformSampler2D"
+        "AShaderSprite cannot glGetUniformLocation for uniformSampler2D"
     );
 
     ALog_A
     (
         AShaderSprite->uniformMVPMatrix != -1,
-        "AShaderSprite could not glGetUniformLocation for uMVPMatrix"
+        "AShaderSprite cannot glGetUniformLocation for uniformMVPMatrix"
     );
 
     ALog_A
     (
         AShaderSprite->uniformColor != -1,
-        "AShaderSprite could not glGetUniformLocation for uColor"
+        "AShaderSprite cannot glGetUniformLocation for uniformColor"
     );
 
-    glEnableVertexAttribArray(AShaderSprite->attribPositionTexcoord);
+    glEnableVertexAttribArray((GLuint) AShaderSprite->attribPositionTexcoord);
 }
 
 
 struct AShaderSprite AShaderSprite[1] =
-{
-    {
-        .Use  = Use,
-        .Init = Init,
-    }
-};
+{{
+    .Use  = Use,
+    .Init = Init,
+}};

@@ -116,7 +116,7 @@ static inline void InitSkeletonAnimationPlayer(SkeletonAnimationPlayer* player, 
     ASkeleton->Init(skeletonData, player->skeleton);
     player->preAnimationData      = NULL;
     player->curAnimationData      = ASkeleton_GetAnimationData(player->skeleton, animationName);
-    ALog_A(player->curAnimationData != NULL, "ASkeletonAnimationPlayer can not find animationData by name = %s", animationName);
+    ALog_A(player->curAnimationData != NULL, "ASkeletonAnimationPlayer cannot find animationData by name = %s", animationName);
 
     player->curTime               = 0.0f;
     player->preTime               = 0.0f;
@@ -140,7 +140,7 @@ static void SetAnimation(SkeletonAnimationPlayer* player, char* animationName)
 {
     player->curAnimationData = ASkeleton_GetAnimationData(player->skeleton,  animationName);
 
-    ALog_A(player->curAnimationData != NULL, "ASkeletonAnimationPlayer SetAnimation can not find animationData by name = %s", animationName);
+    ALog_A(player->curAnimationData != NULL, "ASkeletonAnimationPlayer SetAnimation cannot find animationData by name = %s", animationName);
     player->curTime = 0.0f;
 }
 
@@ -153,7 +153,7 @@ static void SetAnimationMix(SkeletonAnimationPlayer* player, char* animationName
     player->mixTime          = 0.0f;
     player->mixDuration      = mixDuration;
     player->curAnimationData = ASkeleton_GetAnimationData(player->skeleton,  animationName);
-    ALog_A(player->curAnimationData != NULL, "SkeletonAnimationPlayer SetAnimationMix can not find animationData by name = %s", animationName);
+    ALog_A(player->curAnimationData != NULL, "SkeletonAnimationPlayer SetAnimationMix cannot find animationData by name = %s", animationName);
 }
 
 

@@ -440,28 +440,28 @@ static void GetWorldScaleV2(Drawable* drawable, Vector2* outScaleV2)
 
 static float GetWorldPositionX(Drawable* drawable)
 {
-    ALog_A(drawable->parent != NULL, "ADrawable GetWorldPositionX the drawable parent can not NULL !");
+    ALog_A(drawable->parent != NULL, "ADrawable GetWorldPositionX the drawable parent cannot NULL !");
     return AMatrix->MultiplyMX(drawable->parent->modelMatrix, drawable->positionX);
 }
 
 
 static float GetWorldPositionY(Drawable* drawable)
 {
-    ALog_A(drawable->parent != NULL, "ADrawable GetWorldPositionY the drawable parent can not NULL !");
+    ALog_A(drawable->parent != NULL, "ADrawable GetWorldPositionY the drawable parent cannot NULL !");
     return AMatrix->MultiplyMX(drawable->parent->modelMatrix, drawable->positionY);
 }
 
 
 static void GetWorldPositionV2(Drawable* drawable, Vector2* outPositionV2)
 {
-    ALog_A(drawable->parent != NULL, "ADrawable GetWorldPositionV2 the drawable parent can not NULL !");
+    ALog_A(drawable->parent != NULL, "ADrawable GetWorldPositionV2 the drawable parent cannot NULL !");
     AMatrix->MultiplyMV2(drawable->parent->modelMatrix, drawable->positionX, drawable->positionY, outPositionV2);
 }
 
 
 static void GetWorldPositionV3(Drawable* drawable, Vector3* outPositionV3)
 {
-    ALog_A(drawable->parent != NULL, "ADrawable GetWorldPositionV3 the drawable parent can not NULL !");
+    ALog_A(drawable->parent != NULL, "ADrawable GetWorldPositionV3 the drawable parent cannot NULL !");
     
     AMatrix->MultiplyMV3
     (
@@ -559,8 +559,8 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
         Vector2 parentScaleV2[1];
         GetWorldScaleV2(parent, parentScaleV2);
 
-        ALog_A(parentScaleV2->x != 0.0f, "ADrawable ConvertToParent failed, parent world scale x can not 0.0f");
-        ALog_A(parentScaleV2->y != 0.0f, "ADrawable ConvertToParent failed, parent world scale y can not 0.0f");
+        ALog_A(parentScaleV2->x != 0.0f, "ADrawable ConvertToParent failed, parent world scale x cannot 0.0f");
+        ALog_A(parentScaleV2->y != 0.0f, "ADrawable ConvertToParent failed, parent world scale y cannot 0.0f");
 
         ADrawable_SetScale2(drawable, worldScaleV2->x / parentScaleV2->x, worldScaleV2->y / parentScaleV2->y);
 
@@ -608,8 +608,8 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
 
 static float ConvertBetweenLocalPositionX(Drawable* parentA, float localPositionX, Drawable* parentB)
 {
-    ALog_A(parentA != NULL, "ADrawable ConvertBetweenLocalPositionX parentA can not NULL !");
-    ALog_A(parentB != NULL, "ADrawable ConvertBetweenLocalPositionX parentB can not NULL !");
+    ALog_A(parentA != NULL, "ADrawable ConvertBetweenLocalPositionX parentA cannot NULL !");
+    ALog_A(parentB != NULL, "ADrawable ConvertBetweenLocalPositionX parentB cannot NULL !");
 
     return ConvertToLocalPositionX(parentB, AMatrix->MultiplyMX(parentA->modelMatrix, localPositionX));
 }

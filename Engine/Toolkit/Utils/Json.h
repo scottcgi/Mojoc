@@ -156,14 +156,14 @@ extern struct AJsonArray AJsonArray[1];
 
 
 /**
- * Parse Json string or file.
+ * Control Json data.
  */
 struct AJson
 {
     /**
      * Parse the Json string, return root JsonValue.
      */
-    JsonValue* (*Parse)                (const char* jsonString);
+    JsonValue* (*Parse)    (const char* jsonString);
 
     /**
      * Parse the Json file from jsonFilePath, return root JsonValue.
@@ -172,7 +172,7 @@ struct AJson
      *     Android: assets
      *     IOS    : NSBundle
      */
-    JsonValue* (*ParseFileFromResource)(const char* jsonFilePath);
+    JsonValue* (*ParseFile)(const char* jsonFilePath);
 
     /**
      * Destroy JsonValue member memory space and free itself,
@@ -180,7 +180,7 @@ struct AJson
      *
      * important: after Destroy the jsonValue will be invalidated.
      */
-    void       (*Destroy)              (JsonValue* jsonValue);
+    void       (*Destroy)  (JsonValue* jsonValue);
 };
 
 

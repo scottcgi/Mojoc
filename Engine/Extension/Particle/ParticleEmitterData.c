@@ -23,7 +23,7 @@ static inline void ReadFindString(char* buffer, ArrayRange* range, ArrayRange* l
 {
     ABufferReader->ReadLine(buffer, range, line);
     bool isFound = ABufferReader->TryFindString(buffer, line, name);
-    ALog_A(isFound, "AParticleEmitterData can not find string = %s", name);
+    ALog_A(isFound, "AParticleEmitterData cannot find string = %s", name);
 }
 
 

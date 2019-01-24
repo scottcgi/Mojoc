@@ -64,7 +64,7 @@ static void Release(Component* component)
 
 static void AddChild(Component* parent, Component* child, int order)
 {
-    ALog_A(parent != NULL && child != NULL, "AComponent AddChild failed, parent and child can not NULL");
+    ALog_A(parent != NULL && child != NULL, "AComponent AddChild failed, parent and child cannot NULL");
     ALog_A(child->parent == NULL,           "AComponent AddChild failed, child already has parent");
 
     if (AArrayIntMap_TryPut(parent->childMap, order, child) != NULL)
@@ -81,7 +81,7 @@ static void AddChild(Component* parent, Component* child, int order)
 
 static void AppendChild(Component* parent, Component* child)
 {
-    ALog_A(parent != NULL && child != NULL, "AComponent AppendChild failed, parent and child can not NULL");
+    ALog_A(parent != NULL && child != NULL, "AComponent AppendChild failed, parent and child cannot NULL");
 
     int order;
 
@@ -106,14 +106,14 @@ static void AppendChild(Component* parent, Component* child)
 
 static void RemoveChild(Component* parent, Component* child)
 {
-    ALog_A(parent!= NULL && child != NULL, "AComponent RemoveChild failed, parent and child can not NULL");
+    ALog_A(parent!= NULL && child != NULL, "AComponent RemoveChild failed, parent and child cannot NULL");
 
     bool isRemoved = AArrayIntMap->TryRemove(parent->childMap, child->order);
 
     ALog_A
     (
         isRemoved,
-        "AComponent can not found child by order = %d, "
+        "AComponent cannot found child by order = %d, "
         "may forget called ReorderAllChildren when changed order",
         child->order
     );
@@ -124,7 +124,7 @@ static void RemoveChild(Component* parent, Component* child)
 
 static void RemoveAllChildren(Component* parent)
 {
-    ALog_A(parent != NULL, "AComponent RemoveAllChildren failed, parent can not NULL");
+    ALog_A(parent != NULL, "AComponent RemoveAllChildren failed, parent cannot NULL");
 
     for (int i = 0; i < parent->childMap->elementList->size; ++i)
     {
@@ -170,7 +170,7 @@ static void ReorderAllChildren(Component* parent)
 
 static void AddObserver(Component* sender, Component* observer)
 {
-    ALog_A(sender != NULL && observer != NULL, "AComponent AddObserver failed, sender and observer can not NULL");
+    ALog_A(sender != NULL && observer != NULL, "AComponent AddObserver failed, sender and observer cannot NULL");
 
     if (AArrayIntSet->TryAdd(sender->observerSet, (intptr_t) observer) == false)
     {
@@ -181,14 +181,14 @@ static void AddObserver(Component* sender, Component* observer)
 
 static void RemoveObserver(Component* sender, Component* observer)
 {
-    ALog_A(sender != NULL && observer != NULL, "AComponent RemoveObserver failed, sender and observer can not NULL");
+    ALog_A(sender != NULL && observer != NULL, "AComponent RemoveObserver failed, sender and observer cannot NULL");
 
     bool isRemoved = AArrayIntSet->TryRemove(sender->observerSet, (intptr_t) observer);
 
     ALog_A
     (
         isRemoved,
-        "AComponent RemoveObserver sender can not found observer = %p",
+        "AComponent RemoveObserver sender cannot found observer = %p",
         observer
     );
 }
@@ -221,7 +221,7 @@ static bool SendMessage(Component* component, void* sender, int subject, void* e
 
 static void Notify(Component* sender, int subject, void* extraData)
 {
-    ALog_A(sender != NULL, "AComponent Notify failed, sender can not NULL");
+    ALog_A(sender != NULL, "AComponent Notify failed, sender cannot NULL");
 
     if (sender->isActive)
     {
@@ -271,7 +271,7 @@ static void SetState(Component* component, int stateId)
 
 static ComponentState* AddState(Component* component, int stateId, ComponentStateOnMessage onMessage, ComponentStateUpdate update)
 {
-    ALog_A(component != NULL, "AComponent AddState failed, component can not NULL");
+    ALog_A(component != NULL, "AComponent AddState failed, component cannot NULL");
 
     int index = AArrayIntMap->GetIndex(component->stateMap, stateId);
     ALog_A(index < 0, "AComponent AddState failed, stateId = %d already exist", stateId);

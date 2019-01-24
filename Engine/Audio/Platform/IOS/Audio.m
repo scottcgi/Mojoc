@@ -264,7 +264,7 @@ static void Init()
     }
     else
     {
-        ALog_E("Audio Init failed, OpenAL can not open device");
+        ALog_E("Audio Init failed, OpenAL cannot open device");
     }
     
     // clear any errors
@@ -292,7 +292,7 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
     }
     
     // use the static buffer data API
-    // the data will not copy in buffer so can not free data until buffer deleted
+    // the data will not copy in buffer so cannot free data until buffer deleted
     alBufferDataStaticProc(player->bufferId, format, data, size, freq);
     
     if((error = alGetError()) != AL_NO_ERROR)

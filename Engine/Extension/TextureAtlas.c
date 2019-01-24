@@ -26,7 +26,7 @@ static inline void ReadFind(char* buffer, ArrayRange* range, ArrayRange* line, c
 {
     ABufferReader->ReadLine(buffer, range, line);
     bool isFound = ABufferReader->TryFindString(buffer, line, str);
-    ALog_A(isFound, "ATextureAtlas can not find string = %s", str);
+    ALog_A(isFound, "ATextureAtlas cannot find string = %s", str);
 }
 
 
@@ -96,11 +96,11 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
             buffer[line->end] = '\0';
 
             str               = strtok(buffer + line->start, ",");
-            ALog_A(str != NULL, "ATextureAtlas can not find x number in xy");
+            ALog_A(str != NULL, "ATextureAtlas cannot find x number in xy");
             int x             = atoi(str);
 
             str               = strtok(NULL, ",");
-            ALog_A(str != NULL, "ATextureAtlas can not find y number in xy");
+            ALog_A(str != NULL, "ATextureAtlas cannot find y number in xy");
             int y             = atoi(str);
 
             Read("size:");
@@ -108,11 +108,11 @@ static void Init(char* filePath, TextureAtlas* outTextureAtlas)
             buffer[line->end] = '\0';
 
             str               = strtok(buffer + line->start, ",");
-            ALog_A(str != NULL, "ATextureAtlas can not find width number in size");
+            ALog_A(str != NULL, "ATextureAtlas cannot find width number in size");
             int width         = atoi(str);
 
             str               = strtok(NULL, ",");
-            ALog_A(str != NULL, "ATextureAtlas can not find height number in size");
+            ALog_A(str != NULL, "ATextureAtlas cannot find height number in size");
             int height        = atoi(str);
 
             Read("orig");

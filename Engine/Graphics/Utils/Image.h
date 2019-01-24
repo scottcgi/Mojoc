@@ -29,7 +29,7 @@ struct AImage
      *     Android: assets
      *     IOS    : NSBundle
      */
-     void* (*CreatePixelDataFromPNG)(char* resourceFilePath, float* outWidth, float* outHeight);
+     void* (*CreatePixelDataFromPNG)(const char* resourceFilePath, float* outWidth, float* outHeight);
 };
 
 

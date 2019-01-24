@@ -1,11 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2016-8-13
+ * Update: 2019-1-24
  * Author: scott.cgi
  */
+
 
 #include <stdbool.h>
 #include "Engine/Toolkit/HeaderUtils/String.h"
@@ -41,7 +46,7 @@ static void Init()
             uniform   mat4  uMVPMatrix;
             attribute vec4  aPosition;
             attribute vec2  aTexcoord;
-            attribute float aOpacity;
+            attribute float  aOpacity;
             attribute vec3  aRGB;
 
             varying   vec2  vTexcoord;
@@ -87,20 +92,18 @@ static void Init()
     ALog_A
     (
         AShaderMesh->uniformMVPMatrix != -1,
-        "AShaderMesh could not glGetUniformLocation for uMVPMatrix"
+        "AShaderMesh could not glGetUniformLocation for uniformMVPMatrix"
     );
 
-    glEnableVertexAttribArray(AShaderMesh->attribPosition);
-    glEnableVertexAttribArray(AShaderMesh->attribTexcoord);
-    glEnableVertexAttribArray(AShaderMesh->attribOpacity);
-    glEnableVertexAttribArray(AShaderMesh->attribRGB);
+    glEnableVertexAttribArray((GLuint) AShaderMesh->attribPosition);
+    glEnableVertexAttribArray((GLuint) AShaderMesh->attribTexcoord);
+    glEnableVertexAttribArray((GLuint) AShaderMesh->attribOpacity);
+    glEnableVertexAttribArray((GLuint) AShaderMesh->attribRGB);
 }
 
 
 struct AShaderMesh AShaderMesh[1] =
-{
-    {
-        .Use  = Use,
-        .Init = Init,
-    }
-};
+{{
+    .Use  = Use,
+    .Init = Init,
+}};

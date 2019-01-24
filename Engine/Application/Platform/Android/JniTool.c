@@ -68,7 +68,7 @@ static inline jclass GetClass(char *className)
     jstring classNameStr = (*envPtr)->NewStringUTF             (envPtr, className);
     jclass  cls          = (jclass) (*envPtr)->CallObjectMethod(envPtr, classLoaderObj, loadClassId, classNameStr);
 
-    ALog_A(cls != NULL, "AJniTool GetClass can not load class = %s", className);
+    ALog_A(cls != NULL, "AJniTool GetClass cannot load class = %s", className);
 
     (*envPtr)->DeleteLocalRef(envPtr, classNameStr);
 
@@ -95,7 +95,7 @@ static inline void GetJniMethodInfo(bool isStatic, char* className, char* method
     ALog_A
     (
         methodID != NULL,
-        "AJniTool %s can not get methodID, className = %s, methodName = %s, paramCode = %s",
+        "AJniTool %s cannot get methodID, className = %s, methodName = %s, paramCode = %s",
         isStatic ? "GetStaticMethodID" : "GetMethodID",
         className,
         methodName,
@@ -204,7 +204,7 @@ static inline jvalue CallClassMethodV(jclass cls, char* methodName, char* paramC
     ALog_A
     (
         methodId != NULL,
-        "AJniTool CallClassMethodV can not get methodID, methodName = %s, paramCode = %s",
+        "AJniTool CallClassMethodV cannot get methodID, methodName = %s, paramCode = %s",
         methodName,
         paramCode
     );

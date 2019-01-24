@@ -590,7 +590,7 @@ static JsonValue* Parse(const char* jsonString)
 }
 
 
-static JsonValue* ParseFileFromResource(const char* jsonFilePath)
+static JsonValue* ParseFile(const char* jsonFilePath)
 {
     char*        jsonString = AFileTool->CreateStringFromResource(jsonFilePath);
     JsonValue*   value      = Parse(jsonString);
@@ -603,6 +603,6 @@ static JsonValue* ParseFileFromResource(const char* jsonFilePath)
 struct AJson AJson[1] =
 {
     Parse,
-    ParseFileFromResource,
+    ParseFile,
     Destroy,
 };

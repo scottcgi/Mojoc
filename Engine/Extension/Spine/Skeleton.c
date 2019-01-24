@@ -348,7 +348,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
                 if (meshData->isUVMappedInTexture == false)
                 {
                     float texData[Quad_UVNum];
-                    AQuad->GetQuadUV
+                    AQuad->GetUV
                     (
                         meshData->quad,
                         AArrayList_Get(skeletonData->textureAtlas->textureList, meshData->meshIndex, Texture*),

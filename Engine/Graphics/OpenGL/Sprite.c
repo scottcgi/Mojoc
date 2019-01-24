@@ -108,7 +108,7 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
     // calculate and cache drawable mvp matrix
     ADrawable_AddState(drawable, DrawableState_IsUpdateMVP);
 
-    AQuad->MaxSize(quadArr, &drawable->width, &drawable->height);
+    AQuad->GetMaxSize(quadArr, &drawable->width, &drawable->height);
 
     sprite->texture                   = texture;
 
@@ -117,21 +117,21 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
     sprite->vaoId                     = 0;
 
     sprite->indexCount                = quadArr->length * Quad_IndexNum;
-    sprite->vertexArr                 = AArray->Create(sizeof(float),  quadArr->length * Quad_VertexNum);
+    sprite->vertexArr                 = AArray->Create(sizeof(float),  quadArr->length * Quad_Position2UVNum);
     sprite->indexArr                  = AArray->Create(sizeof(short), sprite->indexCount);
 
     drawable->Render                  = Render;
 
     for (int i = 0; i < quadArr->length; ++i)
     {
-        AQuad->GetQuadVertex
+        AQuad->GetPosition2UV
         (
             AArray_GetPtr(quadArr, i, Quad),
             texture,
-            (float*) sprite->vertexArr->data + i * Quad_VertexNum
+            (float*) sprite->vertexArr->data + i * Quad_Position2UVNum
         );
         
-        AQuad->GetQuadIndex (i * 4, (short*) sprite->indexArr->data + i * Quad_IndexNum);
+        AQuad->GetIndex (i * 4, (short*) sprite->indexArr->data + i * Quad_IndexNum);
     }
 
     if (AGraphics->isUseVBO)

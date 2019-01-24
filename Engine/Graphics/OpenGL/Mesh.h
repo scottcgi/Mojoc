@@ -73,7 +73,7 @@ struct Mesh
     /**
      * Mesh children provide vertices info to draw.
      *
-     * Can not change children order directly, and use SubMesh index for sorting.
+     * cannot change children order directly, and use SubMesh index for sorting.
      */
     ArrayList(SubMesh*)  childList[1];
 

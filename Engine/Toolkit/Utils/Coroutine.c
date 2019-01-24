@@ -80,7 +80,7 @@ static void Update(float deltaSeconds)
                     ALog_A
                     (
                         wait->state != CoroutineState_Finish,
-                        "Coroutine [%p] can not finish before wait coroutine [%p] finish",
+                        "Coroutine [%p] cannot finish before wait coroutine [%p] finish",
                         wait,
                         coroutine
                     );

@@ -1,12 +1,17 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2014-2-26
+ * Update: 2019-1-24
  * Author: scott.cgi
  *
  */
+
 
 #include <stdbool.h>
 #include "Engine/Toolkit/HeaderUtils/String.h"
@@ -17,14 +22,14 @@
 #include "Engine/Graphics/OpenGL/Shader/Shader.h"
 
 
-static void Use(Matrix4* mvpMatrix, Color* color, GLint pointSize)
+static void Use(Matrix4* mvpMatrix, Color* color, GLfloat pointSize)
 {
     if (AShader->program != AShaderPrimitive->program)
     {
         AShader->program = AShaderPrimitive->program;
 
         glUseProgram             (AShaderPrimitive->program);
-        glEnableVertexAttribArray(AShaderPrimitive->attribPosition);
+        glEnableVertexAttribArray((GLuint) AShaderPrimitive->attribPosition);
     }
 
     // passed matrix into shader program
@@ -73,28 +78,26 @@ static void Init()
     ALog_A
     (
         AShaderPrimitive->uniformMVPMatrix != -1,
-        "AShaderPrimitive could not glGetUniformLocation for uMVPMatrix"
+        "AShaderPrimitive could not glGetUniformLocation for uniformMVPMatrix"
     );
 
     ALog_A
     (
         AShaderPrimitive->uniformColor != -1,
-        "AShaderPrimitive could not glGetUniformLocation for uColor"
+        "AShaderPrimitive could not glGetUniformLocation for uniformColor"
     );
 
     ALog_A
     (
         AShaderPrimitive->uniformPointSize != -1,
-        "AShaderPrimitive could not glGetUniformLocation for uPointSize"
+        "AShaderPrimitive could not glGetUniformLocation for uniformPointSize"
     );
 }
 
 
 struct AShaderPrimitive AShaderPrimitive[1] =
-{
-    {
-        .Use  = Use,
-        .Init = Init,
-    }
-};
+{{
+    .Use  = Use,
+    .Init = Init,
+}};
 

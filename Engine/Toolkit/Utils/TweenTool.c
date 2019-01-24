@@ -43,7 +43,7 @@ static TweenActionValue* actionValue = NULL;
 
 
 #define CheckActionValue(tag) \
-    ALog_A(actionValue != NULL, "ATweenTool " tag " TweenActionValue can not NULL.");
+    ALog_A(actionValue != NULL, "ATweenTool " tag " TweenActionValue cannot NULL.");
 
 
 static struct ATweenTool* AddAction()
@@ -51,7 +51,7 @@ static struct ATweenTool* AddAction()
     ALog_A
     (
         actionArr->length <= TweenAction_Length,
-        "ATweenTool can not cache TweenActions = %d more than %d",
+        "ATweenTool cannot cache TweenActions = %d more than %d",
         actionArr->length,
         TweenAction_Length
     );
@@ -395,7 +395,7 @@ static struct ATweenTool* SetFadeTo(float fadeTo)
 
 static void RunActions(void* target)
 {
-    ALog_A(target != NULL, "ATweenTool RunActions, target can not NULL.");
+    ALog_A(target != NULL, "ATweenTool RunActions, target cannot NULL.");
 
     for (int i = 0; i < actionArr->length; ++i)
     {
