@@ -216,7 +216,7 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
 
         default:
         {
-            float len = AVector2_Length3(x, y, z);
+            float len = AVector3_Length3(x, y, z);
 
             if (len != 1.0f)
             {
@@ -274,7 +274,7 @@ static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
     angle    = AMath_ToRadian(angle);
     float s   = sinf(angle);
     float c   = cosf(angle);
-    float len = AVector2_Length3(x, y, z);
+    float len = AVector3_Length3(x, y, z);
 
     if (len != 1.0f)
     {
@@ -698,7 +698,7 @@ static void LookAt
     float fz   = centerZ - eyeZ;
 
     // normalize f
-    float rlf  = AVector2_Normalize3(fx, fy, fz);
+    float rlf  = AVector3_Normalize3(fx, fy, fz);
     fx       *= rlf;
     fy       *= rlf;
     fz       *= rlf;
@@ -709,7 +709,7 @@ static void LookAt
     float sz  = fx * upY - fy * upX;
 
     // and normalize s
-    float rls = AVector2_Normalize3(sx, sy, sz);
+    float rls = AVector3_Normalize3(sx, sy, sz);
     sx      *= rls;
     sy      *= rls;
     sz      *= rls;
