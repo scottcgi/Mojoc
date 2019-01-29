@@ -28,7 +28,7 @@ static Texture* Get(const char* resourceFilePath)
 
     if (texture == NULL)
     {
-        texture = (Texture*) malloc(sizeof(Texture));
+        texture = malloc(sizeof(Texture));
         AGLTool->LoadTexture(resourceFilePath, texture);
 
         texture->filePath = AArrayStrMap_GetKey

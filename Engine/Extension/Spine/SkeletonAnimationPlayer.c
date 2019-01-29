@@ -159,7 +159,7 @@ static void SetAnimationMix(SkeletonAnimationPlayer* player, char* animationName
 
 static SkeletonAnimationPlayer* CreateWithData(SkeletonData* skeletonData, char* animationName)
 {
-    SkeletonAnimationPlayer* player = (SkeletonAnimationPlayer*) malloc(sizeof(SkeletonAnimationPlayer));
+    SkeletonAnimationPlayer* player = malloc(sizeof(SkeletonAnimationPlayer));
     InitSkeletonAnimationPlayer(player, skeletonData, animationName);
 
     return player;
@@ -168,7 +168,7 @@ static SkeletonAnimationPlayer* CreateWithData(SkeletonData* skeletonData, char*
 
 static SkeletonAnimationPlayer* Create(char* filePath, char* animationName)
 {
-    SkeletonAnimationPlayer* player = (SkeletonAnimationPlayer*) malloc(sizeof(SkeletonAnimationPlayer));
+    SkeletonAnimationPlayer* player = malloc(sizeof(SkeletonAnimationPlayer));
     InitSkeletonAnimationPlayer(player, ASkeletonData->Get(filePath), animationName);
 
     return player;

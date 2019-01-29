@@ -34,7 +34,7 @@ static void Init(float width, float height, Quad* outQuad)
 
 static Quad* Create(float width, float height)
 {
-    Quad* quad = (Quad*) malloc(sizeof(Quad));
+    Quad* quad = malloc(sizeof(Quad));
     Init(width, height, quad);
 
     return quad;

@@ -28,7 +28,7 @@ static Coroutine* StartCoroutine(CoroutineRun Run)
 
     if (coroutine == NULL)
     {
-        coroutine = (Coroutine*) malloc(sizeof(Coroutine));
+        coroutine = malloc(sizeof(Coroutine));
         AArrayList->Init(sizeof(Coroutine*), coroutine->waits);
         coroutine->waits->increase = 4;
     }

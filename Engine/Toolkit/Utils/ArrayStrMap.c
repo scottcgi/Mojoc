@@ -111,12 +111,11 @@ static void* TryPut(ArrayStrMap* arrayStrMap, const char* key, void* valuePtr)
     if (guess < 0)
     {
         int                 valueTypeSize = arrayStrMap->valueTypeSize;
-        ArrayStrMapElement* element       = (ArrayStrMapElement*)
-                                            malloc(sizeof(ArrayStrMapElement) + valueTypeSize + keyLength);
-
+        ArrayStrMapElement* element       = malloc(sizeof(ArrayStrMapElement) + valueTypeSize + keyLength);
         element->keyLength                = keyLength;
         element->valuePtr                 = (char*) element + sizeof(ArrayStrMapElement);
         element->key                      = (char*) element->valuePtr + valueTypeSize;
+        
         memcpy((void*) element->key, key, (size_t) keyLength);
         AArrayList_Insert(arrayStrMap->elementList, -guess - 1, element);
 
@@ -192,12 +191,12 @@ static void* InsertAt(ArrayStrMap* arrayStrMap, const char* key, int index, void
     int keyLength     = (int) strlen(key) + 1;
     int valueTypeSize = arrayStrMap->valueTypeSize;
 
-    ArrayStrMapElement* element = (ArrayStrMapElement*) malloc(sizeof(ArrayStrMapElement) + valueTypeSize + keyLength);
+    ArrayStrMapElement* element = malloc(sizeof(ArrayStrMapElement) + valueTypeSize + keyLength);
     element->keyLength          = keyLength;
     element->valuePtr           = (char*) element + sizeof(ArrayStrMapElement);
     element->key                = (char*) element->valuePtr + valueTypeSize;
+    
     memcpy((void*) element->key, key, (size_t) keyLength);
-
     AArrayList_Insert( arrayStrMap->elementList, index, element);
 
     return memcpy(element->valuePtr, valuePtr, (size_t) valueTypeSize);
@@ -274,7 +273,7 @@ static void InitWithCapacity(int valueTypeSize, int capacity, ArrayStrMap* outAr
 
 static ArrayStrMap* CreateWithCapacity(int valueTypeSize, int capacity)
 {
-    ArrayStrMap* arrayStrMap = (ArrayStrMap*) malloc(sizeof(ArrayStrMap));
+    ArrayStrMap* arrayStrMap = malloc(sizeof(ArrayStrMap));
     InitWithCapacity(valueTypeSize, capacity, arrayStrMap);
 
     return arrayStrMap;

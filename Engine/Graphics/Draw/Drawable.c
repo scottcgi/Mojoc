@@ -725,7 +725,7 @@ static void Init(Drawable* outDrawable)
 
 static Drawable* Create()
 {
-    Drawable* drawable = (Drawable*) malloc(sizeof(Drawable));
+    Drawable* drawable = malloc(sizeof(Drawable));
     Init(drawable);
 
     return drawable;

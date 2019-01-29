@@ -1,11 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2014-1-16
+ * Update: 2019-1-25
  * Author: scott.cgi
  */
+
 
 #include <stdlib.h>
 #include "Engine/Toolkit/HeaderUtils/Define.h"
@@ -26,7 +31,7 @@ static inline Scheduler* GetScheduler(SchedulerUpdate Update, float intervalTime
 
     if (scheduler == NULL)
     {
-        scheduler = (Scheduler*) malloc(sizeof(Scheduler));
+        scheduler = malloc(sizeof(Scheduler));
     }
 
     AUserData_Init(scheduler->userData);

@@ -22,6 +22,9 @@
 
 static void SetSize(int width, int height)
 {
+    // set the OpenGL viewport to the same size as the surface.
+    glViewport(0, 0, width, height);
+
     AGLTool->screenWidth          = (float) width;
     AGLTool->screenHeight         = (float) height;
     AGLTool->screenRatio          = (float) width  / (float) height;

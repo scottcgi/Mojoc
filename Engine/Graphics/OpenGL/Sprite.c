@@ -206,7 +206,7 @@ static void Init(Texture* texture, Sprite* outSprite)
 
 static Sprite* Create(Texture* texture)
 {
-    Sprite* sprite = (Sprite*) malloc(sizeof(Sprite));
+    Sprite* sprite = malloc(sizeof(Sprite));
     Init(texture, sprite);
 
     return sprite;
@@ -221,7 +221,7 @@ static void InitWithQuad(Texture* texture, Quad* quad, Sprite* outSprite)
 
 static Sprite* CreateWithQuad(Texture* texture, Quad* quad)
 {
-    Sprite* sprite = (Sprite*) malloc(sizeof(Sprite));
+    Sprite* sprite = malloc(sizeof(Sprite));
     InitWithQuad(texture, quad, sprite);
 
     return sprite;
@@ -230,7 +230,7 @@ static Sprite* CreateWithQuad(Texture* texture, Quad* quad)
 
 static Sprite* CreateWithQuadArray(Texture* texture, Array(Quad)* quadArr)
 {
-    Sprite* sprite = (Sprite*) malloc(sizeof(Sprite));
+    Sprite* sprite = malloc(sizeof(Sprite));
     InitSprite(sprite, texture, quadArr);
 
     return sprite;

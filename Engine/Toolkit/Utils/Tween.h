@@ -179,7 +179,7 @@ struct ATween
     bool              (*HasAction)            (void* tweenId);
 
     /**
-     * Called every frame by game loop.
+     * Called every frame by loop.
      */
     void              (*Update)               (float deltaSeconds);
 };

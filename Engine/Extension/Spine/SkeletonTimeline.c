@@ -365,7 +365,7 @@ static void RotateRelease(SkeletonTimeline* skeletonTimeline)
 
 static SkeletonRotateTimeline* CreateRotate(int frameCount, int boneIndex)
 {
-    SkeletonRotateTimeline* rotateTimeline     = (SkeletonRotateTimeline*) malloc(sizeof(SkeletonRotateTimeline));
+    SkeletonRotateTimeline* rotateTimeline     = malloc(sizeof(SkeletonRotateTimeline));
 
     CurveTimelineInit(rotateTimeline->curveTimeline, frameCount);
 
@@ -479,7 +479,7 @@ static inline void TranslateTimelineInit(SkeletonTranslateTimeline* translateTim
 
 static SkeletonTranslateTimeline* CreateTranslate(int frameCount, int boneIndex)
 {
-    SkeletonTranslateTimeline* translateTimeline = (SkeletonTranslateTimeline*) malloc(sizeof(SkeletonTranslateTimeline));
+    SkeletonTranslateTimeline* translateTimeline = malloc(sizeof(SkeletonTranslateTimeline));
     TranslateTimelineInit(translateTimeline, frameCount, boneIndex);
 
     return translateTimeline;
@@ -555,7 +555,7 @@ static void ScaleRelease(SkeletonTimeline* skeletonTimeline)
 
 static SkeletonScaleTimeline* CreateScale(int frameCount, int boneIndex)
 {
-    SkeletonScaleTimeline* scaleTimeline = (SkeletonScaleTimeline*) malloc(sizeof(SkeletonScaleTimeline));
+    SkeletonScaleTimeline* scaleTimeline = malloc(sizeof(SkeletonScaleTimeline));
     TranslateTimelineInit(scaleTimeline->translateTimeline, frameCount, boneIndex);
 
     scaleTimeline->translateTimeline->skeletonTimeline->Apply    = ScaleApply;
@@ -677,7 +677,7 @@ static void ColorRelease(SkeletonTimeline* skeletonTimeline)
 
 static SkeletonColorTimeline* CreateColor(int frameCount)
 {
-    SkeletonColorTimeline* colorTimeline      = (SkeletonColorTimeline*) malloc(sizeof(SkeletonColorTimeline));
+    SkeletonColorTimeline* colorTimeline      = malloc(sizeof(SkeletonColorTimeline));
     CurveTimelineInit(colorTimeline->curveTimeline, frameCount);
 
     colorTimeline->skeletonTimeline->Apply    = ColorApply;
@@ -702,7 +702,7 @@ static SkeletonColorTimeline* CreateColor(int frameCount)
 
 static void SetAttachmentFrame(SkeletonAttachmentTimeline* attachmentTimeline, int frameIndex, float time, char* attachmentName)
 {
-    char* copyName = (char*) malloc(strlen(attachmentName) + 1);
+    char* copyName = malloc(strlen(attachmentName) + 1);
     strcpy(copyName, attachmentName);
 
     AArray_Set(attachmentTimeline->frameArr,          frameIndex, time,     float);
@@ -771,7 +771,7 @@ static void AttachmentRelease(SkeletonTimeline* skeletonTimeline )
 
 static SkeletonAttachmentTimeline* CreateAttachment(int frameCount)
 {
-    SkeletonAttachmentTimeline* attachmentTimeline = (SkeletonAttachmentTimeline*) malloc(sizeof(SkeletonAttachmentTimeline));
+    SkeletonAttachmentTimeline* attachmentTimeline = malloc(sizeof(SkeletonAttachmentTimeline));
 
     attachmentTimeline->skeletonTimeline->Apply    = AttachmentApply;
     attachmentTimeline->skeletonTimeline->Release  = AttachmentRelease;
@@ -864,7 +864,7 @@ static void EventRelease(SkeletonTimeline* skeletonTimeline)
 
 static SkeletonEventTimeline* CreateEvent(int frameCount)
 {
-    SkeletonEventTimeline* eventTimeline      = (SkeletonEventTimeline*) malloc(sizeof(SkeletonEventTimeline));
+    SkeletonEventTimeline* eventTimeline      = malloc(sizeof(SkeletonEventTimeline));
 
     eventTimeline->skeletonTimeline->Apply    = EventApply;
     eventTimeline->skeletonTimeline->Release  = EventRelease;
@@ -1009,7 +1009,7 @@ static void DrawOrderApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
 
 static SkeletonDrawOrderTimeline* CreateDrawOrder(int frameCount)
 {
-    SkeletonDrawOrderTimeline* drawOrderTimeline  = (SkeletonDrawOrderTimeline*) malloc(sizeof(SkeletonDrawOrderTimeline));
+    SkeletonDrawOrderTimeline* drawOrderTimeline  = malloc(sizeof(SkeletonDrawOrderTimeline));
 
     drawOrderTimeline->skeletonTimeline->Release  = DrawOrderRelease;
     drawOrderTimeline->skeletonTimeline->Apply    = DrawOrderApply;
@@ -1203,7 +1203,7 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
 
 static SkeletonDeformTimeline* CreateDeform(int frameCount)
 {
-    SkeletonDeformTimeline* deformTimeline     = (SkeletonDeformTimeline*) malloc(sizeof(SkeletonDeformTimeline));
+    SkeletonDeformTimeline* deformTimeline     = malloc(sizeof(SkeletonDeformTimeline));
 
     CurveTimelineInit(deformTimeline->curveTimeline, frameCount);
 

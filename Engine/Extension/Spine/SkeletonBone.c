@@ -31,7 +31,7 @@ static void Init(SkeletonBoneData* boneData, SkeletonBone* outBone)
 
 static SkeletonBone* Create(SkeletonBoneData* boneData)
 {
-    SkeletonBone* bone = (SkeletonBone*) malloc(sizeof(SkeletonBone));
+    SkeletonBone* bone = malloc(sizeof(SkeletonBone));
     Init(boneData, bone);
 
     return bone;

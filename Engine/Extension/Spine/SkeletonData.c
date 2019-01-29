@@ -185,10 +185,10 @@ static inline void ReadBoneData(JsonObject* root, SkeletonData* skeletonData)
             ALog_A(parent != NULL, "ASkeletonData ReadBoneData parent not fount: %s", parentName);
         }
         
-        char* name                  =  AJsonObject->GetString(jsonBone, "name", NULL);
-        int   nameLength            =  (int) strlen(name) + 1;
+        char* name                  = AJsonObject->GetString(jsonBone, "name", NULL);
+        int   nameLength            = (int) strlen(name) + 1;
 
-        SkeletonBoneData* boneData  = (SkeletonBoneData*) malloc(sizeof(SkeletonBoneData) + nameLength);
+        SkeletonBoneData* boneData  = malloc(sizeof(SkeletonBoneData) + nameLength);
         boneData->name              = (char*) boneData + sizeof(SkeletonBoneData);
         memcpy(boneData->name, name, nameLength);
 
@@ -236,8 +236,7 @@ static inline void ReadSlotData(JsonObject* root, SkeletonData* skeletonData)
         int         nameLength           = (int) strlen(name) + 1;
         int         attachmentNameLength = attachmentName != NULL ? ((int) strlen(attachmentName) + 1) : 0;
 
-        SkeletonSlotData* slotData       = (SkeletonSlotData*)
-                                            malloc(sizeof(SkeletonSlotData) + nameLength + attachmentNameLength);
+        SkeletonSlotData* slotData       = malloc(sizeof(SkeletonSlotData) + nameLength + attachmentNameLength);
 
         slotData->name = (char*) slotData + sizeof(SkeletonSlotData);
         memcpy(slotData->name, name, nameLength);
@@ -287,8 +286,7 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
     {
         case SkeletonAttachmentDataType_Region:
         {
-            SkeletonRegionAttachmentData* regionAttachmentData =
-                (SkeletonRegionAttachmentData*) malloc(sizeof(SkeletonRegionAttachmentData) + length);
+            SkeletonRegionAttachmentData* regionAttachmentData = malloc(sizeof(SkeletonRegionAttachmentData) + length);
 
             attachmentData           = regionAttachmentData->attachmentData;
             attachmentData->childPtr = regionAttachmentData;
@@ -298,8 +296,7 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 
         case SkeletonAttachmentDataType_BoundingBox:
         {
-            SkeletonBoundingBoxAttachmentData* boundingBoxAttachmentData =
-                (SkeletonBoundingBoxAttachmentData*) malloc(sizeof(SkeletonBoundingBoxAttachmentData) + length);
+            SkeletonBoundingBoxAttachmentData* boundingBoxAttachmentData = malloc(sizeof(SkeletonBoundingBoxAttachmentData) + length);
 
             attachmentData           = boundingBoxAttachmentData->attachmentData;
             attachmentData->childPtr = boundingBoxAttachmentData;
@@ -309,8 +306,7 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 
         case SkeletonAttachmentDataType_Mesh:
         {
-            SkeletonMeshAttachmentData* meshAttachmentData =
-                (SkeletonMeshAttachmentData*) malloc(sizeof(SkeletonMeshAttachmentData) + length);
+            SkeletonMeshAttachmentData* meshAttachmentData = malloc(sizeof(SkeletonMeshAttachmentData) + length);
 
             attachmentData           = meshAttachmentData->attachmentData;
             attachmentData->childPtr = meshAttachmentData;
@@ -320,8 +316,7 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 
         case SkeletonAttachmentDataType_SkinnedMesh:
         {
-            SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData =
-                (SkeletonSkinnedMeshAttachmentData*) malloc(sizeof(SkeletonSkinnedMeshAttachmentData) + length);
+            SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData = malloc(sizeof(SkeletonSkinnedMeshAttachmentData) + length);
 
             attachmentData           = skinnedMeshAttachmentData->meshAttachmentData->attachmentData;
             attachmentData->childPtr = skinnedMeshAttachmentData;
@@ -599,7 +594,7 @@ static inline void ReadSkinData(JsonObject* root, SkeletonData* skeletonData)
         const char* skinName       = AJsonObject->GetKey(skinDataObject, i);
         int   skinNameLength       = (int) strlen(skinName) + 1;
 
-        SkeletonSkinData* skinData = (SkeletonSkinData*) malloc(sizeof(SkeletonSkinData) + skinNameLength);
+        SkeletonSkinData* skinData = malloc(sizeof(SkeletonSkinData) + skinNameLength);
         skinData->name             = (char*) skinData + sizeof(SkeletonSkinData);
         memcpy(skinData->name, skinName, skinNameLength);
 
@@ -906,8 +901,7 @@ static inline void ReadAnimationEvents
 
         int                eventLength  = (int) strlen(eventName)   + 1;
         int                valueLength  = (int) strlen(stringValue) + 1;
-        SkeletonEventData* newEventData = (SkeletonEventData*)
-                                           malloc(sizeof(SkeletonEventData) + eventLength + valueLength);
+        SkeletonEventData* newEventData = malloc(sizeof(SkeletonEventData) + eventLength + valueLength);
 
         newEventData->name              = (char*) newEventData + sizeof(SkeletonEventData);
         memcpy(newEventData->name, eventName, eventLength);
@@ -1174,8 +1168,7 @@ static inline void ReadAnimationData(JsonObject* root, SkeletonData* skeletonDat
     {
         const char*            animationName       = AJsonObject->GetKey(animationDataObject, i);
         int                    animationNameLength = (int) strlen(animationName) + 1;
-        SkeletonAnimationData* animationData       = (SkeletonAnimationData*)
-                                                      malloc(sizeof(SkeletonAnimationData) + animationNameLength);
+        SkeletonAnimationData* animationData       = malloc(sizeof(SkeletonAnimationData) + animationNameLength);
 
         animationData->duration = 0.0f;
         animationData->name     = (char*) animationData + sizeof(SkeletonAnimationData);
@@ -1249,7 +1242,7 @@ static inline void ReadEventData(JsonObject* root, SkeletonData* skeletonData)
         int   nameLength               = (int) strlen(name)        + 1;
         int   valueLength              = (int) strlen(stringValue) + 1;
 
-        SkeletonEventData* eventData   = (SkeletonEventData*) malloc(sizeof(SkeletonEventData) + nameLength + valueLength);
+        SkeletonEventData* eventData   = malloc(sizeof(SkeletonEventData) + nameLength + valueLength);
 
         eventData->name                = (char*) eventData + sizeof(SkeletonEventData);
         memcpy(eventData->name, name, nameLength);
@@ -1402,7 +1395,7 @@ static SkeletonData* Get(const char* jsonFilePath)
 
     if (skeletonData == NULL)
     {
-        skeletonData = (SkeletonData*) malloc(sizeof(SkeletonData));
+        skeletonData = malloc(sizeof(SkeletonData));
 
         char path[strlen(jsonFilePath) + sizeof(".atlas.json")];
 

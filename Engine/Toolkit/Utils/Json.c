@@ -72,7 +72,7 @@ static void Destroy(JsonValue* value)
 
 static inline JsonValue* CreateJsonValue(void* data, size_t valueSize, JsonType type)
 {
-    JsonValue* value = (JsonValue*) malloc(sizeof(JsonValue) + valueSize);
+    JsonValue* value = malloc(sizeof(JsonValue) + valueSize);
 
     switch (type)
     {

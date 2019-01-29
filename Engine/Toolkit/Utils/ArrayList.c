@@ -295,7 +295,7 @@ static inline void InitArrayList(int elementTypeSize, ArrayList* arrayList)
 
 static ArrayList* Create(int elementTypeSize)
 {
-    ArrayList* arrayList = (ArrayList*) malloc(sizeof(ArrayList));
+    ArrayList* arrayList = malloc(sizeof(ArrayList));
     InitArrayList(elementTypeSize, arrayList);
     
     return arrayList;

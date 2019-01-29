@@ -30,7 +30,7 @@ static DrawAtlas* Get(char* filePath)
 
     if (drawAtlas == NULL)
     {
-        drawAtlas = (DrawAtlas*) malloc(sizeof(DrawAtlas));
+        drawAtlas = malloc(sizeof(DrawAtlas));
 
         AMesh->InitWithCapacity
         (

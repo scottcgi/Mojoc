@@ -40,7 +40,7 @@ struct  AAudio
     void         (*Release)      ();
 
     /**
-     * Every frame update by game loop.
+     * Every frame update by loop.
      */
     void         (*Update)       (float deltaSeconds);
 

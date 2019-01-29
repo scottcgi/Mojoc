@@ -1,18 +1,21 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2016-1-28
+ * Update: 2019-1-7
  * Author: scott.cgi
  */
+
 
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
-//----------------------------------------------------------------------------------------------------------------------
 #ifdef IS_PLATFORM_ANDROID
-//----------------------------------------------------------------------------------------------------------------------
 
 
 #include <pthread.h>
@@ -51,6 +54,7 @@ MainThreadCallback;
 
 
 //----------------------------------------------------------------------------------------------------------------------
+
 
 ANativeActivity*      nativeActivity;
 AConfiguration*        nativeActivityConfig;
@@ -309,7 +313,7 @@ static void* ThreadRun(void* params)
                 eglGetConfigAttrib(eglDisplay, eglConfig, EGL_NATIVE_VISUAL_ID, &eglFormat);
                 ANativeWindow_setBuffersGeometry(nativeWindow,  0, 0, eglFormat);
 
-                AApplication->GLReady
+                AApplication->Ready
                 (
                     ANativeWindow_getWidth (nativeWindow),
                     ANativeWindow_getHeight(nativeWindow)
@@ -518,6 +522,4 @@ void ANativeActivity_OnCreate(ANativeActivity* activity, void* savedState, size_
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
 #endif
-//----------------------------------------------------------------------------------------------------------------------

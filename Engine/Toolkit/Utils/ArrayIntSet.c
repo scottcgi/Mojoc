@@ -87,7 +87,7 @@ static void InitWithCapacity(int capacity, ArrayIntSet* arrayIntSet)
 
 static ArrayIntSet* CreateWithCapacity(int capacity)
 {
-    ArrayIntSet* arrayIntSet = (ArrayIntSet*) malloc(sizeof(ArrayIntSet));
+    ArrayIntSet* arrayIntSet = malloc(sizeof(ArrayIntSet));
     InitWithCapacity(capacity, arrayIntSet);
 
     return arrayIntSet;

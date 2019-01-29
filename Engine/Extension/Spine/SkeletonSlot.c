@@ -202,7 +202,7 @@ static void Init(SkeletonSlotData* slotData, Skeleton* skeleton, SkeletonSlot* o
 
 static SkeletonSlot* Create(SkeletonSlotData* slotData, Skeleton* skeleton)
 {
-    SkeletonSlot* slot = (SkeletonSlot*) malloc(sizeof(SkeletonSlot));
+    SkeletonSlot* slot = malloc(sizeof(SkeletonSlot));
     Init(slotData, skeleton, slot);
 
     return slot;

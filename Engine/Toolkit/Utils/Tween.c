@@ -50,7 +50,7 @@ static inline Tween* GetTween()
 
     if (tween == NULL)
     {
-        tween = (Tween*) malloc(sizeof(Tween));
+        tween = malloc(sizeof(Tween));
 
         AArrayQueue->Init(sizeof(TweenAction*), tween->queue);
         tween->queue->elementList->increase = 6;
@@ -76,7 +76,7 @@ static TweenAction* GetAction()
 
     if (action == NULL)
     {
-        action = (TweenAction*) malloc(sizeof(TweenAction));
+        action = malloc(sizeof(TweenAction));
         AArrayList->InitWithCapacity(sizeof(TweenActionValue), 6, action->actionValueList);
         action->actionValueList->increase = 6;
     }

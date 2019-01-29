@@ -18,8 +18,8 @@
 
 static Array* Create(int elementTypeSize, int length)
 {
-    Array* array  = (Array*) malloc (sizeof(Array) + elementTypeSize * length);
-    array->data   = (char*)  array + sizeof(Array);
+    Array* array  = malloc(sizeof(Array) + elementTypeSize * length);
+    array->data   = (char*) array + sizeof(Array);
     array->length = length;
 
     return array;

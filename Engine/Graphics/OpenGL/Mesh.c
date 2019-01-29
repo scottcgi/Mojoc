@@ -537,7 +537,7 @@ static void InitWithCapacity(Texture* texture, int capacity, Mesh* outMesh)
 
 static Mesh* Create(Texture* texture)
 {
-    Mesh* mesh = (Mesh*) malloc(sizeof(Mesh));
+    Mesh* mesh = malloc(sizeof(Mesh));
     Init(texture, mesh);
 
     return mesh;

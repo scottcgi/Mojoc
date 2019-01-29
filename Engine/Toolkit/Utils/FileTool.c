@@ -37,7 +37,7 @@ static int GetDirLength(const char* filePath)
 }
 
 
-static char* CreateDataFromAbsolute(const char* absoluteFilePath, long* outLength)
+static void* CreateDataFromAbsolute(const char* absoluteFilePath, long* outSize)
 {
     FILE* file = fopen(absoluteFilePath, "rb");
 
@@ -45,11 +45,10 @@ static char* CreateDataFromAbsolute(const char* absoluteFilePath, long* outLengt
     {
         fseek(file, 0, SEEK_END);
         long  length = ftell(file);
-        fseek(file, 0, SEEK_SET);
+        void* buffer = malloc((size_t) length);
+        *outSize     = length;
 
-        char* buffer = malloc((size_t) length);
-        *outLength   = length;
-
+        fseek (file, 0, SEEK_SET);
         fread (buffer, (size_t) length, 1, file);
         fclose(file);
 
@@ -57,7 +56,7 @@ static char* CreateDataFromAbsolute(const char* absoluteFilePath, long* outLengt
     }
     else
     {
-        *outLength = 0;
+        *outSize = 0;
         return NULL;
     }
 }
@@ -71,11 +70,10 @@ static char* CreateStringFromAbsolute(const char* absoluteFilePath)
     {
         fseek(file, 0, SEEK_END);
         long  length   = ftell(file);
-        fseek(file, 0, SEEK_SET);
-
-        char* buffer   = (char*) malloc((size_t) length + 1);
+        char* buffer   = malloc((size_t) length + 1);
         buffer[length] = '\0';
 
+        fseek (file, 0, SEEK_SET);
         fread (buffer, (size_t) length, 1, file);
         fclose(file);
 
@@ -88,12 +86,12 @@ static char* CreateStringFromAbsolute(const char* absoluteFilePath)
 }
 
 
-static char* CreateDataFromResource(const char* resourceFilePath, long* outLength)
+static void* CreateDataFromResource(const char* resourceFilePath, long* outSize)
 {
     File* file    = AFile->Open(resourceFilePath);
     long  length = AFile->GetLength(file);
-    char* buffer = (char*) malloc((size_t) length);
-    *outLength   = length;
+    void* buffer = malloc((size_t) length);
+    *outSize     = length;
 
     AFile->Read (file, buffer, (size_t) length);
     AFile->Close(file);
@@ -106,7 +104,7 @@ static char* CreateStringFromResource(const char* resourceFilePath)
 {
     File* file      = AFile->Open(resourceFilePath);
     long  length   = AFile->GetLength(file);
-    char* buffer   = (char*) malloc((size_t) length + 1);
+    char* buffer   = malloc((size_t) length + 1);
     buffer[length] = '\0';
 
     AFile->Read (file, buffer, (size_t) length);
@@ -116,7 +114,7 @@ static char* CreateStringFromResource(const char* resourceFilePath)
 }
 
 
-static char* CreateDataFromRelative(const char* relativeDirFilePath, long* outLength)
+static void* CreateDataFromRelative(const char* relativeDirFilePath, long* outSize)
 {
     int         dirPathLength;
     const char* dirPath = AFile->GetInternalDataPath(&dirPathLength);
@@ -124,11 +122,11 @@ static char* CreateDataFromRelative(const char* relativeDirFilePath, long* outLe
     char path[dirPathLength + strlen(relativeDirFilePath) + 2];
     sprintf(path, "%s/%s", dirPath, relativeDirFilePath);
 
-    return CreateDataFromAbsolute(path, outLength);
+    return CreateDataFromAbsolute(path, outSize);
 }
 
 
-static void WriteDataToRelative(const char* relativeDirFilePath, void* data, size_t length)
+static void WriteDataToRelative(const char* relativeDirFilePath, void* data, size_t size)
 {
     ALog_A(data != NULL, "AFileTool WriteDataToDir failed, data == NULL.");
 
@@ -139,7 +137,7 @@ static void WriteDataToRelative(const char* relativeDirFilePath, void* data, siz
     sprintf(path, "%s/%s", dirPath, relativeDirFilePath);
 
     FILE* file = fopen(path, "wb");
-    fwrite(data, length, 1, file);
+    fwrite(data, size, 1, file);
     fclose(file);
 }
 

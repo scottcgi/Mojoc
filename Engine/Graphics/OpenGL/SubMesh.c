@@ -45,7 +45,7 @@ static SubMesh* CreateWithData(Array(float)* positionArr, Array(float)* uvArr, A
     int      indexDataSize       = indexArr->length    * sizeof(short);
     int      uvDataSize          = uvArr->length       * sizeof(float);
     int      positionDataSize    = positionArr->length * sizeof(float);
-    SubMesh* subMesh             = (SubMesh*) malloc(sizeof(SubMesh) + indexDataSize + uvDataSize + positionDataSize);
+    SubMesh* subMesh             = malloc(sizeof(SubMesh) + indexDataSize + uvDataSize + positionDataSize);
 
     subMesh->uvArr->length       = uvArr->length;
     subMesh->uvArr->data         = (char*) subMesh + sizeof(SubMesh);
@@ -133,9 +133,7 @@ static void SetWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
 
 static SubMesh* CreateWithQuad(Texture* texture, Quad* quad)
 {
-    SubMesh* subMesh = (SubMesh*)
-                       malloc(sizeof(SubMesh) + Quad_IndexSize + Quad_UVSize + Quad_Position3Size);
-
+    SubMesh* subMesh = malloc(sizeof(SubMesh) + Quad_IndexSize + Quad_UVSize + Quad_Position3Size);
 
     subMesh->indexArr->length     = Quad_IndexNum;
     subMesh->indexArr->data       = (char*) subMesh + sizeof(SubMesh);

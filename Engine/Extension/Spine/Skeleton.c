@@ -426,7 +426,7 @@ static void Init(SkeletonData* skeletonData, Skeleton* outSkeleton)
 
 static Skeleton* Create(SkeletonData* skeletonData)
 {
-    Skeleton* skeleton = (Skeleton*) malloc(sizeof(Skeleton));
+    Skeleton* skeleton = malloc(sizeof(Skeleton));
     Init(skeletonData, skeleton);
 
     return skeleton;

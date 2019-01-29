@@ -40,7 +40,7 @@ struct APhysicsWorld
     void         (*DestroyBody)(PhysicsBody* body);
 
     /**
-     * Called every frame by game loop.
+     * Called every frame by loop.
      */
     void         (*Update)     (float deltaSeconds);
 };

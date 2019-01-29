@@ -129,7 +129,7 @@ struct ACoroutine
     Coroutine* (*StartCoroutine)(CoroutineRun Run);
 
     /**
-     * Update on every frame by game loop.
+     * Update on every frame by loop.
      */
     void       (*Update)        (float deltaSeconds);
 };
@@ -144,6 +144,8 @@ extern struct ACoroutine ACoroutine[1];
 #define ACoroutine_Begin()                               \
     switch (coroutine->step)                            \
     {                                                   \
+        default:                                        \
+            break;                                      \
         case 0:                                         \
             coroutine->state = CoroutineState_Running
 

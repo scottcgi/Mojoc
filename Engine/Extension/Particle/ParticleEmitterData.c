@@ -414,7 +414,7 @@ static void Release(ParticleEmitterData* data)
 
 static ParticleEmitterData* Create(char* filePath)
 {
-    ParticleEmitterData* emitterData = (ParticleEmitterData*) malloc(sizeof(ParticleEmitterData));
+    ParticleEmitterData* emitterData = malloc(sizeof(ParticleEmitterData));
     Init(filePath, emitterData);
 
     return emitterData;

@@ -316,7 +316,7 @@ static AudioPlayer* GetPlayer(const char* relativeFilePath)
 
     if (player == NULL)
     {
-        player = (AudioPlayer*) malloc(sizeof(AudioPlayer));
+        player = malloc(sizeof(AudioPlayer));
     }
 
     InitPlayer(relativeFilePath, player);

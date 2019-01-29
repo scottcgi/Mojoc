@@ -435,7 +435,7 @@ static void Init(ParticleEmitterData* emitterData, Texture* texture, ParticleEmi
 
 static ParticleEmitter* Create(ParticleEmitterData* emitterData, Texture* texture)
 {
-    ParticleEmitter* emitter = (ParticleEmitter*) malloc(sizeof(ParticleEmitter));
+    ParticleEmitter* emitter = malloc(sizeof(ParticleEmitter));
     Init(emitterData, texture, emitter);
 
     return emitter;

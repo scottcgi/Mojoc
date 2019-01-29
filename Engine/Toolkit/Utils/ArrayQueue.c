@@ -79,7 +79,7 @@ static void InitWithCapacity(int elementTypeSize, int capacity, ArrayQueue* outA
 
 static ArrayQueue* CreateWithCapacity(int elementTypeSize, int capacity)
 {
-    ArrayQueue* arrayQueue = (ArrayQueue*) malloc(sizeof(ArrayQueue));
+    ArrayQueue* arrayQueue = malloc(sizeof(ArrayQueue));
     InitWithCapacity(elementTypeSize, capacity, arrayQueue);
 
     return arrayQueue;

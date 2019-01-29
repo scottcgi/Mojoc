@@ -34,7 +34,7 @@ static Font* Get(char* filePath)
 
     if (font == NULL)
     {
-        font = (Font*) malloc(sizeof(Font));
+        font = malloc(sizeof(Font));
 
         AMesh->InitWithCapacity
         (
@@ -65,7 +65,7 @@ static FontText* GetText(Font* font)
 
     if (text == NULL)
     {
-        text = (FontText*) malloc(sizeof(FontText));
+        text = malloc(sizeof(FontText));
         AArrayList->Init(sizeof(SubMesh*), text->usedSubMeshList);
         text->usedSubMeshList->increase = 10;
     }

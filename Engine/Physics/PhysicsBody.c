@@ -21,10 +21,10 @@
 static inline PhysicsBody* CreateBody(Array(float)* vertexArr, PhysicsShape shape)
 {
     int          size = sizeof(float) * vertexArr->length;
-    PhysicsBody* body = (PhysicsBody*) malloc(sizeof(PhysicsBody) + (size << 1)); // NOLINT(hicpp-signed-bitwise)
+    PhysicsBody* body = malloc(sizeof(PhysicsBody) + (size << 1)); // NOLINT(hicpp-signed-bitwise)
 
-    body->vertexArr->length   = vertexArr->length;
-    body->vertexArr->data     = (char*) body + sizeof(PhysicsBody);
+    body->vertexArr->length = vertexArr->length;
+    body->vertexArr->data   = (char*) body + sizeof(PhysicsBody);
     memcpy(body->vertexArr->data, vertexArr->data, (size_t) size);
 
     body->transformedVertexArr->length = vertexArr->length;

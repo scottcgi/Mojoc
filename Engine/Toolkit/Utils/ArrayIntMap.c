@@ -94,9 +94,7 @@ static void* TryPut(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 
     if (guess < 0)
     {
-        ArrayIntMapElement* element = (ArrayIntMapElement*)
-                                      malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
-
+        ArrayIntMapElement* element = malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
         element->key                = key;
         element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
 
@@ -178,11 +176,10 @@ static void* InsertAt(ArrayIntMap* arrayIntMap, intptr_t key, int index, void* v
 {
     CheckInsertIndex("InsertAt");
 
-    ArrayIntMapElement* element = (ArrayIntMapElement*) malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
-
-    AArrayList_Insert(arrayIntMap->elementList, index, element);
+    ArrayIntMapElement* element = malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
     element->key                = key;
     element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
+    AArrayList_Insert(arrayIntMap->elementList, index, element);
 
     return memcpy(element->valuePtr, valuePtr, (size_t) arrayIntMap->valueTypeSize);
 }
@@ -265,7 +262,7 @@ static void InitWithCapacity(int valueTypeSize, int capacity, ArrayIntMap* outAr
 
 static ArrayIntMap* CreateWithCapacity(int valueTypeSize, int capacity)
 {
-    ArrayIntMap* arrayIntMap = (ArrayIntMap*) malloc(sizeof(ArrayIntMap));
+    ArrayIntMap* arrayIntMap = malloc(sizeof(ArrayIntMap));
     InitWithCapacity(valueTypeSize, capacity, arrayIntMap);
 
     return arrayIntMap;

@@ -105,7 +105,7 @@ static void InitWithCapacity(int capacity, ArrayStrSet* arrayStrSet)
 
 static ArrayStrSet* CreateWithCapacity(int capacity)
 {
-    ArrayStrSet* arrayStrSet = (ArrayStrSet*) malloc(sizeof(ArrayStrSet));
+    ArrayStrSet* arrayStrSet = malloc(sizeof(ArrayStrSet));
     InitWithCapacity(capacity, arrayStrSet);
     return arrayStrSet;
 }
@@ -131,7 +131,7 @@ static const char* Get(ArrayStrSet* arrayStrSet, const char* str)
 
     if (guess < 0)
     {
-        element            = (ArrayStrSetElement*) malloc(sizeof(ArrayStrSetElement) + strLength);
+        element            = malloc(sizeof(ArrayStrSetElement) + strLength);
         element->strLength = strLength;
         element->str       = (char*) element + sizeof(ArrayStrSetElement);
 
