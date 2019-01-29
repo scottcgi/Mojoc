@@ -96,7 +96,7 @@ add_library(
     ../../Application/Input.c
     ../../Application/Platform/Android/NativeGlue.c
     ../../Application/Platform/Android/JniTool.c
-    ../../Application/Platform/Android/DeviceInfo.c
+    ../../Application/Platform/Android/SystemInfo.c
 
 ################ MojocExtension ##################
 

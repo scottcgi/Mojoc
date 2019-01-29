@@ -19,7 +19,10 @@
 #include <stdbool.h>
 
 
-struct ADeviceInfo
+/**
+ * Get system info in native platform.
+ */
+struct ASystemInfo
 {
     /**
      * The outLanguageCode will be filled with an array of two characters.
@@ -28,7 +31,7 @@ struct ADeviceInfo
 };
 
 
-extern struct ADeviceInfo ADeviceInfo[1];
+extern struct ASystemInfo ASystemInfo[1];
 
 
 #endif
