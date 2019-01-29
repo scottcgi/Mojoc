@@ -17,14 +17,18 @@
 #include "Engine/Graphics/OpenGL/GLTool.h"
 
 
+#define CheckFingerId(tag, fingerId) \
+    ALog_A((fingerId) > -1 && (fingerId) < 10, "AInput " tag " fingerId = %d invalid", fingerId)
+
+
 #define FINGER_NUM 10
 static InputTouch touches[FINGER_NUM];
 
 
 static InputTouch* SetTouch(int fingerId, float pixelX, float pixelY, InputTouchType type)
 {
-    ALog_A(fingerId > -1 && fingerId < 10, "AInput SetTouch fingerId = %d invalid", fingerId);
-    
+    CheckFingerId("SetTouch", fingerId);
+
     InputTouch* touch = touches + fingerId;
     touch->fingerId    = fingerId;
     touch->x          = AGLTool_ToGLX(pixelX);
@@ -37,9 +41,12 @@ static InputTouch* SetTouch(int fingerId, float pixelX, float pixelY, InputTouch
 
 static InputTouch* GetTouch(int fingerId)
 {
-    ALog_A(fingerId > -1 && fingerId < 10, "AInput GetTouch fingerId = %d invalid", fingerId);
+    CheckFingerId("GetTouch", fingerId);
     return touches + fingerId;
 }
+
+
+#undef CheckFingerId
 
 
 struct AInput AInput[1] =

@@ -82,6 +82,36 @@ static          bool               isPaused           = true;
 //----------------------------------------------------------------------------------------------------------------------
 
 
+static void inline Touch(AInputEvent* event, int pointerIndex, InputTouchType inputTouchType)
+{
+    AApplication->Touch
+    (
+        AMotionEvent_getPointerId(event, pointerIndex),
+        AMotionEvent_getX        (event, pointerIndex),
+        AMotionEvent_getY        (event, pointerIndex),
+        inputTouchType
+    );
+}
+
+
+static void inline Touches(AInputEvent* event, InputTouchType inputTouchType)
+{
+    int  count = (int) AMotionEvent_getPointerCount(event);
+    int  fingerIds[count];
+    float pixelXs [count];
+    float pixelYs [count];
+
+    for (int i = 0; i < count; ++i)
+    {
+        fingerIds[i] = AMotionEvent_getPointerId(event, i);
+        pixelXs[i]  = AMotionEvent_getX        (event, i);
+        pixelYs[i]  = AMotionEvent_getY        (event, i);
+    }
+
+    AApplication->Touches(fingerIds, pixelXs, pixelYs, count, inputTouchType);
+}
+
+
 /**
  * Process the next input event
  */
@@ -98,43 +128,18 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                 // first pointer down
                 case AMOTION_EVENT_ACTION_DOWN:
                 {
-                    AApplication->Touch
-                    (
-                        AArray_Make
-                        (
-                            InputTouch*, 1,
-                            AInput->SetTouch
-                            (
-                                AMotionEvent_getPointerId(event, 0),
-                                AMotionEvent_getX        (event, 0),
-                                AMotionEvent_getY        (event, 0),
-                                InputTouchType_Down
-                            )
-                        )
-                    );
-
+                    Touch(event, 0, InputTouchType_Down);
                     break;
                 }
 
                 // not first pointer down
                 case AMOTION_EVENT_ACTION_POINTER_DOWN:
                 {
-                    int indexDown = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
-                                    AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-
-                    AApplication->Touch
+                    Touch
                     (
-                        AArray_Make
-                        (
-                            InputTouch*, 1,
-                            AInput->SetTouch
-                            (
-                                AMotionEvent_getPointerId(event, indexDown),
-                                AMotionEvent_getX        (event, indexDown),
-                                AMotionEvent_getY        (event, indexDown),
-                                InputTouchType_Down
-                            )
-                        )
+                        event,
+                        (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT,
+                        InputTouchType_Down
                     );
                     break;
                 }
@@ -142,20 +147,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                 // first pinter up
                 case AMOTION_EVENT_ACTION_UP:
                 {
-                    AApplication->Touch
-                    (
-                        AArray_Make
-                        (
-                            InputTouch*, 1,
-                            AInput->SetTouch
-                            (
-                                AMotionEvent_getPointerId(event, 0),
-                                AMotionEvent_getX        (event, 0),
-                                AMotionEvent_getY        (event, 0),
-                                InputTouchType_Up
-                            )
-                        )
-                    );
+                    Touch(event, 0, InputTouchType_Up);
                     break;
                 }
 
@@ -163,22 +155,11 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                 // not first pointer up
                 case AMOTION_EVENT_ACTION_POINTER_UP:
                 {
-                    int indexUp = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
-                                  AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-
-                    AApplication->Touch
+                    Touch
                     (
-                        AArray_Make
-                        (
-                            InputTouch*, 1,
-                            AInput->SetTouch
-                            (
-                                AMotionEvent_getPointerId(event, indexUp),
-                                AMotionEvent_getX        (event, indexUp),
-                                AMotionEvent_getY        (event, indexUp),
-                                InputTouchType_Up
-                            )
-                        )
+                        event,
+                        (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT,
+                        InputTouchType_Up
                     );
                     break;
                 }
@@ -186,53 +167,14 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 
                 case AMOTION_EVENT_ACTION_MOVE:
                 {
-                    int count = (int) AMotionEvent_getPointerCount(event);
-                    InputTouch* touches[count];
-
-                    for (int i = 0; i < count; ++i)
-                    {
-                        InputTouch* touch = AInput->SetTouch
-                                            (
-                                                AMotionEvent_getPointerId(event, i),
-                                                AMotionEvent_getX        (event, i),
-                                                AMotionEvent_getY        (event, i),
-                                                InputTouchType_Move
-                                            );
-
-                        touches[i]        = touch;
-                    }
-
-                    AApplication->Touch
-                    (
-                        (Array[]) {touches, count}
-                    );
-
+                    Touches(event, InputTouchType_Move);
                     break;
                 }
 
 
                 case AMOTION_EVENT_ACTION_CANCEL:
                 {
-                    int count = (int) AMotionEvent_getPointerCount(event);
-                    InputTouch* touches[count];
-
-                    for (int i = 0; i < count; ++i)
-                    {
-                        InputTouch* touch = AInput->SetTouch
-                                            (
-                                                AMotionEvent_getPointerId(event, i),
-                                                AMotionEvent_getX        (event, i),
-                                                AMotionEvent_getY        (event, i),
-                                                InputTouchType_Cancel
-                                            );
-
-                        touches[i]        = touch;
-                    }
-
-                    AApplication->Touch
-                    (
-                        (Array[]) {touches, count}
-                    );
+                    Touches(event, InputTouchType_Cancel);
                     break;
                 }
 
