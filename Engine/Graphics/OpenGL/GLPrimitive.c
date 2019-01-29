@@ -70,7 +70,7 @@ static void DrawRect(Rect* rect)
         GL_FLOAT,
         false,
         0,
-        (float[])
+        (float[sizeof(Rect)])
         {
             rect->top,    rect->left,
             rect->bottom, rect->left,

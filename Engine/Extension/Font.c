@@ -105,7 +105,7 @@ static inline TextureAtlasQuad* GetAtlasQuad(FontText* text, char* str, int inde
     TextureAtlasQuad* atlasQuad = ATextureAtlas_GetQuad
                                   (
                                     text->font->textureAtlas,
-                                    (char[]) {str[index], '\0'}
+                                    (char[2]) {str[index], '\0'}
                                   );
 
     ALog_A(atlasQuad != NULL, "AFont SetString not found char = %c in TextureAtlas quads", str[index]);

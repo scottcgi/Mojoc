@@ -19,7 +19,7 @@
 /**
  * The pointer point to NULL.
  */
-#define NULL_PTR (void*[]) {NULL}
+#define NULL_PTR (void*[1]) {NULL}
 
 
 #endif

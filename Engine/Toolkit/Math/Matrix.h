@@ -42,6 +42,9 @@ Matrix4;
           0.0f, 0.0f, 0.0f, 1.0f, \
     }}
 
+#define MATRIX4_IDENTITY_ARRAY \
+    (Matrix4[1]) MATRIX4_IDENTITY
+
 
 /**
  * Control Matrix4.

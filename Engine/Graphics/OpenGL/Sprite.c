@@ -200,7 +200,7 @@ static void Init(Texture* texture, Sprite* outSprite)
 {
     Quad quad[1];
     AQuad->Init(texture->width, texture->height, quad);
-    InitSprite(outSprite, texture, (Array[]) {quad, 1});
+    InitSprite(outSprite, texture, (Array[1]) {quad, 1});
 }
 
 
@@ -215,7 +215,7 @@ static Sprite* Create(Texture* texture)
 
 static void InitWithQuad(Texture* texture, Quad* quad, Sprite* outSprite)
 {
-    InitSprite(outSprite, texture, (Array[]) {quad, 1});
+    InitSprite(outSprite, texture, (Array[1]) {quad, 1});
 }
 
 

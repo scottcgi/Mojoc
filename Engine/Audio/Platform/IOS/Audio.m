@@ -315,7 +315,7 @@ static inline void InitPlayer(char* filePath, AudioPlayer* player)
     alSourcei(player->sourceId,                        AL_LOOPING, AL_FALSE);
     
     // set Source Position
-    alSourcefv(player->sourceId, AL_POSITION,          (const ALfloat[]) {0.0f, 0.0f, 0.0f});
+    alSourcefv(player->sourceId, AL_POSITION,          (const ALfloat[3]) {0.0f, 0.0f, 0.0f});
     
     // set source reference distance
     alSourcef(player->sourceId,  AL_REFERENCE_DISTANCE, 0.0f);

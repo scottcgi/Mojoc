@@ -554,7 +554,7 @@ static void ConvertToParent(Drawable* drawable, Drawable* parent)
     {
         AMatrix->MultiplyMV2
         (
-            (Matrix4[]) MATRIX4_IDENTITY,
+            MATRIX4_IDENTITY_ARRAY,
             drawable->positionX,
             drawable->positionY ,
             worldPositionV2
@@ -704,7 +704,7 @@ static void Init(Drawable* outDrawable)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-   *outDrawable->modelMatrix   = *(Matrix4[1]) MATRIX4_IDENTITY;
+   *outDrawable->modelMatrix   = *MATRIX4_IDENTITY_ARRAY;
     outDrawable->state         = DrawableState_Null;
     outDrawable->Draw          = NULL;
     outDrawable->Render        = NULL;

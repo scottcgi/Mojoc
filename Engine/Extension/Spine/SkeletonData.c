@@ -892,7 +892,7 @@ static inline void ReadAnimationEvents
 
         if (eventData == NULL)
         {
-            eventData = (SkeletonEventData[]) { "", "", 0, 0.0f };
+            eventData = (SkeletonEventData[1]) { "", "", 0, 0.0f };
         }
 
         char*              stringValue  = AJsonObject->GetString(eventObject, "string", eventData->stringValue);

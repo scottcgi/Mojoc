@@ -44,7 +44,7 @@ static Texture* Get(const char* resourceFilePath)
 
 static void Destroy(Texture* texture)
 {
-    glDeleteTextures(1, (GLuint[]) {texture->id});
+    glDeleteTextures(1, (GLuint[1]) {texture->id});
 
     bool isRemoved = AArrayStrMap->TryRemove(textureCacheMap, texture->filePath);
     ALog_A(isRemoved, "ATexture Destroy not found %s in textureCacheMap", texture->filePath);

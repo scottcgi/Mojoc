@@ -109,7 +109,7 @@ static void GetPosition2UV(Quad* quad, Texture* texture, float outPosition2UVDat
     memcpy
     (
         outPosition2UVData,
-        (float[])
+        (float[Quad_Position2UVNum])
         {
             qx, qy, // position 0
             tx, ty, // texCoord 0
@@ -139,7 +139,7 @@ static void GetPosition3(Quad* quad, float outBornPositionData[Quad_Position3Num
     memcpy
     (
         outBornPositionData,
-        (float[])
+        (float[Quad_Position3Num])
         {
             qx, qy, 0.0f, // position 0
         
@@ -165,7 +165,7 @@ static void GetUV(Quad* quad, Texture* texture, float outUVData[Quad_UVNum])
     memcpy
     (
         outUVData,
-        (float[])
+        (float[Quad_UVNum])
         {
             tx, ty, // texCoord 0
 
@@ -185,7 +185,7 @@ static void GetIndex(int vertexNumBefore, short outIndexData[Quad_IndexNum])
     memcpy
     (
         outIndexData,
-        (short[])
+        (short[Quad_IndexNum])
         {
             (short) (0 + vertexNumBefore),
             (short) (1 + vertexNumBefore),

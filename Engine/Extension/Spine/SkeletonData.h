@@ -55,7 +55,7 @@ typedef struct
     char* name;
     char* stringValue;
     int   intValue;
-    float floatValue;
+    float  floatValue;
 }
 SkeletonEventData;
 
