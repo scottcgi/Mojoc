@@ -221,13 +221,13 @@ static float ExponentialInOut(float from, float to, float time)
 
 static float CircularIn(float from, float to, float time)
 {
-    return VALUE * (1.0f - sqrtf(1.0f - time * time));
+    return VALUE * (1.0f - AMath_Sqrtf(1.0f - time * time));
 }
 
 
 static float CircularOut(float from, float to, float time)
 {
-    return VALUE * sqrtf((2.0f - time) * time);
+    return VALUE * AMath_Sqrtf((2.0f - time) * time);
 }
 
 
@@ -235,12 +235,12 @@ static float CircularInOut(float from, float to, float time)
 {
     if (time < 0.5f)
     {
-        return VALUE * 0.5f * (1.0f - sqrtf(1.0f - 4.0f * time * time));
+        return VALUE * 0.5f * (1.0f - AMath_Sqrtf(1.0f - 4.0f * time * time));
     }
     else
     {
         time = time * 2.0f - 2.0f;
-        return VALUE * 0.5f * (sqrtf(1.0f - time * time) + 1);
+        return VALUE * 0.5f * (AMath_Sqrtf(1.0f - time * time) + 1.0f);
     }
 }
 

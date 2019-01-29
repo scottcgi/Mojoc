@@ -188,6 +188,28 @@ static inline bool AMath_TestFloatEqual(float x, float y)
 
 
 /**
+ * Fast square inverse root float.
+ */
+static inline float AMath_InvSqrtf(float x)
+{
+    union { float f; int i; } u = {x};
+
+    u.i = 0x5f3759df - (u.i >> 1); // NOLINT(hicpp-signed-bitwise)
+
+    return u.f * (1.5f - 0.5f * x * u.f * u.f);
+}
+
+
+/**
+ * Fast square root float.
+ */
+static inline float AMath_Sqrtf(float x)
+{
+    return AMath_InvSqrtf(x) * x ;
+}
+
+
+/**
  * Min in x and y, macro can use generic parameter.
  */
 #define AMath_Min(x, y) \
