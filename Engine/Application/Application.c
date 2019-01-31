@@ -12,10 +12,10 @@
  */
 
 
+#include "Engine/Graphics/Graphics.h"
 #include "Engine/Audio/Platform/Audio.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Application/Application.h"
-#include "Engine/Graphics/Graphics.h"
 #include "Engine/Application/Scheduler.h"
 #include "Engine/Toolkit/Utils/Tween.h"
 #include "Engine/Graphics/Draw/Drawable.h"
@@ -24,16 +24,15 @@
 #include "Engine/Physics/PhysicsWorld.h"
 #include "Engine/Toolkit/Utils/Coroutine.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Toolkit/Utils/FileTool.h"
+#include "Engine/Toolkit/Utils/Thread.h"
 
 
-static const char* saveDataFileName = "MojocSaveDataFile";
-static struct      timespec now;
-static struct      timespec last;
+static struct timespec now;
+static struct timespec last;
 
 
 #define CheckCallback(callback) \
-    ALog_A((callback) != NULL, #callback " in Application_MainImpl must be set !")
+    ALog_A((callback) != NULL, #callback " in Application_MainImpl cannot NULL")
 
 
 
@@ -43,7 +42,6 @@ static void Init()
     APhysics  ->Init();
     AExtension->Init();
     AAudio    ->Init();
-
     AComponent->Init(AApplication->rootComponent);
 
     // entry called
@@ -55,16 +53,6 @@ static void Init()
     CheckCallback(AApplication->callbacks->OnDestroy);
     CheckCallback(AApplication->callbacks->OnResized);
     CheckCallback(AApplication->callbacks->OnSaveData);
-    CheckCallback(AApplication->callbacks->OnInitWithSavedData);
-
-    long  size;
-    void* data = AFileTool->CreateDataFromRelative(saveDataFileName, &size);
-
-    if (data != NULL)
-    {
-        AApplication->callbacks->OnInitWithSavedData(data, (size_t) size);
-        free(data);
-    }
 
     // start clock
     clock_gettime(CLOCK_MONOTONIC, &last);
@@ -161,12 +149,15 @@ static void Touches(int fingerIds[], float pixelXs[], float pixelYs[], int touch
 }
 
 
-static void SaveData()
+void* SaveDataRun(void* param)
 {
-    void*  outSaveData;
-    size_t outSize;
-    AApplication->callbacks->OnSaveData(&outSaveData, &outSize);
-    AFileTool->WriteDataToRelative(saveDataFileName, outSaveData, outSize);
+    AApplication->callbacks->OnSaveData(param);
+    return NULL;
+}
+
+static void SaveData(void* param)
+{
+    AThread->StartThread(SaveDataRun, param);
 }
 
 
@@ -180,7 +171,6 @@ struct AApplication AApplication[1] =
          .OnDestroy           = NULL,
          .OnResized           = NULL,
          .OnSaveData          = NULL,
-         .OnInitWithSavedData = NULL,
      }},
 
      .Init     = Init,

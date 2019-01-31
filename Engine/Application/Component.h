@@ -263,8 +263,8 @@ struct AComponent
     ComponentState* (*AddState)             (
                                                 Component*              component,
                                                 int                     stateId,
-                                                ComponentStateOnMessage onMessage,
-                                                ComponentStateUpdate    update
+                                                ComponentStateOnMessage OnMessage,
+                                                ComponentStateUpdate    Update
                                             );
 
 //----------------------------------------------------------------------------------------------------------------------

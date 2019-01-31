@@ -43,7 +43,7 @@ enum
 
 
 /**
- * Application lifecycle callbacks.
+ * Application lifecycle callbacks, not running in rendering thread.
  */
 typedef struct
 {
@@ -73,20 +73,14 @@ typedef struct
     void (*OnResized)          (int width, int height);
 
     /**
-     * Callback when application request save persistent data.
+     * Callback when application request save persistent data,
+     * or AApplication->SaveData(param) called manually，
+     * and this method running in a detached thread.
      *
-     * outSaveData: the persistent data ptr will be saved
-     * outSize    : the persistent data bytes count
+     * param: pass by AApplication->SaveData,
+     *       if application request save data then it will be NULL
      */
-    void (*OnSaveData)         (void** outSaveData, size_t* outSize);
-
-    /**
-     * Callback when application create.
-     *
-     * savedData: the data saved when OnSaveData
-     * size     : savedData size
-     */
-    void (*OnInitWithSavedData)(void* savedData, size_t size);
+    void (*OnSaveData)         (void* param);
 }
 ApplicationCallbacks;
 
@@ -167,9 +161,13 @@ struct AApplication
     void (*Touches) (int fingerIds[], float pixelXs[], float pixelYs[], int touchCount, InputTouchType inputTouchType);
 
     /**
-     * Called when application need to save data.
+     * Callback when application request save persistent data,
+     * or can called manually if need to save persistent data,
+     * and this method will start a detached thread to running OnSaveData.
+     *
+     * param: if application request call this method then pass NULL
      */
-    void (*SaveData)();
+    void (*SaveData)(void* param);
 };
 
 

@@ -289,8 +289,8 @@ static ComponentState* AddState
 (
     Component*              component,
     int                     stateId,
-    ComponentStateOnMessage onMessage,
-    ComponentStateUpdate    update
+    ComponentStateOnMessage OnMessage,
+    ComponentStateUpdate    Update
 )
 {
     ALog_A(component != NULL, "AComponent AddState failed, component cannot NULL");
@@ -300,9 +300,9 @@ static ComponentState* AddState
 
     ComponentState* state = malloc(sizeof(ComponentState));
     state->id             = stateId;
-    state->Update         = update;
+    state->Update         = Update;
     state->UpdateAfter    = NULL;
-    state->OnMessage      = onMessage;
+    state->OnMessage      = OnMessage;
     AUserData_Init(state->userData);
 
     AArrayIntMap_InsertAt(component->stateMap, stateId, -index - 1, state);

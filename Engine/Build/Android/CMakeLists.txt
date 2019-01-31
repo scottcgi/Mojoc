@@ -51,6 +51,7 @@ add_library(
     ../../Toolkit/Utils/TweenTool.c
     ../../Toolkit/Utils/Coroutine.c
     ../../Toolkit/Utils/FileTool.c
+    ../../Toolkit/Utils/Thread.c
 
     ../../Toolkit/Platform/Android/File.c
 

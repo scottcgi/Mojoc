@@ -74,7 +74,7 @@ typedef struct Coroutine Coroutine;
 /**
  * A Coroutine running function.
  */
-typedef void   (*CoroutineRun)(Coroutine* coroutine);
+typedef void (*CoroutineRun)(Coroutine* coroutine);
 
 
 struct Coroutine

@@ -1,18 +1,21 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2017-4-1
+ * Update: 2019-1-29
  * Author: scott.cgi
  */
+
 
 #include "Engine/Application/Platform/Android/JniTool.h"
 
 
-//----------------------------------------------------------------------------------------------------------------------
 #ifdef IS_PLATFORM_ANDROID
-//----------------------------------------------------------------------------------------------------------------------
 
 
 #include <android/native_activity.h>
@@ -36,7 +39,7 @@ static inline JNIEnv* GetEnvPtr()
 }
 
 
-static inline jclass GetClass(char *className)
+static inline jclass GetClass(const char *className)
 {
     JNIEnv* envPtr                   = GetEnvPtr();
     static  jobject   classLoaderObj = NULL;
@@ -76,10 +79,17 @@ static inline jclass GetClass(char *className)
 }
 
 
-static inline void GetJniMethodInfo(bool isStatic, char* className, char* methodName, char* paramCode, JniMethodInfo* outJniMethodInfo)
+static inline void GetJniMethodInfo
+(
+    bool           isStatic,
+    const char*    className,
+    const char*    methodName, 
+    const char*    paramCode,
+    JniMethodInfo* outJniMethodInfo
+)
 {
-    JNIEnv*   envPtr   = GetEnvPtr();
-    jclass    cls      = GetClass(className);
+    JNIEnv*   envPtr = GetEnvPtr();
+    jclass    cls    = GetClass(className);
 
     jmethodID methodID;
 
@@ -108,19 +118,31 @@ static inline void GetJniMethodInfo(bool isStatic, char* className, char* method
 }
 
 
-static void GetMethodInfo(char* className, char* methodName, char* paramCode, JniMethodInfo* outJniMethodInfo)
+static void GetMethodInfo
+(
+    const char*    className,
+    const char*    methodName,
+    const char*    paramCode, 
+    JniMethodInfo* outJniMethodInfo
+)
 {
     GetJniMethodInfo(false, className, methodName, paramCode,outJniMethodInfo);
 }
 
 
-static void GetStaticMethodInfo(char* className, char* methodName, char* paramCode, JniMethodInfo* outJniMethodInfo)
+static void GetStaticMethodInfo
+(
+    const char*    className,
+    const char*    methodName,
+    const char*    paramCode, 
+    JniMethodInfo* outJniMethodInfo
+)
 {
     GetJniMethodInfo(true, className, methodName, paramCode,outJniMethodInfo);
 }
 
 
-static jvalue CallObjectMethod(jobject object, char* methodName, char* paramCode, ...)
+static jvalue CallObjectMethod(jobject object, const char* methodName, const char* paramCode, ...)
 {
     JNIEnv*   envPtr    = GetEnvPtr();
     jclass    cls       = (*envPtr)->GetObjectClass(envPtr, object);
@@ -134,7 +156,7 @@ static jvalue CallObjectMethod(jobject object, char* methodName, char* paramCode
         paramCode
     );
 
-    char* p = paramCode;
+    const char* p = paramCode;
 
     // skip '()' to find out the return type
     while (*p++ != ')');
@@ -196,7 +218,7 @@ static jvalue CallObjectMethod(jobject object, char* methodName, char* paramCode
 }
 
 
-static inline jvalue CallClassMethodV(jclass cls, char* methodName, char* paramCode, va_list args)
+static inline jvalue CallClassMethodV(jclass cls, const char* methodName, const char* paramCode, va_list args)
 {
     JNIEnv*   envPtr    = GetEnvPtr();
     jmethodID methodId  = (*envPtr)->GetStaticMethodID(envPtr, cls, methodName, paramCode);
@@ -209,12 +231,13 @@ static inline jvalue CallClassMethodV(jclass cls, char* methodName, char* paramC
         paramCode
     );
 
-    char* p = paramCode;
+    const char* p = paramCode;
 
     // skip '()' to find out the return type
     while (*p++ != ')');
 
     jvalue value;
+    
     switch (*p)
     {
         case 'V':
@@ -266,18 +289,18 @@ static inline jvalue CallClassMethodV(jclass cls, char* methodName, char* paramC
 }
 
 
-static inline jvalue CallClassMethod(jclass cls, char* methodName, char* paramCode, ...)
+static inline jvalue CallClassMethod(jclass cls, const char* methodName, const char* paramCode, ...)
 {
     va_list args;
     va_start(args, paramCode);
     jvalue value = CallClassMethodV(cls, methodName, paramCode, args);
-    va_end(args);
+    va_end  (args);
 
     return value;
 }
 
 
-static jvalue CallStaticMethod(char* className, char* methodName, char* paramCode, ...)
+static jvalue CallStaticMethod(const char* className, const char* methodName, const char* paramCode, ...)
 {
     va_list args;
     va_start(args, paramCode);
@@ -291,6 +314,7 @@ static jvalue CallStaticMethod(char* className, char* methodName, char* paramCod
 static int GetSignHashCode()
 {
     JNIEnv*     envPtr          = GetEnvPtr();
+    
     jobject     packageManager  = CallObjectMethod
                                   (
                                       nativeActivity->clazz,
@@ -316,14 +340,13 @@ static int GetSignHashCode()
 
     jclass       packageInfoCls = (*envPtr)->GetObjectClass(envPtr, packageInfo);
 
-    jfieldID     signaturesFid  = (*envPtr)->GetFieldID
+    jfieldID      signaturesFid  = (*envPtr)->GetFieldID
                                   (
                                       envPtr,
                                       packageInfoCls,
                                       "signatures",
                                       "[Landroid/content/pm/Signature;"
                                   );
-
 
     jobjectArray signatureArr   = (*envPtr)->GetObjectField       (envPtr, packageInfo,  signaturesFid);
     jobject      signature      = (*envPtr)->GetObjectArrayElement(envPtr, signatureArr, 0);
@@ -336,6 +359,7 @@ struct AJniTool AJniTool[1] =
 {
     GetMethodInfo,
     GetStaticMethodInfo,
+    
     CallStaticMethod,
     CallObjectMethod,
     CallClassMethod,
@@ -344,6 +368,4 @@ struct AJniTool AJniTool[1] =
 };
 
 
-//----------------------------------------------------------------------------------------------------------------------
 #endif
-//----------------------------------------------------------------------------------------------------------------------
