@@ -102,10 +102,7 @@ add_library(
 ################ MojocExtension ##################
 
     ../../Extension/Extension.c
-    ../../Extension/Particle/Particle.c
-    ../../Extension/Particle/ParticleEmitterData.c
-    ../../Extension/Particle/ParticleEmitter.c
-
+        
     ../../Extension/Spine/SkeletonData.c
     ../../Extension/Spine/SkeletonBone.c
     ../../Extension/Spine/Skeleton.c
