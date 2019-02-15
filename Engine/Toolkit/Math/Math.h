@@ -202,10 +202,16 @@ static inline float AMath_InvSqrtf(float x)
 
 /**
  * Fast square root float.
+ * equals AMath_InvSqrtf(x) * x.
  */
 static inline float AMath_Sqrtf(float x)
 {
-    return AMath_InvSqrtf(x) * x ;
+    union { float f; int i; } u = {x};
+
+    u.i = 0x5f3759df - (u.i >> 1); // NOLINT(hicpp-signed-bitwise)
+    x  *= u.f; // for reduce one multiplication and increase one assignment
+
+    return x * (1.5f - 0.5f * x * u.f);
 }
 
 

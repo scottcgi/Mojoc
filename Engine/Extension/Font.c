@@ -1,11 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2016-7-27
+ * Update: 2019-2-1
  * Author: scott.cgi
  */
+
 
 #include <stdio.h>
 #include <string.h>
@@ -16,11 +21,11 @@
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 
 
-static ArrayList(Font*)     fontList[1] = AArrayList_Init(sizeof(Font*),     5);
-static ArrayList(FontText*) textList[1] = AArrayList_Init(sizeof(FontText*), 30);
+static ArrayList(Font*)     fontCacheList[1] = AArrayList_Init(Font*,     5);
+static ArrayList(FontText*) textCacheList[1] = AArrayList_Init(FontText*, 30);
 
 
-static Font* Get(char* filePath)
+static Font* Get(const char* filePath)
 {
     TextureAtlas* textureAtlas = ATextureAtlas->Get(filePath);
 
@@ -30,7 +35,7 @@ static Font* Get(char* filePath)
         "Font not support TextureAtlas has multiple texture"
     );
 
-    Font* font = AArrayList_Pop(fontList, Font*);
+    Font* font = AArrayList_Pop(fontCacheList, Font*);
 
     if (font == NULL)
     {
@@ -44,7 +49,7 @@ static Font* Get(char* filePath)
         );
 
         AArrayIntSet->Init(font->fontTextSet);
-        AArrayList  ->Init(sizeof(SubMesh*),  font->unusedSubMeshList);
+        AArrayList  ->Init(sizeof(SubMesh*), font->unusedSubMeshList);
     }
     else
     {
@@ -61,7 +66,7 @@ static Font* Get(char* filePath)
 
 static FontText* GetText(Font* font)
 {
-    FontText* text = AArrayList_Pop(textList, FontText*);
+    FontText* text = AArrayList_Pop(textCacheList, FontText*);
 
     if (text == NULL)
     {
@@ -90,31 +95,23 @@ static void Draw(Font* font)
 {
     for (int i = 0; i < font->fontTextSet->elementList->size; ++i)
     {
-        ADrawable->Draw
-        (
-            AArrayList_Get(font->fontTextSet->elementList, i, FontText*)->drawable
-        );
+        ADrawable->Draw(AArrayList_Get(font->fontTextSet->elementList, i, FontText*)->drawable);
     }
 
     AMesh_Draw(font->mesh);
 }
 
 
-static inline TextureAtlasQuad* GetAtlasQuad(FontText* text, char* str, int index)
+static inline TextureAtlasQuad* GetAtlasQuad(FontText* text, const char* str, int index)
 {
-    TextureAtlasQuad* atlasQuad = ATextureAtlas_GetQuad
-                                  (
-                                    text->font->textureAtlas,
-                                    (char[2]) {str[index], '\0'}
-                                  );
-
+    TextureAtlasQuad* atlasQuad = ATextureAtlas_GetQuad(text->font->textureAtlas, (char[2]) {str[index], '\0'});
     ALog_A(atlasQuad != NULL, "AFont SetString not found char = %c in TextureAtlas quads", str[index]);
 
     return atlasQuad;
 }
 
 
-static inline void SetNewChar(FontText* text, char* str, int len)
+static inline void SetNewChar(FontText* text, const char* str, int len)
 {
     // set text new char
     for (int i = 0; i < len; ++i)
@@ -132,7 +129,7 @@ static inline void SetNewChar(FontText* text, char* str, int len)
 }
 
 
-static void SetString(FontText* text, char* str)
+static void SetString(FontText* text, const char* str)
 {
     ArrayList* children    = text->font->mesh->childList;
     int        len         = (int) strlen(str);
@@ -185,7 +182,7 @@ static void SetString(FontText* text, char* str)
 
         if (originalSize != children->size)
         {
-            // if regenerate the SubMesh's drawable parent must visible
+            // if regenerate the SubMesh's drawable the parent must visible,
             // or parent property will lost
             AMesh->GenerateBuffer(text->font->mesh);
         }
@@ -208,7 +205,6 @@ static void SetString(FontText* text, char* str)
             AArrayList_Add(text->font->unusedSubMeshList, subMesh);
         }
     }
-
 
     // set text size arrangement and alignment
     // set each char position
@@ -291,40 +287,40 @@ static void SetString(FontText* text, char* str)
 static void SetInt(FontText* text, int num)
 {
     // max int digits count
-    char buff[12];
-    sprintf(buff,  "%d", num);
-    AFont->SetString(text, buff);
+    char buffer[12];
+    sprintf  (buffer, "%d", num);
+    SetString(text,   buffer);
 }
 
 
 static void SetFloat(FontText* text, float num)
 {
     // max float digits count
-    char buff[20];
-    sprintf(buff,  "%.1f", num);
-    AFont->SetString(text, buff);
+    char buffer[20];
+    sprintf  (buffer, "%.1f", num);
+    SetString(text,   buffer);
 }
 
 
-static void Reuse(Font* font)
+static void Release(Font* font)
 {
-    ALog_A(font->textureAtlas != NULL, "AFont Reuse font %p already reused", font);
+    ALog_A(font->textureAtlas != NULL, "AFont Release font %s already Released", font->textureAtlas->filePath);
 
     for (int i = 0; i < font->fontTextSet->elementList->size; ++i)
     {
         FontText* text = AArrayList_Get(font->fontTextSet->elementList, i, FontText*);
         text->font     = NULL;
-        AArrayList_Add(textList, text);
+        AArrayList_Add(textCacheList, text);
     }
 
     font->textureAtlas = NULL;
-    AArrayList_Add(fontList, font);
+    AArrayList_Add(fontCacheList, font);
 }
 
 
-static void ReuseText(FontText* text)
+static void ReleaseText(FontText* text)
 {
-    ALog_A(text->font != NULL, "AFont ReuseText text %p already reused", text);
+    ALog_A(text->font != NULL, "AFont %s ReleaseText text already Released", text->font->textureAtlas->filePath);
 
     for (int i = 0; i < text->usedSubMeshList->size; ++i)
     {
@@ -336,7 +332,7 @@ static void ReuseText(FontText* text)
     AArrayIntSet->TryRemove(text->font->fontTextSet, (intptr_t) text);
     text->font = NULL;
 
-    AArrayList_Add(textList, text);
+    AArrayList_Add(textCacheList, text);
 }
 
 
@@ -350,6 +346,6 @@ struct AFont AFont[1] =
     SetInt,
     SetFloat,
 
-    Reuse,
-    ReuseText,
+    Release,
+    ReleaseText,
 };

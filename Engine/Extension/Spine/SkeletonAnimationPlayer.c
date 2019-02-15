@@ -1,11 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-7-28
+ * Update: 2019-2-14
  * Author: scott.cgi
  */
+
 
 #include <math.h>
 #include "Engine/Toolkit/HeaderUtils/UserData.h"
@@ -58,7 +63,6 @@ static inline void UpdateMix(SkeletonAnimationPlayer* player, float deltaSeconds
         ASkeleton->Apply(player->skeleton, player->preAnimationData, player->preAnimationData->duration, 1.0f);
     }
 
-
     float mixPercent = player->mixTime / player->mixDuration;
     if (mixPercent < 1.0f)
     {
@@ -70,18 +74,17 @@ static inline void UpdateMix(SkeletonAnimationPlayer* player, float deltaSeconds
         player->preAnimationData = NULL;
     }
 
-
     if (player->curTime < player->curAnimationData->duration)
     {
         ASkeleton->Apply(player->skeleton, player->curAnimationData, player->curTime, mixPercent);
-        ASkeleton_Draw   (player->skeleton);
+        ASkeleton_Draw  (player->skeleton);
 
         player->curTime += deltaSeconds;
     }
     else
     {
         ASkeleton->Apply(player->skeleton, player->curAnimationData, player->curAnimationData->duration, mixPercent);
-        ASkeleton_Draw   (player->skeleton);
+        ASkeleton_Draw  (player->skeleton);
 
         if (player->OnActionOver != NULL)
         {
@@ -111,19 +114,30 @@ static void Update(SkeletonAnimationPlayer* player, float deltaSeconds)
 }
 
 
-static inline void InitSkeletonAnimationPlayer(SkeletonAnimationPlayer* player, SkeletonData* skeletonData, char* animationName)
+static inline void InitSkeletonAnimationPlayer
+(
+    SkeletonAnimationPlayer* player, 
+    SkeletonData*            skeletonData,
+    const char*              animationName
+)
 {
     ASkeleton->Init(skeletonData, player->skeleton);
     player->preAnimationData      = NULL;
     player->curAnimationData      = ASkeleton_GetAnimationData(player->skeleton, animationName);
-    ALog_A(player->curAnimationData != NULL, "ASkeletonAnimationPlayer cannot find animationData by name = %s", animationName);
 
-    player->curTime               = 0.0f;
-    player->preTime               = 0.0f;
-    player->mixTime               = 0.0f;
-    player->mixDuration           = 0.0f;
-    player->OnActionOver          = NULL;
-    player->loop                  = -1;
+    ALog_A
+    (
+        player->curAnimationData != NULL,
+        "ASkeletonAnimationPlayer cannot find animationData by name = %s",
+        animationName
+    );
+
+    player->curTime      = 0.0f;
+    player->preTime      = 0.0f;
+    player->mixTime      = 0.0f;
+    player->mixDuration  = 0.0f;
+    player->OnActionOver = NULL;
+    player->loop         = -1;
 
     //ASkeletonAnimationPlayer->Release(player);
     //ALog_A(0, "stop");
@@ -136,16 +150,22 @@ static void Release(SkeletonAnimationPlayer* player)
 }
 
 
-static void SetAnimation(SkeletonAnimationPlayer* player, char* animationName)
+static void SetAnimation(SkeletonAnimationPlayer* player, const char* animationName)
 {
     player->curAnimationData = ASkeleton_GetAnimationData(player->skeleton,  animationName);
 
-    ALog_A(player->curAnimationData != NULL, "ASkeletonAnimationPlayer SetAnimation cannot find animationData by name = %s", animationName);
+    ALog_A
+    (
+        player->curAnimationData != NULL,
+        "ASkeletonAnimationPlayer SetAnimation cannot find animationData by name = %s",
+        animationName
+    );
+    
     player->curTime = 0.0f;
 }
 
 
-static void SetAnimationMix(SkeletonAnimationPlayer* player, char* animationName, float mixDuration)
+static void SetAnimationMix(SkeletonAnimationPlayer* player, const char* animationName, float mixDuration)
 {
     player->preAnimationData = player->curAnimationData;
     player->preTime          = player->curTime;
@@ -153,11 +173,16 @@ static void SetAnimationMix(SkeletonAnimationPlayer* player, char* animationName
     player->mixTime          = 0.0f;
     player->mixDuration      = mixDuration;
     player->curAnimationData = ASkeleton_GetAnimationData(player->skeleton,  animationName);
-    ALog_A(player->curAnimationData != NULL, "SkeletonAnimationPlayer SetAnimationMix cannot find animationData by name = %s", animationName);
+    ALog_A
+    (
+        player->curAnimationData != NULL,
+        "SkeletonAnimationPlayer SetAnimationMix cannot find animationData by name = %s",
+        animationName
+    );
 }
 
 
-static SkeletonAnimationPlayer* CreateWithData(SkeletonData* skeletonData, char* animationName)
+static SkeletonAnimationPlayer* CreateWithData(SkeletonData* skeletonData, const char* animationName)
 {
     SkeletonAnimationPlayer* player = malloc(sizeof(SkeletonAnimationPlayer));
     InitSkeletonAnimationPlayer(player, skeletonData, animationName);
@@ -166,18 +191,18 @@ static SkeletonAnimationPlayer* CreateWithData(SkeletonData* skeletonData, char*
 }
 
 
-static SkeletonAnimationPlayer* Create(char* filePath, char* animationName)
+static SkeletonAnimationPlayer* Create(const char* jsonFilePath, const char* animationName)
 {
     SkeletonAnimationPlayer* player = malloc(sizeof(SkeletonAnimationPlayer));
-    InitSkeletonAnimationPlayer(player, ASkeletonData->Get(filePath), animationName);
+    InitSkeletonAnimationPlayer(player, ASkeletonData->Get(jsonFilePath), animationName);
 
     return player;
 }
 
 
-static void Init(char* filePath, char* animationName, SkeletonAnimationPlayer* outPlayer)
+static void Init(const char* jsonFilePath, const char* animationName, SkeletonAnimationPlayer* outPlayer)
 {
-    InitSkeletonAnimationPlayer(outPlayer, ASkeletonData->Get(filePath), animationName);
+    InitSkeletonAnimationPlayer(outPlayer, ASkeletonData->Get(jsonFilePath), animationName);
 }
 
 
@@ -191,10 +216,15 @@ static void Render(Drawable* drawable)
 }
 
 
-static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, char* slotName, Drawable* outDrawable)
+static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, const char* slotName, Drawable* outDrawable)
 {
     SkeletonSlot* slot = ASkeletonAnimationPlayer_GetSlot(player, slotName);
-    ALog_A(slot != NULL, "SkeletonAnimationPlayer InitSlotBoundingBoxDrawable not found SkeletonSlot by slotName = %s", slotName);
+    ALog_A
+    (
+        slot != NULL,
+        "SkeletonAnimationPlayer InitSlotBoundingBoxDrawable not found SkeletonSlot by slotName = %s",
+        slotName
+    );
 
     ADrawable->Init(outDrawable);
     AUserData_SetSlotPtr(outDrawable->userData, 0, slot);

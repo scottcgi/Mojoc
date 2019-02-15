@@ -1,11 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-7-3
+ * Update: 2019-2-14
  * Author: scott.cgi
  */
+
 
 #include "Engine/Extension/Spine/Skeleton.h"
 #include "Engine/Toolkit/HeaderUtils/Struct.h"
@@ -18,13 +23,13 @@
 static inline SubMesh* GetAttachmentSubMesh(Skeleton* skeleton, SkeletonAttachmentData* skeletonAttachmentData)
 {
     int meshIndex    = *(int*) (
-                                   (char*) (skeletonAttachmentData)->childPtr +
-                                   skeletonAttachmentMeshOffset[(skeletonAttachmentData)->type]
+                                   (char*) skeletonAttachmentData->childPtr +
+                                   skeletonAttachmentMeshOffset[skeletonAttachmentData->type]
                                );
 
     int subMeshIndex = *(int*) (
-                                   (char*) (skeletonAttachmentData)->childPtr +
-                                   skeletonAttachmentSubMeshOffset[(skeletonAttachmentData)->type]
+                                   (char*) skeletonAttachmentData->childPtr +
+                                   skeletonAttachmentSubMeshOffset[skeletonAttachmentData->type]
                                );
 
     return AArrayList_Get
@@ -45,11 +50,11 @@ static inline void InitBone(Skeleton* skeleton, SkeletonData* skeletonData)
     AArrayStrMap->InitWithCapacity(sizeof(SkeletonBone*), skeletonData->boneDataOrderArr->length, boneMap);
 
     SkeletonBone*      bones       = AArray_GetData(skeleton->boneArr,              SkeletonBone);
-    SkeletonBoneData** boneDatas   = AArray_GetData(skeletonData->boneDataOrderArr, SkeletonBoneData*);
+    SkeletonBoneData** bonesData   = AArray_GetData(skeletonData->boneDataOrderArr, SkeletonBoneData*);
 
     for (int i = 0; i < skeleton->boneArr->length; ++i)
     {
-        SkeletonBoneData* boneData = boneDatas[i];
+        SkeletonBoneData* boneData = bonesData[i];
         SkeletonBone*     bone     = bones + i;
         ASkeletonBone->Init(boneData, bone);
 
@@ -81,11 +86,11 @@ static inline void InitSlot(Skeleton* skeleton, SkeletonData* skeletonData)
     AArrayStrMap->InitWithCapacity(sizeof(SkeletonSlot*), skeletonData->slotDataOrderArr->length, slotMap);
 
     SkeletonSlot**     slotOrders    = AArray_GetData(skeleton->slotOrderArr,         SkeletonSlot*);
-    SkeletonSlotData** slotDatas     = AArray_GetData(skeletonData->slotDataOrderArr, SkeletonSlotData*);
+    SkeletonSlotData** slotsData     = AArray_GetData(skeletonData->slotDataOrderArr, SkeletonSlotData*);
 
     for (int i = 0; i < skeleton->slotArr->length; ++i)
     {
-        SkeletonSlotData* slotData   = slotDatas[i];
+        SkeletonSlotData* slotData   = slotsData[i];
         SkeletonSlot*     slot       = AArray_GetPtr(skeleton->slotArr, i, SkeletonSlot);
 
         ASkeletonSlot->Init(slotData, skeleton, slot);
@@ -97,7 +102,7 @@ static inline void InitSlot(Skeleton* skeleton, SkeletonData* skeletonData)
 }
 
 
-static void SetSkin(Skeleton* skeleton, char* skinName)
+static void SetSkin(Skeleton* skeleton, const char* skinName)
 {
     ArrayStrMap*      skinDataMap = skeleton->skeletonData->skinDataMap;
     SkeletonSkinData* skinData    = AArrayStrMap_Get(skinDataMap, skinName, SkeletonSkinData*);
@@ -134,8 +139,6 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
             }
         }
     }
-
-//----------------------------------------------------------------------------------------------------------------------
 
     for (int i = 0; i < skinData->slotAttachmentMap->elementList->size; ++i)
     {
@@ -183,7 +186,7 @@ static void ResetSlots(Skeleton* skeleton)
 }
 
 
-static SkeletonAttachmentData* GetAttachmentData(Skeleton* skeleton, char* slotName, char* attachmentName)
+static SkeletonAttachmentData* GetAttachmentData(Skeleton* skeleton, const char* slotName, const char* attachmentName)
 {
     SkeletonAttachmentData* attachmentData = ASkeletonData->GetAttachmentDataBySkinData
                                              (
@@ -300,7 +303,13 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 
     for (int i = 0; i < skeletonData->attachmentDataList->size; ++i)
     {
-        SkeletonAttachmentData* attachmentData = AArrayList_Get(skeletonData->attachmentDataList, i, SkeletonAttachmentData*);
+        SkeletonAttachmentData* attachmentData = AArrayList_Get
+                                                 (
+                                                     skeletonData->attachmentDataList,
+                                                     i,
+                                                     SkeletonAttachmentData*
+                                                 );
+        
         SubMesh*                subMesh        = NULL;
 
         switch (attachmentData->type)
@@ -310,7 +319,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
                 
             case SkeletonAttachmentDataType_Region:
             {
-                SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->childPtr;
+                SkeletonRegionAttachmentData* regionAttachmentData = attachmentData->childPtr;
                 subMesh                                            =  AMesh->AddChildWithQuad
                                                                       (
                                                                          AArrayList_GetPtr
@@ -340,7 +349,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 
             case SkeletonAttachmentDataType_SkinnedMesh:
                 meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr)->meshAttachmentData;
-                
+                // no break
             case SkeletonAttachmentDataType_Mesh:
             {
                 meshData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;

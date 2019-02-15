@@ -1,11 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2017-1-2017
+ * Update: 2019-2-1
  * Author: scott.cgi
  */
+
 
 #include "Engine/Extension/DrawAtlas.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
@@ -13,10 +18,10 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-static ArrayList(DrawAtlas*) drawAtlasList[1] = AArrayList_Init(DrawAtlas*, 10);
+static ArrayList(DrawAtlas*) drawAtlasCacheList[1] = AArrayList_Init(DrawAtlas*, 10);
 
 
-static DrawAtlas* Get(char* filePath)
+static DrawAtlas* Get(const char* filePath)
 {
     TextureAtlas* textureAtlas = ATextureAtlas->Get(filePath);
 
@@ -26,7 +31,7 @@ static DrawAtlas* Get(char* filePath)
         "DrawAtlas not support TextureAtlas has multiple texture"
     );
 
-    DrawAtlas* drawAtlas = AArrayList_Pop(drawAtlasList, DrawAtlas*);
+    DrawAtlas* drawAtlas = AArrayList_Pop(drawAtlasCacheList, DrawAtlas*);
 
     if (drawAtlas == NULL)
     {
@@ -39,11 +44,7 @@ static DrawAtlas* Get(char* filePath)
             drawAtlas->mesh
         );
 
-        AArrayList->Init
-        (
-            sizeof(Drawable*),
-            drawAtlas->quadList
-        );
+        AArrayList->Init(sizeof(Drawable*), drawAtlas->quadList);
     }
     else
     {
@@ -57,7 +58,7 @@ static DrawAtlas* Get(char* filePath)
 }
 
 
-static Drawable* GetQuad(DrawAtlas* drawAtlas, char* quadName)
+static Drawable* GetQuad(DrawAtlas* drawAtlas, const char* quadName)
 {
     TextureAtlasQuad* atlasQuad = ATextureAtlas_GetQuad(drawAtlas->textureAtlas, quadName);
     ALog_A(atlasQuad != NULL, "ADrawAtlas GetQuad not found quadName = %s", quadName);
@@ -85,9 +86,14 @@ static Drawable* GetQuad(DrawAtlas* drawAtlas, char* quadName)
 }
 
 
-static void Reuse(DrawAtlas* drawAtlas)
+static void Release(DrawAtlas* drawAtlas)
 {
-    ALog_A(drawAtlas->textureAtlas != NULL, "ADrawAtlas Reuse drawAtlas %p already reused", drawAtlas);
+    ALog_A
+    (
+        drawAtlas->textureAtlas != NULL,
+        "ADrawAtlas Release drawAtlas %s already released",
+        drawAtlas->textureAtlas->filePath
+    );
 
     for (int i = 0; i < drawAtlas->quadList->size; ++i)
     {
@@ -95,19 +101,19 @@ static void Reuse(DrawAtlas* drawAtlas)
     }
 
     drawAtlas->textureAtlas = NULL;
-    AArrayList_Add(drawAtlasList, drawAtlas);
+    AArrayList_Add(drawAtlasCacheList, drawAtlas);
 }
 
 
-static void ReuseQuad(DrawAtlas* drawAtlas, Drawable* drawable)
+static void ReleaseQuad(DrawAtlas* drawAtlas, Drawable* drawable)
 {
     SubMesh* subMesh = AStruct_GetParent(drawable, SubMesh);
 
     ALog_A
     (
         drawAtlas->mesh == subMesh->parent,
-        "ADrawAtlas ReuseQuad drawable %p not in this drawAtlas",
-        drawable
+        "ADrawAtlas %s ReleaseQuad drawable not in this drawAtlas",
+        drawAtlas->textureAtlas->filePath
     );
 
     ADrawable_SetInvisible(drawable);
@@ -119,6 +125,6 @@ struct ADrawAtlas ADrawAtlas[1] =
 {
     Get,
     GetQuad,
-    Reuse,
-    ReuseQuad,
+    Release,
+    ReleaseQuad,
 };

@@ -1,11 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-7-7
+ * Update: 2019-2-12
  * Author: scott.cgi
  */
+
 
 #include <string.h>
 #include "Engine/Graphics/OpenGL/SubMesh.h"
@@ -21,7 +26,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
     {
         case SkeletonAttachmentDataType_Region:
         {
-            SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->childPtr;
+            SkeletonRegionAttachmentData* regionAttachmentData = attachmentData->childPtr;
             SubMesh*                      subMesh              = AArrayList_Get
                                                                  (
                                                                      AArrayList_GetPtr
@@ -31,6 +36,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
                                                                          Mesh
                                                                      )
                                                                      ->childList,
+                                                                     
                                                                      regionAttachmentData->subMeshIndex,
                                                                      SubMesh*
                                                                  );
@@ -40,7 +46,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
             drawable->height = regionAttachmentData->height;
 
             ADrawable_SetParent   (drawable, slot->bone->drawable);
-            ADrawable_SetPosition2(drawable, regionAttachmentData->x, regionAttachmentData->y);
+            ADrawable_SetPosition2(drawable, regionAttachmentData->x,      regionAttachmentData->y);
             ADrawable_SetRotationZ(drawable, regionAttachmentData->rotationZ);
             ADrawable_SetScale2   (drawable, regionAttachmentData->scaleX, regionAttachmentData->scaleY);
 
@@ -49,7 +55,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 
         case SkeletonAttachmentDataType_Mesh:
         {
-            SkeletonMeshAttachmentData* meshAttachmentData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
+            SkeletonMeshAttachmentData* meshAttachmentData = attachmentData->childPtr;
             SubMesh*                    subMesh            = AArrayList_Get
                                                              (
                                                                  AArrayList_GetPtr
@@ -59,6 +65,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
                                                                      Mesh
                                                                  )
                                                                  ->childList,
+                                                                 
                                                                  meshAttachmentData->subMeshIndex,
                                                                  SubMesh*
                                                              );
@@ -73,7 +80,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 
         case SkeletonAttachmentDataType_SkinnedMesh:
         {
-            SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData = (SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr;
+            SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData = attachmentData->childPtr;
             SkeletonMeshAttachmentData*        meshAttachmentData        = skinnedMeshAttachmentData->meshAttachmentData;
             SubMesh*                           subMesh                   = AArrayList_Get
                                                                            (
@@ -84,12 +91,13 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
                                                                                  Mesh
                                                                              )
                                                                              ->childList,
+
                                                                              meshAttachmentData->subMeshIndex,
                                                                              SubMesh*
                                                                            );
 
             float*  positions      = AArray_GetData(subMesh->positionArr,                       float);
-            int*    bones          = AArray_GetData(skinnedMeshAttachmentData->boneArr,         int);
+            int*   bones          = AArray_GetData(skinnedMeshAttachmentData->boneArr,         int);
             float*  weights        = AArray_GetData(skinnedMeshAttachmentData->weightArr,       float);
             float*  weightVertices = AArray_GetData(skinnedMeshAttachmentData->weightVertexArr, float);
 
@@ -103,9 +111,9 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
 
                 for (; i < k; ++i, ++w, v += 3)
                 {
-                    int           boneIndex  = bones[i];
-                    SkeletonBone* bone       = AArray_GetPtr(slot->skeleton->boneArr, boneIndex, SkeletonBone);
-                    float         weight     = weights[w];
+                    int           boneIndex = bones[i];
+                    SkeletonBone* bone      = AArray_GetPtr(slot->skeleton->boneArr, boneIndex, SkeletonBone);
+                    float          weight    = weights[w];
                     Vector2       v2[1];
 
                     AMatrix->MultiplyMV2
@@ -180,11 +188,7 @@ static void SetToSetupPose(SkeletonSlot* slot)
 
     if (attachmentName != NULL)
     {
-        SetAttachmentData
-        (
-            slot,
-            ASkeleton->GetAttachmentData(slot->skeleton, slot->slotData->name, attachmentName)
-        );
+        SetAttachmentData(slot, ASkeleton->GetAttachmentData(slot->skeleton, slot->slotData->name, attachmentName));
     }
 }
 
