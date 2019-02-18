@@ -129,25 +129,22 @@ static float MultiplyMZ(Matrix4* matrix4, float z)
 }
 
 
-/*
-
-// matrix4 must be identity matrix
 static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
 {
-
-//  if matrix4 always identity matrix so no need this for init
-//  matrix4->m3  = 0.0f;
-//  matrix4->m7  = 0.0f;
-//  matrix4->m11 = 0.0f;
-//  matrix4->m12 = 0.0f;
-//  matrix4->m13 = 0.0f;
-//  matrix4->m14 = 0.0f;
-//  matrix4->m15 = 1.0f;
+    // if matrix4 always identity matrix
+    // then no need to set these values
+    matrix4->m3  = 0.0f;
+    matrix4->m7  = 0.0f;
+    matrix4->m11 = 0.0f;
+    matrix4->m12 = 0.0f;
+    matrix4->m13 = 0.0f;
+    matrix4->m14 = 0.0f;
+    matrix4->m15 = 1.0f;
 
     angle    = AMath_ToRadian(angle);
     float s   = sinf(angle);
     float c   = cosf(angle);
-    int  dir = ((x != 0.0f) << 2) | ((y != 0.0f) << 1) | (z != 0.0f);
+    int  dir = ((x != 0.0f) << 2) | ((y != 0.0f) << 1) | (z != 0.0f); // NOLINT(hicpp-signed-bitwise)
 
     switch (dir)
     {
@@ -173,7 +170,6 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
             break;
         }
 
-
         case 4:
         {
             // x y z  1 0 0
@@ -192,7 +188,6 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
 
             break;
         }
-
 
         case 2:
         {
@@ -213,7 +208,6 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
             break;
         }
 
-
         default:
         {
             float len = AVector3_Length3(x, y, z);
@@ -227,13 +221,13 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
                 z *= recipLen;
             }
 
-            float nc = 1.0f - c;
-            float xy = x * y;
-            float yz = y * z;
-            float zx = z * x;
-            float xs = x * s;
-            float ys = y * s;
-            float zs = z * s;
+            float nc      = 1.0f - c;
+            float xy      = x * y;
+            float yz      = y * z;
+            float zx      = z * x;
+            float xs      = x * s;
+            float ys      = y * s;
+            float zs      = z * s;
 
             matrix4->m0  = x  * x  * nc + c;
             matrix4->m1  = xy * nc + zs;
@@ -249,8 +243,6 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
         }
     }
 }
- 
-*/
 
 
 /**

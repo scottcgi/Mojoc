@@ -26,8 +26,8 @@ typedef enum
 {
     PhysicsShape_NULL    = 0,
     PhysicsShape_Polygon = 1,
-    PhysicsShape_Line    = 1 << 2,
-    PhysicsShape_Point   = 1 << 3,
+    PhysicsShape_Line    = 1 << 2, // NOLINT(hicpp-signed-bitwise)
+    PhysicsShape_Point   = 1 << 3, // NOLINT(hicpp-signed-bitwise)
 }
 PhysicsShape;
 

@@ -43,39 +43,39 @@ typedef enum
     /**
      * Whether drawable mvp matrix need to update.
      */
-    DrawableState_IsUpdateMVP       = 1 << 1,
+    DrawableState_IsUpdateMVP       = 1 << 1, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Whether drawable calculate blendColor by parent.
      */
-    DrawableState_IsBlendColor      = 1 << 2,
+    DrawableState_IsBlendColor      = 1 << 2, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable inverse matrix need to update.
      */
-    DrawableState_UpdateInverse     = 1 << 3,
+    DrawableState_UpdateInverse     = 1 << 3, // NOLINT(hicpp-signed-bitwise)
 
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
      * Flag drawable transform has changed.
      */
-    DrawableState_TransformChanged   = 1 << 4,
+    DrawableState_TransformChanged   = 1 << 4, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable rgb has changed.
      */
-    DrawableState_RGBChanged         = 1 << 5,
+    DrawableState_RGBChanged         = 1 << 5, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable opacity has changed.
      */
-    DrawableState_OpacityChanged     = 1 << 6,
+    DrawableState_OpacityChanged     = 1 << 6, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable has been drawn.
      */
-    DrawableState_DrawChanged        = 1 << 7,
+    DrawableState_DrawChanged        = 1 << 7, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable color has changed
@@ -88,22 +88,22 @@ typedef enum
     /**
      * Flag drawable parent has changed.
      */
-    DrawableState_Parent             = 1 << 8,
+    DrawableState_Parent             = 1 << 8, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable position x has changed.
      */
-    DrawableState_PositionX          = 1 << 9,
+    DrawableState_PositionX          = 1 << 9, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable position y has changed.
      */
-    DrawableState_PositionY          = 1 << 10,
+    DrawableState_PositionY          = 1 << 10, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable position z has changed.
      */
-    DrawableState_PositionZ          = 1 << 11,
+    DrawableState_PositionZ          = 1 << 11, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable position x and y have changed.
@@ -116,17 +116,17 @@ typedef enum
     /**
      * Flag drawable scale x has changed.
      */
-    DrawableState_ScaleX             = 1 << 12,
+    DrawableState_ScaleX             = 1 << 12, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable scale y has changed.
      */
-    DrawableState_ScaleY             = 1 << 13,
+    DrawableState_ScaleY             = 1 << 13, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable scale z has changed.
      */
-    DrawableState_ScaleZ             = 1 << 14,
+    DrawableState_ScaleZ             = 1 << 14, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable scale x and y have changed.
@@ -138,29 +138,29 @@ typedef enum
     /**
      * Flag drawable rotation x has changed.
      */
-    DrawableState_RotationX          = 1 << 15,
+    DrawableState_RotationX          = 1 << 15, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable rotation x has changed.
      */
-    DrawableState_RotationY          = 1 << 16,
+    DrawableState_RotationY          = 1 << 16, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable rotation x has changed.
      */
-    DrawableState_RotationZ          = 1 << 17,
+    DrawableState_RotationZ          = 1 << 17, // NOLINT(hicpp-signed-bitwise)
 
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
      * Flag drawable rgb has changed.
      */
-    DrawableState_RGB                 = 1 << 18,
+    DrawableState_RGB                 = 1 << 18, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable opacity has changed.
      */
-    DrawableState_Opacity             = 1 << 19,
+    DrawableState_Opacity             = 1 << 19, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable color has changed.

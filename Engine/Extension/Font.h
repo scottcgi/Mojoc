@@ -112,9 +112,9 @@ struct AFont
     FontText* (*GetText)       (Font* font);
     void      (*Draw)          (Font* font);
 
-    void      (*SetString)     (FontText* text, char* str);
-    void      (*SetInt)        (FontText* text, int   num);
-    void      (*SetFloat)      (FontText* text, float  num);
+    void      (*SetString)     (FontText* text, const char* str);
+    void      (*SetInt)        (FontText* text, int         num);
+    void      (*SetFloat)      (FontText* text, float        num);
 
     /**
      * Make Font can reuse in Get method,
