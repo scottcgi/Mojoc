@@ -13,7 +13,7 @@
 
 
 #ifndef DRAW_ATLAS_H
-#define  DRAW_ATLAS_H
+#define DRAW_ATLAS_H
 
 
 #include "Engine/Extension/TextureAtlas.h"

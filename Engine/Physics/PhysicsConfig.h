@@ -12,7 +12,7 @@
 
 
 #ifndef PHYSICS_CONFIG_H
-#define  PHYSICS_CONFIG_H
+#define PHYSICS_CONFIG_H
 
 
 #endif

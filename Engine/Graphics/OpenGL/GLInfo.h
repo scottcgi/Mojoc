@@ -13,7 +13,7 @@
 
 
 #ifndef GL_INFO_H
-#define  GL_INFO_H
+#define GL_INFO_H
 
 
 #include <stdbool.h>

@@ -13,7 +13,7 @@
 
 
 #ifndef SUB_MESH_H
-#define  SUB_MESH_H
+#define SUB_MESH_H
 
 
 #include "Engine/Graphics/OpenGL/MeshDefine.h"

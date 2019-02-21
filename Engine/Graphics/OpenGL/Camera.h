@@ -13,7 +13,7 @@
 
 
 #ifndef CAMERA_H
-#define  CAMERA_H
+#define CAMERA_H
 
 
 #include "Engine/Toolkit/Math/Matrix.h"

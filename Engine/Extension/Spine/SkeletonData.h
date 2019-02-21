@@ -13,7 +13,7 @@
 
 
 #ifndef SKELETON_DATA_H
-#define  SKELETON_DATA_H
+#define SKELETON_DATA_H
 
 
 #include <stdbool.h>

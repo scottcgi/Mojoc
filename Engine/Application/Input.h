@@ -13,7 +13,7 @@
 
 
 #ifndef INPUT_H
-#define  INPUT_H
+#define INPUT_H
 
 
 #include "Engine/Toolkit/HeaderUtils/Define.h"

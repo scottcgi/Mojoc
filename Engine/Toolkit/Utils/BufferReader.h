@@ -13,7 +13,7 @@
 
 
 #ifndef BUFFER_READER_H
-#define  BUFFER_READER_H
+#define BUFFER_READER_H
 
 
 #include <stdbool.h>

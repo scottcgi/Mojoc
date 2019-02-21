@@ -12,7 +12,7 @@
  */
 
 #ifndef ARRAY_QUEUE_H
-#define  ARRAY_QUEUE_H
+#define ARRAY_QUEUE_H
 
 
 #include "Engine/Toolkit/Utils/ArrayList.h"

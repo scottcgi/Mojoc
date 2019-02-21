@@ -13,7 +13,7 @@
 
  
 #ifndef PLATFORM_H
-#define  PLATFORM_H
+#define PLATFORM_H
 
 
 #define PLATFORM_ANDROID 0

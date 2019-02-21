@@ -13,7 +13,7 @@
 
 
 #ifndef SKELETON_H
-#define  SKELETON_H
+#define SKELETON_H
 
 
 #include "Engine/Toolkit/HeaderUtils/Define.h"

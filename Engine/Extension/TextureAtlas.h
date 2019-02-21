@@ -13,7 +13,7 @@
 
 
 #ifndef TEXTURE_ATLAS_H
-#define  TEXTURE_ATLAS_H
+#define TEXTURE_ATLAS_H
 
 
 #include "Engine/Graphics/Draw/Quad.h"

@@ -13,7 +13,7 @@
 
 
 #ifndef ARRAY_H
-#define  ARRAY_H
+#define ARRAY_H
 
 
 #include "Engine/Toolkit/HeaderUtils/Define.h"

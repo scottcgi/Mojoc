@@ -12,7 +12,7 @@
  */
 
 #ifndef ARRAY_STR_MAP_H
-#define  ARRAY_STR_MAP_H
+#define ARRAY_STR_MAP_H
 
 
 #include <stdbool.h>

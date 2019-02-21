@@ -13,7 +13,7 @@
 
 
 #ifndef SHADER_H
-#define  SHADER_H
+#define SHADER_H
 
 
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"

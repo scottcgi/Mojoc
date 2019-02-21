@@ -13,7 +13,7 @@
 
 
 #ifndef GL_PRIMITIVE_H
-#define  GL_PRIMITIVE_H
+#define GL_PRIMITIVE_H
 
 
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"

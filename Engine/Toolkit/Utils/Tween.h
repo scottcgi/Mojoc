@@ -13,7 +13,7 @@
 
 
 #ifndef TWEEN_H
-#define  TWEEN_H
+#define TWEEN_H
 
 
 #include <stddef.h>

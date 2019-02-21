@@ -13,7 +13,7 @@
 
  
 #ifndef TWEEN_TOOL_H
-#define  TWEEN_TOOL_H
+#define TWEEN_TOOL_H
 
 
 #include <stdbool.h>

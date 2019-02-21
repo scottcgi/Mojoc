@@ -13,7 +13,7 @@
 
  
 #ifndef COROUTINE_H
-#define  COROUTINE_H
+#define COROUTINE_H
 
 
 #include "Engine/Toolkit/HeaderUtils/UserData.h"

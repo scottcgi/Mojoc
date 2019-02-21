@@ -13,7 +13,7 @@
 
 
 #ifndef ARRAY_LIST_H
-#define  ARRAY_LIST_H
+#define ARRAY_LIST_H
 
 
 #include "Engine/Toolkit/Utils/Array.h"

@@ -13,7 +13,7 @@
 
 
 #ifndef SKELETON_SLOT_H
-#define  SKELETON_SLOT_H
+#define SKELETON_SLOT_H
 
 
 #include "Engine/Extension/Spine/SkeletonData.h"

@@ -13,7 +13,7 @@
 
  
 #ifndef JSON_H
-#define  JSON_H
+#define JSON_H
 
 
 #include "Engine/Toolkit/Utils/ArrayStrMap.h"

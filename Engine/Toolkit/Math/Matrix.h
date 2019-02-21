@@ -12,7 +12,7 @@
  */
 
 #ifndef MATRIX_H
-#define  MATRIX_H
+#define MATRIX_H
 
 
 #include "Engine/Toolkit/Math/Math.h"

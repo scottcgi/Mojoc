@@ -13,7 +13,7 @@
 
  
 #ifndef FILE_TOOL_H
-#define  FILE_TOOL_H
+#define FILE_TOOL_H
 
 
 #include <stddef.h>

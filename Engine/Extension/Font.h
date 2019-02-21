@@ -13,7 +13,7 @@
 
 
 #ifndef FONT_H
-#define  FONT_H
+#define FONT_H
 
 
 #include "Engine/Toolkit/Utils/ArrayIntSet.h"

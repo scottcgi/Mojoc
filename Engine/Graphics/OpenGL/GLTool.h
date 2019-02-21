@@ -13,7 +13,7 @@
 
 
 #ifndef GL_TOOL_H
-#define  GL_TOOL_H
+#define GL_TOOL_H
 
 
 #include <stdbool.h>

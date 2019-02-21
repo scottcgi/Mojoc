@@ -13,7 +13,7 @@
 
 
 #ifndef JNI_TOOL_H
-#define  JNI_TOOL_H
+#define JNI_TOOL_H
 
 
 #include "Engine/Toolkit/Platform/Platform.h"

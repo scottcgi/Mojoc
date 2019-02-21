@@ -13,7 +13,7 @@
 
 
 #ifndef SKELETON_ANIMATION_PLAYER_H
-#define  SKELETON_ANIMATION_PLAYER_H
+#define SKELETON_ANIMATION_PLAYER_H
 
 
 #include "Engine/Toolkit/HeaderUtils/Define.h"

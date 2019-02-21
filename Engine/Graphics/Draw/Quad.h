@@ -13,7 +13,7 @@
 
 
 #ifndef QUAD_H
-#define  QUAD_H
+#define QUAD_H
 
 
 #include "Engine/Toolkit/Utils/Array.h"

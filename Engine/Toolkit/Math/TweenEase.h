@@ -11,7 +11,7 @@
  */
 
 #ifndef TWEEN_EASE_H
-#define  TWEEN_EASE_H
+#define TWEEN_EASE_H
 
 
 typedef enum

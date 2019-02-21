@@ -13,7 +13,7 @@
 
 
 #ifndef PHYSICS_BODY_H
-#define  PHYSICS_BODY_H
+#define PHYSICS_BODY_H
 
 
 #include "Engine/Toolkit/Math/Matrix.h"

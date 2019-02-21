@@ -13,7 +13,7 @@
 
 
 #ifndef PHYSICS_H
-#define  PHYSICS_H
+#define PHYSICS_H
 
 
 #include "Engine/Toolkit/Toolkit.h"

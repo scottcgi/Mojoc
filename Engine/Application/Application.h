@@ -13,7 +13,7 @@
 
 
 #ifndef APPLICATION_H
-#define  APPLICATION_H
+#define APPLICATION_H
 
 
 #include "Engine/Application/Component.h"

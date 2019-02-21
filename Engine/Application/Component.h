@@ -13,7 +13,7 @@
 
 
 #ifndef COMPONENT_H
-#define  COMPONENT_H
+#define COMPONENT_H
 
 
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"

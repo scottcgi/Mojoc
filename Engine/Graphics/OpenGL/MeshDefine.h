@@ -13,7 +13,7 @@
 
 
 #ifndef MESH_DEFINE_H
-#define  MESH_DEFINE_H
+#define MESH_DEFINE_H
 
 
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"

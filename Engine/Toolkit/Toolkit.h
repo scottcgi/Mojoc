@@ -13,7 +13,7 @@
  
 
 #ifndef TOOLKIT_H
-#define  TOOLKIT_H
+#define TOOLKIT_H
 
 
 /**

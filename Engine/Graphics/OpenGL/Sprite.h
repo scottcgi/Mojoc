@@ -13,7 +13,7 @@
 
 
 #ifndef SPRITE_H
-#define  SPRITE_H
+#define SPRITE_H
 
 
 #include "Engine/Graphics/Draw/Drawable.h"

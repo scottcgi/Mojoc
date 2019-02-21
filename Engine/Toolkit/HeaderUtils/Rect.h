@@ -13,7 +13,7 @@
 
  
 #ifndef RECT_H
-#define  RECT_H
+#define RECT_H
 
 
 #include <stdbool.h>

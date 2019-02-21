@@ -13,7 +13,7 @@
 
 
 #ifndef SHADER_SPRITE_H
-#define  SHADER_SPRITE_H
+#define SHADER_SPRITE_H
 
 
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"

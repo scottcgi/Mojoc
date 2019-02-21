@@ -13,7 +13,7 @@
 
 
 #ifndef EXTENSION_H
-#define  EXTENSION_H
+#define EXTENSION_H
 
 
 #include "Engine/Toolkit/Toolkit.h"

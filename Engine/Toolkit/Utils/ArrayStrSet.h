@@ -13,7 +13,7 @@
 
  
 #ifndef ARRAY_STR_SET_H
-#define  ARRAY_STR_SET_H
+#define ARRAY_STR_SET_H
 
 
 #include <stdbool.h>

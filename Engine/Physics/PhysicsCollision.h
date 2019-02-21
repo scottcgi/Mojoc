@@ -12,7 +12,7 @@
  */
 
 #ifndef PHYSICS_COLLISION_H
-#define  PHYSICS_COLLISION_H
+#define PHYSICS_COLLISION_H
 
 
 #include <stdbool.h>

@@ -13,7 +13,7 @@
 
 
 #ifndef MESH_H
-#define  MESH_H
+#define MESH_H
 
 
 #include "Engine/Toolkit/Utils/ArrayList.h"

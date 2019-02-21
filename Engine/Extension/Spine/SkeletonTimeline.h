@@ -13,7 +13,7 @@
 
 
 #ifndef SKELETON_TIMELINE_H
-#define  SKELETON_TIMELINE_H
+#define SKELETON_TIMELINE_H
 
 
 #include "Engine/Extension/Spine/Skeleton.h"
