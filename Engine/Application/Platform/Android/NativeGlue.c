@@ -108,16 +108,16 @@ static void inline Touch(AInputEvent* event, int pointerIndex, InputTouchType in
  */
 static void inline Touches(AInputEvent* event, InputTouchType inputTouchType)
 {
-    int  count = (int) AMotionEvent_getPointerCount(event);
-    int  fingerIds[count];
-    float pixelXs [count];
-    float pixelYs [count];
+    int   count = (int) AMotionEvent_getPointerCount(event);
+    int   fingerIds[count];
+    float pixelXs  [count];
+    float pixelYs  [count];
 
     for (int i = 0; i < count; ++i)
     {
         fingerIds[i] = AMotionEvent_getPointerId(event, (size_t) i);
-        pixelXs[i]  = AMotionEvent_getX        (event, (size_t) i);
-        pixelYs[i]  = AMotionEvent_getY        (event, (size_t) i);
+        pixelXs  [i] = AMotionEvent_getX        (event, (size_t) i);
+        pixelYs  [i] = AMotionEvent_getY        (event, (size_t) i);
     }
 
     AApplication->Touches(fingerIds, pixelXs, pixelYs, count, inputTouchType);

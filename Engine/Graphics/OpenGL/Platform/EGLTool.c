@@ -1,25 +1,34 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This code and its project Mojoc are licensed under [the MIT License],
+ * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
+ * and the author's personal website is [https://scottcgi.github.io],
+ * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-3-12
+ * Update: 2019-2-23
  * Author: scott.cgi
  */
 
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
-//----------------------------------------------------------------------------------------------------------------------
 #ifdef IS_PLATFORM_ANDROID
-//----------------------------------------------------------------------------------------------------------------------
 
 
 #include "Engine/Graphics/OpenGL/Platform/EGLTool.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-void CreateEGL(EGLNativeWindowType window, EGLDisplay* outDisplay, EGLContext* outContext, EGLSurface* outSurface, EGLConfig*  outConfig)
+void CreateEGL
+(
+    EGLNativeWindowType window,
+    EGLDisplay*         outDisplay,
+    EGLContext*         outContext,
+    EGLSurface*         outSurface,
+    EGLConfig*          outConfig
+)
 {
 
     *outDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
@@ -95,7 +104,8 @@ void CreateEGL(EGLNativeWindowType window, EGLDisplay* outDisplay, EGLContext* o
 // eglSwapInterval(*outDisplay, 0);
 }
 
-void DestroyEGL(EGLDisplay* display, EGLContext* context, EGLSurface* surface)
+
+static void DestroyEGL(EGLDisplay* display, EGLContext* context, EGLSurface* surface)
 {
     if (*display != EGL_NO_DISPLAY)
     {
@@ -120,7 +130,14 @@ void DestroyEGL(EGLDisplay* display, EGLContext* context, EGLSurface* surface)
 }
 
 
-static void ResetSurface(EGLNativeWindowType window, EGLDisplay display, EGLContext context, EGLConfig config, EGLSurface* surface)
+static void ResetSurface
+(
+    EGLNativeWindowType window,
+    EGLDisplay          display,
+    EGLContext          context,
+    EGLConfig           config,
+    EGLSurface*         surface
+)
 {
     if (*surface != EGL_NO_SURFACE)
     {
@@ -151,6 +168,4 @@ struct AEGLTool AEGLTool[1] =
 };
 
 
-//----------------------------------------------------------------------------------------------------------------------
 #endif
-//----------------------------------------------------------------------------------------------------------------------

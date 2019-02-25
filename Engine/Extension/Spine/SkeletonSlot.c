@@ -184,7 +184,7 @@ static void SetAttachmentData(SkeletonSlot* slot, SkeletonAttachmentData* attach
 
 static void SetToSetupPose(SkeletonSlot* slot)
 {
-    char* attachmentName = slot->slotData->attachmentName;
+    const char* attachmentName = slot->slotData->attachmentName;
 
     if (attachmentName != NULL)
     {

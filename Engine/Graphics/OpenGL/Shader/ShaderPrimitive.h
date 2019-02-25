@@ -34,7 +34,7 @@ struct AShaderPrimitive
     GLint  uniformPointSize;
 
     void (*Use) (Matrix4* mvpMatrix, Color* color, GLfloat pointSize);
-    void (*Init)();
+    void (*Init)(void);
 };
 
 

@@ -282,14 +282,14 @@ static inline void ReadSlotData(JsonObject* root, SkeletonData* skeletonData)
 
 static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonAttachmentDataType attachmentDataType)
 {
-    SkeletonAttachmentData* attachmentData = NULL;
+    SkeletonAttachmentData* attachmentData;
 
     switch (attachmentDataType)
     {
         case SkeletonAttachmentDataType_Region:
         {
-            SkeletonRegionAttachmentData* regionAttachmentData = malloc(sizeof(SkeletonRegionAttachmentData) + length);
-
+            SkeletonRegionAttachmentData*
+            regionAttachmentData     = malloc(sizeof(SkeletonRegionAttachmentData) + length);
             attachmentData           = regionAttachmentData->attachmentData;
             attachmentData->childPtr = regionAttachmentData;
 
@@ -298,19 +298,18 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 
         case SkeletonAttachmentDataType_BoundingBox:
         {
-            SkeletonBoundingBoxAttachmentData* boundingBoxAttachmentData
-                                     = malloc(sizeof(SkeletonBoundingBoxAttachmentData) + length);
-
-            attachmentData           = boundingBoxAttachmentData->attachmentData;
-            attachmentData->childPtr = boundingBoxAttachmentData;
+            SkeletonBoundingBoxAttachmentData*
+            boundingBoxAttachmentData = malloc(sizeof(SkeletonBoundingBoxAttachmentData) + length);
+            attachmentData            = boundingBoxAttachmentData->attachmentData;
+            attachmentData->childPtr  = boundingBoxAttachmentData;
 
             break;
         }
 
         case SkeletonAttachmentDataType_Mesh:
         {
-            SkeletonMeshAttachmentData* meshAttachmentData = malloc(sizeof(SkeletonMeshAttachmentData) + length);
-
+            SkeletonMeshAttachmentData*
+            meshAttachmentData       = malloc(sizeof(SkeletonMeshAttachmentData) + length);
             attachmentData           = meshAttachmentData->attachmentData;
             attachmentData->childPtr = meshAttachmentData;
 
@@ -319,18 +318,16 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 
         case SkeletonAttachmentDataType_SkinnedMesh:
         {
-            SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachmentData
-                                     = malloc(sizeof(SkeletonSkinnedMeshAttachmentData) + length);
-
-            attachmentData           = skinnedMeshAttachmentData->meshAttachmentData->attachmentData;
-            attachmentData->childPtr = skinnedMeshAttachmentData;
+            SkeletonSkinnedMeshAttachmentData*
+            skinnedMeshAttachmentData = malloc(sizeof(SkeletonSkinnedMeshAttachmentData) + length);
+            attachmentData            = skinnedMeshAttachmentData->meshAttachmentData->attachmentData;
+            attachmentData->childPtr  = skinnedMeshAttachmentData;
 
             break;
         }
         
         default:
-            // not possible
-            break;
+            return NULL;
     }
 
     attachmentData->type = attachmentDataType;
@@ -1403,17 +1400,26 @@ static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
                         break;
                     }
 
-                    SkeletonMeshAttachmentData* meshData;
-
                     case SkeletonAttachmentDataType_SkinnedMesh:
-                        meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr)->meshAttachmentData;
-                        // no break
                     case SkeletonAttachmentDataType_Mesh:
-                        meshData               = attachmentData->childPtr;
+                    {
+                        SkeletonMeshAttachmentData* meshData;
+
+                        if (attachmentData->type == SkeletonAttachmentDataType_SkinnedMesh)
+                        {
+                            meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr)
+                                       ->meshAttachmentData;
+                        }
+                        else
+                        {
+                            meshData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
+                        }
+
                         meshData->meshIndex    = atlasQuad->textureIndex;
                         meshData->quad         = atlasQuad->quad;
                         meshData->subMeshIndex = quadCounts[atlasQuad->textureIndex]++;
                         break;
+                    }
                         
                     case SkeletonAttachmentDataType_BoundingBox:
                         break;

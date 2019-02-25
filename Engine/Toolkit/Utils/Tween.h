@@ -100,12 +100,12 @@ struct TweenAction
     /**
      * The action running duration time.
      */
-    float                        duration;
+    float                       duration;
 
     /**
      * The action running current position in duration time.
      */
-    float                        curTime;
+    float                       curTime;
 
     /**
      * Means action running in queue or immediately, default true.
@@ -138,7 +138,7 @@ struct ATween
      * duration  : 0
      * OnComplete: NULL
      */
-    TweenAction*      (*GetAction)            ();
+    TweenAction*      (*GetAction)            (void);
 
     /**
      * Add TweenActon's TweenActionValue.

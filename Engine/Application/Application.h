@@ -50,22 +50,22 @@ typedef struct
     /**
      * Callback when application window ready that can rendering.
      */
-    void (*OnReady)            ();
+    void (*OnReady)            (void);
 
     /**
      * Callback when application going into the background.
      */
-    void (*OnPause)            ();
+    void (*OnPause)            (void);
 
     /**
      * Callback when application going into the foreground.
      */
-    void (*OnResume)           ();
+    void (*OnResume)           (void);
 
     /**
      * Callback when application is being destroyed.
      */
-    void (*OnDestroy)          ();
+    void (*OnDestroy)          (void);
 
     /**
      * Callback when application surface size changed.
@@ -109,12 +109,12 @@ struct AApplication
     /**
      * Init each modules when application create.
      */
-    void (*Init)    ();
+    void (*Init)    (void);
 
     /**
      * Loop called every frame.
      */
-    void (*Loop)    ();
+    void (*Loop)    (void);
 
     /**
      * Called when ready to rendering.
@@ -129,24 +129,24 @@ struct AApplication
     /**
      * Called when application pause.
      */
-    void (*Pause)   ();
+    void (*Pause)   (void);
 
     /**
      * Called when application resume from pause.
      */
-    void (*Resume)  ();
+    void (*Resume)  (void);
 
     /**
      * Called when application destroyed.
      */
-    void (*Destroy) ();
+    void (*Destroy) (void);
 
     /**
      * Called when received one touch event.
      * touch event will convert to Array(InputTouch*)*,
      * and send to rootComponent with ComponentMsg_OnTouch.
      *
-     * fingerId       : identify touch finger
+     * fingerId      : identify touch finger
      * pixelX        : screen pixel x
      * pixelY        : screen pixel y
      * inputTouchType: touch event type
@@ -158,12 +158,12 @@ struct AApplication
      * touches event will convert to Array(InputTouch*)*,
      * and send to rootComponent with ComponentMsg_OnTouch.
      */
-    void (*Touches) (int fingerIds[], float pixelXs[], float pixelYs[], int touchCount, InputTouchType inputTouchType);
+    void (*Touches) (int fingerIds[], float pixelXs[], float pixelYs[], int touchesCount, InputTouchType inputTouchType);
 
     /**
      * Callback when application request save persistent data,
      * or can called manually if need to save persistent data,
-     * and this method will start a detached thread to running OnSaveData.
+     * and this method will start a detached thread to execute ApplicationCallbacks->OnSaveData.
      *
      * param: if application request call this method then pass NULL
      */
@@ -178,7 +178,7 @@ extern struct AApplication AApplication[1];
  * This function must implement ApplicationCallbacks method,
  * and called on very first entry.
  */
-extern void Application_MainImpl();
+extern void Application_MainImpl(void);
 
 
 /**

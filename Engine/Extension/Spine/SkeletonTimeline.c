@@ -718,11 +718,11 @@ static void SetAttachmentFrame
 (
     SkeletonAttachmentTimeline* attachmentTimeline,
     int                         frameIndex,
-    float                        time,
+    float                       time,
     const char*                 attachmentName
 )
 {
-    const char* copyName = malloc(strlen(attachmentName) + 1);
+    char* copyName = malloc(strlen(attachmentName) + 1);
     strcpy(copyName, attachmentName);
 
     AArray_Set(attachmentTimeline->frameArr,          frameIndex, time,     float);

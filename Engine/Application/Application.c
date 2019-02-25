@@ -130,11 +130,11 @@ static void Touch(int fingerId, float pixelX, float pixelY, InputTouchType input
 }
 
 
-static void Touches(int fingerIds[], float pixelXs[], float pixelYs[], int touchCount, InputTouchType inputTouchType)
+static void Touches(int fingerIds[], float pixelXs[], float pixelYs[], int touchesCount, InputTouchType inputTouchType)
 {
-    InputTouch* touches[touchCount];
+    InputTouch* touches[touchesCount];
 
-    for (int i = 0; i < touchCount; ++i)
+    for (int i = 0; i < touchesCount; ++i)
     {
         touches[i] = AInput->SetTouch(fingerIds[i], pixelXs[i], pixelYs[i], inputTouchType);
     }
@@ -144,7 +144,7 @@ static void Touches(int fingerIds[], float pixelXs[], float pixelYs[], int touch
         AApplication->rootComponent,
         AApplication,
         ComponentMsg_OnTouch,
-        (Array[1]) {touches, touchCount}
+        (Array[1]) {touches, touchesCount}
     );
 }
 

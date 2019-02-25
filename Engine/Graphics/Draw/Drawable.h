@@ -289,7 +289,7 @@ struct  Drawable
  */
 struct ADrawable
 {
-    Drawable* (*Create)                       ();
+    Drawable* (*Create)                       (void);
     void      (*Init)                         (Drawable* outDrawable);
 
      /**
@@ -304,7 +304,7 @@ struct ADrawable
     /**
      * Rendering Drawable queue and clear it wait for next frame.
      */
-    void      (*RenderQueue)                  ();
+    void      (*RenderQueue)                  (void);
 
     /**
      * Convert localPositionX in localParent to world coordinate.

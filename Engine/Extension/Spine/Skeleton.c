@@ -345,14 +345,19 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
                 break;
             }
 
-            SkeletonMeshAttachmentData* meshData;
-
             case SkeletonAttachmentDataType_SkinnedMesh:
-                meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr)->meshAttachmentData;
-                // no break
             case SkeletonAttachmentDataType_Mesh:
             {
-                meshData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
+                SkeletonMeshAttachmentData* meshData;
+
+                if (attachmentData->type == SkeletonAttachmentDataType_SkinnedMesh)
+                {
+                    meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr)->meshAttachmentData;
+                }
+                else
+                {
+                    meshData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
+                }
 
                 if (meshData->isUVMappedInTexture == false)
                 {

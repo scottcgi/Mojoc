@@ -35,8 +35,8 @@ InputTouchType;
 typedef struct
 {
     /* Use openGL coordinate. */
-    float           x;
-    float           y;
+    float          x;
+    float          y;
 
     /**
      * Identify touch point, [0, 9] corresponds to 10 fingers.

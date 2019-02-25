@@ -34,7 +34,7 @@ struct AShaderSprite
     GLint  uniformColor;
 
     void (*Use) (Matrix4* mvpMatrix, Color* color);
-    void (*Init)();
+    void (*Init)(void);
 };
 
 

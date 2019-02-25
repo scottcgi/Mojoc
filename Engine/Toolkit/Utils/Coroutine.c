@@ -38,7 +38,7 @@ static Coroutine* StartCoroutine(CoroutineRun Run)
     }
 
     coroutine->Run          = Run;
-    coroutine->step         = NULL;
+    coroutine->step         = 0;
     coroutine->waitValue    = 0.0f;
     coroutine->curWaitValue = 0.0f;
     coroutine->waitType     = CoroutineWaitType_Null;

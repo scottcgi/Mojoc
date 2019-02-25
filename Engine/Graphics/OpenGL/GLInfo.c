@@ -20,18 +20,15 @@
 
 static void Init()
 {
-    char* vendor     = (char*) glGetString(GL_VENDOR);
-    char* renderer   = (char*) glGetString(GL_RENDERER);
-    char* version    = (char*) glGetString(GL_VERSION);
-    char* extensions = (char*) glGetString(GL_EXTENSIONS);
+    const char* version = (char*) glGetString(GL_VERSION);
 
     ALog_D
     (
         "vendor = %s \n renderer = %s \n version = %s \n extensions = %s",
-         vendor,
-         renderer,
+         glGetString(GL_VENDOR),
+         glGetString(GL_RENDERER),
          version,
-         extensions
+         glGetString(GL_EXTENSIONS)
     );
 
     if(strstr(version, "OpenGL ES 3.") != NULL)
@@ -42,7 +39,8 @@ static void Init()
     {
         AGLInfo->version = 2.0f;
     }
-    
+
+
     glGetFloatv  (GL_ALIASED_POINT_SIZE_RANGE,          AGLInfo->pointSizeRange);
     glGetFloatv  (GL_ALIASED_LINE_WIDTH_RANGE,          AGLInfo->lineWidthRange);
 

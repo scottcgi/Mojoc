@@ -24,7 +24,7 @@
  */
 struct APhysics
 {
-    void (*Init)();
+    void (*Init)(void);
 };
 
 

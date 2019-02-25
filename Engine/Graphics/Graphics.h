@@ -44,7 +44,7 @@ struct AGraphics
     /**
      * Init graphics each parts.
      */
-    void (*Init)           ();
+    void (*Init)           (void);
 
     /**
      * If VAO not support nothing changed.

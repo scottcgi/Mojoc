@@ -175,7 +175,7 @@ struct AComponent
     /**
      * Create new Component that malloc memory and need to free it manually.
      */
-    Component*      (*Create)               ();
+    Component*      (*Create)               (void);
 
     /**
      * Init Component that memory has already malloc.

@@ -62,7 +62,7 @@ struct ATweenTool
      * Add one TweenAction in context for chain setting,
      * the TweenAction can add several TweenActionValues.
      */
-    struct ATweenTool* (*AddAction)  ();
+    struct ATweenTool* (*AddAction)  (void);
 
     /**
      * Add action with no actionValue just through duration time then callback.
@@ -159,7 +159,7 @@ struct ATweenTool
      * all different targets will in same queue, run step by step.
      * return tweenId.
      */
-    void*              (*RunTargets)();
+    void*              (*RunTargets)(void);
 };
 
 

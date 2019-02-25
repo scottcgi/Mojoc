@@ -21,7 +21,7 @@
 
 struct AExtension
 {
-    void (*Init)();
+    void (*Init)(void);
 };
 
 

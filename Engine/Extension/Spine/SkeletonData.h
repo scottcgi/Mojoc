@@ -145,13 +145,13 @@ SkeletonAttachmentData;
  */
 typedef struct
 {
-    float                   x;
-    float                   y;
-    float                   rotationZ;
-    float                   scaleX;
-    float                   scaleY;
-    float                   width;
-    float                   height;
+    float                  x;
+    float                  y;
+    float                  rotationZ;
+    float                  scaleX;
+    float                  scaleY;
+    float                  width;
+    float                  height;
     SkeletonAttachmentData attachmentData[1];
 
     /**
@@ -178,7 +178,7 @@ SkeletonRegionAttachmentData;
 typedef struct
 {
     SkeletonAttachmentData attachmentData[1];
-    Array(float)            vertexArr     [1];
+    Array(float)           vertexArr     [1];
 }
 SkeletonBoundingBoxAttachmentData;
 
@@ -190,7 +190,7 @@ typedef struct
 {
     float                   width;
     float                   height;
-    SkeletonAttachmentData attachmentData[1];
+    SkeletonAttachmentData  attachmentData[1];
 
     Array(float)            vertexArr     [1];
     Array(float)            uvArr         [1];
@@ -229,8 +229,8 @@ SkeletonMeshAttachmentData;
 typedef struct
 {
     Array(int)                 boneArr           [1];
-    Array(float)                weightArr         [1];
-    Array(float)                weightVertexArr   [1];
+    Array(float)               weightArr         [1];
+    Array(float)               weightVertexArr   [1];
     SkeletonMeshAttachmentData meshAttachmentData[1];
 }
 SkeletonSkinnedMeshAttachmentData;

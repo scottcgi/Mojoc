@@ -40,7 +40,7 @@ ArrayIntSet;
  */
 struct AArrayIntSet
 {
-    ArrayIntSet* (*Create)            ();
+    ArrayIntSet* (*Create)            (void);
     void         (*Init)              (ArrayIntSet* outArrayIntSet);
 
     ArrayIntSet* (*CreateWithCapacity)(int capacity);
@@ -90,8 +90,8 @@ extern struct AArrayIntSet AArrayIntSet[1];
  * example: ArrayIntSet set[1] = AArrayIntSet_Init(ElementType, increase)
  */
 #define AArrayIntSet_Init(ElementType, increase) \
-    {                                           \
-         AArrayList_Init(intptr_t, increase),   \
+    {                                            \
+         AArrayList_Init(intptr_t, increase),    \
     }
 
 

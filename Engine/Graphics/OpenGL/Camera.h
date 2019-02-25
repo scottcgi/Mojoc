@@ -70,19 +70,19 @@ struct ACamera
     Matrix4  view     [1];
 
 
-    void  (*SetOrtho)    ();
-    void  (*SetFrustum)  ();
-    void  (*SetLookAt)   ();
+    void  (*SetOrtho)    (void);
+    void  (*SetFrustum)  (void);
+    void  (*SetLookAt)   (void);
 
     /**
      * The ZOrder most near camera.
      */
-    float (*GetNearZOrder)();
+    float (*GetNearZOrder)(void);
 
     /**
      * The ZOrder most far camera.
      */
-    float (*GetFarZOrder) ();
+    float (*GetFarZOrder) (void);
 };
 
 

@@ -128,7 +128,7 @@ static void* CreateDataFromRelative(const char* relativeDirFilePath, long* outSi
 
 static void WriteDataToRelative(const char* relativeDirFilePath, void* data, size_t size)
 {
-    ALog_A(data != NULL, "AFileTool WriteDataToDir failed, data == NULL.");
+    ALog_A(data != NULL, "AFileTool WriteDataToDir failed, data == NULL");
 
     int         dirPathLength;
     const char* dirPath = AFile->GetInternalDataPath(&dirPathLength);

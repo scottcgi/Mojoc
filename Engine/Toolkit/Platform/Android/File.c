@@ -30,8 +30,6 @@ extern ANativeActivity* nativeActivity;
 static File* Open(const char* resourceFilePath)
 {
     AAsset* asset = AAssetManager_open(nativeActivity->assetManager, resourceFilePath, AASSET_MODE_UNKNOWN);
-    ALog_A(asset != NULL, "AFile open failed, relative file path = %s", resourceFilePath);
-
     return (File*) asset;
 }
 
@@ -40,9 +38,8 @@ static int OpenFileDescriptor(const char* resourceFilePath, long* outStart, long
 {
     AAsset* asset = AAssetManager_open(nativeActivity->assetManager, resourceFilePath, AASSET_MODE_UNKNOWN);
     int     fd    = AAsset_openFileDescriptor(asset, (off_t) outStart, (off_t) outLength);
-    ALog_A(fd >= 0, "AFile OpenFileDescriptor failed, relative file path = %s", resourceFilePath);
     AAsset_close(asset);
-    
+
     return fd;
 }
 

@@ -39,6 +39,8 @@ struct AFile
      * resourceFilePath:
      *     Android: assets
      *     IOS    : NSBundle
+     *
+     *  return NULL if open file error.
      */
     File*       (*Open)               (const char* resourceFilePath);
 
@@ -66,7 +68,7 @@ struct AFile
 
     /**
      * Read count bytes of data from the current offset.
-     * return the number of bytes read, zero on EOF, or < 0 on error.
+     * return the number of bytes read, zero on EOF, or < 0 on error, always need to close file.
      */
     int         (*Read)               (File* file, void* buffer, size_t count);
 
@@ -74,7 +76,7 @@ struct AFile
      * Seek to the specified offset.
      * the whence uses the same constants (SEEK_SET, SEEK_CUR, SEEK_END) as fseek().
      *
-     * return the new position on success, or -1 on error.
+     * return the new position on success, or -1 on error, always need to close file.
      */
      long       (*Seek)               (File* file, long offset, int whence);
 

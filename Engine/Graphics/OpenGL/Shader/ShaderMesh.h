@@ -36,7 +36,7 @@ struct AShaderMesh
     GLint  uniformSample2D;
 
     void (*Use) (Matrix4* mvpMatrix);
-    void (*Init)();
+    void (*Init)(void);
 };
 
 

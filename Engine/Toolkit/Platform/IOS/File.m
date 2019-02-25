@@ -30,26 +30,22 @@
 static File* Open(const char* resourceFilePath)
 {
     NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:resourceFilePath] ofType:nil];
-    FILE*     file  = fopen([path cStringUsingEncoding:NSMacOSRomanStringEncoding], "rb");
-    
-    ALog_A(file != NULL, "AFile open error, file path = %s", resourceFilePath);
-    
+    FILE*     file = fopen([path cStringUsingEncoding:NSMacOSRomanStringEncoding], "rb");
+
     return (File*) file;
 }
 
 
-// TODO: fix implementation
 static int OpenFileDescriptor(const char* relativeFilePath, long* outStart, long* outLength)
 {
-    FILE* file  = (FILE*) Open(relativeFilePath);
+    FILE* file = (FILE*) Open(relativeFilePath);
     int   fd   = fileno(file);
-    
+
+    *outStart  = ftell(file);
     fseek(file, 0, SEEK_END);
     *outLength = ftell(file);
-    
-    fseek(file, 0, SEEK_SET);
-    *outStart  = ftell(file);
-    
+    fseek(file, *outStart , SEEK_SET);
+
     return fd;
 }
 
@@ -63,10 +59,11 @@ static void Close(File* file)
 static long GetLength(File* file)
 {
     FILE* f = (FILE*) file;
-    
+
+    long start  = ftell(f);
     fseek(f, 0, SEEK_END);
     long length = ftell(f);
-    fseek(f, 0, SEEK_SET);
+    fseek(f, start, SEEK_SET);
     
     return length;
 }
@@ -79,8 +76,10 @@ static int Read(File* file, void* buffer, size_t count)
 
     if (ferror(f) != 0)
     {
+        perror("AFile Read error");
         clearerr(f);
-        return -1;
+
+        return -1; // error
     }
 
     return (int) read;
@@ -93,9 +92,11 @@ static long Seek(File* file, long offset, int whence)
 
     if (fseek(f, offset, whence) == 0)
     {
-        fseek(f, 0, SEEK_SET);
         return ftell(f); // success return new position
     }
+
+    perror("AFile Seek error");
+    clearerr(f);
 
     return -1; // error
 }
@@ -108,10 +109,12 @@ static const char* GetInternalDataPath(int* outPathLength)
     
     if (internalDataPath == NULL)
     {
-        NSString* str    = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-        internalDataPath = malloc(str.length);
-        length           = str.length;
-        memcpy(internalDataPath, str.UTF8String, str.length);
+        NSString*   str          = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        const char* cStr         = [str cStringUsingEncoding:NSASCIIStringEncoding];
+        length                   = (int) strlen(cStr) + 1;
+        internalDataPath         = malloc(length);
+        memcpy(internalDataPath, cStr, length);
+        --length;
     }
 
     if (outPathLength != NULL)
