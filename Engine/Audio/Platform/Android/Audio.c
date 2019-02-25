@@ -42,16 +42,16 @@ struct AudioPlayer
     SLPlayItf   play;
     SLSeekItf   seek;
     SLVolumeItf volume;
-    const char* name;
+    const char* filePath;
     int         waitCallbackCount;
 };
 
 
-static ArrayList(AudioPlayer*) cacheList    [1] = AArrayList_Init (AudioPlayer*, 20);
-static ArrayList(AudioPlayer*) destroyList  [1] = AArrayList_Init (AudioPlayer*, 20);
-static ArrayList(AudioPlayer*) loopList     [1] = AArrayList_Init (AudioPlayer*, 5);
-static ArrayList(AudioPlayer*) testErrorList[1] = AArrayList_Init (AudioPlayer*, 5);
-static ArrayStrSet             audioNameSet [1] = ArrayStrSet_Init(20);
+static ArrayList  (AudioPlayer*) cacheList    [1] = AArrayList_Init (AudioPlayer*, 20);
+static ArrayList  (AudioPlayer*) destroyList  [1] = AArrayList_Init (AudioPlayer*, 20);
+static ArrayList  (AudioPlayer*) loopList     [1] = AArrayList_Init (AudioPlayer*, 5);
+static ArrayList  (AudioPlayer*) testErrorList[1] = AArrayList_Init (AudioPlayer*, 5);
+static ArrayStrSet(filePath)     filePathSet  [1] = ArrayStrSet_Init(filePath,     20);
 
 
 enum
@@ -59,6 +59,17 @@ enum
     AudioPlayer_WaitMax  = 120,
     AudioPlayer_WaitOver = -1,
 };
+
+
+#define CheckError(tag, filePath)     \
+    ALog_A                            \
+    (                                 \
+        result == SL_RESULT_SUCCESS,  \
+        "Audio " tag " failed, "      \
+        "error = %x, file path = %s", \
+        result,                       \
+        filePath                      \
+    )
 
 
 static void Update(float deltaSeconds)
@@ -86,7 +97,7 @@ static void Update(float deltaSeconds)
             (*player->object)->Destroy(player->object);
             AArrayList_Add(cacheList, player);
 
-            ALog_E("AAudio play name = %s not callback normal.", player->name);
+            ALog_E("AAudio player = %s not callback normal", player->filePath);
         }
         else
         {
@@ -120,22 +131,22 @@ static void Init()
 
     // create engine
     result = slCreateEngine(&engineObject, 0, NULL, 0, NULL, NULL);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio Init slCreateEngine error = %x", result);
+    CheckError("Init slCreateEngine", "");
 
     // realize the engine
     result = (*engineObject)->Realize(engineObject, SL_BOOLEAN_TRUE);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio Init Realize engineObject error = %x", result);
+    CheckError("Init Realize engineObject", "");
 
     // get the engine interface, which is needed in order to create other objects
     result = (*engineObject)->GetInterface(engineObject, SL_IID_ENGINE, &engineEngine);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio Init GetInterface error");
+    CheckError("Init GetInterface", "");
 
     result = (*engineEngine)->CreateOutputMix(engineEngine, &outputMixObject, 0, NULL, NULL);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio Init CreateOutputMix error = %x", result);
+    CheckError("Init CreateOutputMix", "");
 
     // realize the output mix
     result = (*outputMixObject)->Realize(outputMixObject, SL_BOOLEAN_FALSE);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio Init Realize outputMixObject error = %x", result);
+    CheckError("Init Realize outputMixObject", "");
 }
 
 
@@ -145,7 +156,7 @@ static SLmillisecond inline GetDuration(AudioPlayer* player)
     SLmillisecond msec;
 
     result = (*player->play)->GetDuration(player->play, &msec);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio GetDuration error = %x", result);
+    CheckError("GetDuration", "");
 
     return msec;
 }
@@ -194,44 +205,44 @@ static inline void InitPlayer(const char* relativeFilePath, AudioPlayer* player)
 
     SLresult                result    = (*engineEngine)->CreateAudioPlayer
                                                          (
-                                                              engineEngine,
-                                                              &player->object,
-                                                              &audioSrc,
-                                                              &audioSnk,
-                                                              3, ids, req
+                                                             engineEngine,
+                                                             &player->object,
+                                                             &audioSrc,
+                                                             &audioSnk,
+                                                             3, ids, req
                                                          );
 
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer CreateAudioPlayer error = %x", result);
-    
+    CheckError("CreatePlayer CreateAudioPlayer", relativeFilePath);
+
     // realize the player
     result = (*player->object)->Realize(player->object, SL_BOOLEAN_FALSE);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer Realize playerObject error = %x", result);
+    CheckError("CreatePlayer player Realize", relativeFilePath);
 
-    // get the play interface
+    // get the player interface
     result = (*player->object)->GetInterface(player->object, SL_IID_PLAY, &player->play);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer GetInterface play error = %x", result);
+    CheckError("CreatePlayer player GetInterface play", relativeFilePath);
 
     // player callback
     result = (*player->play)->RegisterCallback(player->play, PlayerCallback, player);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer RegisterCallback error = %x", result);
+    CheckError("CreatePlayer player RegisterCallback", relativeFilePath);
 
     result = (*player->play)->SetCallbackEventsMask(player->play,  SL_PLAYEVENT_HEADATEND | SL_PLAYEVENT_HEADATNEWPOS);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer SetCallbackEventsMask error = %x", result);
+    CheckError("CreatePlayer player SetCallbackEventsMask", relativeFilePath);
 
     // get the seek interface
     result = (*player->object)->GetInterface(player->object, SL_IID_SEEK, &player->seek);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer GetInterface seek error = %x", result);
+    CheckError("CreatePlayer player GetInterface seek", relativeFilePath);
 
     // disable looping
-    // result = (*player->seek)->SetLoop(player->seek, SL_BOOLEAN_FALSE, 0, SL_TIME_UNKNOWN);
-    // ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer SetLoop error = %x", result);
+    result = (*player->seek)->SetLoop(player->seek, SL_BOOLEAN_FALSE, 0, SL_TIME_UNKNOWN);
+    CheckError("CreatePlayer SetLoop", relativeFilePath);
 
     // get the volume interface
     result = (*player->object)->GetInterface(player->object, SL_IID_VOLUME, &player->volume);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio CreatePlayer GetInterface volume error = %x", result);
+    CheckError("CreatePlayer player GetInterface volume", relativeFilePath);
 
     player->waitCallbackCount = 0;
-    player->name              = AArrayStrSet->Get(audioNameSet, relativeFilePath);
+    player->filePath          = AArrayStrSet->Get(filePathSet, relativeFilePath);
 }
 
 
@@ -248,7 +259,7 @@ static void SetLoop(AudioPlayer* player, bool isLoop)
     }
 
     SLresult result = (*player->seek)->SetLoop(player->seek, (SLboolean) isLoop, 0, GetDuration(player));
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio SetLoop error = %x", result);
+    CheckError("SetLoop", player->filePath);
 
     if (isLoop)
     {
@@ -270,10 +281,16 @@ static void SetLoop(AudioPlayer* player, bool isLoop)
 
 static void SetVolume(AudioPlayer* player, float volume)
 {
-    ALog_A(volume >= 0.0f && volume <= 1.0f, "AAudio SetVolume volume %f not in [0.0, 1.0]", volume);
+    ALog_A
+    (
+        volume >= 0.0f && volume <= 1.0f,
+        "AAudio SetVolume volume %f not in [0.0, 1.0], file path = %s",
+        volume,
+        player->filePath
+    );
 
     SLresult result = (*player->volume)->SetVolumeLevel(player->volume, (SLmillibel) ((1.0f - volume) * -5000.0f));
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio SetVolume error = %x", result);
+    CheckError("SetVolume", player->filePath);
 }
 
 
@@ -281,7 +298,7 @@ static void SetPlay(AudioPlayer* player)
 {
     // set the player's state
     SLresult result = (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_PLAYING);
-    ALog_A(result == SL_RESULT_SUCCESS, "AAudio SetPlay error = %x", result);
+    CheckError("SetPlay", player->filePath);
     AArrayList_Add(testErrorList, player);
 }
 
@@ -290,7 +307,7 @@ static void SetPause(AudioPlayer* player)
 {
     // set the player's state
     SLresult result = (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_PAUSED);
-    ALog_A(result == SL_RESULT_SUCCESS, "Audio SetPause error = %x", result);
+    CheckError("SetPause", player->filePath);
 }
 
 
@@ -338,7 +355,7 @@ static void Release()
     AArrayList  ->Release(destroyList);
     AArrayList  ->Release(loopList);
     AArrayList  ->Release(testErrorList);
-    AArrayStrSet->Release(audioNameSet);
+    AArrayStrSet->Release(filePathSet);
 }
 
 struct AAudio AAudio[1] =

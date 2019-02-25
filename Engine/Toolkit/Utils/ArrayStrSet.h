@@ -94,10 +94,16 @@ extern struct AArrayStrSet AArrayStrSet[1];
 
 
 /**
- * Init constant ArrayStrSet.
- * example: ArrayStrSet set[1] = ArrayStrSet_Init(increase)
+ * Marked ArrayStrSet element name.
  */
-#define ArrayStrSet_Init(increase)                     \
+#define ArrayStrSet(elementName) ArrayStrSet
+
+
+/**
+ * Init constant ArrayStrSet.
+ * example: ArrayStrSet set[1] = ArrayStrSet_Init(elementName, increase)
+ */
+#define ArrayStrSet_Init(elementName, increase)        \
     {                                                  \
         AArrayList_Init(ArrayStrSetElement*, increase),\
     }

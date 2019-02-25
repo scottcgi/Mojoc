@@ -32,12 +32,12 @@ struct  AAudio
     /**
      * Init audio engine.
      */
-    void         (*Init)         ();
+    void         (*Init)         (void);
 
     /**
      * Destroy audio engine.
      */
-    void         (*Release)      ();
+    void         (*Release)      (void);
 
     /**
      * Every frame update by loop.
@@ -47,12 +47,12 @@ struct  AAudio
     /**
      * Pause all looping AudioPlayer.
      */
-    void         (*SetLoopPause) ();
+    void         (*SetLoopPause) (void);
 
     /**
      * Resume all looping AudioPlayer.
      */
-    void         (*SetLoopResume)();
+    void         (*SetLoopResume)(void);
 
     /**
      * AudioPlayer will cache by relativeFilePath.
