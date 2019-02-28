@@ -168,7 +168,7 @@ extern struct AArrayIntMap AArrayIntMap[1];
  * Init constant ArrayIntMap.
  * example: ArrayIntMap map[1] = AArrayIntMap_Init(ValueType, increase)
  */
-#define AArrayIntMap_Init(ValueType, increase)           \
+#define AArrayIntMap_Init(ValueType, increase)          \
     {                                                   \
         sizeof(ValueType),                              \
         AArrayList_Init(ArrayIntMapElement*, increase), \

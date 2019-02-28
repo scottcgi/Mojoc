@@ -11,6 +11,7 @@
  * Author: scott.cgi
  */
 
+
 #ifndef ARRAY_QUEUE_H
 #define ARRAY_QUEUE_H
 
@@ -89,7 +90,7 @@ extern struct AArrayQueue AArrayQueue[1];
  * Init constant ArrayQueue.
  * example: ArrayQueue queue[1] = AArrayQueue_Init(ElementType, increase)
  */
-#define AArrayQueue_Init(ElementType, increase)   \
+#define AArrayQueue_Init(ElementType, increase)  \
     {                                            \
         0,                                       \
         AArrayList_Init(ElementType, increase),  \

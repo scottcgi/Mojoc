@@ -105,20 +105,20 @@ struct ATweenTool
 
     /* Set TweenAction property for current context. */
 
-    struct ATweenTool* (*SetDuration)           (float                  duration);
-    struct ATweenTool* (*SetQueue)              (bool                  isQueue);
-    struct ATweenTool* (*SetOnComplete)         (TweenActionOnComplete OnComplete);
-    struct ATweenTool* (*SetTarget)             (void*                 target);
+    struct ATweenTool* (*SetDuration)      (float                 duration);
+    struct ATweenTool* (*SetQueue)         (bool                  isQueue);
+    struct ATweenTool* (*SetOnComplete)    (TweenActionOnComplete OnComplete);
+    struct ATweenTool* (*SetTarget)        (void*                 target);
 
-    struct ATweenTool* (*SetUserDataInt)        (int                   slotIndex, int   value);
-    struct ATweenTool* (*SetUserDataFloat)      (int                   slotIndex, float  value);
-    struct ATweenTool* (*SetUserDataPtr)        (int                   slotIndex, void* value);
-    struct ATweenTool* (*SetUserDataString)     (int                   slotIndex, char* value);
+    struct ATweenTool* (*SetUserDataInt)   (int                   slotIndex, int   value);
+    struct ATweenTool* (*SetUserDataFloat) (int                   slotIndex, float value);
+    struct ATweenTool* (*SetUserDataPtr)   (int                   slotIndex, void* value);
+    struct ATweenTool* (*SetUserDataString)(int                   slotIndex, char* value);
 
     /**
      * Get TweenAction in current context.
      */
-    struct ATweenTool* (*GetAction)             (TweenAction**         outActionPtr);
+    struct ATweenTool* (*GetAction)        (TweenAction**         outActionPtr);
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -127,13 +127,13 @@ struct ATweenTool
     struct ATweenTool* (*SetMoveX)     (float moveX);
     struct ATweenTool* (*SetMoveY)     (float moveY);
 
-    struct ATweenTool* (*SetMove2)     (float moveX, float moveY,      bool isRelative, TweenEaseType easeType);
+    struct ATweenTool* (*SetMove2)     (float moveX, float moveY,     bool isRelative, TweenEaseType easeType);
     struct ATweenTool* (*SetMoveSame2) (float move,  bool isRelative, TweenEaseType    easeType);
 
     struct ATweenTool* (*SetScaleX)    (float scaleX);
     struct ATweenTool* (*SetScaleY)    (float scaleY);
 
-    struct ATweenTool* (*SetScale2)    (float scaleX,  float scaleY,     bool isRelative, TweenEaseType easeType);
+    struct ATweenTool* (*SetScale2)    (float scaleX,  float scaleY,    bool isRelative, TweenEaseType easeType);
     struct ATweenTool* (*SetScaleSame2)(float scale,   bool isRelative, TweenEaseType    easeType);
 
     struct ATweenTool* (*SetRotateZ)   (float rotateZ);

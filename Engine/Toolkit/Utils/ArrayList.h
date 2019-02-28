@@ -160,7 +160,7 @@ extern struct AArrayList AArrayList[1];
  * Init constant ArrayList.
  * example: ArrayList list[1] = AArrayList_Init(ElementType, increase)
  */
-#define AArrayList_Init(ElementType, increase)  \
+#define AArrayList_Init(ElementType, increase) \
     {                                          \
         increase,                              \
         sizeof(ElementType),                   \
@@ -177,11 +177,11 @@ extern struct AArrayList AArrayList[1];
  * example: ArrayList list[1] = AArayList_InitFixed(ElementType, capacity, size, ...)
  */
 #define AArayList_InitFixed(ElementType, capacity, size, ...) \
-    {                                                        \
-        0,                                                   \
-        sizeof(ElementType),                                 \
-        size,                                                \
-        AArray_Init(ElementType, capacity, __VA_ARGS__),     \
+    {                                                         \
+        0,                                                    \
+        sizeof(ElementType),                                  \
+        size,                                                 \
+        AArray_Init(ElementType, capacity, __VA_ARGS__),      \
     }
 
 

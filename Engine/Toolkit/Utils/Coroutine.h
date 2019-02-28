@@ -99,12 +99,12 @@ struct Coroutine
     /**
      * Coroutine wait value to continue execute.
      */
-    float                  waitValue;
+    float                 waitValue;
 
     /**
      * Current wait progress.
      */
-    float                  curWaitValue;
+    float                 curWaitValue;
 
     /**
      * Coroutine wait type.
@@ -141,7 +141,7 @@ extern struct ACoroutine ACoroutine[1];
 /**
  * Mark the Coroutine area begin.
  */
-#define ACoroutine_Begin()                               \
+#define ACoroutine_Begin()                              \
     switch (coroutine->step)                            \
     {                                                   \
         default:                                        \
@@ -153,7 +153,7 @@ extern struct ACoroutine ACoroutine[1];
 /**
 * Mark the Coroutine area end.
 */
-#define ACoroutine_End()                                 \
+#define ACoroutine_End()                                \
     }                                                   \
     coroutine->state = CoroutineState_Finish            \
 
@@ -164,7 +164,7 @@ extern struct ACoroutine ACoroutine[1];
  *
  * waitFrames: CoroutineRun wait frames and running again
  */
-#define ACoroutine_YieldFrames(waitFrames)               \
+#define ACoroutine_YieldFrames(waitFrames)              \
     coroutine->waitValue    = waitFrames;               \
     coroutine->curWaitValue = 0.0f;                     \
     coroutine->waitType     = CoroutineWaitType_Frames; \
@@ -179,7 +179,7 @@ extern struct ACoroutine ACoroutine[1];
  * 
  * waitSeconds: CoroutineRun wait seconds and running again
  */
-#define ACoroutine_YieldSeconds(waitSeconds)             \
+#define ACoroutine_YieldSeconds(waitSeconds)            \
     coroutine->waitValue    = waitSeconds;              \
     coroutine->curWaitValue = 0.0f;                     \
     coroutine->waitType     = CoroutineWaitType_Seconds;\
@@ -194,7 +194,7 @@ extern struct ACoroutine ACoroutine[1];
  * 
  * waitCoroutine: CoroutineRun wait other Coroutine finished and running again
  */
-#define ACoroutine_YieldCoroutine(waitCoroutine)             \
+#define ACoroutine_YieldCoroutine(waitCoroutine)            \
     coroutine->waitValue    = 0.0f;                         \
     coroutine->curWaitValue = 0.0f;                         \
     coroutine->waitType     = CoroutineWaitType_Coroutines; \
@@ -208,7 +208,7 @@ extern struct ACoroutine ACoroutine[1];
  * Just stop Coroutine running and jump out ACoroutine_Begin and ACoroutine_End.
  * called between ACoroutine_Begin and ACoroutine_End.
  */
-#define ACoroutine_YieldBreak()                \
+#define ACoroutine_YieldBreak()               \
     coroutine->state = CoroutineState_Finish; \
     break
 

@@ -18,7 +18,7 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-#define CheckIndex(tag, index)                                           \
+#define CheckIndex(tag, index)                                          \
     ALog_A                                                              \
     (                                                                   \
         ((index) < arrayList->size && (index) >= 0),                    \
@@ -28,7 +28,7 @@
     )                                                                    
 
 
-#define CheckInsertIndex(tag)                                            \
+#define CheckInsertIndex(tag)                                           \
     ALog_A                                                              \
     (                                                                   \
         ((index) <= arrayList->size && (index) >= 0),                   \
@@ -103,9 +103,9 @@ static void* Insert(ArrayList* arrayList, int index, void* elementPtr)
 }
 
 
-/*
-
-// use macro instead
+/**
+ * Use macro instead.
+ */
 static void* Get(ArrayList* arrayList, int index)
 {
     CheckIndex("Get", index);
@@ -113,7 +113,9 @@ static void* Get(ArrayList* arrayList, int index)
 }
 
 
-// use macro instead
+/**
+ * Use macro instead.
+ */
 static void Set(ArrayList* arrayList, int index, void* elementPtr)
 {
     CheckIndex("Set", index);
@@ -125,7 +127,6 @@ static void Set(ArrayList* arrayList, int index, void* elementPtr)
     );
 }
 
-*/
 
 
 static void* Pop(ArrayList* arrayList, void* defaultElementPtr)

@@ -323,12 +323,38 @@ static float BackInOut(float from, float to, float time)
 {
     if (time < 0.5f)
     {
-        return VALUE *  time * time * (14.379636f * time - 5.189818f);
+        return VALUE * time * time * (14.379636f * time - 5.189818f);
     }
     else
     {
         time -= 1.0f;
         return VALUE * (time * time * (14.379636f * time + 5.189818f) + 1.0f);
+    }
+}
+
+
+static float BackInExponentialOut(float from, float to, float time)
+{
+    if (time < 0.5f)
+    {
+        return VALUE * time * time * (14.379636f * time - 5.189818f);
+    }
+    else
+    {
+        return VALUE * 0.5f * (2.0f - powf(2.0f, -20.0f * time + 10.0f));
+    }
+}
+
+
+static float BackInElasticOut(float from, float to, float time)
+{
+    if (time < 0.5f)
+    {
+        return VALUE * time * time * (14.379636f * time - 5.189818f);
+    }
+    else
+    {
+        return VALUE * (powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f);
     }
 }
 
@@ -478,6 +504,8 @@ struct ATweenEase ATweenEase[1] =
     BackIn,
     BackOut,
     BackInOut,
+    BackInExponentialOut,
+    BackInElasticOut,
 
     BounceIn,
     BounceOut,

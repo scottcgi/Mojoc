@@ -25,7 +25,7 @@
 typedef union
 {
     int   intValue;
-    float  floatValue;
+    float floatValue;
     void* ptrValue;
     char* stringValue;
 }

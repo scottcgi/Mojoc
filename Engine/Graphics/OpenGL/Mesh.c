@@ -357,7 +357,7 @@ static void Render(Drawable* drawable)
             GL_TRIANGLES,
             toChild->indexOffset - fromChild->indexOffset + toChild->indexArr->length,
             GL_UNSIGNED_SHORT,
-            (GLvoid*) fromChild->indexDataOffset
+            (GLvoid*) (intptr_t) fromChild->indexDataOffset // (intptr_t) for fix xcode warning
         );
 
         // clear VAO bind
@@ -379,7 +379,7 @@ static void Render(Drawable* drawable)
             GL_TRIANGLES,
             toChild->indexOffset - fromChild->indexOffset + toChild->indexArr->length,
             GL_UNSIGNED_SHORT,
-            (GLvoid*) fromChild->indexDataOffset
+            (GLvoid*) (intptr_t) fromChild->indexDataOffset // (intptr_t) for fix xcode warning
         );
 
         // clearAddChildWithData VBO bind

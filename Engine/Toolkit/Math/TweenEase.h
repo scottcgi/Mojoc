@@ -10,6 +10,7 @@
  * Author: scott.cgi
  */
 
+
 #ifndef TWEEN_EASE_H
 #define TWEEN_EASE_H
 
@@ -53,6 +54,8 @@ typedef enum
     TweenEaseType_BackIn,
     TweenEaseType_BackOut,
     TweenEaseType_BackInOut,
+    TweenEaseType_BackInExponentialOut,
+    TweenEaseType_BackInElasticOut,
 
     TweenEaseType_BounceIn,
     TweenEaseType_BounceOut,

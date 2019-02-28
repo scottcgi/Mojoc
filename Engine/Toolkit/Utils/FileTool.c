@@ -102,7 +102,7 @@ static void* CreateDataFromResource(const char* resourceFilePath, long* outSize)
 
 static char* CreateStringFromResource(const char* resourceFilePath)
 {
-    File* file      = AFile->Open(resourceFilePath);
+    File* file     = AFile->Open(resourceFilePath);
     long  length   = AFile->GetLength(file);
     char* buffer   = malloc((size_t) length + 1);
     buffer[length] = '\0';

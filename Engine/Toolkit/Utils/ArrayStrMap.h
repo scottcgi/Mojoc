@@ -11,6 +11,7 @@
  * Author: scott.cgi
  */
 
+
 #ifndef ARRAY_STR_MAP_H
 #define ARRAY_STR_MAP_H
 
@@ -171,7 +172,7 @@ static inline const char* AArrayStrMap_GetKey(void* valuePtr, int valueTypeSize)
  * Init constant ArrayStrMap.
  * example: ArrayStrMap map[1] = AArrayStrMap_Init(ValueType, increase)
  */
-#define AArrayStrMap_Init(ValueType, increase)           \
+#define AArrayStrMap_Init(ValueType, increase)          \
     {                                                   \
         sizeof(ValueType),                              \
         AArrayList_Init(ArrayStrMapElement*, increase), \

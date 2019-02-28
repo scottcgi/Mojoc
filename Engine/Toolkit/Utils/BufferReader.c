@@ -11,12 +11,13 @@
  * Author: scott.cgi
  */
 
+
 #include <string.h>
 #include "Engine/Toolkit/Utils/BufferReader.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-#define CheckRange(tag)                                            \
+#define CheckRange(tag)                                           \
     ALog_A                                                        \
     (                                                             \
         range->start <= range->end,                               \
@@ -188,7 +189,7 @@ static bool TryFindStringByMemcmp(const char* buffer, ArrayRange* range, const c
 
     while (len1 >= len2)
     {
-        if (memcmp(bufferStart, str, len2) == 0)
+        if (memcmp(bufferStart, str, (size_t) len2) == 0)
         {
             // move to next char
             // newStart + 1 = ((range->end - len1 + 1) + len2 - 1) + 1

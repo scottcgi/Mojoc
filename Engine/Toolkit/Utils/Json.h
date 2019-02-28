@@ -94,7 +94,7 @@ struct AJsonObject
 {
     bool        (*GetBool)         (JsonObject* object, const char* key, bool  defaultValue);
     int         (*GetInt)          (JsonObject* object, const char* key, int   defaultValue);
-    float        (*GetFloat)        (JsonObject* object, const char* key, float  defaultValue);
+    float       (*GetFloat)        (JsonObject* object, const char* key, float defaultValue);
     JsonType    (*GetType)         (JsonObject* object, const char* key);
 
     /**
@@ -137,17 +137,17 @@ extern struct AJsonObject AJsonObject[1];
  */
 struct AJsonArray
 {
-    bool        (*GetBool)      (JsonArray* array, int index);
-    int         (*GetInt)       (JsonArray* array, int index);
-    float        (*GetFloat)     (JsonArray* array, int index);
-    JsonType    (*GetType)      (JsonArray* array, int index);
+    bool        (*GetBool)  (JsonArray* array, int index);
+    int         (*GetInt)   (JsonArray* array, int index);
+    float       (*GetFloat) (JsonArray* array, int index);
+    JsonType    (*GetType)  (JsonArray* array, int index);
 
     /**
      * When JsonValue released the string value will free.
      */
-    char*       (*GetString)    (JsonArray* array, int index);
-    JsonObject* (*GetObject)    (JsonArray* array, int index);
-    JsonArray*  (*GetArray)     (JsonArray* array, int index);
+    char*       (*GetString)(JsonArray* array, int index);
+    JsonObject* (*GetObject)(JsonArray* array, int index);
+    JsonArray*  (*GetArray) (JsonArray* array, int index);
 
 };
 

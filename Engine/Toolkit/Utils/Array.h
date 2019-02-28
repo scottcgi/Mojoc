@@ -7,7 +7,7 @@
  * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2013-2-1
- * Updata: 2017-1-17
+ * Update: 2017-1-17
  * Author: scott.cgi
  */
 
@@ -71,10 +71,10 @@ extern struct AArray AArray[1];
  * ...        : each elements
  */
 #define AArray_Make(ElementType, length, ...) \
-    (Array[1])                               \
-    {                                        \
-        (ElementType[length]) {__VA_ARGS__}, \
-        length,                              \
+    (Array[1])                                \
+    {                                         \
+        (ElementType[length]) {__VA_ARGS__},  \
+        length,                               \
     }
 
 
@@ -86,9 +86,9 @@ extern struct AArray AArray[1];
  * ...        : each elements
  */
 #define AArray_Init(ElementType, length, ...) \
-    {                                        \
-        (ElementType[length]) {__VA_ARGS__}, \
-        length,                              \
+    {                                         \
+        (ElementType[length]) {__VA_ARGS__},  \
+        length,                               \
     }
 
 

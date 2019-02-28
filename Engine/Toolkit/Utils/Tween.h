@@ -85,7 +85,7 @@ typedef struct TweenAction TweenAction;
 /**
  * When TweenAction finished callback.
  */
-typedef void   (*TweenActionOnComplete)(TweenAction* action);
+typedef void (*TweenActionOnComplete)(TweenAction* action);
 
 
 struct TweenAction
