@@ -89,7 +89,7 @@ extern struct ATextureAtlas ATextureAtlas[1];
 /**
  * Get TextureAtlasQuad from atlas by quadName.
  */
-static TextureAtlasQuad* ATextureAtlas_GetQuad(TextureAtlas* atlas, const char* quadName)
+static inline TextureAtlasQuad* ATextureAtlas_GetQuad(TextureAtlas* atlas, const char* quadName)
 {
     return AArrayStrMap_GetPtr(atlas->quadMap, quadName, TextureAtlasQuad);
 }
@@ -98,7 +98,7 @@ static TextureAtlasQuad* ATextureAtlas_GetQuad(TextureAtlas* atlas, const char* 
 /**
  * Get Texture from atlasQuad.
  */
-static Texture* ATextureAtlas_GetQuadTexture(TextureAtlasQuad* atlasQuad)
+static inline Texture* ATextureAtlas_GetQuadTexture(TextureAtlasQuad* atlasQuad)
 {
     return AArrayList_Get(atlasQuad->atlas->textureList, atlasQuad->textureIndex, Texture*);
 }

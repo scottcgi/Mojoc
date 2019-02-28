@@ -33,7 +33,7 @@ struct SubMesh
      * The base class for provide draw functions.
      * if regenerate and the drawable parent invisible，then the parent influence will lost.
      */
-    Drawable     drawable[1];
+    Drawable      drawable[1];
 
     /**
      * SubMesh coordinate under parent Mesh drawable matrix.
@@ -50,8 +50,8 @@ struct SubMesh
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    Array(float*)  positionArr[1];
-    Array(float*)  uvArr      [1];
+    Array(float*) positionArr[1];
+    Array(float*) uvArr      [1];
     Array(short*) indexArr   [1];
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -117,6 +117,15 @@ struct ASubMesh
 
 
 extern struct ASubMesh ASubMesh[1];
+
+
+/**
+ * Draw SubMesh.
+ */
+static inline void ASubMesh_Draw(SubMesh* subMesh)
+{
+    ADrawable->Draw(subMesh->drawable);
+}
 
 
 #endif

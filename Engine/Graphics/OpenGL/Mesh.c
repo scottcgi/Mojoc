@@ -208,7 +208,7 @@ static inline void BindVBO(Mesh* mesh)
     // load the position
     glVertexAttribPointer
     (
-        AShaderMesh->attribPosition,
+        (GLuint) AShaderMesh->attribPosition,
         Mesh_VertexPositionSize,
         GL_FLOAT,
         false,
@@ -219,7 +219,7 @@ static inline void BindVBO(Mesh* mesh)
     // load the texture coordinate
     glVertexAttribPointer
     (
-        AShaderMesh->attribTexcoord,
+        (GLuint) AShaderMesh->attribTexcoord,
         Mesh_VertexUVSize,
         GL_FLOAT,
         false,
@@ -230,7 +230,7 @@ static inline void BindVBO(Mesh* mesh)
     // load the opacity
     glVertexAttribPointer
     (
-        AShaderMesh->attribOpacity,
+        (GLuint) AShaderMesh->attribOpacity,
         Mesh_VertexOpacitySize,
         GL_FLOAT,
         false,
@@ -241,7 +241,7 @@ static inline void BindVBO(Mesh* mesh)
     // load the rgb
     glVertexAttribPointer
     (
-        AShaderMesh->attribRGB,
+        (GLuint) AShaderMesh->attribRGB,
         Mesh_VertexRGBSize,
         GL_FLOAT,
         false,
@@ -357,7 +357,7 @@ static void Render(Drawable* drawable)
             GL_TRIANGLES,
             toChild->indexOffset - fromChild->indexOffset + toChild->indexArr->length,
             GL_UNSIGNED_SHORT,
-            (GLvoid*) (intptr_t) fromChild->indexDataOffset
+            (GLvoid*) fromChild->indexDataOffset
         );
 
         // clear VAO bind
@@ -379,7 +379,7 @@ static void Render(Drawable* drawable)
             GL_TRIANGLES,
             toChild->indexOffset - fromChild->indexOffset + toChild->indexArr->length,
             GL_UNSIGNED_SHORT,
-            (GLvoid*) (intptr_t) fromChild->indexDataOffset
+            (GLvoid*) fromChild->indexDataOffset
         );
 
         // clearAddChildWithData VBO bind
@@ -391,7 +391,7 @@ static void Render(Drawable* drawable)
         // load the position
         glVertexAttribPointer
         (
-            AShaderMesh->attribPosition,
+            (GLuint) AShaderMesh->attribPosition,
             Mesh_VertexPositionSize,
             GL_FLOAT,
             false,
@@ -402,7 +402,7 @@ static void Render(Drawable* drawable)
         // load the texture coordinate
         glVertexAttribPointer
         (
-            AShaderMesh->attribTexcoord,
+            (GLuint) AShaderMesh->attribTexcoord,
             Mesh_VertexUVSize,
             GL_FLOAT,
             false,
@@ -413,7 +413,7 @@ static void Render(Drawable* drawable)
         // load the opacity
         glVertexAttribPointer
         (
-            AShaderMesh->attribOpacity,
+            (GLuint) AShaderMesh->attribOpacity,
             Mesh_VertexOpacitySize,
             GL_FLOAT,
             false,
@@ -424,7 +424,7 @@ static void Render(Drawable* drawable)
         // load the rgb
         glVertexAttribPointer
         (
-            AShaderMesh->attribRGB,
+            (GLuint) AShaderMesh->attribRGB,
             Mesh_VertexRGBSize,
             GL_FLOAT,
             false,
@@ -664,10 +664,10 @@ static void GenerateBuffer(Mesh* mesh)
             // load the vertex index
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[Mesh_BufferIndex]);
 
-            glEnableVertexAttribArray(AShaderMesh->attribPosition);
-            glEnableVertexAttribArray(AShaderMesh->attribTexcoord);
-            glEnableVertexAttribArray(AShaderMesh->attribOpacity);
-            glEnableVertexAttribArray(AShaderMesh->attribRGB);
+            glEnableVertexAttribArray((GLuint) AShaderMesh->attribPosition);
+            glEnableVertexAttribArray((GLuint) AShaderMesh->attribTexcoord);
+            glEnableVertexAttribArray((GLuint) AShaderMesh->attribOpacity);
+            glEnableVertexAttribArray((GLuint) AShaderMesh->attribRGB);
 
             BindVBO(mesh);
 

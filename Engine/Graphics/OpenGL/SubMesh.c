@@ -115,9 +115,9 @@ static void SetWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
 
     memcpy
     (
-        (char*) mesh->vertexArr->data + mesh->uvDataOffset + subMesh->uvDataOffset,
+        (char*)  mesh->vertexArr->data + mesh->uvDataOffset + subMesh->uvDataOffset,
         subMesh->uvArr->data,
-        uvDataSize
+        (size_t) uvDataSize
     );
 
     if (AGraphics->isUseVBO)

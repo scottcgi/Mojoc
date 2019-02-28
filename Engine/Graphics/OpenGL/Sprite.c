@@ -44,7 +44,7 @@ static void Render(Drawable* drawable)
         // load the position and texture coordinate
         glVertexAttribPointer
         (
-            AShaderSprite->attribPositionTexcoord,
+            (GLuint) AShaderSprite->attribPositionTexcoord,
             Sprite_VertexSize,
             GL_FLOAT,
             false,
@@ -63,7 +63,7 @@ static void Render(Drawable* drawable)
         // load the position and texture coordinate
         glVertexAttribPointer
         (
-            AShaderSprite->attribPositionTexcoord,
+            (GLuint) AShaderSprite->attribPositionTexcoord,
             Sprite_VertexSize,
             GL_FLOAT,
             false,
@@ -176,12 +176,12 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 
             glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIds[Sprite_BufferVertex]);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[Sprite_BufferIndex]);
-            glEnableVertexAttribArray(AShaderSprite->attribPositionTexcoord);
+            glEnableVertexAttribArray((GLuint) AShaderSprite->attribPositionTexcoord);
 
             // load the position and texture coordinate
             glVertexAttribPointer
             (
-                AShaderSprite->attribPositionTexcoord,
+                (GLuint) AShaderSprite->attribPositionTexcoord,
                 Sprite_VertexSize,
                 GL_FLOAT,
                 false,

@@ -18,9 +18,50 @@
 
 #include <stddef.h>
 
+/*
+ Examples:
+     struct Parent
+     {
+         int  arr[1];
+         int  value;
+         int* ptr;
+     }
+
+     Parent parent[1];
+
+     output true:
+     AStruct_GetParentWithName(parent->arr,    Parent, arr)   == parent
+     AStruct_GetParentWithName(&parent->arr,   Parent, arr)   == parent
+     AStruct_GetParentWithName(&parent->value, Parent, value) == parent
+     AStruct_GetParentWithName(&parent->ptr,   Parent, ptr)   == parent
+
+     arr      = parent->arr
+     value    = parent->value
+     ptr      = parent->ptr
+     valuePtr = &parent->value
+     ptrPtr   = &parent->ptr
+
+     output true:
+     AStruct_GetParent(arr,      Parent) == parent
+     AStruct_GetParent(&arr,     Parent) == parent
+     AStruct_GetParent(valuePtr, Parent) == parent
+     AStruct_GetParent(ptrPtr,   Parent) == parent
+
+     output false:
+     AStruct_GetParent(value,    Parent) == parent
+     AStruct_GetParent(ptr,      Parent) == parent
+     AStruct_GetParent(&value,   Parent) == parent
+     AStruct_GetParent(&ptr,     Parent) == parent
+*/
+
 
 /**
  * Get struct pointer from member pointer.
+ * this for memberPtr same as memberName.
+ * 
+ * memberPtr：the pointer that point struct's member.
+ *           it's the member address offset from struct address.
+ * 
  */
 #define AStruct_GetParent(memberPtr, ParentType) \
     ((ParentType*) ((char*) (memberPtr) - offsetof(ParentType, memberPtr)))
@@ -29,6 +70,9 @@
 /**
  * Get struct pointer from member pointer with memberName.
  * this for memberPtr not same as memberName.
+ *
+ * memberPtr：the pointer that point struct's member.
+ *           it's the member address offset from struct address.
  */
 #define AStruct_GetParentWithName(memberPtr, ParentType, memberName) \
     ((ParentType*) ((char*) (memberPtr) - offsetof(ParentType, memberName)))

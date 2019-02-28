@@ -250,10 +250,9 @@ static void Draw(Drawable* drawable)
         ADrawable->Draw(AArray_GetPtr(skeleton->boneArr, i, SkeletonBone)->drawable);
     }
 
-    Mesh*    preMesh      = NULL;
-    SubMesh* preSubMesh   = NULL;
-    SubMesh* startSubMesh = NULL;
-    SubMesh* subMesh;
+    Mesh* parent    = NULL;
+    int   fromIndex = 0;
+    int   toIndex   = 0;
 
     for (int i = 0; i < skeleton->slotOrderArr->length; ++i)
     {
@@ -264,27 +263,25 @@ static void Draw(Drawable* drawable)
             continue;
         }
 
-        subMesh = GetAttachmentSubMesh(skeleton, slot->attachmentData);
+        SubMesh* subMesh = GetAttachmentSubMesh(skeleton, slot->attachmentData);
 
-        if (subMesh->parent != preMesh)
+        if (subMesh->parent != parent)
         {
-            if (preMesh != NULL)
+            if (parent != NULL)
             {
-                AMesh_PushDrawRange(preSubMesh->parent, startSubMesh->index, preSubMesh->index);
-                ADrawable->Draw(preSubMesh->parent->drawable);
+                AMesh_DrawByIndex(parent, fromIndex, toIndex);
             }
 
-            startSubMesh = subMesh;
-            preMesh      = subMesh->parent;
+            fromIndex = subMesh->index;
+            parent    = subMesh->parent;
         }
-
-        preSubMesh = subMesh;
+        
+        toIndex = subMesh->index;
     }
 
-    if (preSubMesh != NULL)
+    if (parent != NULL)
     {
-        AMesh_PushDrawRange(preSubMesh->parent, startSubMesh->index, preSubMesh->index);
-        ADrawable->Draw(preSubMesh->parent->drawable);
+        AMesh_DrawByIndex(parent, fromIndex, toIndex);
     }
 }
 
@@ -310,12 +307,12 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
                                                      SkeletonAttachmentData*
                                                  );
         
-        SubMesh*                subMesh        = NULL;
+        SubMesh* subMesh = NULL;
 
         switch (attachmentData->type)
         {
             case SkeletonAttachmentDataType_BoundingBox:
-                break;
+                continue;
                 
             case SkeletonAttachmentDataType_Region:
             {
@@ -373,8 +370,8 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
                     float  top     = texData[1];
                     float  width   = texData[4] - left;
                     float  height  = texData[5] - top;
-
                     float* uvs     = AArray_GetData(meshData->uvArr, float);
+                    
                     for (int l = 0; l < meshData->uvArr->length; l += 2)
                     {
                         uvs[l]     = left + uvs[l]     * width;

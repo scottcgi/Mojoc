@@ -162,7 +162,7 @@ extern struct ASprite ASprite[1];
 
 
 /**
- * Sprite draw self.
+ * Draw Sprite.
  */
 static inline void ASprite_Draw(Sprite* sprite)
 {

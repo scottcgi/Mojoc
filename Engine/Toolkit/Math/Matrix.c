@@ -142,8 +142,8 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
     matrix4->m15 = 1.0f;
 
     angle    = AMath_ToRadian(angle);
-    float s   = sinf(angle);
-    float c   = cosf(angle);
+    float s  = sinf(angle);
+    float c  = cosf(angle);
     int  dir = ((x != 0.0f) << 2) | ((y != 0.0f) << 1) | (z != 0.0f); // NOLINT(hicpp-signed-bitwise)
 
     switch (dir)

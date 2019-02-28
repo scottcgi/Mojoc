@@ -111,36 +111,6 @@ static inline void SetStepped(SkeletonCurveTimeline* curveTimeline, int frameInd
 }
 
 
-static inline int GetFrameCount(SkeletonCurveTimeline* curveTimeline)
-{
-    return curveTimeline->curveArr->length / Bezier_Size;
-}
-
-
-static inline SkeletonCurveType GetCurveType(SkeletonCurveTimeline* curveTimeline, int frameIndex)
-{
-    int index = frameIndex * Bezier_Size;
-
-    if (index == curveTimeline->curveArr->length)
-    {
-        return SkeletonCurveType_Linear;
-    }
-
-    int type = (int) AArray_Get(curveTimeline->curveArr, index, float);
-
-    if (type == SkeletonCurveType_Linear)
-    {
-        return SkeletonCurveType_Linear;
-    }
-    else if (type == SkeletonCurveType_Stepped)
-    {
-        return SkeletonCurveType_Stepped;
-    }
-
-    return SkeletonCurveType_Bezier;
-}
-
-
 static const float  subDivStep  = 1.0f        / Bezier_Segments;
 static const float  subDivStep2 = subDivStep  * subDivStep;
 static const float  subDivStep3 = subDivStep2 * subDivStep;

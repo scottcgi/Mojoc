@@ -338,7 +338,7 @@ static inline SkeletonAttachmentData* CreateAttachmentData(int length, SkeletonA
 
 static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentDataMapObject)
 {
-    const float   scale             = ASkeletonData->scale;
+    const float  scale             = ASkeletonData->scale;
     ArrayStrMap* attachmentDataMap = AArrayStrMap->CreateWithCapacity
                                      (
                                          sizeof(SkeletonAttachmentData*),
@@ -566,6 +566,11 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
             meshAttachmentData->height = AJsonObject->GetFloat(attachmentDataObject, "height", 0.0f) * scale;
             meshAttachmentData->width  = AGLTool_ToGLWidth (meshAttachmentData->width);
             meshAttachmentData->height = AGLTool_ToGLHeight(meshAttachmentData->height);
+        }
+        else
+        {
+            ALog_E("ASkeletonData ReadSkinDataSlotAttachment not found attachmentType = %s", attachmentType);
+            continue;
         }
 
         attachmentData->name = (char*) attachmentData->childPtr + length;

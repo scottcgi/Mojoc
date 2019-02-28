@@ -91,8 +91,8 @@ static void Release(DrawAtlas* drawAtlas)
     ALog_A
     (
         drawAtlas->textureAtlas != NULL,
-        "ADrawAtlas Release drawAtlas %s already released",
-        drawAtlas->textureAtlas->filePath
+        "ADrawAtlas Release drawAtlas %p already released",
+        drawAtlas
     );
 
     for (int i = 0; i < drawAtlas->quadList->size; ++i)

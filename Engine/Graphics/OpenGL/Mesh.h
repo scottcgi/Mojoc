@@ -207,7 +207,7 @@ extern struct AMesh AMesh[1];
 
 
 /**
- * Mesh draw self.
+ * Draw Mesh.
  */
 static inline void AMesh_Draw(Mesh* mesh)
 {
@@ -216,12 +216,13 @@ static inline void AMesh_Draw(Mesh* mesh)
 
 
 /**
- * Push fromIndex and toIndex into drawRangeQueue.
+ * Draw Mesh by fromIndex and toIndex.
  */
-static inline void AMesh_PushDrawRange(Mesh* mesh, int fromIndex, int toIndex)
+static inline void AMesh_DrawByIndex(Mesh *mesh, int fromIndex, int toIndex)
 {
     AArrayQueue_Push(mesh->drawRangeQueue, fromIndex);
     AArrayQueue_Push(mesh->drawRangeQueue, toIndex);
+    ADrawable->Draw (mesh->drawable);
 }
 
 
