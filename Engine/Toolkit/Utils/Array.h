@@ -26,6 +26,7 @@ typedef struct
 {
     /**
      * Elements memory space ptr.
+     * if use "void data[]" will not be able to set the data manually.
      */
     void* data;
 
@@ -93,16 +94,6 @@ extern struct AArray AArray[1];
 
 
 /**
- * Get Array data ptr with type.
- *
- * array      : Array ptr
- * ElementType: element data type
- */
-#define AArray_GetData(array, ElementType) \
-    (ElementType*) ((array)->data)
-
-
-/**
  * Get element at index.
  *
  * array      : Array ptr
@@ -110,7 +101,7 @@ extern struct AArray AArray[1];
  * ElementType: element data type
  */
 #define AArray_Get(array, index, ElementType) \
-    (AArray_GetData(array, ElementType))[index]
+    ((ElementType*) (array)->data)[index]
 
 
 /**
@@ -121,7 +112,7 @@ extern struct AArray AArray[1];
  * ElementType: element data type
  */
 #define AArray_GetPtr(array, index, ElementType) \
-    (AArray_GetData(array, ElementType) + (index))
+    ((ElementType*) (array)->data + (index))
 
 
 /**

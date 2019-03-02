@@ -142,17 +142,23 @@ struct ASprite
      */
     void    (*InitWithFile)       (const char* resourceFilePath,  Sprite* outSprite);
 
-    Sprite* (*CreateWithQuad)     (Texture*    texture,  Quad*   quad);
-    void    (*InitWithQuad)       (Texture*    texture,  Quad*   quad, Sprite* outSprite);
+    Sprite* (*CreateWithQuad)     (Texture* texture,  Quad*   quad);
+    void    (*InitWithQuad)       (Texture* texture,  Quad*   quad, Sprite* outSprite);
 
 
-    Sprite* (*CreateWithQuadArray)(Texture*    texture, Array(Quad)* quadArr);
-    void    (*InitWithQuadArray)  (Texture*    texture, Array(Quad)* quadArr, Sprite* outSprite);
+    Sprite* (*CreateWithQuadArray)(Texture* texture, Array(Quad)* quadArr);
+    void    (*InitWithQuadArray)  (Texture* texture, Array(Quad)* quadArr, Sprite* outSprite);
 
-    void    (*Release)            (Sprite*     sprite);
+    void    (*Release)            (Sprite*  sprite);
 
     /**
-     * The Sprite Drawable's render function implementation for render self.
+     * Deform Sprite rect area.
+     * the [topLeft, bottomLeft, bottomRight, topRight] will multiply each vertex.
+     */
+    void    (*DeformRect)         (Sprite*  sprite, float topLeft, float bottomLeft, float bottomRight, float topRight);
+
+    /**
+     * The implementation of Drawable's render function for render Sprite.
      */
     void    (*Render)             (Drawable*   drawable);
 };

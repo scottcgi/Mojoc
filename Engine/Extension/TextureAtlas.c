@@ -161,7 +161,7 @@ static TextureAtlas* Get(const char* filePath)
     if (textureAtlas == NULL)
     {
         textureAtlas           = malloc(sizeof(TextureAtlas));
-        textureAtlas->filePath  = AArrayStrMap_GetKey
+        textureAtlas->filePath = AArrayStrMap_GetKey
                                  (
                                     AArrayStrMap_TryPut(textureAtlasMap, filePath, textureAtlas),
                                     textureAtlasMap->valueTypeSize

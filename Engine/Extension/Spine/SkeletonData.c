@@ -398,7 +398,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
             boundingBoxAttachmentData->vertexArr->data   = (char*) boundingBoxAttachmentData
                                                            + sizeof(SkeletonBoundingBoxAttachmentData);
             
-            float* vertices = AArray_GetData(boundingBoxAttachmentData->vertexArr, float);
+            float* vertices = boundingBoxAttachmentData->vertexArr->data;
             for (int j = 0; j < jsonVertexArr->valueList->size; j += 2)
             {
                 vertices[j]     = AGLTool_ToGLWidth (AJsonArray->GetFloat(jsonVertexArr, j)     * scale);
@@ -427,7 +427,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
             meshAttachmentData->vertexArr->length   = verticesCount;
             meshAttachmentData->vertexArr->data     = (char*) meshAttachmentData + sizeof(SkeletonMeshAttachmentData);
 
-            float* vertices = AArray_GetData(meshAttachmentData->vertexArr, float);
+            float* vertices = meshAttachmentData->vertexArr->data;
             for (int j = 0, k = 0; j < verticesCount; j += 3, k += 2)
             {
                 vertices[j]     = AGLTool_ToGLWidth (AJsonArray->GetFloat(jsonVertexArr, k)     * scale);
@@ -438,7 +438,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
             meshAttachmentData->uvArr->length = jsonUVArr->valueList->size;
             meshAttachmentData->uvArr->data   = (char*) vertices + verticesByte;
 
-            float* uvs = AArray_GetData(meshAttachmentData->uvArr, float);
+            float* uvs = meshAttachmentData->uvArr->data;
             for (int j = 0; j < jsonUVArr->valueList->size; j += 2)
             {
                 uvs[j]     = AJsonArray->GetFloat(jsonUVArr, j);
@@ -448,7 +448,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
             meshAttachmentData->triangleArr->length = jsonTriangleArr->valueList->size;
             meshAttachmentData->triangleArr->data   = (char*) uvs + uvsByte;
 
-            short* triangles = AArray_GetData(meshAttachmentData->triangleArr, short);
+            short* triangles = meshAttachmentData->triangleArr->data;
             for (int j = 0; j < jsonTriangleArr->valueList->size; ++j)
             {
                 triangles[j] = (short) AJsonArray->GetInt(jsonTriangleArr, j);
@@ -517,15 +517,15 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
             skinnedMeshAttachmentData->weightVertexArr->data   = (char*) meshAttachmentData->vertexArr->data
                                                                  + verticesByte;
 
-            float* weightVertices = AArray_GetData(skinnedMeshAttachmentData->weightVertexArr, float);
+            float* weightVertices = skinnedMeshAttachmentData->weightVertexArr->data;
             skinnedMeshAttachmentData->boneArr->length   = bonesCount;
             skinnedMeshAttachmentData->boneArr->data     = (char*) weightVertices + weightVerticesByte;
 
-            int*  bones = AArray_GetData(skinnedMeshAttachmentData->boneArr, int);
+            int* bones = skinnedMeshAttachmentData->boneArr->data;
             skinnedMeshAttachmentData->weightArr->length = weightsCount;
             skinnedMeshAttachmentData->weightArr->data   = (char*) bones + bonesByte;
 
-            float* weights = AArray_GetData(skinnedMeshAttachmentData->weightArr, float);
+            float* weights = skinnedMeshAttachmentData->weightArr->data;
             for (int j = 0, b = 0, w = 0, v = 0; j < jsonVertexArr->valueList->size;)
             {
                 int boneCount = AJsonArray->GetInt(jsonVertexArr, j++);
@@ -546,7 +546,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
             meshAttachmentData->uvArr->length = jsonUVArr->valueList->size;
             meshAttachmentData->uvArr->data   = (char*) weights + weightsByte;
 
-            float* uvs = AArray_GetData(meshAttachmentData->uvArr, float);
+            float* uvs = meshAttachmentData->uvArr->data;
             for (int j = 0; j < jsonUVArr->valueList->size; j += 2)
             {
                 uvs[j]     = AJsonArray->GetFloat(jsonUVArr, j);
@@ -556,7 +556,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
             meshAttachmentData->triangleArr->length = jsonTriangleArr->valueList->size;
             meshAttachmentData->triangleArr->data   = (char*) uvs + uvsByte;
 
-            short* triangles = AArray_GetData(meshAttachmentData->triangleArr, short);
+            short* triangles = meshAttachmentData->triangleArr->data;
             for (int j = 0; j < jsonTriangleArr->valueList->size; ++j)
             {
                 triangles[j] = (short) AJsonArray->GetInt(jsonTriangleArr, j);
@@ -1011,7 +1011,7 @@ static inline void ReadAnimationDrawOrders
         if (offsets != NULL)
         {
             drawOrderArr   = AArray->Create(sizeof(int), slotCount);
-            int* drawOrder = AArray_GetData(drawOrderArr, int);
+            int* drawOrder = drawOrderArr->data;
 
             // set default value
             memset(drawOrder, -1, slotCount * sizeof(int));
@@ -1174,11 +1174,11 @@ static inline void ReadAnimationDeform
 
                     if (jsonVertexArr != NULL)
                     {
-                        float* vertexData = AArray_GetData(vertexArr, float);
+                        float* vertexData = vertexArr->data;
 
                         // "offset" is how many entries are zeros at the start
                         // also, zeros at the end are not output
-                        int   start      = AJsonObject->GetInt(jsonMesh, "offset", 0);
+                        int    start      = AJsonObject->GetInt(jsonMesh, "offset", 0);
 
                         for (int m = 0; m < jsonVertexArr->valueList->size; ++m, ++start)
                         {

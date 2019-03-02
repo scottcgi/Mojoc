@@ -130,8 +130,8 @@ static void Update(PhysicsBody* body, float deltaSeconds)
                       
     float  cosRZ       = AMath_Cos(body->rotationZ);
     float  sinRZ       = AMath_Sin(body->rotationZ);
-    float* vertices    = AArray_GetData(body->vertexArr, float);
-    float* transformed = AArray_GetData(body->transformedVertexArr, float);
+    float* vertices    = body->vertexArr->data;
+    float* transformed = body->transformedVertexArr->data;
 
     for (int i = 0; i < body->transformedVertexArr->length; i += 2)
     {

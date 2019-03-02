@@ -27,8 +27,6 @@ static void Render(Drawable* drawable)
 
     glBindTexture(GL_TEXTURE_2D, sprite->texture->id);
 
-//----------------------------------------------------------------------------------------------------------------------
-
     if (AGraphics->isUseVAO)
     {
         glBindVertexArray(sprite->vaoId);
@@ -115,7 +113,7 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
     sprite->vboIds[Sprite_BufferIndex]  = 0;
     sprite->vaoId                       = 0;
     sprite->indexCount                  = quadArr->length * Quad_IndexNum;
-    sprite->vertexArr                   = AArray->Create(sizeof(float),  quadArr->length * Quad_Position2UVNum);
+    sprite->vertexArr                   = AArray->Create(sizeof(float), quadArr->length * Quad_Position2UVNum);
     sprite->indexArr                    = AArray->Create(sizeof(short), sprite->indexCount);
     
     drawable->Render                    = Render;
@@ -159,8 +157,6 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
             GL_STATIC_DRAW
         );
 
-//----------------------------------------------------------------------------------------------------------------------
-
         if (AGraphics->isUseVAO)
         {
             if (sprite->vaoId == 0)
@@ -171,7 +167,6 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
             glBindVertexArray(sprite->vaoId);
 
             // with vao has own state
-
             glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIds[Sprite_BufferVertex]);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[Sprite_BufferIndex]);
             glEnableVertexAttribArray((GLuint) AShaderSprite->attribPositionTexcoord);
@@ -190,6 +185,17 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
             // go back to normal state
             glBindVertexArray(0);
         }
+    }
+}
+
+
+static void DeformRect(Sprite*  sprite, float topLeft, float bottomLeft, float bottomRight, float topRight)
+{
+    float* vectices = sprite->vertexArr->data;
+
+    for (int i = 0; i < sprite->vertexArr->length; i += Quad_Position2UVNum)
+    {
+        
     }
 }
 
@@ -268,5 +274,6 @@ struct ASprite ASprite[1] =
     InitWithQuadArray,
 
     Release,
+    DeformRect,
     Render,
 };

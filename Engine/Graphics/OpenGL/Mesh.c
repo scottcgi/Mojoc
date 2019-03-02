@@ -81,7 +81,7 @@ static void Draw(Drawable* meshDrawable)
         {
             if (ADrawable_CheckState(subMesh->drawable, DrawableState_TransformChanged))
             {
-                float* bornData     = AArray_GetData(subMesh->positionArr, float);
+                float* bornData     = subMesh->positionArr->data;
                 float* positionData = (float*) ((char*) mesh->vertexArr->data + subMesh->positionDataOffset);
 
                 // the born position data transformed (translate, scale, rotate) by SubMesh modelMatrix
@@ -290,8 +290,6 @@ static void Render(Drawable* drawable)
 
     glBindTexture(GL_TEXTURE_2D, mesh->texture->id);
 
-//----------------------------------------------------------------------------------------------------------------------
-
     if (mesh->vboSubDataList->size > 0)
     {
         // load the vertex data
@@ -342,8 +340,6 @@ static void Render(Drawable* drawable)
             goto UseVBO;
         }
     }
-
-//----------------------------------------------------------------------------------------------------------------------
 
     if (AGraphics->isUseVAO)
     {

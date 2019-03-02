@@ -18,26 +18,26 @@
 
 static bool TestPolygonPoint(Array(float)* pointArr, float x, float y)
 {
-    bool  inside     = false;
-    int   preIndex   = pointArr->length - 2;
-    float* pointData  = AArray_GetData(pointArr, float);
+    bool   inside   = false;
+    int    preIndex = pointArr->length - 2;
+    float* points   = pointArr->data;
 
     for (int i = 0; i < pointArr->length; i += 2)
     {
-        float pointY  = pointData[i + 1];
-        float preY    = pointData[preIndex + 1];
+        float pointY  = points[i + 1];
+        float preY    = points[preIndex + 1];
 
         // whether point on the y area of vector
         if ((pointY < y && preY >= y) || (preY < y && pointY >= y))
         {
-            float pointX = pointData[i];
+            float pointX = points[i];
 
             // cross product between vector (x - pointX, y - pointY) and (preX - pointX, preY - pointY)
             // result is (x - pointX) * (preY - pointY) - (y - pointY) * (preX - pointX)
             // if result zero means point (x, y) on the vector (preX - pointX, preY - pointY)
             // if result positive means point on the right of vector
             // if result negative means point on the left  of vector
-            if (pointX + (y - pointY) / (preY - pointY) * (pointData[preIndex] - pointX) <= x)
+            if (pointX + (y - pointY) / (preY - pointY) * (points[preIndex] - pointX) <= x)
             {
                 // point on the right
                 inside = !inside;

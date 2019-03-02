@@ -211,9 +211,9 @@ static inline bool TestPolygonPoint(Array(float)* polygon, Array(float)* point)
 {
     bool   inside     = false;
     int    preIndex   = polygon->length - 2;
-    float* vertexData = AArray_GetData(polygon, float);
-    float  x          = AArray_Get    (point,   0, float);
-    float  y          = AArray_Get    (point,   1, float);
+    float* vertexData = polygon->data;
+    float  x          = AArray_Get(point, 0, float);
+    float  y          = AArray_Get(point, 1, float);
 
     for (int i = 0; i < polygon->length; i += 2)
     {

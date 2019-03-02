@@ -198,7 +198,7 @@ struct AMesh
     void      (*GenerateBuffer)    (Mesh* mesh);
 
     /**
-     * The Mesh Drawable's render function implementation for render self.
+     * The implementation of Drawable's render function for render Mesh.
      */
     void      (*Render)            (Drawable* drawable);
 };

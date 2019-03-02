@@ -96,10 +96,10 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
                                                                              SubMesh*
                                                                            );
 
-            float*  positions      = AArray_GetData(subMesh->positionArr,                       float);
-            int*    bones          = AArray_GetData(skinnedMeshAttachmentData->boneArr,         int);
-            float*  weights        = AArray_GetData(skinnedMeshAttachmentData->weightArr,       float);
-            float*  weightVertices = AArray_GetData(skinnedMeshAttachmentData->weightVertexArr, float);
+            float* positions      = subMesh->positionArr->data;
+            int*   bones          = skinnedMeshAttachmentData->boneArr->data;
+            float* weights        = skinnedMeshAttachmentData->weightArr->data;
+            float* weightVertices = skinnedMeshAttachmentData->weightVertexArr->data;
 
             for (int i = 0, w = 0, v = 0, p = 0; i < skinnedMeshAttachmentData->boneArr->length; p += 3)
             {

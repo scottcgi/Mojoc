@@ -135,7 +135,7 @@ static void SetCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, float
     float  dfx    = cx1 * pre1 + tmpx * pre2 + dddfx * subDivPre;
     float  dfy    = cy1 * pre1 + tmpy * pre2 + dddfy * subDivPre;
 
-    float* curves = AArray_GetData(curveTimeline->curveArr, float);
+    float* curves = curveTimeline->curveArr->data;
     int    i      = frameIndex * Bezier_Size;
     curves[i++]   = SkeletonCurveType_Bezier;
 
@@ -161,7 +161,7 @@ static void SetCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, float
 static inline float GetCurvePercent(SkeletonCurveTimeline* curveTimeline, int frameIndex, float percent)
 {
     int    i      = frameIndex * Bezier_Size;
-    float* curves = AArray_GetData(curveTimeline->curveArr, float);
+    float* curves = curveTimeline->curveArr->data;
     float  dfx    = curves[i];
 
     switch ((int) dfx)
@@ -240,7 +240,7 @@ enum
 
 static void SetRotateFrame(SkeletonRotateTimeline* rotateTimeline, int frameIndex, float time, float angle)
 {
-    float* frames          = AArray_GetData(rotateTimeline->frameArr, float);
+    float* frames          = rotateTimeline->frameArr->data;
     frameIndex            *= RotateFrame_Times;
     frames[frameIndex]     = time;
     frames[frameIndex + 1] = angle;
@@ -251,7 +251,7 @@ static void RotateApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
 {
     SkeletonRotateTimeline* rotateTimeline = skeletonTimeline->childPtr;
 
-    float* frames      = AArray_GetData( rotateTimeline->frameArr, float);
+    float* frames      = rotateTimeline->frameArr->data;
     int    frameLength = rotateTimeline->frameArr->length;
 
     if (time < frames[0])
@@ -362,7 +362,7 @@ enum
 
 static void SetTranslateFrame(SkeletonTranslateTimeline* translateTimeline, int frameIndex, float time, float x, float y)
 {
-    float* frames          = AArray_GetData(translateTimeline->frameArr, float);
+    float* frames          = translateTimeline->frameArr->data;
     frameIndex            *= TranslateFrame_Times;
     frames[frameIndex]     = time;
     frames[frameIndex + 1] = x;
@@ -373,7 +373,7 @@ static void SetTranslateFrame(SkeletonTranslateTimeline* translateTimeline, int 
 static void TranslateApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, float time, float mixPercent)
 {
     SkeletonTranslateTimeline* translateTimeline = skeletonTimeline->childPtr;
-    float*                     frames            = AArray_GetData(translateTimeline->frameArr, float);
+    float*                     frames            = translateTimeline->frameArr->data;
 
     if (time < frames[0])
     {
@@ -473,7 +473,7 @@ static void ScaleApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, f
     SkeletonScaleTimeline*     scaleTimeline     = skeletonTimeline->childPtr;
     SkeletonTranslateTimeline* translateTimeline = scaleTimeline->translateTimeline;
 
-    float* frames = AArray_GetData(translateTimeline->frameArr, float);
+    float* frames = translateTimeline->frameArr->data;
 
     if (time < frames[0])
     {
@@ -570,7 +570,7 @@ enum
 
 static void SetColorFrame(SkeletonColorTimeline* colorTimeline, int frameIndex, float time,  Color* color)
 {
-    float* frames                     = AArray_GetData(colorTimeline->frameArr, float);
+    float* frames                     = colorTimeline->frameArr->data;
     frameIndex                       *= ColorFrame_Times;
     frames[frameIndex]                = time;
     frames[frameIndex + ColorFrame_R] = color->r;
@@ -583,7 +583,7 @@ static void SetColorFrame(SkeletonColorTimeline* colorTimeline, int frameIndex, 
 static void ColorApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, float time, float mixPercent)
 {
     SkeletonColorTimeline* colorTimeline = skeletonTimeline->childPtr;
-    float*                 frames        = AArray_GetData(colorTimeline->frameArr, float);
+    float*                 frames        = colorTimeline->frameArr->data;
 
     if (time < frames[0])
     {
@@ -702,7 +702,7 @@ static void SetAttachmentFrame
 static void AttachmentApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, float time, float mixPercent)
 {
     SkeletonAttachmentTimeline* attachmentTimeline = skeletonTimeline->childPtr;
-    float*                       frames             = AArray_GetData(attachmentTimeline->frameArr, float);
+    float*                      frames             = attachmentTimeline->frameArr->data;
 
     // time is before first frame
     if (time < frames[0])
@@ -808,7 +808,7 @@ static void EventApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, f
     }
 
     SkeletonEventTimeline* eventTimeline = skeletonTimeline->childPtr;
-    float*                 frames        = AArray_GetData(eventTimeline->frameArr, float);
+    float*                 frames        = eventTimeline->frameArr->data;
 
     // time is before first frame
     if (time < frames[0])
@@ -919,7 +919,7 @@ static void DrawOrderApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
 {
     SkeletonDrawOrderTimeline* drawOrderTimeline = skeletonTimeline->childPtr;
 
-    float* frames = AArray_GetData(drawOrderTimeline->frameArr, float);
+    float* frames = drawOrderTimeline->frameArr->data;
 
     // time is before first frame.
     if (time < frames[0])
@@ -956,14 +956,14 @@ static void DrawOrderApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
     memset(subMeshIndexCount, 0, meshList->size * sizeof(int));
 
     Array(int)*    drawOrderArr = AArray_Get(drawOrderTimeline->drawOrderArr, frameIndex, Array(int)*);
-    SkeletonSlot*  slots        = AArray_GetData(skeleton->slotArr,      SkeletonSlot);
-    SkeletonSlot** slotOrders   = AArray_GetData(skeleton->slotOrderArr, SkeletonSlot*);
+    SkeletonSlot*  slots        = skeleton->slotArr->data;
+    SkeletonSlot** slotOrders   = skeleton->slotOrderArr->data;
     int*           drawOrder    = NULL;
 
 
     if (drawOrderArr != NULL)
     {
-        drawOrder = AArray_GetData(drawOrderArr, int);
+        drawOrder = drawOrderArr->data;
     }
 
     for (int i = 0; i < skeleton->slotArr->length; ++i)
@@ -1069,7 +1069,7 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
         return;
     }
 
-    float* frames = AArray_GetData(deformTimeline->frameArr, float);
+    float* frames = deformTimeline->frameArr->data;
 
     // time is before first frame
     if (time < frames[0])
@@ -1078,7 +1078,7 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
     }
 
     Array* positionArr = NULL;
-    float*  position    = NULL;
+    float*  position   = NULL;
 
     switch (deformTimeline->attachmentData->type)
     {
@@ -1090,7 +1090,7 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
                 "ASkeletonTimeline DeformApply deformTimeline->attachmentData->type only can be"
                 "SkeletonAttachmentDataType_Mesh or SkeletonAttachmentDataType_SkinnedMesh"
             );
-            break;
+            return;
 
         case SkeletonAttachmentDataType_Mesh:
         {
@@ -1110,7 +1110,7 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
                                                          );
 
             positionArr = subMesh->positionArr;
-            position    = AArray_GetData(positionArr, float);
+            position    = positionArr->data;
 
             break;
         }
@@ -1120,7 +1120,7 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
             SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachment = deformTimeline->attachmentData->childPtr;
 
             positionArr = skinnedMeshAttachment->weightVertexArr;
-            position    = AArray_GetData(positionArr, float);
+            position    = positionArr->data;
 
             break;
         }
@@ -1131,11 +1131,7 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
     if (time >= frames[frameLength - 1])
     {
         // time is after last frame.
-        float* lastVertex = AArray_GetData
-                           (
-                               AArray_Get(deformTimeline->vertexArr, frameLength - 1, Array(float)*),
-                               float
-                           );
+        float* lastVertex = AArray_Get(deformTimeline->vertexArr, frameLength - 1, Array(float)*)->data;
 
         if (mixPercent < 1.0f)
         {
@@ -1155,27 +1151,18 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
     }
 
     // interpolate between the previous frame and the current frame
-    int   frameIndex = BinarySearch(frames, frameLength, time);
+    int    frameIndex = BinarySearch(frames, frameLength, time);
     float  frameTime  = frames[frameIndex];
 
     float  percent    = GetCurvePercent
-                       (
-                           deformTimeline->curveTimeline,
-                           frameIndex - 1,
-                           1.0f - (time - frameTime) / (frames[frameIndex - 1] - frameTime)
-                       );
+                        (
+                            deformTimeline->curveTimeline,
+                            frameIndex - 1,
+                            1.0f - (time - frameTime) / (frames[frameIndex - 1] - frameTime)
+                        );
 
-    float* pre        = AArray_GetData
-                       (
-                           AArray_Get(deformTimeline->vertexArr, frameIndex - 1, Array(float)*),
-                           float
-                       );
-
-    float* next       = AArray_GetData
-                       (
-                           AArray_Get(deformTimeline->vertexArr, frameIndex, Array(float)*),
-                           float
-                       );
+    float* pre        = AArray_Get(deformTimeline->vertexArr, frameIndex - 1, Array(float)*)->data;
+    float* next       = AArray_Get(deformTimeline->vertexArr, frameIndex,     Array(float)*)->data;
 
     if (mixPercent < 1.0f)
     {

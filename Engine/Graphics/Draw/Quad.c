@@ -43,7 +43,7 @@ static Quad* Create(float width, float height)
 
 static void GetMaxSize(Array(Quad)* quadArr,  float* outWidth, float* outHeight)
 {
-    Quad* quads = AArray_GetData(quadArr, Quad);
+    Quad* quads = quadArr->data;
     Quad* quad  = quads;
 
     float  minX  = quad->offsetCenterX;
@@ -111,17 +111,17 @@ static void GetPosition2UV(Quad* quad, Texture* texture, float outPosition2UVDat
         outPosition2UVData,
         (float[Quad_Position2UVNum])
         {
-            qx, qy, // position 0
-            tx, ty, // texCoord 0
+            qx, qy, // position 0, top    left
+            tx, ty, // texCoord 0, top    left
 
-            qx, qh, // position 1
-            tx, th, // texCoord 1
+            qx, qh, // position 1, bottom left
+            tx, th, // texCoord 1, bottom left
 
-            qw, qh, // position 2
-            tw, th, // texCoord 2
+            qw, qh, // position 2, bottom right
+            tw, th, // texCoord 2, bottom right
 
-            qw, qy, // position 3
-            tw, ty, // texCoord 3
+            qw, qy, // position 3, top    right
+            tw, ty, // texCoord 3, top    right
         },
         Quad_Position2UVSize
     );
@@ -141,13 +141,10 @@ static void GetPosition3(Quad* quad, float outBornPositionData[Quad_Position3Num
         outBornPositionData,
         (float[Quad_Position3Num])
         {
-            qx, qy, 0.0f, // position 0
-        
-            qx, qh, 0.0f, // position 1
-        
-            qw ,qh, 0.0f, // position 2
-        
-            qw, qy, 0.0f, // position 3
+            qx, qy, 0.0f, // position 0, top    left
+            qx, qh, 0.0f, // position 1, bottom left
+            qw ,qh, 0.0f, // position 2, bottom right
+            qw, qy, 0.0f, // position 3, top    right
         },
         Quad_Position3Size
     );
@@ -167,13 +164,10 @@ static void GetUV(Quad* quad, Texture* texture, float outUVData[Quad_UVNum])
         outUVData,
         (float[Quad_UVNum])
         {
-            tx, ty, // texCoord 0
-
-            tx, th, // texCoord 1
-
-            tw, th, // texCoord 2
-
-            tw, ty, // texCoord 3
+            tx, ty, // texCoord 0, top    left
+            tx, th, // texCoord 1, bottom left
+            tw, th, // texCoord 2, bottom right
+            tw, ty, // texCoord 3, top    right
         },
         Quad_UVSize
     );

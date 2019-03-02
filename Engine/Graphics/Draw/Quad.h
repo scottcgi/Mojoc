@@ -94,7 +94,7 @@ typedef struct
     float offsetCenterX;
     
     /**
-     * The top left y offset the center
+     * The top left y offset the center.
      * default Quad center born in center of openGL coordinate,
      * so default value is (height / 2)
      */

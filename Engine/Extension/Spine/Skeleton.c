@@ -49,8 +49,8 @@ static inline void InitBone(Skeleton* skeleton, SkeletonData* skeletonData)
     skeleton->boneArr              = AArray->Create(sizeof(SkeletonBone), skeletonData->boneDataOrderArr->length);
     AArrayStrMap->InitWithCapacity(sizeof(SkeletonBone*), skeletonData->boneDataOrderArr->length, boneMap);
 
-    SkeletonBone*      bones       = AArray_GetData(skeleton->boneArr,              SkeletonBone);
-    SkeletonBoneData** bonesData   = AArray_GetData(skeletonData->boneDataOrderArr, SkeletonBoneData*);
+    SkeletonBone*      bones       = skeleton->boneArr->data;
+    SkeletonBoneData** bonesData   = skeletonData->boneDataOrderArr->data;
 
     for (int i = 0; i < skeleton->boneArr->length; ++i)
     {
@@ -85,8 +85,8 @@ static inline void InitSlot(Skeleton* skeleton, SkeletonData* skeletonData)
 
     AArrayStrMap->InitWithCapacity(sizeof(SkeletonSlot*), skeletonData->slotDataOrderArr->length, slotMap);
 
-    SkeletonSlot**     slotOrders    = AArray_GetData(skeleton->slotOrderArr,         SkeletonSlot*);
-    SkeletonSlotData** slotsData     = AArray_GetData(skeletonData->slotDataOrderArr, SkeletonSlotData*);
+    SkeletonSlot**     slotOrders    = skeleton->slotOrderArr->data;
+    SkeletonSlotData** slotsData     = skeletonData->slotDataOrderArr->data;
 
     for (int i = 0; i < skeleton->slotArr->length; ++i)
     {
@@ -370,7 +370,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
                     float  top    = texData[1];
                     float  width  = texData[4] - left;
                     float  height = texData[5] - top;
-                    float* uvs    = AArray_GetData(meshData->uvArr, float);
+                    float* uvs    = meshData->uvArr->data;
                     
                     for (int l = 0; l < meshData->uvArr->length; l += 2)
                     {

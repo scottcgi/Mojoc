@@ -91,11 +91,11 @@ struct ATweenTool
     struct ATweenTool* (*AddScaleY)    (float scaleY,  float duration);
 
     struct ATweenTool* (*AddScale2)    (
-                                           float            scaleX,  
-                                           float            scaleY,
-                                           float            duration,
-                                           bool            isRelative,
-                                           TweenEaseType   easeType
+                                           float             scaleX,
+                                           float             scaleY,
+                                           float             duration,
+                                           bool              isRelative,
+                                           TweenEaseType     easeType
                                        );
     struct ATweenTool* (*AddScaleSame2)(float scale,   float duration, bool isRelative, TweenEaseType  easeType);
 
