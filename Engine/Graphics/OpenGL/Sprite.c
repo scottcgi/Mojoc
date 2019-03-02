@@ -110,17 +110,15 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 
     AQuad->GetMaxSize(quadArr, &drawable->width, &drawable->height);
 
-    sprite->texture                   = texture;
-
+    sprite->texture                     = texture;
     sprite->vboIds[Sprite_BufferVertex] = 0;
     sprite->vboIds[Sprite_BufferIndex]  = 0;
-    sprite->vaoId                     = 0;
-
-    sprite->indexCount                = quadArr->length * Quad_IndexNum;
-    sprite->vertexArr                 = AArray->Create(sizeof(float),  quadArr->length * Quad_Position2UVNum);
-    sprite->indexArr                  = AArray->Create(sizeof(short), sprite->indexCount);
-
-    drawable->Render                  = Render;
+    sprite->vaoId                       = 0;
+    sprite->indexCount                  = quadArr->length * Quad_IndexNum;
+    sprite->vertexArr                   = AArray->Create(sizeof(float),  quadArr->length * Quad_Position2UVNum);
+    sprite->indexArr                    = AArray->Create(sizeof(short), sprite->indexCount);
+    
+    drawable->Render                    = Render;
 
     for (int i = 0; i < quadArr->length; ++i)
     {
@@ -131,7 +129,7 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
             (float*) sprite->vertexArr->data + i * Quad_Position2UVNum
         );
         
-        AQuad->GetIndex (i * 4, (short*) sprite->indexArr->data + i * Quad_IndexNum);
+        AQuad->GetIndex(i * 4, (short*) sprite->indexArr->data + i * Quad_IndexNum);
     }
 
     if (AGraphics->isUseVBO)

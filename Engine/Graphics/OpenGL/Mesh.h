@@ -67,6 +67,7 @@ struct Mesh
     /**
      * Every frame pop pair of [from, to] index in childList to draw.
      * if no range will default draw fromIndex to toIndex.
+     * if from equals to then means only draw child at to index.
      */
     ArrayQueue(int)      drawRangeQueue[1];
 
@@ -217,6 +218,7 @@ static inline void AMesh_Draw(Mesh* mesh)
 
 /**
  * Draw Mesh by fromIndex and toIndex.
+ * if fromIndex equals toIndex then means only draw child at toIndex.
  */
 static inline void AMesh_DrawByIndex(Mesh *mesh, int fromIndex, int toIndex)
 {

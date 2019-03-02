@@ -39,7 +39,7 @@ static int GetDirLength(const char* filePath)
 
 static void* CreateDataFromAbsolute(const char* absoluteFilePath, long* outSize)
 {
-    FILE* file = fopen(absoluteFilePath, "rb");
+    FILE* file = fopen(absoluteFilePath, "rbe"); // mode 'e' to set O_CLOEXEC
 
     if (file != NULL)
     {
@@ -64,7 +64,7 @@ static void* CreateDataFromAbsolute(const char* absoluteFilePath, long* outSize)
 
 static char* CreateStringFromAbsolute(const char* absoluteFilePath)
 {
-    FILE* file = fopen(absoluteFilePath, "rb");
+    FILE* file = fopen(absoluteFilePath, "rbe"); // mode 'e' to set O_CLOEXEC
 
     if (file != NULL)
     {
@@ -136,7 +136,7 @@ static void WriteDataToRelative(const char* relativeDirFilePath, void* data, siz
     char path[dirPathLength + strlen(relativeDirFilePath) + 2];
     sprintf(path, "%s/%s", dirPath, relativeDirFilePath);
 
-    FILE* file = fopen(path, "wb");
+    FILE* file = fopen(path, "wbe"); // mode 'e' to set O_CLOEXEC
     fwrite(data, size, 1, file);
     fclose(file);
 }

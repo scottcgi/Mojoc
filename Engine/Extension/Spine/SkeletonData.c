@@ -30,7 +30,7 @@ static ArrayStrMap(filePath, SkeletonData*) skeletonDataMap[1] = AArrayStrMap_In
 static void Release(SkeletonData* skeletonData)
 {
     bool isRemoved = AArrayStrMap->TryRemove(skeletonDataMap, skeletonData->filePath);
-    ALog_A(isRemoved, "ASkeletonData release not found %s in skeletonDataMap", skeletonData->filePath);
+    ALog_A(isRemoved, "ASkeletonData Release not found %s in skeletonDataMap", skeletonData->filePath);
 
     // bone data
     ArrayStrMap* boneDataMap = skeletonData->boneDataMap;
@@ -118,7 +118,7 @@ static void Release(SkeletonData* skeletonData)
     }
 
     // attachment
-    AArrayList->Release(skeletonData->attachmentDataList);\
+    AArrayList->Release(skeletonData->attachmentDataList);
 
     // texture atlas
     ATextureAtlas->Release(skeletonData->textureAtlas);
@@ -494,12 +494,12 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
             int  bonesByte          = bonesCount                       * sizeof(int);
             int  weightsByte        = weightsCount                     * sizeof(float);
 
-            length += verticesByte
-                   +  weightVerticesByte
-                   +  bonesByte
-                   +  weightsByte
-                   +  uvsByte
-                   +  trianglesByte;
+            length                 += verticesByte
+                                   +  weightVerticesByte
+                                   +  bonesByte
+                                   +  weightsByte
+                                   +  uvsByte
+                                   +  trianglesByte;
 
             attachmentData = CreateAttachmentData(length + nameLength, SkeletonAttachmentDataType_SkinnedMesh);
             length        += sizeof(SkeletonSkinnedMeshAttachmentData);
@@ -523,7 +523,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
 
             int*  bones = AArray_GetData(skinnedMeshAttachmentData->boneArr, int);
             skinnedMeshAttachmentData->weightArr->length = weightsCount;
-            skinnedMeshAttachmentData->weightArr->data   = (char*) bones   + bonesByte;
+            skinnedMeshAttachmentData->weightArr->data   = (char*) bones + bonesByte;
 
             float* weights = AArray_GetData(skinnedMeshAttachmentData->weightArr, float);
             for (int j = 0, b = 0, w = 0, v = 0; j < jsonVertexArr->valueList->size;)
@@ -601,8 +601,8 @@ static inline void ReadSkinDataSlot(JsonObject* skinSlot, SkeletonSkinData* skin
 
 static inline void ReadSkinData(JsonObject* root, SkeletonData* skeletonData)
 {
-    JsonObject*  skinDataObject  = AJsonObject->GetObject(root, "skins");
-    ArrayStrMap* skinDataMap     = skeletonData->skinDataMap;
+    JsonObject*  skinDataObject = AJsonObject->GetObject(root, "skins");
+    ArrayStrMap* skinDataMap    = skeletonData->skinDataMap;
     AArrayStrMap->InitWithCapacity(sizeof(SkeletonSkinData*), skinDataObject->valueMap->elementList->size, skinDataMap);
 
     for (int i = 0; i < skinDataObject->valueMap->elementList->size; ++i)
@@ -677,10 +677,10 @@ static inline void ReadCurve(SkeletonCurveTimeline* curveTimeline, int frameInde
 
 static inline void ReadAnimationBones
 (
-    SkeletonData*          skeletonData,
-    JsonObject*            jsonBones,
-    SkeletonAnimationData* animationData,
-    ArrayList*             skeletonTimelineArr
+    SkeletonData*                 skeletonData,
+    JsonObject*                   jsonBones,
+    SkeletonAnimationData*        animationData,
+    ArrayList(SkeletonTimeline*)* skeletonTimelineArr
 )
 {
 
@@ -714,12 +714,15 @@ static inline void ReadAnimationBones
         {
             const char* timelineType = AJsonObject->GetKey(jsonBoneTimeline, j);
             JsonArray*  timelineArr  = AJsonObject->GetArrayByIndex(jsonBoneTimeline, j);
-            bool        isOne        = false;
-            bool        isTwo        = false;
+            bool        isTranslate;
 
             if (strcmp(timelineType, "rotate") == 0)
             {
-                SkeletonRotateTimeline* rotateTimeline = ASkeletonTimeline->CreateRotate(timelineArr->valueList->size, boneIndex);
+                SkeletonRotateTimeline* rotateTimeline = ASkeletonTimeline->CreateRotate
+                                                         (
+                                                             timelineArr->valueList->size,
+                                                             boneIndex
+                                                         );
 
                 for (int k = 0, frameIndex = 0; k < timelineArr->valueList->size; ++k, ++frameIndex)
                 {
@@ -731,9 +734,12 @@ static inline void ReadAnimationBones
                     ReadCurve(rotateTimeline->curveTimeline, frameIndex, jsonTimeline);
                 }
 
-                // the array name is const no address, so &rotateTimeline->skeletonTimeline not working
                 SkeletonTimeline* skeletonTimeline = rotateTimeline->skeletonTimeline;
+                // because array is const no address
+                // so array equals &array
+                // and we use temporary variable to get the "array variable" address
                 AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
+
 
                 animationData->duration = AMath_Max
                                           (
@@ -747,17 +753,17 @@ static inline void ReadAnimationBones
                                           );
 
             }
-            else if ((isOne = strcmp(timelineType, "translate") == 0) || (isTwo = strcmp(timelineType, "scale") == 0))
+            else if ((isTranslate = strcmp(timelineType, "translate") == 0) || (strcmp(timelineType, "scale") == 0))
             {
                 SkeletonTranslateTimeline* translateTimeline = NULL;
                 SkeletonTimeline*          skeletonTimeline;
 
-                if (isOne)
+                if (isTranslate)
                 {
                     translateTimeline = ASkeletonTimeline->CreateTranslate(timelineArr->valueList->size, boneIndex);
 
                 }
-                else if (isTwo)
+                else
                 {
                     SkeletonScaleTimeline* scaleTimeline = ASkeletonTimeline->CreateScale
                                                            (
@@ -768,19 +774,26 @@ static inline void ReadAnimationBones
                 }
 
                 skeletonTimeline = translateTimeline->skeletonTimeline;
+                // because array is const no address
+                // so array equals &array
+                // and we use temporary variable to get the "array variable" address
                 AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
                 for (int k = 0, frameIndex = 0; k < timelineArr->valueList->size; ++k, ++frameIndex)
                 {
                     JsonObject* jsonTimeline = AJsonArray->GetObject(timelineArr,  k);
-                    float        time         = AJsonObject->GetFloat(jsonTimeline, "time", 0.0f);
-                    float        x            = AJsonObject->GetFloat(jsonTimeline, "x",    0.0f);
-                    float        y            = AJsonObject->GetFloat(jsonTimeline, "y",    0.0f);
+                    float       time         = AJsonObject->GetFloat(jsonTimeline, "time", 0.0f);
+                    float       x            = AJsonObject->GetFloat(jsonTimeline, "x",    0.0f);
+                    float       y            = AJsonObject->GetFloat(jsonTimeline, "y",    0.0f);
 
-                    if (isOne)
+                    if (isTranslate)
                     {
                         x = AGLTool_ToGLWidth (x) * ASkeletonData->scale;
                         y = AGLTool_ToGLHeight(y) * ASkeletonData->scale;
+                    }
+                    else
+                    {
+                        // x, y is scale timeline value
                     }
 
                     ASkeletonTimeline->SetTranslateFrame(translateTimeline, frameIndex, time, x, y);
@@ -811,10 +824,10 @@ static inline void ReadAnimationBones
 
 static inline void ReadAnimationSlots
 (
-    SkeletonData*          skeletonData,
-    JsonObject*            jsonSlots,
-    SkeletonAnimationData* animationData,
-    ArrayList*             skeletonTimelineArr
+    SkeletonData*                 skeletonData,
+    JsonObject*                   jsonSlots,
+    SkeletonAnimationData*        animationData,
+    ArrayList(SkeletonTimeline*)* skeletonTimelineArr
 )
 {
     for (int i = 0; i < jsonSlots->valueMap->elementList->size; ++i)
@@ -843,7 +856,7 @@ static inline void ReadAnimationSlots
                 for (int k = 0, frameIndex = 0; k < timelineArr->valueList->size; ++k, ++frameIndex)
                 {
                     JsonObject* jsonTimeline = AJsonArray->GetObject(timelineArr,  k);
-                    float        time         = AJsonObject->GetFloat (jsonTimeline, "time", 0.0);
+                    float       time         = AJsonObject->GetFloat (jsonTimeline, "time", 0.0);
                     char*       color        = AJsonObject->GetString(jsonTimeline, "color", NULL);
 
                     Color c[1];
@@ -854,6 +867,9 @@ static inline void ReadAnimationSlots
                 }
 
                 SkeletonTimeline* skeletonTimeline = colorTimeline->skeletonTimeline;
+                // because array is const no address
+                // so array equals &array
+                // and we use temporary variable to get the "array variable" address
                 AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
                 animationData->duration = AMath_Max
@@ -870,20 +886,25 @@ static inline void ReadAnimationSlots
             }
             else if (strcmp(timelineType, "attachment") == 0)
             {
-                SkeletonAttachmentTimeline* attachmentTimeline = ASkeletonTimeline->
-                                                                 CreateAttachment(timelineArr->valueList->size);
+                SkeletonAttachmentTimeline* attachmentTimeline = ASkeletonTimeline->CreateAttachment
+                                                                 (
+                                                                     timelineArr->valueList->size
+                                                                 );
                 attachmentTimeline->slotIndex                  = slotIndex;
 
                 for (int k = 0, frameIndex = 0; k < timelineArr->valueList->size; ++k, ++frameIndex)
                 {
                     JsonObject* jsonTimeline = AJsonArray->GetObject (timelineArr,  k);
-                    float        time         = AJsonObject->GetFloat (jsonTimeline, "time", 0.0f);
+                    float       time         = AJsonObject->GetFloat (jsonTimeline, "time", 0.0f);
                     char*       name         = AJsonObject->GetString(jsonTimeline, "name", NULL);
 
                     ASkeletonTimeline->SetAttachmentFrame(attachmentTimeline, frameIndex, time, name);
                 }
 
                 SkeletonTimeline* skeletonTimeline = attachmentTimeline->skeletonTimeline;
+                // because array is const no address
+                // so array equals &array
+                // and we use temporary variable to get the "array variable" address
                 AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
                 animationData->duration = AMath_Max
@@ -909,10 +930,10 @@ static inline void ReadAnimationSlots
 
 static inline void ReadAnimationEvents
 (
-    SkeletonData*          skeletonData,
-    JsonArray*             jsonEvents,
-    SkeletonAnimationData* animationData,
-    ArrayList*             skeletonTimelineArr
+    SkeletonData*                 skeletonData,
+    JsonArray*                    jsonEvents,
+    SkeletonAnimationData*        animationData,
+    ArrayList(SkeletonTimeline*)* skeletonTimelineArr
 )
 {
 
@@ -922,7 +943,7 @@ static inline void ReadAnimationEvents
     {
         JsonObject*        eventObject = AJsonArray->GetObject(jsonEvents,  i);
         char*              eventName   = AJsonObject->GetString(eventObject, "name", NULL);
-        float               time        = AJsonObject->GetFloat (eventObject, "time", 0.0f);
+        float              time        = AJsonObject->GetFloat (eventObject, "time", 0.0f);
         SkeletonEventData* eventData   = AArrayStrMap_Get(skeletonData->eventDataMap, eventName, SkeletonEventData*);
 
         if (eventData == NULL)
@@ -932,7 +953,7 @@ static inline void ReadAnimationEvents
 
         char*              stringValue  = AJsonObject->GetString(eventObject, "string", eventData->stringValue);
         int                intValue     = AJsonObject->GetInt   (eventObject, "int",    eventData->intValue);
-        float               floatValue    = AJsonObject->GetFloat (eventObject, "float",  eventData->floatValue);
+        float              floatValue   = AJsonObject->GetFloat (eventObject, "float",  eventData->floatValue);
 
         int                eventLength  = (int) strlen(eventName)   + 1;
         int                valueLength  = (int) strlen(stringValue) + 1;
@@ -945,12 +966,15 @@ static inline void ReadAnimationEvents
         memcpy((void*) newEventData->stringValue, stringValue, (size_t) valueLength);
 
         newEventData->intValue          = intValue;
-        newEventData->floatValue         = floatValue;
+        newEventData->floatValue        = floatValue;
 
         ASkeletonTimeline->SetEventFrame(eventTimeline, frameIndex, time, newEventData);
     }
 
     SkeletonTimeline* skeletonTimeline = eventTimeline->skeletonTimeline;
+    // because array is const no address
+    // so array equals &array
+    // and we use temporary variable to get the "array variable" address
     AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
     animationData->duration = AMath_Max
@@ -963,10 +987,10 @@ static inline void ReadAnimationEvents
 
 static inline void ReadAnimationDrawOrders
 (
-    SkeletonData*          skeletonData,
-    JsonArray*             jsonDrawOrder,
-    SkeletonAnimationData* animationData,
-    ArrayList*             skeletonTimelineArr
+    SkeletonData*                 skeletonData,
+    JsonArray*                    jsonDrawOrder,
+    SkeletonAnimationData*        animationData,
+    ArrayList(SkeletonTimeline*)* skeletonTimelineArr
 )
 {
 
@@ -979,7 +1003,7 @@ static inline void ReadAnimationDrawOrders
     for (int i = 0, frameIndex = 0; i < jsonDrawOrder->valueList->size; ++i, ++frameIndex)
     {
         JsonObject* drawOrderObject = AJsonArray->GetObject(jsonDrawOrder,    i);
-        float        time            = AJsonObject->GetFloat (drawOrderObject,  "time", 0.0f);
+        float       time            = AJsonObject->GetFloat (drawOrderObject,  "time", 0.0f);
 
         JsonArray*  offsets         = AJsonObject->GetArray(drawOrderObject, "offsets");
         Array(int)* drawOrderArr    = NULL;
@@ -1002,7 +1026,6 @@ static inline void ReadAnimationDrawOrders
                 JsonObject* offset       = AJsonArray->GetObject(offsets, j);
                 char*       slotName     = AJsonObject->GetString(offset,  "slot",   NULL);
                 int         offsetIndex  = AJsonObject->GetInt   (offset,  "offset", 0);
-
                 slotIndex                = FindSlotIndex(skeletonData, slotName);
 
                 ALog_A
@@ -1051,6 +1074,9 @@ static inline void ReadAnimationDrawOrders
     }
 
     SkeletonTimeline* skeletonTimeline = drawOrderTimeline->skeletonTimeline;
+    // because array is const no address
+    // so array equals &array
+    // and we use temporary variable to get the "array variable" address
     AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
     animationData->duration = AMath_Max
@@ -1070,10 +1096,10 @@ static inline void ReadAnimationDrawOrders
 
 static inline void ReadAnimationDeform
 (
-    SkeletonData*          skeletonData,
-    JsonObject*            jsonDeform,
-    SkeletonAnimationData* animationData,
-    ArrayList*             skeletonTimelineArr
+    SkeletonData*                 skeletonData,
+    JsonObject*                   jsonDeform,
+    SkeletonAnimationData*        animationData,
+    ArrayList(SkeletonTimeline*)* skeletonTimelineArr
 )
 {
     for (int i = 0; i < jsonDeform->valueMap->elementList->size; ++i)
@@ -1102,8 +1128,8 @@ static inline void ReadAnimationDeform
                 JsonArray*              jsonMeshArr    = AJsonObject->GetArrayByIndex   (jsonMeshes, k);
                 const char*             meshName       = AJsonObject->GetKey            (jsonMeshes, k);
                 SkeletonDeformTimeline* deformTimeline = ASkeletonTimeline->CreateDeform(jsonMeshArr->valueList->size);
-
                 SkeletonAttachmentData* attachmentData = GetAttachmentDataBySkinData(skinData, slotName, meshName);
+
                 ALog_A
                 (
                     attachmentData != NULL,
@@ -1160,7 +1186,7 @@ static inline void ReadAnimationDeform
                             // vertexData   is x,y,z
                             // so convert   index in jsonVertices to vertexData
                             int   index        = (start >> 1) + start;  // NOLINT(hicpp-signed-bitwise)
-                            float  vertex       = AJsonArray->GetFloat(jsonVertexArr, m) * ASkeletonData->scale;
+                            float vertex       = AJsonArray->GetFloat(jsonVertexArr, m) * ASkeletonData->scale;
                             vertexData[index] += AGLTool_ToGLWidth(vertex);
                         }
                     }
@@ -1172,6 +1198,9 @@ static inline void ReadAnimationDeform
                 }
 
                 SkeletonTimeline* skeletonTimeline = deformTimeline->skeletonTimeline;
+                // because array is const no address
+                // so array equals &array
+                // and we use temporary variable to get the "array variable" address
                 AArrayList_Add(skeletonTimelineArr, skeletonTimeline);
 
                 animationData->duration = AMath_Max
@@ -1214,7 +1243,7 @@ static inline void ReadAnimationData(JsonObject* root, SkeletonData* skeletonDat
         animationData->name     = (char*) animationData + sizeof(SkeletonAnimationData);
         memcpy((void*) animationData->name, animationName, (size_t) animationNameLength);
 
-        ArrayList* skeletonTimelineArr = animationData->timelineArr;
+        ArrayList(SkeletonTimeline*)* skeletonTimelineArr = animationData->timelineArr;
         AArrayList->Init(sizeof(SkeletonTimeline*), skeletonTimelineArr);
 
         JsonObject* animationValue = AJsonObject->GetObjectByIndex(animationDataObject, i);
@@ -1291,7 +1320,7 @@ static inline void ReadEventData(JsonObject* root, SkeletonData* skeletonData)
         memcpy((void*) eventData->stringValue, stringValue, (size_t) valueLength);
 
         eventData->intValue            = AJsonObject->GetInt  (eventValue, "int",   0);
-        eventData->floatValue           = AJsonObject->GetFloat(eventValue, "float", 0.0f);
+        eventData->floatValue          = AJsonObject->GetFloat(eventValue, "float", 0.0f);
 
         AArrayStrMap_TryPut(eventDataMap, name, eventData);
     }
@@ -1455,10 +1484,10 @@ static SkeletonData* Get(const char* jsonFilePath)
         InitAtlas(skeletonData, path);
 
         skeletonData->filePath = AArrayStrMap_GetKey
-                                (
-                                    AArrayStrMap_TryPut(skeletonDataMap, jsonFilePath, skeletonData),
-                                    skeletonDataMap->valueTypeSize
-                                );
+                                 (
+                                     AArrayStrMap_TryPut(skeletonDataMap, jsonFilePath, skeletonData),
+                                     skeletonDataMap->valueTypeSize
+                                 );
     }
 
 //  Release(skeletonData);

@@ -35,7 +35,6 @@ static struct timespec last;
     ALog_A((callback) != NULL, #callback " in Application_MainImpl cannot NULL")
 
 
-
 static void Init()
 {
     AToolkit  ->Init();
@@ -66,7 +65,7 @@ static void Loop()
 {
     clock_gettime(CLOCK_MONOTONIC, &now);
     float deltaSeconds = (float) ((now.tv_nsec - last.tv_nsec) * 0.000000001 + (now.tv_sec - last.tv_sec));
-    last              =  now;
+    last               =  now;
 
     AScheduler   ->Update(deltaSeconds);
     ACoroutine   ->Update(deltaSeconds);
@@ -165,23 +164,23 @@ struct AApplication AApplication[1] =
 {{
      .callbacks =
      {{
-         .OnReady             = NULL,
-         .OnPause             = NULL,
-         .OnResume            = NULL,
-         .OnDestroy           = NULL,
-         .OnResized           = NULL,
-         .OnSaveData          = NULL,
+         .OnReady    = NULL,
+         .OnPause    = NULL,
+         .OnResume   = NULL,
+         .OnDestroy  = NULL,
+         .OnResized  = NULL,
+         .OnSaveData = NULL,
      }},
 
-     .Init     = Init,
-     .Loop     = Loop,
-     .Ready    = Ready,
-     .Resized  = Resized,
-     .Pause    = Pause,
-     .Resume   = Resume,
-     .Destroy  = Destroy,
-     .Touch    = Touch,
-     .Touches  = Touches,
-     .SaveData = SaveData,
+     .Init           = Init,
+     .Loop           = Loop,
+     .Ready          = Ready,
+     .Resized        = Resized,
+     .Pause          = Pause,
+     .Resume         = Resume,
+     .Destroy        = Destroy,
+     .Touch          = Touch,
+     .Touches        = Touches,
+     .SaveData       = SaveData,
 }};
 

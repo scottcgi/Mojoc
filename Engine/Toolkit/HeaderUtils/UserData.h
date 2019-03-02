@@ -130,6 +130,6 @@ static inline char* AUserData_GetSlotString(UserData* userData, int slotIndex)
  * Get slot ptr value with PtrType.
  */
 #define AUserData_GetSlotPtrWithType(userData, slotIndex, PtrType) \
-    ((PtrType) userData->slots[slotIndex].ptrValue)
+    ((PtrType) (userData)->slots[slotIndex].ptrValue)
 
 #endif

@@ -46,7 +46,7 @@ static void Init()
             uniform   mat4  uMVPMatrix;
             attribute vec4  aPosition;
             attribute vec2  aTexcoord;
-            attribute float  aOpacity;
+            attribute float aOpacity;
             attribute vec3  aRGB;
 
             varying   vec2  vTexcoord;

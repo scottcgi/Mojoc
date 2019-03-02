@@ -204,6 +204,7 @@ static void RenderQueue()
 {
     Drawable* drawable;
 
+    // rendering loop unrolling
     for (int i = 0;;)
     {
         while (i + 19 < renderQueue->size)
@@ -431,14 +432,14 @@ static void GetWorldScaleV2(Drawable* drawable, Vector2* outScaleV2)
          drawable->modelMatrix->m0,
          drawable->modelMatrix->m1,
          drawable->modelMatrix->m2,
-     }};
+    }};
 
     Vector3 vectorY[1] =
     {{
          drawable->modelMatrix->m4,
          drawable->modelMatrix->m5,
          drawable->modelMatrix->m6,
-     }};
+    }};
 
     outScaleV2->x = AVector3_Length(vectorX) * signX;
     outScaleV2->y = AVector3_Length(vectorY) * signY;

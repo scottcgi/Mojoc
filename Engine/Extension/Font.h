@@ -81,7 +81,7 @@ typedef struct
     /**
      * The spacing between chars, default 0.
      */
-    float                charSpacing;
+    float               charSpacing;
 
     /**
      * The Font that FontText belongs to.
@@ -114,7 +114,7 @@ struct AFont
 
     void      (*SetString)     (FontText* text, const char* str);
     void      (*SetInt)        (FontText* text, int         num);
-    void      (*SetFloat)      (FontText* text, float        num);
+    void      (*SetFloat)      (FontText* text, float       num);
 
     /**
      * Make Font can reuse in Get method,

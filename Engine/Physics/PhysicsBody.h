@@ -67,13 +67,13 @@ struct  PhysicsBody
      */
     int              userId;
 
-    float             positionX;
-    float             positionY;
-    float             velocityX;
-    float             velocityY;
-    float             accelerationX;
-    float             accelerationY;
-    float             rotationZ;
+    float            positionX;
+    float            positionY;
+    float            velocityX;
+    float            velocityY;
+    float            accelerationX;
+    float            accelerationY;
+    float            rotationZ;
 
     PhysicsShape     shape;
 
@@ -91,12 +91,12 @@ struct  PhysicsBody
     /**
      * Store born vertices.
      */
-    Array(float)      vertexArr[1];
+    Array(float)     vertexArr[1];
 
     /**
      * The vertices after transformed.
      */
-    Array(float)      transformedVertexArr[1];
+    Array(float)     transformedVertexArr[1];
 
     /**
      * When body collision callback.
@@ -154,7 +154,7 @@ static inline bool APhysicsBody_CheckCollisionGroup(PhysicsBody* physicsBody, in
  */
 static inline void APhysicsBody_AddCollisionGroup(PhysicsBody* physicsBody, int collisionGroup)
 {
-    ABitwise_Add(physicsBody->collisionGroup, collisionGroup);
+    ABitwise_Add(physicsBody->collisionGroup, collisionGroup); // NOLINT(hicpp-signed-bitwise)
 }
 
 

@@ -23,7 +23,7 @@
 /**
  * The target After the first and before the last entry.
  */
-static inline int BinarySearchByStep(float* values, int valuesLength, float target, int step)
+static inline int BinarySearchByStep(const float values[], int valuesLength, float target, int step)
 {
     int low  = 0;
     int high = valuesLength / step - 2;
@@ -33,7 +33,7 @@ static inline int BinarySearchByStep(float* values, int valuesLength, float targ
         return step;
     }
 
-    int current = high >> 1; // NOLINT(hicpp-signed-bitwise)
+    int current = (unsigned int) high >> 1; // NOLINT(hicpp-signed-bitwise)
 
     while (true)
     {
@@ -51,7 +51,7 @@ static inline int BinarySearchByStep(float* values, int valuesLength, float targ
             return (low + 1) * step;
         }
 
-        current = (low + high) >> 1; // NOLINT(hicpp-signed-bitwise)
+        current = (unsigned int) (low + high) >> 1; // NOLINT(hicpp-signed-bitwise)
     }
 }
 
@@ -59,7 +59,7 @@ static inline int BinarySearchByStep(float* values, int valuesLength, float targ
 /**
  * The target After the first and before the last entry.
  */
-static inline int BinarySearch(float* values, int valuesLength, float target)
+static inline int BinarySearch(const float values[], int valuesLength, float target)
 {
     int low  = 0;
     int high = valuesLength - 2;
@@ -69,7 +69,7 @@ static inline int BinarySearch(float* values, int valuesLength, float target)
         return 1;
     }
 
-    int current = high >> 1; // NOLINT(hicpp-signed-bitwise)
+    int current = (unsigned int) high >> 1; // NOLINT(hicpp-signed-bitwise)
 
     while (true)
     {
@@ -87,7 +87,7 @@ static inline int BinarySearch(float* values, int valuesLength, float target)
             return low + 1;
         }
 
-        current = (low + high) >> 1; // NOLINT(hicpp-signed-bitwise)
+        current = (unsigned int) (low + high) >> 1; // NOLINT(hicpp-signed-bitwise)
     }
 }
 
@@ -111,14 +111,14 @@ static inline void SetStepped(SkeletonCurveTimeline* curveTimeline, int frameInd
 }
 
 
-static const float  subDivStep  = 1.0f        / Bezier_Segments;
-static const float  subDivStep2 = subDivStep  * subDivStep;
-static const float  subDivStep3 = subDivStep2 * subDivStep;
-static const float  pre1        = 3           * subDivStep;
-static const float  pre2        = 3           * subDivStep2;
-static const float  pre4        = 6           * subDivStep2;
-static const float  pre5        = 6           * subDivStep3;
-static const float  subDivPre   = subDivStep3 / pre5;
+static const float subDivStep  = 1.0f        / Bezier_Segments;
+static const float subDivStep2 = subDivStep  * subDivStep;
+static const float subDivStep3 = subDivStep2 * subDivStep;
+static const float pre1        = 3           * subDivStep;
+static const float pre2        = 3           * subDivStep2;
+static const float pre4        = 6           * subDivStep2;
+static const float pre5        = 6           * subDivStep3;
+static const float subDivPre   = subDivStep3 / pre5;
 
 
 static void SetCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, float cx1, float cy1, float cx2, float cy2)
@@ -136,8 +136,8 @@ static void SetCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, float
     float  dfy    = cy1 * pre1 + tmpy * pre2 + dddfy * subDivPre;
 
     float* curves = AArray_GetData(curveTimeline->curveArr, float);
-    int    i     = frameIndex * Bezier_Size;
-    curves[i++]  = SkeletonCurveType_Bezier;
+    int    i      = frameIndex * Bezier_Size;
+    curves[i++]   = SkeletonCurveType_Bezier;
 
     float  x      = dfx;
     float  y      = dfy;
@@ -160,7 +160,7 @@ static void SetCurve(SkeletonCurveTimeline* curveTimeline, int frameIndex, float
 
 static inline float GetCurvePercent(SkeletonCurveTimeline* curveTimeline, int frameIndex, float percent)
 {
-    int   i      = frameIndex * Bezier_Size;
+    int    i      = frameIndex * Bezier_Size;
     float* curves = AArray_GetData(curveTimeline->curveArr, float);
     float  dfx    = curves[i];
 
@@ -240,7 +240,7 @@ enum
 
 static void SetRotateFrame(SkeletonRotateTimeline* rotateTimeline, int frameIndex, float time, float angle)
 {
-    float* frames           = AArray_GetData(rotateTimeline->frameArr, float);
+    float* frames          = AArray_GetData(rotateTimeline->frameArr, float);
     frameIndex            *= RotateFrame_Times;
     frames[frameIndex]     = time;
     frames[frameIndex + 1] = angle;
@@ -362,7 +362,7 @@ enum
 
 static void SetTranslateFrame(SkeletonTranslateTimeline* translateTimeline, int frameIndex, float time, float x, float y)
 {
-    float* frames           = AArray_GetData(translateTimeline->frameArr, float);
+    float* frames          = AArray_GetData(translateTimeline->frameArr, float);
     frameIndex            *= TranslateFrame_Times;
     frames[frameIndex]     = time;
     frames[frameIndex + 1] = x;
@@ -373,7 +373,7 @@ static void SetTranslateFrame(SkeletonTranslateTimeline* translateTimeline, int 
 static void TranslateApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, float time, float mixPercent)
 {
     SkeletonTranslateTimeline* translateTimeline = skeletonTimeline->childPtr;
-    float*                      frames            = AArray_GetData(translateTimeline->frameArr, float);
+    float*                     frames            = AArray_GetData(translateTimeline->frameArr, float);
 
     if (time < frames[0])
     {
@@ -402,15 +402,15 @@ static void TranslateApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleto
     }
 
     // interpolate between the last frame and the current frame.
-    int  frameIndex  = BinarySearchByStep(frames, frameLength, time, TranslateFrame_Times);
+    int   frameIndex  = BinarySearchByStep(frames, frameLength, time, TranslateFrame_Times);
     float lastFrameX  = frames[frameIndex - TranslateFrame_Y];
     float lastFrameY  = frames[frameIndex - TranslateFrame_X];
     float frameTime   = frames[frameIndex];
     float percent     = GetCurvePercent
-                       (
-                           translateTimeline->curveTimeline, frameIndex / TranslateFrame_Times - 1,
-                           1.0f - (time - frameTime) / (frames[frameIndex - TranslateFrame_Times] - frameTime)
-                       );
+                        (
+                            translateTimeline->curveTimeline, frameIndex / TranslateFrame_Times - 1,
+                            1.0f - (time - frameTime) / (frames[frameIndex - TranslateFrame_Times] - frameTime)
+                        );
 
     ADrawable_SetPosition2
     (
@@ -481,7 +481,6 @@ static void ScaleApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, f
     }
 
     int               frameLength = translateTimeline->frameArr->length;
-
     SkeletonBone*     bone        = AArray_GetPtr(skeleton->boneArr, translateTimeline->boneIndex, SkeletonBone);
     SkeletonBoneData* boneData    = bone->boneData;
     Drawable*         drawable    = bone->drawable;
@@ -506,12 +505,12 @@ static void ScaleApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, f
     }
 
     // interpolate between the last frame and the current frame.
-    int  frameIndex  = BinarySearchByStep(frames, frameLength, time, TranslateFrame_Times);
-    float lastFrameX  = frames[frameIndex - TranslateFrame_Y];
-    float lastFrameY  = frames[frameIndex - TranslateFrame_X];
-    float frameTime   = frames[frameIndex];
+    int   frameIndex = BinarySearchByStep(frames, frameLength, time, TranslateFrame_Times);
+    float lastFrameX = frames[frameIndex - TranslateFrame_Y];
+    float lastFrameY = frames[frameIndex - TranslateFrame_X];
+    float frameTime  = frames[frameIndex];
 
-    float percent     = 1.0f - (time - frameTime) / (frames[frameIndex - TranslateFrame_Times] - frameTime);
+    float percent    = 1.0f - (time - frameTime) / (frames[frameIndex - TranslateFrame_Times] - frameTime);
     percent          = GetCurvePercent(translateTimeline->curveTimeline, frameIndex / TranslateFrame_Times - 1, percent);
 
     ADrawable_SetScale2
@@ -571,7 +570,7 @@ enum
 
 static void SetColorFrame(SkeletonColorTimeline* colorTimeline, int frameIndex, float time,  Color* color)
 {
-    float* frames                      = AArray_GetData(colorTimeline->frameArr, float);
+    float* frames                     = AArray_GetData(colorTimeline->frameArr, float);
     frameIndex                       *= ColorFrame_Times;
     frames[frameIndex]                = time;
     frames[frameIndex + ColorFrame_R] = color->r;
@@ -584,7 +583,7 @@ static void SetColorFrame(SkeletonColorTimeline* colorTimeline, int frameIndex, 
 static void ColorApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, float time, float mixPercent)
 {
     SkeletonColorTimeline* colorTimeline = skeletonTimeline->childPtr;
-    float*                  frames        = AArray_GetData(colorTimeline->frameArr, float);
+    float*                 frames        = AArray_GetData(colorTimeline->frameArr, float);
 
     if (time < frames[0])
     {
@@ -612,7 +611,7 @@ static void ColorApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, f
     else
     {
         // interpolate between the last frame and the current frame.
-        int  frameIndex = BinarySearchByStep(frames, frameLength, time, ColorFrame_Times);
+        int   frameIndex = BinarySearchByStep(frames, frameLength, time, ColorFrame_Times);
         float frameTime  = frames[frameIndex];
         float r          = frames[frameIndex - ColorFrame_A];
         float g          = frames[frameIndex - ColorFrame_B];
@@ -620,16 +619,16 @@ static void ColorApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, f
         float a          = frames[frameIndex - ColorFrame_R];
 
         float percent    = GetCurvePercent
-                          (
+                           (
                                colorTimeline->curveTimeline,
                                frameIndex / ColorFrame_Times - 1,
                                1.0f - (time - frameTime) / (frames[frameIndex - ColorFrame_Times] - frameTime)
-                          );
+                           );
 
-        r              += (frames[frameIndex + ColorFrame_R] - r) * percent;
-        g              += (frames[frameIndex + ColorFrame_G] - g) * percent;
-        b              += (frames[frameIndex + ColorFrame_B] - b) * percent;
-        a              += (frames[frameIndex + ColorFrame_A] - a) * percent;
+        r               += (frames[frameIndex + ColorFrame_R] - r) * percent;
+        g               += (frames[frameIndex + ColorFrame_G] - g) * percent;
+        b               += (frames[frameIndex + ColorFrame_B] - b) * percent;
+        a               += (frames[frameIndex + ColorFrame_A] - a) * percent;
 
         if (mixPercent < 1.0f)
         {
@@ -809,7 +808,7 @@ static void EventApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, f
     }
 
     SkeletonEventTimeline* eventTimeline = skeletonTimeline->childPtr;
-    float*                  frames        = AArray_GetData(eventTimeline->frameArr, float);
+    float*                 frames        = AArray_GetData(eventTimeline->frameArr, float);
 
     // time is before first frame
     if (time < frames[0])
@@ -890,7 +889,7 @@ static void SetDrawOrderFrame
 (
     SkeletonDrawOrderTimeline*  drawOrderTimeline,
     int                         frameIndex,
-    float                        time, 
+    float                       time,
     Array(int)*                 drawOrder
 )
 {
@@ -1199,8 +1198,8 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
     {
         for (int i = 0; i < positionArr->length; i += 3)
         {
-            float p       = pre [i];
-            float n       = next[i];
+            float p      = pre [i];
+            float n      = next[i];
 
             position[i]  = p + (n - p) * percent;
 

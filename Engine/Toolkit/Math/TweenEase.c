@@ -16,7 +16,7 @@
 #include "Engine/Toolkit/Math/Math.h"
 
 
-#define VALUE from + (to - from)
+#define VALUE from + (to - from)  // NOLINT
 
 
 static float Linear(float from, float to, float time)

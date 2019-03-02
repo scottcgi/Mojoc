@@ -31,7 +31,7 @@ typedef struct Skeleton Skeleton;
  *
  * the transform, color and texture will render by the mesh list.
  */
-struct  Skeleton
+struct Skeleton
 {
     /**
      * The base class for provide draw functions.
@@ -106,8 +106,8 @@ struct ASkeleton
     void                     (*Apply)              (
                                                         Skeleton*              skeleton,
                                                         SkeletonAnimationData* animationData,
-                                                        float                   time,
-                                                        float                   mixPercent
+                                                        float                  time,
+                                                        float                  mixPercent
                                                    );
 };
 

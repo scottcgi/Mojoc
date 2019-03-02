@@ -209,7 +209,7 @@ static inline float AMath_Sqrtf(float x)
     union { float f; int i; } u = {x};
 
     u.i = 0x5f3759df - (u.i >> 1); // NOLINT(hicpp-signed-bitwise)
-    x  *= u.f; // for reduce one multiplication and increase one assignment
+    x  *= u.f; // reduce one multiplication and increase one assignment
 
     return x * (1.5f - 0.5f * x * u.f);
 }

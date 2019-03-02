@@ -43,7 +43,7 @@ struct Scheduler
     /**
      * Schedule interval time for update method called.
      */
-    float            intervalTime;
+    float           intervalTime;
 
     /**
      * Whether cancel scheduler, default false.
@@ -54,7 +54,7 @@ struct Scheduler
     /**
      * Current schedule time.
      */
-    float            currentTime;
+    float           currentTime;
 
     /**
      * Schedule callback.

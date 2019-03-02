@@ -22,7 +22,7 @@
 
 
 /**
- * OpenGL infos.
+ * OpenGL some information.
  */
 struct AGLInfo
 {

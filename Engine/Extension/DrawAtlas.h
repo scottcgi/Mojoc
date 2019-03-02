@@ -58,7 +58,7 @@ struct ADrawAtlas
     /**
      * Make drawAtlas can reuse in Get method.
      */
-    void       (*Release)      (DrawAtlas*  drawAtlas);
+    void       (*Release)      (DrawAtlas* drawAtlas);
 
     /**
      * Make quad can reuse in GetQuad method.

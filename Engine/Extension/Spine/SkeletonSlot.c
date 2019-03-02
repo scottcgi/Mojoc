@@ -97,7 +97,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
                                                                            );
 
             float*  positions      = AArray_GetData(subMesh->positionArr,                       float);
-            int*   bones          = AArray_GetData(skinnedMeshAttachmentData->boneArr,         int);
+            int*    bones          = AArray_GetData(skinnedMeshAttachmentData->boneArr,         int);
             float*  weights        = AArray_GetData(skinnedMeshAttachmentData->weightArr,       float);
             float*  weightVertices = AArray_GetData(skinnedMeshAttachmentData->weightVertexArr, float);
 
@@ -105,7 +105,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
             {
                 float wx = 0.0f;
                 float wy = 0.0f;
-                int  k  = bones[i] + i + 1;
+                int   k  = bones[i] + i + 1;
                 
                 ++i;
 
@@ -113,7 +113,7 @@ static inline void SetAttachmentToBone(SkeletonSlot* slot)
                 {
                     int           boneIndex = bones[i];
                     SkeletonBone* bone      = AArray_GetPtr(slot->skeleton->boneArr, boneIndex, SkeletonBone);
-                    float          weight    = weights[w];
+                    float         weight    = weights[w];
                     Vector2       v2[1];
 
                     AMatrix->MultiplyMV2

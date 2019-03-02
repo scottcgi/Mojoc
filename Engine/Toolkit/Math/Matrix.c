@@ -221,13 +221,13 @@ static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
                 z *= recipLen;
             }
 
-            float nc      = 1.0f - c;
-            float xy      = x * y;
-            float yz      = y * z;
-            float zx      = z * x;
-            float xs      = x * s;
-            float ys      = y * s;
-            float zs      = z * s;
+            float nc     = 1.0f - c;
+            float xy     = x  * y;
+            float yz     = y  * z;
+            float zx     = z  * x;
+            float xs     = x  * s;
+            float ys     = y  * s;
+            float zs     = z  * s;
 
             matrix4->m0  = x  * x  * nc + c;
             matrix4->m1  = xy * nc + zs;
@@ -579,7 +579,7 @@ static void Perspective(float fovy, float aspect, float near, float far, Matrix4
         "AMatrix Perspective failed, because far == near"
     );
 
-    float f               = 1.0f / (float) tan(fovy * MATH_PI360);
+    float f               = 1.0f / tanf(fovy * MATH_PI360);
     float rangeReciprocal = 1.0f / (near - far);
 
     outProjection->m0    = f / aspect;
@@ -612,9 +612,9 @@ static void Ortho(float left, float right, float bottom, float top, float near, 
         "AMatrix Ortho failed because right == left || top == bottom || far == near"
     );
 
-    float width         = 1.0f / (right - left);
-    float height        = 1.0f / (top   - bottom);
-    float depth         = 1.0f / (far   - near);
+    float width        = 1.0f / (right - left);
+    float height       = 1.0f / (top   - bottom);
+    float depth        = 1.0f / (far   - near);
 
     outProjection->m0  = 2.0f * width;  // x
     outProjection->m1  = 0.0f;

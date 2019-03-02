@@ -76,12 +76,12 @@ typedef struct
     /**
      * Each group has time angle, as [time, angle...]
      */
-    Array(float)*          frameArr;
+    Array(float)*         frameArr;
 
     /**
      * Index in SkeletonData's boneDataOrderArr.
      */
-    int                    boneIndex;
+    int                   boneIndex;
 }
 SkeletonRotateTimeline;
 
@@ -97,7 +97,7 @@ typedef struct
     /**
      * Each group has time x y, as [time, x, y...]
      */
-    Array(float)*          frameArr;
+    Array(float)*         frameArr;
 
     /**
      * Index in SkeletonData's boneDataOrderArr.
@@ -128,7 +128,7 @@ typedef struct
     /**
      * Each group has time r g b a, as [time, r, g, b, a...]
      */
-    Array(float)*          frameArr;
+    Array(float)*         frameArr;
 
     /**
      * Index in SkeletonData's slotDataOrderArr.
@@ -148,7 +148,7 @@ typedef struct
     /**
      * Each group has time, as [time...].
      */
-    Array(float)*        frameArr;
+    Array(float)*       frameArr;
     Array(const char*)* attachmentNameArr;
 
     /**
@@ -165,14 +165,14 @@ SkeletonAttachmentTimeline;
  */
 typedef struct
 {
-    SkeletonTimeline            skeletonTimeline[1];
+    SkeletonTimeline           skeletonTimeline[1];
 
     /**
      * Each group has time, as [time...].
      */
-    Array(float)*                frameArr;
-    Array(SkeletonEventData*)*  eventArr;
-    int                         preFrameIndex;
+    Array(float)*              frameArr;
+    Array(SkeletonEventData*)* eventArr;
+    int                        preFrameIndex;
 }
 SkeletonEventTimeline;
 
@@ -187,7 +187,7 @@ typedef struct
     /**
      * Each group has time, as [time...].
      */
-    Array(float)*        frameArr;
+    Array(float)*       frameArr;
 
     /**
      * Each frame has a new drawOrder array.
@@ -209,12 +209,12 @@ typedef struct
     /**
      * Each group has time, as [time...].
      */
-    Array(float)*            frameArr;
+    Array(float)*           frameArr;
 
     /**
      * Each frame has a new vertex array.
      */
-    Array(Array(float)*)*    vertexArr;
+    Array(Array(float)*)*   vertexArr;
 
     /**
      * Index in SkeletonData's slotDataOrderArr.
@@ -254,10 +254,10 @@ struct ASkeletonTimeline
     void (*SetCurve)          (
                                   SkeletonCurveTimeline* curveTimeline,
                                   int                    frameIndex,
-                                  float                   cx1,
-                                  float                   cy1,
-                                  float                   cx2,
-                                  float                   cy2
+                                  float                  cx1,
+                                  float                  cy1,
+                                  float                  cx2,
+                                  float                  cy2
                               );
 
     /**
@@ -270,39 +270,39 @@ struct ASkeletonTimeline
     void (*SetTranslateFrame) (
                                   SkeletonTranslateTimeline*  translateTimeline,
                                   int                         frameIndex,
-                                  float                        time,
-                                  float                        x,
-                                  float                        y
+                                  float                       time,
+                                  float                       x,
+                                  float                       y
                               );
     void (*SetColorFrame)     (
                                   SkeletonColorTimeline*      colorTimeline,
                                   int                         frameIndex,
-                                  float                        time, 
+                                  float                       time,
                                   Color*                      color
                               );
     void (*SetAttachmentFrame)(
                                   SkeletonAttachmentTimeline* attachmentTimeline,
                                   int                         frameIndex,
-                                  float                        time,
+                                  float                       time,
                                   const char*                 attachmentName
                               );
     void (*SetEventFrame)     (
                                   SkeletonEventTimeline*      eventTimeline,
                                   int                         frameIndex,
-                                  float                        time,
+                                  float                       time,
                                   SkeletonEventData*          eventData
                               );
     void (*SetDrawOrderFrame) (
                                   SkeletonDrawOrderTimeline*  drawOrderTimeline,
                                   int                         frameIndex,
-                                  float                        time,
+                                  float                       time,
                                   Array(int)*                 drawOrder
                               );
     void (*SetDeformFrame)    (
                                   SkeletonDeformTimeline*     deformTimeline,
                                   int                         frameIndex,
-                                  float                        time,
-                                  Array(float)*                vertexArr
+                                  float                       time,
+                                  Array(float)*               vertexArr
                               );
 };
 

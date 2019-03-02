@@ -142,10 +142,10 @@ static void Draw(Drawable* meshDrawable)
                 float  b       = subMesh->drawable->blendColor->b * meshDrawable->blendColor->b;
 
                 float* rgbData = (float*) (
-                                            (char*) mesh->vertexArr->data +
-                                            mesh->rgbDataOffset           +
-                                            subMesh->rgbDataOffset
-                                        );
+                                              (char*) mesh->vertexArr->data +
+                                              mesh->rgbDataOffset           +
+                                              subMesh->rgbDataOffset
+                                          );
 
                 for (int j = 0; j < subMesh->vertexCount; ++j)
                 {
@@ -172,10 +172,10 @@ static void Draw(Drawable* meshDrawable)
         if (isDrawnBefore != isDrawnAfter)
         {
             float* opacityData = (float*) (
-                                            (char*) mesh->vertexArr->data +
-                                            mesh->opacityDataOffset       +
-                                            subMesh->opacityDataOffset
-                                        );
+                                              (char*) mesh->vertexArr->data +
+                                              mesh->opacityDataOffset       +
+                                              subMesh->opacityDataOffset
+                                          );
 
             if (ADrawable_CheckState(subMesh->drawable, DrawableState_DrawChanged))
             {

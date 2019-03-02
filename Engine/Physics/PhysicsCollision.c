@@ -126,7 +126,7 @@ static inline bool TestPolygonPolygon(Array(float)* polygonA, Array(float)* poly
  */
 static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
 {
-    int  flag[2]   = {0, 0};
+    int   flag[2]  = {0, 0};
     float vertexX1 = AArray_Get(lineB, 0, float);
     float vertexX2 = AArray_Get(lineB, 2, float);
     float vertexY1 = AArray_Get(lineB, 1, float);
@@ -209,8 +209,8 @@ static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
  */
 static inline bool TestPolygonPoint(Array(float)* polygon, Array(float)* point)
 {
-    bool  inside     = false;
-    int   preIndex   = polygon->length - 2;
+    bool   inside     = false;
+    int    preIndex   = polygon->length - 2;
     float* vertexData = AArray_GetData(polygon, float);
     float  x          = AArray_Get    (point,   0, float);
     float  y          = AArray_Get    (point,   1, float);

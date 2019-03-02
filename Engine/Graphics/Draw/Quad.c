@@ -54,7 +54,7 @@ static void GetMaxSize(Array(Quad)* quadArr,  float* outWidth, float* outHeight)
 
     for (int i = 1; i < quadArr->length; ++i)
     {
-        quad         = quads + i;
+        quad          = quads + i;
 
         float leftX   = quad->offsetCenterX;
         float topY    = quad->offsetCenterY;

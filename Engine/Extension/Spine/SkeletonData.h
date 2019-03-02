@@ -32,12 +32,12 @@ struct  SkeletonBoneData
 {
     SkeletonBoneData* parent;
     const char*       name;
-    float              length;
-    float              x;
-    float              y;
-    float              rotationZ;
-    float              scaleX;
-    float              scaleY;
+    float             length;
+    float             x;
+    float             y;
+    float             rotationZ;
+    float             scaleX;
+    float             scaleY;
     bool              isInheritScale;
     bool              isInheritRotation;
 };
@@ -70,7 +70,7 @@ typedef struct
     const char* name;
     const char* stringValue;
     int         intValue;
-    float        floatValue;
+    float       floatValue;
 }
 SkeletonEventData;
 
@@ -81,7 +81,7 @@ SkeletonEventData;
 typedef struct
 {
     const char*                  name;
-    float                         duration;
+    float                        duration;
     ArrayList(SkeletonTimeline*) timelineArr[1];
 }
 SkeletonAnimationData;
@@ -188,12 +188,12 @@ SkeletonBoundingBoxAttachmentData;
  */
 typedef struct
 {
-    float                   width;
-    float                   height;
-    SkeletonAttachmentData  attachmentData[1];
+    float                  width;
+    float                  height;
+    SkeletonAttachmentData attachmentData[1];
 
-    Array(float)            vertexArr     [1];
-    Array(float)            uvArr         [1];
+    Array(float)           vertexArr     [1];
+    Array(float)           uvArr         [1];
 
     /**
      * Careful 4 byte aligned.
@@ -278,8 +278,8 @@ extern SkeletonAttachmentSubMeshOffset skeletonAttachmentSubMeshOffset[3];
  */
 typedef struct
 {
-    float                                                  width;
-    float                                                  height;
+    float                                                 width;
+    float                                                 height;
     const char*                                           filePath;
     TextureAtlas*                                         textureAtlas;
     SkeletonSkinData*                                     skinDataDefault;

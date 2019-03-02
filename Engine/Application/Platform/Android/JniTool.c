@@ -144,9 +144,9 @@ static void GetStaticMethodInfo
 
 static jvalue CallObjectMethod(jobject object, const char* methodName, const char* paramCode, ...)
 {
-    JNIEnv*   envPtr    = GetEnvPtr();
-    jclass    cls       = (*envPtr)->GetObjectClass(envPtr, object);
-    jmethodID methodId  = (*envPtr)->GetMethodID   (envPtr, cls, methodName, paramCode);
+    JNIEnv*   envPtr   = GetEnvPtr();
+    jclass    cls      = (*envPtr)->GetObjectClass(envPtr, object);
+    jmethodID methodId = (*envPtr)->GetMethodID   (envPtr, cls, methodName, paramCode);
 
     ALog_A
     (
@@ -163,7 +163,7 @@ static jvalue CallObjectMethod(jobject object, const char* methodName, const cha
 
     va_list  args;
     va_start(args, paramCode);
-    jvalue   value;
+    jvalue   value = {};
 
     switch (*p)
     {
@@ -236,7 +236,7 @@ static inline jvalue CallClassMethodV(jclass cls, const char* methodName, const 
     // skip '()' to find out the return type
     while (*p++ != ')');
 
-    jvalue value;
+    jvalue value = {};
     
     switch (*p)
     {

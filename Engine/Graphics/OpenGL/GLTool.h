@@ -62,7 +62,7 @@ struct AGLTool
     /**
      * When screen rect changed called.
      */
-    void   (*SetSize)              (int width, int height);
+    void   (*SetSize)            (int width, int height);
 
     /**
      * Load and compile shader from shaderSourceStr.
@@ -70,12 +70,12 @@ struct AGLTool
      *
      * if success return shader id else 0.
      */
-    GLuint (*LoadShader)           (GLenum shaderType, const char* shaderSourceStr);
+    GLuint (*LoadShader)         (GLenum shaderType, const char* shaderSourceStr);
 
     /**
      * Load vertex and fragment shader, and create program object, link program object.
      */
-    GLuint (*LoadProgram)          (const char* vertexSourceStr, const char* fragmentSourceStr);
+    GLuint (*LoadProgram)        (const char* vertexSourceStr, const char* fragmentSourceStr);
 
     /**
      * Create a program object from shader file path.
@@ -84,7 +84,7 @@ struct AGLTool
      *     Android: assets
      *     IOS    : NSBundle
      */
-    GLuint (*LoadProgramFromFile)  (const char* vertexShaderFilePath, const char* fragmentShaderFilePath);
+    GLuint (*LoadProgramFromFile)(const char* vertexShaderFilePath, const char* fragmentShaderFilePath);
 
     /**
      * Load texture from textureFilePath.
@@ -93,7 +93,7 @@ struct AGLTool
      *     Android: assets
      *     IOS    : NSBundle
      */
-    void (*LoadTexture)            (const char* textureFilePath, Texture* outTexture);
+    void (*LoadTexture)          (const char* textureFilePath, Texture* outTexture);
 };
 
 

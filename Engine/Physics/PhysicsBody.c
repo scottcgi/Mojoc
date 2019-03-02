@@ -115,8 +115,8 @@ static void Update(PhysicsBody* body, float deltaSeconds)
 
     // get final velocity in x and y direction
     // v1 = at + v0
-    body->velocityX  += (body->accelerationX + APhysicsWorld->gravity.x) * deltaSeconds;
-    body->velocityY  += (body->accelerationY + APhysicsWorld->gravity.y) * deltaSeconds;
+    body->velocityX   += (body->accelerationX + APhysicsWorld->gravity.x) * deltaSeconds;
+    body->velocityY   += (body->accelerationY + APhysicsWorld->gravity.y) * deltaSeconds;
 
     // get delta distance in x and y indirection
     // s = (v0 + v1) * t / 2
@@ -124,10 +124,10 @@ static void Update(PhysicsBody* body, float deltaSeconds)
     float dy           = (body->velocityY + vy) * deltaSeconds * 0.5f;
 
     // increase x and y distance
-    body->positionX  += dx;
-    body->positionY  += dy;
-    body->rotationZ   = AMath_Atan2(dx, dy);
-
+    body->positionX   += dx;
+    body->positionY   += dy;
+    body->rotationZ    = AMath_Atan2(dx, dy);
+                      
     float  cosRZ       = AMath_Cos(body->rotationZ);
     float  sinRZ       = AMath_Sin(body->rotationZ);
     float* vertices    = AArray_GetData(body->vertexArr, float);

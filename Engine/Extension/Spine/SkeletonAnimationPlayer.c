@@ -122,8 +122,8 @@ static inline void InitSkeletonAnimationPlayer
 )
 {
     ASkeleton->Init(skeletonData, player->skeleton);
-    player->preAnimationData      = NULL;
-    player->curAnimationData      = ASkeleton_GetAnimationData(player->skeleton, animationName);
+    player->preAnimationData = NULL;
+    player->curAnimationData = ASkeleton_GetAnimationData(player->skeleton, animationName);
 
     ALog_A
     (
@@ -173,6 +173,7 @@ static void SetAnimationMix(SkeletonAnimationPlayer* player, const char* animati
     player->mixTime          = 0.0f;
     player->mixDuration      = mixDuration;
     player->curAnimationData = ASkeleton_GetAnimationData(player->skeleton,  animationName);
+    
     ALog_A
     (
         player->curAnimationData != NULL,
@@ -219,6 +220,7 @@ static void Render(Drawable* drawable)
 static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, const char* slotName, Drawable* outDrawable)
 {
     SkeletonSlot* slot = ASkeletonAnimationPlayer_GetSlot(player, slotName);
+    
     ALog_A
     (
         slot != NULL,

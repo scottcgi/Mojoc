@@ -27,9 +27,9 @@
 static ArrayStrMap(filePath, TextureAtlas*) textureAtlasMap[1] = AArrayStrMap_Init(TextureAtlas*, 20);
 
 
-#define ReadFind(str)                                                        \
-    ABufferReader->ReadLine(buffer, range, line);                           \
-    isFound = ABufferReader->TryFindString(buffer, line, str);              \
+#define ReadFind(str)                                          \
+    ABufferReader->ReadLine(buffer, range, line);              \
+    isFound = ABufferReader->TryFindString(buffer, line, str); \
     ALog_A(isFound, "ATextureAtlas %s cannot find string = %s", filePath, str)
 
 

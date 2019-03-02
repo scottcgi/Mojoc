@@ -55,6 +55,7 @@ extern struct ATweenActionValueGetSetImpl ATweenActionValueGetSetImpl[1];
 
 /**
  * Easy-to-use for tween, and can use chain calls.
+ * cannot use typedef ATweenTool to avoid conflict with struct ATweenTool ATweenTool.
  */
 struct ATweenTool
 {

@@ -224,8 +224,8 @@ static void Release(Skeleton* skeleton)
     {
         AMesh->Release(AArrayList_GetPtr(skeleton->meshList, j, Mesh));
     }
-    AArrayList->Release(skeleton->meshList);
-
+    
+    AArrayList  ->Release(skeleton->meshList);
     AArrayStrMap->Release(skeleton->boneMap);
     AArrayStrMap->Release(skeleton->slotMap);
 }
@@ -317,16 +317,16 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
             case SkeletonAttachmentDataType_Region:
             {
                 SkeletonRegionAttachmentData* regionAttachmentData = attachmentData->childPtr;
-                subMesh                                            =  AMesh->AddChildWithQuad
-                                                                      (
-                                                                         AArrayList_GetPtr
-                                                                         (
-                                                                             skeleton->meshList,
-                                                                             regionAttachmentData->meshIndex,
-                                                                             Mesh
-                                                                         ),
-                                                                         regionAttachmentData->quad
-                                                                      );
+                subMesh                                            = AMesh->AddChildWithQuad
+                                                                     (
+                                                                        AArrayList_GetPtr
+                                                                        (
+                                                                            skeleton->meshList,
+                                                                            regionAttachmentData->meshIndex,
+                                                                            Mesh
+                                                                        ),
+                                                                        regionAttachmentData->quad
+                                                                     );
 
                 if (ASkeletonData->scale != 1.0f)
                 {
@@ -366,11 +366,11 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
                         texData
                     );
 
-                    float  left    = texData[0];
-                    float  top     = texData[1];
-                    float  width   = texData[4] - left;
-                    float  height  = texData[5] - top;
-                    float* uvs     = AArray_GetData(meshData->uvArr, float);
+                    float  left   = texData[0];
+                    float  top    = texData[1];
+                    float  width  = texData[4] - left;
+                    float  height = texData[5] - top;
+                    float* uvs    = AArray_GetData(meshData->uvArr, float);
                     
                     for (int l = 0; l < meshData->uvArr->length; l += 2)
                     {
@@ -419,12 +419,12 @@ static void Init(SkeletonData* skeletonData, Skeleton* outSkeleton)
 {
     ADrawable->Init(outSkeleton->drawable);
 
-    outSkeleton->drawable->Draw     = Draw;
-    outSkeleton->drawable->width    = skeletonData->width;
-    outSkeleton->drawable->height   = skeletonData->height;
-    outSkeleton->skeletonData       = skeletonData;
-    outSkeleton->curSkinData        = outSkeleton->skeletonData->skinDataDefault;
-    outSkeleton->FireSkeletonEvent  = NULL;
+    outSkeleton->drawable->Draw    = Draw;
+    outSkeleton->drawable->width   = skeletonData->width;
+    outSkeleton->drawable->height  = skeletonData->height;
+    outSkeleton->skeletonData      = skeletonData;
+    outSkeleton->curSkinData       = outSkeleton->skeletonData->skinDataDefault;
+    outSkeleton->FireSkeletonEvent = NULL;
 
     InitMeshList(outSkeleton, skeletonData);
     InitBone    (outSkeleton, skeletonData);
