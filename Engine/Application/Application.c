@@ -143,7 +143,7 @@ static void Touches(int fingerIds[], float pixelXs[], float pixelYs[], int touch
         AApplication->rootComponent,
         AApplication,
         ComponentMsg_OnTouch,
-        (Array[1]) {touches, touchesCount}
+        (Array(InputTouch*)[1]) {touches, touchesCount}
     );
 }
 

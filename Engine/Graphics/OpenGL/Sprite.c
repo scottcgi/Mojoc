@@ -14,6 +14,7 @@
 
 #include <stdlib.h>
 #include <memory.h>
+#include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/Sprite.h"
 #include "Engine/Toolkit/HeaderUtils/Struct.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderSprite.h"
@@ -116,6 +117,7 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
     sprite->indexCount                  = quadArr->length * Quad_IndexNum;
     sprite->vertexArr                   = AArray->Create(sizeof(float), quadArr->length * Quad_Position2UVNum);
     sprite->indexArr                    = AArray->Create(sizeof(short), sprite->indexCount);
+    sprite->vertexDataSize              = sprite->vertexArr->length * sizeof(float);
     
     drawable->Render                    = Render;
 
@@ -143,7 +145,7 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
         glBufferData
         (
             GL_ARRAY_BUFFER,
-            sprite->vertexArr->length * sizeof(float),
+            sprite->vertexDataSize,
             sprite->vertexArr->data,
             GL_STATIC_DRAW
         );
@@ -190,39 +192,40 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 }
 
 
-static void DeformRect(Sprite* sprite, float topLeft, float bottomLeft, float bottomRight, float topRight)
+static void Deform(Sprite* sprite, Array(float)* vertexFactorArr, bool isDeformUV)
 {
+    ALog_A
+    (
+        vertexFactorArr->length == sprite->vertexArr->length >> 1, // NOLINT(hicpp-signed-bitwise)
+        "ASprite Deform vertexFactorArr length = %d must equals the half sprite vertexArr length = %d",
+        vertexFactorArr->length,
+        sprite->vertexArr->length
+    );
+
     float* vertices = sprite->vertexArr->data;
+    float* factors  = vertexFactorArr->data;
 
-    for (int i = 0; i < sprite->vertexArr->length; i += Quad_Position2UVNum)
+    if (isDeformUV)
     {
-        vertices[i]      *= topLeft;     // position0 x
-        vertices[i + 1]  *= topLeft;     // position0 y
-        vertices[i + 2]  *= topLeft;     // texcoord0 x
-        vertices[i + 3]  *= topLeft;     // texcoord0 y
-
-        vertices[i + 4]  *= bottomLeft;  // position1 x
-        vertices[i + 5]  *= bottomLeft;  // position1 y
-        vertices[i + 6]  *= bottomLeft;  // texcoord1 x
-        vertices[i + 7]  *= bottomLeft;  // texcoord1 y
-
-        vertices[i + 8]  *= bottomRight; // position2 x
-        vertices[i + 9]  *= bottomRight; // position2 y
-        vertices[i + 10] *= bottomRight; // texcoord2 x
-        vertices[i + 11] *= bottomRight; // texcoord2 y
-
-        vertices[i + 12] *= topRight;    // position3 x
-        vertices[i + 13] *= topRight;    // position3 y
-        vertices[i + 14] *= topRight;    // texcoord3 x
-        vertices[i + 15] *= topRight;    // texcoord3 y
+        for (int i = 0; i < sprite->vertexArr->length; ++i)
+        {
+            vertices[i] *= factors[i];
+        }
+    }
+    else
+    {
+        for (int i = 0, j; i < sprite->vertexArr->length; i += Sprite_VertexNum)
+        {
+            vertices[i] *= factors[i];
+                     j   = i + 1;
+            vertices[j] *= factors[j];
+        }
     }
 
     if (AGraphics->isUseVBO)
     {
         // load the vertex data
         glBindBuffer(GL_ARRAY_BUFFER, sprite->vboIds[Sprite_BufferVertex]);
-
-        size_t vertexDataSize = sprite->vertexArr->length * sizeof(float);
 
         // without vao state update sub data
         if (AGraphics->isUseMapBuffer)
@@ -231,16 +234,16 @@ static void DeformRect(Sprite* sprite, float topLeft, float bottomLeft, float bo
                               (
                                   GL_ARRAY_BUFFER,
                                   0,
-                                  vertexDataSize,
+                                  sprite->vertexDataSize,
                                   GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT // NOLINT(hicpp-signed-bitwise)
                               );
 
-            memcpy(mappedPtr, sprite->vertexArr->data, vertexDataSize);
+            memcpy(mappedPtr, sprite->vertexArr->data, (size_t) sprite->vertexDataSize );
             glUnmapBuffer(GL_ARRAY_BUFFER);
         }
         else
         {
-            glBufferSubData(GL_ARRAY_BUFFER, 0, vertexDataSize, sprite->vertexArr->data);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, sprite->vertexDataSize , sprite->vertexArr->data);
         }
     }
 }
@@ -250,7 +253,7 @@ static void Init(Texture* texture, Sprite* outSprite)
 {
     Quad quad[1];
     AQuad->Init(texture->width, texture->height, quad);
-    InitSprite(outSprite, texture, (Array[1]) {quad, 1});
+    InitSprite(outSprite, texture, (Array(Quad)[1]) {quad, 1});
 }
 
 
@@ -265,7 +268,7 @@ static Sprite* Create(Texture* texture)
 
 static void InitWithQuad(Texture* texture, Quad* quad, Sprite* outSprite)
 {
-    InitSprite(outSprite, texture, (Array[1]) {quad, 1});
+    InitSprite(outSprite, texture, (Array(Quad)[1]) {quad, 1});
 }
 
 
@@ -320,6 +323,6 @@ struct ASprite ASprite[1] =
     InitWithQuadArray,
 
     Release,
-    DeformRect,
+    Deform,
     Render,
 };

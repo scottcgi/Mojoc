@@ -1077,8 +1077,8 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
         return;
     }
 
-    Array* positionArr = NULL;
-    float*  position   = NULL;
+    Array(float*)* positionArr = NULL;
+    float*         positions   = NULL;
 
     switch (deformTimeline->attachmentData->type)
     {
@@ -1110,7 +1110,7 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
                                                          );
 
             positionArr = subMesh->positionArr;
-            position    = positionArr->data;
+            positions   = positionArr->data;
 
             break;
         }
@@ -1120,7 +1120,7 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
             SkeletonSkinnedMeshAttachmentData* skinnedMeshAttachment = deformTimeline->attachmentData->childPtr;
 
             positionArr = skinnedMeshAttachment->weightVertexArr;
-            position    = positionArr->data;
+            positions   = positionArr->data;
 
             break;
         }
@@ -1137,14 +1137,14 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
         {
             for (int i = 0; i < positionArr->length; i += 3)
             {
-                position[i]  += (lastVertex[i]  - position[i])  * mixPercent;
-                int i1        = i + 1;
-                position[i1] += (lastVertex[i1] - position[i1]) * mixPercent;
+                positions[i]  += (lastVertex[i]  - positions[i])  * mixPercent;
+                int       i1   = i + 1;
+                positions[i1] += (lastVertex[i1] - positions[i1]) * mixPercent;
             }
         }
         else
         {
-            memcpy(position, lastVertex, positionArr->length * sizeof(float));
+            memcpy(positions, lastVertex, positionArr->length * sizeof(float));
         }
 
         return;
@@ -1168,16 +1168,16 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
     {
         for (int i = 0; i < positionArr->length; i += 3)
         {
-            float p       = pre [i];
-            float n       = next[i];
+            float p        = pre [i];
+            float n        = next[i];
 
-            position[i]  += (p + (n - p) * percent - position[i]) * mixPercent;
+            positions[i]  += (p + (n - p) * percent - positions[i]) * mixPercent;
 
-            int   i1      = i + 1;
-            p             = pre [i1];
-            n             = next[i1];
+            int   i1       = i + 1;
+            p              = pre [i1];
+            n              = next[i1];
 
-            position[i1] += (p + (n - p) * percent - position[i1]) * mixPercent;
+            positions[i1] += (p + (n - p) * percent - positions[i1]) * mixPercent;
         }
 
     }
@@ -1185,16 +1185,16 @@ static void DeformApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
     {
         for (int i = 0; i < positionArr->length; i += 3)
         {
-            float p      = pre [i];
-            float n      = next[i];
+            float p       = pre [i];
+            float n       = next[i];
 
-            position[i]  = p + (n - p) * percent;
+            positions[i]  = p + (n - p) * percent;
 
-            int  i1      = i + 1;
-            p            = pre [i1];
-            n            = next[i1];
+            int  i1       = i + 1;
+            p             = pre [i1];
+            n             = next[i1];
 
-            position[i1] = p + (n - p) * percent;
+            positions[i1] = p + (n - p) * percent;
         }
     }
 }

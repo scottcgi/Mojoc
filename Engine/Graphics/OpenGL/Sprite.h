@@ -89,7 +89,7 @@ typedef struct
 
     /**
      * If use VBO is NULL else buffer all vertex data.
-     * data model: [all position data | all uv data]
+     * data model: [x, y, u, v...x, y, u, v...]
      */
     Array(float)*  vertexArr;
 
@@ -114,6 +114,11 @@ typedef struct
      * All vertices index count.
      */
     int           indexCount;
+
+    /**
+     * The vertex bytes data size.
+     */
+    int           vertexDataSize;
 }
 Sprite;
 
@@ -154,10 +159,16 @@ struct ASprite
     void    (*Release)            (Sprite*  sprite);
 
     /**
-     * Deform Sprite rect area.
-     * the [topLeft, bottomLeft, bottomRight, topRight] will multiply each vertex.
+     * Deform Sprite vertex.
+     * the vertexFactorArr will multiply each vertex position.
+     *
+     * the Sprite consists of quads,
+     * and each quad vertices order is from top left counterclockwise to right top.
+     *
+     * isDeformUV     : if true the vertexFactorArr will also multiply each vertex uv.
+     * vertexFactorArr: the length must equals vertex positions number. (the half of Sprite vertexArr length)
      */
-    void    (*DeformRect)         (Sprite* sprite, float topLeft, float bottomLeft, float bottomRight, float topRight);
+    void    (*Deform)             (Sprite* sprite, Array(float)* vertexFactorArr, bool isDeformUV);
 
     /**
      * The implementation of Drawable's render function for render Sprite.

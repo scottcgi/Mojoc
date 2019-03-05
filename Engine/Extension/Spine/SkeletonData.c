@@ -174,7 +174,7 @@ static inline void ReadBoneData(JsonObject* root, SkeletonData* skeletonData)
     
     // hold SkeletonBoneData in JSON order
     skeletonData->boneDataOrderArr  = AArray->Create(sizeof(SkeletonBoneData*), boneArr->valueList->size);
-    Array*       boneDataOrderArr   = skeletonData->boneDataOrderArr;
+    Array(float)* boneDataOrderArr  = skeletonData->boneDataOrderArr;
 
     for (int i = 0; i < boneArr->valueList->size; ++i)
     {
@@ -227,8 +227,8 @@ static inline void ReadSlotData(JsonObject* root, SkeletonData* skeletonData)
 
 
     // hold SkeletonSlotData in JSON order
-    skeletonData->slotDataOrderArr = AArray->Create(sizeof(SkeletonSlotData*), slotArr->valueList->size);
-    Array* slotDataOrderArr        = skeletonData->slotDataOrderArr;
+    skeletonData->slotDataOrderArr             = AArray->Create(sizeof(SkeletonSlotData*), slotArr->valueList->size);
+    Array(SkeletonSlotData*)* slotDataOrderArr = skeletonData->slotDataOrderArr;
 
     for (int i = 0; i < slotArr->valueList->size; ++i)
     {
@@ -1140,7 +1140,7 @@ static inline void ReadAnimationDeform
                 deformTimeline->slotIndex      = slotIndex;
                 deformTimeline->attachmentData = attachmentData;
 
-                Array* meshVertices = NULL;
+                Array(float)* meshVertices = NULL;
 
                 switch (attachmentData->type)
                 {
@@ -1166,9 +1166,9 @@ static inline void ReadAnimationDeform
 
                 for (int l = 0, frameIndex = 0; l < jsonMeshArr->valueList->size; ++l, ++frameIndex)
                 {
-                    JsonObject* jsonMesh      = AJsonArray->GetObject(jsonMeshArr, l);
-                    JsonArray*  jsonVertexArr = AJsonObject->GetArray(jsonMesh,    "vertices");
-                    Array*      vertexArr     = AArray->Create(sizeof(float), meshVertices->length);
+                    JsonObject*   jsonMesh      = AJsonArray->GetObject(jsonMeshArr, l);
+                    JsonArray*    jsonVertexArr = AJsonObject->GetArray(jsonMesh,    "vertices");
+                    Array(float)* vertexArr     = AArray->Create(sizeof(float), meshVertices->length);
 
                     memcpy(vertexArr->data, meshVertices->data, sizeof(float) * meshVertices->length);
 
@@ -1372,10 +1372,9 @@ static inline void Parse(SkeletonData* skeletonData, const char* jsonFilePath)
 
 static inline void InitAtlas(SkeletonData* skeletonData, char* atlasPath)
 {
-    skeletonData->textureAtlas    = ATextureAtlas->Get(atlasPath);
-
-    ArrayStrMap* skinDataMap      = skeletonData->skinDataMap;
-    Array*       slotDataOrderArr = skeletonData->slotDataOrderArr;
+    skeletonData->textureAtlas                 = ATextureAtlas->Get(atlasPath);
+    ArrayStrMap*              skinDataMap      = skeletonData->skinDataMap;
+    Array(SkeletonSlotData*)* slotDataOrderArr = skeletonData->slotDataOrderArr;
 
     AArrayList->InitWithCapacity(sizeof(SkeletonAttachmentData*), 20, skeletonData->attachmentDataList);
 
