@@ -25,16 +25,15 @@ static inline void InitSubMesh(SubMesh* subMesh, float width, float height)
 
     subMesh->parent             = NULL;
     subMesh->index              = -1;
-
-    subMesh->vertexCount        = 0;
     subMesh->indexOffset        = 0;
-
     subMesh->positionDataOffset = 0;
     subMesh->uvDataOffset       = 0;
     subMesh->indexDataOffset    = 0;
     subMesh->opacityDataOffset  = 0;
     subMesh->rgbDataOffset      = 0;
 
+    subMesh->vertexCount        = subMesh->positionArr->length / Mesh_VertexPositionNum;
+    subMesh->vertexDataSize     = subMesh->vertexCount         * sizeof(float);
     subMesh->drawable->width    = width;
     subMesh->drawable->height   = height;
 }
@@ -55,10 +54,13 @@ static SubMesh* CreateWithData(Array(float)* positionArr, Array(float)* uvArr, A
     subMesh->positionArr->data   = (char*) subMesh->uvArr->data + uvDataSize;
     memcpy(subMesh->positionArr->data, positionArr->data, (size_t) positionDataSize);
 
-
     subMesh->indexArr->length    = indexArr->length;
     subMesh->indexArr->data      = (char*) subMesh->positionArr->data + (size_t) positionDataSize;
     memcpy(subMesh->indexArr->data, indexArr->data, (size_t) indexDataSize);
+
+    subMesh->indexDataSize       = indexDataSize;
+    subMesh->uvDataSize          = uvDataSize;
+    subMesh->positionDataSize    = positionDataSize;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -69,7 +71,7 @@ static SubMesh* CreateWithData(Array(float)* positionArr, Array(float)* uvArr, A
     float  maxY         = minY;
 
     // calculate SubMesh size
-    for (int i = Mesh_VertexPositionSize; i < subMesh->positionArr->length; i += Mesh_VertexPositionSize)
+    for (int i = Mesh_VertexPositionNum; i < subMesh->positionArr->length; i += Mesh_VertexPositionNum)
     {
         float x = positionData[i];
         float y = positionData[i + 1];
@@ -111,13 +113,11 @@ static void SetWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
 
     ALog_A(mesh != NULL, "ASubMesh SetWithQuad subMesh must has parent");
 
-    int uvDataSize = subMesh->uvArr->length * sizeof(float);
-
     memcpy
     (
         (char*)  mesh->vertexArr->data + mesh->uvDataOffset + subMesh->uvDataOffset,
         subMesh->uvArr->data,
-        (size_t) uvDataSize
+        (size_t) subMesh->uvDataSize
     );
 
     if (AGraphics->isUseVBO)
@@ -125,7 +125,7 @@ static void SetWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
         VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
         subData->target     = GL_ARRAY_BUFFER;
         subData->offset     = mesh->uvDataOffset + subMesh->uvDataOffset;
-        subData->length     = uvDataSize;
+        subData->size       = subMesh->uvDataSize;
         subData->data       = subMesh->uvArr->data;
     }
 }
@@ -135,17 +135,21 @@ static SubMesh* CreateWithQuad(Texture* texture, Quad* quad)
 {
     SubMesh* subMesh = malloc(sizeof(SubMesh) + Quad_IndexSize + Quad_UVSize + Quad_Position3Size);
 
-    subMesh->indexArr->length     = Quad_IndexNum;
-    subMesh->indexArr->data       = (char*) subMesh + sizeof(SubMesh);
+    subMesh->indexArr->length    = Quad_IndexNum;
+    subMesh->indexArr->data      = (char*) subMesh + sizeof(SubMesh);
     AQuad->GetIndex(0, subMesh->indexArr->data);
 
-    subMesh->uvArr->length        = Quad_UVNum;
-    subMesh->uvArr->data          = (char*) subMesh->indexArr->data + Quad_IndexSize;
+    subMesh->uvArr->length       = Quad_UVNum;
+    subMesh->uvArr->data         = (char*) subMesh->indexArr->data + Quad_IndexSize;
     AQuad->GetUV(quad, texture, subMesh->uvArr->data);
 
-    subMesh->positionArr->length  = Quad_Position3Num;
-    subMesh->positionArr->data    = (char*) subMesh->uvArr->data + Quad_UVSize;
+    subMesh->positionArr->length = Quad_Position3Num;
+    subMesh->positionArr->data   = (char*) subMesh->uvArr->data    + Quad_UVSize;
     AQuad->GetPosition3(quad, subMesh->positionArr->data);
+
+    subMesh->indexDataSize       = Quad_IndexSize;
+    subMesh->uvDataSize          = Quad_UVSize;
+    subMesh->positionDataSize    = Quad_Position3Size;
 
     InitSubMesh(subMesh, quad->width, quad->height);
 

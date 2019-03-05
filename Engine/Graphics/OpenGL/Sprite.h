@@ -42,27 +42,27 @@ enum
     /**
      * One vertex position has x, y.
      */
-    Sprite_VertexPositionSize   = 2,
+    Sprite_VertexPositionNum    = 2,
 
     /**
      * One vertex has u, v.
      */
-    Sprite_VertexUVSize         = 2,
+    Sprite_VertexUVNum          = 2,
 
     /**
      * One vertex size.
      */
-    Sprite_VertexSize           = Sprite_VertexPositionSize + Sprite_VertexUVSize,
+    Sprite_VertexNum            = Sprite_VertexPositionNum    + Sprite_VertexUVNum,
 
     /**
      * 2 (x, y) * 4 (sizeof float)
      */
-    Sprite_VertexPositionStride = 8,
+    Sprite_VertexPositionStride = Sprite_VertexPositionNum    * sizeof(float),
 
     /**
      * 2 (u, v) * 4 (sizeof float)
      */
-    Sprite_VertexUVStride       = 8,
+    Sprite_VertexUVStride       = Sprite_VertexUVNum          * sizeof(float),
 
     /**
      * One vertex stride.
@@ -88,11 +88,6 @@ typedef struct
     Texture*      texture;
 
     /**
-     * All vertices index count.
-     */
-    int           indexCount;
-
-    /**
      * If use VBO is NULL else buffer all vertex data.
      * data model: [all position data | all uv data]
      */
@@ -112,6 +107,13 @@ typedef struct
      * If use VAO is the generated vao id else 0.
      */
     GLuint        vaoId;
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * All vertices index count.
+     */
+    int           indexCount;
 }
 Sprite;
 
@@ -140,10 +142,10 @@ struct ASprite
      *     Android: assets
      *     IOS    : NSBundle
      */
-    void    (*InitWithFile)       (const char* resourceFilePath,  Sprite* outSprite);
+    void    (*InitWithFile)       (const char* resourceFilePath, Sprite* outSprite);
 
-    Sprite* (*CreateWithQuad)     (Texture* texture,  Quad*   quad);
-    void    (*InitWithQuad)       (Texture* texture,  Quad*   quad, Sprite* outSprite);
+    Sprite* (*CreateWithQuad)     (Texture* texture, Quad* quad);
+    void    (*InitWithQuad)       (Texture* texture, Quad* quad, Sprite* outSprite);
 
 
     Sprite* (*CreateWithQuadArray)(Texture* texture, Array(Quad)* quadArr);
@@ -155,12 +157,12 @@ struct ASprite
      * Deform Sprite rect area.
      * the [topLeft, bottomLeft, bottomRight, topRight] will multiply each vertex.
      */
-    void    (*DeformRect)         (Sprite*  sprite, float topLeft, float bottomLeft, float bottomRight, float topRight);
+    void    (*DeformRect)         (Sprite* sprite, float topLeft, float bottomLeft, float bottomRight, float topRight);
 
     /**
      * The implementation of Drawable's render function for render Sprite.
      */
-    void    (*Render)             (Drawable*   drawable);
+    void    (*Render)             (Drawable* drawable);
 };
 
 

@@ -26,13 +26,28 @@
 
 
 /**
- * The data update to VBO buffer by glBufferSubData.
+ * The data update to VBO buffer by glBufferSubData or glMapBufferRange.
  */
 typedef struct
 {
+    /**
+     * GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER.
+     */
     GLenum     target;
+
+    /**
+     * The byte offset in VBO data.
+     */
     GLintptr   offset;
-    GLsizeiptr length;
+
+    /**
+     * The bytes size of update data.
+     */
+    GLsizeiptr size;
+
+    /**
+     * The update data ptr.
+     */
     GLvoid*    data;
 }
 VBOSubData;
@@ -115,44 +130,54 @@ struct Mesh
     int                   vertexCount;
 
     /**
-     * The uv data offset in vertexArr.
+     * The vertex bytes data size.
+     */
+    int                   vertexDataSize;
+
+    /**
+     * The index bytes data size.
+     */
+    int                   indexDataSize;
+
+    /**
+     * The uv bytes data offset in vertexArr.
      */
     int                   uvDataOffset;
 
     /**
-     * The rgb data offset in vertexArr.
+     * The rgb bytes data offset in vertexArr.
      */
     int                   rgbDataOffset;
 
     /**
-     * The opacity data offset in vertexArr.
+     * The opacity bytes data offset in vertexArr.
      */
     int                   opacityDataOffset;
 
     /**
-     * The position data bytes size.
+     * The position data length in vertexArr..
      */
-    int                   positionDataSize;
+    int                   positionDataLength;
 
     /**
-     * The UV data bytes size.
+     * The UV data length in vertexArr.
      */
-    int                   uvDataSize;
+    int                   uvDataLength;
 
     /**
-     * The RGB data bytes size.
+     * The RGB data length in vertexArr.
      */
-    int                   rgbDataSize;
+    int                   rgbDataLength;
 
     /**
-     * The opacity data bytes size.
+     * The opacity data length in vertexArr.
      */
-    int                   opacityDataSize;
+    int                   opacityDataLength;
 
     /**
-     * The index data bytes size.
+     * The index data length in indexArr.
      */
-    int                   indexDataSize;
+    int                   indexDataLength;
 };
 
 
@@ -174,15 +199,17 @@ struct AMesh
 
     /**
      * The positionArr, uvArr and indexArr will copy in SubMesh.
-     * SubMesh set parent and index by parent Mesh,
-     * and will free by parent Mesh Release.
+     * SubMesh set parent and index by parent Mesh, and will free by parent Mesh Release.
+     *
+     * important: before GenerateBuffer will not work correctly.
      */
     SubMesh*  (*AddChildWithData)  (Mesh* mesh, Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr);
 
     /**
      * SubMesh data calculate by Quad.
-     * SubMesh set parent and index by parent Mesh,
-     * and will free by parent Mesh Release.
+     * SubMesh set parent and index by parent Mesh, and will free by parent Mesh Release.
+     *
+     * important: before GenerateBuffer will not work correctly.
      */
     SubMesh*  (*AddChildWithQuad)  (Mesh* mesh, Quad* quad);
 
@@ -193,7 +220,9 @@ struct AMesh
 
     /**
      * Combine all children SubMesh data into buffer that will upload to GPU.
-     * when SubMesh init, remove or add, need to call this for generate buffer.
+     * when Mesh init or SubMesh add, need to call this for generate buffer.
+     * 
+     * usually generate buffer before Mesh's SubMesh stable.
      */
     void      (*GenerateBuffer)    (Mesh* mesh);
 

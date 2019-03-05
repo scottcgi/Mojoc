@@ -112,16 +112,16 @@ static void GetPosition2UV(Quad* quad, Texture* texture, float outPosition2UVDat
         (float[Quad_Position2UVNum])
         {
             qx, qy, // position 0, top    left
-            tx, ty, // texCoord 0, top    left
+            tx, ty, // texcoord 0, top    left
 
             qx, qh, // position 1, bottom left
-            tx, th, // texCoord 1, bottom left
+            tx, th, // texcoord 1, bottom left
 
             qw, qh, // position 2, bottom right
-            tw, th, // texCoord 2, bottom right
+            tw, th, // texcoord 2, bottom right
 
             qw, qy, // position 3, top    right
-            tw, ty, // texCoord 3, top    right
+            tw, ty, // texcoord 3, top    right
         },
         Quad_Position2UVSize
     );

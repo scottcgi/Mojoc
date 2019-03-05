@@ -43,42 +43,42 @@ enum
     /**
      * One vertex position has x, y, z.
      */
-    Mesh_VertexPositionSize    = 3,
+    Mesh_VertexPositionNum     = 3,
 
     /**
      * One vertex has u, v.
      */
-    Mesh_VertexUVSize          = 2,
+    Mesh_VertexUVNum           = 2,
 
     /**
      * One vertex has one opacity.
      */
-    Mesh_VertexOpacitySize     = 1,
+    Mesh_VertexOpacityNum      = 1,
 
     /**
      * One vertex has r, g, b.
      */
-    Mesh_VertexRGBSize         = 3,
+    Mesh_VertexRGBNum          = 3,
 
     /**
      * 3 (x ,y z) * 4 (sizeof float)
      */
-    Mesh_VertexPositionStride  = 12,
+    Mesh_VertexPositionStride  = Mesh_VertexPositionNum * sizeof(float),
 
     /**
      * 2 (u, v) * 4 (sizeof float)
      */
-    Mesh_VertexUVStride        = 8,
+    Mesh_VertexUVStride        = Mesh_VertexUVNum       * sizeof(float),
 
     /**
      * 1 * 4 (sizeof float)
      */
-    Mesh_VertexOpacityStride   = 4,
+    Mesh_VertexOpacityStride   = Mesh_VertexOpacityNum  * sizeof(float),
 
     /**
      * 3 (r, g, b) * 4 (sizeof float)
      */
-    Mesh_VertexRGBStride       = 12,
+    Mesh_VertexRGBStride       = Mesh_VertexRGBNum      * sizeof(float),
 };
 
 

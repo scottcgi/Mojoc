@@ -13,6 +13,7 @@
 
 
 #include <stdlib.h>
+#include <memory.h>
 #include "Engine/Graphics/OpenGL/Sprite.h"
 #include "Engine/Toolkit/HeaderUtils/Struct.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderSprite.h"
@@ -43,7 +44,7 @@ static void Render(Drawable* drawable)
         glVertexAttribPointer
         (
             (GLuint) AShaderSprite->attribPositionTexcoord,
-            Sprite_VertexSize,
+            Sprite_VertexNum,
             GL_FLOAT,
             false,
             Sprite_VertexStride,
@@ -62,7 +63,7 @@ static void Render(Drawable* drawable)
         glVertexAttribPointer
         (
             (GLuint) AShaderSprite->attribPositionTexcoord,
-            Sprite_VertexSize,
+            Sprite_VertexNum,
             GL_FLOAT,
             false,
             Sprite_VertexStride,
@@ -175,7 +176,7 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
             glVertexAttribPointer
             (
                 (GLuint) AShaderSprite->attribPositionTexcoord,
-                Sprite_VertexSize,
+                Sprite_VertexNum,
                 GL_FLOAT,
                 false,
                 Sprite_VertexStride,
@@ -189,13 +190,58 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 }
 
 
-static void DeformRect(Sprite*  sprite, float topLeft, float bottomLeft, float bottomRight, float topRight)
+static void DeformRect(Sprite* sprite, float topLeft, float bottomLeft, float bottomRight, float topRight)
 {
-    float* vectices = sprite->vertexArr->data;
+    float* vertices = sprite->vertexArr->data;
 
     for (int i = 0; i < sprite->vertexArr->length; i += Quad_Position2UVNum)
     {
-        
+        vertices[i]      *= topLeft;     // position0 x
+        vertices[i + 1]  *= topLeft;     // position0 y
+        vertices[i + 2]  *= topLeft;     // texcoord0 x
+        vertices[i + 3]  *= topLeft;     // texcoord0 y
+
+        vertices[i + 4]  *= bottomLeft;  // position1 x
+        vertices[i + 5]  *= bottomLeft;  // position1 y
+        vertices[i + 6]  *= bottomLeft;  // texcoord1 x
+        vertices[i + 7]  *= bottomLeft;  // texcoord1 y
+
+        vertices[i + 8]  *= bottomRight; // position2 x
+        vertices[i + 9]  *= bottomRight; // position2 y
+        vertices[i + 10] *= bottomRight; // texcoord2 x
+        vertices[i + 11] *= bottomRight; // texcoord2 y
+
+        vertices[i + 12] *= topRight;    // position3 x
+        vertices[i + 13] *= topRight;    // position3 y
+        vertices[i + 14] *= topRight;    // texcoord3 x
+        vertices[i + 15] *= topRight;    // texcoord3 y
+    }
+
+    if (AGraphics->isUseVBO)
+    {
+        // load the vertex data
+        glBindBuffer(GL_ARRAY_BUFFER, sprite->vboIds[Sprite_BufferVertex]);
+
+        size_t vertexDataSize = sprite->vertexArr->length * sizeof(float);
+
+        // without vao state update sub data
+        if (AGraphics->isUseMapBuffer)
+        {
+            void* mappedPtr = glMapBufferRange
+                              (
+                                  GL_ARRAY_BUFFER,
+                                  0,
+                                  vertexDataSize,
+                                  GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT // NOLINT(hicpp-signed-bitwise)
+                              );
+
+            memcpy(mappedPtr, sprite->vertexArr->data, vertexDataSize);
+            glUnmapBuffer(GL_ARRAY_BUFFER);
+        }
+        else
+        {
+            glBufferSubData(GL_ARRAY_BUFFER, 0, vertexDataSize, sprite->vertexArr->data);
+        }
     }
 }
 

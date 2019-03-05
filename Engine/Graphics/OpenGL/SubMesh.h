@@ -62,22 +62,42 @@ struct SubMesh
     int           vertexCount;
 
     /**
+     * The vertex bytes data size.
+     */
+    int           vertexDataSize;
+
+    /**
+     * The index bytes data size.
+     */
+    int           indexDataSize;
+
+    /**
+     * The position bytes data size.
+     */
+    int           positionDataSize;
+
+    /**
+     * The uv bytes data size.
+     */
+    int           uvDataSize;
+
+    /**
      * The index offset in parent Mesh indexArr.
      */
     int           indexOffset;
 
     /**
-     * The position data bytes offset in parent Mesh vertexArr.
+     * The position bytes data offset in parent Mesh vertexArr.
      */
     int           positionDataOffset;
 
     /**
-     * The uv data bytes offset in parent Mesh vertexArr.
+     * The uv bytes data offset in parent Mesh vertexArr.
      */
     int           uvDataOffset;
 
     /**
-     * The rgb data bytes offset in parent Mesh vertexArr.
+     * The rgb bytes data offset in parent Mesh vertexArr.
      */
     int           rgbDataOffset;
 
