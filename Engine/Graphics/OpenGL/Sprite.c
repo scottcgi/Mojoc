@@ -207,18 +207,28 @@ static void Deform(Sprite* sprite, Array(float)* vertexFactorArr, bool isDeformU
 
     if (isDeformUV)
     {
-        for (int i = 0; i < sprite->vertexArr->length; ++i)
+        for (int i = 0, j; i < vertexFactorArr->length; i += Sprite_VertexPositionNum)
         {
-            vertices[i] *= factors[i];
+            float fx         = factors[i];
+            float fy         = factors[i + 1];
+            j                = i * 2; // to vertexArr x, y index
+            
+            vertices[j]     *= fx; // x
+            vertices[j + 1] *= fy; // y
+            vertices[j + 2] *= fx; // u
+            vertices[j + 3] *= fy; // v
         }
     }
     else
     {
-        for (int i = 0, j; i < sprite->vertexArr->length; i += Sprite_VertexNum)
+        for (int i = 0, j; i < vertexFactorArr->length; i += Sprite_VertexPositionNum)
         {
-            vertices[i] *= factors[i];
-                     j   = i + 1;
-            vertices[j] *= factors[j];
+            float fx         = factors[i];
+            float fy         = factors[i + 1];
+            j                = i * 2; // to vertexArr x, y index
+
+            vertices[j]     *= fx; // x
+            vertices[j + 1] *= fy; // y
         }
     }
 
@@ -253,7 +263,7 @@ static void Init(Texture* texture, Sprite* outSprite)
 {
     Quad quad[1];
     AQuad->Init(texture->width, texture->height, quad);
-    InitSprite(outSprite, texture, (Array(Quad)[1]) {quad, 1});
+    InitSprite(outSprite, texture, (Array(Quad)[1]) {quad, 1}); // equals AArray_Make(Quad, 1, *quad)
 }
 
 
@@ -268,7 +278,7 @@ static Sprite* Create(Texture* texture)
 
 static void InitWithQuad(Texture* texture, Quad* quad, Sprite* outSprite)
 {
-    InitSprite(outSprite, texture, (Array(Quad)[1]) {quad, 1});
+    InitSprite(outSprite, texture, (Array(Quad)[1]) {quad, 1}); // equals AArray_Make(Quad, 1, *quad)
 }
 
 
