@@ -54,25 +54,25 @@ ArrayList;
  */
 struct AArrayList
 {
-    ArrayList* (*Create)            (int ElementTypeSize);
-    void       (*Init)              (int ElementTypeSize, ArrayList* outArrayList);
+    ArrayList* (*Create)            (int elementTypeSize);
+    void       (*Init)              (int elementTypeSize, ArrayList* outArrayList);
 
-    ArrayList* (*CreateWithSize)    (int ElementTypeSize, int size);
-    void       (*InitWithSize)      (int ElementTypeSize, int size, ArrayList* outArrayList);
+    ArrayList* (*CreateWithSize)    (int elementTypeSize, int size);
+    void       (*InitWithSize)      (int elementTypeSize, int size, ArrayList* outArrayList);
 
-    ArrayList* (*CreateWithCapacity)(int ElementTypeSize, int capacity);
-    void       (*InitWithCapacity)  (int ElementTypeSize, int capacity, ArrayList* outArrayList);
+    ArrayList* (*CreateWithCapacity)(int elementTypeSize, int capacity);
+    void       (*InitWithCapacity)  (int elementTypeSize, int capacity, ArrayList* outArrayList);
 
     void       (*Release)           (ArrayList* arrayList);
 
     /**
-     * Increase one element memory (ElementTypeSize data) appended to ArrayList.
+     * Increase one element memory (elementTypeSize data) appended to ArrayList.
      * return elementPtr point the increase element.
      */
     void*      (*GetAdd)            (ArrayList* arrayList);
 
     /**
-     * Increase one element memory (ElementTypeSize data) at the index,
+     * Increase one element memory (elementTypeSize data) at the index,
      * and move index behind elements one position.
      *
      * index: range in [0, size - 1]
@@ -106,7 +106,7 @@ struct AArrayList
     /**
      * Add copy of array data.
      */
-    void       (*AddArray)          (ArrayList* arrayList, void* data, int length, int ElementTypeSize);
+    void       (*AddArray)          (ArrayList* arrayList, void* data, int length, int elementTypeSize);
 
     /**
      * Remove index of element and move behind elements.

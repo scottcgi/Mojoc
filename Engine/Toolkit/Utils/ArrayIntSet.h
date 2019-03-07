@@ -69,7 +69,7 @@ struct AArrayIntSet
     bool         (*IsContains)        (ArrayIntSet* arrayIntSet, intptr_t element);
 
     /**
-     * Clear all elements, reset size to 0, and keep memory spac.
+     * Clear all elements, reset size to 0, and keep memory space.
      */
     void         (*Clear)             (ArrayIntSet* arrayIntSet);
 };

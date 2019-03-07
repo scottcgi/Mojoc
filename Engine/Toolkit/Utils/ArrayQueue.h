@@ -27,12 +27,12 @@ typedef struct
     /**
      * ArrayQueue top element index.
      */
-    int       topIndex;
+    int                    topIndex;
 
     /**
      * Store all elements.
      */
-    ArrayList elementList[1];
+    ArrayList(ElementType) elementList[1];
 }
 ArrayQueue;
 
@@ -42,11 +42,11 @@ ArrayQueue;
  */
 struct AArrayQueue
 {
-    ArrayQueue* (*Create)            (int ElementTypeSize);
-    void        (*Init)              (int ElementTypeSize, ArrayQueue* outArrayQueue);
+    ArrayQueue* (*Create)            (int elementTypeSize);
+    void        (*Init)              (int elementTypeSize, ArrayQueue* outArrayQueue);
 
-    ArrayQueue* (*CreateWithCapacity)(int ElementTypeSize, int capacity);
-    void        (*InitWithCapacity)  (int ElementTypeSize, int capacity, ArrayQueue* outArrayQueue);
+    ArrayQueue* (*CreateWithCapacity)(int elementTypeSize, int capacity);
+    void        (*InitWithCapacity)  (int elementTypeSize, int capacity, ArrayQueue* outArrayQueue);
 
     void        (*Release)           (ArrayQueue* arrayQueue);
 
