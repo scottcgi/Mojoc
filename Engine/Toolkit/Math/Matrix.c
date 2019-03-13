@@ -333,10 +333,10 @@ static void RotateX(Matrix4* matrix4, float angle)
     *matrix4 = *temp2; // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
 */
 
-    float m4      = matrix4->m4;
-    float m5      = matrix4->m5;
-    float m6      = matrix4->m6;
-    float m7      = matrix4->m7;
+    float m4     = matrix4->m4;
+    float m5     = matrix4->m5;
+    float m6     = matrix4->m6;
+    float m7     = matrix4->m7;
 
     matrix4->m4  =  m4 *  c + matrix4->m8  * s;
     matrix4->m5  =  m5 *  c + matrix4->m9  * s;
@@ -371,10 +371,10 @@ static void RotateY(Matrix4* matrix4, float angle)
     *matrix4 = *temp2; // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
 */
 
-    float m0      = matrix4->m0;
-    float m1      = matrix4->m1;
-    float m2      = matrix4->m2;
-    float m3      = matrix4->m3;
+    float m0     = matrix4->m0;
+    float m1     = matrix4->m1;
+    float m2     = matrix4->m2;
+    float m3     = matrix4->m3;
 
     matrix4->m0  = m0 * c + matrix4->m8  * -s;
     matrix4->m1  = m1 * c + matrix4->m9  * -s;
@@ -409,10 +409,10 @@ static void RotateZ(Matrix4* matrix4, float angle)
     *matrix4 = *temp2; // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
 */
 
-    float m0     = matrix4->m0;
-    float m1     = matrix4->m1;
-    float m2     = matrix4->m2;
-    float m3     = matrix4->m3;
+    float m0    = matrix4->m0;
+    float m1    = matrix4->m1;
+    float m2    = matrix4->m2;
+    float m3    = matrix4->m3;
 
     matrix4->m0 = m0 *  c + matrix4->m4 * s;
     matrix4->m1 = m1 *  c + matrix4->m5 * s;

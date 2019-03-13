@@ -277,7 +277,7 @@ struct AJsonArray AJsonArray[1] =
 
 static inline void SkipWhiteSpace(const char** jsonPtr)
 {
-    const char* json  = *jsonPtr;
+    const char* json = *jsonPtr;
 
     while (true)
     {

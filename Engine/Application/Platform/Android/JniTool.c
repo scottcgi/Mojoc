@@ -39,7 +39,7 @@ static inline JNIEnv* GetEnvPtr()
 }
 
 
-static inline jclass GetClass(const char *className)
+static inline jclass GetClass(const char* className)
 {
     JNIEnv* envPtr                   = GetEnvPtr();
     static  jobject   classLoaderObj = NULL;

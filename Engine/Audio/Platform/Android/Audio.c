@@ -162,7 +162,7 @@ static SLmillisecond inline GetDuration(AudioPlayer* player)
 }
 
 
-static void PlayerCallback(SLPlayItf caller, void *pContext, SLuint32 event)
+static void PlayerCallback(SLPlayItf caller, void* pContext, SLuint32 event)
 {
     AudioPlayer* player = (AudioPlayer*) pContext;
 

@@ -249,7 +249,7 @@ static inline void AMesh_Draw(Mesh* mesh)
  * Draw Mesh by fromIndex and toIndex.
  * if fromIndex equals toIndex then means only draw child at toIndex.
  */
-static inline void AMesh_DrawByIndex(Mesh *mesh, int fromIndex, int toIndex)
+static inline void AMesh_DrawByIndex(Mesh* mesh, int fromIndex, int toIndex)
 {
     AArrayQueue_Push(mesh->drawRangeQueue, fromIndex);
     AArrayQueue_Push(mesh->drawRangeQueue, toIndex);

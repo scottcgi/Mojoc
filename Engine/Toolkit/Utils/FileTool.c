@@ -88,7 +88,7 @@ static char* CreateStringFromAbsolute(const char* absoluteFilePath)
 
 static void* CreateDataFromResource(const char* resourceFilePath, long* outSize)
 {
-    File* file    = AFile->Open(resourceFilePath);
+    File* file   = AFile->Open(resourceFilePath);
     long  length = AFile->GetLength(file);
     void* buffer = malloc((size_t) length);
     *outSize     = length;

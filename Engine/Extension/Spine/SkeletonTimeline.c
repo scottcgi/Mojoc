@@ -1040,7 +1040,7 @@ static void SetDeformFrame(SkeletonDeformTimeline* deformTimeline, int frameInde
 }
 
 
-static void DeformRelease(SkeletonTimeline *skeletonTimeline)
+static void DeformRelease(SkeletonTimeline* skeletonTimeline)
 {
     SkeletonDeformTimeline* deformTimeline = skeletonTimeline->childPtr;
 
