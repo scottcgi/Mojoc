@@ -17,82 +17,75 @@
 #include "Engine/Graphics/OpenGL/Camera.h"
 
 
-static Matrix4 identityMatrix[1] = MATRIX4_IDENTITY;
-static Matrix4 mvpMatrix     [1];
-
-
-static inline void SetMatrix()
+static inline void Render
+(
+    GLenum   mode,
+    void*    data,
+    Matrix4* mvpMatrix,
+    Color*   color,
+    float    pointOrLineSize,
+    int      count,
+    bool     isLine
+)
 {
-    AMatrix->MultiplyMM
+    if (isLine)
+    {
+        AShaderPrimitive->Use(mvpMatrix, color, 1.0f);
+        glLineWidth(pointOrLineSize);
+    }
+    else
+    {
+        AShaderPrimitive->Use(mvpMatrix, color, pointOrLineSize);
+    }
+
+    glVertexAttribPointer((GLuint) AShaderPrimitive->attribPosition, 2, GL_FLOAT, false, 0, data);
+    glDrawArrays(mode, 0, count);
+}
+
+
+static void RenderPoints(Array(float)* pointArr, Matrix4* mvpMatrix, Color* color, float pointSize)
+{
+    Render(GL_POINTS, pointArr->data, mvpMatrix, color, pointSize, pointArr->length >> 1, false); // NOLINT(hicpp-signed-bitwise)
+}
+
+
+static void RenderPolygon(Array(float)* vertexArr, Matrix4* mvpMatrix, Color* color, float lineWidth)
+{
+    Render(GL_LINE_LOOP, vertexArr->data, mvpMatrix, color, lineWidth, vertexArr->length >> 1, true); // NOLINT(hicpp-signed-bitwise)
+}
+
+
+static void RenderLines(Array(float)* lineArr, Matrix4* mvpMatrix, Color* color, float lineWidth)
+{
+    Render(GL_LINES, lineArr->data, mvpMatrix, color, lineWidth, lineArr->length >> 1, true); // NOLINT(hicpp-signed-bitwise)
+}
+
+
+static void RenderRect(Rect* rect, Matrix4* mvpMatrix, Color* color, float lineWidth)
+{
+    Render
     (
-        ACamera->vp,
-        AGLPrimitive->modelMatrix ? AGLPrimitive->modelMatrix : identityMatrix,
-        mvpMatrix
-    );
-
-    glLineWidth(AGLPrimitive->lineWidth);
-    AShaderPrimitive->Use(mvpMatrix, AGLPrimitive->color, AGLPrimitive->pointSize);
-}
-
-
-static void DrawPoints(Array(float)* pointArr)
-{
-    SetMatrix();
-    glVertexAttribPointer((GLuint) AShaderPrimitive->attribPosition, 2, GL_FLOAT, false, 0, pointArr->data);
-    glDrawArrays(GL_POINTS, 0, pointArr->length >> 1); // NOLINT(hicpp-signed-bitwise)
-}
-
-
-static void DrawPolygon(Array(float)* vertexArr)
-{
-    SetMatrix();
-    glVertexAttribPointer((GLuint) AShaderPrimitive->attribPosition, 2, GL_FLOAT, false, 0, vertexArr->data);
-    glDrawArrays(GL_LINE_LOOP, 0, vertexArr->length >> 1); // NOLINT(hicpp-signed-bitwise)
-}
-
-
-static void DrawLines(Array(float)* vertexArr)
-{
-    SetMatrix();
-    glVertexAttribPointer((GLuint) AShaderPrimitive->attribPosition, 2, GL_FLOAT, false, 0, vertexArr->data);
-    glDrawArrays(GL_LINES, 0, vertexArr->length >> 1); // NOLINT(hicpp-signed-bitwise)
-}
-
-
-static void DrawRect(Rect* rect)
-{
-    SetMatrix();
-
-    glVertexAttribPointer
-    (
-        (GLuint) AShaderPrimitive->attribPosition,
-        2,
-        GL_FLOAT,
-        false,
-        0,
-        (float[sizeof(Rect)])
+        GL_LINE_LOOP,
+        (float[8])
         {
             rect->top,    rect->left,
             rect->bottom, rect->left,
             rect->bottom, rect->right,
             rect->top,    rect->right,
-        }
+        },
+        mvpMatrix,
+        color,
+        lineWidth,
+        4,
+        true
     );
-
-    glDrawArrays(GL_LINE_LOOP, 0, 4);
 }
 
 
 struct AGLPrimitive AGLPrimitive[1] =
 {
-    1.0f,
-    1.0f,
-
-    COLOR_WHITE,
-    NULL,
-
-    DrawPoints,
-    DrawPolygon,
-    DrawLines,
-    DrawRect,
+    RenderPoints,
+    RenderPolygon,
+    RenderLines,
+    RenderRect,
 };

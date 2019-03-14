@@ -27,24 +27,24 @@ typedef struct
     /**
      * Increase memory space when needed, default 10.
      */
-    int                increase;
+    int   increase;
 
     /**
      * The sizeof element type.
      */
-    int                elementTypeSize;
+    int   elementTypeSize;
 
     /**
      * Elements count.
      */
-    int                size;
+    int   size;
 
     /**
      * Store memory data, the length is memory capacity.
      * if increase capacity, memory data will realloc,
      * so the data address may changed.
      */
-    Array(ElementType) elementArr[1];
+    Array elementArr[1];
 }
 ArrayList;
 

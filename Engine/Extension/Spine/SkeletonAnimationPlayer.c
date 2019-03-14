@@ -32,7 +32,7 @@ static inline void UpdateNormal(SkeletonAnimationPlayer* player, float deltaSeco
     else
     {
         ASkeleton->Apply(player->skeleton, player->curAnimationData, player->curAnimationData->duration, 1.0f);
-        ASkeleton_Draw   (player->skeleton);
+        ASkeleton_Draw  (player->skeleton);
 
         if (player->OnActionOver != NULL)
         {
@@ -209,11 +209,15 @@ static void Init(const char* jsonFilePath, const char* animationName, SkeletonAn
 
 static void Render(Drawable* drawable)
 {
-    SkeletonSlot* slot        = AUserData_GetSlotPtrWithType(drawable->userData, 0, SkeletonSlot*);
-    *AGLPrimitive->color      = *slot->color;
-    AGLPrimitive->modelMatrix = slot->bone->drawable->modelMatrix;
+    SkeletonSlot* slot = AUserData_GetSlotPtrWithType(drawable->userData, 0, SkeletonSlot*);
 
-    AGLPrimitive->DrawPolygon(ASkeletonSlot_GetBoundingBox(slot)->vertexArr);
+    AGLPrimitive->RenderPolygon
+    (
+        ASkeletonSlot_GetBoundingBox(slot)->vertexArr,
+        slot->bone->drawable->mvpMatrix,
+        slot->color,
+        1.0f
+    );
 }
 
 
@@ -231,6 +235,9 @@ static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, const c
     ADrawable->Init(outDrawable);
     AUserData_SetSlotPtr(outDrawable->userData, 0, slot);
     outDrawable->Render = Render;
+
+    // render requires slot mvpMatrix update
+    ADrawable_AddState(slot->bone->drawable, DrawableState_IsUpdateMVP);
 }
 
 

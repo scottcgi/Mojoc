@@ -70,7 +70,7 @@ static void Init()
     );
 
     // get the attribute locations
-    AShaderPrimitive->attribPosition   = glGetAttribLocation(AShaderPrimitive->program,  "aPosition");
+    AShaderPrimitive->attribPosition   = glGetAttribLocation (AShaderPrimitive->program, "aPosition");
     AShaderPrimitive->uniformMVPMatrix = glGetUniformLocation(AShaderPrimitive->program, "uMVPMatrix");
     AShaderPrimitive->uniformColor     = glGetUniformLocation(AShaderPrimitive->program, "uColor");
     AShaderPrimitive->uniformPointSize = glGetUniformLocation(AShaderPrimitive->program, "uPointSize");

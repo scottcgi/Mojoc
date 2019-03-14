@@ -123,7 +123,7 @@ struct ASkeletonAnimationPlayer
     void                     (*SetAnimationMix)(
                                                    SkeletonAnimationPlayer* player,
                                                    const char*              animationName,
-                                                   float                     mixDuration
+                                                   float                    mixDuration
                                                );
 
     /**
@@ -218,7 +218,7 @@ static inline float ASkeletonAnimationPlayer_GetWidth(SkeletonAnimationPlayer* p
 
 
 /**
- * Get the player height.+
+ * Get the player height.
  */
 static inline float ASkeletonAnimationPlayer_GetHeight(SkeletonAnimationPlayer* player)
 {

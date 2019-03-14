@@ -26,51 +26,29 @@
 
 /**
  * Draw something without texture.
+ * can render with Drawable's Render function.
  */
 struct AGLPrimitive
 {
     /**
-     * Default 1.0f.
+     * Render array of points, the point is pair of x, y.
      */
-    GLfloat  pointSize;
+    void (*RenderPoints) (Array(float)* pointArr,  Matrix4* mvpMatrix, Color* color, float pointSize);
 
     /**
-     * Default 1.0f.
+     * Render array of vertices, the vertex is pair of x, y.
      */
-    GLfloat  lineWidth;
+    void (*RenderPolygon)(Array(float)* vertexArr, Matrix4* mvpMatrix, Color* color, float lineWidth);
 
     /**
-     * Default {1.0f, 1.0f, 1.0f, 1.0f}.
+     * Render array of lines, the line is two pairs of x, y.
      */
-    Color    color[1];
+    void (*RenderLines)  (Array(float)* lineArr,   Matrix4* mvpMatrix, Color* color, float lineWidth);
 
     /**
-     * Default NULL.
+     * Render rect.
      */
-    Matrix4* modelMatrix;
-
-    /**
-     * Each point pair of x, y.
-     * if modelMatrix NULL will use identity matrix.
-     */
-    void (*DrawPoints) (Array(float)* pointArr);
-
-    /**
-     * Each vertex pair of x, y.
-     * if modelMatrix NULL will use identity matrix.
-     */
-    void (*DrawPolygon)(Array(float)* vertexArr);
-
-    /**
-     * Each vertex pair of x, y.
-     * if modelMatrix NULL will use identity matrix.
-     */
-    void (*DrawLines)  (Array(float)* vertexArr);
-
-    /**
-     * If modelMatrix NULL will use identity matrix
-     */
-    void (*DrawRect)   (Rect* rect);
+    void (*RenderRect)   (Rect*         rect,      Matrix4* mvpMatrix, Color* color, float lineWidth);
 };
 
 

@@ -27,12 +27,12 @@ typedef struct
     /**
      * ArrayQueue top element index.
      */
-    int                    topIndex;
+    int       topIndex;
 
     /**
      * Store all elements.
      */
-    ArrayList(ElementType) elementList[1];
+    ArrayList elementList[1];
 }
 ArrayQueue;
 
