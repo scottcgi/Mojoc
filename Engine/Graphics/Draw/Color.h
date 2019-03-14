@@ -38,8 +38,17 @@ struct AColor
 extern struct AColor AColor[1];
 
 
+#define COLOR_RED   {1.0f, 0.0f, 0.0f, 1.0f}
+#define COLOR_GREED {0.0f, 1.0f, 0.0f, 1.0f}
+#define COLOR_BLUE  {0.0f, 0.0f, 1.0f, 1.0f}
 #define COLOR_WHITE {1.0f, 1.0f, 1.0f, 1.0f}
-#define COLOR_BLACK {0.0f, 0.0f, 0.0f, 0.0f}
+#define COLOR_BLACK {0.0f, 0.0f, 0.0f, 1.0f}
+
+#define COLOR_RED_ARRAY   (Color[1]) {1.0f, 0.0f, 0.0f, 1.0f}
+#define COLOR_GREED_ARRAY (Color[1]) {0.0f, 1.0f, 0.0f, 1.0f}
+#define COLOR_BLUE_ARRAY  (Color[1]) {0.0f, 0.0f, 1.0f, 1.0f}
+#define COLOR_WHITE_ARRAY (Color[1]) {1.0f, 1.0f, 1.0f, 1.0f}
+#define COLOR_BLACK_ARRAY (Color[1]) {0.0f, 0.0f, 0.0f, 1.0f}
 
 
 #endif
