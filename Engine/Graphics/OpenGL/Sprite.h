@@ -167,10 +167,10 @@ struct ASprite
 
     /**
      * Deform Sprite vertex.
-     * the vertexFactorArr will multiply each vertex position.
+     * the vertexFactorArr will multiply each vertex position (pair of x y).
      *
      * the Sprite consists of quads,
-     * and each quad vertices order is from top left counterclockwise to right top.
+     * and each quad vertices order is from left-top counterclockwise to right-top.
      *
      * isDeformUV     : if true the vertexFactorArr will also multiply each vertex uv.
      * vertexFactorArr: the length must equals vertex positions number. (the half of Sprite vertexArr length)

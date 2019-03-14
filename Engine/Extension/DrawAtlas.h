@@ -46,7 +46,7 @@ DrawAtlas;
 struct ADrawAtlas
 {
     /**
-     * Get Font by filePath.
+     * Get DrawAtlas by filePath.
      *
      * filePath:
      *     Android: assets

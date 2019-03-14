@@ -201,7 +201,8 @@ struct AMesh
      * The positionArr, uvArr and indexArr will copy in SubMesh.
      * SubMesh set parent and index by parent Mesh, and will free by parent Mesh Release.
      *
-     * important: before GenerateBuffer will not work correctly.
+     * important: before GenerateBuffer will not work correctly,
+     *            and we can calling GenerateBuffer when all children have been added.
      */
     SubMesh*  (*AddChildWithData)  (Mesh* mesh, Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr);
 
@@ -209,7 +210,8 @@ struct AMesh
      * SubMesh data calculate by Quad.
      * SubMesh set parent and index by parent Mesh, and will free by parent Mesh Release.
      *
-     * important: before GenerateBuffer will not work correctly.
+     * important: before GenerateBuffer will not work correctly.，
+     *            and we can calling GenerateBuffer when all children have been added.
      */
     SubMesh*  (*AddChildWithQuad)  (Mesh* mesh, Quad* quad);
 

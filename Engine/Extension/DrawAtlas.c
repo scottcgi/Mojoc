@@ -28,7 +28,7 @@ static DrawAtlas* Get(const char* filePath)
     ALog_A
     (
         textureAtlas->textureList->size == 1,
-        "DrawAtlas not support TextureAtlas has multiple texture"
+        "DrawAtlas not support TextureAtlas has multiple textures"
     );
 
     DrawAtlas* drawAtlas = AArrayList_Pop(drawAtlasCacheList, DrawAtlas*);
@@ -44,7 +44,7 @@ static DrawAtlas* Get(const char* filePath)
             drawAtlas->mesh
         );
 
-        AArrayList->Init(sizeof(Drawable*), drawAtlas->quadList);
+        AArrayList->InitWithCapacity(sizeof(Drawable*), 20, drawAtlas->quadList);
     }
     else
     {
@@ -67,6 +67,14 @@ static Drawable* GetQuad(DrawAtlas* drawAtlas, const char* quadName)
 
     if (drawable == NULL)
     {
+        // cache more quads into quadList when cache empty
+        for (int i = 0; i < 5; ++i)
+        {
+            drawable = AMesh->AddChildWithQuad(drawAtlas->mesh, atlasQuad->quad)->drawable;
+            ADrawable_SetInvisible(drawable);
+            AArrayList_Add(drawAtlas->quadList, drawable);
+        }
+
         drawable = AMesh->AddChildWithQuad(drawAtlas->mesh, atlasQuad->quad)->drawable;
         AMesh->GenerateBuffer(drawAtlas->mesh);
     }
@@ -95,6 +103,7 @@ static void Release(DrawAtlas* drawAtlas)
         drawAtlas
     );
 
+    // quadList clear by Get function
     for (int i = 0; i < drawAtlas->quadList->size; ++i)
     {
         ADrawable_SetInvisible(AArrayList_Get(drawAtlas->quadList, i, Drawable*));
