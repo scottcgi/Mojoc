@@ -20,7 +20,8 @@
 
 
 /**
- * A rectangle.
+ * A rectangle made up of two diagonal vertices,
+ * and which are top-left and bottom-right.
  */
 typedef struct
 {

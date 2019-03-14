@@ -301,9 +301,15 @@ struct ADrawable
     void      (*Draw)                         (Drawable* drawable);
 
     /**
-     * Rendering Drawable queue and clear it wait for next frame.
+     * Call Render function of Drawable in the render queue and clear it for next frame.
+     * the drawable will push into render queue when it's Draw function called.
      */
-    void      (*RenderQueue)                  (void);
+    void      (*Render)                       (void);
+
+    /**
+     * Get render queue size.
+     */
+    int       (*GetDrawCalls)                 (void);
 
     /**
      * Convert localPositionX in localParent to world coordinate.

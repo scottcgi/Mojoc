@@ -77,7 +77,7 @@ static void Loop()
     AComponent->Update(AApplication->rootComponent, deltaSeconds);
 
     // rendering
-    ADrawable->RenderQueue();
+    ADrawable->Render();
 }
 
 

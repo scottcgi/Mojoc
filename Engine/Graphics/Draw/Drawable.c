@@ -21,6 +21,7 @@
 
 
 static ArrayList(Drawable*) renderQueue[1] = AArrayList_Init(Drawable*, 150);
+static int                  drawCalls;
 
 
 static void Draw(Drawable* drawable)
@@ -200,7 +201,7 @@ static void Draw(Drawable* drawable)
 }
 
 
-static void RenderQueue()
+static void Render()
 {
     Drawable* drawable;
 
@@ -336,7 +337,14 @@ static void RenderQueue()
         break;
     }
 
+    drawCalls = renderQueue->size;
     AArrayList->Clear(renderQueue);
+}
+
+
+static int GetDrawCalls()
+{
+    return drawCalls;
 }
 
 
@@ -739,7 +747,8 @@ struct ADrawable ADrawable[1] =
     Init,
 
     Draw,
-    RenderQueue,
+    Render,
+    GetDrawCalls,
 
     ConvertToWorldPositionX,
     ConvertToWorldPositionY,

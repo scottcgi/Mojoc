@@ -31,6 +31,8 @@ static void Render(Drawable* drawable)
 
     if (sprite->isDeformed)
     {
+        sprite->isDeformed = false;
+        
         if (AGraphics->isUseVBO)
         {
             // load the vertex data
