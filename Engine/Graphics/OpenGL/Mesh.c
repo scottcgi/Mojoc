@@ -283,6 +283,7 @@ static void Render(Drawable* drawable)
 
     glBindTexture(GL_TEXTURE_2D, mesh->texture->id);
 
+    // update SubMesh data in vbo
     if (mesh->vboSubDataList->size > 0)
     {
         // load the vertex data
@@ -328,10 +329,8 @@ static void Render(Drawable* drawable)
 
             goto UseVAO;
         }
-        else if (AGraphics->isUseVBO)
-        {
-            goto UseVBO;
-        }
+
+        goto UseVBO;
     }
 
     if (AGraphics->isUseVAO) // if isUseVAO then the isUseVBO must be true

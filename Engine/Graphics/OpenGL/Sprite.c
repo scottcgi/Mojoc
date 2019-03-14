@@ -29,8 +29,49 @@ static void Render(Drawable* drawable)
 
     glBindTexture(GL_TEXTURE_2D, sprite->texture->id);
 
+    if (sprite->isDeformed)
+    {
+        if (AGraphics->isUseVBO)
+        {
+            // load the vertex data
+            glBindBuffer(GL_ARRAY_BUFFER, sprite->vboIds[Sprite_BufferVertex]);
+
+            // without vao state update sub data
+            if (AGraphics->isUseMapBuffer)
+            {
+                void* mappedPtr = glMapBufferRange
+                                  (
+                                      GL_ARRAY_BUFFER,
+                                      0,
+                                      sprite->vertexDataSize,
+                                      GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT // NOLINT(hicpp-signed-bitwise)
+                                  );
+
+                memcpy(mappedPtr, sprite->vertexArr->data, (size_t) sprite->vertexDataSize );
+                glUnmapBuffer(GL_ARRAY_BUFFER);
+            }
+            else
+            {
+                glBufferSubData(GL_ARRAY_BUFFER, 0, sprite->vertexDataSize , sprite->vertexArr->data);
+            }
+
+            if (AGraphics->isUseVAO)
+            {
+                // clear VBO bind
+                glBindBuffer(GL_ARRAY_BUFFER, 0);
+                goto UseVAO;
+            }
+            
+            goto UseVBO;
+        }
+
+        goto UseNormal;
+    }
+
     if (AGraphics->isUseVAO)
     {
+        UseVAO:
+        
         glBindVertexArray(sprite->vaoId);
         glDrawElements(GL_TRIANGLES, sprite->indexCount, GL_UNSIGNED_SHORT, 0);
         // clear VAO bind
@@ -39,6 +80,9 @@ static void Render(Drawable* drawable)
     else if (AGraphics->isUseVBO)
     {
         glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIds[Sprite_BufferVertex]);
+
+        UseVBO:
+
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[Sprite_BufferIndex]);
 
         // load the position and texture coordinate
@@ -60,6 +104,8 @@ static void Render(Drawable* drawable)
     }
     else
     {
+        UseNormal:
+        
         // load the position and texture coordinate
         glVertexAttribPointer
         (
@@ -118,6 +164,7 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
     sprite->vertexArr                   = AArray->Create(sizeof(float), quadArr->length * Quad_Position2UVNum);
     sprite->indexArr                    = AArray->Create(sizeof(short), sprite->indexCount);
     sprite->vertexDataSize              = sprite->vertexArr->length * sizeof(float);
+    sprite->isDeformed                  = false;
     
     drawable->Render                    = Render;
 
@@ -232,30 +279,7 @@ static void Deform(Sprite* sprite, Array(float)* vertexFactorArr, bool isDeformU
         }
     }
 
-    if (AGraphics->isUseVBO)
-    {
-        // load the vertex data
-        glBindBuffer(GL_ARRAY_BUFFER, sprite->vboIds[Sprite_BufferVertex]);
-
-        // without vao state update sub data
-        if (AGraphics->isUseMapBuffer)
-        {
-            void* mappedPtr = glMapBufferRange
-                              (
-                                  GL_ARRAY_BUFFER,
-                                  0,
-                                  sprite->vertexDataSize,
-                                  GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT // NOLINT(hicpp-signed-bitwise)
-                              );
-
-            memcpy(mappedPtr, sprite->vertexArr->data, (size_t) sprite->vertexDataSize );
-            glUnmapBuffer(GL_ARRAY_BUFFER);
-        }
-        else
-        {
-            glBufferSubData(GL_ARRAY_BUFFER, 0, sprite->vertexDataSize , sprite->vertexArr->data);
-        }
-    }
+    sprite->isDeformed = true;
 }
 
 

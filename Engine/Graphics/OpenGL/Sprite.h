@@ -111,6 +111,13 @@ typedef struct
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
+     * Whether vertexArr has been deformed by ASprite Deform function.
+     * auto reset by Render function.
+     */
+    bool          isDeformed;
+
+
+    /**
      * All vertices index count.
      */
     int           indexCount;
