@@ -459,7 +459,7 @@ static void Init(Texture* texture, Mesh* outMesh)
     drawable->Draw                     = Draw;
     drawable->Render                   = Render;
 
-    ADrawable_AddState(drawable, DrawableState_IsUpdateMVP);
+    ADrawable_AddState(drawable, DrawableState_IsUpdateMVPMatrix);
 
     outMesh->texture                   = texture;
     outMesh->vboIds[Mesh_BufferIndex]  = 0;

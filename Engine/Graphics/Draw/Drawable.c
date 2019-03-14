@@ -75,7 +75,7 @@ static void Draw(Drawable* drawable)
                 AMatrix->RotateZ(drawable->modelMatrix, drawable->rotationZ);
             }
 
-            if (ADrawable_CheckState(drawable, DrawableState_IsUpdateMVP))
+            if (ADrawable_CheckState(drawable, DrawableState_IsUpdateMVPMatrix))
             {
                 AMatrix->MultiplyMM(ACamera->vp, drawable->modelMatrix, drawable->mvpMatrix);
             }
@@ -84,7 +84,7 @@ static void Draw(Drawable* drawable)
             ADrawable_AddState
             (
                 drawable,
-                DrawableState_TransformChanged | DrawableState_UpdateInverse  // NOLINT(hicpp-signed-bitwise)
+                DrawableState_TransformChanged | DrawableState_UpdateInverseMatrix  // NOLINT(hicpp-signed-bitwise)
             );
         }
         else
@@ -505,9 +505,9 @@ static void ConvertToWorldPositionV2(Drawable* localParent, Vector2* localPositi
 
 static inline void CheckInverse(Drawable* localParent)
 {
-    if (ADrawable_CheckState(localParent, DrawableState_UpdateInverse))
+    if (ADrawable_CheckState(localParent, DrawableState_UpdateInverseMatrix))
     {
-        ADrawable_ClearState(localParent, DrawableState_UpdateInverse);
+        ADrawable_ClearState(localParent, DrawableState_UpdateInverseMatrix);
         AMatrix->Inverse(localParent->modelMatrix, localParent->inverseMatrix);
     }
 }
@@ -715,10 +715,10 @@ static void Init(Drawable* outDrawable)
     ADrawable_AddState
     (
         outDrawable,
-        DrawableState_Transform     |  // NOLINT(hicpp-signed-bitwise)
-        DrawableState_UpdateInverse |
-        DrawableState_Color         |
-        DrawableState_IsBlendColor  |
+        DrawableState_Transform           |  // NOLINT(hicpp-signed-bitwise)
+        DrawableState_UpdateInverseMatrix |
+        DrawableState_Color               |
+        DrawableState_IsBlendColor        |
         DrawableState_DrawChanged
     );
 }

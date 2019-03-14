@@ -237,7 +237,7 @@ static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, const c
     outDrawable->Render = Render;
 
     // render requires slot mvpMatrix update
-    ADrawable_AddState(slot->bone->drawable, DrawableState_IsUpdateMVP);
+    ADrawable_AddState(slot->bone->drawable, DrawableState_IsUpdateMVPMatrix);
 }
 
 

@@ -33,83 +33,83 @@
  */
 typedef enum
 {
-    DrawableState_Null              = 0,
+    DrawableState_Null                = 0,
     
     /**
      * Whether drawable is invisible.
      */
-    DrawableState_IsInvisible       = 1,
+    DrawableState_IsInvisible         = 1,
 
     /**
      * Whether drawable mvp matrix need to update.
      */
-    DrawableState_IsUpdateMVP       = 1 << 1, // NOLINT(hicpp-signed-bitwise)
+    DrawableState_IsUpdateMVPMatrix   = 1 << 1, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Whether drawable calculate blendColor by parent.
      */
-    DrawableState_IsBlendColor      = 1 << 2, // NOLINT(hicpp-signed-bitwise)
+    DrawableState_IsBlendColor        = 1 << 2, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable inverse matrix need to update.
      */
-    DrawableState_UpdateInverse     = 1 << 3, // NOLINT(hicpp-signed-bitwise)
+    DrawableState_UpdateInverseMatrix = 1 << 3, // NOLINT(hicpp-signed-bitwise)
 
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
      * Flag drawable transform has changed.
      */
-    DrawableState_TransformChanged   = 1 << 4, // NOLINT(hicpp-signed-bitwise)
+    DrawableState_TransformChanged    = 1 << 4, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable rgb has changed.
      */
-    DrawableState_RGBChanged         = 1 << 5, // NOLINT(hicpp-signed-bitwise)
+    DrawableState_RGBChanged          = 1 << 5, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable opacity has changed.
      */
-    DrawableState_OpacityChanged     = 1 << 6, // NOLINT(hicpp-signed-bitwise)
+    DrawableState_OpacityChanged      = 1 << 6, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable has been drawn.
      */
-    DrawableState_DrawChanged        = 1 << 7, // NOLINT(hicpp-signed-bitwise)
+    DrawableState_DrawChanged         = 1 << 7, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable color has changed
      */
-    DrawableState_ColorChanged       = DrawableState_RGBChanged | // NOLINT(hicpp-signed-bitwise)
-                                       DrawableState_OpacityChanged,
+    DrawableState_ColorChanged        = DrawableState_RGBChanged | // NOLINT(hicpp-signed-bitwise)
+                                        DrawableState_OpacityChanged,
 
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
      * Flag drawable parent has changed.
      */
-    DrawableState_Parent             = 1 << 8, // NOLINT(hicpp-signed-bitwise)
+    DrawableState_Parent              = 1 << 8, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable position x has changed.
      */
-    DrawableState_PositionX          = 1 << 9, // NOLINT(hicpp-signed-bitwise)
+    DrawableState_PositionX           = 1 << 9, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable position y has changed.
      */
-    DrawableState_PositionY          = 1 << 10, // NOLINT(hicpp-signed-bitwise)
+    DrawableState_PositionY           = 1 << 10, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable position z has changed.
      */
-    DrawableState_PositionZ          = 1 << 11, // NOLINT(hicpp-signed-bitwise)
+    DrawableState_PositionZ           = 1 << 11, // NOLINT(hicpp-signed-bitwise)
 
     /**
      * Flag drawable position x and y have changed.
      */
-    DrawableState_Position2          = DrawableState_PositionX | // NOLINT(hicpp-signed-bitwise)
-                                       DrawableState_PositionY,
+    DrawableState_Position2           = DrawableState_PositionX | // NOLINT(hicpp-signed-bitwise)
+                                        DrawableState_PositionY,
 
 //----------------------------------------------------------------------------------------------------------------------
 
