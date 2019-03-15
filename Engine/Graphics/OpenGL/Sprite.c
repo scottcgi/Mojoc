@@ -246,7 +246,7 @@ static void Deform(Sprite* sprite, Array(float)* vertexFactorArr, bool isDeformU
     ALog_A
     (
         vertexFactorArr->length == sprite->vertexArr->length >> 1, // NOLINT(hicpp-signed-bitwise)
-        "ASprite Deform vertexFactorArr length = %d must equals the half sprite vertexArr length = %d",
+        "ASprite Deform vertexFactorArr length = %d must equals the half length = %d of sprite vertexArr",
         vertexFactorArr->length,
         sprite->vertexArr->length
     );

@@ -28,17 +28,17 @@ typedef struct
     /**
      * The TextureAtlas that DrawAtlas used.
      */
-    TextureAtlas*        textureAtlas;
+    TextureAtlas*       textureAtlas;
 
     /**
      * The Mesh that TextureAtlas used.
      */
-    Mesh                 mesh[1];
+    Mesh                mesh[1];
 
     /**
      * Quads in texture which are SubMesh of Mesh.
      */
-    ArrayList(Drawable*) quadList[1];
+    ArrayList(SubMesh*) quadList[1];
 }
 DrawAtlas;
 
@@ -53,7 +53,7 @@ struct ADrawAtlas
      *     IOS    : NSBundle
      */
     DrawAtlas* (*Get)          (const char* filePath);
-    Drawable*  (*GetQuad)      (DrawAtlas*  drawAtlas, const char* quadName);
+    SubMesh*   (*GetQuad)      (DrawAtlas*  drawAtlas, const char* quadName);
 
     /**
      * Make drawAtlas can reuse in Get method.
@@ -63,7 +63,7 @@ struct ADrawAtlas
     /**
      * Make quad can reuse in GetQuad method.
      */
-    void       (*ReleaseQuad)  (DrawAtlas* drawAtlas, Drawable* drawable);
+    void       (*ReleaseQuad)  (DrawAtlas* drawAtlas, SubMesh* subMesh);
 };
 
 

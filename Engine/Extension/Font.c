@@ -119,7 +119,7 @@ static inline void SetNewChar(FontText* text, const char* str, int len)
         TextureAtlasQuad* atlasQuad = GetAtlasQuad(text, str, i);
         SubMesh*          subMesh   = AArrayList_Get(text->usedSubMeshList, i, SubMesh*);
 
-        ASubMesh->SetWithQuad
+        ASubMesh->SetUVWithQuad
         (
             subMesh,
             text->font->mesh->texture,
@@ -158,7 +158,7 @@ static void SetString(FontText* text, const char* str)
                 subMesh = AArrayList_Pop(text->font->unusedSubMeshList, SubMesh*);
                 ADrawable_SetVisible(subMesh->drawable);
 
-                ASubMesh->SetWithQuad
+                ASubMesh->SetUVWithQuad
                 (
                     subMesh,
                     text->font->mesh->texture,

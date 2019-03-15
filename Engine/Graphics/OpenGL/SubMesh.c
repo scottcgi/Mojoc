@@ -101,7 +101,7 @@ static SubMesh* CreateWithData(Array(float)* positionArr, Array(float)* uvArr, A
 }
 
 
-static void SetWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
+static void SetUVWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
 {
     subMesh->drawable->width  = quad->width;
     subMesh->drawable->height = quad->height;
@@ -111,7 +111,7 @@ static void SetWithQuad(SubMesh* subMesh, Texture* texture, Quad* quad)
 
     Mesh* mesh = subMesh->parent;
 
-    ALog_A(mesh != NULL, "ASubMesh SetWithQuad subMesh must has parent");
+    ALog_A(mesh != NULL, "ASubMesh SetUVWithQuad subMesh must has parent");
 
     memcpy
     (
@@ -161,5 +161,5 @@ struct ASubMesh ASubMesh[1] =
 {
     CreateWithData,
     CreateWithQuad,
-    SetWithQuad,
+    SetUVWithQuad,
 };

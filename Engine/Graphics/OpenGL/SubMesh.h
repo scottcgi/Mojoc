@@ -125,14 +125,14 @@ struct ASubMesh
     SubMesh* (*CreateWithData)(Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr);
 
     /**
-     * The positionArr, uvArr, indexArr will calculated by quad that in texture.
+     * The positionArr, uvArr, indexArr will calculated with quad that in texture.
      */
     SubMesh* (*CreateWithQuad)(Texture* texture, Quad* quad);
 
     /**
-     * Update SubMesh all data by quad that in texture.
+     * Set uv data with quad that in texture.
      */
-    void     (*SetWithQuad)   (SubMesh* subMesh, Texture* texture, Quad* quad);
+    void     (*SetUVWithQuad) (SubMesh* subMesh, Texture* texture, Quad* quad);
 };
 
 

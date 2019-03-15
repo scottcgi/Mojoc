@@ -12,8 +12,8 @@
  */
 
 
-#include "Engine/Extension/DrawAtlas.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
+#include "Engine/Extension/DrawAtlas.h"
 #include "Engine/Toolkit/HeaderUtils/Struct.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
@@ -44,7 +44,7 @@ static DrawAtlas* Get(const char* filePath)
             drawAtlas->mesh
         );
 
-        AArrayList->InitWithCapacity(sizeof(Drawable*), 20, drawAtlas->quadList);
+        AArrayList->InitWithCapacity(sizeof(SubMesh*), 20, drawAtlas->quadList);
     }
     else
     {
@@ -58,39 +58,39 @@ static DrawAtlas* Get(const char* filePath)
 }
 
 
-static Drawable* GetQuad(DrawAtlas* drawAtlas, const char* quadName)
+static SubMesh* GetQuad(DrawAtlas* drawAtlas, const char* quadName)
 {
     TextureAtlasQuad* atlasQuad = ATextureAtlas_GetQuad(drawAtlas->textureAtlas, quadName);
     ALog_A(atlasQuad != NULL, "ADrawAtlas GetQuad not found quadName = %s", quadName);
 
-    Drawable* drawable = AArrayList_Pop(drawAtlas->quadList, Drawable*);
+    SubMesh* subMesh = AArrayList_Pop(drawAtlas->quadList, SubMesh*);
 
-    if (drawable == NULL)
+    if (subMesh == NULL)
     {
         // cache more quads into quadList when cache empty
         for (int i = 0; i < 5; ++i)
         {
-            drawable = AMesh->AddChildWithQuad(drawAtlas->mesh, atlasQuad->quad)->drawable;
-            ADrawable_SetInvisible(drawable);
-            AArrayList_Add(drawAtlas->quadList, drawable);
+            subMesh = AMesh->AddChildWithQuad(drawAtlas->mesh, atlasQuad->quad);
+            ADrawable_SetInvisible(subMesh->drawable);
+            AArrayList_Add(drawAtlas->quadList, subMesh);
         }
 
-        drawable = AMesh->AddChildWithQuad(drawAtlas->mesh, atlasQuad->quad)->drawable;
+        subMesh = AMesh->AddChildWithQuad(drawAtlas->mesh, atlasQuad->quad);
         AMesh->GenerateBuffer(drawAtlas->mesh);
     }
     else
     {
-        ADrawable->Init(drawable);
+        ADrawable->Init(subMesh->drawable);
 
-        ASubMesh->SetWithQuad
+        ASubMesh->SetUVWithQuad
         (
-            AStruct_GetParent(drawable, SubMesh),
+            subMesh,
             drawAtlas->mesh->texture,
             atlasQuad->quad
         );
     }
 
-    return drawable;
+    return subMesh;
 }
 
 
@@ -106,7 +106,7 @@ static void Release(DrawAtlas* drawAtlas)
     // quadList clear by Get function
     for (int i = 0; i < drawAtlas->quadList->size; ++i)
     {
-        ADrawable_SetInvisible(AArrayList_Get(drawAtlas->quadList, i, Drawable*));
+        ADrawable_SetInvisible(AArrayList_Get(drawAtlas->quadList, i, SubMesh*)->drawable);
     }
 
     drawAtlas->textureAtlas = NULL;
@@ -114,10 +114,8 @@ static void Release(DrawAtlas* drawAtlas)
 }
 
 
-static void ReleaseQuad(DrawAtlas* drawAtlas, Drawable* drawable)
+static void ReleaseQuad(DrawAtlas* drawAtlas, SubMesh* subMesh)
 {
-    SubMesh* subMesh = AStruct_GetParent(drawable, SubMesh);
-
     ALog_A
     (
         drawAtlas->mesh == subMesh->parent,
@@ -125,8 +123,8 @@ static void ReleaseQuad(DrawAtlas* drawAtlas, Drawable* drawable)
         drawAtlas->textureAtlas->filePath
     );
 
-    ADrawable_SetInvisible(drawable);
-    AArrayList_Add(drawAtlas->quadList, drawable);
+    ADrawable_SetInvisible(subMesh->drawable);
+    AArrayList_Add(drawAtlas->quadList, subMesh);
 }
 
 

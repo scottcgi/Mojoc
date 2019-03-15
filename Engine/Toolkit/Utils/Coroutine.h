@@ -7,7 +7,7 @@
  * and the author's email is [scott.cgi@qq.com].
  *
  * Since : 2016-11-13
- * UPdate: 2019-18
+ * Update: 2019-18
  * Author: scott.cgi
  */
 
