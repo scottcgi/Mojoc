@@ -14,11 +14,13 @@
 
 #include <stdlib.h>
 #include <memory.h>
+
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/Sprite.h"
 #include "Engine/Toolkit/HeaderUtils/Struct.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderSprite.h"
 #include "Engine/Graphics/Graphics.h"
+#include "Engine/Graphics/OpenGL/GLTool.h"
 
 
 static void Render(Drawable* drawable)
@@ -49,7 +51,7 @@ static void Render(Drawable* drawable)
                                       GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT // NOLINT(hicpp-signed-bitwise)
                                   );
 
-                memcpy(mappedPtr, sprite->vertexArr->data, (size_t) sprite->vertexDataSize );
+                memcpy(mappedPtr, sprite->vertexArr->data, (size_t) sprite->vertexDataSize);
                 glUnmapBuffer(GL_ARRAY_BUFFER);
             }
             else
@@ -159,6 +161,8 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
     AQuad->GetMaxSize(quadArr, &drawable->width, &drawable->height);
 
     sprite->texture                     = texture;
+    sprite->uvWidth                     = AGLTool_ToUVWidth(drawable->width,  texture->width);
+    sprite->uvHeight                    = AGLTool_ToUVWidth(drawable->height, texture->height);
     sprite->vboIds[Sprite_BufferVertex] = 0;
     sprite->vboIds[Sprite_BufferIndex]  = 0;
     sprite->vaoId                       = 0;
@@ -179,7 +183,7 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
             (float*) sprite->vertexArr->data + i * Quad_Position2UVNum
         );
         
-        AQuad->GetIndex(i * 4, (short*) sprite->indexArr->data + i * Quad_IndexNum);
+        AQuad->GetIndex(i * Quad_VertexNum, (short*) sprite->indexArr->data + i * Quad_IndexNum);
     }
 
     if (AGraphics->isUseVBO)
@@ -241,48 +245,152 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 }
 
 
-static void Deform(Sprite* sprite, Array(float)* vertexFactorArr, bool isDeformUV)
+
+#define CheckDeformLength(arr)                                                                      \
+    ALog_A                                                                                          \
+    (                                                                                               \
+        (arr)->length == length,                                                                    \
+        "ASprite Deform " #arr " length = %d must equals the half length = %d of sprite vertexArr", \
+        (arr)->length,                                                                              \
+        sprite->vertexArr->length                                                                   \
+    )
+
+
+static void Deform(Sprite* sprite, Array(float)* positionDeformArr, Array(float)* uvDeformArr)
 {
-    ALog_A
-    (
-        vertexFactorArr->length == sprite->vertexArr->length >> 1, // NOLINT(hicpp-signed-bitwise)
-        "ASprite Deform vertexFactorArr length = %d must equals the half length = %d of sprite vertexArr",
-        vertexFactorArr->length,
-        sprite->vertexArr->length
-    );
-
+    int    length   = sprite->vertexArr->length >> 1; // NOLINT(hicpp-signed-bitwise)
     float* vertices = sprite->vertexArr->data;
-    float* factors  = vertexFactorArr->data;
 
-    if (isDeformUV)
+    if (positionDeformArr != NULL && uvDeformArr != NULL)
     {
-        for (int i = 0, j; i < vertexFactorArr->length; i += Sprite_VertexPositionNum)
+        CheckDeformLength(positionDeformArr);
+        CheckDeformLength(uvDeformArr);
+
+        float* positions = positionDeformArr->data;
+        float* uvs       = uvDeformArr->data;
+
+        for (int i = 0; i < positionDeformArr->length; i += Sprite_VertexPositionNum)
         {
-            float fx         = factors[i];
-            float fy         = factors[i + 1];
-            j                = i * 2; // to vertexArr x, y index
-            
-            vertices[j]     *= fx; // x
-            vertices[j + 1] *= fy; // y
-            vertices[j + 2] *= fx; // u
-            vertices[j + 3] *= fy; // v
+            int      i1      = i +  1;
+            int      j       = i << 1;        // to vertexArr position index // NOLINT(hicpp-signed-bitwise)
+            vertices[j]     += positions[i];  // x
+            vertices[j + 1] += positions[i1]; // y
+            vertices[j + 2] += uvs      [i];  // u
+            vertices[j + 3] += uvs      [i1]; // v
+        }
+    }
+    else if (positionDeformArr != NULL)
+    {
+        CheckDeformLength(positionDeformArr);
+        
+        float* positions = positionDeformArr->data;
+
+        for (int i = 0; i < positionDeformArr->length; i += Sprite_VertexPositionNum)
+        {
+            int      j       = i << 1;           // to vertexArr position index // NOLINT(hicpp-signed-bitwise)
+            vertices[j]     += positions[i];     // x
+            vertices[j + 1] += positions[i + 1]; // y
+        }
+    }
+    else if (uvDeformArr != NULL)
+    {
+        CheckDeformLength(uvDeformArr);
+
+        float* uvs = uvDeformArr->data;
+
+        for (int i = 0; i < uvDeformArr->length; i += Sprite_VertexPositionNum)
+        {
+            int      j       = i << 1;     // to vertexArr position index // NOLINT(hicpp-signed-bitwise)
+            vertices[j + 2] += uvs[i];     // x
+            vertices[j + 3] += uvs[i + 1]; // y
         }
     }
     else
     {
-        for (int i = 0, j; i < vertexFactorArr->length; i += Sprite_VertexPositionNum)
-        {
-            float fx         = factors[i];
-            float fy         = factors[i + 1];
-            j                = i * 2; // to vertexArr x, y index
-
-            vertices[j]     *= fx; // x
-            vertices[j + 1] *= fy; // y
-        }
+        ALog_A(false, "ASprite Deform the positionDeformArr and uvDeformArr cannot both NULL");
     }
 
     sprite->isDeformed = true;
 }
+
+
+#define CheckDeformByIndex(tag, len)                                                                  \
+    ALog_A                                                                                            \
+    (                                                                                                 \
+        (len) <= length,                                                                              \
+        "ASprite DeformByIndex the " tag " = %d must less than half length = %d of sprite vertexArr", \
+        (len),                                                                                        \
+        sprite->vertexArr->length                                                                     \
+    )
+
+
+static inline int GetPositionIndex(int index)
+{
+    int offset             = index % Sprite_VertexPositionNum; // (0 or 1), offset of one vertex data
+    int positionStartIndex = (index - offset) << 1; // to vertexArr position start index // NOLINT(hicpp-signed-bitwise)
+
+    // position index
+    return positionStartIndex + offset;
+}
+
+
+static void DeformByIndex(Sprite* sprite, Array(float)* positionDeformArr, Array(float)* uvDeformArr, Array(int)* indexArr)
+{
+    int length = sprite->vertexArr->length >> 1; // NOLINT(hicpp-signed-bitwise)
+
+    CheckDeformByIndex("indexArr length", indexArr->length);
+
+    float* vertices = sprite->vertexArr->data;
+    int*   indices  = indexArr->data;
+
+    if (positionDeformArr != NULL && uvDeformArr != NULL)
+    {
+        CheckDeformByIndex("positionDeformArr length", positionDeformArr->length);
+        CheckDeformByIndex("uvDeformArr length",       uvDeformArr->length);
+
+        float* positions = positionDeformArr->data;
+        float* uvs       = uvDeformArr->data;
+
+        for (int i = 0; i < indexArr->length; ++i)
+        {
+            int      index                              = GetPositionIndex(indices[i]);
+            vertices[index]                            += positions[i];
+            vertices[index + Sprite_VertexPositionNum] += uvs      [i];
+        }
+    }
+    else if (positionDeformArr != NULL)
+    {
+        CheckDeformByIndex("positionDeformArr length", positionDeformArr->length);
+
+        float* positions = positionDeformArr->data;
+
+        for (int i = 0; i < indexArr->length; ++i)
+        {
+            vertices[GetPositionIndex(indices[i])] += positions[i];
+        }
+    }
+    else if (uvDeformArr != NULL)
+    {
+        CheckDeformByIndex("uvDeformArr length", uvDeformArr->length);
+
+        float* uvs = uvDeformArr->data;
+
+        for (int i = 0; i < indexArr->length; ++i)
+        {
+            vertices[GetPositionIndex(indices[i]) + Sprite_VertexPositionNum] += uvs[i];
+        }
+    }
+    else
+    {
+        ALog_A(false, "ASprite DeformByIndex the positionDeformArr and uvDeformArr cannot both NULL");
+    }
+
+    sprite->isDeformed = true;
+}
+
+
+#undef CheckDeformLength
+#undef CheckDeformByIndex
 
 
 static void Init(Texture* texture, Sprite* outSprite)
@@ -360,5 +468,6 @@ struct ASprite ASprite[1] =
 
     Release,
     Deform,
+    DeformByIndex,
     Render,
 };

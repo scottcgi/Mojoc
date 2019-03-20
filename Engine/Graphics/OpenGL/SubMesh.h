@@ -48,6 +48,16 @@ struct SubMesh
      */
     int           index;
 
+    /**
+     * The uv width in parent texture.
+     */
+    float         uvWidth;
+
+    /**
+     * The uv height in parent texture.
+     */
+    float         uvHeight;
+
 //----------------------------------------------------------------------------------------------------------------------
 
     Array(float*) positionArr[1];
@@ -122,17 +132,50 @@ struct ASubMesh
      * The positionArr (array of xyz), uvArr (array of uv), indexArr (one vertex one index) will copy into SubMesh,
      * and all data create by one malloc.
      */
-    SubMesh* (*CreateWithData)(Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr);
+    SubMesh* (*CreateWithData)(Mesh* paren, Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr);
 
     /**
      * The positionArr, uvArr, indexArr will calculated with quad that in texture.
      */
-    SubMesh* (*CreateWithQuad)(Texture* texture, Quad* quad);
+    SubMesh* (*CreateWithQuad)(Mesh* parent, Quad* quad);
 
     /**
-     * Set uv data with quad that in texture.
+     * Set uv data with quad that in parent texture.
      */
-    void     (*SetUVWithQuad) (SubMesh* subMesh, Texture* texture, Quad* quad);
+    void     (*SetUVWithQuad) (SubMesh* subMesh, Quad* quad);
+
+    /**
+     * Deform SubMesh vertex position and uv.
+     * the positionDeformArr will add each position (x y).
+     * the uvDeformArr will add each uv.
+     * the vertices order is from left-top counterclockwise to right-top.
+     *
+     * positionDeformArr: if NULL will not deform.
+     *                    the length must equals vertex positions number (positionArr length).
+     *
+     * uvDeformArr      : if NULL will not deform.
+     *                    the length must equals vertex uvs number (uvArr length).
+     */
+    void    (*Deform)         (SubMesh* subMesh, Array(float)* positionDeformArr, Array(float)* uvDeformArr);
+
+    /**
+     * Same as Deform function but deform position and uv by index.
+     *
+     * indexArr: the index of position or uv array, and each vertex position or uv will deform.
+     *
+     * if deform position, then the indexArr length must equals positionDeformArr length.
+     * if deform uv, then the indexArr length must equals uvArr length.
+     * 
+     * if deform position and uv at same time, then the indexArr must give both of position and uv index,
+     * and the form like [position...position...uv...uv...],
+     * and the positionDeformArr length and uvDeformArr length that each equals half length of indexArr.
+     */
+    void    (*DeformByIndex)  (
+                                  SubMesh*      subMesh,
+                                  Array(float)* positionDeformArr,
+                                  Array(float)* uvDeformArr,
+                                  Array(int)*   indexArr
+                              );
 };
 
 

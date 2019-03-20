@@ -88,6 +88,16 @@ typedef struct
     Texture*      texture;
 
     /**
+     * The uv width in texture.
+     */
+    float         uvWidth;
+
+    /**
+     * The uv height in texture.
+     */
+    float         uvHeight;
+
+    /**
      * If use VBO is NULL else buffer all vertex data.
      * data model: [x, y, u, v...x, y, u, v...]
      */
@@ -166,16 +176,35 @@ struct ASprite
     void    (*Release)            (Sprite*  sprite);
 
     /**
-     * Deform Sprite vertex.
-     * the vertexFactorArr will multiply each vertex position (pair of x y).
+     * Deform Sprite vertex position and uv.
+     * the positionDeformArr will add each position (x y).
+     * the uvDeformArr will add each uv.
      *
      * the Sprite consists of quads,
      * and each quad vertices order is from left-top counterclockwise to right-top.
      *
-     * isDeformUV     : if true the vertexFactorArr will also multiply each vertex uv.
-     * vertexFactorArr: the length must equals vertex positions number. (the half of Sprite vertexArr length)
+     * positionDeformArr: if NULL will not deform.
+     *                    the length must equals vertex positions number (the half of Sprite vertexArr length).
+     *
+     * uvDeformArr     : if NULL will not deform.
+     *                   the length must equals vertex uvs number (the half of Sprite vertexArr length).
      */
-    void    (*Deform)             (Sprite* sprite, Array(float)* vertexFactorArr, bool isDeformUV);
+    void    (*Deform)             (Sprite* sprite, Array(float)* positionDeformArr, Array(float)* uvDeformArr);
+
+
+    /**
+     * Same as Deform function but deform position and uv by index.
+     *
+     * indexArr: the index of position and uv array, and each vertex position or uv will deform.
+     *           the positionDeformArr or uvDeformArr length must equals indexArr length.
+     *
+     */
+    void    (*DeformByIndex)      (
+                                      Sprite*       sprite,
+                                      Array(float)* positionDeformArr,
+                                      Array(float)* uvDeformArr,
+                                      Array(int)*   indexArr
+                                  );
 
     /**
      * The implementation of Drawable's render function for render Sprite.

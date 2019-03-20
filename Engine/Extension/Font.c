@@ -122,7 +122,6 @@ static inline void SetNewChar(FontText* text, const char* str, int len)
         ASubMesh->SetUVWithQuad
         (
             subMesh,
-            text->font->mesh->texture,
             atlasQuad->quad
         );
     }
@@ -161,7 +160,6 @@ static void SetString(FontText* text, const char* str)
                 ASubMesh->SetUVWithQuad
                 (
                     subMesh,
-                    text->font->mesh->texture,
                     atlasQuad->quad
                 );
 

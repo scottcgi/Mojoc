@@ -549,8 +549,6 @@ static inline SubMesh* AddChild(Mesh* mesh, SubMesh* subMesh)
     }
 
     subMesh->index              = mesh->childList->size;
-    subMesh->parent             = mesh;
-
     subMesh->positionDataOffset = mesh->positionDataLength * sizeof(float);
     subMesh->uvDataOffset       = mesh->uvDataLength       * sizeof(float);
     subMesh->opacityDataOffset  = mesh->opacityDataLength  * sizeof(float);
@@ -573,13 +571,13 @@ static inline SubMesh* AddChild(Mesh* mesh, SubMesh* subMesh)
 
 static SubMesh* AddChildWithData(Mesh* mesh, Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr)
 {
-    return AddChild(mesh, ASubMesh->CreateWithData(positionArr, uvArr, indexArr));
+    return AddChild(mesh, ASubMesh->CreateWithData(mesh, positionArr, uvArr, indexArr));
 }
 
 
 static SubMesh* AddChildWithQuad(Mesh* mesh, Quad* quad)
 {
-    return AddChild(mesh, ASubMesh->CreateWithQuad(mesh->texture, quad));
+    return AddChild(mesh, ASubMesh->CreateWithQuad(mesh, quad));
 }
 
 

@@ -95,7 +95,7 @@ static inline int BinarySearch(const float values[], int valuesLength, float tar
 enum
 {
     Bezier_Segments = 12,
-    Bezier_Size     = (Bezier_Segments + 1) * 2 - 1,
+    Bezier_Size     = ((Bezier_Segments + 1) << 1) - 1, // NOLINT(hicpp-signed-bitwise)
 };
 
 

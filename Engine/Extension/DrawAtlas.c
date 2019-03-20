@@ -85,7 +85,6 @@ static SubMesh* GetQuad(DrawAtlas* drawAtlas, const char* quadName)
         ASubMesh->SetUVWithQuad
         (
             subMesh,
-            drawAtlas->mesh->texture,
             atlasQuad->quad
         );
     }

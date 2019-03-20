@@ -476,10 +476,10 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
                 int boneCount = AJsonArray->GetInt(jsonVertexArr, j);
 
                 // contains boneCount and each bones index
-                bonesCount          += boneCount + 1;
+                bonesCount          += boneCount  +  1;
                 weightsCount        += boneCount;
-                weightVerticesCount += boneCount * 2;
-                j                   += boneCount * 4 + 1;
+                weightVerticesCount += boneCount  << 1;      // NOLINT(hicpp-signed-bitwise)
+                j                   += (boneCount << 2) + 1; // NOLINT(hicpp-signed-bitwise)
             }
 
             // how many vertices in mesh

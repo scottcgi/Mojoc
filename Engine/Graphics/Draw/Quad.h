@@ -23,6 +23,11 @@
 enum
 {
     /**
+     * One quad has 4 vertices
+     */
+    Quad_VertexNum       = 4,
+
+    /**
      * Two triangles (index order: 012, 230) has 6 vertices (index 2,0 repeats).
      */
     Quad_IndexNum        = 6,
@@ -77,12 +82,12 @@ typedef struct
     float height;
 
     /**
-     * The top left (0, 0) x in texture, openGL coordinate, default 0.
+     * The top left x of quad in texture, openGL coordinate, default 0.
      */
     float offsetTextureX;
 
     /**
-     * The top left (0, 0) y in texture, openGL coordinate, default 0.
+     * The top left y of quad in texture, openGL coordinate, default 0.
      */
     float offsetTextureY;
 
