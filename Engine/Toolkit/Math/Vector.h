@@ -60,6 +60,27 @@ Vector4;
 
 
 /**
+ * Construct Vector2 composite literal.
+ */
+#define AVector2_Make(x, y) \
+   (Vector2[1]) {{x, y}}
+
+
+/**
+ * Construct Vector3 composite literal.
+ */
+#define AVector3_Make(x, y, z) \
+   (Vector3[1]) {{x, y, z}}
+
+
+/**
+* Construct Vector4 composite literal.
+*/
+#define AVector4_Make(x, y, z, w) \
+   (Vector4[1]) {{x, y, z, w}}
+
+
+/**
  * Calculate Vector2 length by vec2.
  */
 static inline float AVector2_Length(Vector2* vec2)

@@ -65,7 +65,7 @@ extern struct AArray AArray[1];
 
 
 /**
- * Create Array composite literal.
+ * Construct Array composite literal.
  *
  * ElementType: element data type
  * length     : elements count

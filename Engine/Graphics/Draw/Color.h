@@ -51,4 +51,11 @@ extern struct AColor AColor[1];
 #define COLOR_BLACK_ARRAY (Color[1]) {0.0f, 0.0f, 0.0f, 1.0f}
 
 
+/**
+ * Construct Color composite literal.
+ */
+#define AColor_Make(r, g, b, a) \
+   (Color[1]) {{r, g, b, a}}
+
+
 #endif
