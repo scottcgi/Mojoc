@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
  * This source code is licensed under the MIT License,
  * and the license can be found at: https://github.com/scottcgi/Mojoc/blob/master/LICENSE
@@ -10,7 +10,7 @@
  * The author information can be found at:
  * https://github.com/scottcgi
  *
- * The project Mojoc is a serious project with extreme code pursuit,
+ * The Mojoc game engine is a serious project with extreme code pursuit,
  * and will continue to iterate.
  *
  * Since : 2013-11-17

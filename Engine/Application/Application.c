@@ -10,7 +10,7 @@
  * The author information can be found at:
  * https://github.com/scottcgi
  *
- * The project Mojoc is a serious project with extreme code pursuit,
+ * The Mojoc game engine is a serious project with extreme code pursuit,
  * and will continue to iterate.
  *
  * Since : 2013-9-4
