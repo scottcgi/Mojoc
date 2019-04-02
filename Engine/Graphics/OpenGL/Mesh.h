@@ -77,6 +77,11 @@ struct Mesh
     Texture*             texture;
 
     /**
+     * The mode of glDrawElements, default GL_TRIANGLES.
+     */
+    GLenum               drawMode;
+
+    /**
      * The index draw from , default first in children.
      */
     int                  fromIndex;

@@ -348,7 +348,7 @@ static void Render(Drawable* drawable)
 
         glDrawElements
         (
-            GL_TRIANGLES,
+            mesh->drawMode,
             toChild->indexOffset - fromChild->indexOffset + toChild->indexArr->length,
             GL_UNSIGNED_SHORT,
             (GLvoid*) (intptr_t) fromChild->indexDataOffset // (intptr_t) for fix xcode warning
@@ -370,7 +370,7 @@ static void Render(Drawable* drawable)
 
         glDrawElements
         (
-            GL_TRIANGLES,
+            mesh->drawMode,
             toChild->indexOffset - fromChild->indexOffset + toChild->indexArr->length,
             GL_UNSIGNED_SHORT,
             (GLvoid*) (intptr_t) fromChild->indexDataOffset // (intptr_t) for fix xcode warning
@@ -428,7 +428,7 @@ static void Render(Drawable* drawable)
 
         glDrawElements
         (
-            GL_TRIANGLES,
+            mesh->drawMode,
             toChild->indexOffset - fromChild->indexOffset + toChild->indexArr->length,
             GL_UNSIGNED_SHORT,
             (char*) mesh->indexArr->data + fromChild->indexDataOffset
@@ -467,6 +467,8 @@ static void Init(Texture* texture, Mesh* outMesh)
 
     ADrawable_AddState(drawable, DrawableState_IsUpdateMVPMatrix);
 
+
+    outMesh->drawMode                  = GL_TRIANGLES;
     outMesh->texture                   = texture;
     outMesh->vboIds[Mesh_BufferIndex]  = 0;
     outMesh->vboIds[Mesh_BufferVertex] = 0;
