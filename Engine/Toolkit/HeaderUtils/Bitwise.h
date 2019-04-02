@@ -59,7 +59,7 @@ so if not use macro we need pass the third parameter that is the bitState owner.
 
 
 /**
- * Clear clearBits from bitState, and add addBits into.
+ * Clear clearBits from bitState, and add addBits into biteState.
  */
 #define ABitwise_ClearAndAdd(bitState, clearBits, addBits) \
     ((bitState)  = ((bitState) & ~(clearBits)) | (addBits))

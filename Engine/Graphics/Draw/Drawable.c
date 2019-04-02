@@ -20,7 +20,7 @@
 
 
 #include <stdlib.h>
-#include <Engine/Toolkit/Math/Vector.h>
+#include "Engine/Toolkit/Math/Vector.h"
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Graphics/Draw/Drawable.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -59,7 +59,7 @@ static void Draw(Drawable* drawable)
             else
             {
                 // self under identity matrix
-                *drawable->modelMatrix = *(Matrix4[1]) MATRIX4_IDENTITY;
+                *drawable->modelMatrix = *MATRIX4_IDENTITY_ARRAY;
             }
 
             AMatrix->Translate

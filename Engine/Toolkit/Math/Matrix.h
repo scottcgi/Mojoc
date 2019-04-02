@@ -191,4 +191,13 @@ struct AMatrix
 extern struct AMatrix AMatrix[1];
 
 
+/**
+* Construct Matrix composite literal.
+*/
+#define AMatrix_Make(...) \
+   (Matrix4[1]) {{__VA_ARGS__}}
+
+
+
+
 #endif

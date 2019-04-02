@@ -508,13 +508,13 @@ static void Inverse(Matrix4* matrix4, Matrix4* outInverse)
 
 static void Transpose(Matrix4* matrix, Matrix4* outTranspose)
 {
-    *outTranspose = *(Matrix4[1])
-                     {{
+    *outTranspose = *AMatrix_Make
+                     (
                          matrix->m0, matrix->m4, matrix->m8,  matrix->m12,
                          matrix->m1, matrix->m5, matrix->m9,  matrix->m13,
                          matrix->m2, matrix->m6, matrix->m10, matrix->m14,
-                         matrix->m3, matrix->m7, matrix->m11, matrix->m15,
-                     }};
+                         matrix->m3, matrix->m7, matrix->m11, matrix->m15
+                     );
 }
 
 
