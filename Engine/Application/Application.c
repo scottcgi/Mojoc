@@ -74,10 +74,10 @@ static void Loop()
     float deltaSeconds = (float) ((now.tv_nsec - last.tv_nsec) * 0.000000001 + (now.tv_sec - last.tv_sec));
     last               =  now;
 
+    APhysicsWorld->Update(deltaSeconds);
+    ATween       ->Update(deltaSeconds);
     AScheduler   ->Update(deltaSeconds);
     ACoroutine   ->Update(deltaSeconds);
-    ATween       ->Update(deltaSeconds);
-    APhysicsWorld->Update(deltaSeconds);
     AAudio       ->Update(deltaSeconds);
 
     // root update

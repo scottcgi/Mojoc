@@ -280,6 +280,9 @@ struct  Drawable
       * Custom draw for preparing rendering data.
       * called by ADrawable's Draw, do not use any openGL command,
       * and can check any state change.
+      *
+      * if called in Scheduler or Coroutine may have draw order problem,
+      * because the draw oder common controlled by Component.
       */
      void (*Draw)  (Drawable* drawable);
 
