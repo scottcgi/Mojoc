@@ -64,7 +64,7 @@ static void RenderPolygon(Array(float)* vertexArr, Matrix4* mvpMatrix, Color* co
 
 static void RenderLines(Array(float)* lineArr, Matrix4* mvpMatrix, Color* color, float lineWidth)
 {
-    Render(GL_LINES, lineArr->data, mvpMatrix, color, lineWidth, lineArr->length >> 1, true); // NOLINT(hicpp-signed-bitwise)
+    Render(GL_LINE_STRIP, lineArr->data, mvpMatrix, color, lineWidth, lineArr->length >> 1, true); // NOLINT(hicpp-signed-bitwise)
 }
 
 

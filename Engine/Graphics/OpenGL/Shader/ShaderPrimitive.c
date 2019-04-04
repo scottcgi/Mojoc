@@ -66,12 +66,12 @@ static void Init()
 
         AString_Make
         (
-            precision lowp float;
+            precision highp float;
             uniform   vec4  uColor;
 
             void main()
             {
-              gl_FragColor = uColor;
+                gl_FragColor = uColor;
             }
         )
     );
