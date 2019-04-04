@@ -62,7 +62,7 @@ static inline void AUserData_Init(UserData* userData)
 
 
 /**
- * Set UserData slot value from slotIndex by int.
+ * Set int value of UserData slot at slotIndex.
  */
 static inline void AUserData_SetSlotInt(UserData* userData, int slotIndex, int value)
 {
@@ -71,7 +71,16 @@ static inline void AUserData_SetSlotInt(UserData* userData, int slotIndex, int v
 
 
 /**
- * Set UserData slot value from slotIndex by float.
+ * Add int value of UserData slot at slotIndex.
+ */
+static inline void AUserData_AddSlotInt(UserData* userData, int slotIndex, int value)
+{
+    userData->slots[slotIndex].intValue += value;
+}
+
+
+/**
+ * Set float value of UserData slot at slotIndex.
  */
 static inline void AUserData_SetSlotFloat(UserData* userData, int slotIndex, float value)
 {
@@ -80,7 +89,16 @@ static inline void AUserData_SetSlotFloat(UserData* userData, int slotIndex, flo
 
 
 /**
- * Set UserData slot value from slotIndex by ptr.
+ * Add float value of UserData slot at slotIndex.
+ */
+static inline float AUserData_AddSlotFloat(UserData* userData, int slotIndex, float value)
+{
+    userData->slots[slotIndex].floatValue += value;
+}
+
+
+/**
+ * Set ptr value of UserData slot at slotIndex.
  */
 static inline void AUserData_SetSlotPtr(UserData* userData, int slotIndex, void* value)
 {
@@ -89,7 +107,7 @@ static inline void AUserData_SetSlotPtr(UserData* userData, int slotIndex, void*
 
 
 /**
- * Set UserData slot value from slotIndex by string.
+ * Set string value of UserData slot at slotIndex.
  */
 static inline void AUserData_SetSlotString(UserData* userData, int slotIndex, char* value)
 {
@@ -98,7 +116,7 @@ static inline void AUserData_SetSlotString(UserData* userData, int slotIndex, ch
 
 
 /**
- * Get UserData slot int value from slotIndex.
+ * Get int value of UserData slot at slotIndex.
  */
 static inline int AUserData_GetSlotInt(UserData* userData, int slotIndex)
 {
@@ -107,7 +125,7 @@ static inline int AUserData_GetSlotInt(UserData* userData, int slotIndex)
 
 
 /**
- * Get UserData slot float value from slotIndex.
+ * Get float value of UserData slot at slotIndex.
  */
 static inline float AUserData_GetSlotFloat(UserData* userData, int slotIndex)
 {
@@ -116,7 +134,7 @@ static inline float AUserData_GetSlotFloat(UserData* userData, int slotIndex)
 
 
 /**
- * Get UserData slot ptr value from slotIndex.
+ * Get ptr value of UserData slot at slotIndex.
  */
 static inline void* AUserData_GetSlotPtr(UserData* userData, int slotIndex)
 {
@@ -125,7 +143,7 @@ static inline void* AUserData_GetSlotPtr(UserData* userData, int slotIndex)
 
 
 /**
- * Get UserData slot string value from slotIndex.
+ * Get string value of UserData slot at slotIndex.
  */
 static inline char* AUserData_GetSlotString(UserData* userData, int slotIndex)
 {
@@ -134,7 +152,7 @@ static inline char* AUserData_GetSlotString(UserData* userData, int slotIndex)
 
 
 /**
- * Get slot ptr value with PtrType.
+ * Get ptr value of UserData slot at slotIndex with PtrType.
  */
 #define AUserData_GetSlotPtrWithType(userData, slotIndex, PtrType) \
     ((PtrType) (userData)->slots[slotIndex].ptrValue)
