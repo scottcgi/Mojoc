@@ -196,8 +196,20 @@ struct Mesh
 struct AMesh
 {
     Mesh*     (*Create)            (Texture* texture);
-    void      (*Init)              (Texture* texture,  Mesh* outMesh);
-    void      (*InitWithCapacity)  (Texture* texture,  int capacity, Mesh* outMesh);
+    void      (*Init)              (Texture* texture, Mesh* outMesh);
+    void      (*InitWithCapacity)  (Texture* texture, int capacity, Mesh* outMesh);
+
+    /*
+     Create or Init Mesh by resourceFilePath.
+
+     resourceFilePath:
+         Android: assets
+         IOS    : NSBundle
+     */
+
+    Mesh*     (*CreateWithFile)         (const char* resourceFilePath);
+    void      (*InitWithFile)           (const char* resourceFilePath, Mesh* outMesh);
+    void      (*InitWithFileAndCapacity)(const char* resourceFilePath, int capacity, Mesh* outMesh);
 
     /**
      * Release all member memory and all children SubMesh memory.

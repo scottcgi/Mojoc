@@ -711,11 +711,34 @@ static void Clear(Mesh* mesh)
 }
 
 
+static Mesh* CreateWithFile(const char* resourceFilePath)
+{
+    return Create(ATexture->Get(resourceFilePath));
+}
+
+
+static void InitWithFile(const char* resourceFilePath, Mesh* outMesh)
+{
+    Init(ATexture->Get(resourceFilePath), outMesh);
+}
+
+
+static void InitWithFileAndCapacity(const char* resourceFilePath, int capacity, Mesh* outMesh)
+{
+    InitWithCapacity(ATexture->Get(resourceFilePath), capacity, outMesh);
+}
+
+
 struct AMesh AMesh[1] =
 {
     Create,
     Init,
     InitWithCapacity,
+
+    CreateWithFile,
+    InitWithFile,
+    InitWithFileAndCapacity,
+
     Release,
     Clear,
 
