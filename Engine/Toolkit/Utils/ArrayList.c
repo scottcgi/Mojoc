@@ -89,7 +89,7 @@ static void* GetInsert(ArrayList* arrayList, int index)
     }
 
     void* from = (char*) arrayList->elementArr->data + arrayList->elementTypeSize * index;
-    void* to   = (char*) from                          + arrayList->elementTypeSize;
+    void* to   = (char*) from                        + arrayList->elementTypeSize;
 
     // from and to overlap so cannot use memcpy
     memmove(to, from, (size_t) arrayList->elementTypeSize * ((arrayList->size++) - index));
@@ -183,12 +183,12 @@ static void Remove(ArrayList* arrayList, int index)
     CheckIndex("Remove", index);
 
     // now size equal last index
-    arrayList->size--;
+    --arrayList->size;
 
     if (index != arrayList->size)
     {
         void* to   = (char*) arrayList->elementArr->data + arrayList->elementTypeSize * index;
-        void* from = (char*) to                            + arrayList->elementTypeSize;
+        void* from = (char*) to                          + arrayList->elementTypeSize;
 
         // move between index and last index element
         memcpy(to, from,  (size_t) arrayList->elementTypeSize * (arrayList->size - index));
@@ -210,7 +210,7 @@ static void RemoveRange(ArrayList* arrayList, int fromIndex, int toIndex)
     if (toIndex != lastIndex)
     {
         void* to    = (char*) arrayList->elementArr->data + arrayList->elementTypeSize * fromIndex;
-        void* from  = (char*) to                            + arrayList->elementTypeSize * num;
+        void* from  = (char*) to                          + arrayList->elementTypeSize * num;
 
         // move between lastIndex and toIndex element
         memcpy(to, from, (size_t) arrayList->elementTypeSize * (lastIndex - toIndex));
@@ -295,9 +295,9 @@ static inline void InitArrayList(int elementTypeSize, ArrayList* arrayList)
 {
     arrayList->elementArr->data   = NULL;
     arrayList->elementArr->length = 0;
-    arrayList->elementTypeSize      = elementTypeSize;
-    arrayList->size                 = 0;
-    arrayList->increase             = 20;
+    arrayList->elementTypeSize    = elementTypeSize;
+    arrayList->size               = 0;
+    arrayList->increase           = 20;
 }
 
 
