@@ -87,6 +87,16 @@ extern struct AArray AArray[1];
 
 
 /**
+ * Construct Array composite literal.
+ *
+ * data  : elements data
+ * length: elements count
+ */
+#define AArray_MakeWithData(data, length) \
+    (Array[1]) {data, length}
+
+
+/**
  * Init constant Array.
  *
  * ElementType: element data type
