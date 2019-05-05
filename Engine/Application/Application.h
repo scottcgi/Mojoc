@@ -40,7 +40,7 @@ enum
      * When touch event happened.
      *
      * sender   : AApplication
-     * extraData: Array(InputTouch*)*
+     * extraData: Array(InputTouch*)*, the index of array not corresponding to fingerId.
      */
     ComponentMsg_OnTouch,
 };
