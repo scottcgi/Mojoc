@@ -67,10 +67,11 @@ struct  AAudio
      * The volume range in [0.0, 1.0].
      */
     void         (*SetVolume)    (AudioPlayer* player, float volume);
-    void         (*SetLoop)      (AudioPlayer* player, bool isLoop);
+    void         (*SetLoop)      (AudioPlayer* player, bool  isLoop);
 
-    void         (*SetPlay)      (AudioPlayer* player);
-    void         (*SetPause)     (AudioPlayer* player);
+    void         (*Play)         (AudioPlayer* player);
+    void         (*Pause)        (AudioPlayer* player);
+    void         (*Stop)         (AudioPlayer* player);
     bool         (*IsPlaying)    (AudioPlayer* player);
 };
 

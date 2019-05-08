@@ -84,7 +84,17 @@ static void Update(float deltaSeconds)
     while (destroyList->size > 0)
     {
         AudioPlayer* player = AArrayList_Pop(destroyList, AudioPlayer*);
+
+        // removed from loopList
+        AAudio->SetLoop(player, false);
+
         (*player->object)->Destroy(player->object);
+
+        player->play   = NULL;
+        player->volume = NULL;
+        player->seek   = NULL;
+        player->object = NULL;
+
         AArrayList_Add(cacheList, player);
     }
 
@@ -99,7 +109,6 @@ static void Update(float deltaSeconds)
         else if (player->waitCallbackCount >= AudioPlayer_WaitMax)
         {
             // player callback not called, maybe E/libOpenSLES: Error after prepare: 1
-
             AArrayList->RemoveByLast(testErrorList, i);
             (*player->object)->Destroy(player->object);
             AArrayList_Add(cacheList, player);
@@ -118,7 +127,7 @@ static void SetLoopPause()
 {
     for (int i = 0; i < loopList->size; ++i)
     {
-        AAudio->SetPause(AArrayList_Get(loopList, i, AudioPlayer*));
+        AAudio->Pause(AArrayList_Get(loopList, i, AudioPlayer*));
     }
 }
 
@@ -127,7 +136,7 @@ static void SetLoopResume()
 {
     for (int i = 0; i < loopList->size; ++i)
     {
-        AAudio->SetPlay(AArrayList_Get(loopList, i, AudioPlayer*));
+        AAudio->Play(AArrayList_Get(loopList, i, AudioPlayer*));
     }
 }
 
@@ -173,21 +182,24 @@ static void PlayerCallback(SLPlayItf caller, void* pContext, SLuint32 event)
 {
     AudioPlayer* player = (AudioPlayer*) pContext;
 
-    if (event == SL_PLAYEVENT_HEADATEND)
+    switch (event)
     {
-        // play finish
+        case SL_PLAYEVENT_HEADATEND:
+            // play finish
+            AArrayList_Add(destroyList, player);
+            (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_PAUSED);
+            player->waitCallbackCount = AudioPlayer_WaitOver;
+            break;
 
-        AArrayList_Add(destroyList, player);
-        (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_PAUSED);
-        player->waitCallbackCount = AudioPlayer_WaitOver;
-    }
-    else if (event == SL_PLAYEVENT_HEADATNEWPOS)
-    {
-        // play normal
-        
-        player->waitCallbackCount = AudioPlayer_WaitOver;
-        // remove SL_PLAYEVENT_HEADATNEWPOS for reduce the number of callback
-        (*player->play)->SetCallbackEventsMask(player->play,  SL_PLAYEVENT_HEADATEND);
+        case SL_PLAYEVENT_HEADATNEWPOS:
+            // play normal
+            player->waitCallbackCount = AudioPlayer_WaitOver;
+            // remove SL_PLAYEVENT_HEADATNEWPOS for reduce the number of callback
+            (*player->play)->SetCallbackEventsMask(player->play, SL_PLAYEVENT_HEADATEND);
+            break;
+
+        default:
+            break;
     }
 }
 
@@ -301,20 +313,30 @@ static void SetVolume(AudioPlayer* player, float volume)
 }
 
 
-static void SetPlay(AudioPlayer* player)
+static void Play(AudioPlayer* player)
 {
     // set the player's state
     SLresult result = (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_PLAYING);
-    CheckError("SetPlay", player->filePath);
+    CheckError("Play", player->filePath);
     AArrayList_Add(testErrorList, player);
 }
 
 
-static void SetPause(AudioPlayer* player)
+static void Pause(AudioPlayer* player)
 {
     // set the player's state
     SLresult result = (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_PAUSED);
-    CheckError("SetPause", player->filePath);
+    CheckError("Pause", player->filePath);
+}
+
+
+static void Stop(AudioPlayer* player)
+{
+    // set the player's state
+    SLresult result = (*player->play)->SetPlayState(player->play, SL_PLAYSTATE_STOPPED);
+    CheckError("Stop", player->filePath);
+    AArrayList_Add(destroyList, player);
+    player->waitCallbackCount = AudioPlayer_WaitOver;
 }
 
 
@@ -377,8 +399,9 @@ struct AAudio AAudio[1] =
     SetVolume,
     SetLoop,
 
-    SetPlay,
-    SetPause,
+    Play,
+    Pause,
+    Stop,
     IsPlaying,
 };
 

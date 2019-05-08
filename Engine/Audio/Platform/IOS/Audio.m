@@ -203,7 +203,11 @@ static void Update(float deltaSeconds)
         {
             alDeleteSources(1, &player->sourceId);
             alDeleteBuffers(1, &player->bufferId);
-            
+
+            player->sourceId = 0;
+            player->bufferId = 0;
+            player->filePath = NULL;
+
             AArrayList->Remove(destroyList, i);
             AArrayList_Add(cacheList, player);
         }
@@ -215,7 +219,7 @@ static void SetLoopPause()
 {
     for (int i = 0; i < loopList->size; ++i)
     {
-        AAudio->SetPause(AArrayList_Get(loopList, i, AudioPlayer*));
+        AAudio->Pause(AArrayList_Get(loopList, i, AudioPlayer*));
     }
 }
 
@@ -224,7 +228,7 @@ static void SetLoopResume()
 {
     for (int i = 0; i < loopList->size; ++i)
     {
-        AAudio->SetPlay(AArrayList_Get(loopList, i, AudioPlayer*));
+        AAudio->Play(AArrayList_Get(loopList, i, AudioPlayer*));
     }
 }
 
@@ -354,21 +358,29 @@ static void SetVolume(AudioPlayer* player, float volume)
 }
 
 
-static void SetPlay(AudioPlayer* player)
+static void Play(AudioPlayer* player)
 {
     alSourcePlay(player->sourceId);
     ALenum error;
-    CheckAudioError("SetPlay", player->filePath);
+    CheckAudioError("Play", player->filePath);
 }
 
 
-static void SetPause(AudioPlayer* player)
+static void Pause(AudioPlayer* player)
 {
     alSourcePause(player->sourceId);
     ALenum error;
-    CheckAudioError("SetPause", player->filePath);
+    CheckAudioError("Pause", player->filePath);
 }
 
+
+static void Stop(AudioPlayer* player)
+{
+    alSourceStop(player->sourceId);
+    ALenum error;
+    CheckAudioError("Stop", player->filePath);
+    SetLoop(player, false);
+}
 
 static bool IsPlaying(AudioPlayer* player)
 {
@@ -388,7 +400,6 @@ static AudioPlayer* GetPlayer(const char* relativeFilePath)
     }
     
     InitPlayer(relativeFilePath, player);
-    
     AArrayList_Add(destroyList, player);
     
     return player;
@@ -425,8 +436,9 @@ struct AAudio AAudio[1] =
     SetVolume,
     SetLoop,
 
-    SetPlay,
-    SetPause,
+    Play,
+    Pause,
+    Stop,
     IsPlaying,
 };
 
