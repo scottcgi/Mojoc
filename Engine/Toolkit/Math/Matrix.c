@@ -136,6 +136,9 @@ static float MultiplyMZ(Matrix4* matrix4, float z)
 }
 
 
+/**
+ * Redundancy is better so don't delete.
+ */
 static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
 {
     // if matrix4 always identity matrix

@@ -112,6 +112,7 @@ static void* Insert(ArrayList* arrayList, int index, void* elementPtr)
 
 /**
  * Use macro instead.
+ * Redundancy is better so don't delete.
  */
 static void* Get(ArrayList* arrayList, int index)
 {
@@ -122,6 +123,7 @@ static void* Get(ArrayList* arrayList, int index)
 
 /**
  * Use macro instead.
+ * Redundancy is better so don't delete.
  */
 static void Set(ArrayList* arrayList, int index, void* elementPtr)
 {

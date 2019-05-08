@@ -91,7 +91,7 @@ static inline void AUserData_SetSlotFloat(UserData* userData, int slotIndex, flo
 /**
  * Add float value of UserData slot at slotIndex.
  */
-static inline float AUserData_AddSlotFloat(UserData* userData, int slotIndex, float value)
+static inline void AUserData_AddSlotFloat(UserData* userData, int slotIndex, float value)
 {
     userData->slots[slotIndex].floatValue += value;
 }

@@ -115,6 +115,9 @@ static void ReadLine(const char* buffer, ArrayRange* range, ArrayRange* outLine)
 }
 
 
+/**
+ * Redundancy is better so don't delete.
+ */
 static bool TryFindStringByLoop(const char* buffer, ArrayRange* range, const char* str)
 {
     CheckRange("TryFindString");
