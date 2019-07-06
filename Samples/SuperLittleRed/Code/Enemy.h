@@ -3,8 +3,8 @@
  *
  * This code is licensed under the MIT License.
  *
- * Since : 2015-9-29
- * Author: scott.cgi
+ * Since  : 2015-9-29
+ * Author : scott.cgi
  */
 
 #ifndef ENEMY_H

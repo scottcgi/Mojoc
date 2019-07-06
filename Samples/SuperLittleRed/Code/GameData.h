@@ -3,8 +3,8 @@
  *
  * This code is licensed under the MIT License.
  *
- * Since : 2017-1-7
- * Author: scott.cgi
+ * Since  : 2017-1-7
+ * Author : scott.cgi
  */
 
 #ifndef GAME_DATA_H

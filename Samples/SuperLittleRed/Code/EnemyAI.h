@@ -3,8 +3,8 @@
  *
  * This code is licensed under the MIT License.
  *
- * Since : 2015-4-27
- * Author: scott.cgi
+ * Since  : 2015-4-27
+ * Author : scott.cgi
  */
 
 
@@ -15,9 +15,9 @@
 #include "Enemy.h"
 
 
-#define  ENEMY_KINDS_COUNT   1
-#define  KILL_INCREASE_SCALE 10
-#define  TIME_INCREASE_SCALE 5
+#define ENEMY_KINDS_COUNT   1
+#define KILL_INCREASE_SCALE 10
+#define TIME_INCREASE_SCALE 5
 
 
 struct AEnemyAI

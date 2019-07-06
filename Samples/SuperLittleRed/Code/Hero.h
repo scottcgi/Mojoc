@@ -3,12 +3,12 @@
  *
  * This code is licensed under the MIT License.
  *
- * Since : 2015-9-17
- * Author: scott.cgi
+ * Since  : 2015-9-17
+ * Author : scott.cgi
  */
 
-#ifndef  HERO_H
-#define  HERO_H
+#ifndef HERO_H
+#define HERO_H
 
 
 #include "Engine/Extension/Spine/SkeletonAnimationPlayer.h"

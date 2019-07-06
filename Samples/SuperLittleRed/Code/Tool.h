@@ -3,8 +3,8 @@
  *
  * This code is licensed under the MIT License.
  *
- * Since : 2015-4-26
- * Author: scott.cgi
+ * Since  : 2015-4-26
+ * Author : scott.cgi
  */
 
 #ifndef TOOL_H

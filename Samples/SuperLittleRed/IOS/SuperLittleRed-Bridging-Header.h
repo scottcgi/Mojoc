@@ -3,8 +3,8 @@
  *
  * This code is licensed under the MIT License.
  *
- * Since : 2017-3-14
- * Author: scott.cgi
+ * Since  : 2017-3-14
+ * Author : scott.cgi
  */
 
 #ifndef BRIDGING_HEADER_H

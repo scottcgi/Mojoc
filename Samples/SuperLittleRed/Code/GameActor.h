@@ -3,8 +3,8 @@
  *
  * This code is licensed under the MIT License.
  *
- * Since : 2014-6-23
- * Author: scott.cgi
+ * Since  : 2014-6-23
+ * Author : scott.cgi
  */
 
 #ifndef GAME_ACTOR_H

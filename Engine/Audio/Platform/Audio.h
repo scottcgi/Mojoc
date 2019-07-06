@@ -1,19 +1,21 @@
 /*
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code and its project Mojoc are licensed under [the MIT License],
- * and the project Mojoc is a game engine hosted on github at [https://github.com/scottcgi/Mojoc],
- * and the author's personal website is [https://scottcgi.github.io],
- * and the author's email is [scott.cgi@qq.com].
+ * This source code is licensed under the MIT License.
+ * This source code belongs to project Mojoc which is a pure C game engine hosted on GitHub.
+ * This Mojoc game engine is a serious project with extreme code pursuit, and will continue to iterate.
  *
- * Since : 2017-2-16
- * Update: 2019-1-7
- * Author: scott.cgi
+ * License: https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub : https://github.com/scottcgi/Mojoc
+ *
+ * Since  : 2017-2-16
+ * Update : 2019-1-7
+ * Author : scott.cgi
  */
 
 
 #ifndef AUDIO_H
-#define  AUDIO_H
+#define AUDIO_H
 
 
 #include <stdbool.h>
