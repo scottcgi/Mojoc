@@ -21,14 +21,25 @@
 #ifdef IS_PLATFORM_IOS
 
 
+#include <Foundation/Foundation.h>
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Application/Platform/SystemInfo.h"
 
 
 static void GetLanguageCode(char* outLanguageCode)
 {
-    outLanguageCode[0] = 'e';
-    outLanguageCode[1] = 'n';
+    NSString* languageCode = [NSLocale preferredLanguages][0];
+
+    if (languageCode != nil)
+    {
+        outLanguageCode[0] = languageCode.UTF8String[0];
+        outLanguageCode[1] = languageCode.UTF8String[1];
+    }
+    else
+    {
+        outLanguageCode[0] = 'e';
+        outLanguageCode[1] = 'n';
+    }
 }
 
 
