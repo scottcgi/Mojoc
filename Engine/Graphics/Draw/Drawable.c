@@ -7,12 +7,13 @@
  * and will continue to iterate,
  * and licensed under the MIT License.
  *
- * License: https://github.com/scottcgi/Mojoc/blob/master/LICENSE
- * GitHub : https://github.com/scottcgi/Mojoc
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
- * Since  : 2013-1-2
- * Update : 2019-1-25
- * Author : scott.cgi
+ * Since    : 2013-1-2
+ * Update   : 2019-1-25
+ * Author   : scott.cgi
  */
 
 

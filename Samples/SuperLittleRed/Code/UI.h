@@ -3,8 +3,8 @@
  *
  * This code is licensed under the MIT License.
  *
- * Since  : 2016-12-20
- * Author : scott.cgi
+ * Since    : 2016-12-20
+ * Author   : scott.cgi
  */
 
 #ifndef UI_H

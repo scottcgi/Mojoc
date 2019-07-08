@@ -2,17 +2,15 @@
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
  * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * The Mojoc Game Engine is a serious project with extreme code pursuit,
- * and will continue to iterate,
- * and licensed under the MIT License.
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
- * License: https://github.com/scottcgi/Mojoc/blob/master/LICENSE
- * GitHub : https://github.com/scottcgi/Mojoc
- *
- * Since  : 2016-8-7
- * Update : 2019-1-19
- * Author : scott.cgi
+ * Since    : 2016-8-7
+ * Update   : 2019-1-19
+ * Author   : scott.cgi
  */
 
 

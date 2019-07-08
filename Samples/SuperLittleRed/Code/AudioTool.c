@@ -3,8 +3,8 @@
  *
  * This code is licensed under the MIT License.
  *
- * Since  : 2017-2-20
- * Author : scott.cgi
+ * Since    : 2017-2-20
+ * Author   : scott.cgi
  */
 
 #include <stddef.h>
