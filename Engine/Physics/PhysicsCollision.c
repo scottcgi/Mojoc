@@ -150,12 +150,12 @@ static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
             if (vertexX1 + (y - vertexY1) / (vertexY2 - vertexY1) * (vertexX2 - vertexX1) <= x)
             {
                 // right
-                flag[(unsigned int) i >> 1] = 1; // NOLINT(hicpp-signed-bitwise)
+                flag[(unsigned int) i >> 1] = 1;
             }
             else
             {
                 // left
-                flag[(unsigned int) i >> 1] = 2; // NOLINT(hicpp-signed-bitwise)
+                flag[(unsigned int) i >> 1] = 2;
             }
         }
     }
@@ -191,12 +191,12 @@ static inline bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
             if (vertexX1 + (y - vertexY1) / (vertexY2 - vertexY1) * (vertexX2 - vertexX1) <= x)
             {
                 // right
-                flag[(unsigned int) i >> 1] = 1; // NOLINT(hicpp-signed-bitwise)
+                flag[(unsigned int) i >> 1] = 1;
             }
             else
             {
                 // left
-                flag[(unsigned int) i >> 1] = 2; // NOLINT(hicpp-signed-bitwise)
+                flag[(unsigned int) i >> 1] = 2;
             }
         }
     }
@@ -252,9 +252,9 @@ static inline bool TestPolygonPoint(Array(float)* polygon, Array(float)* point)
 typedef enum
 {
     PhysicsShape_PolygonPolygon = PhysicsShape_Polygon,
-    PhysicsShape_PolygonLine    = PhysicsShape_Polygon | PhysicsShape_Line,  // NOLINT(hicpp-signed-bitwise)
+    PhysicsShape_PolygonLine    = PhysicsShape_Polygon | PhysicsShape_Line,
     PhysicsShape_LineLine       = PhysicsShape_Line,
-    PhysicsShape_PolygonPoint   = PhysicsShape_Polygon | PhysicsShape_Point, // NOLINT(hicpp-signed-bitwise)
+    PhysicsShape_PolygonPoint   = PhysicsShape_Polygon | PhysicsShape_Point,
 }
 PhysicsShapeCollision;
 
@@ -308,6 +308,6 @@ static bool TestCollision(PhysicsBody* bodyA, PhysicsBody* bodyB)
 
 
 struct APhysicsCollision APhysicsCollision[1] =
-{
+{{
     TestCollision,
-};
+}};

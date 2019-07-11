@@ -244,7 +244,7 @@ static void InitSlotBoundingBoxDrawable(SkeletonAnimationPlayer* player, const c
 
 
 struct ASkeletonAnimationPlayer ASkeletonAnimationPlayer[1] =
-{
+{{
     Create,
     CreateWithData,
     Init,
@@ -256,4 +256,4 @@ struct ASkeletonAnimationPlayer ASkeletonAnimationPlayer[1] =
     SetAnimationMix,
 
     InitSlotBoundingBoxDrawable,
- };
+ }};

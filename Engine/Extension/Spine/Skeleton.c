@@ -447,7 +447,7 @@ static Skeleton* Create(SkeletonData* skeletonData)
 
 
 struct ASkeleton ASkeleton[1] =
-{
+{{
     Create,
     Init,
     Release,
@@ -457,4 +457,4 @@ struct ASkeleton ASkeleton[1] =
     GetAttachmentData,
     GetAttachmentSubMesh,
     Apply,
-};
+}};

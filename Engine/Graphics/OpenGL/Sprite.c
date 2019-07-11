@@ -50,7 +50,7 @@ static void Render(Drawable* drawable)
                                       GL_ARRAY_BUFFER,
                                       0,
                                       sprite->vertexDataSize,
-                                      GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT // NOLINT(hicpp-signed-bitwise)
+                                      GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT
                                   );
 
                 memcpy(mappedPtr, sprite->vertexArr->data, (size_t) sprite->vertexDataSize);
@@ -260,7 +260,7 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 
 static void Deform(Sprite* sprite, Array(float)* positionDeformArr, Array(float)* uvDeformArr)
 {
-    int    length   = sprite->vertexArr->length >> 1; // NOLINT(hicpp-signed-bitwise)
+    int    length   = sprite->vertexArr->length >> 1;
     float* vertices = sprite->vertexArr->data;
 
     if (positionDeformArr != NULL && uvDeformArr != NULL)
@@ -274,7 +274,7 @@ static void Deform(Sprite* sprite, Array(float)* positionDeformArr, Array(float)
         for (int i = 0; i < positionDeformArr->length; i += Sprite_VertexPositionNum)
         {
             int      i1      = i +  1;
-            int      j       = i << 1;        // to vertexArr position index // NOLINT(hicpp-signed-bitwise)
+            int      j       = i << 1;        // to vertexArr position index
             vertices[j]     += positions[i];  // x
             vertices[j + 1] += positions[i1]; // y
             vertices[j + 2] += uvs      [i];  // u
@@ -289,7 +289,7 @@ static void Deform(Sprite* sprite, Array(float)* positionDeformArr, Array(float)
 
         for (int i = 0; i < positionDeformArr->length; i += Sprite_VertexPositionNum)
         {
-            int      j       = i << 1;           // to vertexArr position index // NOLINT(hicpp-signed-bitwise)
+            int      j       = i << 1;           // to vertexArr position index
             vertices[j]     += positions[i];     // x
             vertices[j + 1] += positions[i + 1]; // y
         }
@@ -302,7 +302,7 @@ static void Deform(Sprite* sprite, Array(float)* positionDeformArr, Array(float)
 
         for (int i = 0; i < uvDeformArr->length; i += Sprite_VertexPositionNum)
         {
-            int      j       = i << 1;     // to vertexArr position index // NOLINT(hicpp-signed-bitwise)
+            int      j       = i << 1;     // to vertexArr position index
             vertices[j + 2] += uvs[i];     // x
             vertices[j + 3] += uvs[i + 1]; // y
         }
@@ -329,7 +329,7 @@ static void Deform(Sprite* sprite, Array(float)* positionDeformArr, Array(float)
 static inline int GetPositionIndex(int index)
 {
     int offset             = index % Sprite_VertexPositionNum; // (0 or 1), offset of one vertex data
-    int positionStartIndex = (index - offset) << 1; // to vertexArr position start index // NOLINT(hicpp-signed-bitwise)
+    int positionStartIndex = (index - offset) << 1; // to vertexArr position start index
 
     // position index
     return positionStartIndex + offset;
@@ -338,7 +338,7 @@ static inline int GetPositionIndex(int index)
 
 static void DeformByIndex(Sprite* sprite, Array(float)* positionDeformArr, Array(float)* uvDeformArr, Array(int)* indexArr)
 {
-    int length = sprite->vertexArr->length >> 1; // NOLINT(hicpp-signed-bitwise)
+    int length = sprite->vertexArr->length >> 1;
 
     CheckDeformByIndex("indexArr length", indexArr->length);
 
@@ -455,7 +455,7 @@ static void InitWithFile(const char* resourceFilePath, Sprite* outSprite)
 
 
 struct ASprite ASprite[1] =
-{
+{{
     Create,
     Init,
 
@@ -472,4 +472,4 @@ struct ASprite ASprite[1] =
     Deform,
     DeformByIndex,
     Render,
-};
+}};

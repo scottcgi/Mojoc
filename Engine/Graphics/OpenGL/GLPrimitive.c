@@ -47,19 +47,19 @@ static inline void Render
 
 static void RenderPoints(Array(float)* pointArr, Matrix4* mvpMatrix, Color* color, float pointSize)
 {
-    Render(GL_POINTS, pointArr->data, mvpMatrix, color, pointSize, pointArr->length >> 1, false); // NOLINT(hicpp-signed-bitwise)
+    Render(GL_POINTS, pointArr->data, mvpMatrix, color, pointSize, pointArr->length >> 1, false);
 }
 
 
 static void RenderPolygon(Array(float)* vertexArr, Matrix4* mvpMatrix, Color* color, float lineWidth)
 {
-    Render(GL_LINE_LOOP, vertexArr->data, mvpMatrix, color, lineWidth, vertexArr->length >> 1, true); // NOLINT(hicpp-signed-bitwise)
+    Render(GL_LINE_LOOP, vertexArr->data, mvpMatrix, color, lineWidth, vertexArr->length >> 1, true);
 }
 
 
 static void RenderLines(Array(float)* lineArr, Matrix4* mvpMatrix, Color* color, float lineWidth)
 {
-    Render(GL_LINE_STRIP, lineArr->data, mvpMatrix, color, lineWidth, lineArr->length >> 1, true); // NOLINT(hicpp-signed-bitwise)
+    Render(GL_LINE_STRIP, lineArr->data, mvpMatrix, color, lineWidth, lineArr->length >> 1, true);
 }
 
 
@@ -85,9 +85,9 @@ static void RenderRect(Rect* rect, Matrix4* mvpMatrix, Color* color, float lineW
 
 
 struct AGLPrimitive AGLPrimitive[1] =
-{
+{{
     RenderPoints,
     RenderPolygon,
     RenderLines,
     RenderRect,
-};
+}};

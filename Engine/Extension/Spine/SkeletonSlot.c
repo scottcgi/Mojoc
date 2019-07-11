@@ -216,10 +216,10 @@ static SkeletonSlot* Create(SkeletonSlotData* slotData, Skeleton* skeleton)
 
 
 struct ASkeletonSlot ASkeletonSlot[1] =
-{
+{{
     Create,
     Init,
     SetAttachmentData,
     SetToSetupPose,
-};
+}};
 

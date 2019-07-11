@@ -445,7 +445,7 @@ static void* RunTargets()
 
 
 struct ATweenTool ATweenTool[1] =
-{
+{{
     AddAction,
     AddInterval,
 
@@ -489,7 +489,7 @@ struct ATweenTool ATweenTool[1] =
 
     RunActions,
     RunTargets,
-};
+}};
 
 
 #undef CheckAction

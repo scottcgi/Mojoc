@@ -414,7 +414,7 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
             JsonArray* jsonTriangleArr = AJsonObject->GetArray(attachmentDataObject, "triangles");
             JsonArray* jsonUVArr       = AJsonObject->GetArray(attachmentDataObject, "uvs");
 
-            int        verticesCount   = jsonVertexArr->valueList->size   + (jsonVertexArr->valueList->size >> 1); // NOLINT(hicpp-signed-bitwise)
+            int        verticesCount   = jsonVertexArr->valueList->size   + (jsonVertexArr->valueList->size >> 1);
             int        verticesByte    = verticesCount                    * sizeof(float);
             int        uvsByte         = jsonUVArr->valueList->size       * sizeof(float);
             int        trianglesByte   = jsonTriangleArr->valueList->size * sizeof(short);
@@ -480,14 +480,14 @@ static inline ArrayStrMap* ReadSkinDataSlotAttachment(JsonObject* attachmentData
                 // contains boneCount and each bones index
                 bonesCount          += boneCount  +  1;
                 weightsCount        += boneCount;
-                weightVerticesCount += boneCount  << 1;      // NOLINT(hicpp-signed-bitwise)
-                j                   += (boneCount << 2) + 1; // NOLINT(hicpp-signed-bitwise)
+                weightVerticesCount += boneCount  << 1;
+                j                   += (boneCount << 2) + 1;
             }
 
             // how many vertices in mesh
             verticesCount           = verticesCount * 3;
             // how many vertices mix by each bone weight
-            weightVerticesCount     = weightVerticesCount + (weightVerticesCount >> 1); // NOLINT(hicpp-signed-bitwise)
+            weightVerticesCount     = weightVerticesCount + (weightVerticesCount >> 1);
 
             int  verticesByte       = verticesCount                    * sizeof(float);
             int  weightVerticesByte = weightVerticesCount              * sizeof(float);
@@ -1187,7 +1187,7 @@ static inline void ReadAnimationDeform
                             // jsonVertices is x,y
                             // vertexData   is x,y,z
                             // so convert   index in jsonVertices to vertexData
-                            int   index        = (start >> 1) + start;  // NOLINT(hicpp-signed-bitwise)
+                            int   index        = (start >> 1) + start;
                             float vertex       = AJsonArray->GetFloat(jsonVertexArr, m) * ASkeletonData->scale;
                             vertexData[index] += AGLTool_ToGLWidth(vertex);
                         }
@@ -1499,12 +1499,12 @@ static SkeletonData* Get(const char* jsonFilePath)
 
 
 struct ASkeletonData ASkeletonData[1] =
-{
+{{
     1.0f,
     Get,
     Release,
     GetAttachmentDataBySkinData,
-};
+}};
 
 
 SkeletonAttachmentMeshOffset skeletonAttachmentMeshOffset[3] =

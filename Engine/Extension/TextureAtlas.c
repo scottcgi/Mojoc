@@ -101,11 +101,11 @@ static void Init(const char* filePath, TextureAtlas* outTextureAtlas)
 
             str               = strtok(buffer + line->start, ",");
             ALog_A(str != NULL, "ATextureAtlas cannot find x number in xy");
-            int x             = atoi(str);  // NOLINT(cert-err34-c)
+            int x             = atoi(str);
 
             str               = strtok(NULL, ",");
             ALog_A(str != NULL, "ATextureAtlas cannot find y number in xy");
-            int y             = atoi(str);  // NOLINT(cert-err34-c)
+            int y             = atoi(str);
 
             ReadFind("size:");
             // make the line to string
@@ -113,11 +113,11 @@ static void Init(const char* filePath, TextureAtlas* outTextureAtlas)
 
             str               = strtok(buffer + line->start, ",");
             ALog_A(str != NULL, "ATextureAtlas cannot find width number in size");
-            int width         = atoi(str);  // NOLINT(cert-err34-c)
+            int width         = atoi(str);
 
             str               = strtok(NULL, ",");
             ALog_A(str != NULL, "ATextureAtlas cannot find height number in size");
-            int height        = atoi(str); // NOLINT(cert-err34-c)
+            int height        = atoi(str);
 
             ReadFind("orig");
             ReadFind("offset");
@@ -177,7 +177,7 @@ static TextureAtlas* Get(const char* filePath)
 
 
 struct ATextureAtlas ATextureAtlas[1] =
-{
+{{
     Get,
     Release,
-};
+}};

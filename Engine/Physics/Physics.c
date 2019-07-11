@@ -25,6 +25,6 @@ static void Init()
 
 
 struct APhysics APhysics[1] =
-{
+{{
     Init
-};
+}};

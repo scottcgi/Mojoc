@@ -197,7 +197,7 @@ static void GetIndex(int vertexNumBefore, short outIndexData[Quad_IndexNum])
 
 
 struct AQuad AQuad[1] =
-{
+{{
     Create,
     Init,
     GetMaxSize,
@@ -206,4 +206,4 @@ struct AQuad AQuad[1] =
     GetPosition3,
     GetUV,
     GetIndex,
-};
+}};

@@ -23,7 +23,7 @@
 static inline PhysicsBody* CreateBody(Array(float)* vertexArr, PhysicsShape shape)
 {
     int          size = sizeof(float) * vertexArr->length;
-    PhysicsBody* body = malloc(sizeof(PhysicsBody) + (size << 1)); // NOLINT(hicpp-signed-bitwise)
+    PhysicsBody* body = malloc(sizeof(PhysicsBody) + (size << 1));
 
     body->vertexArr->length = vertexArr->length;
     body->vertexArr->data   = (char*) body + sizeof(PhysicsBody);
@@ -152,8 +152,8 @@ static void Update(PhysicsBody* body, float deltaSeconds)
 
 
 struct APhysicsBody APhysicsBody[1] =
-{
+{{
     Create,
     ResetVertices,
     Update,
-};
+}};

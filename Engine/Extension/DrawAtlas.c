@@ -130,9 +130,9 @@ static void ReleaseQuad(DrawAtlas* drawAtlas, SubMesh* subMesh)
 
 
 struct ADrawAtlas ADrawAtlas[1] =
-{
+{{
     Get,
     GetQuad,
     Release,
     ReleaseQuad,
-};
+}};

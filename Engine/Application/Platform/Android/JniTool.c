@@ -358,7 +358,7 @@ static int GetSignHashCode()
 
 
 struct AJniTool AJniTool[1] =
-{
+{{
     GetMethodInfo,
     GetStaticMethodInfo,
     
@@ -367,7 +367,7 @@ struct AJniTool AJniTool[1] =
     CallClassMethod,
 
     GetSignHashCode,
-};
+}};
 
 
 #endif

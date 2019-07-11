@@ -78,7 +78,7 @@ static void RotatePoints2(Array(float)* pointArr, float angle, Array(float)* out
 
 
 struct AMath AMath[1] =
-{
+{{
     TestPolygonPoint,
     RotatePoints2,
-};
+}};

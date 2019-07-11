@@ -56,8 +56,8 @@ static void Destroy(Texture* texture)
 
 
 struct ATexture ATexture[1] =
-{
+{{
     Get,
     Destroy,
-};
+}};
 

@@ -413,7 +413,7 @@ static void Update(float deltaSeconds)
 
 
 struct ATween ATween[1] =
-{
+{{
     GetAction,
     AddTweenActionValue,
     RunActions,
@@ -422,4 +422,4 @@ struct ATween ATween[1] =
     TryRemoveAction,
     HasAction,
     Update,
-};
+}};

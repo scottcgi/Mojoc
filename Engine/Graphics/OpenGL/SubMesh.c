@@ -354,7 +354,7 @@ static void DeformByIndex(SubMesh* subMesh, Array(float)* positionDeformArr, Arr
 {
     if (positionDeformArr != NULL && uvDeformArr != NULL)
     {
-        int length = indexArr->length >> 1; // NOLINT(hicpp-signed-bitwise)
+        int length = indexArr->length >> 1;
 
         CheckDeformByIndexLength(positionDeformArr);
         CheckDeformByIndexLength(uvDeformArr);
@@ -423,10 +423,10 @@ static void DeformByIndex(SubMesh* subMesh, Array(float)* positionDeformArr, Arr
 
 
 struct ASubMesh ASubMesh[1] =
-{
+{{
     CreateWithData,
     CreateWithQuad,
     SetUVWithQuad,
     Deform,
     DeformByIndex,
-};
+}};

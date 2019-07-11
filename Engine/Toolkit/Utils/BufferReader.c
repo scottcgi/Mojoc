@@ -227,10 +227,10 @@ static bool TryFindStringByMemcmp(const char* buffer, ArrayRange* range, const c
 
 
 struct ABufferReader ABufferReader[1] =
-{
+{{
     ReadLine,
     TryFindStringByMemcmp,
-};
+}};
 
 
 #undef ReadLineLog

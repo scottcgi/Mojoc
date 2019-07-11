@@ -115,7 +115,7 @@ static void* CreatePixelDataFromPNG(const char* resourceFilePath, float* outWidt
 
         // force palette images to be expanded to 24-bit RGB
         // it may include alpha channel
-        if (colorType == PNG_COLOR_TYPE_PALETTE)  // NOLINT(hicpp-signed-bitwise)
+        if (colorType == PNG_COLOR_TYPE_PALETTE)
         {
             png_set_palette_to_rgb(pngPtr);
         }
@@ -188,7 +188,7 @@ static void* CreatePixelDataFromPNG(const char* resourceFilePath, float* outWidt
 
 
 struct AImage AImage[1] =
-{
+{{
     CreatePixelDataFromPNG,
-};
+}};
 

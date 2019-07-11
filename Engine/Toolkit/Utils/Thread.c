@@ -32,6 +32,6 @@ static int StartThread(ThreadRun Run, void* param)
 
 
 struct AThread AThread[1] =
-{
+{{
     StartThread,
-};
+}};

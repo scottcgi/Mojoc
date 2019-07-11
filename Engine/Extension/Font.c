@@ -337,7 +337,7 @@ static void ReleaseText(FontText* text)
 
 
 struct AFont AFont[1] =
-{
+{{
     Get,
     GetText,
     Draw,
@@ -348,4 +348,4 @@ struct AFont AFont[1] =
 
     Release,
     ReleaseText,
-};
+}};

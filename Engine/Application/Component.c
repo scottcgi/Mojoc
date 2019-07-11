@@ -365,7 +365,7 @@ static void Update(Component* component, float deltaSeconds)
 
 
 struct AComponent AComponent[1] =
-{
+{{
     Create,
     Init,
     Release,
@@ -385,4 +385,4 @@ struct AComponent AComponent[1] =
     AddState,
     SetActive,
     Update,
-};
+}};

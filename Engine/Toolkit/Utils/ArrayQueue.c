@@ -108,7 +108,7 @@ static void Clear(ArrayQueue* arrayQueue)
 
 
 struct AArrayQueue AArrayQueue[1] =
-{
+{{
     Create,
     Init,
     CreateWithCapacity,
@@ -119,4 +119,4 @@ struct AArrayQueue AArrayQueue[1] =
     Pop,
     RemoveAt,
     Clear,
-};
+}};

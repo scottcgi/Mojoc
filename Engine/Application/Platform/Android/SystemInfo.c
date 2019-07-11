@@ -35,9 +35,9 @@ static void GetLanguageCode(char* outLanguageCode)
 
 
 struct ASystemInfo ASystemInfo[1] =
-{
+{{
     GetLanguageCode,
-};
+}};
 
 
 #endif

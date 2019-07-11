@@ -35,7 +35,7 @@ static inline int BinarySearchByStep(const float values[], int valuesLength, flo
         return step;
     }
 
-    int current = (unsigned int) high >> 1; // NOLINT(hicpp-signed-bitwise)
+    int current = (unsigned int) high >> 1;
 
     while (true)
     {
@@ -53,7 +53,7 @@ static inline int BinarySearchByStep(const float values[], int valuesLength, flo
             return (low + 1) * step;
         }
 
-        current = (unsigned int) (low + high) >> 1; // NOLINT(hicpp-signed-bitwise)
+        current = (unsigned int) (low + high) >> 1;
     }
 }
 
@@ -71,7 +71,7 @@ static inline int BinarySearch(const float values[], int valuesLength, float tar
         return 1;
     }
 
-    int current = (unsigned int) high >> 1; // NOLINT(hicpp-signed-bitwise)
+    int current = (unsigned int) high >> 1;
 
     while (true)
     {
@@ -89,7 +89,7 @@ static inline int BinarySearch(const float values[], int valuesLength, float tar
             return low + 1;
         }
 
-        current = (unsigned int) (low + high) >> 1; // NOLINT(hicpp-signed-bitwise)
+        current = (unsigned int) (low + high) >> 1;
     }
 }
 
@@ -97,7 +97,7 @@ static inline int BinarySearch(const float values[], int valuesLength, float tar
 enum
 {
     Bezier_Segments = 12,
-    Bezier_Size     = ((Bezier_Segments + 1) << 1) - 1, // NOLINT(hicpp-signed-bitwise)
+    Bezier_Size     = ((Bezier_Segments + 1) << 1) - 1,
 };
 
 
@@ -293,7 +293,7 @@ static void RotateApply(SkeletonTimeline* skeletonTimeline, Skeleton* skeleton, 
     float frameTime      = frames[frameIndex];
     float percent        = GetCurvePercent
                           (
-                              rotateTimeline->curveTimeline, (frameIndex >> 1) - 1,  // NOLINT(hicpp-signed-bitwise)
+                              rotateTimeline->curveTimeline, (frameIndex >> 1) - 1,
                               1.0f - (time - frameTime) / (frames[frameIndex - RotateFrame_Times] - frameTime)
                           );
     float amount         = frames[frameIndex + RotateFrame_Value] - lastFrameValue;
@@ -1220,7 +1220,7 @@ static SkeletonDeformTimeline* CreateDeform(int frameCount)
 
 
 struct ASkeletonTimeline ASkeletonTimeline[1] =
-{
+{{
     CreateRotate,
     CreateTranslate,
     CreateScale,
@@ -1241,4 +1241,4 @@ struct ASkeletonTimeline ASkeletonTimeline[1] =
     SetEventFrame,
     SetDrawOrderFrame,
     SetDeformFrame,
-};
+}};

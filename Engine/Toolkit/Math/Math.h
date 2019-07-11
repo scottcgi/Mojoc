@@ -196,7 +196,7 @@ static inline float AMath_InvSqrtf(float x)
 {
     union { float f; int i; } u = {x};
 
-    u.i = 0x5f3759df - (u.i >> 1); // NOLINT(hicpp-signed-bitwise)
+    u.i = 0x5f3759df - (u.i >> 1);
 
     return u.f * (1.5f - 0.5f * x * u.f * u.f);
 }
@@ -210,7 +210,7 @@ static inline float AMath_Sqrtf(float x)
 {
     union { float f; int i; } u = {x};
 
-    u.i = 0x5f3759df - (u.i >> 1); // NOLINT(hicpp-signed-bitwise)
+    u.i = 0x5f3759df - (u.i >> 1);
     x  *= u.f; // reduce one multiplication and increase one assignment
 
     return x * (1.5f - 0.5f * x * u.f);

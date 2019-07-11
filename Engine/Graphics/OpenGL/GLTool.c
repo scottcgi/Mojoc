@@ -228,21 +228,13 @@ static void LoadTexture(const char* textureFilePath, Texture* outTexture)
 
 
 struct AGLTool AGLTool[1] =
-{
-    0.0f,
-    0.0f,
-    0.0f,
-    0.0f,
-    0.0f,
-    0.0f,
-    0.0f,
+{{
+    .SetSize             = SetSize,
 
-    SetSize,
+    .LoadShader          = LoadShader,
+    .LoadProgram         = LoadProgram,
 
-    LoadShader,
-    LoadProgram,
-
-    LoadProgramFromFile,
-    LoadTexture,
-};
+    .LoadProgramFromFile = LoadProgramFromFile,
+    .LoadTexture         = LoadTexture,
+}};
 

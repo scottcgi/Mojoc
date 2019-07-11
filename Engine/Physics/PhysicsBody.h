@@ -28,8 +28,8 @@ typedef enum
 {
     PhysicsShape_NULL    = 0,
     PhysicsShape_Polygon = 1,
-    PhysicsShape_Line    = 1 << 2, // NOLINT(hicpp-signed-bitwise)
-    PhysicsShape_Point   = 1 << 3, // NOLINT(hicpp-signed-bitwise)
+    PhysicsShape_Line    = 1 << 2,
+    PhysicsShape_Point   = 1 << 3,
 }
 PhysicsShape;
 
@@ -147,7 +147,7 @@ extern struct APhysicsBody APhysicsBody[1];
  */
 static inline bool APhysicsBody_CheckCollisionGroup(PhysicsBody* physicsBody, int collisionGroup)
 {
-    return ABitwise_Check(physicsBody->collisionGroup, collisionGroup); // NOLINT(hicpp-signed-bitwise)
+    return ABitwise_Check(physicsBody->collisionGroup, collisionGroup);
 }
 
 
@@ -156,7 +156,7 @@ static inline bool APhysicsBody_CheckCollisionGroup(PhysicsBody* physicsBody, in
  */
 static inline void APhysicsBody_AddCollisionGroup(PhysicsBody* physicsBody, int collisionGroup)
 {
-    ABitwise_Add(physicsBody->collisionGroup, collisionGroup); // NOLINT(hicpp-signed-bitwise)
+    ABitwise_Add(physicsBody->collisionGroup, collisionGroup);
 }
 
 
@@ -174,7 +174,7 @@ static inline void APhysicsBody_SetCollisionGroup(PhysicsBody* physicsBody, int 
  */
 static inline void APhysicsBody_ClearCollisionGroup(PhysicsBody* physicsBody, int collisionGroup)
 {
-    ABitwise_Clear(physicsBody->collisionGroup, collisionGroup);  // NOLINT(hicpp-signed-bitwise)
+    ABitwise_Clear(physicsBody->collisionGroup, collisionGroup);
 }
 
 

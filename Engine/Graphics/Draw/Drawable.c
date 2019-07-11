@@ -90,7 +90,7 @@ static void Draw(Drawable* drawable)
             ADrawable_AddState
             (
                 drawable,
-                DrawableState_TransformChanged | DrawableState_UpdateInverseMatrix  // NOLINT(hicpp-signed-bitwise)
+                DrawableState_TransformChanged | DrawableState_UpdateInverseMatrix
             );
         }
         else
@@ -728,7 +728,7 @@ static void Init(Drawable* outDrawable)
     ADrawable_AddState
     (
         outDrawable,
-        DrawableState_Transform           |  // NOLINT(hicpp-signed-bitwise)
+        DrawableState_Transform           |
         DrawableState_UpdateInverseMatrix |
         DrawableState_Color               |
         DrawableState_IsBlendColor        |
@@ -747,7 +747,7 @@ static Drawable* Create()
 
 
 struct ADrawable ADrawable[1] =
-{
+{{
     Create,
     Init,
 
@@ -778,4 +778,4 @@ struct ADrawable ADrawable[1] =
     GetWorldPositionY,
     GetWorldPositionV2,
     GetWorldPositionV3,
-};
+}};

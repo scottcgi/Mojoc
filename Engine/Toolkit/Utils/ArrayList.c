@@ -346,7 +346,7 @@ static void InitWithCapacity(int elementTypeSize, int capacity, ArrayList* outAr
 
 
 struct AArrayList AArrayList[1] =
-{
+{{
     Create,
     init,
     CreateWithSize,
@@ -369,7 +369,7 @@ struct AArrayList AArrayList[1] =
     Shrink,
     SetSize,
     SetCapacity,
-};
+}};
 
 
 #undef CheckIndex

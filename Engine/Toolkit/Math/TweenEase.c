@@ -18,7 +18,7 @@
 #include "Engine/Toolkit/Math/Math.h"
 
 
-#define VALUE from + (to - from)  // NOLINT
+#define VALUE from + (to - from)
 
 
 static float Linear(float from, float to, float time)
@@ -468,7 +468,7 @@ static float BounceInOut(float from, float to, float time)
 
 
 struct ATweenEase ATweenEase[1] =
-{
+{{
     Linear,
 
     QuadraticIn,
@@ -512,4 +512,4 @@ struct ATweenEase ATweenEase[1] =
     BounceIn,
     BounceOut,
     BounceInOut,
-};
+}};

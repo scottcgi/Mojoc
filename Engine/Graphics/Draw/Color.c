@@ -22,10 +22,10 @@ static void SetWithString(char* colorStr, Color* outColor)
 {
     int rgba[4];
 
-    sscanf(colorStr,     "%2x", rgba);     // NOLINT(cert-err34-c)
-    sscanf(colorStr + 2, "%2x", rgba + 1); // NOLINT(cert-err34-c)
-    sscanf(colorStr + 4, "%2x", rgba + 2); // NOLINT(cert-err34-c)
-    sscanf(colorStr + 6, "%2x", rgba + 3); // NOLINT(cert-err34-c)
+    sscanf(colorStr,     "%2x", rgba);
+    sscanf(colorStr + 2, "%2x", rgba + 1);
+    sscanf(colorStr + 4, "%2x", rgba + 2);
+    sscanf(colorStr + 6, "%2x", rgba + 3);
 
     outColor->r = rgba[0] / 255.0f;
     outColor->g = rgba[1] / 255.0f;
@@ -35,6 +35,6 @@ static void SetWithString(char* colorStr, Color* outColor)
 
 
 struct AColor AColor[1] =
-{
+{{
     SetWithString,
-};
+}};

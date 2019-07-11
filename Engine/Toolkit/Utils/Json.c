@@ -199,7 +199,7 @@ static JsonArray* ObjectGetArrayByIndex(JsonObject* object, int index)
 
 
 struct AJsonObject AJsonObject[1] =
-{
+{{
     ObjectGetBool,
     ObjectGetInt,
     ObjectGetFloat,
@@ -210,7 +210,7 @@ struct AJsonObject AJsonObject[1] =
     ObjectGetKey,
     ObjectGetObjectByIndex,
     ObjectGetArrayByIndex,
-};
+}};
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -263,7 +263,7 @@ static JsonType ArrayGetType(JsonArray* array, int index)
 
 
 struct AJsonArray AJsonArray[1] =
-{
+{{
     ArrayGetBool,
     ArrayGetInt,
     ArrayGetFloat,
@@ -271,7 +271,7 @@ struct AJsonArray AJsonArray[1] =
     ArrayGetString,
     ArrayGetObject,
     ArrayGetArray,
-};
+}};
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -603,8 +603,8 @@ static JsonValue* ParseFile(const char* jsonFilePath)
 
 
 struct AJson AJson[1] =
-{
+{{
     Parse,
     ParseFile,
     Destroy,
-};
+}};

@@ -86,7 +86,7 @@ static float GetFarZOrder()
 
 
 struct ACamera ACamera[1] =
-{
+{{
     0, 0, 0,
     0, 0, 0,
     0, 0, 0,
@@ -102,5 +102,5 @@ struct ACamera ACamera[1] =
     SetLookAt,
     GetNearZOrder,
     GetFarZOrder,
-};
+}};
 

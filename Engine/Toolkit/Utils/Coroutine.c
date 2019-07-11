@@ -116,7 +116,7 @@ static void Update(float deltaSeconds)
 
 
 struct ACoroutine ACoroutine[1] =
-{
+{{
     StartCoroutine,
     Update,
-};
+}};

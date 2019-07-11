@@ -57,7 +57,7 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
         // then the '>>' is unsigned move right
         // so the overflow will be handled correctly
         // because sign bit shift to right and 0 will be added
-        guess               = (unsigned int) (high + low) >> 1; // NOLINT(hicpp-signed-bitwise)
+        guess               = (unsigned int) (high + low) >> 1;
         intptr_t elementKey = AArrayList_Get(elementList, guess, ArrayIntMapElement*)->key;
 
         if (elementKey < key)
@@ -284,7 +284,7 @@ static ArrayIntMap* Create(int valueTypeSize)
 
 
 struct AArrayIntMap AArrayIntMap[1] =
-{
+{{
     Create,
     Init,
     CreateWithCapacity,
@@ -303,7 +303,7 @@ struct AArrayIntMap AArrayIntMap[1] =
     GetAt,
     SetAt,
     RemoveAt,
-};
+}};
 
 
 #undef CheckIndex

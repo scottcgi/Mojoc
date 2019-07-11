@@ -63,11 +63,11 @@ static void SetUseMapBuffer(bool isUseMapBuffer)
 
 
 struct AGraphics AGraphics[1] =
-{
+{{
     false,
     false,
     false,
     Init,
     SetUseVAO,
     SetUseMapBuffer,
-};
+}};

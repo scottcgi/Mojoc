@@ -145,7 +145,7 @@ static void WriteDataToRelative(const char* relativeDirFilePath, void* data, siz
 
 
 struct AFileTool AFileTool[1] =
-{
+{{
     GetDirLength,
     CreateDataFromAbsolute,
     CreateStringFromAbsolute,
@@ -155,4 +155,4 @@ struct AFileTool AFileTool[1] =
 
     CreateDataFromRelative,
     WriteDataToRelative,
-};
+}};

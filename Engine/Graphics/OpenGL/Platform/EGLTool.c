@@ -165,11 +165,11 @@ static void ResetSurface
 
 
 struct AEGLTool AEGLTool[1] =
-{
+{{
     CreateEGL,
     DestroyEGL,
     ResetSurface,
-};
+}};
 
 
 #endif

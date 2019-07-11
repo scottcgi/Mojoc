@@ -46,8 +46,8 @@ static SkeletonBone* Create(SkeletonBoneData* boneData)
 
 
 struct ASkeletonBone ASkeletonBone[1] =
-{
+{{
     Create,
     Init,
     SetToSetupPose,
-};
+}};

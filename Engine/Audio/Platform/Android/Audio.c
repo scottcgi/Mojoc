@@ -382,8 +382,9 @@ static void Release()
     AArrayStrSet->Release(filePathSet);
 }
 
+
 struct AAudio AAudio[1] =
-{
+{{
     Init,
     Release,
     Update,
@@ -398,7 +399,7 @@ struct AAudio AAudio[1] =
     Pause,
     Stop,
     IsPlaying,
-};
+}};
 
 
 #endif

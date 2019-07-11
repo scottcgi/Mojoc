@@ -139,7 +139,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
         {
             int32_t action = AMotionEvent_getAction(event);
 
-            switch (action & AMOTION_EVENT_ACTION_MASK) // NOLINT(hicpp-signed-bitwise)
+            switch (action & AMOTION_EVENT_ACTION_MASK)
             {
                 // first pointer down
                 case AMOTION_EVENT_ACTION_DOWN:
@@ -153,7 +153,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                     Touch
                     (
                         event,
-                        (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> // NOLINT(hicpp-signed-bitwise)
+                        (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
                         AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT,
                         InputTouchType_Down
                     );
@@ -169,7 +169,7 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                     Touch
                     (
                         event,
-                        (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> // NOLINT(hicpp-signed-bitwise)
+                        (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
                         AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT,
                         InputTouchType_Up
                     );

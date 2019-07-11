@@ -39,7 +39,7 @@ static void Update(float deltaSeconds)
                 (
                     otherBody->state != PhysicsBodyState_Freeze &&
                     // check collisionGroup whether has same bit
-                    (body->collisionGroup & otherBody->collisionGroup) == 0 && // NOLINT(hicpp-signed-bitwise)
+                    (body->collisionGroup & otherBody->collisionGroup) == 0 &&
                     APhysicsCollision->TestCollision(body, otherBody)
                 )
                 {

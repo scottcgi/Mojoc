@@ -305,7 +305,7 @@ static void Render(Drawable* drawable)
                                             subData->target,
                                             subData->offset,
                                             subData->size,
-                                            GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT // NOLINT(hicpp-signed-bitwise)
+                                            GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT
                                         );
 
                 memcpy(mappedPtr, subData->data, (size_t) subData->size);
@@ -725,7 +725,7 @@ static void InitWithFileAndCapacity(const char* resourceFilePath, int capacity, 
 
 
 struct AMesh AMesh[1] =
-{
+{{
     Create,
     Init,
     InitWithCapacity,
@@ -742,4 +742,4 @@ struct AMesh AMesh[1] =
     ReorderAllChildren,
     GenerateBuffer,
     Render,
-};
+}};

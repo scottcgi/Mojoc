@@ -35,7 +35,7 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
         // then the '>>' is unsigned move right
         // so the overflow will be handled correctly
         // because sign bit shift to right and 0 will be added
-        guess            = (unsigned int) (high + low) >> 1; // NOLINT(hicpp-signed-bitwise)
+        guess            = (unsigned int) (high + low) >> 1;
         intptr_t element = AArrayList_Get(elementList, guess, intptr_t);
 
         if (element < key)
@@ -151,7 +151,7 @@ static void Clear(ArrayIntSet* arrayIntSet)
 
 
 struct AArrayIntSet AArrayIntSet[1] =
-{
+{{
     Create,
     Init,
     CreateWithCapacity,
@@ -161,4 +161,4 @@ struct AArrayIntSet AArrayIntSet[1] =
     TryRemove,
     IsContains,
     Clear,
-};
+}};

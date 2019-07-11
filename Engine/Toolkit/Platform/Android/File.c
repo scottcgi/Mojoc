@@ -89,7 +89,7 @@ static const char* GetInternalDataPath(int* outPathLength)
 
 
 struct AFile AFile[1] =
-{
+{{
     Open,
     OpenFileDescriptor,
     Close,
@@ -97,7 +97,7 @@ struct AFile AFile[1] =
     Read,
     Seek,
     GetInternalDataPath,
-};
+}};
 
 
 #endif
