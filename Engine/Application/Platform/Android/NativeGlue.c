@@ -62,15 +62,15 @@ MainThreadCallback;
 
 
 /* public to external methods calls. */
-ANativeActivity*      nativeActivity;
-AConfiguration*        nativeActivityConfig;
+ANativeActivity*      nativeActivity       = NULL;
+AConfiguration*       nativeActivityConfig = NULL;
 
 
 /* EGL setting objects. */
 static EGLDisplay     eglDisplay;
 static EGLSurface     eglSurface;
 static EGLContext     eglContext;
-static EGLConfig       eglConfig;
+static EGLConfig      eglConfig;
 static EGLint         eglFormat;
 
 
@@ -248,8 +248,9 @@ static void* LoopThreadRun(void* param)
                 continue;
 
             case MainThread_OnDestroy:
-                AEGLTool->DestroyEGL(&eglDisplay, &eglContext, &eglSurface);
                 AApplication->Destroy();
+                // wait for OnStart when app destroy in background
+                mainThreadCallback = MainThread_OnWait;
                 return NULL;
 
             case MainThread_OnPause: // sometimes before resized
@@ -455,7 +456,6 @@ void ANativeActivity_OnCreate(ANativeActivity* activity, void* savedState, size_
 {
     ALog_D("ANativeActivity_OnCreate Start");
 
-    nativeActivity                                  = activity;
     activity->callbacks->onStart                    = OnStart;
     activity->callbacks->onResume                   = OnResume;
     activity->callbacks->onSaveInstanceState        = OnSaveInstanceState;
@@ -470,11 +470,21 @@ void ANativeActivity_OnCreate(ANativeActivity* activity, void* savedState, size_
     activity->callbacks->onInputQueueCreated        = OnInputQueueCreated;
     activity->callbacks->onInputQueueDestroyed      = OnInputQueueDestroyed;
     activity->callbacks->onContentRectChanged       = OnContentRectChanged;
-    activity->callbacks->onConfigurationChanged      = OnConfigurationChanged;
+    activity->callbacks->onConfigurationChanged     = OnConfigurationChanged;
     activity->callbacks->onLowMemory                = OnLowMemory;
 
-    AApplication->Init();
 
+    if (nativeActivity == NULL)
+    {
+        AApplication->Init();
+    }
+    else
+    {
+        // app destroy in background
+        AConfiguration_delete(nativeActivityConfig);
+    }
+
+    nativeActivity       = activity;
     // create and set AConfiguration by assetManager
     nativeActivityConfig = AConfiguration_new();
     AConfiguration_fromAssetManager(nativeActivityConfig, activity->assetManager);

@@ -114,7 +114,6 @@ static void Resume()
 
 static void Destroy()
 {
-    AAudio->Release();
     AApplication->callbacks->OnDestroy();
 }
 
