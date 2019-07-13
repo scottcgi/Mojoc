@@ -107,7 +107,14 @@ static void Draw(Font* font)
 static inline TextureAtlasQuad* GetAtlasQuad(FontText* text, const char* str, int index)
 {
     TextureAtlasQuad* atlasQuad = ATextureAtlas_GetQuad(text->font->textureAtlas, (char[2]) {str[index], '\0'});
-    ALog_A(atlasQuad != NULL, "AFont SetString not found char = %c in TextureAtlas quads", str[index]);
+
+    ALog_A
+    (
+        atlasQuad != NULL,
+        "AFont SetString not found char = %c in TextureAtlas quads = %s",
+        str[index],
+        text->font->textureAtlas->filePath
+    );
 
     return atlasQuad;
 }

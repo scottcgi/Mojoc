@@ -23,7 +23,7 @@
  * Search index of key, if negative not found then return "-insertIndex - 1",
  * so insert index is "-BinarySearch() - 1".
  */
-static inline int BinarySearch(ArrayList* elementList, const char* str, int strLength)
+static inline int BinarySearch(ArrayList(ArrayStrSetElement)* elementList, const char* str, int strLength)
 {
     int high  = elementList->size;
     int low   = -1;
