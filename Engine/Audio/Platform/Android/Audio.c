@@ -80,7 +80,7 @@ static void Update(float deltaSeconds)
     {
         AudioPlayer* player = AArrayList_Pop(destroyList, AudioPlayer*);
 
-        // removed from loopList
+        // remove from loopList
         AAudio->SetLoop(player, false);
 
         (*player->object)->Destroy(player->object);
@@ -366,20 +366,30 @@ static AudioPlayer* GetPlayer(const char* relativeFilePath)
 }
 
 
+static void Destroy(ArrayList(AudioPlayer*)* playerList)
+{
+    while (playerList->size > 0)
+    {
+        AudioPlayer* player = AArrayList_Pop(playerList, AudioPlayer*);
+        (*player->object)->Destroy(player->object);
+    }
+}
+
+
 static void Release()
 {
-    (*engineObject)   ->Destroy(engineObject);
-    (*outputMixObject)->Destroy(outputMixObject);
-
-    engineObject    = NULL;
-    engineEngine    = NULL;
-    outputMixObject = NULL;
+    Destroy(destroyList);
+    Destroy(loopList);
+    Destroy(testErrorList);
 
     AArrayList  ->Release(cacheList);
     AArrayList  ->Release(destroyList);
     AArrayList  ->Release(loopList);
     AArrayList  ->Release(testErrorList);
     AArrayStrSet->Release(filePathSet);
+
+    (*outputMixObject)->Destroy(outputMixObject);
+    (*engineObject)   ->Destroy(engineObject);
 }
 
 
