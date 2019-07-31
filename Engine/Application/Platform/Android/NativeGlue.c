@@ -33,6 +33,7 @@
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Application/Input.h"
 #include "Engine/Toolkit/Utils/Thread.h"
+#include "JniTool.h"
 
 
 /**
@@ -376,13 +377,13 @@ static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* wind
     if (isNeedCreateEGL == false)
     {
         mainThreadCallback = MainThread_OnResized;
-        ALog_D("ANativeActivity in OnNativeWindowResized do MainThread_OnResized");
+        ALog_D("When OnNativeWindowResized do MainThread_OnResized");
     }
     else
     {
         isNeedCreateEGL    = false;
         mainThreadCallback = MainThread_OnNeedCreateEGL;
-        ALog_D("ANativeActivity in OnNativeWindowResized do MainThread_OnNeedCreateEGL");
+        ALog_D("When OnNativeWindowResized do MainThread_OnNeedCreateEGL");
     }
 }
 
@@ -390,6 +391,15 @@ static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* wind
 static void OnNativeWindowRedrawNeeded(ANativeActivity* activity, ANativeWindow* window)
 {
     ALog_D("ANativeActivity OnNativeWindowRedrawNeeded");
+    
+    if (isPaused == false)
+    {
+        if (mainThreadCallback == MainThread_OnWait)
+        {
+            mainThreadCallback = MainThread_OnResized;
+            ALog_D("When OnNativeWindowRedrawNeeded do MainThread_OnResized");
+        }
+    }
 }
 
 
@@ -428,7 +438,7 @@ static void OnContentRectChanged(ANativeActivity* activity, const ARect* rect)
             if (mainThreadCallback != MainThread_OnNeedCreateEGL)
             {
                 mainThreadCallback = MainThread_OnResized;
-                ALog_D("ANativeActivity in OnContentRectChanged do MainThread_OnResized");
+                ALog_D("When OnContentRectChanged do MainThread_OnResized");
             }
         }
     }
@@ -450,7 +460,7 @@ static void OnLowMemory(ANativeActivity* activity)
 
 /**
  * Called from java native activity when the java activity creating.
- * the func name set by AndroidManifest.xml with meta-data android:name="android.app.func_name".
+ * the func name set by AndroidManifest.xml with meta-data android:name = "android.app.func_name".
  */
 void ANativeActivity_OnCreate(ANativeActivity* activity, void* savedState, size_t savedStateSize)
 {
