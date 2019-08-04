@@ -83,10 +83,10 @@ static inline jclass GetClass(const char* className)
 
 static inline void GetJniMethodInfo
 (
-    bool           isStatic,
     const char*    className,
-    const char*    methodName, 
+    const char*    methodName,
     const char*    paramCode,
+    bool           isStatic,
     JniMethodInfo* outJniMethodInfo
 )
 {
@@ -128,7 +128,7 @@ static void GetMethodInfo
     JniMethodInfo* outJniMethodInfo
 )
 {
-    GetJniMethodInfo(false, className, methodName, paramCode,outJniMethodInfo);
+    GetJniMethodInfo(className, methodName, paramCode, false, outJniMethodInfo);
 }
 
 
@@ -140,32 +140,30 @@ static void GetStaticMethodInfo
     JniMethodInfo* outJniMethodInfo
 )
 {
-    GetJniMethodInfo(true, className, methodName, paramCode,outJniMethodInfo);
+    GetJniMethodInfo(className, methodName, paramCode, true, outJniMethodInfo);
 }
 
 
-static jvalue CallObjectMethod(jobject object, const char* methodName, const char* paramCode, ...)
+static inline jvalue CallMethodV(jclass cls, jobject object, const char* methodName, const char* paramCode, ...)
 {
     JNIEnv*   envPtr   = GetEnvPtr();
-    jclass    cls      = (*envPtr)->GetObjectClass(envPtr, object);
-    jmethodID methodId = (*envPtr)->GetMethodID   (envPtr, cls, methodName, paramCode);
+    jmethodID methodId = (*envPtr)->GetMethodID(envPtr, cls, methodName, paramCode);
 
     ALog_A
     (
         methodId != NULL,
-        "AJniTool CallObjectMethod cannot get methodID, methodName = %s, paramCode = %s",
+        "AJniTool CallObjectMethodV cannot get methodID, methodName = %s, paramCode = %s",
         methodName,
         paramCode
     );
 
     const char* p = paramCode;
-
     // skip '()' to find out the return type
     while (*p++ != ')');
 
-    va_list  args;
+    jvalue  value = {};
+    va_list args;
     va_start(args, paramCode);
-    jvalue   value = {};
 
     switch (*p)
     {
@@ -211,7 +209,7 @@ static jvalue CallObjectMethod(jobject object, const char* methodName, const cha
             break;
 
         default:
-            ALog_A(false, "AJniTool CallObjectMethod paramCode = %s, illegal", paramCode);
+            ALog_A(false, "AJniTool CallObjectMethodV paramCode = %s, illegal", paramCode);
     }
 
     va_end(args);
@@ -220,26 +218,28 @@ static jvalue CallObjectMethod(jobject object, const char* methodName, const cha
 }
 
 
-static inline jvalue CallClassMethodV(jclass cls, const char* methodName, const char* paramCode, va_list args)
+static jvalue CallStaticMethod(const char* className, const char* methodName, const char* paramCode, ...)
 {
     JNIEnv*   envPtr    = GetEnvPtr();
+    jclass    cls       = GetClass(className);
     jmethodID methodId  = (*envPtr)->GetStaticMethodID(envPtr, cls, methodName, paramCode);
 
     ALog_A
     (
         methodId != NULL,
-        "AJniTool CallClassMethodV cannot get methodID, methodName = %s, paramCode = %s",
+        "AJniTool CallStaticMethod cannot get methodID, methodName = %s, paramCode = %s",
         methodName,
         paramCode
     );
 
     const char* p = paramCode;
-
     // skip '()' to find out the return type
     while (*p++ != ')');
 
-    jvalue value = {};
-    
+    jvalue  value = {};
+    va_list args;
+    va_start(args, paramCode);
+
     switch (*p)
     {
         case 'V':
@@ -284,30 +284,46 @@ static inline jvalue CallClassMethodV(jclass cls, const char* methodName, const 
             break;
 
         default:
-            ALog_A(false, "AJniTool CallClassMethod paramCode = %s, illegal", paramCode);
+            ALog_A(false, "AJniTool CallStaticMethod paramCode = %s, illegal", paramCode);
     }
 
+    va_end(args);
+    
     return value;
 }
 
 
-static inline jvalue CallClassMethod(jclass cls, const char* methodName, const char* paramCode, ...)
+static jvalue CallMethod(jobject object, const char* methodName, const char* paramCode, ...)
 {
+    JNIEnv* envPtr = GetEnvPtr();
+    jclass  cls    = (*envPtr)->GetObjectClass(envPtr, object);
+
     va_list args;
     va_start(args, paramCode);
-    jvalue value = CallClassMethodV(cls, methodName, paramCode, args);
+    jvalue  value  = CallMethodV(cls, object, methodName, paramCode, args);
     va_end  (args);
 
     return value;
 }
 
 
-static jvalue CallStaticMethod(const char* className, const char* methodName, const char* paramCode, ...)
+static jvalue CallNativeActivityMethod(const char* methodName, const char* paramCode, ...)
 {
     va_list args;
     va_start(args, paramCode);
-    jvalue value = CallClassMethodV(GetClass(className), methodName, paramCode, args);
-    va_end(args);
+    jvalue  value = CallMethod(nativeActivity->clazz, methodName, paramCode, args);
+    va_end  (args);
+    
+    return value;
+}
+
+
+static jvalue CallActivityMethod(const char* className, const char* methodName, const char* paramCode,  ...)
+{
+    va_list args;
+    va_start(args, paramCode);
+    jvalue  value  = CallMethodV(GetClass(className), nativeActivity->clazz, methodName, paramCode, args);
+    va_end  (args);
 
     return value;
 }
@@ -315,23 +331,19 @@ static jvalue CallStaticMethod(const char* className, const char* methodName, co
 
 static int GetSignHashCode()
 {
-    JNIEnv*     envPtr          = GetEnvPtr();
-    
-    jobject     packageManager  = CallObjectMethod
+    jobject      packageManager = CallNativeActivityMethod
                                   (
-                                      nativeActivity->clazz,
                                       "getPackageManager",
                                       "()Landroid/content/pm/PackageManager;"
                                   ).l;
 
-    jstring      packageName    = (jstring) CallObjectMethod
+    jstring      packageName    = (jstring) CallNativeActivityMethod
                                   (
-                                      nativeActivity->clazz,
                                       "getPackageName",
                                       "()Ljava/lang/String;"
                                   ).l;
 
-    jobject      packageInfo    = CallObjectMethod
+    jobject      packageInfo    = CallMethod
                                   (
                                       packageManager,
                                       "getPackageInfo",
@@ -340,9 +352,9 @@ static int GetSignHashCode()
                                       64
                                   ).l;
 
+    JNIEnv*      envPtr         = GetEnvPtr();
     jclass       packageInfoCls = (*envPtr)->GetObjectClass(envPtr, packageInfo);
-
-    jfieldID      signaturesFid  = (*envPtr)->GetFieldID
+    jfieldID     signaturesFid  = (*envPtr)->GetFieldID
                                   (
                                       envPtr,
                                       packageInfoCls,
@@ -353,7 +365,7 @@ static int GetSignHashCode()
     jobjectArray signatureArr   = (*envPtr)->GetObjectField       (envPtr, packageInfo,  signaturesFid);
     jobject      signature      = (*envPtr)->GetObjectArrayElement(envPtr, signatureArr, 0);
 
-    return CallObjectMethod(signature, "hashCode", "()I").i;
+    return CallMethod(signature, "hashCode", "()I").i;
 }
 
 
@@ -363,8 +375,10 @@ struct AJniTool AJniTool[1] =
     GetStaticMethodInfo,
     
     CallStaticMethod,
-    CallObjectMethod,
-    CallClassMethod,
+    CallMethod,
+    
+    CallNativeActivityMethod,
+    CallActivityMethod,
 
     GetSignHashCode,
 }};
