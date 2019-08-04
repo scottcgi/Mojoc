@@ -229,7 +229,7 @@ struct AMesh
      * SubMesh data calculate by Quad.
      * SubMesh set parent and index by parent Mesh, and will free by parent Mesh Release.
      *
-     * important: before GenerateBuffer will not work correctly.，
+     * important: apply effect after calling GenerateBuffer,
      *            and we can calling GenerateBuffer when all children have been added.
      */
     SubMesh*  (*AddChildWithQuad)  (Mesh* mesh, Quad* quad);

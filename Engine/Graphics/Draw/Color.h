@@ -18,6 +18,9 @@
 #define COLOR_H
 
 
+/**
+ * RGBA between in [0.0f, 1.0f].
+ */
 typedef struct
 {
     float r;

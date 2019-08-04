@@ -177,8 +177,8 @@ extern struct AApplication AApplication[1];
 
 
 /**
- * This function must implement ApplicationCallbacks method,
- * and called on very first entry.
+ * This function must be implemented to set the methods of ApplicationCallbacks,
+ * and it will be called on very first entry.
  */
 extern void Application_MainImpl(void);
 
