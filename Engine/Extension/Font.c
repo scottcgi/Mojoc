@@ -164,7 +164,10 @@ static void SetString(FontText* text, const char* str)
             if (text->font->unusedSubMeshList->size > 0)
             {
                 subMesh = AArrayList_Pop(text->font->unusedSubMeshList, SubMesh*);
+
                 ADrawable_SetVisible(subMesh->drawable);
+                ADrawable_SetPositionSame2(subMesh->drawable, 0.0f);
+                ADrawable_SetColor(subMesh->drawable, COLOR_WHITE_ARRAY);
 
                 ASubMesh->SetUVWithQuad
                 (
@@ -228,10 +231,12 @@ static void SetString(FontText* text, const char* str)
                     text->drawable->height = subMesh->drawable->height;
                 }
 
-                ADrawable_SetPositionX(subMesh->drawable, text->drawable->width);
+                ADrawable_SetPositionX(subMesh->drawable, text->drawable->width + subMesh->drawable->width / 2);
                 text->drawable->width += subMesh->drawable->width + text->charSpacing;
             }
 
+            // remove the end space
+            text->drawable->width -= text->charSpacing;
             break;
         }
 
@@ -246,10 +251,12 @@ static void SetString(FontText* text, const char* str)
                     text->drawable->height = subMesh->drawable->height;
                 }
 
-                ADrawable_SetPositionX(subMesh->drawable, -text->drawable->width);
+                ADrawable_SetPositionX(subMesh->drawable, -text->drawable->width - subMesh->drawable->width / 2);
                 text->drawable->width += subMesh->drawable->width + text->charSpacing;
             }
-
+            
+            // remove the end space
+            text->drawable->width -= text->charSpacing;
             break;
         }
 
@@ -264,9 +271,12 @@ static void SetString(FontText* text, const char* str)
                     text->drawable->width = subMesh->drawable->width;
                 }
 
-                ADrawable_SetPositionY(subMesh->drawable, text->drawable->height);
-                text->drawable->height -= subMesh->drawable->height + text->charSpacing;
+                ADrawable_SetPositionY(subMesh->drawable, -text->drawable->height - subMesh->drawable->height / 2);
+                text->drawable->height += subMesh->drawable->height + text->charSpacing;
             }
+
+            // remove the end space
+            text->drawable->height -= text->charSpacing;
             break;
         }
 
@@ -281,10 +291,12 @@ static void SetString(FontText* text, const char* str)
                     text->drawable->width = subMesh->drawable->width;
                 }
 
-                ADrawable_SetPositionY(subMesh->drawable, -text->drawable->height);
-                text->drawable->height -= subMesh->drawable->height + text->charSpacing;
+                ADrawable_SetPositionY(subMesh->drawable, text->drawable->height + subMesh->drawable->height / 2);
+                text->drawable->height += subMesh->drawable->height + text->charSpacing;
             }
 
+            // remove the end space
+            text->drawable->height -= text->charSpacing;
             break;
         }
     }
