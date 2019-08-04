@@ -352,6 +352,7 @@ static void OnDestroy(ANativeActivity* activity)
 {
     ALog_D("ANativeActivity OnDestroy");
     mainThreadCallback = MainThread_OnDestroy;
+    AApplication->SaveData(NULL);
 }
 
 
@@ -482,7 +483,6 @@ void ANativeActivity_OnCreate(ANativeActivity* activity, void* savedState, size_
     activity->callbacks->onContentRectChanged       = OnContentRectChanged;
     activity->callbacks->onConfigurationChanged     = OnConfigurationChanged;
     activity->callbacks->onLowMemory                = OnLowMemory;
-
 
     if (nativeActivity == NULL)
     {
