@@ -116,12 +116,12 @@ struct Mesh
     /**
      * If use VBO is the generated VBO ids else 0.
      */
-    GLuint                vboIds[Mesh_BufferNum];
+    GLuint                vboIDs[Mesh_BufferNum];
 
     /**
      * If use VAO is the generated vao id else 0.
      */
-    GLuint                vaoId;
+    GLuint                vaoID;
 
     /**
      * If use VBO use VBOSubData to update VBO buffer.

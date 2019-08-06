@@ -113,12 +113,12 @@ typedef struct
     /**
      * If use VBO is the generated VBO ids else 0.
      */
-    GLuint        vboIds[Sprite_BufferNum];
+    GLuint        vboIDs[Sprite_BufferNum];
 
     /**
      * If use VAO is the generated vao id else 0.
      */
-    GLuint        vaoId;
+    GLuint        vaoID;
 
 //----------------------------------------------------------------------------------------------------------------------
 

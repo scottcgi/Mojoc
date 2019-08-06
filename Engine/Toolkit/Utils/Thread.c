@@ -24,10 +24,10 @@ static int StartThread(ThreadRun Run, void* param)
     pthread_attr_t attr  [1];
     pthread_attr_init            (attr);
     pthread_attr_setdetachstate  (attr,   PTHREAD_CREATE_DETACHED);
-    int resultId = pthread_create(thread, attr, Run, param);
+    int resultID = pthread_create(thread, attr, Run, param);
     pthread_attr_destroy         (attr);
     
-    return resultId;
+    return resultID;
 }
 
 

@@ -35,7 +35,7 @@ enum
      * When touch event happened.
      *
      * sender   : AApplication
-     * extraData: Array(InputTouch*)*, the index of array not corresponding to fingerId.
+     * extraData: Array(InputTouch*)*, the index of array not corresponding to fingerID.
      */
     ComponentMsg_OnTouch,
 };
@@ -148,19 +148,19 @@ struct AApplication
      * touch event will convert to Array(InputTouch*)*,
      * and send to rootComponent with ComponentMsg_OnTouch.
      *
-     * fingerId      : identify touch finger
+     * fingerID      : identify touch finger
      * pixelX        : screen pixel x
      * pixelY        : screen pixel y
      * inputTouchType: touch event type
      */
-    void (*Touch)   (int fingerId, float pixelX, float pixelY, InputTouchType inputTouchType);
+    void (*Touch)   (int fingerID, float pixelX, float pixelY, InputTouchType inputTouchType);
 
     /**
      * Called when received multiple touches event.
      * touches event will convert to Array(InputTouch*)*,
      * and send to rootComponent with ComponentMsg_OnTouch.
      */
-    void (*Touches) (int fingerIds[], float pixelXs[], float pixelYs[], int touchesCount, InputTouchType inputTouchType);
+    void (*Touches) (int fingerIDs[], float pixelXs[], float pixelYs[], int touchesCount, InputTouchType inputTouchType);
 
     /**
      * Callback when application request save persistent data,

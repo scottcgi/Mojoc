@@ -153,14 +153,14 @@ struct ATweenTool
 
     /**
      * Run all actions in current context, and set all actions target if has actionValue.
-     * use target be tweenId.
+     * use target be tweenID.
      */
     void               (*RunActions)(void* target);
 
     /**
      * Run all actions in current context, and all actions must set owner's target if has actionValue.
      * all different targets will in same queue, run step by step.
-     * return tweenId.
+     * return tweenID.
      */
     void*              (*RunTargets)(void);
 };

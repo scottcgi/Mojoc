@@ -434,13 +434,13 @@ static void* RunTargets()
         }
     }
 
-    void* tweenId = ATween->RunActions(actionArr, NULL);
+    void* tweenID = ATween->RunActions(actionArr, NULL);
 
     actionArr->length = 0;
     action            = NULL;
     actionValue       = NULL;
 
-    return tweenId;
+    return tweenID;
 }
 
 

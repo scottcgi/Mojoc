@@ -35,7 +35,7 @@ static inline PhysicsBody* CreateBody(Array(float)* vertexArr, PhysicsShape shap
 
     AUserData_Init(body->userData);
 
-    body->userId         = -1;
+    body->userID         = -1;
     body->positionX      = 0.0f;
     body->positionY      = 0.0f;
     body->velocityX      = 0.0f;

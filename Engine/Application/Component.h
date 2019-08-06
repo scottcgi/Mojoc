@@ -75,7 +75,7 @@ struct Component
     ComponentState*                       preState;
 
     /**
-     * Default state when Component created with stateId ComponentState_Default.
+     * Default state when Component created with stateID ComponentState_Default.
      */
     ComponentState*                       defaultState;
 
@@ -92,18 +92,18 @@ struct Component
     /**
      * All ComponentStates mapped by ComponentState's id.
      */
-    ArrayIntMap(stateId, ComponentState*) stateMap   [1];
+    ArrayIntMap(stateID, ComponentState*) stateMap   [1];
 };
 
 
 
 /**
- * ComponentState stateId.
+ * ComponentState stateID.
  */
 enum
 {
     /**
-     * ComponentState default stateId, any other stateId must be different.
+     * ComponentState default stateID, any other stateID must be different.
      */
     ComponentState_Default = 0
 };
@@ -256,15 +256,15 @@ struct AComponent
      * Change Component current active State.
      * if component isActive false will do nothing.
      */
-    void            (*SetState)             (Component* component, int stateId);
+    void            (*SetState)             (Component* component, int stateID);
 
     /**
-     * Create ComponentState with stateId, and add into Component.
+     * Create ComponentState with stateID, and add into Component.
      * the add ComponentState free by Component's Release.
      */
     ComponentState* (*AddState)             (
                                                 Component*              component,
-                                                int                     stateId,
+                                                int                     stateID,
                                                 ComponentStateOnMessage OnMessage,
                                                 ComponentStateUpdate    Update
                                             );

@@ -25,19 +25,19 @@ enum
 };
 
 
-#define CheckFingerId(tag, fingerId) \
-    ALog_A((fingerId) > -1 && (fingerId) < Finger_Num, "AInput " tag " fingerId = %d invalid", fingerId)
+#define CheckFingerID(tag, fingerID) \
+    ALog_A((fingerID) > -1 && (fingerID) < Finger_Num, "AInput " tag " fingerID = %d invalid", fingerID)
 
 
 static InputTouch touches[Finger_Num];
 
 
-static InputTouch* SetTouch(int fingerId, float pixelX, float pixelY, InputTouchType type)
+static InputTouch* SetTouch(int fingerID, float pixelX, float pixelY, InputTouchType type)
 {
-    CheckFingerId("SetTouch", fingerId);
+    CheckFingerID("SetTouch", fingerID);
 
-    InputTouch* touch = touches + fingerId;
-    touch->fingerId   = fingerId;
+    InputTouch* touch = touches + fingerID;
+    touch->fingerID   = fingerID;
     touch->x          = AGLTool_ToGLX(pixelX);
     touch->y          = AGLTool_ToGLY(pixelY);
     touch->type       = type;
@@ -46,14 +46,14 @@ static InputTouch* SetTouch(int fingerId, float pixelX, float pixelY, InputTouch
 }
 
 
-static InputTouch* GetTouch(int fingerId)
+static InputTouch* GetTouch(int fingerID)
 {
-    CheckFingerId("GetTouch", fingerId);
-    return touches + fingerId;
+    CheckFingerID("GetTouch", fingerID);
+    return touches + fingerID;
 }
 
 
-#undef CheckFingerId
+#undef CheckFingerID
 
 
 struct AInput AInput[1] =

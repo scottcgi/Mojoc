@@ -37,17 +37,17 @@
 
 
 /**
- * Identify input event.
+ * IDentify input event.
  */
 enum
 {
-    LooperId_Input,
-    LooperId_Sensor,
+    LooperID_Input,
+    LooperID_Sensor,
 };
 
 
 /**
- * Identify main thread callbacks from java client.
+ * IDentify main thread callbacks from java client.
  */
 typedef volatile enum
 {
@@ -112,18 +112,18 @@ static void inline Touch(AInputEvent* event, int pointerIndex, InputTouchType in
 static void inline Touches(AInputEvent* event, InputTouchType inputTouchType)
 {
     int   count = (int) AMotionEvent_getPointerCount(event);
-    int   fingerIds[count];
+    int   fingerIDs[count];
     float pixelXs  [count];
     float pixelYs  [count];
 
     for (int i = 0; i < count; ++i)
     {
-        fingerIds[i] = AMotionEvent_getPointerId(event, (size_t) i);
+        fingerIDs[i] = AMotionEvent_getPointerId(event, (size_t) i);
         pixelXs  [i] = AMotionEvent_getX        (event, (size_t) i);
         pixelYs  [i] = AMotionEvent_getY        (event, (size_t) i);
     }
 
-    AApplication->Touches(fingerIds, pixelXs, pixelYs, count, inputTouchType);
+    AApplication->Touches(fingerIDs, pixelXs, pixelYs, count, inputTouchType);
 }
 
 
@@ -418,7 +418,7 @@ static void OnInputQueueCreated(ANativeActivity* activity, AInputQueue* queue)
 {
     ALog_D("ANativeActivity OnInputQueueCreated");
     inputQueue = queue;
-    AInputQueue_attachLooper(inputQueue, looper, LooperId_Input, LooperOnInputEvent, NULL);
+    AInputQueue_attachLooper(inputQueue, looper, LooperID_Input, LooperOnInputEvent, NULL);
 }
 
 

@@ -29,7 +29,7 @@
 typedef struct
 {
     /**
-     * Identity and search element value.
+     * IDentity and search element value.
      */
     intptr_t key;
 

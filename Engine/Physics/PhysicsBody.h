@@ -67,7 +67,7 @@ struct  PhysicsBody
     /**
      * Used to identify PhysicsBody, default -1.
      */
-    int              userId;
+    int              userID;
 
     float            positionX;
     float            positionY;

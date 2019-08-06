@@ -264,12 +264,12 @@ static void Notify(Component* sender, int subject, void* extraData)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static void SetState(Component* component, int stateId)
+static void SetState(Component* component, int stateID)
 {
     if (component->isActive)
     {
-        ComponentState* state = AArrayIntMap_Get(component->stateMap, stateId, ComponentState*);
-        ALog_A(state != NULL, "AComponent SetState not found ComponentState by stateId = %d", stateId);
+        ComponentState* state = AArrayIntMap_Get(component->stateMap, stateID, ComponentState*);
+        ALog_A(state != NULL, "AComponent SetState not found ComponentState by stateID = %d", stateID);
 
         if (component->curState->OnMessage != NULL)
         {
@@ -290,24 +290,24 @@ static void SetState(Component* component, int stateId)
 static ComponentState* AddState
 (
     Component*              component,
-    int                     stateId,
+    int                     stateID,
     ComponentStateOnMessage OnMessage,
     ComponentStateUpdate    Update
 )
 {
     ALog_A(component != NULL, "AComponent AddState failed, component cannot NULL");
 
-    int index = AArrayIntMap->GetIndex(component->stateMap, stateId);
-    ALog_A(index < 0, "AComponent AddState failed, stateId = %d already exist", stateId);
+    int index = AArrayIntMap->GetIndex(component->stateMap, stateID);
+    ALog_A(index < 0, "AComponent AddState failed, stateID = %d already exist", stateID);
 
     ComponentState* state = malloc(sizeof(ComponentState));
-    state->id             = stateId;
+    state->id             = stateID;
     state->Update         = Update;
     state->UpdateAfter    = NULL;
     state->OnMessage      = OnMessage;
     AUserData_Init(state->userData);
 
-    AArrayIntMap_InsertAt(component->stateMap, stateId, -index - 1, state);
+    AArrayIntMap_InsertAt(component->stateMap, stateID, -index - 1, state);
 
     return state;
 }

@@ -180,18 +180,18 @@ GLuint LoadProgramFromFile(const char* vertexShaderFilePath, const char* fragmen
 
 static void LoadTexture(const char* textureFilePath, Texture* outTexture)
 {
-     GLuint textureId;
+     GLuint textureID;
 
      // use tightly packed data
      // glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
      // generate a outTexture object
-     glGenTextures(1, &textureId);
+     glGenTextures(1, &textureID);
 
      // bind to the outTexture
-     glBindTexture(GL_TEXTURE_2D, textureId);
+     glBindTexture(GL_TEXTURE_2D, textureID);
 
-     outTexture->id = textureId;
+     outTexture->id = textureID;
 
      // set filtering
      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

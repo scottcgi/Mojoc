@@ -118,25 +118,25 @@ static void Destroy()
 }
 
 
-static void Touch(int fingerId, float pixelX, float pixelY, InputTouchType inputTouchType)
+static void Touch(int fingerID, float pixelX, float pixelY, InputTouchType inputTouchType)
 {
     AComponent->SendMessage
     (
         AApplication->rootComponent,
         AApplication,
         ComponentMsg_OnTouch,
-        AArray_Make(InputTouch*, 1, AInput->SetTouch(fingerId, pixelX, pixelY, inputTouchType))
+        AArray_Make(InputTouch*, 1, AInput->SetTouch(fingerID, pixelX, pixelY, inputTouchType))
     );
 }
 
 
-static void Touches(int fingerIds[], float pixelXs[], float pixelYs[], int touchesCount, InputTouchType inputTouchType)
+static void Touches(int fingerIDs[], float pixelXs[], float pixelYs[], int touchesCount, InputTouchType inputTouchType)
 {
     InputTouch* touches[touchesCount];
 
     for (int i = 0; i < touchesCount; ++i)
     {
-        touches[i] = AInput->SetTouch(fingerIds[i], pixelXs[i], pixelYs[i], inputTouchType);
+        touches[i] = AInput->SetTouch(fingerIDs[i], pixelXs[i], pixelYs[i], inputTouchType);
     }
 
     AComponent->SendMessage

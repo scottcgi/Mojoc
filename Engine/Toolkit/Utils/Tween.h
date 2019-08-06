@@ -148,37 +148,37 @@ struct ATween
     TweenActionValue* (*AddTweenActionValue)  (TweenAction* action);
 
     /**
-     * Bind TweenActions to tweenId and running.
-     * if tweenId is NULL will generate tweenId value.
+     * Bind TweenActions to tweenID and running.
+     * if tweenID is NULL will generate tweenID value.
      *
-     * return tweenId.
+     * return tweenID.
      */
-    void*             (*RunActions)           (Array(TweenAction*)* actions, void* tweenId);
+    void*             (*RunActions)           (Array(TweenAction*)* actions, void* tweenID);
 
     /**
-     * Remove tweenId's all actions immediately, return false when tweenId not in use.
-     * we can or not cleanup tweenId bound data for actions,
-     * but when tweenId not in use then must cleanup for reuse memory
+     * Remove tweenID's all actions immediately, return false when tweenID not in use.
+     * we can or not cleanup tweenID bound data for actions,
+     * but when tweenID not in use then must cleanup for reuse memory
      */
-    bool              (*TryRemoveAllActions)  (void* tweenId);
+    bool              (*TryRemoveAllActions)  (void* tweenID);
 
     /**
-     * Complete tweenId's all actions immediately, return false when tweenId not in use.
+     * Complete tweenID's all actions immediately, return false when tweenID not in use.
      * if isFireOnComplete true will fire callback.
      */
-    bool              (*TryCompleteAllActions)(void* tweenId, bool isFireOnComplete);
+    bool              (*TryCompleteAllActions)(void* tweenID, bool isFireOnComplete);
 
     /**
      * Find TweenAction in current or queue, and remove it.
-     * if tweenId not in use return false.
+     * if tweenID not in use return false.
      * if not found TweenAction return false.
      */
-    bool              (*TryRemoveAction)      (void* tweenId, TweenAction* action);
+    bool              (*TryRemoveAction)      (void* tweenID, TweenAction* action);
 
     /**
-     * Whether the tweenId has action in current or queue.
+     * Whether the tweenID has action in current or queue.
      */
-    bool              (*HasAction)            (void* tweenId);
+    bool              (*HasAction)            (void* tweenID);
 
     /**
      * Called every frame by loop.

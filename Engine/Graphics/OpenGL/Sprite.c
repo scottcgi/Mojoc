@@ -40,7 +40,7 @@ static void Render(Drawable* drawable)
         if (AGraphics->isUseVBO)
         {
             // load the vertex data
-            glBindBuffer(GL_ARRAY_BUFFER, sprite->vboIds[Sprite_BufferVertex]);
+            glBindBuffer(GL_ARRAY_BUFFER, sprite->vboIDs[Sprite_BufferVertex]);
 
             // without vao state update sub data
             if (AGraphics->isUseMapBuffer)
@@ -78,18 +78,18 @@ static void Render(Drawable* drawable)
     {
         UseVAO:
         
-        glBindVertexArray(sprite->vaoId);
+        glBindVertexArray(sprite->vaoID);
         glDrawElements(GL_TRIANGLES, sprite->indexCount, GL_UNSIGNED_SHORT, 0);
         // clear VAO bind
         glBindVertexArray(0);
     }
     else if (AGraphics->isUseVBO)
     {
-        glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIds[Sprite_BufferVertex]);
+        glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIDs[Sprite_BufferVertex]);
 
         UseVBO:
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[Sprite_BufferIndex]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIDs[Sprite_BufferIndex]);
 
         // load the position and texture coordinate
         glVertexAttribPointer
@@ -139,14 +139,14 @@ static void Release(Sprite* sprite)
 
     if (AGraphics->isUseVBO)
     {
-        glDeleteBuffers(Sprite_BufferNum, sprite->vboIds);
-        sprite->vboIds[Sprite_BufferVertex] = 0;
-        sprite->vboIds[Sprite_BufferIndex]  = 0;
+        glDeleteBuffers(Sprite_BufferNum, sprite->vboIDs);
+        sprite->vboIDs[Sprite_BufferVertex] = 0;
+        sprite->vboIDs[Sprite_BufferIndex]  = 0;
 
         if (AGraphics->isUseVAO)
         {
-            glDeleteVertexArrays(1, &sprite->vaoId);
-            sprite->vaoId = 0;
+            glDeleteVertexArrays(1, &sprite->vaoID);
+            sprite->vaoID = 0;
         }
     }
 }
@@ -165,9 +165,9 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
     sprite->texture                     = texture;
     sprite->uvWidth                     = AGLTool_ToUVWidth(drawable->width,  texture->width);
     sprite->uvHeight                    = AGLTool_ToUVWidth(drawable->height, texture->height);
-    sprite->vboIds[Sprite_BufferVertex] = 0;
-    sprite->vboIds[Sprite_BufferIndex]  = 0;
-    sprite->vaoId                       = 0;
+    sprite->vboIDs[Sprite_BufferVertex] = 0;
+    sprite->vboIDs[Sprite_BufferIndex]  = 0;
+    sprite->vaoID                       = 0;
     sprite->indexCount                  = quadArr->length * Quad_IndexNum;
     sprite->vertexArr                   = AArray->Create(sizeof(float), quadArr->length * Quad_Position2UVNum);
     sprite->indexArr                    = AArray->Create(sizeof(short), sprite->indexCount);
@@ -190,13 +190,13 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 
     if (AGraphics->isUseVBO)
     {
-        if (sprite->vboIds[Sprite_BufferVertex] == 0)
+        if (sprite->vboIDs[Sprite_BufferVertex] == 0)
         {
-            glGenBuffers(Sprite_BufferNum, sprite->vboIds);
+            glGenBuffers(Sprite_BufferNum, sprite->vboIDs);
         }
 
         // vertex
-        glBindBuffer(GL_ARRAY_BUFFER, sprite->vboIds[Sprite_BufferVertex]);
+        glBindBuffer(GL_ARRAY_BUFFER, sprite->vboIDs[Sprite_BufferVertex]);
         glBufferData
         (
             GL_ARRAY_BUFFER,
@@ -206,7 +206,7 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
         );
 
         // index
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[Sprite_BufferIndex]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIDs[Sprite_BufferIndex]);
         glBufferData
         (
             GL_ELEMENT_ARRAY_BUFFER,
@@ -217,16 +217,16 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
 
         if (AGraphics->isUseVAO)
         {
-            if (sprite->vaoId == 0)
+            if (sprite->vaoID == 0)
             {
-                glGenVertexArrays(1, &sprite->vaoId);
+                glGenVertexArrays(1, &sprite->vaoID);
             }
 
-            glBindVertexArray(sprite->vaoId);
+            glBindVertexArray(sprite->vaoID);
 
             // with vao has own state
-            glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIds[Sprite_BufferVertex]);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIds[Sprite_BufferIndex]);
+            glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIDs[Sprite_BufferVertex]);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIDs[Sprite_BufferIndex]);
             glEnableVertexAttribArray((GLuint) AShaderSprite->attribPositionTexcoord);
 
             // load the position and texture coordinate

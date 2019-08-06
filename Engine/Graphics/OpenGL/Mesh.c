@@ -289,10 +289,10 @@ static void Render(Drawable* drawable)
     if (mesh->vboSubDataList->size > 0)
     {
         // load the vertex data
-        glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIds[Mesh_BufferVertex]);
+        glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIDs[Mesh_BufferVertex]);
 
         // load the vertex index
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[Mesh_BufferIndex]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIDs[Mesh_BufferIndex]);
 
         // without vao state update sub data
         if (AGraphics->isUseMapBuffer)
@@ -339,7 +339,7 @@ static void Render(Drawable* drawable)
     {
         UseVAO:
 
-        glBindVertexArray(mesh->vaoId);
+        glBindVertexArray(mesh->vaoID);
 
         glDrawElements
         (
@@ -355,9 +355,9 @@ static void Render(Drawable* drawable)
     else if (AGraphics->isUseVBO)
     {
         // load the vertex data
-        glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIds[Mesh_BufferVertex]);
+        glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIDs[Mesh_BufferVertex]);
         // load the vertex index
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[Mesh_BufferIndex]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIDs[Mesh_BufferIndex]);
 
         UseVBO:
 
@@ -465,10 +465,10 @@ static void Init(Texture* texture, Mesh* outMesh)
 
     outMesh->drawMode                  = GL_TRIANGLES;
     outMesh->texture                   = texture;
-    outMesh->vboIds[Mesh_BufferIndex]  = 0;
-    outMesh->vboIds[Mesh_BufferVertex] = 0;
+    outMesh->vboIDs[Mesh_BufferIndex]  = 0;
+    outMesh->vboIDs[Mesh_BufferVertex] = 0;
 
-    outMesh->vaoId                     = 0;
+    outMesh->vaoID                     = 0;
     outMesh->vertexArr                 = NULL;
     outMesh->indexArr                  = NULL;
 
@@ -595,14 +595,14 @@ static inline void ReleaseBuffer(Mesh* mesh)
 
     if (AGraphics->isUseVBO)
     {
-        glDeleteBuffers(Mesh_BufferNum, mesh->vboIds);
-        mesh->vboIds[Mesh_BufferIndex]  = 0;
-        mesh->vboIds[Mesh_BufferVertex] = 0;
+        glDeleteBuffers(Mesh_BufferNum, mesh->vboIDs);
+        mesh->vboIDs[Mesh_BufferIndex]  = 0;
+        mesh->vboIDs[Mesh_BufferVertex] = 0;
 
         if (AGraphics->isUseVAO)
         {
-            glDeleteVertexArrays(1, &mesh->vaoId);
-            mesh->vaoId = 0;
+            glDeleteVertexArrays(1, &mesh->vaoID);
+            mesh->vaoID = 0;
         }
     }
 }
@@ -617,13 +617,13 @@ static void GenerateBuffer(Mesh* mesh)
 
     if (AGraphics->isUseVBO)
     {
-        if (mesh->vboIds[Mesh_BufferVertex] == 0)
+        if (mesh->vboIDs[Mesh_BufferVertex] == 0)
         {
-            glGenBuffers(Mesh_BufferNum, mesh->vboIds);
+            glGenBuffers(Mesh_BufferNum, mesh->vboIDs);
         }
 
         // vertex
-        glBindBuffer(GL_ARRAY_BUFFER, mesh->vboIds[Mesh_BufferVertex]);
+        glBindBuffer(GL_ARRAY_BUFFER, mesh->vboIDs[Mesh_BufferVertex]);
         glBufferData
         (
             GL_ARRAY_BUFFER,
@@ -633,7 +633,7 @@ static void GenerateBuffer(Mesh* mesh)
         );
 
         // index
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[Mesh_BufferIndex]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIDs[Mesh_BufferIndex]);
         glBufferData
         (
             GL_ELEMENT_ARRAY_BUFFER,
@@ -648,19 +648,19 @@ static void GenerateBuffer(Mesh* mesh)
 
         if (AGraphics->isUseVAO)
         {
-            if (mesh->vaoId == 0)
+            if (mesh->vaoID == 0)
             {
-                glGenVertexArrays(1, &mesh->vaoId);
+                glGenVertexArrays(1, &mesh->vaoID);
             }
 
-            glBindVertexArray(mesh->vaoId);
+            glBindVertexArray(mesh->vaoID);
 
             // with vao has own state
 
             // load the vertex data
-            glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIds[Mesh_BufferVertex]);
+            glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIDs[Mesh_BufferVertex]);
             // load the vertex index
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIds[Mesh_BufferIndex]);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIDs[Mesh_BufferIndex]);
 
             glEnableVertexAttribArray((GLuint) AShaderMesh->attribPosition);
             glEnableVertexAttribArray((GLuint) AShaderMesh->attribTexcoord);

@@ -41,9 +41,9 @@ typedef struct
     float          y;
 
     /**
-     * Identify touch point, [0, 9] corresponds to 10 fingers.
+     * IDentify touch point, [0, 9] corresponds to 10 fingers.
      */
-    int            fingerId;
+    int            fingerID;
     
     InputTouchType type;
 }
@@ -56,16 +56,16 @@ InputTouch;
 struct AInput
 {
     /**
-     * Set InputTouch with fingerId, and later can get by fingerId.
+     * Set InputTouch with fingerID, and later can get by fingerID.
      * the x y is in screen pixel coordinate.
-     * return the InputTouch that fingerId associated.
+     * return the InputTouch that fingerID associated.
      */
-    InputTouch* (*SetTouch)(int fingerId, float pixelX, float pixelY, InputTouchType type);
+    InputTouch* (*SetTouch)(int fingerID, float pixelX, float pixelY, InputTouchType type);
 
     /**
-     * Get the InputTouch that fingerId associated.
+     * Get the InputTouch that fingerID associated.
      */
-    InputTouch* (*GetTouch)(int fingerId);
+    InputTouch* (*GetTouch)(int fingerID);
 };
 
 

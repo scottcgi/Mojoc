@@ -41,7 +41,7 @@ typedef struct
 Tween;
 
 
-static ArrayIntMap(tweenId, Tween*) tweenRunningMap[1] = AArrayIntMap_Init(Tween*,       25);
+static ArrayIntMap(tweenID, Tween*) tweenRunningMap[1] = AArrayIntMap_Init(Tween*,       25);
 static ArrayList  (Tween*)          tweenCacheList [1] = AArrayList_Init  (Tween*,       25);
 static ArrayList  (TweenAction*)    actionCacheList[1] = AArrayList_Init  (TweenAction*, 25);
 
@@ -139,26 +139,26 @@ static inline void SetActionValue(TweenAction* action)
 }
 
 
-static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
+static void* RunActions(Array(TweenAction*)* actions, void* tweenID)
 {
     Tween* tween;
 
-    if (tweenId == NULL)
+    if (tweenID == NULL)
     {
-         // not give tweenId, we use Tween ptr for it
+         // not give tweenID, we use Tween ptr for it
         tween   = GetTween();
-        tweenId = tween;
+        tweenID = tween;
 
-        AArrayIntMap_TryPut(tweenRunningMap, tweenId, tween);
+        AArrayIntMap_TryPut(tweenRunningMap, tweenID, tween);
     }
     else
     {
-        int index = AArrayIntMap->GetIndex(tweenRunningMap, (intptr_t) tweenId);
+        int index = AArrayIntMap->GetIndex(tweenRunningMap, (intptr_t) tweenID);
 
         if (index < 0)
         {
             tween = GetTween();
-            AArrayIntMap_InsertAt(tweenRunningMap, tweenId, -index - 1, tween);
+            AArrayIntMap_InsertAt(tweenRunningMap, tweenID, -index - 1, tween);
         }
         else
         {
@@ -183,13 +183,13 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenId)
         }
     }
 
-    return tweenId;
+    return tweenID;
 }
 
 
-static bool TryRemoveAction(void* tweenId, TweenAction* action)
+static bool TryRemoveAction(void* tweenID, TweenAction* action)
 {
-    Tween* tween = AArrayIntMap_Get(tweenRunningMap, tweenId, Tween*);
+    Tween* tween = AArrayIntMap_Get(tweenRunningMap, tweenID, Tween*);
 
     if (tween != NULL)
     {
@@ -229,9 +229,9 @@ static bool TryRemoveAction(void* tweenId, TweenAction* action)
 }
 
 
-static bool TryRemoveAllActions(void* tweenId)
+static bool TryRemoveAllActions(void* tweenID)
 {
-    int index = AArrayIntMap->GetIndex(tweenRunningMap, (intptr_t) tweenId);
+    int index = AArrayIntMap->GetIndex(tweenRunningMap, (intptr_t) tweenID);
 
     if (index >= 0)
     {
@@ -280,9 +280,9 @@ static inline void SetActionComplete(TweenAction* action, bool isFireOnComplete)
 }
 
 
-static bool TryCompleteAllActions(void* tweenId, bool isFireOnComplete)
+static bool TryCompleteAllActions(void* tweenID, bool isFireOnComplete)
 {
-    int index = AArrayIntMap->GetIndex(tweenRunningMap, (intptr_t) tweenId);
+    int index = AArrayIntMap->GetIndex(tweenRunningMap, (intptr_t) tweenID);
 
     if (index >= 0)
     {
@@ -314,9 +314,9 @@ static bool TryCompleteAllActions(void* tweenId, bool isFireOnComplete)
 }
 
 
-static bool HasAction(void* tweenId)
+static bool HasAction(void* tweenID)
 {
-    int index = AArrayIntMap->GetIndex(tweenRunningMap, (intptr_t) tweenId);
+    int index = AArrayIntMap->GetIndex(tweenRunningMap, (intptr_t) tweenID);
 
     if (index >= 0)
     {
