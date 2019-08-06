@@ -28,64 +28,70 @@
 #include "Engine/Toolkit/HeaderUtils/Define.h"
 
 
-typedef struct
-{
-    JNIEnv*   envPtr;
-    jclass    cls;
-    jmethodID methodID;
-}
-JniMethodInfo;
-
-
 /**
- * Call java method, and must Called in same thread.
+ * The AJniTool must Called in game thread, not main thread.
+ * the main thread Env is nativeActivity->env, and work in ANativeActivityCallbacks.
  *
- * className : pass to FindClass which is java class name with package like "java/lang/ClassLoader"
- * methodName: java class/object method name like "getClassLoader"
- * paramCode : java class/object method arguments like "()Ljava/lang/ClassLoader;"
+ * className : pass to FindClass which is java class name with package such as: "java/lang/ClassLoader"
+ * methodName: java class/object method name such as: "getClassLoader"
+ * paramCode : java class/object method arguments such as: "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;"
  * ...       : varargs parameter which are method parameters.
+ *
+ * typeCode  : java class/object field type such as: "Landroid/content/pm/PackageInfo;", "I"
+ * typeChar  : java class/object field type such as: 'L', 'B', 'I'
  */
 struct AJniTool
 {
-    void   (*GetMethodInfo)           (
-                                          const char*    className,
-                                          const char*    methodName,
-                                          const char*    paramCode,
-                                          JniMethodInfo* outJniMethodInfo
-                                      );
-
-    void   (*GetStaticMethodInfo)     (
-                                          const char*    className,
-                                          const char*    methodName,
-                                          const char*    paramCode,
-                                          JniMethodInfo* outJniMethodInfo
-                                      );
-
-    jvalue (*CallStaticMethod)        (
-                                          const char*    className,
-                                          const char*    methodName,
-                                          const char*    paramCode,
-                                          ...
-                                      );
-
     /**
-     * The object is any instance of a java class.
+     * Called by NativeGlue for init game env, and AJniTool work with game env.
      */
-    jvalue (*CallMethod)              (jobject object, const char* methodName, const char* paramCode, ...);
+    void   (*Init)                    ();
 
     /**
-     * Call the method of NativeActivity instance which is created by NDK.
+     * Call java class static method.
      */
-    jvalue (*CallNativeActivityMethod)(const char* methodName, const char* paramCode,  ...);
+    jvalue (*CallStaticMethod)        (const char* className, const char* methodName, const char* paramCode, ...);
 
     /**
-     * Call the method of Activity instance which is inherited NativeActivity,
-     * and the className is the Activity class.
+     * Call java object method.
+     * the object is any instance of a java class.
      */
-    jvalue (*CallActivityMethod)      (const char* className, const char* methodName, const char* paramCode,  ...);
+    jvalue (*CallMethod)              (jobject     object,    const char* methodName, const char* paramCode, ...);
 
     /**
-     * Get hash code from apk signature.
+     * Call the method of NativeActivity (or the Activity inherits NativeActivity) instance.
+     */
+    jvalue (*CallNativeActivityMethod)(const char* methodName, const char* paramCode, ...);
+
+    /**
+     * Get class static field.
+     */
+    jvalue (*GetStaticField)          (const char* className,  const char* fieldName,  const char* typeCode);
+
+    /**
+     * Get java object field.
+     */
+    jvalue (*GetField)                (jobject object, const char* fieldName, const char* typeCode);
+
+    /**
+     * Get java object Array field length.
+     * the array is jobject which GetStaticField/GetField returned.
+     */
+    jsize  (*GetArrayLength)          (jarray array);
+
+    /**
+     * Get java object Array field element at index.
+     * the array is jobject which GetStaticField/GetField returned.
+     */
+    jvalue (*GetArrayAt)              (jarray array, jint index, char typeChar);
+
+    /**
+     * Get the field of NativeActivity (or the Activity inherits NativeActivity) instance.
+     */
+    jvalue (*GetNativeActivityField)  (const char* fieldName, const char* typeCode);
+
+    /**
+     * Get hash code from apk signature (work only in Android).
      */
     int    (*GetSignHashCode)         ();
 };
