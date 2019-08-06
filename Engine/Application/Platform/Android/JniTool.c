@@ -164,7 +164,7 @@ static inline jvalue CallMethodV(jobject object, const char* methodName, const c
     ALog_A
     (
         methodID != NULL,
-        "AJniTool CallMethodWidthClass cannot get methodID, methodName = %s, paramCode = %s",
+        "AJniTool CallMethodV cannot get methodID, methodName = %s, paramCode = %s",
         methodName,
         paramCode
     );
@@ -219,7 +219,7 @@ static inline jvalue CallMethodV(jobject object, const char* methodName, const c
             break;
 
         default:
-            ALog_A(false, "AJniTool CallMethodWidthClass paramCode = %s, illegal", paramCode);
+            ALog_A(false, "AJniTool CallMethodV paramCode = %s, illegal", paramCode);
     }
 
     return value;

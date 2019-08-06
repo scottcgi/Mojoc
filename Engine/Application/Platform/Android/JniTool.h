@@ -39,6 +39,18 @@
  *
  * typeCode  : java class/object field type such as: "Landroid/content/pm/PackageInfo;", "I"
  * typeChar  : java class/object field type such as: 'L', 'B', 'I'
+ *
+ * jvalue    : '[' - l - Array (Object)
+ *             'L' - l - Object
+ *             'Z' - z - Boolean
+ *             'B' - b - Byte
+ *             'C' - c - Char
+ *             'S' - s - Short
+ *             'I' - i - Int
+ *             'J' - j - Long
+ *             'F' - f - Float
+ *             'D' - d - Double
+ *
  */
 struct AJniTool
 {

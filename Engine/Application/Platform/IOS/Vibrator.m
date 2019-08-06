@@ -8,8 +8,8 @@
  * GitHub   : https://github.com/scottcgi/Mojoc
  * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
- * Since    : 2019-5-8
- * Update   : 2019-8-8
+ * Since    : 2019-8-6
+ * Update   : 2019-8-6
  * Author   : scott.cgi
  */
 
@@ -20,31 +20,27 @@
 #ifdef IS_PLATFORM_IOS
 
 
-#include <Foundation/Foundation.h>
+#include <AudioToolbox/AudioToolbox.h>
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Application/Platform/SystemInfo.h"
+#include "Engine/Application/Platform/Vibrator.h"
 
 
-static void GetLanguageCode(char* outLanguageCode)
+static void Vibrate(long milliseconds)
 {
-    NSString* languageCode = [NSLocale preferredLanguages][0];
-
-    if (languageCode != nil)
+    if (milliseconds <= 50)
     {
-        outLanguageCode[0] = languageCode.UTF8String[0];
-        outLanguageCode[1] = languageCode.UTF8String[1];
+        AudioServicesPlaySystemSound(1519);
     }
     else
     {
-        outLanguageCode[0] = 'e';
-        outLanguageCode[1] = 'n';
+        AudioServicesPlaySystemSound(1520);
     }
 }
 
 
-struct ASystemInfo ASystemInfo[1] =
+struct AVibrator AVibrator[1] =
 {{
-    GetLanguageCode,
+     Vibrate,
 }};
 
 
