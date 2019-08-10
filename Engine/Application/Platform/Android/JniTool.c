@@ -17,7 +17,9 @@
 #include "Engine/Application/Platform/Android/JniTool.h"
 
 
+//------------------------
 #ifdef IS_PLATFORM_ANDROID
+//------------------------
 
 
 #include <android/native_activity.h>
@@ -492,4 +494,7 @@ struct AJniTool AJniTool[1] =
 }};
 
 
-#endif
+//---------------------------
+#endif // IS_PLATFORM_ANDROID
+//---------------------------
+

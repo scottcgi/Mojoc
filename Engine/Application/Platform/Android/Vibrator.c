@@ -17,7 +17,9 @@
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
+//------------------------
 #ifdef IS_PLATFORM_ANDROID
+//------------------------
 
 
 #include "Engine/Toolkit/Platform/Log.h"
@@ -44,4 +46,6 @@ struct AVibrator AVibrator[1] =
 }};
 
 
-#endif
+//---------------------------
+#endif // IS_PLATFORM_ANDROID
+//---------------------------

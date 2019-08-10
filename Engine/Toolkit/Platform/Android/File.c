@@ -17,7 +17,9 @@
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
+//------------------------
 #ifdef IS_PLATFORM_ANDROID
+//------------------------
 
 
 #include <string.h>
@@ -100,4 +102,7 @@ struct AFile AFile[1] =
 }};
 
 
-#endif
+//---------------------------
+#endif // IS_PLATFORM_ANDROID
+//---------------------------
+

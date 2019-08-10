@@ -323,7 +323,7 @@ static void SetFloat(FontText* text, float num)
 
 static void Release(Font* font)
 {
-    ALog_A(font->textureAtlas != NULL, "AFont Release font %p already Released", font);
+    ALog_A(font->textureAtlas != NULL, "AFont Release font %s (%p) already Released", font->textureAtlas->filePath, font);
 
     for (int i = 0; i < font->fontTextSet->elementList->size; ++i)
     {
@@ -339,7 +339,7 @@ static void Release(Font* font)
 
 static void ReleaseText(FontText* text)
 {
-    ALog_A(text->font != NULL, "AFont ReleaseText text %p already Released", text);
+    ALog_A(text->font != NULL, "AFont ReleaseText text %p (font %s) already Released", text, text->font->textureAtlas->filePath);
 
     for (int i = 0; i < text->usedSubMeshList->size; ++i)
     {

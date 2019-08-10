@@ -183,7 +183,7 @@ static inline float AMath_Asin(float ratio)
 /**
  * Compare float value equals.
  */
-static inline bool AMath_TestFloatEqual(float x, float y)
+static inline bool AMath_IsFloatEqual(float x, float y)
 {
     return fabsf((x) - (y)) <= FLT_EPSILON;
 }

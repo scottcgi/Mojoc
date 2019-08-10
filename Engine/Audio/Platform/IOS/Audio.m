@@ -19,7 +19,9 @@
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
+//--------------------
 #ifdef IS_PLATFORM_IOS
+//--------------------
 
 
 #include <stddef.h>
@@ -447,4 +449,6 @@ struct AAudio AAudio[1] =
 }};
 
 
-#endif
+//-----------------------
+#endif // IS_PLATFORM_IOS
+//-----------------------

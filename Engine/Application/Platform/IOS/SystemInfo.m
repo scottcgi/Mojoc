@@ -17,7 +17,9 @@
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
+//--------------------
 #ifdef IS_PLATFORM_IOS
+//--------------------
 
 
 #include <Foundation/Foundation.h>
@@ -48,4 +50,6 @@ struct ASystemInfo ASystemInfo[1] =
 }};
 
 
-#endif
+//-----------------------
+#endif // IS_PLATFORM_IOS
+//-----------------------

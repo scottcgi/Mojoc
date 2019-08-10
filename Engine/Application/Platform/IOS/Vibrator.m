@@ -17,7 +17,9 @@
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
+//--------------------
 #ifdef IS_PLATFORM_IOS
+//--------------------
 
 
 #include <AudioToolbox/AudioToolbox.h>
@@ -44,4 +46,6 @@ struct AVibrator AVibrator[1] =
 }};
 
 
-#endif
+//-----------------------
+#endif // IS_PLATFORM_IOS
+//-----------------------

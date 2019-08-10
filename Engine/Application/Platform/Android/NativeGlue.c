@@ -17,7 +17,9 @@
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
+//------------------------
 #ifdef IS_PLATFORM_ANDROID
+//------------------------
 
 
 #include <android/asset_manager.h>
@@ -507,4 +509,6 @@ void ANativeActivity_OnCreate(ANativeActivity* activity, void* savedState, size_
 }
 
 
-#endif
+//---------------------------
+#endif // IS_PLATFORM_ANDROID
+//---------------------------

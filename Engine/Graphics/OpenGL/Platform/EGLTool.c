@@ -18,7 +18,9 @@
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
+//------------------------
 #ifdef IS_PLATFORM_ANDROID
+//------------------------
 
 
 #include "Engine/Graphics/OpenGL/Platform/EGLTool.h"
@@ -172,4 +174,7 @@ struct AEGLTool AEGLTool[1] =
 }};
 
 
-#endif
+//---------------------------
+#endif // IS_PLATFORM_ANDROID
+//---------------------------
+

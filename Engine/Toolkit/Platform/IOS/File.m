@@ -17,7 +17,9 @@
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
+//--------------------
 #ifdef IS_PLATFORM_IOS
+//--------------------
 
 
 #include <stdio.h>
@@ -140,4 +142,6 @@ struct AFile AFile[1] =
 }};
 
 
-#endif
+//-----------------------
+#endif // IS_PLATFORM_IOS
+//-----------------------

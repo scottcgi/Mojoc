@@ -17,7 +17,10 @@
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
+//------------------------
 #ifdef IS_PLATFORM_ANDROID
+//------------------------
+
 
 
 #include <android/configuration.h>
@@ -40,4 +43,6 @@ struct ASystemInfo ASystemInfo[1] =
 }};
 
 
-#endif
+//---------------------------
+#endif // IS_PLATFORM_ANDROID
+//---------------------------
