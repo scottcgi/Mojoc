@@ -40,7 +40,7 @@
  * ...       : varargs parameter which are method parameters.
  *
  * typeCode  : java class/object field type such as: "Landroid/content/pm/PackageInfo;", "I"
- * typeChar  : java class/object field type such as: 'L', 'B', 'I'
+ * typeChar  : java class/object field type such as: 'L', 'B', 'I', 'V' (void)
  *
  * jvalue    : '[' - l - Array (Object)
  *             'L' - l - Object
@@ -49,7 +49,7 @@
  *             'C' - c - Char
  *             'S' - s - Short
  *             'I' - i - Int
- *             'J' - j - Long
+ *             'J' - j - Long (in C is long long type)
  *             'F' - f - Float
  *             'D' - d - Double
  *

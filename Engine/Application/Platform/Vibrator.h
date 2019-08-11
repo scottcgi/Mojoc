@@ -25,7 +25,7 @@
  */
 struct AVibrator
 {
-    void (*Vibrate)(long milliseconds);
+    void (*Vibrate)(int milliseconds);
 };
 
 

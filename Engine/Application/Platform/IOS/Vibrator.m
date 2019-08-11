@@ -27,7 +27,7 @@
 #include "Engine/Application/Platform/Vibrator.h"
 
 
-static void Vibrate(long milliseconds)
+static void Vibrate(int milliseconds)
 {
     if (milliseconds <= 50)
     {

@@ -27,7 +27,7 @@
 #include "Engine/Application/Platform/Android/JniTool.h"
 
 
-static void Vibrate(long milliseconds)
+static void Vibrate(int milliseconds)
 {
     jobject vibrator    = AJniTool->CallNativeActivityMethod
                           (
@@ -36,7 +36,7 @@ static void Vibrate(long milliseconds)
                               AJniTool->GetStaticField("android/content/Context", "VIBRATOR_SERVICE", "Ljava/lang/String;").l
                           ).l;
 
-    AJniTool->CallMethod(vibrator, "vibrate", "(J)V", milliseconds);
+    AJniTool->CallMethod(vibrator, "vibrate", "(J)V", (long long) milliseconds);
 }
 
 
