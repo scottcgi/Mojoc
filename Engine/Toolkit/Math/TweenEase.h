@@ -37,13 +37,13 @@ typedef enum
     TweenEaseType_QuinticOut,
     TweenEaseType_QuinticInOut,
 
-    TweenEaseType_SineIn,
-    TweenEaseType_SineOut,
-    TweenEaseType_SineInOut,
-
     TweenEaseType_ExponentialIn,
     TweenEaseType_ExponentialOut,
     TweenEaseType_ExponentialInOut,
+
+    TweenEaseType_SineIn,
+    TweenEaseType_SineOut,
+    TweenEaseType_SineInOut,
 
     TweenEaseType_CircularIn,
     TweenEaseType_CircularOut,

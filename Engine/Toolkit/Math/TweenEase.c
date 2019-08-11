@@ -148,27 +148,6 @@ static float QuinticInOut(float from, float to, float time)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float SineIn(float from, float to, float time)
-{
-    return VALUE * (1.0f - cosf(time * MATH_PI2));
-}
-
-
-static float SineOut(float from, float to, float time)
-{
-    return VALUE * sinf(time * MATH_PI2);
-}
-
-
-static float SineInOut(float from, float to, float time)
-{
-    return VALUE * 0.5f * (1.0f - cosf(time * MATH_PI));
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
 static float ExponentialIn(float from, float to, float time)
 {
     if (time == 0.0f)
@@ -215,6 +194,27 @@ static float ExponentialInOut(float from, float to, float time)
     {
         return VALUE * 0.5f * (2.0f - powf(2.0f, -20.0f * time + 10.0f));
     }
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
+
+static float SineIn(float from, float to, float time)
+{
+    return VALUE * (1.0f - cosf(time * MATH_PI2));
+}
+
+
+static float SineOut(float from, float to, float time)
+{
+    return VALUE * sinf(time * MATH_PI2);
+}
+
+
+static float SineInOut(float from, float to, float time)
+{
+    return VALUE * 0.5f * (1.0f - cosf(time * MATH_PI));
 }
 
 
@@ -487,13 +487,13 @@ struct ATweenEase ATweenEase[1] =
     QuinticOut,
     QuinticInOut,
 
-    SineIn,
-    SineOut,
-    SineInOut,
-
     ExponentialIn,
     ExponentialOut,
     ExponentialInOut,
+
+    SineIn,
+    SineOut,
+    SineInOut,
 
     CircularIn,
     CircularOut,
