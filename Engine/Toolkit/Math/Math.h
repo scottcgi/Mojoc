@@ -23,7 +23,9 @@
 #include <time.h>
 #include <float.h>
 #include <stdbool.h>
+
 #include "Engine/Toolkit/Utils/Array.h"
+#include "Engine/Toolkit/Platform/Log.h"
 
 
 struct AMath
@@ -86,7 +88,7 @@ extern struct AMath AMath[1];
  */
 static inline float AMath_Random()
 {
-    return (float) (random() / (double) RAND_MAX);
+    return (float) (rand() / (double) RAND_MAX);
 }
 
 
@@ -95,7 +97,7 @@ static inline float AMath_Random()
  */
 static inline int AMath_RandomInt(int from, int to)
 {
-    return (from) + (int) random() % ((to) - (from) + 1);
+    return (from) + rand() % ((to) - (from) + 1);
 }
 
 
@@ -104,7 +106,7 @@ static inline int AMath_RandomInt(int from, int to)
  */
 static inline float AMath_RandomFloat(float from, float to)
 {
-    return from + AMath_Random() * (to - from);
+    return from + AMath_Random() * ((to) - (from));
 }
 
 
@@ -113,7 +115,7 @@ static inline float AMath_RandomFloat(float from, float to)
  */
 static inline void AMath_RandomSeedByTime()
 {
-    srandom((unsigned) time(NULL));
+    srand((unsigned) time(NULL));
 }
 
 
