@@ -268,7 +268,7 @@ static void Translate(Matrix4* matrix4, float x, float y, float z)
  */
 static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
 {
-    angle    = AMath_ToRadian(angle);
+    angle     = AMath_ToRadian(angle);
     float s   = sinf(angle);
     float c   = cosf(angle);
     float len = AVector3_Length3(x, y, z);
