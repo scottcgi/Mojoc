@@ -1,0 +1,34 @@
+
+LockTip.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+DTip-en
+  rotate: false
+  xy: 2, 104
+  size: 256, 32
+  orig: 256, 32
+  offset: 0, 0
+  index: -1
+DTip-zh
+  rotate: false
+  xy: 2, 70
+  size: 256, 32
+  orig: 256, 32
+  offset: 0, 0
+  index: -1
+WTip-en
+  rotate: false
+  xy: 2, 36
+  size: 256, 32
+  orig: 256, 32
+  offset: 0, 0
+  index: -1
+WTip-zh
+  rotate: false
+  xy: 2, 2
+  size: 256, 32
+  orig: 256, 32
+  offset: 0, 0
+  index: -1

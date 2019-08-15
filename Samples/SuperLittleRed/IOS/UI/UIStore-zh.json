@@ -1,0 +1,998 @@
+{
+"skeleton": { "hash": "DPdegEd3ra/i6ldYoHQFolVou+g", "spine": "3.7.91", "width": 688.13, "height": 678.37 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "Dress", "parent": "root" },
+	{ "name": "DressLeft", "parent": "Dress", "x": -191.84, "y": -18.89 },
+	{ "name": "ArmourIcon", "parent": "DressLeft", "x": -32.52, "y": -135.27 },
+	{ "name": "Property", "parent": "root" },
+	{ "name": "PropertyLeft", "parent": "Property", "x": -191.84, "y": -18.89 },
+	{ "name": "ArrowPower", "parent": "PropertyLeft", "x": 29.84, "y": -175.01 },
+	{ "name": "ArrowSpeed", "parent": "PropertyLeft", "x": 29.84, "y": -134.61 },
+	{ "name": "BunnyIcon", "parent": "DressLeft", "x": 95.46, "y": 126.68 },
+	{ "name": "Right", "parent": "root" },
+	{ "name": "Buy", "parent": "Right", "x": 151.98, "y": -203.11 },
+	{ "name": "Close", "parent": "root", "x": 293.23, "y": 199.55 },
+	{ "name": "CoinPos", "parent": "root", "x": 169.13, "y": 164.27 },
+	{ "name": "Weapon", "parent": "root" },
+	{ "name": "WeaponLeft", "parent": "Weapon", "x": -191.8, "y": -18.89 },
+	{ "name": "CopperIcon", "parent": "WeaponLeft", "x": 121.03, "y": 151.3, "scaleX": 0.9, "scaleY": 0.9 },
+	{ "name": "DizzyDistance", "parent": "PropertyLeft", "x": 29.84, "y": 26.14 },
+	{ "name": "DizzyTime", "parent": "PropertyLeft", "x": 29.84, "y": -14.19 },
+	{ "name": "DragonIcon", "parent": "WeaponLeft", "x": -57.56, "y": -51.65, "scaleX": 0.9, "scaleY": 0.9 },
+	{ "name": "DressBox", "parent": "Dress" },
+	{ "name": "DressLock", "parent": "Dress" },
+	{ "name": "DressRight", "parent": "Dress", "x": 151.27, "y": -10.24 },
+	{ "name": "DressTab", "parent": "Dress" },
+	{ "name": "DressTabBtn", "parent": "DressTab", "x": -331.13, "y": -8.47 },
+	{ "name": "EgyptIcon", "parent": "DressLeft", "x": 95.43, "y": -133.26 },
+	{ "name": "Energy", "parent": "PropertyLeft", "x": 29.84, "y": 106.8 },
+	{ "name": "EnergyRecovery", "parent": "PropertyLeft", "x": 29.84, "y": 66.47 },
+	{ "name": "GoldIcon", "parent": "WeaponLeft", "x": 120.29, "y": 49.46, "scaleX": 0.9, "scaleY": 0.9 },
+	{ "name": "HP", "parent": "PropertyLeft", "x": 29.84, "y": 147.09 },
+	{ "name": "HeartIcon", "parent": "WeaponLeft", "x": 118.82, "y": -51.65, "scaleX": 0.9, "scaleY": 0.9 },
+	{ "name": "IceIcon", "parent": "WeaponLeft", "x": -56.09, "y": -150.31, "scaleX": 0.9, "scaleY": 0.9 },
+	{ "name": "IronIcon", "parent": "WeaponLeft", "x": 31.73, "y": 150.56, "scaleX": 0.9, "scaleY": 0.9 },
+	{ "name": "LevelUp", "parent": "Right", "x": 152, "y": -203.1 },
+	{ "name": "LightningIcon", "parent": "WeaponLeft", "x": 29.52, "y": -55.54, "scaleX": 0.9, "scaleY": 0.9 },
+	{ "name": "LuffyIcon", "parent": "DressLeft", "x": -31.53, "y": -4.45 },
+	{ "name": "Progress", "parent": "Property" },
+	{ "name": "PropertyBox", "parent": "Property" },
+	{ "name": "PropertyRight", "parent": "Property" },
+	{ "name": "PropertyTab", "parent": "Property" },
+	{ "name": "PropertyTabBtn", "parent": "PropertyTab", "x": -330.08, "y": -146.92 },
+	{ "name": "RedGirlIcon", "parent": "DressLeft", "x": -31.53, "y": 125.51 },
+	{ "name": "Select", "parent": "Right", "y": 389.37 },
+	{ "name": "SilverIcon", "parent": "WeaponLeft", "x": 32.47, "y": 51.17, "scaleX": 0.9, "scaleY": 0.9 },
+	{ "name": "Speed", "parent": "PropertyLeft", "x": 29.84, "y": 188.59 },
+	{ "name": "SteelIcon", "parent": "WeaponLeft", "x": -57.56, "y": 51.17, "scaleX": 0.9, "scaleY": 0.9 },
+	{ "name": "StonePower", "parent": "PropertyLeft", "x": 29.84, "y": -53.7 },
+	{ "name": "SwanIcon", "parent": "DressLeft", "x": 97.42, "y": -4.28 },
+	{ "name": "Use", "parent": "Right", "x": 152, "y": -203.1 },
+	{ "name": "WeaponBox", "parent": "Weapon" },
+	{ "name": "WeaponLock", "parent": "Weapon" },
+	{ "name": "WeaponRight", "parent": "Weapon" },
+	{ "name": "WeaponTab", "parent": "Weapon" },
+	{ "name": "WeaponTabBtn", "parent": "WeaponTab", "x": -331.06, "y": 120.35 },
+	{ "name": "WoodIcon", "parent": "WeaponLeft", "x": -61.04, "y": 148.12, "scaleX": 0.9, "scaleY": 0.9 },
+	{ "name": "WoodTime", "parent": "PropertyLeft", "x": 29.84, "y": -94.11 }
+],
+"slots": [
+	{ "name": "BG", "bone": "root", "attachment": "BG" },
+	{ "name": "DressLeft", "bone": "DressLeft", "attachment": "DressLeft" },
+	{ "name": "LuffyIcon", "bone": "LuffyIcon", "attachment": "LuffyIcon" },
+	{ "name": "SwanIcon", "bone": "SwanIcon", "attachment": "SwanIcon" },
+	{ "name": "ArmourIcon", "bone": "ArmourIcon", "attachment": "ArmourIcon" },
+	{ "name": "EgyptIcon", "bone": "EgyptIcon", "attachment": "EgyptIcon" },
+	{ "name": "Close", "bone": "Close", "attachment": "Close" },
+	{ "name": "Coin", "bone": "Right", "attachment": "Coin" },
+	{ "name": "ShowBG", "bone": "Right", "attachment": "ShowBG" },
+	{ "name": "Buy", "bone": "Buy", "attachment": "Buy" },
+	{ "name": "Use", "bone": "Use", "attachment": "Use" },
+	{ "name": "RedGirlIcon", "bone": "RedGirlIcon", "attachment": "RedGirlIcon" },
+	{ "name": "BunnyIcon", "bone": "BunnyIcon", "attachment": "BunnyIcon" },
+	{ "name": "Luffy", "bone": "DressRight", "attachment": "Luffy" },
+	{ "name": "Bunny", "bone": "DressRight", "attachment": "Bunny" },
+	{ "name": "Swan", "bone": "DressRight", "attachment": "Swan" },
+	{ "name": "Armour", "bone": "DressRight", "attachment": "Armour" },
+	{ "name": "Egypt", "bone": "DressRight", "attachment": "Egypt" },
+	{ "name": "RedGirl", "bone": "DressRight", "attachment": "RedGirl" },
+	{ "name": "WeaponLeft", "bone": "WeaponLeft", "attachment": "WeaponLeft" },
+	{ "name": "WoodIcon", "bone": "WoodIcon", "attachment": "WoodIcon" },
+	{ "name": "IronIcon", "bone": "IronIcon", "attachment": "IronIcon" },
+	{ "name": "CopperIcon", "bone": "CopperIcon", "attachment": "CopperIcon" },
+	{ "name": "SteelIcon", "bone": "SteelIcon", "attachment": "SteelIcon" },
+	{ "name": "SilverIcon", "bone": "SilverIcon", "attachment": "SilverIcon" },
+	{ "name": "DragonIcon", "bone": "DragonIcon", "attachment": "DragonIcon" },
+	{ "name": "LightningIcon", "bone": "LightningIcon", "attachment": "LightningIcon" },
+	{ "name": "HeartIcon", "bone": "HeartIcon", "attachment": "HeartIcon" },
+	{ "name": "IceIcon", "bone": "IceIcon", "attachment": "IceIcon" },
+	{ "name": "GoldIcon", "bone": "GoldIcon", "attachment": "GoldIcon" },
+	{ "name": "Wood", "bone": "WeaponRight", "attachment": "Wood" },
+	{ "name": "Steel", "bone": "WeaponRight", "attachment": "Steel" },
+	{ "name": "Silver", "bone": "WeaponRight", "attachment": "Silver" },
+	{ "name": "Lightning", "bone": "WeaponRight", "attachment": "Lightning" },
+	{ "name": "Iron", "bone": "WeaponRight", "attachment": "Iron" },
+	{ "name": "Ice", "bone": "WeaponRight", "attachment": "Ice" },
+	{ "name": "Heart", "bone": "WeaponRight", "attachment": "Heart" },
+	{ "name": "Gold", "bone": "WeaponRight", "attachment": "Gold" },
+	{ "name": "Dragon", "bone": "WeaponRight", "attachment": "Dragon" },
+	{ "name": "Copper", "bone": "WeaponRight", "attachment": "Copper" },
+	{ "name": "PropertyLeft", "bone": "PropertyLeft", "attachment": "PropertyLeft" },
+	{ "name": "LevelUp", "bone": "LevelUp", "attachment": "LevelUp" },
+	{ "name": "CloseBox", "bone": "Close", "attachment": "CloseBox" },
+	{ "name": "DressTabBox", "bone": "DressTab", "attachment": "DressTabBox" },
+	{ "name": "PropertyTabBox", "bone": "PropertyTab", "attachment": "PropertyTabBox" },
+	{ "name": "WeaponTabBox", "bone": "WeaponTab", "attachment": "WeaponTabBox" },
+	{ "name": "CopperBox", "bone": "WeaponBox", "attachment": "CopperBox" },
+	{ "name": "DragonBox", "bone": "WeaponBox", "attachment": "DragonBox" },
+	{ "name": "GoldBox", "bone": "WeaponBox", "attachment": "GoldBox" },
+	{ "name": "HeartBox", "bone": "WeaponBox", "attachment": "HeartBox" },
+	{ "name": "IceBox", "bone": "WeaponBox", "attachment": "IceBox" },
+	{ "name": "IronBox", "bone": "WeaponBox", "attachment": "IronBox" },
+	{ "name": "LightningBox", "bone": "WeaponBox", "attachment": "LightningBox" },
+	{ "name": "SilverBox", "bone": "WeaponBox", "attachment": "SilverBox" },
+	{ "name": "SteelBox", "bone": "WeaponBox", "attachment": "SteelBox" },
+	{ "name": "WoodBox", "bone": "WeaponBox", "attachment": "WoodBox" },
+	{ "name": "BuyBox", "bone": "Buy", "attachment": "BuyBox" },
+	{ "name": "UseBox", "bone": "Use", "attachment": "UseBox" },
+	{ "name": "LevelUpBox", "bone": "LevelUp", "attachment": "LevelUpBox" },
+	{ "name": "ArmourBox", "bone": "DressBox", "attachment": "ArmourBox" },
+	{ "name": "RedGirlBox", "bone": "DressBox", "attachment": "RedGirlBox" },
+	{ "name": "BunnyBox", "bone": "DressBox", "attachment": "BunnyBox" },
+	{ "name": "EgyptBox", "bone": "DressBox", "attachment": "EgyptBox" },
+	{ "name": "LuffyBox", "bone": "DressBox", "attachment": "LuffyBox" },
+	{ "name": "SwanBox", "bone": "DressBox", "attachment": "SwanBox" },
+	{ "name": "DressTabBtn", "bone": "DressTabBtn", "attachment": "DressTabBtn" },
+	{ "name": "WeaponTabBtn", "bone": "WeaponTabBtn", "attachment": "WeaponTabBtn" },
+	{ "name": "PropertyTabBtn", "bone": "PropertyTabBtn", "attachment": "PropertyTabBtn" },
+	{ "name": "UseGrey", "bone": "Use", "attachment": "UseGrey" },
+	{ "name": "Select", "bone": "Select", "attachment": "Select" },
+	{ "name": "ProgressWords", "bone": "PropertyLeft", "attachment": "ProgressWords" },
+	{ "name": "Progress", "bone": "PropertyLeft", "attachment": "Progress" },
+	{ "name": "Speed", "bone": "PropertyRight", "attachment": "Speed" },
+	{ "name": "HP", "bone": "PropertyRight", "attachment": "HP" },
+	{ "name": "Energy", "bone": "PropertyRight", "attachment": "Energy" },
+	{ "name": "EnergyRecovery", "bone": "PropertyRight", "attachment": "EnergyRecovery" },
+	{ "name": "DizzyDistance", "bone": "PropertyRight", "attachment": "DizzyDistance" },
+	{ "name": "DizzyTime", "bone": "PropertyRight", "attachment": "DizzyTime" },
+	{ "name": "StonePower", "bone": "PropertyRight", "attachment": "StonePower" },
+	{ "name": "WoodTime", "bone": "PropertyRight", "attachment": "WoodTime" },
+	{ "name": "ArrowSpeed", "bone": "PropertyRight", "attachment": "ArrowSpeed" },
+	{ "name": "ArrowPower", "bone": "PropertyRight", "attachment": "ArrowPower" },
+	{ "name": "SpeedBox", "bone": "PropertyBox", "attachment": "SpeedBox" },
+	{ "name": "HPBox", "bone": "PropertyBox", "attachment": "HPBox" },
+	{ "name": "EnergyBox", "bone": "PropertyBox", "attachment": "EnergyBox" },
+	{ "name": "EnergyRecoveryBox", "bone": "PropertyBox", "attachment": "EnergyRecoveryBox" },
+	{ "name": "DizzyDistanceBox", "bone": "PropertyBox", "attachment": "DizzyDistanceBox" },
+	{ "name": "DizzyTimeBox", "bone": "PropertyBox", "attachment": "DizzyTimeBox" },
+	{ "name": "StonePowerBox", "bone": "PropertyBox", "attachment": "StonePowerBox" },
+	{ "name": "WoodTimeBox", "bone": "PropertyBox", "attachment": "WoodTimeBox" },
+	{ "name": "ArrowSpeedBox", "bone": "PropertyBox", "attachment": "ArrowSpeedBox" },
+	{ "name": "ArrowPowerBox", "bone": "PropertyBox", "attachment": "ArrowPowerBox" },
+	{ "name": "LevelUpGrey", "bone": "LevelUp", "attachment": "LevelUpGrey" },
+	{ "name": "Block0", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block1", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block2", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block3", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block4", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block5", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block6", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block7", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block8", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block9", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block10", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block11", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block12", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block13", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block14", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block15", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block16", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block17", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block18", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block19", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block20", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block21", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block22", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block23", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block24", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block25", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block26", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block27", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block28", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block29", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block30", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block31", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block32", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block33", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block34", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block35", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block36", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block37", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block38", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block39", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block40", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block41", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block42", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block43", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block44", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block45", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block46", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block47", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block48", "bone": "Progress", "attachment": "Block" },
+	{ "name": "Block49", "bone": "Progress", "attachment": "Block" },
+	{ "name": "CopperLock", "bone": "WeaponLock", "attachment": "CopperLock" },
+	{ "name": "DragonLock", "bone": "WeaponLock", "attachment": "DragonLock" },
+	{ "name": "GoldLock", "bone": "WeaponLock", "attachment": "GoldLock" },
+	{ "name": "HeartLock", "bone": "WeaponLock", "attachment": "HeartLock" },
+	{ "name": "IceLock", "bone": "WeaponLock", "attachment": "IceLock" },
+	{ "name": "IronLock", "bone": "WeaponLock", "attachment": "IronLock" },
+	{ "name": "LightningLock", "bone": "WeaponLock", "attachment": "LightningLock" },
+	{ "name": "SilverLock", "bone": "WeaponLock", "attachment": "SilverLock" },
+	{ "name": "SteelLock", "bone": "WeaponLock", "attachment": "SteelLock" },
+	{ "name": "ArmourLock", "bone": "DressLock", "attachment": "ArmourLock" },
+	{ "name": "BunnyLock", "bone": "DressLock", "attachment": "BunnyLock" },
+	{ "name": "EgyptLock", "bone": "DressLock", "attachment": "EgyptLock" },
+	{ "name": "LuffyLock", "bone": "DressLock", "attachment": "LuffyLock" },
+	{ "name": "SwanLock", "bone": "DressLock", "attachment": "SwanLock" },
+	{ "name": "RedGirlLock", "bone": "DressLock", "attachment": "RedGirlLock" },
+	{ "name": "WoodLock", "bone": "WeaponLock", "attachment": "WoodLock" }
+],
+"skins": {
+	"default": {
+		"ArmourBox": {
+			"ArmourBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -277.5, -99.15, -174.56, -100.26, -174.56, -202.09, -279.74, -203.21 ]
+			}
+		},
+		"ArrowPowerBox": {
+			"ArrowPowerBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -287.17, -186.47, -32.82, -187.32, -31.98, -218.58, -288.01, -217.74 ]
+			}
+		},
+		"ArrowSpeedBox": {
+			"ArrowSpeedBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -289.86, -144.22, -27.91, -144.22, -27.06, -176.33, -290.7, -178.02 ]
+			}
+		},
+		"BG": {
+			"BG": { "width": 650, "height": 540 }
+		},
+		"BunnyBox": {
+			"BunnyBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -148.82, 163.82, -43.63, 164.94, -42.51, 60.87, -147.7, 59.75 ]
+			}
+		},
+		"BuyBox": {
+			"BuyBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -93.69, 26.34, 93.08, 25.38, 96.05, -22.31, -92.68, -24.27 ]
+			}
+		},
+		"Close": {
+			"Close": { "width": 16, "height": 16 }
+		},
+		"CloseBox": {
+			"CloseBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -17.18, 27.99, 32.5, 26.04, 31.52, -16.81, -19.13, -14.87 ]
+			}
+		},
+		"CopperBox": {
+			"CopperBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -105.04, 166.21, -36.94, 166.21, -38.66, 97.25, -105.9, 97.25 ]
+			}
+		},
+		"DizzyDistanceBox": {
+			"DizzyDistanceBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -289.18, 18.75, -31.76, 18.75, -31.76, -13.31, -289.18, -12.62 ]
+			}
+		},
+		"DizzyTimeBox": {
+			"DizzyTimeBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -287.25, -20.39, -31.9, -21.08, -32.05, -53.45, -288.79, -52.76 ]
+			}
+		},
+		"DragonBox": {
+			"DragonBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -282.61, -38.08, -215.37, -38.08, -217.1, -107.04, -283.47, -107.04 ]
+			}
+		},
+		"DressTabBox": {
+			"DressTabBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -360.94, 40.53, -303.48, 41.5, -307.37, -66.61, -361.92, -64.66 ]
+			}
+		},
+		"DressTabBtn": {
+			"DressTabBtn": { "width": 64, "height": 114 }
+		},
+		"EgyptBox": {
+			"EgyptBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -149.94, -100.26, -43.63, -99.15, -45.87, -202.09, -149.94, -204.33 ]
+			}
+		},
+		"EnergyBox": {
+			"EnergyBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -290.61, 100.47, -28.07, 99.68, -27.22, 68.27, -289.76, 67.47 ]
+			}
+		},
+		"EnergyRecoveryBox": {
+			"EnergyRecoveryBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -288.39, 61.37, -29.84, 61.16, -29.04, 28.27, -288.39, 26.78 ]
+			}
+		},
+		"GoldBox": {
+			"GoldBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -104.17, 63.63, -37.8, 63.63, -42.11, -4.47, -105.9, -3.6 ]
+			}
+		},
+		"HPBox": {
+			"HPBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -286.83, 140.28, -32.27, 140.28, -33.17, 108.17, -287.73, 108.17 ]
+			}
+		},
+		"HeartBox": {
+			"HeartBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -107.62, -36.36, -39.52, -37.22, -36.08, -108.77, -105.9, -106.18 ]
+			}
+		},
+		"IceBox": {
+			"IceBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -283.47, -137.21, -215.37, -137.21, -216.23, -208.76, -286.06, -208.76 ]
+			}
+		},
+		"IronBox": {
+			"IronBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -192.96, 166.21, -123.14, 165.35, -124.86, 93.8, -194.68, 95.53 ]
+			}
+		},
+		"LevelUpBox": {
+			"LevelUpBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -105.09, 29.42, 108.03, 28.45, 107.05, -30.85, -105.09, -32.79 ]
+			}
+		},
+		"LightningBox": {
+			"LightningBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -194.68, -37.22, -124.86, -38.08, -125.72, -105.32, -194.68, -105.32 ]
+			}
+		},
+		"LuffyBox": {
+			"LuffyBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -276.39, 30.48, -167.84, 32.72, -170.08, -72.47, -277.5, -72.47 ]
+			}
+		},
+		"PropertyTabBox": {
+			"PropertyTabBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -361.92, -88.04, -307.37, -88.04, -306.4, -212.71, -363.87, -212.71 ]
+			}
+		},
+		"PropertyTabBtn": {
+			"PropertyTabBtn": { "width": 63, "height": 136 }
+		},
+		"RedGirlBox": {
+			"RedGirlBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -277.5, 161.95, -172.32, 161.95, -173.44, 59, -278.62, 57.88 ]
+			}
+		},
+		"SilverBox": {
+			"SilverBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -192.96, 64.49, -123.14, 63.63, -125.72, -7.05, -194.68, -5.33 ]
+			}
+		},
+		"SpeedBox": {
+			"SpeedBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -289.76, 184.17, -29.62, 182.57, -28.82, 148.87, -289.76, 149.67 ]
+			}
+		},
+		"SteelBox": {
+			"SteelBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -283.47, 65.36, -214.51, 63.63, -215.37, -4.47, -282.61, -4.47 ]
+			}
+		},
+		"StonePowerBox": {
+			"StonePowerBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -289.01, -61.41, -32.13, -61.41, -32.98, -93.52, -288.17, -92.68 ]
+			}
+		},
+		"SwanBox": {
+			"SwanBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -148.82, 31.78, -42.51, 31.78, -45.87, -72.29, -151.06, -72.29 ]
+			}
+		},
+		"UseBox": {
+			"UseBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -94.25, 24.4, 93.54, 25.39, 96.48, -25.3, -93.26, -23.34 ]
+			}
+		},
+		"WeaponTabBox": {
+			"WeaponTabBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -359.97, 173.97, -302.5, 173.97, -300.56, 56.11, -362.89, 58.06 ]
+			}
+		},
+		"WeaponTabBtn": {
+			"WeaponTabBtn": { "width": 63, "height": 119 }
+		},
+		"WoodBox": {
+			"WoodBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -281.61, 165.49, -212.15, 165.49, -216.39, 96.88, -284.15, 96.04 ]
+			}
+		},
+		"WoodTimeBox": {
+			"WoodTimeBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -288.3, -101.13, -30.58, -101.97, -29.73, -134.08, -289.15, -134.08 ]
+			}
+		}
+	},
+	"Dress": {
+		"Armour": {
+			"Armour": { "x": 3.58, "width": 118, "height": 198 }
+		},
+		"ArmourIcon": {
+			"ArmourIcon": { "width": 76, "height": 65 }
+		},
+		"ArmourLock": {
+			"ArmourLock": {
+				"name": "Lock",
+				"x": -226.94,
+				"y": -150,
+				"scaleX": 1.68,
+				"scaleY": 1.68,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Bunny": {
+			"Bunny": { "x": -0.49, "y": 4.36, "width": 120, "height": 204 }
+		},
+		"BunnyIcon": {
+			"BunnyIcon": { "width": 80, "height": 69 }
+		},
+		"BunnyLock": {
+			"BunnyLock": {
+				"name": "Lock",
+				"x": -96.43,
+				"y": 111.04,
+				"scaleX": 1.68,
+				"scaleY": 1.68,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Buy": {
+			"Buy": { "name": "Buy30", "width": 218, "height": 64 }
+		},
+		"Coin": {
+			"Coin": { "x": 152.26, "y": 164.94, "width": 269, "height": 41 }
+		},
+		"DressLeft": {
+			"DressLeft": { "width": 341, "height": 419 }
+		},
+		"Egypt": {
+			"Egypt": { "x": -0.18, "width": 120, "height": 203 }
+		},
+		"EgyptIcon": {
+			"EgyptIcon": { "width": 67, "height": 72 }
+		},
+		"EgyptLock": {
+			"EgyptLock": {
+				"name": "Lock",
+				"x": -99.69,
+				"y": -150.58,
+				"scaleX": 1.68,
+				"scaleY": 1.68,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Luffy": {
+			"Luffy": { "x": -6.89, "y": -6.54, "width": 143, "height": 198 }
+		},
+		"LuffyIcon": {
+			"LuffyIcon": { "width": 78, "height": 68 }
+		},
+		"LuffyLock": {
+			"LuffyLock": {
+				"name": "Lock",
+				"x": -225.2,
+				"y": -20.18,
+				"scaleX": 1.68,
+				"scaleY": 1.68,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"RedGirl": {
+			"RedGirl": { "x": 6.08, "width": 118, "height": 193 }
+		},
+		"RedGirlIcon": {
+			"RedGirlIcon": { "width": 58, "height": 65 }
+		},
+		"RedGirlLock": {
+			"RedGirlLock": {
+				"name": "Lock",
+				"x": -225.2,
+				"y": 111.04,
+				"scaleX": 1.68,
+				"scaleY": 1.68,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Select": {
+			"Select": { "name": "Select1", "width": 47, "height": 37 }
+		},
+		"ShowBG": {
+			"ShowBG": { "x": 151.28, "y": -14.64, "width": 267, "height": 261 }
+		},
+		"Swan": {
+			"Swan": { "x": 2.51, "y": -1.67, "width": 106, "height": 213 }
+		},
+		"SwanIcon": {
+			"SwanIcon": { "width": 75, "height": 76 }
+		},
+		"SwanLock": {
+			"SwanLock": {
+				"name": "Lock",
+				"x": -98.06,
+				"y": -20.18,
+				"scaleX": 1.68,
+				"scaleY": 1.68,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Use": {
+			"Use": { "width": 218, "height": 64 }
+		},
+		"UseGrey": {
+			"UseGrey": { "width": 218, "height": 64 }
+		}
+	},
+	"Property": {
+		"ArrowPower": {
+			"ArrowPower": { "x": 150.33, "y": 36.85, "width": 242, "height": 105 }
+		},
+		"ArrowSpeed": {
+			"ArrowSpeed": { "x": 123.56, "y": 56.95, "width": 159, "height": 65 }
+		},
+		"Block0": {
+			"Block": { "x": -129.15, "y": 159.59, "width": 19, "height": 11 }
+		},
+		"Block1": {
+			"Block": { "x": -107.04, "y": 159.59, "width": 19, "height": 11 }
+		},
+		"Block10": {
+			"Block": { "x": -129.18, "y": 78.26, "width": 19, "height": 11 }
+		},
+		"Block11": {
+			"Block": { "x": -106.93, "y": 78.26, "width": 19, "height": 11 }
+		},
+		"Block12": {
+			"Block": { "x": -85.83, "y": 78.26, "width": 19, "height": 11 }
+		},
+		"Block13": {
+			"Block": { "x": -65.02, "y": 78.26, "width": 19, "height": 11 }
+		},
+		"Block14": {
+			"Block": { "x": -43.93, "y": 78.26, "width": 19, "height": 11 }
+		},
+		"Block15": {
+			"Block": { "x": -128.89, "y": 38.09, "width": 19, "height": 11 }
+		},
+		"Block16": {
+			"Block": { "x": -106.93, "y": 38.09, "width": 19, "height": 11 }
+		},
+		"Block17": {
+			"Block": { "x": -85.83, "y": 38.09, "width": 19, "height": 11 }
+		},
+		"Block18": {
+			"Block": { "x": -65.02, "y": 38.09, "width": 19, "height": 11 }
+		},
+		"Block19": {
+			"Block": { "x": -44.22, "y": 38.09, "width": 19, "height": 11 }
+		},
+		"Block2": {
+			"Block": { "x": -86.39, "y": 159.59, "width": 19, "height": 11 }
+		},
+		"Block20": {
+			"Block": { "x": -129.39, "y": -2.32, "width": 19, "height": 11 }
+		},
+		"Block21": {
+			"Block": { "x": -107.24, "y": -2.32, "width": 19, "height": 11 }
+		},
+		"Block22": {
+			"Block": { "x": -86.02, "y": -2.32, "width": 19, "height": 11 }
+		},
+		"Block23": {
+			"Block": { "x": -65.12, "y": -2.32, "width": 19, "height": 11 }
+		},
+		"Block24": {
+			"Block": { "x": -44.53, "y": -2.32, "width": 19, "height": 11 }
+		},
+		"Block25": {
+			"Block": { "x": -129.26, "y": -41.71, "width": 19, "height": 11 }
+		},
+		"Block26": {
+			"Block": { "x": -107.04, "y": -41.93, "width": 19, "height": 11 }
+		},
+		"Block27": {
+			"Block": { "x": -86.21, "y": -41.93, "width": 19, "height": 11 }
+		},
+		"Block28": {
+			"Block": { "x": -65.14, "y": -41.93, "width": 19, "height": 11 }
+		},
+		"Block29": {
+			"Block": { "x": -44.3, "y": -41.93, "width": 19, "height": 11 }
+		},
+		"Block3": {
+			"Block": { "x": -65.12, "y": 159.59, "width": 19, "height": 11 }
+		},
+		"Block30": {
+			"Block": { "x": -129.02, "y": -82.5, "width": 19, "height": 11 }
+		},
+		"Block31": {
+			"Block": { "x": -107.12, "y": -82.5, "width": 19, "height": 11 }
+		},
+		"Block32": {
+			"Block": { "x": -85.94, "y": -82.5, "width": 19, "height": 11 }
+		},
+		"Block33": {
+			"Block": { "x": -65.12, "y": -82.5, "width": 19, "height": 11 }
+		},
+		"Block34": {
+			"Block": { "x": -44.3, "y": -82.5, "width": 19, "height": 11 }
+		},
+		"Block35": {
+			"Block": { "x": -129.02, "y": -122.35, "width": 19, "height": 11 }
+		},
+		"Block36": {
+			"Block": { "x": -107.12, "y": -122.35, "width": 19, "height": 11 }
+		},
+		"Block37": {
+			"Block": { "x": -85.94, "y": -122.35, "width": 19, "height": 11 }
+		},
+		"Block38": {
+			"Block": { "x": -65.12, "y": -122.35, "width": 19, "height": 11 }
+		},
+		"Block39": {
+			"Block": { "x": -44.3, "y": -122.35, "width": 19, "height": 11 }
+		},
+		"Block4": {
+			"Block": { "x": -44.3, "y": 159.62, "width": 19, "height": 11 }
+		},
+		"Block40": {
+			"Block": { "x": -129.02, "y": -162.56, "width": 19, "height": 11 }
+		},
+		"Block41": {
+			"Block": { "x": -107.12, "y": -162.56, "width": 19, "height": 11 }
+		},
+		"Block42": {
+			"Block": { "x": -85.94, "y": -162.56, "width": 19, "height": 11 }
+		},
+		"Block43": {
+			"Block": { "x": -65.12, "y": -162.56, "width": 19, "height": 11 }
+		},
+		"Block44": {
+			"Block": { "x": -44.3, "y": -162.56, "width": 19, "height": 11 }
+		},
+		"Block45": {
+			"Block": { "x": -129.02, "y": -203.13, "width": 19, "height": 11 }
+		},
+		"Block46": {
+			"Block": { "x": -106.78, "y": -203.13, "width": 19, "height": 11 }
+		},
+		"Block47": {
+			"Block": { "x": -85.76, "y": -203.13, "width": 19, "height": 11 }
+		},
+		"Block48": {
+			"Block": { "x": -64.75, "y": -203.13, "width": 19, "height": 11 }
+		},
+		"Block49": {
+			"Block": { "x": -43.74, "y": -203.13, "width": 19, "height": 11 }
+		},
+		"Block5": {
+			"Block": { "x": -129.27, "y": 118.57, "width": 19, "height": 11 }
+		},
+		"Block6": {
+			"Block": { "x": -107.06, "y": 118.57, "width": 19, "height": 11 }
+		},
+		"Block7": {
+			"Block": { "x": -86.17, "y": 118.57, "width": 19, "height": 11 }
+		},
+		"Block8": {
+			"Block": { "x": -65.11, "y": 118.57, "width": 19, "height": 11 }
+		},
+		"Block9": {
+			"Block": { "x": -44.22, "y": 118.57, "width": 19, "height": 11 }
+		},
+		"Coin": {
+			"Coin": { "x": 152.3, "y": 164.9, "width": 269, "height": 41 }
+		},
+		"DizzyDistance": {
+			"DizzyDistance": { "x": 148.37, "y": 17, "width": 242, "height": 145 }
+		},
+		"DizzyTime": {
+			"DizzyTime": { "x": 148.37, "y": 57.14, "width": 229, "height": 65 }
+		},
+		"Energy": {
+			"Energy": { "x": 146.1, "y": 17.28, "width": 229, "height": 145 }
+		},
+		"EnergyRecovery": {
+			"EnergyRecovery": { "x": 148.4, "y": 36.7, "width": 241, "height": 105 }
+		},
+		"HP": {
+			"HP": { "x": 139.34, "y": 56.03, "width": 187, "height": 65 }
+		},
+		"LevelUp": {
+			"LevelUp": { "width": 218, "height": 64 }
+		},
+		"LevelUpGrey": {
+			"LevelUpGrey": { "width": 218, "height": 64 }
+		},
+		"Progress": {
+			"Progress": { "x": 105.18, "y": -3.27, "width": 104, "height": 373 }
+		},
+		"ProgressWords": {
+			"ProgressWords": { "x": -32.06, "y": 0.89, "width": 83, "height": 379 }
+		},
+		"PropertyLeft": {
+			"PropertyLeft": { "x": 0.04, "width": 341, "height": 419 }
+		},
+		"Select": {
+			"Select": { "name": "Select2", "scaleX": 1.13, "width": 235, "height": 38 }
+		},
+		"ShowBG": {
+			"ShowBG": { "name": "PropertyBG", "x": 151.3, "y": -14.64, "width": 267, "height": 261 }
+		},
+		"Speed": {
+			"Speed": { "x": 136.93, "y": 55.9, "width": 187, "height": 65 }
+		},
+		"StonePower": {
+			"StonePower": { "x": 145.83, "y": 16.77, "width": 229, "height": 145 }
+		},
+		"WoodTime": {
+			"WoodTime": { "x": 147.87, "y": -4.15, "width": 243, "height": 186 }
+		}
+	},
+	"Weapon": {
+		"Buy": {
+			"Buy": { "name": "Buy20", "width": 218, "height": 64 }
+		},
+		"Coin": {
+			"Coin": { "x": 152.3, "y": 164.9, "width": 269, "height": 41 }
+		},
+		"Copper": {
+			"Copper": { "name": "CopperBig", "x": 152.77, "y": -10.91, "width": 228, "height": 213 }
+		},
+		"CopperIcon": {
+			"CopperIcon": { "name": "Copper", "y": 0.43, "width": 64, "height": 64 }
+		},
+		"CopperLock": {
+			"CopperLock": {
+				"name": "Lock",
+				"x": -71.1,
+				"y": 131.49,
+				"scaleX": 1.1,
+				"scaleY": 1.1,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Dragon": {
+			"Dragon": { "name": "DragonBIg", "x": 166.41, "y": -5.46, "width": 226, "height": 213 }
+		},
+		"DragonIcon": {
+			"DragonIcon": { "name": "Dragon", "width": 64, "height": 65 }
+		},
+		"DragonLock": {
+			"DragonLock": {
+				"name": "Lock",
+				"x": -249.34,
+				"y": -72.08,
+				"scaleX": 1.1,
+				"scaleY": 1.1,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Gold": {
+			"Gold": { "name": "GoldBig", "x": 160.95, "y": -5.46, "width": 232, "height": 218 }
+		},
+		"GoldIcon": {
+			"GoldIcon": { "name": "Gold", "y": 1.9, "width": 64, "height": 63 }
+		},
+		"GoldLock": {
+			"GoldLock": {
+				"name": "Lock",
+				"x": -72.08,
+				"y": 30.19,
+				"scaleX": 1.1,
+				"scaleY": 1.1,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Heart": {
+			"Heart": { "name": "HeartBig", "x": 152.77, "y": -8.18, "width": 218, "height": 213 }
+		},
+		"HeartIcon": {
+			"HeartIcon": { "name": "Heart", "width": 61, "height": 63 }
+		},
+		"HeartLock": {
+			"HeartLock": {
+				"name": "Lock",
+				"x": -72.08,
+				"y": -71.1,
+				"scaleX": 1.1,
+				"scaleY": 1.1,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Ice": {
+			"Ice": { "name": "IceBig", "x": 160.95, "y": -9.55, "width": 230, "height": 210 }
+		},
+		"IceIcon": {
+			"IceIcon": { "name": "Ice", "width": 68, "height": 66 }
+		},
+		"IceLock": {
+			"IceLock": {
+				"name": "Lock",
+				"x": -248.37,
+				"y": -171.42,
+				"scaleX": 1.1,
+				"scaleY": 1.1,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Iron": {
+			"Iron": { "name": "IronBig", "x": 156.86, "y": -8.18, "width": 226, "height": 212 }
+		},
+		"IronIcon": {
+			"IronIcon": { "name": "Iron", "y": 1.25, "width": 64, "height": 62 }
+		},
+		"IronLock": {
+			"IronLock": {
+				"name": "Lock",
+				"x": -160.71,
+				"y": 131.49,
+				"scaleX": 1.1,
+				"scaleY": 1.1,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Lightning": {
+			"Lightning": { "name": "LightningBig", "x": 141.86, "y": -32.74, "width": 231, "height": 207 }
+		},
+		"LightningIcon": {
+			"LightningIcon": { "name": "Lightning", "y": -1.66, "width": 63, "height": 61 }
+		},
+		"LightningLock": {
+			"LightningLock": {
+				"name": "Lock",
+				"x": -160.71,
+				"y": -72.08,
+				"scaleX": 1.1,
+				"scaleY": 1.1,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Select": {
+			"Select": { "name": "Select1", "width": 47, "height": 37 }
+		},
+		"ShowBG": {
+			"ShowBG": { "x": 151.3, "y": -14.64, "width": 267, "height": 261 }
+		},
+		"Silver": {
+			"Silver": { "name": "SilverBig", "x": 162.32, "y": -2.73, "width": 227, "height": 215 }
+		},
+		"SilverIcon": {
+			"SilverIcon": { "name": "Silver", "width": 65, "height": 66 }
+		},
+		"SilverLock": {
+			"SilverLock": {
+				"name": "Lock",
+				"x": -160.2,
+				"y": 31.17,
+				"scaleX": 1.1,
+				"scaleY": 1.1,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Steel": {
+			"Steel": { "name": "SteelBig", "x": 156.86, "y": -8.18, "width": 228, "height": 214 }
+		},
+		"SteelIcon": {
+			"SteelIcon": { "name": "Steel", "width": 62, "height": 62 }
+		},
+		"SteelLock": {
+			"SteelLock": {
+				"name": "Lock",
+				"x": -250.04,
+				"y": 30.82,
+				"scaleX": 1.1,
+				"scaleY": 1.1,
+				"width": 64,
+				"height": 62
+			}
+		},
+		"Use": {
+			"Use": { "width": 218, "height": 64 }
+		},
+		"UseGrey": {
+			"UseGrey": { "width": 218, "height": 64 }
+		},
+		"WeaponLeft": {
+			"WeaponLeft": { "width": 341, "height": 419 }
+		},
+		"Wood": {
+			"Wood": { "name": "WoodBig", "x": 158.22, "y": -6.82, "width": 223, "height": 215 }
+		},
+		"WoodIcon": {
+			"WoodIcon": { "name": "Wood", "x": 3.59, "y": 3.95, "width": 61, "height": 63 }
+		},
+		"WoodLock": {
+			"WoodLock": {
+				"name": "Lock",
+				"x": -249.7,
+				"y": 131.57,
+				"scaleX": 1.1,
+				"scaleY": 1.1,
+				"width": 64,
+				"height": 62
+			}
+		}
+	}
+},
+"animations": {
+	"animation": {}
+}
+}

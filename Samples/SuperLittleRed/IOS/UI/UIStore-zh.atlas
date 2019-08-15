@@ -1,0 +1,461 @@
+
+UIStore-zh.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Armour
+  rotate: false
+  xy: 485, 250
+  size: 118, 198
+  orig: 118, 198
+  offset: 0, 0
+  index: -1
+ArmourIcon
+  rotate: false
+  xy: 642, 735
+  size: 76, 65
+  orig: 76, 65
+  offset: 0, 0
+  index: -1
+ArrowPower
+  rotate: false
+  xy: 1266, 1721
+  size: 242, 105
+  orig: 242, 105
+  offset: 0, 0
+  index: -1
+ArrowSpeed
+  rotate: false
+  xy: 1705, 1567
+  size: 159, 65
+  orig: 159, 65
+  offset: 0, 0
+  index: -1
+BG
+  rotate: false
+  xy: 2, 1506
+  size: 650, 540
+  orig: 650, 540
+  offset: 0, 0
+  index: -1
+Block
+  rotate: false
+  xy: 614, 1253
+  size: 19, 11
+  orig: 19, 11
+  offset: 0, 0
+  index: -1
+Bunny
+  rotate: false
+  xy: 124, 29
+  size: 120, 204
+  orig: 120, 204
+  offset: 0, 0
+  index: -1
+BunnyIcon
+  rotate: false
+  xy: 898, 1556
+  size: 80, 69
+  orig: 80, 69
+  offset: 0, 0
+  index: -1
+Buy20
+  rotate: false
+  xy: 1510, 1766
+  size: 218, 64
+  orig: 218, 64
+  offset: 0, 0
+  index: -1
+Buy30
+  rotate: false
+  xy: 1730, 1767
+  size: 218, 64
+  orig: 218, 64
+  offset: 0, 0
+  index: -1
+Close
+  rotate: false
+  xy: 614, 1488
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+Coin
+  rotate: false
+  xy: 340, 207
+  size: 269, 41
+  orig: 269, 41
+  offset: 0, 0
+  index: -1
+Copper
+  rotate: false
+  xy: 891, 1004
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+CopperBig
+  rotate: false
+  xy: 1730, 1833
+  size: 228, 213
+  orig: 228, 213
+  offset: 0, 0
+  index: -1
+DizzyDistance
+  rotate: false
+  xy: 654, 1480
+  size: 242, 145
+  orig: 242, 145
+  offset: 0, 0
+  index: -1
+DizzyTime
+  rotate: false
+  xy: 337, 450
+  size: 229, 65
+  orig: 229, 65
+  offset: 0, 0
+  index: -1
+Dragon
+  rotate: false
+  xy: 787, 735
+  size: 64, 65
+  orig: 64, 65
+  offset: 0, 0
+  index: -1
+DragonBIg
+  rotate: false
+  xy: 430, 811
+  size: 226, 213
+  orig: 226, 213
+  offset: 0, 0
+  index: -1
+DressLeft
+  rotate: false
+  xy: 2, 1085
+  size: 341, 419
+  orig: 341, 419
+  offset: 0, 0
+  index: -1
+DressTabBtn
+  rotate: false
+  xy: 576, 695
+  size: 64, 114
+  orig: 64, 114
+  offset: 0, 0
+  index: -1
+Egypt
+  rotate: false
+  xy: 2, 2
+  size: 120, 203
+  orig: 120, 203
+  offset: 0, 0
+  index: -1
+EgyptIcon
+  rotate: false
+  xy: 1960, 1836
+  size: 67, 72
+  orig: 67, 72
+  offset: 0, 0
+  index: -1
+Energy
+  rotate: false
+  xy: 345, 664
+  size: 229, 145
+  orig: 229, 145
+  offset: 0, 0
+  index: -1
+EnergyRecovery
+  rotate: false
+  xy: 1242, 1614
+  size: 241, 105
+  orig: 241, 105
+  offset: 0, 0
+  index: -1
+Gold
+  rotate: false
+  xy: 891, 939
+  size: 64, 63
+  orig: 64, 63
+  offset: 0, 0
+  index: -1
+GoldBig
+  rotate: false
+  xy: 1266, 1828
+  size: 232, 218
+  orig: 232, 218
+  offset: 0, 0
+  index: -1
+HP
+  rotate: false
+  xy: 1242, 1547
+  size: 187, 65
+  orig: 187, 65
+  offset: 0, 0
+  index: -1
+Heart
+  rotate: false
+  xy: 853, 737
+  size: 61, 63
+  orig: 61, 63
+  offset: 0, 0
+  index: -1
+HeartBig
+  rotate: false
+  xy: 655, 1051
+  size: 218, 213
+  orig: 218, 213
+  offset: 0, 0
+  index: -1
+Ice
+  rotate: false
+  xy: 246, 46
+  size: 68, 66
+  orig: 68, 66
+  offset: 0, 0
+  index: -1
+IceBig
+  rotate: false
+  xy: 108, 235
+  size: 230, 210
+  orig: 230, 210
+  offset: 0, 0
+  index: -1
+Iron
+  rotate: false
+  xy: 891, 875
+  size: 64, 62
+  orig: 64, 62
+  offset: 0, 0
+  index: -1
+IronBig
+  rotate: false
+  xy: 614, 1266
+  size: 226, 212
+  orig: 226, 212
+  offset: 0, 0
+  index: -1
+LevelUp
+  rotate: false
+  xy: 1510, 1700
+  size: 218, 64
+  orig: 218, 64
+  offset: 0, 0
+  index: -1
+LevelUpGrey
+  rotate: false
+  xy: 1730, 1701
+  size: 218, 64
+  orig: 218, 64
+  offset: 0, 0
+  index: -1
+Lightning
+  rotate: false
+  xy: 708, 671
+  size: 63, 61
+  orig: 63, 61
+  offset: 0, 0
+  index: -1
+LightningBig
+  rotate: false
+  xy: 658, 842
+  size: 231, 207
+  orig: 231, 207
+  offset: 0, 0
+  index: -1
+Lock
+  rotate: false
+  xy: 642, 671
+  size: 64, 62
+  orig: 64, 62
+  offset: 0, 0
+  index: -1
+Luffy
+  rotate: false
+  xy: 340, 250
+  size: 143, 198
+  orig: 143, 198
+  offset: 0, 0
+  index: -1
+LuffyIcon
+  rotate: false
+  xy: 898, 1486
+  size: 78, 68
+  orig: 78, 68
+  offset: 0, 0
+  index: -1
+Progress
+  rotate: false
+  xy: 2, 289
+  size: 104, 373
+  orig: 104, 373
+  offset: 0, 0
+  index: -1
+ProgressWords
+  rotate: false
+  xy: 345, 862
+  size: 83, 379
+  orig: 83, 379
+  offset: 0, 0
+  index: -1
+PropertyBG
+  rotate: false
+  xy: 345, 1243
+  size: 267, 261
+  orig: 267, 261
+  offset: 0, 0
+  index: -1
+PropertyLeft
+  rotate: false
+  xy: 654, 1627
+  size: 341, 419
+  orig: 341, 419
+  offset: 0, 0
+  index: -1
+PropertyTabBtn
+  rotate: false
+  xy: 1960, 1910
+  size: 63, 136
+  orig: 63, 136
+  offset: 0, 0
+  index: -1
+RedGirl
+  rotate: false
+  xy: 842, 1285
+  size: 118, 193
+  orig: 118, 193
+  offset: 0, 0
+  index: -1
+RedGirlIcon
+  rotate: false
+  xy: 1866, 1567
+  size: 58, 65
+  orig: 58, 65
+  offset: 0, 0
+  index: -1
+Select1
+  rotate: false
+  xy: 345, 823
+  size: 47, 37
+  orig: 47, 37
+  offset: 0, 0
+  index: -1
+Select2
+  rotate: false
+  xy: 658, 802
+  size: 235, 38
+  orig: 235, 38
+  offset: 0, 0
+  index: -1
+ShowBG
+  rotate: false
+  xy: 997, 1785
+  size: 267, 261
+  orig: 267, 261
+  offset: 0, 0
+  index: -1
+Silver
+  rotate: false
+  xy: 720, 734
+  size: 65, 66
+  orig: 65, 66
+  offset: 0, 0
+  index: -1
+SilverBig
+  rotate: false
+  xy: 108, 447
+  size: 227, 215
+  orig: 227, 215
+  offset: 0, 0
+  index: -1
+Speed
+  rotate: false
+  xy: 1730, 1634
+  size: 187, 65
+  orig: 187, 65
+  offset: 0, 0
+  index: -1
+Steel
+  rotate: false
+  xy: 311, 143
+  size: 62, 62
+  orig: 62, 62
+  offset: 0, 0
+  index: -1
+SteelBig
+  rotate: false
+  xy: 1500, 1832
+  size: 228, 214
+  orig: 228, 214
+  offset: 0, 0
+  index: -1
+StonePower
+  rotate: false
+  xy: 337, 517
+  size: 229, 145
+  orig: 229, 145
+  offset: 0, 0
+  index: -1
+Swan
+  rotate: false
+  xy: 875, 1070
+  size: 106, 213
+  orig: 106, 213
+  offset: 0, 0
+  index: -1
+SwanIcon
+  rotate: false
+  xy: 2, 211
+  size: 75, 76
+  orig: 75, 76
+  offset: 0, 0
+  index: -1
+Use
+  rotate: false
+  xy: 1485, 1634
+  size: 218, 64
+  orig: 218, 64
+  offset: 0, 0
+  index: -1
+UseGrey
+  rotate: false
+  xy: 1485, 1568
+  size: 218, 64
+  orig: 218, 64
+  offset: 0, 0
+  index: -1
+WeaponLeft
+  rotate: false
+  xy: 2, 664
+  size: 341, 419
+  orig: 341, 419
+  offset: 0, 0
+  index: -1
+WeaponTabBtn
+  rotate: false
+  xy: 246, 114
+  size: 63, 119
+  orig: 63, 119
+  offset: 0, 0
+  index: -1
+Wood
+  rotate: false
+  xy: 375, 142
+  size: 61, 63
+  orig: 61, 63
+  offset: 0, 0
+  index: -1
+WoodBig
+  rotate: false
+  xy: 430, 1026
+  size: 223, 215
+  orig: 223, 215
+  offset: 0, 0
+  index: -1
+WoodTime
+  rotate: false
+  xy: 997, 1597
+  size: 243, 186
+  orig: 243, 186
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,41 @@
+
+UIMenu-zh.png
+size: 512,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BG
+  rotate: false
+  xy: 2, 109
+  size: 353, 536
+  orig: 353, 536
+  offset: 0, 0
+  index: -1
+Record
+  rotate: false
+  xy: 2, 55
+  size: 145, 52
+  orig: 145, 52
+  offset: 0, 0
+  index: -1
+Shop
+  rotate: false
+  xy: 2, 2
+  size: 145, 51
+  orig: 145, 51
+  offset: 0, 0
+  index: -1
+Start
+  rotate: false
+  xy: 357, 593
+  size: 145, 52
+  orig: 145, 52
+  offset: 0, 0
+  index: -1
+Tutorial
+  rotate: false
+  xy: 149, 56
+  size: 145, 51
+  orig: 145, 51
+  offset: 0, 0
+  index: -1

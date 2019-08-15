@@ -1,0 +1,37 @@
+{
+"skeleton": { "hash": "I3VFIORr7f5+lbux93yYpZqB8/M", "spine": "3.7.91", "width": 666, "height": 540 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "Close", "parent": "root", "x": 166.06, "y": 197.27 },
+	{ "name": "MaxKill", "parent": "root", "y": 47.75 },
+	{ "name": "MaxRound", "parent": "root", "y": -36.94 },
+	{ "name": "MaxRoundTime", "parent": "root", "y": -119.83 },
+	{ "name": "MaxScore", "parent": "root", "y": 132.45 },
+	{ "name": "PlayGameTime", "parent": "root", "y": -202.73 }
+],
+"slots": [
+	{ "name": "BG", "bone": "root", "attachment": "Record" },
+	{ "name": "Close", "bone": "Close", "attachment": "Close" },
+	{ "name": "CloseBox", "bone": "Close", "attachment": "CloseBox" }
+],
+"skins": {
+	"default": {
+		"BG": {
+			"Record": { "x": 30.72, "width": 666, "height": 540 }
+		},
+		"Close": {
+			"Close": { "width": 16, "height": 16 }
+		},
+		"CloseBox": {
+			"CloseBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -23.67, 24.24, 31.3, 25.14, 31.3, -23.51, -22.76, -24.42 ]
+			}
+		}
+	}
+},
+"animations": {
+	"animation": {}
+}
+}
