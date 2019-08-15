@@ -1,0 +1,32 @@
+{
+"skeleton": { "hash": "lqozmvch6CXXlsW1vGF0hAmfY/I", "spine": "3.7.91", "width": 826, "height": 540 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "Close", "parent": "root", "x": 313.85, "y": 188.19 }
+],
+"slots": [
+	{ "name": "Tutorial", "bone": "root", "attachment": "Tutorial" },
+	{ "name": "CloseBox", "bone": "Close", "attachment": "CloseBox" },
+	{ "name": "Close", "bone": "Close", "attachment": "Close" }
+],
+"skins": {
+	"default": {
+		"Close": {
+			"Close": { "x": 0.16, "y": 0.74, "scaleX": 1.1, "scaleY": 1.1, "width": 16, "height": 16 }
+		},
+		"CloseBox": {
+			"CloseBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -35.15, 28.66, 44.85, 29.66, 45.85, -25.34, -36.15, -25.34 ]
+			}
+		},
+		"Tutorial": {
+			"Tutorial": { "width": 826, "height": 540 }
+		}
+	}
+},
+"animations": {
+	"animation": {}
+}
+}

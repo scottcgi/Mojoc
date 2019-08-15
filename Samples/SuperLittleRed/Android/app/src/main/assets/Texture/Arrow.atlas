@@ -1,0 +1,76 @@
+
+Arrow.png
+size: 128,32
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Copper
+  rotate: false
+  xy: 78, 20
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+Dragon
+  rotate: false
+  xy: 49, 22
+  size: 14, 8
+  orig: 14, 8
+  offset: 0, 0
+  index: -1
+Gold
+  rotate: false
+  xy: 2, 2
+  size: 14, 12
+  orig: 14, 12
+  offset: 0, 0
+  index: -1
+Heart
+  rotate: false
+  xy: 18, 18
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+Ice
+  rotate: false
+  xy: 32, 21
+  size: 15, 9
+  orig: 15, 9
+  offset: 0, 0
+  index: -1
+Iron
+  rotate: false
+  xy: 65, 20
+  size: 11, 10
+  orig: 11, 10
+  offset: 0, 0
+  index: -1
+Lightning
+  rotate: false
+  xy: 103, 21
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+Silver
+  rotate: false
+  xy: 2, 16
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+Steel
+  rotate: false
+  xy: 18, 5
+  size: 11, 11
+  orig: 11, 11
+  offset: 0, 0
+  index: -1
+Wood
+  rotate: false
+  xy: 90, 21
+  size: 11, 9
+  orig: 11, 9
+  offset: 0, 0
+  index: -1

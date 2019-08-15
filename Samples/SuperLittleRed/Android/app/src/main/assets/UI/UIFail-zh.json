@@ -1,15 +1,15 @@
 {
-"skeleton": { "hash": "V/6rfzALCxBO0FSMmaMtecPEAjw", "spine": "3.7.91", "width": 507, "height": 500 },
+"skeleton": { "hash": "i/hE4jAT5Zfvq0i4nbaMD3o0mAc", "spine": "3.7.91", "width": 507, "height": 500 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Fail", "parent": "root" },
 	{ "name": "Again", "parent": "Fail", "y": -147.89 },
-	{ "name": "Hit", "parent": "Fail", "x": -82.29, "y": -30.95 },
-	{ "name": "Kill", "parent": "Fail", "x": 74.96, "y": 34.35 },
+	{ "name": "Hit", "parent": "Fail", "x": -79.72, "y": -28.71 },
+	{ "name": "Kill", "parent": "Fail", "x": 60.89, "y": 38.24 },
 	{ "name": "Menu", "parent": "Fail", "x": -130.1, "y": -147.9 },
-	{ "name": "Score", "parent": "Fail", "x": -82.29, "y": 34.35 },
+	{ "name": "Score", "parent": "Fail", "x": -79.72, "y": 38.24 },
 	{ "name": "Store", "parent": "Fail", "x": 129.17, "y": -151.64 },
-	{ "name": "Time", "parent": "Fail", "x": 74.96, "y": -30.95 }
+	{ "name": "Time", "parent": "Fail", "x": 58.51, "y": -28.71 }
 ],
 "slots": [
 	{ "name": "FailBG", "bone": "Fail", "attachment": "FailBG" },
@@ -23,7 +23,7 @@
 "skins": {
 	"default": {
 		"Again": {
-			"Again": { "width": 96, "height": 98 }
+			"Again": { "width": 102, "height": 102 }
 		},
 		"AgainBox": {
 			"AgainBox": {
@@ -33,10 +33,10 @@
 			}
 		},
 		"FailBG": {
-			"FailBG": { "x": 0.73, "width": 507, "height": 500 }
+			"FailBG": { "width": 507, "height": 500 }
 		},
 		"Menu": {
-			"Menu": { "width": 96, "height": 98 }
+			"Menu": { "width": 102, "height": 102 }
 		},
 		"MenuBox": {
 			"MenuBox": {
@@ -46,7 +46,7 @@
 			}
 		},
 		"Store": {
-			"Store": { "y": 3.71, "width": 99, "height": 102 }
+			"Store": { "y": 3.71, "width": 101, "height": 103 }
 		},
 		"StoreBox": {
 			"StoreBox": {

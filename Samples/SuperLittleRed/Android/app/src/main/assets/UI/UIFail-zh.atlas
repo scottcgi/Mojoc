@@ -1,0 +1,34 @@
+
+UIFail-zh.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Again
+  rotate: false
+  xy: 511, 400
+  size: 102, 102
+  orig: 102, 102
+  offset: 0, 0
+  index: -1
+FailBG
+  rotate: false
+  xy: 2, 2
+  size: 507, 500
+  orig: 507, 500
+  offset: 0, 0
+  index: -1
+Menu
+  rotate: false
+  xy: 511, 296
+  size: 102, 102
+  orig: 102, 102
+  offset: 0, 0
+  index: -1
+Store
+  rotate: false
+  xy: 615, 399
+  size: 101, 103
+  orig: 101, 103
+  offset: 0, 0
+  index: -1

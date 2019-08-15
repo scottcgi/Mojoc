@@ -1,33 +1,44 @@
 {
-"skeleton": { "hash": "l+nsxVDB46mSca3texGmvadTLtA", "spine": "3.6.04-beta", "width": 1086.51, "height": 660.18 },
+"skeleton": { "hash": "B17rqM4AuFYMgBowFbHM5Vd+VjM", "spine": "3.7.91", "width": 1079, "height": 716.59 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Right", "parent": "root", "x": 520.07, "y": 1.76 },
-	{ "name": "Coin", "parent": "Right", "x": 1.82, "y": 161.12 },
+	{ "name": "Coin", "parent": "Right", "x": 0.93, "y": 156.24 },
 	{ "name": "DownUp", "parent": "root" },
 	{ "name": "Down", "parent": "DownUp" },
 	{ "name": "Energy", "parent": "root", "x": -512, "y": 114 },
 	{ "name": "EnergyLength", "parent": "Energy", "x": 2.45, "y": -52.68 },
-	{ "name": "Heart", "parent": "Right", "x": 1.82, "y": 206.54 },
-	{ "name": "Kill", "parent": "Right", "x": 1.83, "y": 118.82 },
+	{ "name": "Heart", "parent": "Right", "x": 0.93, "y": 206.24 },
+	{ "name": "Kill", "parent": "Right", "x": 0.93, "y": 106.24 },
 	{ "name": "ScorePos", "parent": "root", "x": -467.45, "y": 240 },
-	{ "name": "Stone", "parent": "Right", "x": -1.06, "y": 67 },
+	{ "name": "Stone", "parent": "Right", "x": 0.93, "y": 56.24 },
 	{ "name": "Tombstone", "parent": "root", "y": 315 },
 	{ "name": "Up", "parent": "DownUp" },
-	{ "name": "Wood", "parent": "Right", "x": -1.06, "y": 16.41 }
+	{ "name": "Wood", "parent": "Right", "x": 0.93, "y": 6.24 },
+	{ "name": "DownBtn", "parent": "root", "y": -60.58 },
+	{ "name": "StoneRight", "parent": "DownBtn", "x": 265.2, "y": -268.5 },
+	{ "name": "WoodRight", "parent": "DownBtn", "x": 348.23, "y": -276.33 },
+	{ "name": "StoneLeft", "parent": "DownBtn", "x": -261.81, "y": -280.23 },
+	{ "name": "WoodLeft", "parent": "DownBtn", "x": -335.51, "y": -273.2 }
 ],
 "slots": [
+	{ "name": "StoneRight", "bone": "StoneRight", "attachment": "Stone" },
+	{ "name": "StoneLeft", "bone": "StoneLeft", "attachment": "Stone" },
+	{ "name": "Wood", "bone": "Wood", "attachment": "Wood2" },
+	{ "name": "WoodRight", "bone": "WoodRight", "attachment": "Wood" },
+	{ "name": "WoodLeft", "bone": "WoodLeft", "attachment": "Wood" },
 	{ "name": "EnergySlot", "bone": "Energy", "attachment": "EnergySlot" },
 	{ "name": "EnergyLength", "bone": "EnergyLength", "attachment": "EnergyLength" },
 	{ "name": "Tombstone", "bone": "Tombstone", "attachment": "Tombstone" },
 	{ "name": "down", "bone": "Down", "attachment": "down" },
 	{ "name": "Up", "bone": "Up", "attachment": "up" },
+	{ "name": "StoneBoxRight", "bone": "StoneRight", "attachment": "StoneBox" },
+	{ "name": "StoneBoxLeft", "bone": "StoneLeft", "attachment": "StoneBox" },
+	{ "name": "WoodBoxRight", "bone": "WoodRight", "attachment": "WoodBox" },
+	{ "name": "WoodBoxLeft", "bone": "WoodLeft", "attachment": "WoodBox" },
 	{ "name": "Coin", "bone": "Coin", "attachment": "Coin" },
-	{ "name": "Stone", "bone": "Stone", "attachment": "Stone" },
-	{ "name": "Wood", "bone": "Wood", "attachment": "Wood" },
+	{ "name": "Stone", "bone": "Stone", "attachment": "Stone2" },
 	{ "name": "Heart", "bone": "Heart", "attachment": "Heart" },
-	{ "name": "StoneBox", "bone": "Stone", "attachment": "StoneBox" },
-	{ "name": "WoodBox", "bone": "Wood", "attachment": "WoodBox" },
 	{ "name": "Kill", "bone": "Kill", "attachment": "Kill" },
 	{ "name": "Pointer", "bone": "EnergyLength", "attachment": "Pointer" }
 ],
@@ -52,14 +63,27 @@
 			"Pointer": { "x": 8, "y": 60.38, "width": 17, "height": 15 }
 		},
 		"Stone": {
-			"Stone": { "width": 43, "height": 42 }
+			"Stone2": { "x": 0.5, "y": 0.5, "scaleX": 0.806, "scaleY": 0.806, "width": 35, "height": 33 }
 		},
-		"StoneBox": {
+		"StoneBoxLeft": {
 			"StoneBox": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ -31, 21.6, 35.2, 19.65, 33.26, -22.27, -30.69, -20.73 ]
 			}
+		},
+		"StoneBoxRight": {
+			"StoneBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -31, 21.6, 35.2, 19.65, 33.26, -22.27, -30.69, -20.73 ]
+			}
+		},
+		"StoneLeft": {
+			"Stone": { "width": 43, "height": 42 }
+		},
+		"StoneRight": {
+			"Stone": { "width": 43, "height": 42 }
 		},
 		"Tombstone": {
 			"Tombstone": { "width": 60, "height": 72 }
@@ -68,14 +92,27 @@
 			"up": { "y": 283.99, "width": 960, "height": 30 }
 		},
 		"Wood": {
-			"Wood": { "width": 51, "height": 45 }
+			"Wood2": { "y": 0.5, "scaleX": 0.8, "scaleY": 0.8, "width": 40, "height": 33 }
 		},
-		"WoodBox": {
+		"WoodBoxLeft": {
 			"WoodBox": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ -30.88, 19.58, 37.03, 20.2, 34.37, -21.43, -31.91, -20.4 ]
 			}
+		},
+		"WoodBoxRight": {
+			"WoodBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -30.88, 18.8, 37.03, 19.42, 34.37, -22.2, -31.91, -21.18 ]
+			}
+		},
+		"WoodLeft": {
+			"Wood": { "y": -3.02, "rotation": -16.43, "width": 51, "height": 45 }
+		},
+		"WoodRight": {
+			"Wood": { "rotation": -5.03, "width": 51, "height": 45 }
 		},
 		"down": {
 			"down": { "y": -288.68, "width": 960, "height": 41 }
@@ -117,6 +154,17 @@
 						"curve": [ 0.207, 0.29, 0.302, 1.71 ]
 					},
 					{ "time": 0.6667, "x": -64.09, "y": 0 }
+				]
+			},
+			"DownBtn": {
+				"translate": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": -71.62,
+						"curve": [ 0.186, 0.69, 0.143, 1.09 ]
+					},
+					{ "time": 1, "x": 0, "y": 97.69 }
 				]
 			}
 		}
