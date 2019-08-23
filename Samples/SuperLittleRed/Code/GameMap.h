@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2017-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
+ *
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
  * Since    : 2015-9-16
+ * Update   : 2019-2-16
  * Author   : scott.cgi
  */
+
 
 #ifndef GAME_MAP_H
 #define GAME_MAP_H
@@ -19,6 +26,7 @@ struct AGameMap
 {
     Component                component[1];
     SkeletonAnimationPlayer* mapPlayer;
+    int                      mapIndex;
 
     float                    scaleX;
     float                    scaleY;
@@ -36,9 +44,9 @@ struct AGameMap
     Drawable*                beforeDrawable;
     Drawable*                skyDrawable;
 
-    void (*Init)     ();
-    void (*Run)      ();
-    void (*RandomMap)();
+    void (*Init)     (void);
+    void (*Run)      (void);
+    void (*RandomMap)(void);
 };
 
 

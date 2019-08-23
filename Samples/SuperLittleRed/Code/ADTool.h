@@ -8,35 +8,38 @@
  * GitHub   : https://github.com/scottcgi/Mojoc
  * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
- * Since    : 2015-4-27
- * Update   : 2019-2-16
+ * Since    : 2017-2-25
+ * Update   : 2019-7-31
  * Author   : scott.cgi
  */
 
 
-#ifndef ENEMY_AI_H
-#define ENEMY_AI_H
+#ifndef AD_TOOL_H
+#define AD_TOOL_H
 
 
-#include "Enemy.h"
-
-
-struct AEnemyAI
+/**
+ * The advertisement type.
+ */
+typedef enum
 {
-    int               currentEnemyNum;
-    ArrayList(Enemy*) enemyDeadList[1];
-    bool              isInit;
-    bool              isHasBoss;
+    ADType_Banner,
+    ADType_Interstitial,
+}
+ADType;
 
-    void (*Init)       (void);
-    void (*Run)        (void);
-    void (*CreateCache)(int kind);
-    void (*SetAllEnemy)(int enemyStateID, float enemyMoveDis);
-    void (*Restart)    (void);
+
+/**
+ * Control and manage AD.
+ */
+struct AADTool
+{
+    void (*Show)(ADType type);
+    void (*Hide)(ADType type);
 };
 
 
-extern struct AEnemyAI AEnemyAI[1];
+extern struct AADTool AADTool[1];
 
 
 #endif

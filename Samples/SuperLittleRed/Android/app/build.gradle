@@ -2,7 +2,7 @@ apply plugin: "com.android.application"
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '28.0.3'
+    buildToolsVersion "29.0.1"
     defaultConfig {
         applicationId "com.Mojoc.Samples.SuperLittleRed"
         minSdkVersion 21
@@ -36,5 +36,4 @@ android {
 
 dependencies {
     implementation fileTree(include: ["*.jar"], dir: "libs")
-    // compile fileTree(include: ["*.jar"], dir: "libs")
 }

@@ -1,17 +1,25 @@
 /*
- * Copyright (c) 2017-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
+ *
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
  * Since    : 2016-12-2
+ * Update   : 2019-2-18
  * Author   : scott.cgi
  */
+
 
 #include <stdio.h>
 #include <string.h>
 
+#include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Utils/ArrayIntSet.h"
-#include "Engine/Toolkit/Head/UserData.h"
+#include "Engine/Toolkit/HeaderUtils/UserData.h"
 #include "Engine/Extension/Font.h"
 #include "Engine/Graphics/OpenGL/GLPrimitive.h"
 #include "Engine/Physics/PhysicsWorld.h"
@@ -21,7 +29,7 @@
 #include "Engine/Application/Application.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 #include "Engine/Extension/DrawAtlas.h"
-#include "Engine/Toolkit/Utils/Coroutine.h"
+#include "Engine/Application/Platform/Vibrator.h"
 
 #include "HUD.h"
 #include "GameMap.h"
@@ -37,55 +45,42 @@
 static ArrayList  (DropCollisionItem*) collisionItemList[1] = AArrayList_Init  (DropCollisionItem*, 10);
 static ArrayIntSet(drawable*)          dropSet          [1] = AArrayIntSet_Init(Drawable*,          10);
 
-
 #ifdef APP_DEBUG
 static ArrayIntSet(DropCollisionItem*) collisionItemDebugDrawSet[1] = AArrayIntSet_Init(DropCollisionItem*, 10);
 #endif
 
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static bool       isCostEnergy   = false;
-static float      recoverTime    = 0.0f;
-static FontText*  roundText      = NULL;
-static FontText*  roundNumText   = NULL;
-static FontText*  timeText       = NULL;
-static DrawAtlas* drawAtlas      = NULL;
-static Scheduler* timeScheduler  = NULL;
-
-
-//----------------------------------------------------------------------------------------------------------------------
+static bool       isCostEnergy  = false;
+static float      recoverTime   = 0.0f;
+static FontText*  roundText     = NULL;
+static FontText*  roundNumText  = NULL;
+static FontText*  timeText      = NULL;
+static DrawAtlas* dropDrawAtlas = NULL;
+static Scheduler* timeScheduler = NULL;
 
 
 static void Update(Component* component, float deltaSeconds)
 {
-    ADrawAtlas_Draw(drawAtlas);
+    ADrawAtlas_Draw(dropDrawAtlas);
     ASkeletonAnimationPlayer_Update(AHUD->hudPlayer,     deltaSeconds);
     ASkeletonAnimationPlayer_Update(AHUD->curtainPlayer, deltaSeconds);
 
-
     #ifdef APP_DEBUG
-    for (int i = 0; i < collisionItemDebugDrawSet->elementList->size; i++)
+    for (int i = 0; i < collisionItemDebugDrawSet->elementList->size; ++i)
     {
         DropCollisionItem* item = AArrayList_Get(collisionItemDebugDrawSet->elementList, i, DropCollisionItem*);
 
-        if (APhysicsBody_CheckState(item->body, PhysicsBodyState_IsFreeze) == false)
+        if (item->body->state != PhysicsBodyState_Freeze)
         {
-            ADrawable->Draw
-            (
-                item->debugDrawable
-            );
+            ADrawable->Draw(item->debugDrawable);
         }
     }
     #endif
-    
 
     if (isCostEnergy == false)
     {
         if (AHero->roundEnergy < AGameData->maxEnergy)
         {
-            if (recoverTime > 1.0f)
+            if (recoverTime > heroEnergyRecoverTime)
             {
                 AHero->roundEnergy += AGameData->recoverEnergy;
 
@@ -123,7 +118,7 @@ static void Update(Component* component, float deltaSeconds)
 static void ScoreSchedulerUpdate(Scheduler* scheduler, float deltaSeconds)
 {
     char buff[10];
-    ATool->SetTimeToBuff(buff,     AHero->roundTime);
+    ATool->SetTimeToBuff(buff,     (int) AHero->roundTime);
     AFont->SetString    (timeText, buff);
 }
 
@@ -183,29 +178,18 @@ static void OnCurtainActionOver(SkeletonAnimationPlayer* player)
 }
 
 
-static void StartRunGame(Coroutine* coroutine)
-{
-    ACoroutine_Begin();
-
-    AGameMap->Run();
-
-    ACoroutine_YieldSeconds(0.2f);
-    AHUD->CloseCurtain(NULL);
-    AHero     ->Run();
-    AGameActor->Run();
-    AEnemyAI  ->Run();
-
-    ACoroutine_End();
-}
-
-
 static void OnInitActionOver(SkeletonAnimationPlayer* player)
 {
     OnCurtainActionOver(player);
     AUI->Run();
-
-    ACoroutine->StartCoroutine(StartRunGame);
+    AUI->ShowMenu();
 }
+
+
+enum
+{
+    HUD_TextCount = 5,
+};
 
 
 static void Init()
@@ -224,8 +208,6 @@ static void Init()
         ATool->globalScaleY
     );
 
-//----------------------------------------------------------------------------------------------------------------------
-
     ASkeletonAnimationPlayer->Init("UI/Curtain", "open", AHUD->curtainPlayer);
     AHUD->curtainPlayer->loop = 0;
 
@@ -236,15 +218,9 @@ static void Init()
         ATool->globalScaleY
     );
 
-//----------------------------------------------------------------------------------------------------------------------
-
     AHUD->energyLengthDrawable  = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "EnergyLength")->drawable;
     AHUD->energyDrawable        = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "Energy")      ->drawable;
     AHUD->tombstoneDrawable     = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "Tombstone")   ->drawable;
-    AHUD->upDrawable            = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "Up")          ->drawable;
-    AHUD->downDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "Down")        ->drawable;
-
-    AHUD->tombstoneBornY        = AHUD->tombstoneDrawable->positionY;
     AHUD->tombstoneHeight       = ASkeleton_GetSubMesh
                                   (
                                       AHUD->hudPlayer->skeleton,
@@ -253,43 +229,54 @@ static void Init()
                                   )
                                   ->drawable->height;
 
-    ADrawable_SetInVisible(AHUD->tombstoneDrawable);
+    AHUD->tombstoneBornY        = AHUD->tombstoneDrawable->positionY;
+    AHUD->upDrawable            = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "Up")  ->drawable;
+    AHUD->downDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "Down")->drawable;
 
-    AHUD->heartDrawable         = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,    "Heart")->drawable;
-    AHUD->coinDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,    "Coin") ->drawable;
-    AHUD->stoneDrawable         = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,    "Stone")->drawable;
-    AHUD->woodDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,    "Wood") ->drawable;
-    AHUD->killDrawable          = ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer,    "Kill") ->drawable;
+    ADrawable_SetInvisible(AHUD->tombstoneDrawable);
+
+    AHUD->heartDrawable         = ASkeletonAnimationPlayer_GetBone   (AHUD->hudPlayer, "Heart")->drawable;
+    AHUD->coinDrawable          = ASkeletonAnimationPlayer_GetBone   (AHUD->hudPlayer, "Coin") ->drawable;
+    AHUD->stoneDrawable         = ASkeletonAnimationPlayer_GetBone   (AHUD->hudPlayer, "Stone")->drawable;
+    AHUD->woodDrawable          = ASkeletonAnimationPlayer_GetBone   (AHUD->hudPlayer, "Wood") ->drawable;
+    AHUD->killDrawable          = ASkeletonAnimationPlayer_GetBone   (AHUD->hudPlayer, "Kill") ->drawable;
     AHUD->energyPointerDrawable = ASkeletonAnimationPlayer_GetSubMesh(AHUD->hudPlayer, "Pointer", "Pointer")->drawable;
 
-//----------------------------------------------------------------------------------------------------------------------
-
-    AHUD->tryAgainCount = 0;
-
     roundText = AFont->GetText(AGameActor->talkFont);
-    AFont->SetString          (roundText, "Round");
-    ADrawable_SetScaleSame2   (roundText->drawable, 1.5f);
-    ADrawable_SetPositionY    (roundText->drawable, 0.2f);
-    ADrawable_SetPositionX    (roundText->drawable, -roundText->drawable->width * 1.5f / 2);
-    ADrawable_SetOpacity      (roundText->drawable, 0.0f);
+
+    if (ATool->languageCode == LanguageCode_zh)
+    {
+        AFont->SetString(roundText, "@");
+        ADrawable_SetPositionY(roundText->drawable, 0.204f);
+    }
+    else
+    {
+        AFont->SetString(roundText, "Round");
+        ADrawable_SetPositionY(roundText->drawable, 0.2f);
+    }
+
+    const float scaleX = ATool->globalScaleX / 1.5f;
+    const float scaleY = ATool->globalScaleX / 1.5f;
+
+    ADrawable_SetScale2   (roundText->drawable, scaleX, scaleY);
+    ADrawable_SetOpacity  (roundText->drawable, 0.0f);
+    ADrawable_SetPositionX(roundText->drawable, -roundText->drawable->width * scaleX / 2);
 
     roundNumText = AFont->GetText(AGameActor->talkFont);
-    ADrawable_SetScaleSame2      (roundNumText->drawable, 1.2f);
-    ADrawable_SetPositionY       (roundNumText->drawable, 0.2018f);
-    ADrawable_SetPositionX       (roundNumText->drawable, -roundText->drawable->positionX);
-    ADrawable_SetOpacity         (roundNumText->drawable, 0.0f);
+    ADrawable_SetScale2    (roundNumText->drawable, scaleX / 1.2f, scaleY / 1.2f);
+    ADrawable_SetPositionY (roundNumText->drawable, 0.2018f);
+    ADrawable_SetPositionX (roundNumText->drawable, -roundText->drawable->positionX);
+    ADrawable_SetOpacity   (roundNumText->drawable, 0.0f);
 
     timeText = AFont->GetText(AGameActor->talkFont);
-    ADrawable_SetOpacity     (timeText->drawable, 0.0f);
+    ADrawable_SetOpacity(timeText->drawable, 0.0f);
     ADrawable_SetParent
     (
         timeText->drawable,
         ASkeletonAnimationPlayer_GetBone(AHUD->hudPlayer, "ScorePos")->drawable
     );
 
-//----------------------------------------------------------------------------------------------------------------------
-
-    Drawable* items[] =
+    Drawable* items[HUD_TextCount] =
     {
         AHUD->heartDrawable,
         AHUD->coinDrawable,
@@ -298,7 +285,7 @@ static void Init()
         AHUD->woodDrawable,
     };
 
-    FontText** textPtrs[] =
+    FontText** textPtrs[HUD_TextCount] =
     {
         &AHUD->heartText,
         &AHUD->coinText,
@@ -307,7 +294,7 @@ static void Init()
         &AHUD->woodText,
     };
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < HUD_TextCount; ++i)
     {
         FontText* text  = AFont->GetText(AGameActor->talkFont);
         text->alignment = FontTextAlignment_HorizontalRight;
@@ -317,22 +304,12 @@ static void Init()
             text->drawable,
             items[i]
         );
-
-        if (i > 2)
-        {
-            ADrawable_SetPositionX(text->drawable, -AGLTool_ToGLWidth(35));
-        }
-        else
-        {
-            ADrawable_SetPositionX(text->drawable, -AGLTool_ToGLWidth(25));
-        }
-
+        
+        ADrawable_SetPositionX(text->drawable, -AGLTool_ToGLWidth(20.0f));
         *textPtrs[i] = text;
     }
 
-//----------------------------------------------------------------------------------------------------------------------
-
-    drawAtlas = ADrawAtlas->Get("Texture/Drop.atlas");
+    dropDrawAtlas = ADrawAtlas->Get("Texture/Drop.atlas");
 }
 
 
@@ -342,13 +319,7 @@ static void CostEnergyActionComplete(TweenAction* action)
 }
 
 
-static void TalkTextTweenActionOnComplete(TweenAction* tweenAction)
-{
-    AFont->ReuseText((FontText*) tweenAction->userData->slot0->ptrValue);
-}
-
-
-static bool CostPower(float cost)
+static bool CostPower(int cost)
 {
     if (AHero->roundEnergy >= cost)
     {
@@ -376,40 +347,20 @@ static bool CostPower(float cost)
     {
         ATool->ShakeX(AHUD->energyDrawable);
 
-//----------------------------------------------------------------------------------------------------------------------
-
         FontText* text = AFont->GetText(AGameActor->talkFont);
-        ADrawable_SetParent(text->drawable, AGameMap->beforeDrawable);
 
-        AFont->SetString(text, "Power");
+        if (ATool->languageCode == LanguageCode_zh)
+        {
+            AFont->SetString(text, "!");
+            ADrawable_SetScaleSame2(text->drawable, 1.2f);
+        }
+        else
+        {
+            AFont->SetString(text, "Weak");
+        }
 
-        ADrawable_SetPosition2
-        (
-            text->drawable,
-            ADrawable->ConvertBetweenLocalX
-            (
-                AGameMap          ->groundPosDrawable,
-                AHero_GetDrawable()->positionX - text->drawable->width / 2,
-                AGameMap          ->beforeDrawable
-            ),
-            AHero_GetDrawable()->positionY + ASkeletonAnimationPlayer_GetHeight(AHero->player)
-        );
-
-        ATweenTool->AddAction      ()
-
-                  ->SetFadeTo      (0.0f)
-                  ->SetRelative    (false)
-                  ->SetEaseType    (TweenEaseType_SineOut)
-
-                  ->SetMoveY       (0.1f)
-                  ->SetEaseType    (TweenEaseType_ExponentialOut)
-
-                  ->SetDuration    (3.0f)
-                  ->SetOnComplete  (TalkTextTweenActionOnComplete)
-                  ->SetUserData0Ptr(text)
-
-                  ->RunActions     (text->drawable);
-
+        ATool->FlyTextOnHero(text, 0.1f, 4.0f);
+        
         return false;
     }
 }
@@ -421,7 +372,7 @@ static void OpenCurtain(SkeletonAnimationPlayerOnActionOver callback)
     AHUD->curtainPlayer->loop         = -1;
     AHUD->curtainPlayer->OnActionOver = OnCurtainActionOver;
 
-    AAudioTool->Play(AudioId_CurtainSlideShow);
+    AAudioTool->Play(AudioID_CurtainSlideShow);
     AAudioTool->StartUIBG();
 
     if (callback == NULL)
@@ -441,8 +392,8 @@ static void CloseCurtain(SkeletonAnimationPlayerOnActionOver callback)
     AHUD->curtainPlayer->loop         = -1;
     AHUD->curtainPlayer->OnActionOver = OnCurtainActionOver;
 
-    AAudioTool->Play(AudioId_CurtainSlideHide);
-    AAudioTool->Play(AudioId_CurtainRing);
+    AAudioTool->Play(AudioID_CurtainSlideHide);
+    AAudioTool->Play(AudioID_CurtainRing);
     AAudioTool->StartGameBG();
 
     if (callback == NULL)
@@ -454,32 +405,31 @@ static void CloseCurtain(SkeletonAnimationPlayerOnActionOver callback)
         OnCurtainCallback = callback;
     }
 
-    ADrawable_SetParent     (roundText->drawable, AGameMap->beforeDrawable);
+    ADrawable_SetParent    (roundText->drawable, AGameMap->beforeDrawable);
 
-    ATweenTool->AddFadeTo   (1.0, 2.0f)
-              ->SetEaseType (TweenEaseType_SineInOut)
-              ->SetRelative (false)
+    ATweenTool->AddFadeTo  (1.0, 2.0f)
+              ->SetEaseType(TweenEaseType_SineInOut)
+              ->SetRelative(false)
 
-              ->AddFadeTo   (0.0, 3.0f)
-              ->SetEaseType (TweenEaseType_QuinticIn)
-              ->SetRelative (false)
+              ->AddFadeTo  (0.0, 3.0f)
+              ->SetEaseType(TweenEaseType_QuinticIn)
+              ->SetRelative(false)
 
-              ->RunActions  (roundText->drawable);
+              ->RunActions (roundText->drawable);
 
-//----------------------------------------------------------------------------------------------------------------------
 
-    AFont->SetInt           (roundNumText, ++AHUD->tryAgainCount);
-    ADrawable_SetParent     (roundNumText->drawable, AGameMap->beforeDrawable);
+    AFont->SetInt          (roundNumText, ++AHero->roundCount);
+    ADrawable_SetParent    (roundNumText->drawable, AGameMap->beforeDrawable);
 
-    ATweenTool->AddFadeTo   (1.0, 2.0f)
-              ->SetEaseType (TweenEaseType_SineInOut)
-              ->SetRelative (false)
+    ATweenTool->AddFadeTo  (1.0, 2.0f)
+              ->SetEaseType(TweenEaseType_SineInOut)
+              ->SetRelative(false)
 
-              ->AddFadeTo   (0.0, 3.0f)
-              ->SetEaseType (TweenEaseType_QuinticIn)
-              ->SetRelative (false)
+              ->AddFadeTo  (0.0, 3.0f)
+              ->SetEaseType(TweenEaseType_QuinticIn)
+              ->SetRelative(false)
 
-              ->RunActions  (roundNumText->drawable);
+              ->RunActions (roundNumText->drawable);
 }
 
 
@@ -489,12 +439,15 @@ static void Run()
     AHUD->curtainPlayer->OnActionOver = OnInitActionOver;
     AHUD->curtainPlayer->loop         = -1;
 
-    AAudioTool->Play(AudioId_CurtainSlideShow);
+    AAudioTool->Play(AudioID_CurtainSlideShow);
 }
 
 
 static void Reset()
 {
+    AGameData->wood  = 0;
+    AGameData->stone = 0;
+
     AFont->SetInt(AHUD->heartText, AHero->roundHP);
     AFont->SetInt(AHUD->coinText,  AGameData->coin);
     AFont->SetInt(AHUD->woodText,  AGameData->wood);
@@ -503,6 +456,8 @@ static void Reset()
 
     ADrawable_SetScaleY(AHUD->energyLengthDrawable,  1.0f);
     ADrawable_SetScaleY(AHUD->energyPointerDrawable, 1.0f);
+
+    AMath_RandomSeedByTime();
 }
 
 
@@ -519,13 +474,11 @@ static void ClearDrop()
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
-
-
 static void OnStoneFade(TweenAction* action)
 {
-    ADrawAtlas  ->ReuseQuad(drawAtlas, (Drawable*) action->userData->slot0->ptrValue);
-    AArrayIntSet->TryRemove(dropSet,   (intptr_t)  action->userData->slot0->ptrValue);
+    SubMesh* subMesh = AUserData_GetSlotPtrWithType(action->userData, 0, SubMesh*);
+    ADrawAtlas->ReleaseQuad(dropDrawAtlas, subMesh);
+    AArrayIntSet->TryRemove(dropSet,       (intptr_t) subMesh->drawable);
 }
 
 
@@ -536,63 +489,62 @@ static void OnStoneDown(TweenAction* action)
     ADrawable_SetPositionX
     (
         ASkeletonAnimationPlayer_GetDrawable(AHero->hitFloor),
-        ADrawable->ConvertBetweenLocalX
+        ADrawable->ConvertBetweenLocalPositionX
         (
-            AGameMap          ->groundPosDrawable,
+            AGameMap->groundPosDrawable,
             AHero_GetDrawable()->positionX,
-            AGameMap          ->beforeDrawable
+            AGameMap->beforeDrawable
         )
     );
 
     AEnemyAI->SetAllEnemy(EnemyState_Stand, AGameData->stonePower);
-
-    AAudioTool->Play(AudioId_FallDown);
+    AAudioTool->Play(AudioID_FallDown);
 }
 
 
-static inline Drawable* DropStoneWood
+static inline void DropStoneWood
 (
-    char*                 name,
+    const char*           name,
     float                 fadeTime,
     TweenActionOnComplete OnDown,
     TweenActionOnComplete OnFade,
-    void*                 userData
+    DropCollisionItem*    item
 )
 {
-    Drawable* drawable = ADrawAtlas->GetQuad(drawAtlas, name);
-    float     posX     = ADrawable->ConvertBetweenLocalX
+    SubMesh*  subMesh  = ADrawAtlas->GetQuad(dropDrawAtlas, name);
+    Drawable* drawable = subMesh->drawable;
+    float     posX     = ADrawable->ConvertBetweenLocalPositionX
                          (
-                            AGameMap          ->groundPosDrawable,
+                            AGameMap->groundPosDrawable,
                             AHero_GetDrawable()->positionX,
-                            AGameMap          ->beforeDrawable
+                            AGameMap->beforeDrawable
                          );
 
-    float     posY     = ADrawable->ConvertToLocalY(AGameMap->beforeDrawable, 1.0f + drawable->height / 2);
+    float     posY     = ADrawable->ConvertToLocalPositionY(AGameMap->beforeDrawable, 1.0f + drawable->height / 2);
 
     ADrawable_SetParent   (drawable, AGameMap->beforeDrawable);
     ADrawable_SetPosition2(drawable, posX, posY);
 
-    ATweenTool->AddMoveY
-                (
-                    AGameMap->groundY + drawable->height / 2 - AGLTool_ToGLHeight(0.5f),
-                    0.35f
-                )
-              ->SetEaseType    (TweenEaseType_ExponentialIn)
-              ->SetRelative    (false)
-              ->SetUserData0Ptr(userData == NULL ? drawable : userData)
-              ->SetOnComplete  (OnDown)
+    ATweenTool->AddMoveY      (AGameMap->groundY + drawable->height / 2 - AGLTool_ToGLHeight(0.5f), 0.35f)
+              ->SetEaseType   (TweenEaseType_ExponentialIn)
+              ->SetRelative   (false)
+              ->SetUserDataPtr(0, item == NULL ? (void*) drawable : item)
+              ->SetOnComplete (OnDown)
 
-              ->AddFadeTo      (0.0f, fadeTime)
-              ->SetRelative    (false)
-              ->SetUserData0Ptr(userData == NULL ? drawable : userData)
-              ->SetEaseType    (TweenEaseType_ExponentialIn)
-              ->SetOnComplete  (OnFade)
+              ->AddFadeTo     (0.0f, fadeTime)
+              ->SetRelative   (false)
+              ->SetUserDataPtr(0, item == NULL ? (void*) subMesh  : item)
+              ->SetEaseType   (TweenEaseType_ExponentialIn)
+              ->SetOnComplete (OnFade)
 
-              ->RunActions     (drawable);
+              ->RunActions    (drawable);
 
     AArrayIntSet->TryAdd(dropSet, (intptr_t) drawable);
 
-    return drawable;
+    if (item != NULL)
+    {
+        item->subMesh = subMesh;
+    }
 }
 
 
@@ -602,32 +554,27 @@ static void DropStone()
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
-
-
 #ifdef APP_DEBUG
-static void DebugRender(Drawable* drawable)
+static void ItemDebugRender(Drawable *drawable)
 {
-    DropCollisionItem* item   = (DropCollisionItem*) drawable->userData->slot0->ptrValue;
-
-    AGLPrimitive->color->r    = 0.0f;
-    AGLPrimitive->color->b    = 0.0f;
-    AGLPrimitive->color->g    = 1.0f;
-    AGLPrimitive->modelMatrix = AGameMap->beforeDrawable->modelMatrix;
-    AGLPrimitive->DrawPolygon(item->body->positionArr);
+    AGLPrimitive->RenderPolygon
+    (
+        AUserData_GetSlotPtrWithType(drawable->userData, 0, DropCollisionItem*)->body->transformedVertexArr,
+        AGameMap->beforeDrawable->mvpMatrix,
+        COLOR_GREED_ARRAY,
+        1.0f
+    );
 }
 #endif
 
 
-static void OnItemFade(TweenAction* action)
+static inline void ClearItem(DropCollisionItem* item)
 {
-    DropCollisionItem* item = (DropCollisionItem*) action->userData->slot0->ptrValue;
-    ADrawAtlas->ReuseQuad(drawAtlas, item->drawable);
-    APhysicsBody_SetState(item->body, PhysicsBodyState_IsFreeze);
+    item->body->state = PhysicsBodyState_Freeze;
+    ADrawAtlas->ReleaseQuad(dropDrawAtlas, item->subMesh);
 
     AArrayList_Add(collisionItemList, item);
-    AArrayIntSet->TryRemove(dropSet, (intptr_t) item->drawable);
-
+    AArrayIntSet->TryRemove(dropSet, (intptr_t) item->subMesh->drawable);
 
     #ifdef APP_DEBUG
     AArrayIntSet->TryRemove(collisionItemDebugDrawSet, (intptr_t) item);
@@ -635,27 +582,36 @@ static void OnItemFade(TweenAction* action)
 }
 
 
-static void OnItemDown(TweenAction* action)
+static void OnItemFade(TweenAction* action)
 {
-    DropCollisionItem* item = (DropCollisionItem*) action->userData->slot0->ptrValue;
-
-    item->body->positionX   = item->drawable->positionX;
-    item->body->positionY   = item->drawable->positionY;
-    APhysicsBody->UpdateMotion(item->body, 0.0f);
-
-    APhysicsBody_ClearState(item->body, PhysicsBodyState_IsFreeze);
+    ClearItem(AUserData_GetSlotPtrWithType(action->userData, 0, DropCollisionItem*));
 }
 
 
-static inline DropCollisionItem* DropItem(int bodySize, int bodyId, int collisionGroup)
+static inline void UpdateItemBody(DropCollisionItem* item)
+{
+    item->body->positionX = item->subMesh->drawable->positionX;
+    item->body->positionY = item->subMesh->drawable->positionY;
+    item->body->state     = PhysicsBodyState_Fixed;
+    APhysicsBody->Update(item->body, 0.0f);
+}
+
+
+static void OnItemDown(TweenAction* action)
+{
+    UpdateItemBody(AUserData_GetSlotPtrWithType(action->userData, 0, DropCollisionItem*));
+}
+
+
+static inline DropCollisionItem* DropItem(int bodySize, int bodyID, int collisionGroup)
 {
     DropCollisionItem* item = NULL;
 
-    for (int i = 0; i < collisionItemList->size; i++)
+    for (int i = 0; i < collisionItemList->size; ++i)
     {
         DropCollisionItem* tmp = AArrayList_Get(collisionItemList, i, DropCollisionItem*);
 
-        if (tmp->bodySize == bodySize && tmp->bodyId == bodyId && tmp->collisionGroup == collisionGroup)
+        if (tmp->bodySize == bodySize && tmp->bodyID == bodyID && tmp->collisionGroup == collisionGroup)
         {
             item = tmp;
             AArrayList->Remove(collisionItemList, i);
@@ -665,8 +621,8 @@ static inline DropCollisionItem* DropItem(int bodySize, int bodyId, int collisio
 
     if (item == NULL)
     {
-        item                 = (DropCollisionItem*) malloc(sizeof(DropCollisionItem));
-        item->bodyId         = bodyId;
+        item                 = malloc(sizeof(DropCollisionItem));
+        item->bodyID         = bodyID;
         item->bodySize       = bodySize;
         item->collisionGroup = collisionGroup;
 
@@ -676,7 +632,7 @@ static inline DropCollisionItem* DropItem(int bodySize, int bodyId, int collisio
                         PhysicsShape_Polygon,
                         AArray_Make
                         (
-                            float, 8,
+                             float,  8,
                             -len,  len,
                              len,  len,
                              len, -len,
@@ -684,22 +640,18 @@ static inline DropCollisionItem* DropItem(int bodySize, int bodyId, int collisio
                         )
                      );
 
-        item->body->userId                    = bodyId;
-        item->body->userData->slot0->ptrValue = item;
+        item->body->userID = bodyID;
+        AUserData_SetSlotPtr(item->body->userData, 0, item);
         APhysicsBody_SetCollisionGroup(item->body, collisionGroup);
-        APhysicsBody_SetState(item->body, PhysicsBodyState_IsFixed);
-
 
         #ifdef APP_DEBUG
         ADrawable->Init(item->debugDrawable);
-        item->debugDrawable->userData->slot0->ptrValue = item;
-        item->debugDrawable->Render                    = DebugRender;
+        AUserData_SetSlotPtr(item->debugDrawable->userData, 0, item);
+        item->debugDrawable->Render = ItemDebugRender;
         #endif
-
     }
 
-    APhysicsBody_SetState(item->body, PhysicsBodyState_IsFreeze);
-
+    item->body->state = PhysicsBodyState_Freeze;
 
     #ifdef APP_DEBUG
     AArrayIntSet->TryAdd(collisionItemDebugDrawSet, (intptr_t) item);
@@ -711,7 +663,7 @@ static inline DropCollisionItem* DropItem(int bodySize, int bodyId, int collisio
 
 static void OnWoodDown(TweenAction* action)
 {
-    AAudioTool->Play(AudioId_FallDown);
+    AAudioTool->Play(AudioID_FallDown);
     OnItemDown(action);
 
     AHero->hitFloor->loop = 1;
@@ -719,11 +671,11 @@ static void OnWoodDown(TweenAction* action)
     ADrawable_SetPositionX
     (
         ASkeletonAnimationPlayer_GetDrawable(AHero->hitFloor),
-        ADrawable->ConvertBetweenLocalX
+        ADrawable->ConvertBetweenLocalPositionX
         (
-            AGameMap          ->groundPosDrawable,
+            AGameMap->groundPosDrawable,
             AHero_GetDrawable()->positionX,
-            AGameMap          ->beforeDrawable
+            AGameMap->beforeDrawable
         )
     );
 }
@@ -731,183 +683,274 @@ static void OnWoodDown(TweenAction* action)
 
 static void DropWood()
 {
-    DropCollisionItem* item = DropItem(18, CollisionBodyId_Wood, CollisionGroup_HeroAttack | CollisionGroup_Attack);
-    item->drawable          = DropStoneWood("DropWood", AGameData->woodTime, OnWoodDown, OnItemFade, item);
+    DropStoneWood
+    (
+        "DropWood",
+        AGameData->woodTime,
+        OnWoodDown,
+        OnItemFade,
+        DropItem
+        (
+            18,
+            CollisionBodyID_Wood,
+            CollisionGroup_HeroAttack | CollisionGroup_ArrowAttack
+        )
+    );
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static inline Drawable* DropHeartCoinStoneWood(char* name, void* userData, PhysicsBody* arrowBody, float enemyScaleX)
+static void DropCollisionItemSchedulerUpdate(Scheduler* scheduler, float deltaSeconds)
 {
-    Drawable* drawable = ADrawAtlas->GetQuad(drawAtlas, name);
+    float              time = AUserData_GetSlotFloat(scheduler->userData, 1);
+    DropCollisionItem* item = AUserData_GetSlotPtrWithType(scheduler->userData, 0, DropCollisionItem*);
+
+    if (time > 1.2f || item->body->state == PhysicsBodyState_Freeze)
+    {
+        scheduler->isCancel = true;
+    }
+    else
+    {
+        time += deltaSeconds;
+        AUserData_SetSlotFloat(scheduler->userData, 1, time);
+        UpdateItemBody(item);
+    }
+}
+
+
+static void OnDropItemAfter(TweenAction* action)
+{
+    DropCollisionItem* item = AUserData_GetSlotPtrWithType(action->userData, 0, DropCollisionItem*);
+
+    // update item body when item easing.
+    Scheduler* scheduler = AScheduler->Schedule(DropCollisionItemSchedulerUpdate, 0.0f);
+
+    AUserData_SetSlotPtr  (scheduler->userData, 0, item);
+    AUserData_SetSlotFloat(scheduler->userData, 1, 0.0f);// time
+    UpdateItemBody(item); // start collision test
+}
+
+
+static inline void DropHeartCoinStoneWood
+(
+    const char*        name,
+    PhysicsBody*       arrowBody,
+    float              enemyScaleX,
+    DropCollisionItem* item
+)
+{
+    SubMesh*  subMesh  = ADrawAtlas->GetQuad(dropDrawAtlas, name);
+    Drawable* drawable = subMesh->drawable;
 
     ADrawable_SetParent    (drawable, AGameMap->beforeDrawable);
     ADrawable_SetPosition2 (drawable, arrowBody->positionX, arrowBody->positionY);
-    ADrawable_SetScaleSame2(drawable, 0.3f);
+    ADrawable_SetScaleSame2(drawable, 0.2f);
 
-    float scaleY = 0.75f;
+    float scaleY = 0.7f;
 
-    ATweenTool->AddMoveY
-                (
-                    AGameMap->groundY + drawable->height * scaleY / 2 - AGLTool_ToGLHeight(0.5f),
-                    0.8f
-                )
-              ->SetEaseType    (TweenEaseType_BounceOut)
-              ->SetRelative    (false)
+    ATweenTool->AddMoveY      (AGameMap->groundY + drawable->height * scaleY / 2 - AGLTool_ToGLHeight(0.5f), 0.8f)
+              ->SetEaseType   (TweenEaseType_BounceOut)
+              ->SetRelative   (false)
 
-              ->SetScaleSame2  (scaleY, false, TweenEaseType_QuarticOut)
+              ->SetScaleSame2 (scaleY, false, TweenEaseType_QuarticOut)
 
-              ->AddMoveX       (-0.05f * enemyScaleX * fabsf(arrowBody->velocityX), 1.4f)
-              ->SetQueue       (false)
-              ->SetEaseType    (TweenEaseType_CubicOut)
-              ->SetUserData0Ptr(userData)
-              ->SetOnComplete  (OnItemDown)
+              ->AddMoveX      (-0.11f * enemyScaleX * fabsf(arrowBody->velocityX), 1.2f)
+              ->SetQueue      (false)
+              ->SetEaseType   (TweenEaseType_CubicOut)
 
-              ->AddFadeTo      (0.0, 14.0f)
-              ->SetRelative    (false)
-              ->SetEaseType    (TweenEaseType_ExponentialIn)
-              ->SetUserData0Ptr(userData)
-              ->SetOnComplete  (OnItemFade)
+              ->AddFadeTo     (0.0, 15.0f)
+              ->SetRelative   (false)
+              ->SetEaseType   (TweenEaseType_ExponentialIn)
+              ->SetUserDataPtr(0, item)
+              ->SetOnComplete (OnItemFade)
 
-              ->RunActions     (drawable);
+              ->AddInterval   (0.5f)
+              ->SetQueue      (false)
+              ->SetUserDataPtr(0, item)
+              ->SetOnComplete (OnDropItemAfter)
+
+              ->RunActions    (drawable);
 
     AArrayIntSet->TryAdd(dropSet, (intptr_t) drawable);
-
-    return drawable;
-}
-
-
-static inline void DropPickItem(char* name, int size,int bodyId, PhysicsBody* arrowBody, float enemyScaleX)
-{
-    DropCollisionItem* item = DropItem(size, bodyId, CollisionGroup_EnemyAttack | CollisionGroup_Attack);
-    item->drawable          = DropHeartCoinStoneWood(name, item, arrowBody, enemyScaleX);
+    item->subMesh = subMesh;
 }
 
 
 static void DropPickHeart(PhysicsBody* arrowBody, float enemyScaleX)
 {
-    DropPickItem("Heart", 9, CollisionBodyId_Heart, arrowBody, enemyScaleX);
+    DropHeartCoinStoneWood
+    (
+        "Heart",
+        arrowBody,
+        enemyScaleX,
+        DropItem
+        (
+            9,
+            CollisionBodyID_Heart,
+            CollisionGroup_EnemyAttack | CollisionGroup_ArrowAttack
+        )
+    );
 }
 
 
 static void DropPickCoin(PhysicsBody* arrowBody, float enemyScaleX)
 {
-    DropPickItem("Coin", 9, CollisionBodyId_Coin, arrowBody, enemyScaleX);
+    DropHeartCoinStoneWood
+    (
+        "Coin",
+        arrowBody,
+        enemyScaleX,
+        DropItem
+        (
+            9,
+            CollisionBodyID_Coin,
+            CollisionGroup_EnemyAttack | CollisionGroup_ArrowAttack
+        )
+    );
 }
 
 
 static void DropPickStone(PhysicsBody* arrowBody, float enemyScaleX)
 {
-    DropPickItem("Stone", 9, CollisionBodyId_Stone, arrowBody, enemyScaleX);
+    DropHeartCoinStoneWood
+    (
+        "Stone",
+        arrowBody,
+        enemyScaleX,
+        DropItem
+        (
+            9,
+            CollisionBodyID_Stone,
+            CollisionGroup_EnemyAttack | CollisionGroup_ArrowAttack
+        )
+    );
 }
 
 
 static void DropPickWood(PhysicsBody* arrowBody, float enemyScaleX)
 {
-    DropPickItem("Wood", 9, CollisionBodyId_Wood, arrowBody, enemyScaleX);
+    DropHeartCoinStoneWood
+    (
+        "Wood",
+        arrowBody,
+        enemyScaleX,
+        DropItem
+        (
+            9,
+            CollisionBodyID_Wood,
+            CollisionGroup_EnemyAttack | CollisionGroup_ArrowAttack
+        )
+    );
 }
 
 
 static void OnItemGet(TweenAction* action)
 {
-    Drawable* drawable = (Drawable*) action->userData->slot0->ptrValue;
-    int       bodyId   = drawable->userData->slot0->intValue;
+    DropCollisionItem* item = AUserData_GetSlotPtrWithType(action->userData, 0, DropCollisionItem*);
+    Drawable*          drawable;
 
-    switch (bodyId)
+    switch (item->bodyID)
     {
-        case CollisionBodyId_Heart:
+        case CollisionBodyID_Heart:
             AFont->SetInt(AHUD->heartText, ++AHero->roundHP);
+            drawable = AHUD->heartDrawable;
             break;
 
-        case CollisionBodyId_Coin:
+        case CollisionBodyID_Coin:
             AFont->SetInt(AHUD->coinText,  ++AGameData->coin);
+            drawable = AHUD->coinDrawable;
             break;
 
-        case CollisionBodyId_Stone:
+        case CollisionBodyID_Stone:
             AFont->SetInt(AHUD->stoneText, ++AGameData->stone);
+            drawable = AHUD->stoneDrawable;
             break;
 
-        case CollisionBodyId_Wood:
+        case CollisionBodyID_Wood:
             AFont->SetInt(AHUD->woodText,  ++AGameData->wood);
+            drawable = AHUD->woodDrawable;
             break;
+
+        default:
+            return;
     }
 
-    ADrawAtlas->ReuseQuad(drawAtlas, drawable);
+    ADrawAtlas->ReleaseQuad(dropDrawAtlas, AUserData_GetSlotPtrWithType(action->userData, 1, SubMesh*));
+
+    ATweenTool->AddScaleSame2(1.25f, 0.1f, false, TweenEaseType_SineOut)
+              ->AddScaleSame2(1.0f,  0.2f, false, TweenEaseType_ElasticOut)
+              ->RunActions(drawable);
 }
 
 
 static void FlyItem(DropCollisionItem* item)
 {
-    char*     name   = NULL;
-    Drawable* target = NULL;
+    const char* name;
+    Drawable*   target;
 
-    switch (item->bodyId)
+    switch (item->bodyID)
     {
-        case CollisionBodyId_Heart:
+        case CollisionBodyID_Heart:
             name   = "Heart";
             target = AHUD->heartDrawable;
-            AAudioTool->Play(AudioId_PickHeart);
+            AAudioTool->Play(AudioID_PickHeart);
             break;
 
-        case CollisionBodyId_Coin:
+        case CollisionBodyID_Coin:
             name   = "Coin";
             target = AHUD->coinDrawable;
-            AAudioTool->Play(AudioId_Coin);
+            AAudioTool->Play(AudioID_PickCoin);
             break;
 
-        case CollisionBodyId_Stone:
+        case CollisionBodyID_Stone:
             name   = "Stone";
             target = AHUD->stoneDrawable;
-            AAudioTool->Play(AudioId_PickStone);
+            AAudioTool->Play(AudioID_PickStone);
             break;
 
-        case CollisionBodyId_Wood:
+        case CollisionBodyID_Wood:
             name   = "Wood";
             target = AHUD->woodDrawable;
-            AAudioTool->Play(AudioId_PickWood);
+            AAudioTool->Play(AudioID_PickWood);
             break;
+
+        default:
+            return;
     }
 
-    Drawable* drawable = ADrawAtlas->GetQuad(drawAtlas, name);
+    Drawable* drawable = ADrawAtlas->GetQuad(dropDrawAtlas, name)->drawable;
 
     ADrawable_SetParent   (drawable, AGameMap->beforeDrawable);
-    ADrawable_SetPosition2(drawable, item->drawable->positionX, item->drawable->positionY);
+    ADrawable_SetPosition2(drawable, item->subMesh->drawable->positionX, item->subMesh->drawable->positionY);
 
     ADrawable->ConvertToParent(drawable, target->parent);
-    ADrawable_SetScaleSame2   (drawable, 0.55f);
+    ADrawable_SetScaleSame2   (drawable, 0.5f);
 
-    drawable->userData->slot0->intValue = item->bodyId;
+    ATweenTool->AddMove2      (target->positionX, target->positionY, 1.2f, false, TweenEaseType_SineOut)
+              ->SetUserDataPtr(0, item)
+              ->SetUserDataPtr(1, drawable)
+              ->SetOnComplete (OnItemGet)
+              ->RunActions    (drawable);
 
-    ATweenTool->AddMove2       (target->positionX, target->positionY, 1.0f, false, TweenEaseType_SineOut)
-              ->SetUserData0Ptr(drawable)
-              ->SetOnComplete  (OnItemGet)
-              ->RunActions     (drawable);
-
-    ATween->TryCompleteAllActions(item->drawable, true);
+    // item tween may not complete
+    ATween->TryRemoveAllActions(item->subMesh->drawable);
+    ClearItem(item);
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
-
-
 struct AHUD AHUD[1] =
-{
-    {
-        .Init          = Init,
-        .Run           = Run,
-        .CostPower     = CostPower,
-        .OpenCurtain   = OpenCurtain,
-        .CloseCurtain  = CloseCurtain,
-        .Reset         = Reset,
-        .DropStone     = DropStone,
-        .DropWood      = DropWood,
-        .ClearDrop     = ClearDrop,
-        .DropPickHeart = DropPickHeart,
-        .DropPickCoin  = DropPickCoin,
-        .DropPickStone = DropPickStone,
-        .DropPickWood  = DropPickWood,
-        .FlyItem       = FlyItem,
-    }
-};
+{{
+    .Init          = Init,
+    .Run           = Run,
+    .CostPower     = CostPower,
+    .OpenCurtain   = OpenCurtain,
+    .CloseCurtain  = CloseCurtain,
+    .Reset         = Reset,
+    .DropStone     = DropStone,
+    .DropWood      = DropWood,
+    .ClearDrop     = ClearDrop,
+    .DropPickHeart = DropPickHeart,
+    .DropPickCoin  = DropPickCoin,
+    .DropPickStone = DropPickStone,
+    .DropPickWood  = DropPickWood,
+    .FlyItem       = FlyItem,
+}};

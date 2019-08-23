@@ -1,15 +1,20 @@
 /*
- * Copyright (c) 2017-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
+ *
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
  * Since    : 2015-9-16
+ * Update   : 2019-2-16
  * Author   : scott.cgi
  */
 
-#include <stdio.h>
 
-#include "Engine/Toolkit/Head/UserData.h"
+#include "Engine/Toolkit/HeaderUtils/UserData.h"
 #include "Engine/Toolkit/Utils/TweenTool.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Physics/PhysicsWorld.h"
@@ -21,18 +26,21 @@
 #include "Tool.h"
 
 
-static Array(float)*  groundPosVertex;
-static Matrix4*       groundPosModel;
-static PhysicsBody*   groundBody;
+enum
+{
+    Cloud_Length = 3,
+    Map_Length   = 1,
+};
 
 
-static Drawable*      cloud1Drawable = NULL;
-static Drawable*      cloud2Drawable = NULL;
-static Drawable*      cloud3Drawable = NULL;
-
+static Array(float)* groundPosVertex;
+static PhysicsBody*  groundBody;
+static Drawable*     cloud1Drawable = NULL;
+static Drawable*     cloud2Drawable = NULL;
+static Drawable*     cloud3Drawable = NULL;
 
 #ifdef APP_DEBUG
-static Drawable       debugDrawable[1];
+static Drawable     debugDrawable[1];
 #endif
 
 
@@ -46,12 +54,13 @@ static void Update(Component* component, float deltaSeconds)
 }
 
 
+// predefine
 static void CloudAction(Drawable* cloudDrawable);
 
 
 static void CloudActionOnComplete(TweenAction* action)
 {
-    Drawable* drawable = (Drawable*) action->userData->slot0->ptrValue;
+    Drawable* drawable = AUserData_GetSlotPtrWithType(action->userData, 0, Drawable*);
     ADrawable_SetPositionX(drawable, AGLTool->screenRatio + AGameMap->scaleX * drawable->width);
     CloudAction(drawable);
 }
@@ -63,31 +72,31 @@ static void CloudAction(Drawable* cloudDrawable)
 
     if (cloudDrawable == cloud1Drawable)
     {
-        ATweenTool->AddMoveX       (pos, 100.0f)
-                  ->SetEaseType    (TweenEaseType_SineOut)
-                  ->SetRelative    (false)
-                  ->SetOnComplete  (CloudActionOnComplete)
-                  ->SetUserData0Ptr(cloud1Drawable)
-                  ->RunActions     (cloud1Drawable);
+        ATweenTool->AddMoveX      (pos, 150.0f)
+                  ->SetEaseType   (TweenEaseType_SineOut)
+                  ->SetRelative   (false)
+                  ->SetOnComplete (CloudActionOnComplete)
+                  ->SetUserDataPtr(0, cloud1Drawable)
+                  ->RunActions    (cloud1Drawable);
     }
     else if (cloudDrawable == cloud2Drawable)
     {
-        ATweenTool->AddMoveX       (pos, 150.0f)
-                  ->SetEaseType    (TweenEaseType_SineInOut)
-                  ->SetRelative    (false)
-                  ->SetOnComplete  (CloudActionOnComplete)
-                  ->SetUserData0Ptr(cloud2Drawable)
-                  ->RunActions     (cloud2Drawable);
+        ATweenTool->AddMoveX      (pos, 200.0f)
+                  ->SetEaseType   (TweenEaseType_SineInOut)
+                  ->SetRelative   (false)
+                  ->SetOnComplete (CloudActionOnComplete)
+                  ->SetUserDataPtr(0, cloud2Drawable)
+                  ->RunActions    (cloud2Drawable);
     }
     else if (cloudDrawable == cloud3Drawable)
     {
-        ATweenTool->AddInterval    (20.0f)
-                  ->AddMoveX       (pos, 200.0f)
-                  ->SetRelative    (false)
-                  ->SetEaseType    (TweenEaseType_SineIn)
-                  ->SetOnComplete  (CloudActionOnComplete)
-                  ->SetUserData0Ptr(cloud3Drawable)
-                  ->RunActions     (cloud3Drawable);
+        ATweenTool->AddInterval   (20.0f)
+                  ->AddMoveX      (pos, 250.0f)
+                  ->SetRelative   (false)
+                  ->SetEaseType   (TweenEaseType_SineIn)
+                  ->SetOnComplete (CloudActionOnComplete)
+                  ->SetUserDataPtr(0, cloud3Drawable)
+                  ->RunActions    (cloud3Drawable);
     }
 }
 
@@ -99,17 +108,16 @@ static void OnActionOver(SkeletonAnimationPlayer* player)
 
     ADrawable_SetParent(AHero_GetDrawable(), AGameMap->groundPosDrawable);
 
-    Drawable* clouds[] =
+    Drawable* clouds[Cloud_Length] =
     {
         cloud1Drawable,
         cloud2Drawable,
         cloud3Drawable,
     };
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < Cloud_Length; ++i)
     {
         Drawable* drawable = clouds[i];
-
         if (ATween->HasAction(drawable) == false)
         {
             CloudAction(drawable);
@@ -118,16 +126,24 @@ static void OnActionOver(SkeletonAnimationPlayer* player)
 }
 
 
-static SkeletonAnimationPlayer* maps[1];
+static const char* mapNames[Map_Length] =
+{
+    "Stage/Stage11",
+};
+
+
+static SkeletonAnimationPlayer* maps[Map_Length];
 
 
 static void RandomMap()
 {
-    AGameMap->mapPlayer               = maps[0];
+    AGameMap->mapIndex                = AMath_RandomInt(0, Map_Length - 1);
+    AGameMap->mapPlayer               = maps[AGameMap->mapIndex];
     AGameMap->mapPlayer->OnActionOver = OnActionOver;
     ASkeletonAnimationPlayer->SetAnimation(AGameMap->mapPlayer, "ShowIn");
 
     Drawable* drawable = ASkeletonAnimationPlayer_GetDrawable(AGameMap->mapPlayer);
+    
     ADrawable_SetScale2
     (
         drawable,
@@ -140,7 +156,6 @@ static void RandomMap()
 
     SkeletonSlot* groundPosSlot = ASkeletonAnimationPlayer_GetSlot(AGameMap->mapPlayer, "GroudPos");
     groundPosVertex             = ASkeletonSlot_GetBoundingBox(groundPosSlot)->vertexArr;
-    groundPosModel              = AGameMap->groundPosDrawable->modelMatrix;
 
     AGameMap->groundPosData     = groundPosVertex->data;
     AGameMap->groundPosDrawable = groundPosSlot->bone->drawable;
@@ -165,8 +180,7 @@ static void RandomMap()
                                      PhysicsShape_Line,
                                      AArray_Make
                                      (
-                                         float,
-                                         4,
+                                         float, 4,
                                          AGameMap->groundPosData[0],
                                          AGameMap->groundPosData[1],
                                          AGameMap->groundPosData[6],
@@ -174,13 +188,19 @@ static void RandomMap()
                                      )
                                   );
 
-    APhysicsBody_SetState         (groundBody, PhysicsBodyState_IsFixed);
-    APhysicsBody_SetCollisionGroup(groundBody, CollisionGroup_HeroBody | CollisionGroup_EnemyBody);
-
+    groundBody->state = PhysicsBodyState_Fixed;
+    APhysicsBody_SetCollisionGroup
+    (
+        groundBody,
+        CollisionGroup_HeroBody | CollisionGroup_EnemyBody
+    );
 
     #ifdef APP_DEBUG
     ASkeletonAnimationPlayer->InitSlotBoundingBoxDrawable(AGameMap->mapPlayer, "GroudPos", debugDrawable);
     #endif
+
+    // arrow tail render requires AGameMap beforeDrawable mvpMatrix update
+    ADrawable_AddState(AGameMap->beforeDrawable, DrawableState_IsUpdateMVPMatrix);
 }
 
 
@@ -189,7 +209,10 @@ static void Init()
     AComponent->Init(AGameMap->component);
     AGameMap->component->curState->Update = Update;
 
-    maps[0] = ASkeletonAnimationPlayer->Create("Stage/Stage11", "ShowIn");
+    for (int i = 0; i < Map_Length; ++i)
+    {
+        maps[i] = ASkeletonAnimationPlayer->Create(mapNames[i], "ShowIn");
+    }
 
     RandomMap();
 }
@@ -202,10 +225,8 @@ static void Run()
 
 
 struct AGameMap AGameMap[1] =
-{
-    {
-        .Init      = Init,
-        .Run       = Run,
-        .RandomMap = RandomMap,
-    }
-};
+{{
+    .Init      = Init,
+    .Run       = Run,
+    .RandomMap = RandomMap,
+}};
