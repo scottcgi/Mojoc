@@ -615,14 +615,12 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                         {
                             "Again",
                             "Menu",
-                            "Store",
                         },
 
                         (const char*[ItemCount_Fail])
                         {
                             "AgainBox",
                             "MenuBox",
-                            "StoreBox",
                         },
 
                         NULL,

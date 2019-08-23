@@ -36,7 +36,9 @@ static void Hide(ADType type)
 }
 
 
+//----------------------------
 #elif defined(IS_PLATFORM_IOS)
+//----------------------------
 
 
 static void Show(ADType type)
