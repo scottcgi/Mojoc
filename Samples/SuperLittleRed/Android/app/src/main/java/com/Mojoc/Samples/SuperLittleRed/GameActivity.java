@@ -11,9 +11,9 @@ import android.widget.Toast;
 /**
  * @author scott.cgi
  * @since  2015-3-2
- * @Update 2019-8-4
+ * Update  2019-8-4
  */
-public class Activity extends NativeActivity {
+public class GameActivity extends NativeActivity {
     
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class Activity extends NativeActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 
             if ((System.currentTimeMillis() - this.exitTime) > 2000) {
-                Toast.makeText(Activity.this, this.getString(R.string.app_exit), Toast.LENGTH_SHORT).show();
+                Toast.makeText(GameActivity.this, this.getString(R.string.app_exit), Toast.LENGTH_SHORT).show();
                 this.exitTime = System.currentTimeMillis();
             } else {
                 this.onDestroy();

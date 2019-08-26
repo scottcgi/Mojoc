@@ -45,7 +45,7 @@
 #include "Config.h"
 
 
-static const char* saveDataFileName = "MojocSupperLittleRed";
+static const char* saveDataFileName = "MojocSampleSupperLittleRed";
 static int         progressSize     = AppInit_FunctionsCount + Enemy_KindsNum * Enemy_EachKindInitNum;
 static GLbitfield  clearBits        = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT;
 static Font*       font;
