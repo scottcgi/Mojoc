@@ -28,24 +28,23 @@
 
 
 extern ANativeActivity* nativeActivity;
-static JNIEnv*          GameEnvPtr = NULL;
+static JNIEnv*          envPtr = NULL;
 
 
 static void Init()
 {
-    (*nativeActivity->vm)->AttachCurrentThread(nativeActivity->vm, &GameEnvPtr, NULL);
+    (*nativeActivity->vm)->AttachCurrentThread(nativeActivity->vm, &envPtr, NULL);
 }
 
 
-static inline JNIEnv* GetEnvPtr()
+static JNIEnv* GetEnvPtr()
 {
-    return GameEnvPtr;
+    return envPtr;
 }
 
 
 static inline jclass GetClass(const char* className)
 {
-    JNIEnv* envPtr                   = GetEnvPtr();
     static  jobject   classLoaderObj = NULL;
     static  jmethodID loadClassID    = NULL;
 
@@ -85,19 +84,10 @@ static inline jclass GetClass(const char* className)
 
 static jvalue CallStaticMethod(const char* className, const char* methodName, const char* paramCode, ...)
 {
-    JNIEnv*   envPtr    = GetEnvPtr();
-    jclass    cls       = GetClass(className);
-    jmethodID methodID  = (*envPtr)->GetStaticMethodID(envPtr, cls, methodName, paramCode);
+    jclass      cls      = GetClass(className);
+    jmethodID   methodID = (*envPtr)->GetStaticMethodID(envPtr, cls, methodName, paramCode);
 
-    ALog_A
-    (
-        methodID != NULL,
-        "AJniTool CallStaticMethod cannot get methodID, methodName = %s, paramCode = %s",
-        methodName,
-        paramCode
-    );
-
-    const char* p = paramCode;
+    const char* p        = paramCode;
     // skip '()' to find out the return type
     while (*p++ != ')');
 
@@ -160,18 +150,9 @@ static jvalue CallStaticMethod(const char* className, const char* methodName, co
 
 static inline jvalue CallMethodV(jobject object, const char* methodName, const char* paramCode, va_list args)
 {
-    JNIEnv*   envPtr   = GetEnvPtr();
-    jmethodID methodID = (*envPtr)->GetMethodID(envPtr, (*envPtr)->GetObjectClass(envPtr, object), methodName, paramCode);
+    jmethodID   methodID = (*envPtr)->GetMethodID(envPtr, (*envPtr)->GetObjectClass(envPtr, object), methodName, paramCode);
 
-    ALog_A
-    (
-        methodID != NULL,
-        "AJniTool CallMethodV cannot get methodID, methodName = %s, paramCode = %s",
-        methodName,
-        paramCode
-    );
-
-    const char* p = paramCode;
+    const char* p        = paramCode;
     // skip '()' to find out the return type
     while (*p++ != ')');
 
@@ -230,8 +211,6 @@ static inline jvalue CallMethodV(jobject object, const char* methodName, const c
 
 static jvalue CallMethod(jobject object, const char* methodName, const char* paramCode, ...)
 {
-    JNIEnv* envPtr = GetEnvPtr();
-
     va_list args;
     va_start(args, paramCode);
     jvalue  value  = CallMethodV(object, methodName, paramCode, args);
@@ -257,19 +236,9 @@ static jvalue CallNativeActivityMethod(const char* methodName, const char* param
 
 static jvalue GetStaticField(const char* className, const char* fieldName, const char* typeCode)
 {
-    JNIEnv*  envPtr  = GetEnvPtr();
     jclass   cls     = GetClass(className);
     jfieldID fieldID = (*envPtr)->GetStaticFieldID(envPtr, cls, fieldName, typeCode);
-
-    ALog_A
-    (
-        fieldID != NULL,
-        "AJniTool GetStaticField cannot get fieldID, fieldName = %s, typeCode = %s",
-        fieldName,
-        typeCode
-    );
-
-    jvalue value;
+    jvalue   value;
 
     switch (*typeCode)
     {
@@ -320,18 +289,8 @@ static jvalue GetStaticField(const char* className, const char* fieldName, const
 
 static inline jvalue GetField(jobject object, const char* fieldName, const char* typeCode)
 {
-    JNIEnv*  envPtr  = GetEnvPtr();
     jfieldID fieldID = (*envPtr)->GetFieldID(envPtr, (*envPtr)->GetObjectClass(envPtr, object), fieldName, typeCode);
-
-    ALog_A
-    (
-        fieldID != NULL,
-        "AJniTool GetField cannot get fieldID, fieldName = %s, typeCode = %s",
-        fieldName,
-        typeCode
-    );
-
-    jvalue value = {};
+    jvalue   value   = {};
 
     switch (*typeCode)
     {
@@ -382,15 +341,13 @@ static inline jvalue GetField(jobject object, const char* fieldName, const char*
 
 static jsize GetArrayLength(jarray array)
 {
-    JNIEnv* envPtr = GetEnvPtr();
     return (*envPtr)->GetArrayLength(envPtr, array);
 }
 
 
 static jvalue GetArrayAt(jarray array, jint index, char typeChar)
 {
-    JNIEnv* envPtr = GetEnvPtr();
-    jvalue  value  = {};
+    jvalue value = {};
 
     switch (typeChar)
     {
@@ -447,7 +404,6 @@ static jvalue GetNativeActivityField(const char* fieldName, const char* typeCode
 
 static int GetSignHashCode()
 {
-    JNIEnv* envPtr         = GetEnvPtr();
     jobject packageManager = CallNativeActivityMethod
                              (
                                  "getPackageManager",
@@ -479,6 +435,7 @@ static int GetSignHashCode()
 struct AJniTool AJniTool[1] =
 {{
     Init,
+    GetEnvPtr,
 
     CallStaticMethod,
     CallMethod,

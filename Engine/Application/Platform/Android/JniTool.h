@@ -53,61 +53,70 @@
  *             'F' - f - Float
  *             'D' - d - Double
  *
+ * 
+ * Important tips:
+ * - if the param of java method is String, then you must pass the jstring (not char*) to "paramCode".
+ * - if JNI calls cannot find a method or field, may consider "code proguard" settings.
  */
 struct AJniTool
 {
     /**
-     * Called by NativeGlue for init game env, and AJniTool work with game env.
+     * Called by NativeGlue for init a thread env, and AJniTool work with this env.
      */
-    void   (*Init)                    ();
+    void    (*Init)                     ();
+
+    /**
+     * Get the thread evn of AJniTool.
+     */
+    JNIEnv* (*GetEnvPtr)                ();
 
     /**
      * Call java class static method.
      */
-    jvalue (*CallStaticMethod)        (const char* className, const char* methodName, const char* paramCode, ...);
+    jvalue  (*CallStaticMethod)        (const char* className, const char* methodName, const char* paramCode, ...);
 
     /**
      * Call java object method.
      * the object is any instance of a java class.
      */
-    jvalue (*CallMethod)              (jobject     object,    const char* methodName, const char* paramCode, ...);
+    jvalue  (*CallMethod)              (jobject     object,    const char* methodName, const char* paramCode, ...);
 
     /**
      * Call the method of NativeActivity (or the Activity inherits NativeActivity) instance.
      */
-    jvalue (*CallNativeActivityMethod)(const char* methodName, const char* paramCode, ...);
+    jvalue  (*CallNativeActivityMethod)(const char* methodName, const char* paramCode, ...);
 
     /**
      * Get class static field.
      */
-    jvalue (*GetStaticField)          (const char* className,  const char* fieldName,  const char* typeCode);
+    jvalue  (*GetStaticField)          (const char* className,  const char* fieldName,  const char* typeCode);
 
     /**
      * Get java object field.
      */
-    jvalue (*GetField)                (jobject object, const char* fieldName, const char* typeCode);
+    jvalue  (*GetField)                (jobject object, const char* fieldName, const char* typeCode);
 
     /**
      * Get java object Array field length.
      * the array is jobject which GetStaticField/GetField returned.
      */
-    jsize  (*GetArrayLength)          (jarray array);
+    jsize   (*GetArrayLength)          (jarray array);
 
     /**
      * Get java object Array field element at index.
      * the array is jobject which GetStaticField/GetField returned.
      */
-    jvalue (*GetArrayAt)              (jarray array, jint index, char typeChar);
+    jvalue  (*GetArrayAt)              (jarray array, jint index, char typeChar);
 
     /**
      * Get the field of NativeActivity (or the Activity inherits NativeActivity) instance.
      */
-    jvalue (*GetNativeActivityField)  (const char* fieldName, const char* typeCode);
+    jvalue  (*GetNativeActivityField)  (const char* fieldName, const char* typeCode);
 
     /**
      * Get hash code from apk signature (work only in Android).
      */
-    int    (*GetSignHashCode)         ();
+    int     (*GetSignHashCode)         ();
 };
 
 
