@@ -22,7 +22,6 @@
 //------------------------
 
 
-#include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Application/Platform/Vibrator.h"
 #include "Engine/Application/Platform/Android/JniTool.h"
 
@@ -33,7 +32,12 @@ static void Vibrate(int milliseconds)
                        (
                            "getSystemService",
                            "(Ljava/lang/String;)Ljava/lang/Object;",
-                           AJniTool->GetStaticField("android/content/Context", "VIBRATOR_SERVICE", "Ljava/lang/String;").l
+                           AJniTool->GetStaticField
+                           (
+                               "android/content/Context",
+                               "VIBRATOR_SERVICE",
+                               "Ljava/lang/String;"
+                           ).l
                        ).l;
 
     AJniTool->CallMethod(vibrator, "vibrate", "(J)V", (long long) milliseconds);

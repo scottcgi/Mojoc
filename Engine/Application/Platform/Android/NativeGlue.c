@@ -233,7 +233,7 @@ static int LooperOnInputEvent(int fd, int events, void* data)
 
 static void* LoopThreadRun(void* param)
 {
-    // attach game thread env
+    // attach thread env
     AJniTool->Init();
 
     looper = ALooper_prepare(0);

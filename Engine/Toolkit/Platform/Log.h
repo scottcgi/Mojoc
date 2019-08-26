@@ -24,7 +24,7 @@
 
 #ifdef IS_PLATFORM_ANDROID
     #include <android/log.h>
-    #define  ALog_D(...)    __android_log_print(ANDROID_LOG_DEBUG, "Mojoc debug", __VA_ARGS__)
+    #define  ALog_D(...) // __android_log_print(ANDROID_LOG_DEBUG, "Mojoc debug", __VA_ARGS__)
     #define  ALog_W(...)    __android_log_print(ANDROID_LOG_WARN , "Mojoc warn" , __VA_ARGS__)
     #define  ALog_E(...)    __android_log_print(ANDROID_LOG_ERROR, "Mojoc error", __VA_ARGS__)
     #define  ALog_A(e, ...) e ? (void) 0 : ALog_E(__VA_ARGS__),  assert(e);
