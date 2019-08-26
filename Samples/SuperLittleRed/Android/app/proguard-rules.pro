@@ -15,3 +15,11 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+
+-keepclassmembers class * extends android.app.Activity {
+   public *;
+}
+
+
+-keepattributes *Annotation*
