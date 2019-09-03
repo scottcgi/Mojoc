@@ -63,6 +63,9 @@ static ArrayStrSet(filePath)        filePathSet[1] = ArrayStrSet_Init (filePath,
     )
 
 
+/**
+ * The return data will cached in fileDataMap.
+ */
 static inline void* GetAudioData
 (
     const char* relativeFilePath,
@@ -111,8 +114,8 @@ static inline void* GetAudioData
     outputFormat.mFramesPerPacket  = 1;
     outputFormat.mBytesPerFrame    = outputFormat.mChannelsPerFrame * 2;
     outputFormat.mBitsPerChannel   = 16;
-    outputFormat.mFormatFlags      = kAudioFormatFlagsNativeEndian |
-                                     kAudioFormatFlagIsPacked      |
+    outputFormat.mFormatFlags      = kAudioFormatFlagsNativeEndian  |
+                                     kAudioFormatFlagIsPacked       |
                                      kAudioFormatFlagIsSignedInteger;
     
     // set the desired client (output) data format
@@ -319,10 +322,12 @@ static void SetLoop(AudioPlayer* player, bool isLoop)
     }
     
     alSourcei(player->sourceId, AL_LOOPING, (ALint) isLoop);
+
+    // move player from removeList to addList
     
-    ArrayList* addList;
-    ArrayList* removeList;
-    
+    ArrayList(AudioPlayer*)* addList;
+    ArrayList(AudioPlayer*)* removeList;
+
     if (isLoop)
     {
         addList    = loopList;
@@ -333,7 +338,7 @@ static void SetLoop(AudioPlayer* player, bool isLoop)
         addList    = destroyList;
         removeList = loopList;
     }
-    
+
     for (int i = 0; i < removeList->size; ++i)
     {
         if (player == AArrayList_Get(removeList, i, AudioPlayer*))
@@ -342,7 +347,7 @@ static void SetLoop(AudioPlayer* player, bool isLoop)
             break;
         }
     }
-    
+
     AArrayList_Add(addList, player);
 }
 
@@ -382,9 +387,12 @@ static void Pause(AudioPlayer* player)
 
 static void Stop(AudioPlayer* player)
 {
+    // after alSourceStop call alDeleteSources will cause OpenAL leak OALSource:AddPlaybackMessage
     alSourceStop(player->sourceId);
     ALenum error;
     CheckAudioError("Stop", player->filePath);
+
+    // put player into destroyList
     SetLoop(player, false);
 }
 
