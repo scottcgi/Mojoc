@@ -40,6 +40,9 @@ static SLEngineItf engineEngine    = NULL;
 static SLObjectItf outputMixObject = NULL;
 
 
+/**
+ * Defined in Audio.h
+ */
 struct AudioPlayer
 {
     SLObjectItf object;

@@ -35,11 +35,21 @@
 #include "Engine/Toolkit/Utils/ArrayStrSet.h"
 
 
-static ArrayStrMap(filePath, void*) fileDataMap[1] = AArrayStrMap_Init(void*,        20);
-static ArrayList  (AudioPlayer*)    cacheList  [1] = AArrayList_Init  (AudioPlayer*, 20);
-static ArrayList  (AudioPlayer*)    destroyList[1] = AArrayList_Init  (AudioPlayer*, 20);
-static ArrayList  (AudioPlayer*)    loopList   [1] = AArrayList_Init  (AudioPlayer*, 5 );
-static ArrayStrSet(filePath)        filePathSet[1] = ArrayStrSet_Init (filePath,     20);
+typedef struct
+{
+    ALsizei size;
+    ALenum  format;
+    ALsizei sampleRate;
+    void*   data;
+}
+AudioData;
+
+
+static ArrayStrMap(filePath, AudioData*) audioDataMap[1] = AArrayStrMap_Init(AudioData*,  20);
+static ArrayList  (AudioPlayer*)         cacheList  [1] = AArrayList_Init  (AudioPlayer*, 20);
+static ArrayList  (AudioPlayer*)         destroyList[1] = AArrayList_Init  (AudioPlayer*, 20);
+static ArrayList  (AudioPlayer*)         loopList   [1] = AArrayList_Init  (AudioPlayer*, 5 );
+static ArrayStrSet(filePath)             filePathSet[1] = ArrayStrSet_Init (filePath,     20);
 
 
 #define CheckAudioDataError(tag)               \
@@ -64,119 +74,112 @@ static ArrayStrSet(filePath)        filePathSet[1] = ArrayStrSet_Init (filePath,
 
 
 /**
- * The return data will cached in fileDataMap.
+ * The return data will cached in AudioDataMap.
  */
-static inline void* GetAudioData
-(
-    const char* relativeFilePath,
-    ALsizei*    outDataSize,
-    ALenum*     outDataFormat,
-    ALsizei*    outSampleRate
-)
+static inline AudioData* GetAudioData(const char* relativeFilePath)
 {
-    AudioStreamBasicDescription fileFormat;
-    AudioStreamBasicDescription outputFormat;
+    AudioData* audioData = NULL;
+    int        index     = AArrayStrMap->GetIndex(audioDataMap, relativeFilePath);
 
-    SInt64          fileLengthInFrames = 0;
-    UInt32          propertySize       = sizeof(fileFormat);
-    ExtAudioFileRef audioFileRef       = NULL;
-    void*           data               = NULL;
-    NSString*       path               = [[NSBundle mainBundle] pathForResource:
-                                         [NSString stringWithUTF8String:relativeFilePath] ofType:nil];
-
-    CFURLRef        fileUrl            = CFURLCreateWithString(kCFAllocatorDefault, (CFStringRef) path, NULL);
-    OSStatus        error              = ExtAudioFileOpenURL(fileUrl, &audioFileRef);
-    CheckAudioDataError("ExtAudioFileOpenURL");
-
-    CFRelease(fileUrl);
-    
-    // get the audio data format
-    error = ExtAudioFileGetProperty(audioFileRef, kExtAudioFileProperty_FileDataFormat, &propertySize, &fileFormat);
-    CheckAudioDataError("ExtAudioFileGetProperty kExtAudioFileProperty_FileDataFormat");
-
-    if (fileFormat.mChannelsPerFrame > 2)
-    {
-        ALog_E
-        (
-            "AAudio GetAudioData unsupported format,"
-            "channel count = %u is greater than stereo, relativeFilePath = %s",
-            (unsigned int) fileFormat.mChannelsPerFrame,
-            relativeFilePath
-        );
-    }
-    
-    // set the client format to 16 bit signed integer (native-endian) data
-    // maintain the channel count and sample rate of the original source format
-    outputFormat.mSampleRate       = fileFormat.mSampleRate;
-    outputFormat.mChannelsPerFrame = fileFormat.mChannelsPerFrame;
-    outputFormat.mFormatID         = kAudioFormatLinearPCM;
-    outputFormat.mBytesPerPacket   = outputFormat.mChannelsPerFrame * 2;
-    outputFormat.mFramesPerPacket  = 1;
-    outputFormat.mBytesPerFrame    = outputFormat.mChannelsPerFrame * 2;
-    outputFormat.mBitsPerChannel   = 16;
-    outputFormat.mFormatFlags      = kAudioFormatFlagsNativeEndian  |
-                                     kAudioFormatFlagIsPacked       |
-                                     kAudioFormatFlagIsSignedInteger;
-    
-    // set the desired client (output) data format
-    error = ExtAudioFileSetProperty
-            (
-                audioFileRef,
-                kExtAudioFileProperty_ClientDataFormat,
-                sizeof(outputFormat),
-                &outputFormat
-            );
-    CheckAudioDataError("ExtAudioFileSetProperty kExtAudioFileProperty_ClientDataFormat");
-
-    // get the total frame count
-    propertySize = sizeof(fileLengthInFrames);
-    error        = ExtAudioFileGetProperty
-                   (
-                       audioFileRef,
-                       kExtAudioFileProperty_FileLengthFrames,
-                       &propertySize,
-                       &fileLengthInFrames
-                   );
-    CheckAudioDataError("ExtAudioFileGetProperty kExtAudioFileProperty_FileLengthFrames");
-
-    // read all the data into memory
-    UInt32 framesToRead = (UInt32) fileLengthInFrames;
-    UInt32 dataSize     = framesToRead * outputFormat.mBytesPerFrame;
-    
-    *outDataSize        = (ALsizei) dataSize;
-    *outDataFormat      = outputFormat.mChannelsPerFrame > 1 ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
-    *outSampleRate      = (ALsizei) outputFormat.mSampleRate;
-
-    int index           = AArrayStrMap->GetIndex(fileDataMap, relativeFilePath);
-    
     if (index < 0)
     {
-        data = malloc(dataSize);
-        
+        AudioStreamBasicDescription fileFormat;
+        AudioStreamBasicDescription outputFormat;
+
+        SInt64          fileLengthInFrames = 0;
+        UInt32          propertySize       = sizeof(fileFormat);
+        ExtAudioFileRef audioFileRef       = NULL;
+        NSString*       path               = [[NSBundle mainBundle] pathForResource:
+                                             [NSString stringWithUTF8String:relativeFilePath] ofType:nil];
+
+        CFURLRef        fileUrl            = CFURLCreateWithString(kCFAllocatorDefault, (CFStringRef) path, NULL);
+        OSStatus        error              = ExtAudioFileOpenURL(fileUrl, &audioFileRef);
+        CheckAudioDataError("ExtAudioFileOpenURL");
+
+        CFRelease(fileUrl);
+
+        // get the audio data format
+        error = ExtAudioFileGetProperty(audioFileRef, kExtAudioFileProperty_FileDataFormat, &propertySize, &fileFormat);
+        CheckAudioDataError("ExtAudioFileGetProperty kExtAudioFileProperty_FileDataFormat");
+
+        if (fileFormat.mChannelsPerFrame > 2)
+        {
+            ALog_E
+            (
+                "AAudio GetAudioData unsupported format,"
+                "channel count = %u is greater than stereo, relativeFilePath = %s",
+                (unsigned int) fileFormat.mChannelsPerFrame,
+                relativeFilePath
+            );
+        }
+
+        // set the client format to 16 bit signed integer (native-endian) data
+        // maintain the channel count and sample rate of the original source format
+        outputFormat.mSampleRate       = fileFormat.mSampleRate;
+        outputFormat.mChannelsPerFrame = fileFormat.mChannelsPerFrame;
+        outputFormat.mFormatID         = kAudioFormatLinearPCM;
+        outputFormat.mBytesPerPacket   = outputFormat.mChannelsPerFrame * 2;
+        outputFormat.mFramesPerPacket  = 1;
+        outputFormat.mBytesPerFrame    = outputFormat.mChannelsPerFrame * 2;
+        outputFormat.mBitsPerChannel   = 16;
+        outputFormat.mFormatFlags      = kAudioFormatFlagsNativeEndian  |
+                                         kAudioFormatFlagIsPacked       |
+                                         kAudioFormatFlagIsSignedInteger;
+
+        // set the desired client (output) data format
+        error = ExtAudioFileSetProperty
+                (
+                    audioFileRef,
+                    kExtAudioFileProperty_ClientDataFormat,
+                    sizeof(outputFormat),
+                    &outputFormat
+                );
+        CheckAudioDataError("ExtAudioFileSetProperty kExtAudioFileProperty_ClientDataFormat");
+
+        // get the total frame count
+        propertySize = sizeof(fileLengthInFrames);
+        error        = ExtAudioFileGetProperty
+                       (
+                           audioFileRef,
+                           kExtAudioFileProperty_FileLengthFrames,
+                           &propertySize,
+                           &fileLengthInFrames
+                       );
+        CheckAudioDataError("ExtAudioFileGetProperty kExtAudioFileProperty_FileLengthFrames");
+
+        // read all the data into memory
+        UInt32 framesToRead = (UInt32) fileLengthInFrames;
+        UInt32 dataSize     = framesToRead * outputFormat.mBytesPerFrame;
+
+//----------------------------------------------------------------------------------------------------------------------
+
+        audioData             = malloc(sizeof(AudioData) + dataSize);
+        audioData->size       = (ALsizei) dataSize;
+        audioData->format     = outputFormat.mChannelsPerFrame > 1 ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
+        audioData->sampleRate = (ALsizei) outputFormat.mSampleRate;
+        audioData->data       = (char*) audioData + sizeof(AudioData);
+
         AudioBufferList dataBuffer;
         dataBuffer.mNumberBuffers              = 1;
         dataBuffer.mBuffers[0].mDataByteSize   = dataSize;
         dataBuffer.mBuffers[0].mNumberChannels = outputFormat.mChannelsPerFrame;
-        dataBuffer.mBuffers[0].mData           = data;
+        dataBuffer.mBuffers[0].mData           = audioData->data;
 
         // read the data into an AudioBufferList
         error = ExtAudioFileRead(audioFileRef, &framesToRead, &dataBuffer);
         CheckAudioDataError("ExtAudioFileRead");
 
-        AArrayStrMap_InsertAt(fileDataMap, relativeFilePath, -index - 1, data);
+        // dispose the ExtAudioFileRef, it is no longer needed
+        ExtAudioFileDispose(audioFileRef);
+
+        AArrayStrMap_InsertAt(audioDataMap, relativeFilePath, -index - 1, audioData);
     }
     else
     {
-        data = AArrayStrMap_GetAt(fileDataMap, index, void*);
+        audioData = AArrayStrMap_GetAt(audioDataMap, index, AudioData*);
     }
 
-    // dispose the ExtAudioFileRef, it is no longer needed
-    if (audioFileRef != NULL)
-    {
-        ExtAudioFileDispose(audioFileRef);
-    }
-    
-    return data;
+    return audioData;
 }
 
 
@@ -191,6 +194,9 @@ static ALCcontext*               context                = NULL;
 static alBufferDataStaticProcPtr alBufferDataStaticProc = NULL;
 
 
+/**
+ * Defined in Audio.h
+ */
 struct AudioPlayer
 {
     ALuint      sourceId;
@@ -276,18 +282,15 @@ static void Init()
 
 static inline void InitPlayer(const char* relativeFilePath, AudioPlayer* player)
 {
-    ALenum  error;
-    ALsizei size;
-    ALenum  format;
-    ALsizei freq;
-    void*   data = GetAudioData(relativeFilePath, &size, &format, &freq);
+    ALenum     error;
+    AudioData* audioData = GetAudioData(relativeFilePath);
     
     alGenBuffers(1, &player->bufferId);
     CheckAudioError("InitPlayer generate buffer", relativeFilePath);
     
     // use the static buffer data API
     // the data will not copy in buffer so cannot free data until buffer deleted
-    alBufferDataStaticProc(player->bufferId, format, data, size, freq);
+    alBufferDataStaticProc(player->bufferId, audioData->format, audioData->data, audioData->size, audioData->sampleRate);
     CheckAudioError("InitPlayer attach audio data to buffer", relativeFilePath);
 
     alGenSources(1, &player->sourceId);
@@ -430,7 +433,7 @@ static void Release()
     // close device
     alcCloseDevice(device);
 
-    AArrayStrMap->Release(fileDataMap);
+    AArrayStrMap->Release(audioDataMap);
     AArrayList  ->Release(cacheList);
     AArrayList  ->Release(destroyList);
     AArrayList  ->Release(loopList);
