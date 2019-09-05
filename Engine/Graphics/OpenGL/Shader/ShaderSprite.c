@@ -1,20 +1,26 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-1-8
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-1-8
+ * Update   : 2019-1-24
+ * Author   : scott.cgi
  */
 
-#include <stdbool.h>
 
+#include <stdbool.h>
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderSprite.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Graphics/OpenGL/Shader/Shader.h"
-#include "Engine/Toolkit/Head/String.h"
+#include "Engine/Toolkit/HeaderUtils/String.h"
 
 
 static void Use(Matrix4* mvpMatrix, Color* color)
@@ -64,9 +70,8 @@ static void Init()
         )
     );
 
-    // Get the attribute locations
+    // get the attribute locations
     AShaderSprite->attribPositionTexcoord = glGetAttribLocation(AShaderSprite->program,  "aPositionTexcoord");
-    
     AShaderSprite->uniformSampler2D       = glGetUniformLocation(AShaderSprite->program, "uSampler2D");
     AShaderSprite->uniformMVPMatrix       = glGetUniformLocation(AShaderSprite->program, "uMVPMatrix");
     AShaderSprite->uniformColor           = glGetUniformLocation(AShaderSprite->program, "uColor");
@@ -74,29 +79,27 @@ static void Init()
     ALog_A
     (
         AShaderSprite->uniformSampler2D != -1,
-        "AShaderSprite could not glGetUniformLocation for uniformSampler2D"
+        "AShaderSprite cannot glGetUniformLocation for uniformSampler2D"
     );
 
     ALog_A
     (
         AShaderSprite->uniformMVPMatrix != -1,
-        "AShaderSprite could not glGetUniformLocation for uMVPMatrix"
+        "AShaderSprite cannot glGetUniformLocation for uniformMVPMatrix"
     );
 
     ALog_A
     (
         AShaderSprite->uniformColor != -1,
-        "AShaderSprite could not glGetUniformLocation for uColor"
+        "AShaderSprite cannot glGetUniformLocation for uniformColor"
     );
 
-    glEnableVertexAttribArray(AShaderSprite->attribPositionTexcoord);
+    glEnableVertexAttribArray((GLuint) AShaderSprite->attribPositionTexcoord);
 }
 
 
 struct AShaderSprite AShaderSprite[1] =
-{
-    {
-        .Use  = Use,
-        .Init = Init,
-    }
-};
+{{
+    .Use  = Use,
+    .Init = Init,
+}};

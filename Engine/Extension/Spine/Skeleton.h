@@ -1,26 +1,42 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-7-2
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-7-2
+ * Update   : 2019-2-14
+ * Author   : scott.cgi
  */
+
 
 #ifndef SKELETON_H
 #define SKELETON_H
 
 
-#include "Engine/Toolkit/Head/Define.h"
+#include "Engine/Toolkit/HeaderUtils/Define.h"
 #include "Engine/Extension/Spine/SkeletonData.h"
 #include "Engine/Extension/Spine/SkeletonBone.h"
 
 
 typedef struct Skeleton Skeleton;
-struct  Skeleton
+
+/**
+ * Skeleton consists of bones and slots.
+ * the bones can transform.
+ * the slots can provide color and texture.
+ * and the bones and slots read from boneData and slotData of skeletonData.
+ *
+ * the transform, color and texture will render by the mesh list.
+ */
+struct Skeleton
 {
     /**
-     * Has been implemented render if override must call the original
+     * The base class for provide draw functions.
      */
     Drawable                             drawable[1];
     ArrayStrMap(boneName, SkeletonBone*) boneMap [1];
@@ -33,68 +49,87 @@ struct  Skeleton
     Array(SkeletonSlot*)*                slotOrderArr;
 
     /**
-     * Skeleton used Mesh list
+     * The meshes that Skeleton needs to use.
      */
     ArrayList(Mesh)                      meshList[1];
 
     /**
-     * If not NULL, callback when SkeletonEvent fire
+     * If not NULL, callback when SkeletonEvent fired.
      */
     void (*FireSkeletonEvent)(Skeleton* skeleton, SkeletonEventData* eventData, float mixPercent);
 };
 
 
+/**
+ * Control and manager Skeleton.
+ */
 struct ASkeleton
 {
     Skeleton*               (*Create)              (SkeletonData* skeletonData);
-    void                    (*Init)                (SkeletonData* skeletonData, Skeleton* outSkeleton);
+    void                    (*Init)                (SkeletonData* skeletonData, Skeleton*   outSkeleton);
     void                    (*Release)             (Skeleton*     skeleton);
-    void                    (*SetSkin)             (Skeleton*     skeleton,     char*     skinName);
+    void                    (*SetSkin)             (Skeleton*     skeleton,     const char* skinName);
 
     /**
-     * Reset Skeleton bones to setup pose
+     * Reset Skeleton bones to setup pose.
      */
     void                    (*ResetBones)          (Skeleton* skeleton);
 
     /**
-     * Reset Skeleton slots to setup pose
+     * Reset Skeleton slots to setup pose.
      */
     void                    (*ResetSlots)          (Skeleton* skeleton);
 
 
     /**
-     * Find by curSkinData, if not found will find by default SkinData, not found then return NULL
+     * Find SkeletonAttachmentData by curSkinData,
+     * if not found will find by default SkinData,
+     * if not found yet then return NULL.
      */
-    SkeletonAttachmentData* (*GetAttachmentData)   (Skeleton* skeleton, char* slotName, char* attachmentName);
+    SkeletonAttachmentData* (*GetAttachmentData)   (
+                                                       Skeleton*   skeleton,
+                                                       const char* slotName,
+                                                       const char* attachmentName
+                                                   );
 
     /**
-     * Get SubMesh in Mesh bind in SkeletonAttachmentData
+     * Get SubMesh in Mesh that bind in SkeletonAttachmentData.
      */
     SubMesh*                (*GetAttachmentSubMesh)(Skeleton* skeleton, SkeletonAttachmentData* skeletonAttachmentData);
 
     /**
-     * Poses the skeleton at the specified time for animationData
-     * mixPercent is  percent  poses effect to apply, range in [0, 1]
+     * Poses the skeleton at the specified time for animationData.
      *
-     * mixPercent is 1.0f will 100% apply this time pose effect
-     * mixPercent is 0.0f will 0%   apply this time pose effect
-     *
-     * time is second
+     * mixPercent: percent  poses effect to apply, range in [0, 1]
+     * mixPercent: 1.0f will 100% apply this time pose effect
+     * mixPercent: 0.0f will 0%   apply this time pose effect
+     * time      : seconds
      */
-    void                     (*Apply)              (Skeleton* skeleton, SkeletonAnimationData* animationData, float time, float mixPercent);
+    void                     (*Apply)              (
+                                                        Skeleton*              skeleton,
+                                                        SkeletonAnimationData* animationData,
+                                                        float                  time,
+                                                        float                  mixPercent
+                                                   );
 };
 
 
 extern struct ASkeleton ASkeleton[1];
 
 
+/**
+ * Draw Skeleton.
+ */
 static inline void ASkeleton_Draw(Skeleton* skeleton)
 {
     ADrawable->Draw(skeleton->drawable);
 }
 
 
-static inline SkeletonAnimationData* ASkeleton_GetAnimationData(Skeleton* skeleton, char* animationName)
+/**
+ * Get SkeletonAnimationData by animationName.
+ */
+static inline SkeletonAnimationData* ASkeleton_GetAnimationData(Skeleton* skeleton, const char* animationName)
 {
     return AArrayStrMap_Get
            (
@@ -105,7 +140,10 @@ static inline SkeletonAnimationData* ASkeleton_GetAnimationData(Skeleton* skelet
 }
 
 
-static inline SubMesh* ASkeleton_GetSubMesh(Skeleton* skeleton, char* slotName, char* attachmentName)
+/**
+ * Get SubMesh in Mesh that bind in SkeletonAttachmentData.
+ */
+static inline SubMesh* ASkeleton_GetSubMesh(Skeleton* skeleton, const char* slotName, const char* attachmentName)
 {
     return ASkeleton->GetAttachmentSubMesh
            (
@@ -115,12 +153,18 @@ static inline SubMesh* ASkeleton_GetSubMesh(Skeleton* skeleton, char* slotName, 
 }
 
 
+/**
+ * Get Skeleton width.
+ */
 static inline float ASkeleton_GetWidth(Skeleton* skeleton)
 {
     return skeleton->skeletonData->width;
 }
 
 
+/**
+ * Get Skeleton height.
+ */
 static inline float ASkeleton_GetHeight(Skeleton* skeleton)
 {
     return skeleton->skeletonData->height;

@@ -1,84 +1,96 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-08-27
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-08-27
+ * Update   : 2019-1-8
+ * Author   : scott.cgi
  */
 
+ 
 #ifndef FILE_H
 #define FILE_H
 
 
 #include <stddef.h>
-#include "Engine/Toolkit/Head/Define.h"
+#include "Engine/Toolkit/HeaderUtils/Define.h"
 
 
 /**
- * Related to platform directory
+ * Related to platform directory.
+ * 
  * Android: assets   files
- * IOS:     NSBundle files
+ * IOS    : NSBundle files
  */
 typedef struct File File;
 
-
+/**
+ * Resource File access API.
+ */
 struct AFile
 {
     /**
-     * Open file from platform directory with relative file path
+     * Open a file from platform resource directory by file path.
      *
-     * relativeFilePath:
+     * resourceFilePath:
      *     Android: assets
      *     IOS    : NSBundle
+     *
+     *  return NULL if open file error.
      */
-    File* (*Open)             (char* relativeFilePath);
+    File*       (*Open)               (const char* resourceFilePath);
 
     /**
-     * Open a new file descriptor that can be used to read the asset data
-     * if the start or length cannot be represented by a 32-bit number, it will be truncated
+     * Open a file descriptor from platform resource directory by file path.
+     * it can be used to read the file data.
      *
-     * relativeFilePath:
+     * resourceFilePath:
      *     Android: assets
-     *        IOS    : NSBundle
+     *     IOS    : NSBundle
      *
-     * returns < 0 if direct fd access is not possible (for example, if the asset is compressed)
+     * returns < 0 if direct fd access is not possible (for example, if the file is compressed).
      */
-    int   (*OpenFileDescriptor)(char* relativeFilePath, long* outStart, long* outLength);
+    int         (*OpenFileDescriptor) (const char* resourceFilePath, long* outStart, long* outLength);
 
     /**
-     * Close an opened file connection, free any related resources
+     * Close an opened file connection, free any related resources.
      */
-    void  (*Close)             (File* file);
+    void        (*Close)              (File* file);
 
     /**
-     * Return file length
+     * Return file length.
      */
-    long  (*GetLength)         (File* file);
+    long        (*GetLength)          (File* file);
 
     /**
-     * Read count bytes of data from the current offset
-     * return the number of bytes read, zero on EOF, or < 0 on error
+     * Read count bytes of data from the current offset.
+     * return the number of bytes read, zero on EOF, or < 0 on error, always need to close file.
      */
-    int   (*Read)              (File* file, void* buffer, size_t count);
+    int         (*Read)               (File* file, void* buffer, size_t count);
 
     /**
-     * Seek to the specified offset
-     * the whence uses the same constants as fseek()
+     * Seek to the specified offset.
+     * the whence uses the same constants (SEEK_SET, SEEK_CUR, SEEK_END) as fseek().
      *
-     * return the new position on success, or -1 on error
+     * return the new position on success, or -1 on error, always need to close file.
      */
-    int   (*Seek)              (File* file, long offset, int whence);
-
-//----------------------------------------------------------------------------------------------------------------------
+     long       (*Seek)               (File* file, long offset, int whence);
 
     /**
-     * The absolute path related to platform directory, read only
+     * The internal data path related to platform directory.
+     * if outPathLength not NULL, will set the strlen(internalDataPath).
      *
-     * Android: internal data directory
-     * IOS    : document data directory
+     * internalDataPath:
+     *     Android: internal data directory
+     *     IOS    : document data directory
      */
-    const char* (*GetAbsoluteDirPath)();
+    const char* (*GetInternalDataPath)(int* outPathLength);
 };
 
 

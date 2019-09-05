@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-11-5
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-11-5
+ * Update   : 2019-1-17
+ * Author   : scott.cgi
  */
+
 
 #include "Engine/Toolkit/Math/TweenEase.h"
 #include "Engine/Toolkit/Math/Math.h"
@@ -141,27 +148,6 @@ static float QuinticInOut(float from, float to, float time)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float SineIn(float from, float to, float time)
-{
-    return VALUE * (1.0f - cosf(time * MATH_PI2));
-}
-
-
-static float SineOut(float from, float to, float time)
-{
-    return VALUE * sinf(time * MATH_PI2);
-}
-
-
-static float SineInOut(float from, float to, float time)
-{
-    return VALUE * 0.5f * (1.0f - cosf(time * MATH_PI));
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
 static float ExponentialIn(float from, float to, float time)
 {
     if (time == 0.0f)
@@ -214,15 +200,36 @@ static float ExponentialInOut(float from, float to, float time)
 //----------------------------------------------------------------------------------------------------------------------
 
 
+static float SineIn(float from, float to, float time)
+{
+    return VALUE * (1.0f - cosf(time * MATH_PI2));
+}
+
+
+static float SineOut(float from, float to, float time)
+{
+    return VALUE * sinf(time * MATH_PI2);
+}
+
+
+static float SineInOut(float from, float to, float time)
+{
+    return VALUE * 0.5f * (1.0f - cosf(time * MATH_PI));
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
+
 static float CircularIn(float from, float to, float time)
 {
-    return VALUE * (1.0f - sqrtf(1.0f - time * time));
+    return VALUE * (1.0f - AMath_Sqrtf(1.0f - time * time));
 }
 
 
 static float CircularOut(float from, float to, float time)
 {
-    return VALUE * sqrtf((2.0f - time) * time);
+    return VALUE * AMath_Sqrtf((2.0f - time) * time);
 }
 
 
@@ -230,12 +237,12 @@ static float CircularInOut(float from, float to, float time)
 {
     if (time < 0.5f)
     {
-        return VALUE * 0.5f * (1.0f - sqrtf(1.0f - 4.0f * time * time));
+        return VALUE * 0.5f * (1.0f - AMath_Sqrtf(1.0f - 4.0f * time * time));
     }
     else
     {
         time = time * 2.0f - 2.0f;
-        return VALUE * 0.5f * (sqrtf(1.0f - time * time) + 1);
+        return VALUE * 0.5f * (AMath_Sqrtf(1.0f - time * time) + 1.0f);
     }
 }
 
@@ -318,12 +325,38 @@ static float BackInOut(float from, float to, float time)
 {
     if (time < 0.5f)
     {
-        return VALUE *  time * time * (14.379636f * time - 5.189818f);
+        return VALUE * time * time * (14.379636f * time - 5.189818f);
     }
     else
     {
         time -= 1.0f;
         return VALUE * (time * time * (14.379636f * time + 5.189818f) + 1.0f);
+    }
+}
+
+
+static float BackInExponentialOut(float from, float to, float time)
+{
+    if (time < 0.5f)
+    {
+        return VALUE * time * time * (14.379636f * time - 5.189818f);
+    }
+    else
+    {
+        return VALUE * 0.5f * (2.0f - powf(2.0f, -20.0f * time + 10.0f));
+    }
+}
+
+
+static float BackInElasticOut(float from, float to, float time)
+{
+    if (time < 0.5f)
+    {
+        return VALUE * time * time * (14.379636f * time - 5.189818f);
+    }
+    else
+    {
+        return VALUE * (powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f);
     }
 }
 
@@ -435,7 +468,7 @@ static float BounceInOut(float from, float to, float time)
 
 
 struct ATweenEase ATweenEase[1] =
-{
+{{
     Linear,
 
     QuadraticIn,
@@ -454,13 +487,13 @@ struct ATweenEase ATweenEase[1] =
     QuinticOut,
     QuinticInOut,
 
-    SineIn,
-    SineOut,
-    SineInOut,
-
     ExponentialIn,
     ExponentialOut,
     ExponentialInOut,
+
+    SineIn,
+    SineOut,
+    SineInOut,
 
     CircularIn,
     CircularOut,
@@ -473,8 +506,10 @@ struct ATweenEase ATweenEase[1] =
     BackIn,
     BackOut,
     BackInOut,
+    BackInExponentialOut,
+    BackInElasticOut,
 
     BounceIn,
     BounceOut,
     BounceInOut,
-};
+}};

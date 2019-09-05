@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2017-4-23
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2017-4-23
+ * Update   : 2019-1-17
+ * Author   : scott.cgi
  */
+
 
 #ifndef ARRAY_INT_SET_H
 #define ARRAY_INT_SET_H
@@ -16,19 +23,26 @@
 #include "Engine/Toolkit/Utils/ArrayList.h"
 
 
+/**
+ * A set of elements that not repeated and ordered by element's int value.
+ * element type must compatible with integer.
+ */
 typedef struct
 {
     /**
-     * Hold all Elements, element type must compatible with integer
+     * Store all Elements.
      */
     ArrayList(intptr_t) elementList[1];
 }
 ArrayIntSet;
 
 
+/**
+ * Control ArrayIntSet.
+ */
 struct AArrayIntSet
 {
-    ArrayIntSet* (*Create)            ();
+    ArrayIntSet* (*Create)            (void);
     void         (*Init)              (ArrayIntSet* outArrayIntSet);
 
     ArrayIntSet* (*CreateWithCapacity)(int capacity);
@@ -37,7 +51,7 @@ struct AArrayIntSet
     void         (*Release)           (ArrayIntSet* arrayIntSet);
 
     /**
-     * Add no repeat element to ArrayIntSet
+     * Add no repeat element to ArrayIntSet.
      *
      * if element not exist in ArrayIntSet
      *    return true
@@ -47,17 +61,17 @@ struct AArrayIntSet
     bool         (*TryAdd)            (ArrayIntSet* arrayIntSet, intptr_t element);
 
     /**
-     * If return true remove success else failed
+     * If remove success return true else failed.
      */
     bool         (*TryRemove)         (ArrayIntSet* arrayIntSet, intptr_t element);
 
     /**
-     * If return true element already in ArrayIntSet else not contains
+     * If element already in ArrayIntSet return true else not contains.
      */
     bool         (*IsContains)        (ArrayIntSet* arrayIntSet, intptr_t element);
 
     /**
-     * Clear all value, reset size 0, and keep memory space
+     * Clear all elements, reset size to 0, and keep memory space.
      */
     void         (*Clear)             (ArrayIntSet* arrayIntSet);
 };
@@ -67,21 +81,19 @@ extern struct AArrayIntSet AArrayIntSet[1];
 
 
 /**
- * Marked ArrayIntSet element type
- * element type must compatible with integer
+ * Marked ArrayIntSet element type.
+ * element type must compatible with integer.
  */
-#define ArrayIntSet(elementType) ArrayIntSet
+#define ArrayIntSet(ElementType) ArrayIntSet
 
 
 /**
- * Initialize constant ArrayIntSet, element type must compatible with integer
- * use like ArrayIntSet set[1] = AArrayIntSet_Init(elementType, increase)
+ * Init constant ArrayIntSet.
+ * example: ArrayIntSet set[1] = AArrayIntSet_Init(ElementType, increase)
  */
-#define AArrayIntSet_Init(elementType, increase) \
+#define AArrayIntSet_Init(ElementType, increase) \
     {                                            \
-        {                                        \
-            AArrayList_Init(intptr_t, increase), \
-        }                                        \
+         AArrayList_Init(intptr_t, increase),    \
     }
 
 

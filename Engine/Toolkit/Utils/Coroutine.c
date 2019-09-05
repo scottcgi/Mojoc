@@ -1,14 +1,21 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2016/11/13
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2016-11-13
+ * Update   : 2019-1-9
+ * Author   : scott.cgi
  */
 
+ 
 #include <stdlib.h>
-#include "Engine/Toolkit/Head/Define.h"
+#include "Engine/Toolkit/HeaderUtils/Define.h"
 #include "Engine/Toolkit/Utils/Coroutine.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
@@ -23,27 +30,23 @@ static Coroutine* StartCoroutine(CoroutineRun Run)
 
     if (coroutine == NULL)
     {
-        coroutine = (Coroutine*) malloc(sizeof(Coroutine));
-
-        AArrayList->Init(sizeof(void*),      coroutine->params);
-        coroutine->params->increase = 4;
-
+        coroutine = malloc(sizeof(Coroutine));
         AArrayList->Init(sizeof(Coroutine*), coroutine->waits);
-        coroutine->waits->increase  = 4;
+        coroutine->waits->increase = 4;
     }
     else
     {
-        AArrayList->Clear(coroutine->params);
         AArrayList->Clear(coroutine->waits);
     }
 
     coroutine->Run          = Run;
-    coroutine->step         = NULL;
+    coroutine->step         = 0;
     coroutine->waitValue    = 0.0f;
     coroutine->curWaitValue = 0.0f;
     coroutine->waitType     = CoroutineWaitType_Null;
     coroutine->state        = CoroutineState_Ready;
 
+    AUserData_Init(coroutine->userData);
     AArrayList_Add(coroutineRunningList, coroutine);
 
     return coroutine;
@@ -52,7 +55,7 @@ static Coroutine* StartCoroutine(CoroutineRun Run)
 
 static void Update(float deltaSeconds)
 {
-    for (int i = coroutineRunningList->size - 1; i > -1; i--)
+    for (int i = coroutineRunningList->size - 1; i > -1; --i)
     {
         Coroutine* coroutine = AArrayList_Get(coroutineRunningList, i, Coroutine*);
 
@@ -72,20 +75,20 @@ static void Update(float deltaSeconds)
                 AArrayList_Add(coroutineCacheList, coroutine);
 
                 // set waiting coroutines execute forward
-                for (int j = 0; j < coroutine->waits->size; j++)
+                for (int j = 0; j < coroutine->waits->size; ++j)
                 {
                     Coroutine* wait = AArrayList_Get(coroutine->waits, j, Coroutine*);
 
                     ALog_A
                     (
                         wait->state != CoroutineState_Finish,
-                        "Coroutine [%p] can not finish before wait coroutine [%p] finish",
-                        wait, coroutine
+                        "Coroutine [%p] cannot finish before wait coroutine [%p] finish",
+                        wait,
+                        coroutine
                     );
 
                     wait->waitType = CoroutineWaitType_Null;
                 }
-
                 continue;
             }
         }
@@ -113,7 +116,7 @@ static void Update(float deltaSeconds)
 
 
 struct ACoroutine ACoroutine[1] =
-{
+{{
     StartCoroutine,
     Update,
-};
+}};

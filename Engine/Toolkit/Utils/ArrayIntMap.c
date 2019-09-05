@@ -1,15 +1,21 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-5-20
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-5-20
+ * Update   : 2019-1-17
+ * Author   : scott.cgi
  */
+
 
 #include <string.h>
 #include <stdlib.h>
-
 #include "Engine/Toolkit/Utils/ArrayIntMap.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
@@ -21,7 +27,7 @@
         "AArrayIntMap" tag "index = %d, size = %d, invalid",   \
         index,                                                 \
         arrayIntMap->elementList->size                         \
-    );
+    )
 
 
 #define CheckInsertIndex(tag)                                  \
@@ -31,24 +37,27 @@
         "AArrayIntMap" tag "index = %d, size = %d, invalid",   \
         index,                                                 \
         arrayIntMap->elementList->size                         \
-    );
+    )
 
 
 
 /**
- * Search index of key, if negative not found then return "-insertIndex - 1"
- * so insert index is "-BinarySearch() - 1"
+ * Search index of key, if negative not found then return "-insertIndex - 1",
+ * so insert index is "-BinarySearch() - 1".
  */
-static inline int BinarySearch(ArrayList* elementList, intptr_t key)
+static inline int BinarySearch(ArrayList(intptr_t)* elementList, intptr_t key)
 {
     int high  = elementList->size;
     int low   = -1;
     int guess = -1;
 
-    while (high - low > 1)
+    while (high - low > 1) // prevent infinite loops
     {
-        // not consider int overflow
-        guess               = (high + low) >> 1;
+        // (high + low) always positive, so convert to unsigned
+        // then the '>>' is unsigned move right
+        // so the overflow will be handled correctly
+        // because sign bit shift to right and 0 will be added
+        guess               = (unsigned int) (high + low) >> 1;
         intptr_t elementKey = AArrayList_Get(elementList, guess, ArrayIntMapElement*)->key;
 
         if (elementKey < key)
@@ -61,26 +70,24 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
         }
         else if (elementKey == key)
         {
-            // find the key
+            // find the key, the guess is positive value
             return guess;
         }
     }
 
-    // if guess == high the guess is bigger than key in ArrayIntMap and insert value at guess
+    // if guess == high
+    // the guess is bigger than key index and insert value at guess
 
     if (guess == low)
     {
-        // the guess is smaller than key in ArrayIntMap and insert value behind
-        // or if ArrayIntMap empty then guess is -1, also do this make guess at 0
-        guess++;
+        // the guess is smaller than key index and insert value behind,
+        // or if list empty then guess is -1, so do this make guess at 0
+        ++guess;
     }
 
-    // when ArrayIntMap empty guess is 0, so we -1 make sure return negative value
+    // when list empty guess is 0, so we -1 make sure return negative value
     return -guess - 1;
 }
-
-
-//----------------------------------------------------------------------------------------------------------------------
 
 
 static void* TryPut(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
@@ -89,15 +96,13 @@ static void* TryPut(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
 
     if (guess < 0)
     {
-        ArrayIntMapElement* element = (ArrayIntMapElement*)
-                                      malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
-
+        ArrayIntMapElement* element = malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
         element->key                = key;
         element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
 
         AArrayList_Insert(arrayIntMap->elementList, -guess - 1, element);
 
-        return memcpy(element->valuePtr, valuePtr, arrayIntMap->valueTypeSize);
+        return memcpy(element->valuePtr, valuePtr, (size_t) arrayIntMap->valueTypeSize);
     }
     else
     {
@@ -125,7 +130,7 @@ static void* TrySet(ArrayIntMap* arrayIntMap, intptr_t key, void* valuePtr)
                (
                    AArrayList_Get(arrayIntMap->elementList, guess, ArrayIntMapElement*)->valuePtr,
                    valuePtr,
-                   arrayIntMap->valueTypeSize
+                   (size_t) arrayIntMap->valueTypeSize
                );
     }
     else
@@ -157,7 +162,7 @@ static bool TryRemove(ArrayIntMap* arrayIntMap, intptr_t key)
 
 static void Clear(ArrayIntMap* arrayIntMap)
 {
-    for (int i = 0; i < arrayIntMap->elementList->size; i++)
+    for (int i = 0; i < arrayIntMap->elementList->size; ++i)
     {
         free
         (
@@ -173,13 +178,12 @@ static void* InsertAt(ArrayIntMap* arrayIntMap, intptr_t key, int index, void* v
 {
     CheckInsertIndex("InsertAt");
 
-    ArrayIntMapElement* element = (ArrayIntMapElement*) malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
-
-    AArrayList_Insert(arrayIntMap->elementList, index, element);
+    ArrayIntMapElement* element = malloc(sizeof(ArrayIntMapElement) + arrayIntMap->valueTypeSize);
     element->key                = key;
     element->valuePtr           = (char*) element + sizeof(ArrayIntMapElement);
+    AArrayList_Insert(arrayIntMap->elementList, index, element);
 
-    return memcpy(element->valuePtr, valuePtr, arrayIntMap->valueTypeSize);
+    return memcpy(element->valuePtr, valuePtr, (size_t) arrayIntMap->valueTypeSize);
 }
 
 
@@ -211,7 +215,7 @@ static void* SetAt(ArrayIntMap* arrayIntMap, int index, void* valuePtr)
            (
                AArrayList_Get(arrayIntMap->elementList, index, ArrayIntMapElement*)->valuePtr,
                valuePtr,
-               arrayIntMap->valueTypeSize
+               (size_t) arrayIntMap->valueTypeSize
            );
 }
 
@@ -231,7 +235,7 @@ static void RemoveAt(ArrayIntMap* arrayIntMap, int index)
 
 static void Release(ArrayIntMap* arrayIntMap)
 {
-    for (int i = 0; i < arrayIntMap->elementList->size; i++)
+    for (int i = 0; i < arrayIntMap->elementList->size; ++i)
     {
         free
         (
@@ -260,7 +264,7 @@ static void InitWithCapacity(int valueTypeSize, int capacity, ArrayIntMap* outAr
 
 static ArrayIntMap* CreateWithCapacity(int valueTypeSize, int capacity)
 {
-    ArrayIntMap* arrayIntMap = (ArrayIntMap*) malloc(sizeof(ArrayIntMap));
+    ArrayIntMap* arrayIntMap = malloc(sizeof(ArrayIntMap));
     InitWithCapacity(valueTypeSize, capacity, arrayIntMap);
 
     return arrayIntMap;
@@ -280,7 +284,7 @@ static ArrayIntMap* Create(int valueTypeSize)
 
 
 struct AArrayIntMap AArrayIntMap[1] =
-{
+{{
     Create,
     Init,
     CreateWithCapacity,
@@ -299,7 +303,7 @@ struct AArrayIntMap AArrayIntMap[1] =
     GetAt,
     SetAt,
     RemoveAt,
-};
+}};
 
 
 #undef CheckIndex

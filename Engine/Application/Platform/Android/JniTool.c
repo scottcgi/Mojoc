@@ -1,18 +1,25 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2017-4-1
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2017-4-1
+ * Update   : 2019-8-1
+ * Author   : scott.cgi
  */
+
 
 #include "Engine/Application/Platform/Android/JniTool.h"
 
 
-//----------------------------------------------------------------------------------------------------------------------
+//------------------------
 #ifdef IS_PLATFORM_ANDROID
-//----------------------------------------------------------------------------------------------------------------------
+//------------------------
 
 
 #include <android/native_activity.h>
@@ -21,33 +28,32 @@
 
 
 extern ANativeActivity* nativeActivity;
+static JNIEnv*          envPtr = NULL;
 
 
-static inline JNIEnv* GetEnvPtr()
+static void Init()
 {
-    static JNIEnv* envPtr = NULL;
+    (*nativeActivity->vm)->AttachCurrentThread(nativeActivity->vm, &envPtr, NULL);
+}
 
-    if (envPtr == NULL)
-    {
-        (*nativeActivity->vm)->AttachCurrentThread(nativeActivity->vm, &envPtr, NULL);
-    }
 
+static JNIEnv* GetEnvPtr()
+{
     return envPtr;
 }
 
 
-static inline jclass GetClass(char *className)
+static inline jclass GetClass(const char* className)
 {
-    JNIEnv* envPtr                   = GetEnvPtr();
     static  jobject   classLoaderObj = NULL;
-    static  jmethodID loadClassId    = NULL;
+    static  jmethodID loadClassID    = NULL;
 
     if (classLoaderObj == NULL)
     {
         jclass    activityCls      = (*envPtr)->FindClass(envPtr, "android/app/NativeActivity");
         jclass    loaderCls        = (*envPtr)->FindClass(envPtr, "java/lang/ClassLoader");
 
-        jmethodID getClassLoaderId = (*envPtr)->GetMethodID
+        jmethodID getClassLoaderID = (*envPtr)->GetMethodID
                                      (
                                         envPtr,
                                         activityCls,
@@ -55,8 +61,8 @@ static inline jclass GetClass(char *className)
                                         "()Ljava/lang/ClassLoader;"
                                      );
 
-        classLoaderObj             = (*envPtr)->CallObjectMethod(envPtr, nativeActivity->clazz, getClassLoaderId);
-        loadClassId                = (*envPtr)->GetMethodID
+        classLoaderObj             = (*envPtr)->CallObjectMethod(envPtr, nativeActivity->clazz, getClassLoaderID);
+        loadClassID                = (*envPtr)->GetMethodID
                                      (
                                          envPtr,
                                          loaderCls,
@@ -65,10 +71,10 @@ static inline jclass GetClass(char *className)
                                      );
     }
 
-    jstring classNameStr = (*envPtr)->NewStringUTF             (envPtr, className);
-    jclass  cls          = (jclass) (*envPtr)->CallObjectMethod(envPtr, classLoaderObj, loadClassId, classNameStr);
+    jstring classNameStr = (*envPtr)->NewStringUTF    (envPtr, className);
+    jclass  cls          = (*envPtr)->CallObjectMethod(envPtr, classLoaderObj, loadClassID, classNameStr);
 
-    ALog_A(cls != NULL, "AJniTool GetClass can not load class = %s", className);
+    ALog_A(cls != NULL, "AJniTool GetClass cannot load class = %s", className);
 
     (*envPtr)->DeleteLocalRef(envPtr, classNameStr);
 
@@ -76,284 +82,376 @@ static inline jclass GetClass(char *className)
 }
 
 
-static inline void GetJniMethodInfo(bool isStatic, char* className, char* methodName, char* paramCode, JniMethodInfo* outJniMethodInfo)
+static jvalue CallStaticMethod(const char* className, const char* methodName, const char* paramCode, ...)
 {
-    JNIEnv*   envPtr   = GetEnvPtr();
-    jclass    cls      = GetClass(className);
+    jclass      cls      = GetClass(className);
+    jmethodID   methodID = (*envPtr)->GetStaticMethodID(envPtr, cls, methodName, paramCode);
 
-    jmethodID methodID;
-
-    if (isStatic)
-    {
-        methodID = (*envPtr)->GetStaticMethodID(envPtr, cls, methodName, paramCode);
-    }
-    else
-    {
-        methodID = (*envPtr)->GetMethodID(envPtr, cls, methodName, paramCode);
-    }
-
-    ALog_A
-    (
-        methodID != NULL,
-        "AJniTool %s can not get methodID, className = %s, methodName = %s, paramCode = %s",
-        isStatic ? "GetStaticMethodID" : "GetMethodID",
-        className,
-        methodName,
-        paramCode
-    );
-
-    outJniMethodInfo->envPtr   = envPtr;
-    outJniMethodInfo->cls      = cls;
-    outJniMethodInfo->methodID = methodID;
-}
-
-
-static void GetMethodInfo(char* className, char* methodName, char* paramCode, JniMethodInfo* outJniMethodInfo)
-{
-    GetJniMethodInfo(false, className, methodName, paramCode,outJniMethodInfo);
-}
-
-
-static void GetStaticMethodInfo(char* className, char* methodName, char* paramCode, JniMethodInfo* outJniMethodInfo)
-{
-    GetJniMethodInfo(true, className, methodName, paramCode,outJniMethodInfo);
-}
-
-
-static jvalue CallObjectMethod(jobject object, char* methodName, char* paramCode, ...)
-{
-    JNIEnv*   envPtr    = GetEnvPtr();
-    jclass    cls       = (*envPtr)->GetObjectClass(envPtr, object);
-    jmethodID methodId  = (*envPtr)->GetMethodID   (envPtr, cls, methodName, paramCode);
-
-    ALog_A
-    (
-        methodId != NULL,
-        "AJniTool CallObjectMethod can not get methodID, methodName = %s, paramCode = %s",
-        methodName,
-        paramCode
-    );
-
-    char* p = paramCode;
-
+    const char* p        = paramCode;
     // skip '()' to find out the return type
-    while (*p != ')')
-    {
-        p++;
-    }
-    // skip ')'
-    p++;
+    while (*p++ != ')');
 
-    va_list  args;
+    va_list args;
     va_start(args, paramCode);
+    jvalue  value = {};
+
+    switch (*p)
+    {
+        case 'V':
+            (*envPtr)->CallStaticVoidMethodV             (envPtr, cls, methodID, args);
+            break;
+
+        case '[':
+        case 'L':
+            value.l = (*envPtr)->CallStaticObjectMethodV (envPtr, cls, methodID, args);
+            break;
+
+        case 'Z':
+            value.z = (*envPtr)->CallStaticBooleanMethodV(envPtr, cls, methodID, args);
+            break;
+
+        case 'B':
+            value.b = (*envPtr)->CallStaticByteMethodV   (envPtr, cls, methodID, args);
+            break;
+
+        case 'C':
+            value.c = (*envPtr)->CallStaticCharMethodV   (envPtr, cls, methodID, args);
+            break;
+
+        case 'S':
+            value.s = (*envPtr)->CallStaticShortMethodV  (envPtr, cls, methodID, args);
+            break;
+
+        case 'I':
+            value.i = (*envPtr)->CallStaticIntMethodV    (envPtr, cls, methodID, args);
+            break;
+
+        case 'J':
+            value.j = (*envPtr)->CallStaticLongMethodV   (envPtr, cls, methodID, args);
+            break;
+
+        case 'F':
+            value.f = (*envPtr)->CallStaticFloatMethodV  (envPtr, cls, methodID, args);
+            break;
+
+        case 'D':
+            value.d = (*envPtr)->CallStaticDoubleMethodV (envPtr, cls, methodID, args);
+            break;
+
+        default:
+            ALog_A(false, "AJniTool CallStaticMethod paramCode = %s, illegal", paramCode);
+    }
+
+    va_end(args);
+
+    return value;
+}
+
+
+static inline jvalue CallMethodV(jobject object, const char* methodName, const char* paramCode, va_list args)
+{
+    jmethodID   methodID = (*envPtr)->GetMethodID(envPtr, (*envPtr)->GetObjectClass(envPtr, object), methodName, paramCode);
+
+    const char* p        = paramCode;
+    // skip '()' to find out the return type
+    while (*p++ != ')');
+
+    jvalue value = {};
+
+    switch (*p)
+    {
+        case 'V':
+            (*envPtr)->CallVoidMethodV             (envPtr, object, methodID, args);
+            break;
+
+        case '[':
+        case 'L':
+            value.l = (*envPtr)->CallObjectMethodV (envPtr, object, methodID, args);
+            break;
+
+        case 'Z':
+            value.z = (*envPtr)->CallBooleanMethodV(envPtr, object, methodID, args);
+            break;
+
+        case 'B':
+            value.b = (*envPtr)->CallByteMethodV   (envPtr, object, methodID, args);
+            break;
+
+        case 'C':
+            value.c = (*envPtr)->CallCharMethodV   (envPtr, object, methodID, args);
+            break;
+
+        case 'S':
+            value.s = (*envPtr)->CallShortMethodV  (envPtr, object, methodID, args);
+            break;
+
+        case 'I':
+            value.i = (*envPtr)->CallIntMethodV    (envPtr, object, methodID, args);
+            break;
+
+        case 'J':
+            value.j = (*envPtr)->CallLongMethodV   (envPtr, object, methodID, args);
+            break;
+
+        case 'F':
+            value.f = (*envPtr)->CallFloatMethodV  (envPtr, object, methodID, args);
+            break;
+
+        case 'D':
+            value.d = (*envPtr)->CallDoubleMethodV (envPtr, object, methodID, args);
+            break;
+
+        default:
+            ALog_A(false, "AJniTool CallMethodV paramCode = %s, illegal", paramCode);
+    }
+
+    return value;
+}
+
+
+static jvalue CallMethod(jobject object, const char* methodName, const char* paramCode, ...)
+{
+    va_list args;
+    va_start(args, paramCode);
+    jvalue  value  = CallMethodV(object, methodName, paramCode, args);
+    va_end  (args);
+
+    return value;
+}
+
+
+static jvalue CallNativeActivityMethod(const char* methodName, const char* paramCode, ...)
+{
+    va_list args;
+    va_start(args, paramCode);
+    jvalue  value = CallMethodV(nativeActivity->clazz, methodName, paramCode, args);
+    va_end  (args);
+    
+    return value;
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
+
+static jvalue GetStaticField(const char* className, const char* fieldName, const char* typeCode)
+{
+    jclass   cls     = GetClass(className);
+    jfieldID fieldID = (*envPtr)->GetStaticFieldID(envPtr, cls, fieldName, typeCode);
     jvalue   value;
 
-    switch (*p)
+    switch (*typeCode)
     {
-        case 'V':
-            (*envPtr)->CallVoidMethodV             (envPtr, object, methodId, args);
-            break;
-
         case '[':
         case 'L':
-            value.l = (*envPtr)->CallObjectMethodV (envPtr, object, methodId, args);
+            value.l = (*envPtr)->GetStaticObjectField (envPtr, cls, fieldID);
             break;
 
         case 'Z':
-            value.z = (*envPtr)->CallBooleanMethodV(envPtr, object, methodId, args);
+            value.z = (*envPtr)->GetStaticBooleanField(envPtr, cls, fieldID);
             break;
 
         case 'B':
-            value.b = (*envPtr)->CallByteMethodV   (envPtr, object, methodId, args);
+            value.b = (*envPtr)->GetStaticByteField   (envPtr, cls, fieldID);
             break;
 
         case 'C':
-            value.c = (*envPtr)->CallCharMethodV   (envPtr, object, methodId, args);
+            value.c = (*envPtr)->GetStaticCharField   (envPtr, cls, fieldID);
             break;
 
         case 'S':
-            value.s = (*envPtr)->CallShortMethodV  (envPtr, object, methodId, args);
+            value.s = (*envPtr)->GetStaticShortField  (envPtr, cls, fieldID);
             break;
 
         case 'I':
-            value.i = (*envPtr)->CallIntMethodV    (envPtr, object, methodId, args);
+            value.i = (*envPtr)->GetStaticIntField    (envPtr, cls, fieldID);
             break;
 
         case 'J':
-            value.j = (*envPtr)->CallLongMethodV   (envPtr, object, methodId, args);
+            value.j = (*envPtr)->GetStaticLongField   (envPtr, cls, fieldID);
             break;
 
         case 'F':
-            value.f = (*envPtr)->CallFloatMethodV  (envPtr, object, methodId, args);
+            value.f = (*envPtr)->GetStaticFloatField  (envPtr, cls, fieldID);
             break;
 
         case 'D':
-            value.d = (*envPtr)->CallDoubleMethodV (envPtr, object, methodId, args);
+            value.d = (*envPtr)->GetStaticDoubleField (envPtr, cls, fieldID);
             break;
 
         default:
-            ALog_A(false, "AJniTool CallObjectMethod paramCode = %s, illegal", paramCode);
+            ALog_A(false, "AJniTool GetStaticField typeCode = %s, illegal", typeCode);
     }
-
-    va_end(args);
 
     return value;
 }
 
 
-static inline jvalue CallClassMethodV(jclass cls, char* methodName, char* paramCode, va_list args)
+static inline jvalue GetField(jobject object, const char* fieldName, const char* typeCode)
 {
-    JNIEnv*   envPtr    = GetEnvPtr();
-    jmethodID methodId  = (*envPtr)->GetStaticMethodID(envPtr, cls, methodName, paramCode);
+    jfieldID fieldID = (*envPtr)->GetFieldID(envPtr, (*envPtr)->GetObjectClass(envPtr, object), fieldName, typeCode);
+    jvalue   value   = {};
 
-    ALog_A
-    (
-        methodId != NULL,
-        "AJniTool CallClassMethodV can not get methodID, methodName = %s, paramCode = %s",
-        methodName,
-        paramCode
-    );
-
-    char* p = paramCode;
-
-    // skip '()' to find out the return type
-    while (*p != ')')
+    switch (*typeCode)
     {
-        p++;
-    }
-    // skip ')'
-    p++;
-
-    jvalue value;
-    switch (*p)
-    {
-        case 'V':
-            (*envPtr)->CallStaticVoidMethodV             (envPtr, cls, methodId, args);
-            break;
-
         case '[':
         case 'L':
-            value.l = (*envPtr)->CallStaticObjectMethodV (envPtr, cls, methodId, args);
+            value.l = (*envPtr)->GetObjectField (envPtr, object, fieldID);
             break;
 
         case 'Z':
-            value.z = (*envPtr)->CallStaticBooleanMethodV(envPtr, cls, methodId, args);
+            value.z = (*envPtr)->GetBooleanField(envPtr, object, fieldID);
             break;
 
         case 'B':
-            value.b = (*envPtr)->CallStaticByteMethodV   (envPtr, cls, methodId, args);
+            value.b = (*envPtr)->GetByteField   (envPtr, object, fieldID);
             break;
 
         case 'C':
-            value.c = (*envPtr)->CallStaticCharMethodV   (envPtr, cls, methodId, args);
+            value.c = (*envPtr)->GetCharField   (envPtr, object, fieldID);
             break;
 
         case 'S':
-            value.s = (*envPtr)->CallStaticShortMethodV  (envPtr, cls, methodId, args);
+            value.s = (*envPtr)->GetShortField  (envPtr, object, fieldID);
             break;
 
         case 'I':
-            value.i = (*envPtr)->CallStaticIntMethodV    (envPtr, cls, methodId, args);
+            value.i = (*envPtr)->GetIntField    (envPtr, object, fieldID);
             break;
 
         case 'J':
-            value.j = (*envPtr)->CallStaticLongMethodV   (envPtr, cls, methodId, args);
+            value.j = (*envPtr)->GetLongField   (envPtr, object, fieldID);
             break;
 
         case 'F':
-            value.f = (*envPtr)->CallStaticFloatMethodV  (envPtr, cls, methodId, args);
+            value.f = (*envPtr)->GetFloatField  (envPtr, object, fieldID);
             break;
 
         case 'D':
-            value.d = (*envPtr)->CallStaticDoubleMethodV (envPtr, cls, methodId, args);
+            value.d = (*envPtr)->GetDoubleField (envPtr, object, fieldID);
             break;
 
         default:
-            ALog_A(false, "AJniTool CallClassMethod paramCode = %s, illegal", paramCode);
+            ALog_A(false, "AJniTool GetField typeCode = %s, illegal", typeCode);
     }
 
     return value;
 }
 
 
-static inline jvalue CallClassMethod(jclass cls, char* methodName, char* paramCode, ...)
+static jsize GetArrayLength(jarray array)
 {
-    va_list args;
-    va_start(args, paramCode);
-    jvalue value = CallClassMethodV(cls, methodName, paramCode, args);
-    va_end(args);
+    return (*envPtr)->GetArrayLength(envPtr, array);
+}
+
+
+static jvalue GetArrayAt(jarray array, jint index, char typeChar)
+{
+    jvalue value = {};
+
+    switch (typeChar)
+    {
+        case '[':
+        case 'L':
+            value.l = (*envPtr)->GetObjectArrayElement  (envPtr, array, index);
+            break;
+
+        case 'Z':
+            value.z = (*envPtr)->GetBooleanArrayElements(envPtr, array, false)[index];
+            break;
+
+        case 'B':
+            value.b = (*envPtr)->GetByteArrayElements   (envPtr, array, false)[index];
+            break;
+
+        case 'C':
+            value.c = (*envPtr)->GetCharArrayElements   (envPtr, array, false)[index];
+            break;
+
+        case 'S':
+            value.s = (*envPtr)->GetShortArrayElements  (envPtr, array, false)[index];
+            break;
+
+        case 'I':
+            value.i = (*envPtr)->GetIntArrayElements    (envPtr, array, false)[index];
+            break;
+
+        case 'J':
+            value.j = (*envPtr)->GetLongArrayElements   (envPtr, array, false)[index];
+            break;
+
+        case 'F':
+            value.f = (*envPtr)->GetFloatArrayElements  (envPtr, array, false)[index];
+            break;
+
+        case 'D':
+            value.d = (*envPtr)->GetDoubleArrayElements (envPtr, array, false)[index];
+            break;
+
+        default:
+            ALog_A(false, "AJniTool GetArrayAt typeChar = %c, illegal", typeChar);
+    }
 
     return value;
 }
 
 
-static jvalue CallStaticMethod(char* className, char* methodName, char* paramCode, ...)
+static jvalue GetNativeActivityField(const char* fieldName, const char* typeCode)
 {
-    va_list args;
-    va_start(args, paramCode);
-    jvalue value = CallClassMethodV(GetClass(className), methodName, paramCode, args);
-    va_end(args);
-
-    return value;
+    return GetField(nativeActivity->clazz, fieldName, typeCode);
 }
 
 
 static int GetSignHashCode()
 {
-    JNIEnv*     envPtr          = GetEnvPtr();
-    jobject     packageManager  = CallObjectMethod
-                                  (
-                                      nativeActivity->clazz,
-                                      "getPackageManager",
-                                      "()Landroid/content/pm/PackageManager;"
-                                  ).l;
+    jobject packageManager = CallNativeActivityMethod
+                             (
+                                 "getPackageManager",
+                                 "()Landroid/content/pm/PackageManager;"
+                             ).l;
 
-    jstring      packageName    = (jstring) CallObjectMethod
-                                  (
-                                      nativeActivity->clazz,
-                                      "getPackageName",
-                                      "()Ljava/lang/String;"
-                                  ).l;
+    jstring packageName    = CallNativeActivityMethod
+                             (
+                                 "getPackageName",
+                                 "()Ljava/lang/String;"
+                             ).l;
 
-    jobject      packageInfo    = CallObjectMethod
-                                  (
-                                      packageManager,
-                                      "getPackageInfo",
-                                      "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;",
-                                      packageName,
-                                      64
-                                  ).l;
+    jobject packageInfo    = CallMethod
+                             (
+                                 packageManager,
+                                 "getPackageInfo",
+                                 "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;",
+                                 packageName,
+                                 GetStaticField("android/content/pm/PackageManager", "GET_SIGNATURES", "I").i
+                             ).l;
 
-    jclass       packageInfoCls = (*envPtr)->GetObjectClass(envPtr, packageInfo);
+    jarray  signatureArr   = GetField(packageInfo, "signatures", "[Landroid/content/pm/Signature;").l;
+    jobject signature      = (*envPtr)->GetObjectArrayElement(envPtr, signatureArr, 0);
 
-    jfieldID     signaturesFid  = (*envPtr)->GetFieldID
-                                  (
-                                      envPtr,
-                                      packageInfoCls,
-                                      "signatures",
-                                      "[Landroid/content/pm/Signature;"
-                                  );
-
-
-    jobjectArray signatureArr   = (*envPtr)->GetObjectField       (envPtr, packageInfo,  signaturesFid);
-    jobject      signature      = (*envPtr)->GetObjectArrayElement(envPtr, signatureArr, 0);
-
-    return CallObjectMethod(signature, "hashCode", "()I").i;
+    return CallMethod(signature, "hashCode", "()I").i;
 }
 
 
 struct AJniTool AJniTool[1] =
-{
-    GetMethodInfo,
-    GetStaticMethodInfo,
+{{
+    Init,
+    GetEnvPtr,
+
     CallStaticMethod,
-    CallObjectMethod,
-    CallClassMethod,
+    CallMethod,
+    CallNativeActivityMethod,
+
+    GetStaticField,
+    GetField,
+    GetArrayLength,
+    GetArrayAt,
+    GetNativeActivityField,
 
     GetSignHashCode,
-};
+}};
 
 
-//----------------------------------------------------------------------------------------------------------------------
-#endif
-//----------------------------------------------------------------------------------------------------------------------
+//---------------------------
+#endif // IS_PLATFORM_ANDROID
+//---------------------------
+

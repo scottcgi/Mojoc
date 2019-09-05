@@ -1,139 +1,137 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2014-6-3
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2014-6-3
+ * Update   : 2019-1-18
+ * Author   : scott.cgi
  */
+
 
 #ifndef PHYSICS_BODY_H
 #define PHYSICS_BODY_H
 
 
 #include "Engine/Toolkit/Math/Matrix.h"
-#include "Engine/Toolkit/Head/Bitwise.h"
+#include "Engine/Toolkit/HeaderUtils/Bitwise.h"
 #include "Engine/Toolkit/Utils/Array.h"
-#include "Engine/Toolkit/Head/UserData.h"
+#include "Engine/Toolkit/HeaderUtils/UserData.h"
 
 
 typedef enum
 {
+    PhysicsShape_NULL    = 0,
     PhysicsShape_Polygon = 1,
     PhysicsShape_Line    = 1 << 2,
     PhysicsShape_Point   = 1 << 3,
-    PhysicsShape_Length,
 }
 PhysicsShape;
 
 
-/**
- * If contains 'is' the state can set and clear
- * else the state will automatically set and clear
- */
 typedef enum
 {
-    PhysicsBodyState_Null          = 0,
+    /**
+     * Not add in physics world yet.
+     */
+    PhysicsBodyState_OutsideWorld,
 
     /**
-     * Auto set no motion can collision, collision will wake up
+     * Can motion can collision.
      */
-    PhysicsBodyState_Sleeping      = 1,
+    PhysicsBodyState_Normal,
 
     /**
-     * Auto set whether has collision
+     * No motion can collision.
      */
-    PhysicsBodyState_Collision     = 1 << 1,
-
-//----------------------------------------------------------------------------------------------------------------------
+    PhysicsBodyState_Fixed,
 
     /**
-     * No motion can collision
+     * No motion no collision.
      */
-    PhysicsBodyState_IsFixed       = 1 << 2,
-
-    /**
-     * No motion no collision forever
-     */
-    PhysicsBodyState_IsFreeze      = 1 << 3,
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-    PhysicsBodyState_NoMotion      = PhysicsBodyState_Sleeping |
-                                     PhysicsBodyState_IsFixed  |
-                                     PhysicsBodyState_IsFreeze,
-
-   PhysicsBodyState_NoCollision    = PhysicsBodyState_IsFreeze,
-
+    PhysicsBodyState_Freeze,
 }
 PhysicsBodyState;
 
 
-/**
- * Recommended cache and reused
- */
 typedef struct PhysicsBody PhysicsBody;
 struct  PhysicsBody
 {
-    UserData     userData[1];
+    UserData         userData[1];
 
     /**
-     * Default -1 used to identify PhysicsBody
+     * Used to identify PhysicsBody, default -1.
      */
-    int          userId;
+    int              userID;
 
-    float        positionX;
-    float        positionY;
-    float        velocityX;
-    float        velocityY;
-    float        accelerationX;
-    float        accelerationY;
-    float        rotationZ;
+    float            positionX;
+    float            positionY;
+    float            velocityX;
+    float            velocityY;
+    float            accelerationX;
+    float            accelerationY;
+    float            rotationZ;
 
-    PhysicsShape shape;
+    PhysicsShape     shape;
 
     /**
-     * Hold born vertices, not modify
+     * PhysicsBody current state.
      */
-    Array(float) vertexArr  [1];
+    PhysicsBodyState state;
 
     /**
-     * The vertices after transformed
+     * Pow of 2, default 0.
+     * body can collision between different collisionGroup (no same bit).
      */
-    Array(float) positionArr[1];
+    int              collisionGroup;
 
     /**
-     * Hold PhysicsBodyState
+     * Store born vertices.
      */
-    int          state;
+    Array(float)     vertexArr[1];
 
     /**
-     * Pow of 2, default 0
-     * body can collision between different collisionGroup
+     * The vertices after transformed.
      */
-    int          collisionGroup;
+    Array(float)     transformedVertexArr[1];
 
     /**
-     * When body collision callback
+     * When body collision callback.
      */
     void (*OnCollision)(PhysicsBody* self, PhysicsBody* other, float deltaSeconds);
 };
 
 
+/**
+ * Control PhysicsBody.
+ */
 struct APhysicsBody
 {
     /**
-     * Create body with shape by vertices
-     * if shape not support will return NULL
+     * Create body with shape and vertices.
+     *
+     * the vertexArr will copy into body,
+     * and the body's vertexArr and transformedVertexArr are same when init,
+     * and all data create by one malloc.
+     *
+     * if shape not support will return NULL.
      */
-    PhysicsBody* (*Create)      (PhysicsShape shape, Array(float)* vertexArr);
+    PhysicsBody* (*Create)       (PhysicsShape shape, Array(float)* vertexArr);
 
     /**
-     * Update body shape motion
+     * Reset body's transformedVertexArr to vertexArr.
      */
-    void         (*UpdateMotion)(PhysicsBody* body, float deltaSeconds);
+    void         (*ResetVertices)(PhysicsBody* body);
+
+    /**
+     * Simulate body motion and update transformedVertexArr by position, rotation.
+     */
+    void         (*Update)       (PhysicsBody* body, float deltaSeconds);
 
 };
 
@@ -141,60 +139,42 @@ struct APhysicsBody
 extern struct APhysicsBody APhysicsBody[1];
 
 
-static inline bool APhysicsBody_CheckState(PhysicsBody* physicsBody, PhysicsBodyState checkState)
-{
-    return ABitwise_Check(physicsBody->state, checkState);
-}
-
-
-static inline void APhysicsBody_SetState(PhysicsBody* physicsBody, PhysicsBodyState setState)
-{
-    ABitwise_Set(physicsBody->state, setState);
-}
-
-
-static inline void APhysicsBody_SetOnlyState(PhysicsBody* physicsBody, PhysicsBodyState setOnlyState)
-{
-    ABitwise_SetOnly(physicsBody->state, setOnlyState);
-}
-
-
-static inline void APhysicsBody_ClearState(PhysicsBody* physicsBody, PhysicsBodyState clearState)
-{
-    ABitwise_Clear(physicsBody->state, clearState);
-}
-
-
-static inline void APhysicsBody_ClearAndSetState(PhysicsBody* physicsBody, PhysicsBodyState clearState, PhysicsBodyState setState)
-{
-    ABitwise_ClearAndSet(physicsBody->state, clearState, setState);
-}
-
-
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static inline bool APhysicsBody_CheckCollisionGroup(PhysicsBody* physicsBody,  int checkCollisionGroup)
+/**
+ *  Check physicsBody whether has same bit in collisionGroup.
+ */
+static inline bool APhysicsBody_CheckCollisionGroup(PhysicsBody* physicsBody, int collisionGroup)
 {
-    return ABitwise_Check(physicsBody->collisionGroup, checkCollisionGroup);
+    return ABitwise_Check(physicsBody->collisionGroup, collisionGroup);
 }
 
 
-static inline void APhysicsBody_SetCollisionGroup(PhysicsBody* physicsBody,    int setCollisionGroup)
+/**
+ * Add collisionGroup to physicsBody.
+ */
+static inline void APhysicsBody_AddCollisionGroup(PhysicsBody* physicsBody, int collisionGroup)
 {
-    ABitwise_Set(physicsBody->collisionGroup, setCollisionGroup);
+    ABitwise_Add(physicsBody->collisionGroup, collisionGroup);
 }
 
 
-static inline void APhysicsBody_SetOnlyCollisionGroup(PhysicsBody* physicsBody, int setOnlycollisionGroup)
+/**
+ * Set collisionGroup to physicsBody.
+ */
+static inline void APhysicsBody_SetCollisionGroup(PhysicsBody* physicsBody, int collisionGroup)
 {
-    ABitwise_SetOnly(physicsBody->collisionGroup, setOnlycollisionGroup);
+    ABitwise_Set(physicsBody->collisionGroup, collisionGroup);
 }
 
 
-static inline void APhysicsBody_ClearCollisionGroup(PhysicsBody* physicsBody,   int clearCollisionGroup)
+/**
+ * Clear collisionGroup in physicsBody.
+ */
+static inline void APhysicsBody_ClearCollisionGroup(PhysicsBody* physicsBody, int collisionGroup)
 {
-    ABitwise_Clear(physicsBody->collisionGroup, clearCollisionGroup);
+    ABitwise_Clear(physicsBody->collisionGroup, collisionGroup);
 }
 
 

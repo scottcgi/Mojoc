@@ -1,10 +1,16 @@
 /*
- * Copyright (c) 2017-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2015-4-27
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2015-4-27
+ * Update   : 2019-2-16
+ * Author   : scott.cgi
  */
 
 
@@ -15,22 +21,18 @@
 #include "Enemy.h"
 
 
-#define  ENEMY_KINDS_COUNT   1
-#define  KILL_INCREASE_SCALE 10
-#define  TIME_INCREASE_SCALE 5
-
-
 struct AEnemyAI
 {
     int               currentEnemyNum;
     ArrayList(Enemy*) enemyDeadList[1];
     bool              isInit;
+    bool              isHasBoss;
 
-    void (*Init)       ();
-    void (*Run)        ();
+    void (*Init)       (void);
+    void (*Run)        (void);
     void (*CreateCache)(int kind);
-    void (*SetAllEnemy)(int enemyState, float enemyMoveDis);
-    void (*Restart)    ();
+    void (*SetAllEnemy)(int enemyStateID, float enemyMoveDis);
+    void (*Restart)    (void);
 };
 
 

@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2017-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2017-2-20
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2017-2-20
+ * Update   : 2019-2-16
+ * Author   : scott.cgi
  */
+
 
 #ifndef AUDIO_TOOL_H
 #define AUDIO_TOOL_H
@@ -16,37 +23,40 @@
 
 typedef enum
 {
-    AudioId_ClickBtn,
-    AudioId_CurtainSlideShow,
-    AudioId_CurtainSlideHide,
-    AudioId_Shoot,
-    AudioId_HurtEnemy,
-    AudioId_HurtGround,
-    AudioId_Drop,
-    AudioId_Coin,
-    AudioId_PickHeart,
-    AudioId_PickStone,
-    AudioId_PickWood,
-    AudioId_PickHero,
-    AudioId_Die,
-    AudioId_CurtainRing,
-    AudioId_ShootFast,
-    AudioId_FallDown,
-    AudioId_NoArrow,
-    AudioId_HeroDie,
-    AudioId_BG1,
-    AudioId_BG2,
+    AudioID_ClickBtn,
+    AudioID_CurtainSlideShow,
+    AudioID_CurtainSlideHide,
+    AudioID_Shoot,
+    AudioID_HurtEnemy,
+    AudioID_HurtGround,
+    AudioID_Drop,
+    AudioID_PickCoin,
+    AudioID_PickHeart,
+    AudioID_PickStone,
+    AudioID_PickWood,
+    AudioID_HurtHero,
+    AudioID_Over,
+    AudioID_CurtainRing,
+    AudioID_ShootFast,
+    AudioID_FallDown,
+    AudioID_NoArrow,
+    AudioID_HeroDie,
+    AudioID_BG11,
+    AudioID_BG21,
+    AudioID_BG22,
 
-    AudioId_Length,
+    AudioID_Length,
 }
-AudioId;
+AudioID;
 
 
 struct AAudioTool
 {
-    AudioPlayer* (*Play)       (AudioId id);
-    void         (*StartUIBG)  ();
-    void         (*StartGameBG)();
+    AudioPlayer* (*Play)        (AudioID id);
+    void         (*StartUIBG)   (void);
+    void         (*StartGameBG) (void);
+    void         (*PauseGameBG) (void);
+    void         (*ResumeGameBG)(void);
 };
 
 

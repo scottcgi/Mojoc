@@ -1,20 +1,28 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-08-29
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-8-29
+ * Update   : 2019-1-8
+ * Author   : scott.cgi
  */
+ 
 
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
-//----------------------------------------------------------------------------------------------------------------------
+//------------------------
 #ifdef IS_PLATFORM_ANDROID
-//----------------------------------------------------------------------------------------------------------------------
+//------------------------
 
 
+#include <string.h>
 #include <android/native_activity.h>
 #include "Engine/Toolkit/Platform/File.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -23,22 +31,17 @@
 extern ANativeActivity* nativeActivity;
 
 
-static File* Open(char* relativeFilePath)
+static File* Open(const char* resourceFilePath)
 {
-    AAsset* asset = AAssetManager_open(nativeActivity->assetManager, relativeFilePath, AASSET_MODE_UNKNOWN);
-    ALog_A(asset != NULL, "AFile open failed, relative file path = %s", relativeFilePath);
-
+    AAsset* asset = AAssetManager_open(nativeActivity->assetManager, resourceFilePath, AASSET_MODE_UNKNOWN);
     return (File*) asset;
 }
 
 
-static int OpenFileDescriptor(char* relativeFilePath, long* outStart, long* outLength)
+static int OpenFileDescriptor(const char* resourceFilePath, long* outStart, long* outLength)
 {
-    AAsset* asset = AAssetManager_open(nativeActivity->assetManager, relativeFilePath, AASSET_MODE_UNKNOWN);
-
-    // open asset as file descriptor
-    int fd = AAsset_openFileDescriptor(asset, outStart, outLength);
-    ALog_A(fd >= 0, "AFile OpenFileDescriptor failed, relative file path = %s", relativeFilePath);
+    AAsset* asset = AAssetManager_open(nativeActivity->assetManager, resourceFilePath, AASSET_MODE_UNKNOWN);
+    int     fd    = AAsset_openFileDescriptor(asset, (off_t) outStart, (off_t) outLength);
     AAsset_close(asset);
 
     return fd;
@@ -53,7 +56,7 @@ static void Close(File* file)
 
 static long GetLength(File* file)
 {
-    return AAsset_getLength((AAsset*) file);
+    return (long) AAsset_getLength((AAsset*) file);
 }
 
 
@@ -63,30 +66,43 @@ static int Read(File* file, void* buffer, size_t count)
 }
 
 
-static int Seek(File* file, long offset, int whence)
+static long Seek(File* file, long offset, int whence)
 {
-    return AAsset_seek((AAsset*) file, offset, whence);
+    return (long) AAsset_seek((AAsset*) file, (off_t) offset, whence);
 }
 
 
-static const char* GetAbsoluteDirPath()
+static const char* GetInternalDataPath(int* outPathLength)
 {
+    static int length = -1;
+
+    if (length == -1)
+    {
+        length = (int) strlen(nativeActivity->internalDataPath);
+    }
+
+    if (outPathLength != NULL)
+    {
+        *outPathLength = length;
+    }
+
     return nativeActivity->internalDataPath;
 }
 
 
 struct AFile AFile[1] =
-{
+{{
     Open,
     OpenFileDescriptor,
     Close,
     GetLength,
     Read,
     Seek,
-    GetAbsoluteDirPath,
-};
+    GetInternalDataPath,
+}};
 
 
-//----------------------------------------------------------------------------------------------------------------------
-#endif
-//----------------------------------------------------------------------------------------------------------------------
+//---------------------------
+#endif // IS_PLATFORM_ANDROID
+//---------------------------
+

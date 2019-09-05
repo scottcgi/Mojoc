@@ -1,16 +1,23 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-9-4
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-9-4
+ * Update   : 2019-1-7
+ * Author   : scott.cgi
  */
 
+
+#include "Engine/Graphics/Graphics.h"
 #include "Engine/Audio/Platform/Audio.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Application/Application.h"
-#include "Engine/Graphics/Graphics.h"
 #include "Engine/Application/Scheduler.h"
 #include "Engine/Toolkit/Utils/Tween.h"
 #include "Engine/Graphics/Draw/Drawable.h"
@@ -19,12 +26,15 @@
 #include "Engine/Physics/PhysicsWorld.h"
 #include "Engine/Toolkit/Utils/Coroutine.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Toolkit/Utils/FileTool.h"
+#include "Engine/Toolkit/Utils/Thread.h"
 
 
-static const char* saveDataFileName = "MojocSaveDataFile";
-static struct      timespec now;
-static struct      timespec last;
+static struct timespec now;
+static struct timespec last;
+
+
+#define CheckCallback(callback) \
+    ALog_A((callback) != NULL, #callback " in Application_MainImpl cannot NULL")
 
 
 static void Init()
@@ -33,74 +43,54 @@ static void Init()
     APhysics  ->Init();
     AExtension->Init();
     AAudio    ->Init();
-
-    AComponent->Init(AApplication->component);
+    AComponent->Init(AApplication->rootComponent);
 
     // entry called
-    Application_Main();
+    Application_MainImpl();
 
-    // check callback setting
-    ALog_A(AApplication->callbacks->OnReady             != NULL, "AApplication->callbacks->OnReady             must be set");
-    ALog_A(AApplication->callbacks->OnPause             != NULL, "AApplication->callbacks->OnPause             must be set");
-    ALog_A(AApplication->callbacks->OnResume            != NULL, "AApplication->callbacks->OnResume            must be set");
-    ALog_A(AApplication->callbacks->OnDestroy           != NULL, "AApplication->callbacks->OnDestroy           must be set");
-    ALog_A(AApplication->callbacks->OnResized           != NULL, "AApplication->callbacks->OnResized           must be set");
-    ALog_A(AApplication->callbacks->OnSaveData          != NULL, "AApplication->callbacks->OnSaveData          must be set");
-    ALog_A(AApplication->callbacks->OnInitWithSavedData != NULL, "AApplication->callbacks->OnInitWithSavedData must be set");
-
-//----------------------------------------------------------------------------------------------------------------------
-
-    int   length;
-    void* data = AFileTool->CreateDataFromDir((char*) saveDataFileName, &length);
-
-    if (data != NULL)
-    {
-        AApplication->callbacks->OnInitWithSavedData(data, length);
-        free(data);
-    }
-
-//----------------------------------------------------------------------------------------------------------------------
+    CheckCallback(AApplication->callbacks->OnReady);
+    CheckCallback(AApplication->callbacks->OnPause);
+    CheckCallback(AApplication->callbacks->OnResume);
+    CheckCallback(AApplication->callbacks->OnDestroy);
+    CheckCallback(AApplication->callbacks->OnResized);
+    CheckCallback(AApplication->callbacks->OnSaveData);
 
     // start clock
     clock_gettime(CLOCK_MONOTONIC, &last);
 }
 
 
+#undef CheckCallback
+
+
 static void Loop()
 {
     clock_gettime(CLOCK_MONOTONIC, &now);
-    float deltaSeconds = (now.tv_nsec - last.tv_nsec) * 0.000000001 + (now.tv_sec - last.tv_sec);
+    float deltaSeconds = (float) ((now.tv_nsec - last.tv_nsec) * 0.000000001 + (now.tv_sec - last.tv_sec));
     last               =  now;
 
-//----------------------------------------------------------------------------------------------------------------------
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
+    APhysicsWorld->Update(deltaSeconds);
+    ATween       ->Update(deltaSeconds);
     AScheduler   ->Update(deltaSeconds);
     ACoroutine   ->Update(deltaSeconds);
-    ATween       ->Update(deltaSeconds);
-    APhysicsWorld->Update(deltaSeconds);
     AAudio       ->Update(deltaSeconds);
 
     // root update
-    AComponent->Update(AApplication->component, deltaSeconds);
+    AComponent->Update(AApplication->rootComponent, deltaSeconds);
 
     // rendering
-    ADrawable->RenderQueue();
+    ADrawable->Render();
 }
 
 
 static void Resized(int width, int height)
 {
-    // set the OpenGL viewport to the same size as the surface.
-    glViewport(0, 0, width, height);
-
-    AGLTool     ->SetSize             (width, height);
+    AGLTool->SetSize(width, height);
     AApplication->callbacks->OnResized(width, height);
 }
 
 
-static void GLReady(int width, int height)
+static void Ready(int width, int height)
 {
     Resized(width, height);
     AGraphics->Init();
@@ -124,58 +114,74 @@ static void Resume()
 
 static void Destroy()
 {
-    AAudio->Release();
     AApplication->callbacks->OnDestroy();
 }
 
 
-static void Touch(Array(InputTouch*)* touchData)
+static void Touch(int fingerID, float pixelX, float pixelY, InputTouchType inputTouchType)
 {
     AComponent->SendMessage
     (
-        AApplication->component,
+        AApplication->rootComponent,
         AApplication,
         ComponentMsg_OnTouch,
-        touchData
+        AArray_Make(InputTouch*, 1, AInput->SetTouch(fingerID, pixelX, pixelY, inputTouchType))
     );
 }
 
 
-static void SaveData()
+static void Touches(int fingerIDs[], float pixelXs[], float pixelYs[], int touchesCount, InputTouchType inputTouchType)
 {
-    void* outSaveData;
-    int   outSize;
-    AApplication->callbacks->OnSaveData(&outSaveData, &outSize);
+    InputTouch* touches[touchesCount];
 
-    AFileTool->WriteDataToDir((char*) saveDataFileName, outSaveData, outSize);
+    for (int i = 0; i < touchesCount; ++i)
+    {
+        touches[i] = AInput->SetTouch(fingerIDs[i], pixelXs[i], pixelYs[i], inputTouchType);
+    }
+
+    AComponent->SendMessage
+    (
+        AApplication->rootComponent,
+        AApplication,
+        ComponentMsg_OnTouch,
+        (Array(InputTouch*)[1]) {touches, touchesCount}
+    );
+}
+
+
+void* SaveDataRun(void* param)
+{
+    AApplication->callbacks->OnSaveData(param);
+    return NULL;
+}
+
+static void SaveData(void* param)
+{
+    AThread->StartThread(SaveDataRun, param);
 }
 
 
 struct AApplication AApplication[1] =
-{
-    {
-        .callbacks =
-        {
-            {
-               .OnReady             = NULL,
-               .OnPause             = NULL,
-               .OnResume            = NULL,
-               .OnDestroy           = NULL,
-               .OnResized           = NULL,
-               .OnSaveData          = NULL,
-               .OnInitWithSavedData = NULL,
-            }
-        },
+{{
+     .callbacks =
+     {{
+         .OnReady    = NULL,
+         .OnPause    = NULL,
+         .OnResume   = NULL,
+         .OnDestroy  = NULL,
+         .OnResized  = NULL,
+         .OnSaveData = NULL,
+     }},
 
-        .Init     = Init,
-        .Loop     = Loop,
-        .GLReady  = GLReady,
-        .Resized  = Resized,
-        .Pause    = Pause,
-        .Resume   = Resume,
-        .Destroy  = Destroy,
-        .Touch    = Touch,
-        .SaveData = SaveData,
-    }
-};
+     .Init           = Init,
+     .Loop           = Loop,
+     .Ready          = Ready,
+     .Resized        = Resized,
+     .Pause          = Pause,
+     .Resume         = Resume,
+     .Destroy        = Destroy,
+     .Touch          = Touch,
+     .Touches        = Touches,
+     .SaveData       = SaveData,
+}};
 

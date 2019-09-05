@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>SuperLittleRed</string>
+	<string>Mojoc Super Little Red</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1</string>
+	<string>0.0.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>0</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>

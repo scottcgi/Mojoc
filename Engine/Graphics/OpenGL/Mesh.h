@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2016-8-5
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2016-8-5
+ * Update   : 2019-1-22
+ * Author   : scott.cgi
  */
+
 
 #ifndef MESH_H
 #define MESH_H
@@ -21,87 +28,162 @@
 
 
 /**
- * Hold VBO data update to buffer
+ * The data update to VBO buffer by glBufferSubData or glMapBufferRange.
  */
 typedef struct
 {
+    /**
+     * GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER.
+     */
     GLenum     target;
+
+    /**
+     * The byte offset in VBO data.
+     */
     GLintptr   offset;
-    GLsizeiptr length;
+
+    /**
+     * The bytes size of update data.
+     */
+    GLsizeiptr size;
+
+    /**
+     * The update data ptr.
+     */
     GLvoid*    data;
 }
 VBOSubData;
 
 
+/**
+ * Render with texture by vertices, and the vertices info come from children SubMesh.
+ * implement Drawable's render for render self.
+ */
 struct Mesh
 {
-    Drawable             drawable      [1];
+    /**
+     * The base class for provide draw functions.
+     */
+    Drawable             drawable[1];
 
     /**
-     * Mesh render texture
+     * Render texture.
      */
     Texture*             texture;
 
     /**
-     * Draw from index, default first in children
+     * The mode of glDrawElements, default GL_TRIANGLES.
+     */
+    GLenum               drawMode;
+
+    /**
+     * The index draw from , default first in children.
      */
     int                  fromIndex;
 
     /**
-     * Draw to index, default last in children
+     * The index draw to, default last in children.
      */
     int                  toIndex;
 
     /**
-     * Pair of from and to index SubMesh to draw
-     * if no range will default draw fromIndex to toIndex
+     * Every frame pop pair of [from, to] index in childList to draw.
+     * if no range will default draw fromIndex to toIndex.
+     * if from equals to then means only draw child at to index.
      */
     ArrayQueue(int)      drawRangeQueue[1];
 
     /**
-     * Sometimes use fixed index for get child in children
-     * so can not change children order instead of use SubMesh index for sorting
+     * Mesh children provide vertices info to draw.
+     *
+     * cannot change children order directly, and use SubMesh index for sorting.
      */
-    ArrayList(SubMesh*)  childList     [1];
+    ArrayList(SubMesh*)  childList[1];
 
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
-     * All vertex data, every vertex has position, uv, color
+     * All vertices data from children SubMesh.
+     * data model: [all position data | all uv data | all opacity data | all rgb data]
      */
     Array(float)*         vertexArr;
 
     /**
-     * All vertex index data
+     * All vertices data from children SubMesh.
      */
     Array(short)*         indexArr;
 
     /**
-     * If use VBO is array buffer id
+     * If use VBO is the generated VBO ids else 0.
      */
-    GLuint                vboIds[MeshBuffer_Num];
+    GLuint                vboIDs[Mesh_BufferNum];
 
     /**
-     * If use VAO is generated id else 0
+     * If use VAO is the generated vao id else 0.
      */
-    GLuint                vaoId;
+    GLuint                vaoID;
 
     /**
-     * If use VBO update to buffer
+     * If use VBO use VBOSubData to update VBO buffer.
+     * VBOSubData in ArrayList malloc data.
      */
     ArrayList(VBOSubData) vboSubDataList[1];
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    int                   uvDataOffset;
-    int                   rgbDataOffset;
-    int                   opacityDataOffset;
-    int                   vertexCountOffset;
+    /**
+     * All vertices count.
+     */
+    int                   vertexCount;
 
+    /**
+     * The vertex bytes data size.
+     */
+    int                   vertexDataSize;
+
+    /**
+     * The index bytes data size.
+     */
+    int                   indexDataSize;
+
+    /**
+     * The uv bytes data offset in vertexArr.
+     */
+    int                   uvDataOffset;
+
+    /**
+     * The rgb bytes data offset in vertexArr.
+     */
+    int                   rgbDataOffset;
+
+    /**
+     * The opacity bytes data offset in vertexArr.
+     */
+    int                   opacityDataOffset;
+
+    /**
+     * The position data length in vertexArr..
+     */
     int                   positionDataLength;
+
+    /**
+     * The UV data length in vertexArr.
+     */
     int                   uvDataLength;
+
+    /**
+     * The RGB data length in vertexArr.
+     */
     int                   rgbDataLength;
+
+    /**
+     * The opacity data length in vertexArr.
+     */
     int                   opacityDataLength;
+
+    /**
+     * The index data length in indexArr.
+     */
     int                   indexDataLength;
 };
 
@@ -109,45 +191,64 @@ struct Mesh
 struct AMesh
 {
     Mesh*     (*Create)            (Texture* texture);
-    void      (*Init)              (Texture* texture,  Mesh* outMesh);
-    void      (*InitWithCapacity)  (Texture* texture,  int capacity, Mesh* outMesh);
+    void      (*Init)              (Texture* texture, Mesh* outMesh);
+    void      (*InitWithCapacity)  (Texture* texture, int capacity, Mesh* outMesh);
+
+    /*
+     Create or Init Mesh by resourceFilePath.
+
+     resourceFilePath:
+         Android: assets
+         IOS    : NSBundle
+     */
+
+    Mesh*     (*CreateWithFile)         (const char* resourceFilePath);
+    void      (*InitWithFile)           (const char* resourceFilePath, Mesh* outMesh);
+    void      (*InitWithFileAndCapacity)(const char* resourceFilePath, int capacity, Mesh* outMesh);
 
     /**
-     * Call Mesh member's Release and free all SubMesh memory
+     * Release all member memory and all children SubMesh memory.
      */
     void      (*Release)           (Mesh* mesh);
 
     /**
-     * Clear children, drawRangeQueue, bufferSubDataList,
-     * ready to GenerateBuffer
+     * Clear children, drawRangeQueue, vboSubDataList, and ready to GenerateBuffer.
      */
     void      (*Clear)             (Mesh* mesh);
 
     /**
-     * The positionArr(has x y z) uvArr and indexArr will copy in SubMesh
-     * SubMesh set parent and index with Mesh and free by parent Release
+     * The positionArr, uvArr and indexArr will copy in SubMesh.
+     * SubMesh set parent and index by parent Mesh, and will free by parent Mesh Release.
+     *
+     * important: before GenerateBuffer will not work correctly,
+     *            and we can calling GenerateBuffer when all children have been added.
      */
     SubMesh*  (*AddChildWithData)  (Mesh* mesh, Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr);
 
     /**
-     * SubMesh data calculate by Quad in Texture
-     * SubMesh set parent and index with spriteBatch and free by parent Release
+     * SubMesh data calculate by Quad.
+     * SubMesh set parent and index by parent Mesh, and will free by parent Mesh Release.
+     *
+     * important: apply effect after calling GenerateBuffer,
+     *            and we can calling GenerateBuffer when all children have been added.
      */
     SubMesh*  (*AddChildWithQuad)  (Mesh* mesh, Quad* quad);
 
     /**
-     * Reorder all SubMesh draw order by index, not changed pos in children
+     * Reorder all SubMesh draw order by index.
      */
     void      (*ReorderAllChildren)(Mesh* mesh);
 
     /**
-     * Combine SubMesh data into buffer when draw function upload to openGL
-     * when SubMesh initialization, remove or add, need call this for generate buffer
+     * Combine all children SubMesh data into buffer that will upload to GPU.
+     * when Mesh init or SubMesh add, need to call this for generate buffer.
+     * 
+     * usually generate buffer before Mesh's SubMesh stable.
      */
     void      (*GenerateBuffer)    (Mesh* mesh);
 
     /**
-     * Mesh implement Drawable's render
+     * The implementation of Drawable's render function for render Mesh.
      */
     void      (*Render)            (Drawable* drawable);
 };
@@ -156,6 +257,9 @@ struct AMesh
 extern struct AMesh AMesh[1];
 
 
+/**
+ * Draw Mesh.
+ */
 static inline void AMesh_Draw(Mesh* mesh)
 {
     ADrawable->Draw(mesh->drawable);
@@ -163,12 +267,14 @@ static inline void AMesh_Draw(Mesh* mesh)
 
 
 /**
- * Push startIndex and endIndex into drawRangeQueue
+ * Draw Mesh by fromIndex and toIndex.
+ * if fromIndex equals toIndex then means only draw child at toIndex.
  */
-static inline void AMesh_PushDrawRange(Mesh* mesh, int startIndex, int endIndex)
+static inline void AMesh_DrawByIndex(Mesh* mesh, int fromIndex, int toIndex)
 {
-    AArrayQueue_Push(mesh->drawRangeQueue, startIndex);
-    AArrayQueue_Push(mesh->drawRangeQueue, endIndex);
+    AArrayQueue_Push(mesh->drawRangeQueue, fromIndex);
+    AArrayQueue_Push(mesh->drawRangeQueue, toIndex);
+    ADrawable->Draw (mesh->drawable);
 }
 
 

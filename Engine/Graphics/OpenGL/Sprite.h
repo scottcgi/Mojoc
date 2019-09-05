@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-4-20
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-4-20
+ * Update   : 2019-1-21
+ * Author   : scott.cgi
  */
+
 
 #ifndef SPRITE_H
 #define SPRITE_H
@@ -17,72 +24,206 @@
 #include "Engine/Toolkit/Utils/Array.h"
 
 
+enum
+{
+    /**
+     * Number of buffers.
+     */
+     Sprite_BufferNum           = 2,
+
+    /**
+     * Index of buffer vertex.
+     */
+     Sprite_BufferVertex        = 0,
+     
+    /**
+     * Index of buffer index.
+     */
+     Sprite_BufferIndex         = 1,
+
+    /**
+     * One vertex position has x, y.
+     */
+    Sprite_VertexPositionNum    = 2,
+
+    /**
+     * One vertex has u, v.
+     */
+    Sprite_VertexUVNum          = 2,
+
+    /**
+     * One vertex size.
+     */
+    Sprite_VertexNum            = Sprite_VertexPositionNum    + Sprite_VertexUVNum,
+
+    /**
+     * 2 (x, y) * 4 (sizeof float)
+     */
+    Sprite_VertexPositionStride = Sprite_VertexPositionNum    * sizeof(float),
+
+    /**
+     * 2 (u, v) * 4 (sizeof float)
+     */
+    Sprite_VertexUVStride       = Sprite_VertexUVNum          * sizeof(float),
+
+    /**
+     * One vertex stride.
+     */
+    Sprite_VertexStride         = Sprite_VertexPositionStride + Sprite_VertexUVStride,
+};
+
+
+/**
+ * Render with texture by vertices.
+ * implement Drawable's render for render self.
+ */
 typedef struct
 {
+    /**
+     * The base class for provide draw functions.
+     */
     Drawable      drawable[1];
 
     /**
-     * Sprite render texture
+     * Render texture.
      */
     Texture*      texture;
 
     /**
-     * All vertex index count
+     * The uv width in texture.
      */
-    int           indexCount;
+    float         uvWidth;
 
     /**
-     * If use VBO is NULL else buffer all vertex data
+     * The uv height in texture.
      */
-    Array(float)* vertexArr;
+    float         uvHeight;
 
     /**
-     * If use VBO is NULL else buffer all index data
+     * If use VBO is NULL else buffer all vertex data.
+     * data model: [x, y, u, v...x, y, u, v...]
+     */
+    Array(float)*  vertexArr;
+
+    /**
+     * If use VBO is NULL else buffer all index data.
      */
     Array(short)* indexArr;
 
     /**
-     * If use VBO is array buffer id
+     * If use VBO is the generated VBO ids else 0.
      */
-    GLuint        vboIds[MeshBuffer_Num];
+    GLuint        vboIDs[Sprite_BufferNum];
 
     /**
-     * If use VAO is generated id else 0
+     * If use VAO is the generated vao id else 0.
      */
-    GLuint        vaoId;
+    GLuint        vaoID;
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Whether vertexArr has been deformed by ASprite Deform function.
+     * auto reset by Render function.
+     */
+    bool          isDeformed;
+
+
+    /**
+     * All vertices index count.
+     */
+    int           indexCount;
+
+    /**
+     * The vertex bytes data size.
+     */
+    int           vertexDataSize;
 }
 Sprite;
 
 
+/**
+ * Control Sprite.
+ */
 struct ASprite
 {
     Sprite* (*Create)             (Texture*    texture);
     void    (*Init)               (Texture*    texture,  Sprite* outSprite);
 
-    Sprite* (*CreateWithFile)     (char*       filePath);
-    void    (*InitWithFile)       (char*       filePath, Sprite* outSprite);
-
-    Sprite* (*CreateWithQuad)     (Texture*    texture,  Quad*   quad);
-    void    (*InitWithQuad)       (Texture*    texture,  Quad*   quad, Sprite* outSprite);
-
-
-    Sprite* (*CreateWithQuadArray)(Texture*    texture, Array(Quad)* quadArr);
-    void    (*InitWithQuadArray)  (Texture*    texture, Array(Quad)* quadArr, Sprite* outSprite);
-
-    void    (*Release)            (Sprite*     sprite);
+    /**
+     * Create Sprite by resourceFilePath.
+     *
+     * resourceFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
+     */
+    Sprite* (*CreateWithFile)     (const char* resourceFilePath);
 
     /**
-     * Sprite implement Drawable's render
+     * Init Sprite by resourceFilePath.
+     *
+     * resourceFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
      */
-    void    (*Render)             (Drawable*   drawable);
+    void    (*InitWithFile)       (const char* resourceFilePath, Sprite* outSprite);
+
+    Sprite* (*CreateWithQuad)     (Texture* texture, Quad* quad);
+    void    (*InitWithQuad)       (Texture* texture, Quad* quad, Sprite* outSprite);
+
+
+    Sprite* (*CreateWithQuadArray)(Texture* texture, Array(Quad)* quadArr);
+    void    (*InitWithQuadArray)  (Texture* texture, Array(Quad)* quadArr, Sprite* outSprite);
+
+    void    (*Release)            (Sprite*  sprite);
+
+    /**
+     * Deform Sprite vertex position and uv.
+     * the positionDeformArr will add each position (x y).
+     * the uvDeformArr will add each uv.
+     *
+     * the Sprite consists of quads,
+     * and each quad vertices order is from left-top counterclockwise to right-top.
+     *
+     * positionDeformArr: if NULL will not deform.
+     *                    the length must equals vertex positions number (the half of Sprite vertexArr length).
+     *
+     * uvDeformArr     : if NULL will not deform.
+     *                   the length must equals vertex uvs number (the half of Sprite vertexArr length).
+     */
+    void    (*Deform)             (Sprite* sprite, Array(float)* positionDeformArr, Array(float)* uvDeformArr);
+
+
+    /**
+     * Same as Deform function but deform position and uv by index.
+     *
+     * indexArr: the index of position and uv array, and each vertex position or uv will deform.
+     *           the positionDeformArr or uvDeformArr length must equals indexArr length.
+     *
+     */
+    void    (*DeformByIndex)      (
+                                      Sprite*       sprite,
+                                      Array(float)* positionDeformArr,
+                                      Array(float)* uvDeformArr,
+                                      Array(int)*   indexArr
+                                  );
+
+    /**
+     * The implementation of Drawable's render function for render Sprite.
+     */
+    void    (*Render)             (Drawable* drawable);
 };
 
 
 extern struct ASprite ASprite[1];
 
 
+/**
+ * Draw Sprite.
+ */
 static inline void ASprite_Draw(Sprite* sprite)
 {
+    // indirect call ASprite->Render
     ADrawable->Draw(sprite->drawable);
 }
 

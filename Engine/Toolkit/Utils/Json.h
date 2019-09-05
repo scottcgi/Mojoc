@@ -1,12 +1,19 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-1-26
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-1-26
+ * Update   : 2019-1-8
+ * Author   : scott.cgi
  */
 
+ 
 #ifndef JSON_H
 #define JSON_H
 
@@ -15,6 +22,9 @@
 #include "Engine/Toolkit/Utils/ArrayList.h"
 
 
+/**
+ * Json value type.
+ */
 typedef enum
 {
     JsonType_Object,
@@ -26,6 +36,9 @@ typedef enum
 JsonType;
 
 
+/**
+ * For json object that contains a set of k-v pairs.
+ */
 typedef struct
 {
    ArrayStrMap(objectKey, JsonValue*) valueMap[1];
@@ -33,6 +46,9 @@ typedef struct
 JsonObject;
 
 
+/**
+ * For json array that contains a list of json value.
+ */
 typedef struct
 {
    ArrayList(JsonValue*) valueList[1];
@@ -40,6 +56,9 @@ typedef struct
 JsonArray;
 
 
+/**
+ * One json value.
+ */
 typedef struct
 {
     JsonType type;
@@ -47,22 +66,22 @@ typedef struct
     union
     {
         /**
-         * JsonType_String
+         * For JsonType_String.
          */
         char*       jsonString;
 
         /**
-         * JsonType_Object
+         * For JsonType_Object.
          */
         JsonObject* jsonObject;
 
         /**
-         * JsonType_Array
+         * For JsonType_Array.
          */
         JsonArray*  jsonArray;
 
         /**
-         * JsonType_Float
+         * For JsonType_Float and int value.
          */
         float       jsonFloat;
     };
@@ -70,61 +89,67 @@ typedef struct
 JsonValue;
 
 
+/**
+ * Get kinds of value from JsonObject.
+ */
 struct AJsonObject
 {
-    bool        (*GetBool)         (JsonObject* object, char* key, bool  defaultValue);
-    int         (*GetInt)          (JsonObject* object, char* key, int   defaultValue);
-    float       (*GetFloat)        (JsonObject* object, char* key, float defaultValue);
-    JsonType    (*GetType)         (JsonObject* object, char* key);
+    bool        (*GetBool)         (JsonObject* object, const char* key, bool  defaultValue);
+    int         (*GetInt)          (JsonObject* object, const char* key, int   defaultValue);
+    float       (*GetFloat)        (JsonObject* object, const char* key, float defaultValue);
+    JsonType    (*GetType)         (JsonObject* object, const char* key);
 
     /**
-     * When JsonValue released string value will free
+     * When JsonValue released the string value will free.
      */
-    char*       (*GetString)       (JsonObject* object, char* key, char* defaultValue);
+    char*       (*GetString)       (JsonObject* object, const char* key, const char* defaultValue);
 
     /**
-     * Not found return NULL
+     * If not found return NULL.
      */
-    JsonObject* (*GetObject)       (JsonObject* object, char* key);
+    JsonObject* (*GetObject)       (JsonObject* object, const char* key);
 
     /**
-     * Not found return NULL
+     * If not found return NULL.
      */
-    JsonArray*  (*GetArray)        (JsonObject* object, char* key);
+    JsonArray*  (*GetArray)        (JsonObject* object, const char* key);
 
     /**
-     * Get JsonObject key
+     * Get JsonObject's key.
      */
-    char*       (*GetKey)          (JsonObject* object, int   index);
+    const char* (*GetKey)          (JsonObject* object, int index);
 
     /**
-     * Get JsonObject in index of JsonObject map
+     * Get index of JsonObject in JsonObject map.
      */
-    JsonObject* (*GetObjectByIndex)(JsonObject* object, int   index);
+    JsonObject* (*GetObjectByIndex)(JsonObject* object, int index);
 
     /**
-     * Get JsonArray in index of JsonObject map
+     * Get index of JsonObject in JsonArray map.
      */
-    JsonArray*  (*GetArrayByIndex) (JsonObject* object, int   index);
+    JsonArray*  (*GetArrayByIndex) (JsonObject* object, int index);
 };
 
 
 extern struct AJsonObject AJsonObject[1];
 
 
+/**
+ * Get kinds of value from JsonArray.
+ */
 struct AJsonArray
 {
-    bool        (*GetBool)      (JsonArray* array, int index);
-    int         (*GetInt)       (JsonArray* array, int index);
-    float       (*GetFloat)     (JsonArray* array, int index);
-    JsonType    (*GetType)      (JsonArray* array, int index);
+    bool        (*GetBool)  (JsonArray* array, int index);
+    int         (*GetInt)   (JsonArray* array, int index);
+    float       (*GetFloat) (JsonArray* array, int index);
+    JsonType    (*GetType)  (JsonArray* array, int index);
 
     /**
-     * When JsonValue released string value will free
+     * When JsonValue released the string value will free.
      */
-    char*       (*GetString)    (JsonArray* array, int index);
-    JsonObject* (*GetObject)    (JsonArray* array, int index);
-    JsonArray*  (*GetArray)     (JsonArray* array, int index);
+    char*       (*GetString)(JsonArray* array, int index);
+    JsonObject* (*GetObject)(JsonArray* array, int index);
+    JsonArray*  (*GetArray) (JsonArray* array, int index);
 
 };
 
@@ -132,23 +157,32 @@ struct AJsonArray
 extern struct AJsonArray AJsonArray[1];
 
 
+/**
+ * Control Json data.
+ */
 struct AJson
 {
     /**
-     * Parse with Json string, return root JsonValue
+     * Parse the Json string, return root JsonValue.
      */
-    JsonValue* (*Parse)         (char* jsonString);
+    JsonValue* (*Parse)    (const char* jsonString);
 
     /**
-     * Parse with Json file, return root JsonValue
+     * Parse the Json file from jsonFilePath, return root JsonValue.
+     *
+     * jsonFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
      */
-    JsonValue* (*ParseWithFile) (char* jsonPath);
+    JsonValue* (*ParseFile)(const char* jsonFilePath);
 
     /**
-     * Release JsonValue member memory space and free itself
-     * if release root JsonValue will free all memory space
+     * Destroy JsonValue member memory space and free itself,
+     * if Destroy root JsonValue will free all memory space.
+     *
+     * important: after Destroy the jsonValue will be invalidated.
      */
-    void       (*Release)       (JsonValue*  jsonValue);
+    void       (*Destroy)  (JsonValue* jsonValue);
 };
 
 

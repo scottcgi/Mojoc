@@ -6,7 +6,7 @@ filter: Linear,Linear
 repeat: none
 Copper
   rotate: false
-  xy: 226, 51
+  xy: 270, 5
   size: 25, 75
   orig: 25, 75
   offset: 0, 0
@@ -27,7 +27,7 @@ Gold
   index: -1
 Heart
   rotate: false
-  xy: 279, 52
+  xy: 379, 7
   size: 22, 74
   orig: 22, 74
   offset: 0, 0
@@ -41,7 +41,7 @@ Ice
   index: -1
 Iron
   rotate: false
-  xy: 139, 51
+  xy: 183, 9
   size: 27, 75
   orig: 27, 75
   offset: 0, 0
@@ -55,120 +55,372 @@ Lightning
   index: -1
 Silver
   rotate: false
-  xy: 168, 46
+  xy: 212, 4
   size: 27, 80
   orig: 27, 80
   offset: 0, 0
   index: -1
 Steel
   rotate: false
-  xy: 197, 51
+  xy: 241, 5
   size: 27, 75
   orig: 27, 75
   offset: 0, 0
   index: -1
 Wood
   rotate: false
-  xy: 253, 53
+  xy: 353, 8
   size: 24, 73
   orig: 24, 73
   offset: 0, 0
   index: -1
+armour-body-down
+  rotate: false
+  xy: 297, 35
+  size: 22, 17
+  orig: 22, 17
+  offset: 0, 0
+  index: -1
+armour-body-up
+  rotate: false
+  xy: 322, 57
+  size: 19, 17
+  orig: 19, 17
+  offset: 0, 0
+  index: -1
+armour-face
+  rotate: false
+  xy: 201, 86
+  size: 50, 40
+  orig: 50, 40
+  offset: 0, 0
+  index: -1
+armour-lefthand-down
+  rotate: false
+  xy: 297, 2
+  size: 15, 13
+  orig: 15, 13
+  offset: 0, 0
+  index: -1
+armour-lefthand-up
+  rotate: false
+  xy: 497, 109
+  size: 13, 17
+  orig: 13, 17
+  offset: 0, 0
+  index: -1
+armour-leftleg-down
+  rotate: false
+  xy: 127, 37
+  size: 10, 18
+  orig: 10, 18
+  offset: 0, 0
+  index: -1
+armour-righthand-down
+  rotate: false
+  xy: 438, 70
+  size: 12, 15
+  orig: 12, 15
+  offset: 0, 0
+  index: -1
+armour-righthand-up
+  rotate: false
+  xy: 403, 69
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+armour-rightleg-down
+  rotate: false
+  xy: 403, 13
+  size: 10, 18
+  orig: 10, 18
+  offset: 0, 0
+  index: -1
 body-down
   rotate: false
-  xy: 2, 29
+  xy: 44, 30
   size: 25, 20
   orig: 25, 20
   offset: 0, 0
   index: -1
 body-up
   rotate: false
-  xy: 303, 65
+  xy: 163, 30
   size: 18, 16
   orig: 18, 16
   offset: 0, 0
   index: -1
+bunny-body-down
+  rotate: false
+  xy: 71, 38
+  size: 28, 17
+  orig: 28, 17
+  offset: 0, 0
+  index: -1
+bunny-body-up
+  rotate: false
+  xy: 297, 17
+  size: 20, 16
+  orig: 20, 16
+  offset: 0, 0
+  index: -1
+bunny-face
+  rotate: false
+  xy: 253, 82
+  size: 50, 44
+  orig: 50, 44
+  offset: 0, 0
+  index: -1
+bunny-lefthand-down
+  rotate: false
+  xy: 314, 2
+  size: 14, 13
+  orig: 14, 13
+  offset: 0, 0
+  index: -1
+bunny-leftleg-down
+  rotate: false
+  xy: 319, 17
+  size: 11, 16
+  orig: 11, 16
+  offset: 0, 0
+  index: -1
+bunny-righthand-down
+  rotate: false
+  xy: 420, 53
+  size: 11, 14
+  orig: 11, 14
+  offset: 0, 0
+  index: -1
+bunny-rightleg-down
+  rotate: false
+  xy: 452, 71
+  size: 11, 16
+  orig: 11, 16
+  offset: 0, 0
+  index: -1
 cloak-down
   rotate: false
-  xy: 397, 90
+  xy: 139, 48
   size: 42, 36
   orig: 42, 36
   offset: 0, 0
   index: -1
 cloak-up
   rotate: false
-  xy: 303, 83
+  xy: 353, 83
   size: 44, 43
   orig: 44, 43
   offset: 0, 0
   index: -1
+egypt-body-down
+  rotate: false
+  xy: 101, 34
+  size: 24, 21
+  orig: 24, 21
+  offset: 0, 0
+  index: -1
+egypt-body-up
+  rotate: false
+  xy: 139, 32
+  size: 22, 14
+  orig: 22, 14
+  offset: 0, 0
+  index: -1
+egypt-face
+  rotate: false
+  xy: 399, 87
+  size: 48, 39
+  orig: 48, 39
+  offset: 0, 0
+  index: -1
+egypt-leftleg-down
+  rotate: false
+  xy: 343, 57
+  size: 8, 17
+  orig: 8, 17
+  offset: 0, 0
+  index: -1
+egypt-righthand-down
+  rotate: false
+  xy: 455, 55
+  size: 11, 14
+  orig: 11, 14
+  offset: 0, 0
+  index: -1
+egypt-rightleg-down
+  rotate: false
+  xy: 321, 35
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: -1
 face
   rotate: false
-  xy: 349, 89
+  xy: 449, 89
   size: 46, 37
   orig: 46, 37
   offset: 0, 0
   index: -1
 lefthand-down
   rotate: false
-  xy: 2, 12
+  xy: 465, 72
   size: 12, 15
   orig: 12, 15
   offset: 0, 0
   index: -1
 lefthand-up
   rotate: false
-  xy: 441, 110
+  xy: 334, 39
   size: 12, 16
   orig: 12, 16
   offset: 0, 0
   index: -1
 leftleg-down
   rotate: false
-  xy: 441, 91
+  xy: 64, 11
   size: 9, 17
   orig: 9, 17
   offset: 0, 0
   index: -1
 leftleg-up
   rotate: false
-  xy: 455, 111
+  xy: 433, 53
   size: 9, 15
   orig: 9, 15
   offset: 0, 0
   index: -1
+luffy-body-down
+  rotate: false
+  xy: 2, 8
+  size: 25, 22
+  orig: 25, 22
+  offset: 0, 0
+  index: -1
+luffy-body-up
+  rotate: false
+  xy: 297, 54
+  size: 23, 20
+  orig: 23, 20
+  offset: 0, 0
+  index: -1
+luffy-face
+  rotate: false
+  xy: 139, 86
+  size: 60, 40
+  orig: 60, 40
+  offset: 0, 0
+  index: -1
+luffy-lefthand-down
+  rotate: false
+  xy: 403, 53
+  size: 15, 14
+  orig: 15, 14
+  offset: 0, 0
+  index: -1
+luffy-lefthand-up
+  rotate: false
+  xy: 421, 71
+  size: 15, 14
+  orig: 15, 14
+  offset: 0, 0
+  index: -1
+luffy-leftleg-down
+  rotate: false
+  xy: 403, 33
+  size: 11, 18
+  orig: 11, 18
+  offset: 0, 0
+  index: -1
+luffy-righthand-down
+  rotate: false
+  xy: 497, 74
+  size: 13, 14
+  orig: 13, 14
+  offset: 0, 0
+  index: -1
+luffy-righthand-up
+  rotate: false
+  xy: 497, 90
+  size: 13, 17
+  orig: 13, 17
+  offset: 0, 0
+  index: -1
+luffy-rightleg-down
+  rotate: false
+  xy: 29, 12
+  size: 12, 18
+  orig: 12, 18
+  offset: 0, 0
+  index: -1
 neck
   rotate: false
-  xy: 2, 2
+  xy: 29, 2
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 righthand-down
   rotate: false
-  xy: 303, 52
+  xy: 468, 59
   size: 15, 11
   orig: 15, 11
   offset: 0, 0
   index: -1
 righthand-up
   rotate: false
-  xy: 323, 71
+  xy: 479, 77
   size: 16, 10
   orig: 16, 10
   offset: 0, 0
   index: -1
 rightleg-down
   rotate: false
-  xy: 466, 109
+  xy: 416, 34
   size: 8, 17
   orig: 8, 17
   offset: 0, 0
   index: -1
 rightleg-up
   rotate: false
-  xy: 16, 12
+  xy: 444, 53
   size: 9, 15
   orig: 9, 15
+  offset: 0, 0
+  index: -1
+swan-body-down
+  rotate: false
+  xy: 2, 32
+  size: 40, 17
+  orig: 40, 17
+  offset: 0, 0
+  index: -1
+swan-body-up
+  rotate: false
+  xy: 43, 11
+  size: 19, 17
+  orig: 19, 17
+  offset: 0, 0
+  index: -1
+swan-face
+  rotate: false
+  xy: 305, 76
+  size: 46, 50
+  orig: 46, 50
+  offset: 0, 0
+  index: -1
+swan-leftleg-down
+  rotate: false
+  xy: 426, 34
+  size: 8, 17
+  orig: 8, 17
+  offset: 0, 0
+  index: -1
+swan-rightleg-down
+  rotate: false
+  xy: 436, 34
+  size: 10, 17
+  orig: 10, 17
   offset: 0, 0
   index: -1

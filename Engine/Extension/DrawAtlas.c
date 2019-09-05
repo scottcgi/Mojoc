@@ -1,36 +1,43 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2017-1-2017
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2017-1-2017
+ * Update   : 2019-2-1
+ * Author   : scott.cgi
  */
 
-#include "Engine/Extension/DrawAtlas.h"
+
 #include "Engine/Graphics/OpenGL/SubMesh.h"
-#include "Engine/Toolkit/Head/Struct.h"
+#include "Engine/Extension/DrawAtlas.h"
+#include "Engine/Toolkit/HeaderUtils/Struct.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-static ArrayList(DrawAtlas*) drawAtlasList[1] = AArrayList_Init(DrawAtlas*, 10);
+static ArrayList(DrawAtlas*) drawAtlasCacheList[1] = AArrayList_Init(DrawAtlas*, 10);
 
 
-static DrawAtlas* Get(char* filePath)
+static DrawAtlas* Get(const char* filePath)
 {
     TextureAtlas* textureAtlas = ATextureAtlas->Get(filePath);
 
     ALog_A
     (
         textureAtlas->textureList->size == 1,
-        "DrawAtlas not support TextureAtlas has multiple texture"
+        "DrawAtlas not support TextureAtlas has multiple textures"
     );
 
-    DrawAtlas* drawAtlas = AArrayList_Pop(drawAtlasList, DrawAtlas*);
+    DrawAtlas* drawAtlas = AArrayList_Pop(drawAtlasCacheList, DrawAtlas*);
 
     if (drawAtlas == NULL)
     {
-        drawAtlas = (DrawAtlas*) malloc(sizeof(DrawAtlas));
+        drawAtlas = malloc(sizeof(DrawAtlas));
 
         AMesh->InitWithCapacity
         (
@@ -39,11 +46,7 @@ static DrawAtlas* Get(char* filePath)
             drawAtlas->mesh
         );
 
-        AArrayList->Init
-        (
-            sizeof(Drawable*),
-            drawAtlas->quadList
-        );
+        AArrayList->InitWithCapacity(sizeof(SubMesh*), 20, drawAtlas->quadList);
     }
     else
     {
@@ -57,72 +60,79 @@ static DrawAtlas* Get(char* filePath)
 }
 
 
-static Drawable* GetQuad(DrawAtlas* drawAtlas, char* quadName)
+static SubMesh* GetQuad(DrawAtlas* drawAtlas, const char* quadName)
 {
     TextureAtlasQuad* atlasQuad = ATextureAtlas_GetQuad(drawAtlas->textureAtlas, quadName);
     ALog_A(atlasQuad != NULL, "ADrawAtlas GetQuad not found quadName = %s", quadName);
 
-    Drawable* drawable = AArrayList_Pop(drawAtlas->quadList, Drawable*);
+    SubMesh* subMesh = AArrayList_Pop(drawAtlas->quadList, SubMesh*);
 
-    if (drawable == NULL)
+    if (subMesh == NULL)
     {
-        drawable = AMesh->AddChildWithQuad(drawAtlas->mesh, atlasQuad->quad)->drawable;
+        // cache more quads into quadList when cache empty
+        for (int i = 0; i < 5; ++i)
+        {
+            subMesh = AMesh->AddChildWithQuad(drawAtlas->mesh, atlasQuad->quad);
+            ADrawable_SetInvisible(subMesh->drawable);
+            AArrayList_Add(drawAtlas->quadList, subMesh);
+        }
+
+        subMesh = AMesh->AddChildWithQuad(drawAtlas->mesh, atlasQuad->quad);
         AMesh->GenerateBuffer(drawAtlas->mesh);
     }
     else
     {
-        ADrawable->Init(drawable);
+        ADrawable->Init(subMesh->drawable);
 
-        ASubMesh->SetWithQuad
+        ASubMesh->SetUVWithQuad
         (
-            AStruct_GetParent2(drawable, SubMesh),
-            drawAtlas->mesh->texture,
+            subMesh,
             atlasQuad->quad
         );
     }
 
-    return drawable;
+    return subMesh;
 }
 
 
-static void Reuse(DrawAtlas* drawAtlas)
+static void Release(DrawAtlas* drawAtlas)
 {
-    ALog_A(drawAtlas->textureAtlas != NULL, "ADrawAtlas Reuse drawAtlas %p already reused", drawAtlas);
+    ALog_A
+    (
+        drawAtlas->textureAtlas != NULL,
+        "ADrawAtlas Release drawAtlas %p already released",
+        drawAtlas
+    );
 
-    for (int i = 0; i < drawAtlas->quadList->size; i++)
+    // quadList clear by Get function
+    for (int i = 0; i < drawAtlas->quadList->size; ++i)
     {
-        ADrawable_SetInVisible
-        (
-            AArrayList_Get(drawAtlas->quadList, i, Drawable*)
-        );
+        ADrawable_SetInvisible(AArrayList_Get(drawAtlas->quadList, i, SubMesh*)->drawable);
     }
 
     drawAtlas->textureAtlas = NULL;
-
-    AArrayList_Add(drawAtlasList, drawAtlas);
+    AArrayList_Add(drawAtlasCacheList, drawAtlas);
 }
 
 
-static void ReuseQuad(DrawAtlas* drawAtlas, Drawable* drawable)
+static void ReleaseQuad(DrawAtlas* drawAtlas, SubMesh* subMesh)
 {
-    SubMesh* subMesh = AStruct_GetParent2(drawable, SubMesh);
-
     ALog_A
     (
         drawAtlas->mesh == subMesh->parent,
-        "ADrawAtlas ReuseQuad drawable %p not in this drawAtlas",
-        drawable
+        "ADrawAtlas %s ReleaseQuad drawable not in this drawAtlas",
+        drawAtlas->textureAtlas->filePath
     );
 
-    ADrawable_SetInVisible(drawable);
-    AArrayList_Add(drawAtlas->quadList, drawable);
+    ADrawable_SetInvisible(subMesh->drawable);
+    AArrayList_Add(drawAtlas->quadList, subMesh);
 }
 
 
 struct ADrawAtlas ADrawAtlas[1] =
-{
+{{
     Get,
     GetQuad,
-    Reuse,
-    ReuseQuad,
-};
+    Release,
+    ReleaseQuad,
+}};

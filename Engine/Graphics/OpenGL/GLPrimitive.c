@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2014-2-26
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2014-2-26
+ * Update   : 2019-1-24
+ * Author   : scott.cgi
  */
+
 
 #include "Engine/Graphics/OpenGL/GLPrimitive.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderPrimitive.h"
 #include "Engine/Graphics/OpenGL/Camera.h"
 
 
-static Matrix4 identityMatrix[1] = MATRIX4_IDENTITY;
-static Matrix4 mvpMatrix     [1];
-
-
-static inline void SetMatrix()
+static inline void Render
+(
+    GLenum   mode,
+    void*    data,
+    Matrix4* mvpMatrix,
+    Color*   color,
+    float    pointOrLineSize,
+    int      count,
+    bool     isLine
+)
 {
-    AMatrix->MultiplyMM
+    if (isLine)
+    {
+        AShaderPrimitive->Use(mvpMatrix, color, 1.0f);
+        glLineWidth(pointOrLineSize);
+    }
+    else
+    {
+        AShaderPrimitive->Use(mvpMatrix, color, pointOrLineSize);
+    }
+
+    glVertexAttribPointer((GLuint) AShaderPrimitive->attribPosition, 2, GL_FLOAT, false, 0, data);
+    glDrawArrays(mode, 0, count);
+}
+
+
+static void RenderPoints(Array(float)* pointArr, Matrix4* mvpMatrix, Color* color, float pointSize)
+{
+    Render(GL_POINTS, pointArr->data, mvpMatrix, color, pointSize, pointArr->length >> 1, false);
+}
+
+
+static void RenderPolygon(Array(float)* vertexArr, Matrix4* mvpMatrix, Color* color, float lineWidth)
+{
+    Render(GL_LINE_LOOP, vertexArr->data, mvpMatrix, color, lineWidth, vertexArr->length >> 1, true);
+}
+
+
+static void RenderLines(Array(float)* lineArr, Matrix4* mvpMatrix, Color* color, float lineWidth)
+{
+    Render(GL_LINE_STRIP, lineArr->data, mvpMatrix, color, lineWidth, lineArr->length >> 1, true);
+}
+
+
+static void RenderRect(Rect* rect, Matrix4* mvpMatrix, Color* color, float lineWidth)
+{
+    Render
     (
-        ACamera->vp,
-        AGLPrimitive->modelMatrix ? AGLPrimitive->modelMatrix : identityMatrix,
-        mvpMatrix
-    );
-
-    glLineWidth(AGLPrimitive->lineWidth);
-    AShaderPrimitive->Use(mvpMatrix, AGLPrimitive->color, AGLPrimitive->pointSize);
-}
-
-
-static void DrawPoints(Array(float)* pointArr)
-{
-    SetMatrix();
-    glVertexAttribPointer(AShaderPrimitive->attribPosition, 2, GL_FLOAT, false, 0, pointArr->data);
-    glDrawArrays(GL_POINTS, 0, pointArr->length >> 1);
-}
-
-
-static void DrawPolygon(Array(float)* vertexArr)
-{
-    SetMatrix();
-    glVertexAttribPointer(AShaderPrimitive->attribPosition, 2, GL_FLOAT, false, 0, vertexArr->data);
-    glDrawArrays(GL_LINE_LOOP, 0, vertexArr->length >> 1);
-}
-
-
-static void DrawLines(Array(float)* vertexArr)
-{
-    SetMatrix();
-    glVertexAttribPointer(AShaderPrimitive->attribPosition, 2, GL_FLOAT, false, 0, vertexArr->data);
-    glDrawArrays(GL_LINES, 0, vertexArr->length >> 1);
-}
-
-
-static void DrawRect(Rect* rect)
-{
-    SetMatrix();
-
-    glVertexAttribPointer
-    (
-        AShaderPrimitive->attribPosition,
-        2,
-        GL_FLOAT,
-        false,
-        0,
-        (float[])
+        GL_LINE_LOOP,
+        (float[8])
         {
             rect->top,    rect->left,
             rect->bottom, rect->left,
             rect->bottom, rect->right,
             rect->top,    rect->right,
-        }
+        },
+        mvpMatrix,
+        color,
+        lineWidth,
+        4,
+        true
     );
-
-    glDrawArrays(GL_LINE_LOOP, 0, 4);
 }
 
 
 struct AGLPrimitive AGLPrimitive[1] =
-{
-    1.0f,
-    1.0f,
-
-    COLOR_WHITE,
-    NULL,
-
-    DrawPoints,
-    DrawPolygon,
-    DrawLines,
-    DrawRect,
-};
+{{
+    RenderPoints,
+    RenderPolygon,
+    RenderLines,
+    RenderRect,
+}};

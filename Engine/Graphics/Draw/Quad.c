@@ -1,15 +1,22 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2012-12-25
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2012-12-25
+ * Update   : 2019-1-23
+ * Author   : scott.cgi
  */
+
 
 #include <string.h>
 #include <stdlib.h>
-
+#include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/Draw/Quad.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 
@@ -29,64 +36,65 @@ static void Init(float width, float height, Quad* outQuad)
 
 static Quad* Create(float width, float height)
 {
-    Quad* quad = (Quad*) malloc(sizeof(Quad));
+    Quad* quad = malloc(sizeof(Quad));
     Init(width, height, quad);
 
     return quad;
 }
 
 
-static void MaxSize(Array(Quad)* quadArr,  float* outWidth, float* outHeight)
+static void GetMaxSize(Array(Quad)* quadArr,  float* outWidth, float* outHeight)
 {
-    Quad* quads  = AArray_GetData(quadArr, Quad);
-    Quad* quad   = quads;
+    Quad* quads = quadArr->data;
+    Quad* quad  = quads;
 
-    float leftX  = quad->offsetCenterX;
-    float leftY  = quad->offsetCenterY;
+    float  minX  = quad->offsetCenterX;
+    float  maxY  = quad->offsetCenterY;
+    
+    float  maxX  = minX + quad->width;
+    float  minY  = maxY - quad->height;
 
-    float rightX = leftX + quad->width;
-    float rightY = leftY - quad->height;
-
-    for (int i = 1; i < quadArr->length; i++)
+    for (int i = 1; i < quadArr->length; ++i)
     {
-        quad            = quads + i;
-        float tmpLeftX  = quad->offsetCenterX;
-        float tmpLeftY  = quad->offsetCenterY;
+        quad          = quads + i;
 
-        float tmpRightX = tmpLeftX + quad->width;
-        float tmpRightY = tmpLeftY - quad->height;
+        float leftX   = quad->offsetCenterX;
+        float topY    = quad->offsetCenterY;
+        
+        float rightX  = leftX + quad->width;
+        float bottomY = topY - quad->height;
 
         // find the min x
-        if (tmpLeftX < leftX)
+        if (leftX < minX)
         {
-            leftX = tmpLeftX;
+            minX = leftX;
         }
 
         // find the max y
-        if (tmpLeftY > leftY)
+        if (topY > maxY)
         {
-            leftY = tmpLeftY;
+            maxY = topY;
         }
 
         // find the max x
-        if (tmpRightX > rightX)
+        if (rightX > maxX)
         {
-            rightX = tmpRightX;
+            maxX = rightX;
         }
 
         // find the min y
-        if (tmpRightY < rightY)
+        if (bottomY < minY)
         {
-            rightY = tmpRightY;
+            minY = bottomY;
         }
     }
 
-    *outWidth  = rightX - leftX;
-    *outHeight = leftY  - rightY;
+    *outWidth  = maxX - minX;
+    *outHeight = maxY - minY;
 }
 
 
-static void GetQuadVertex(Quad* quad, Texture* texture, float outVertexData[Quad_VertexNum])
+static void GetPosition2UV(Quad* quad, Texture* texture, float outPosition2UVData[Quad_Position2UVNum])
 {
     float qx = quad->offsetCenterX;
     float qy = quad->offsetCenterY;
@@ -102,29 +110,27 @@ static void GetQuadVertex(Quad* quad, Texture* texture, float outVertexData[Quad
 
     memcpy
     (
-        outVertexData,
-        (
-            (float[])
-            {
-                qx, qy, // Position 0
-                tx, ty, // TexCoord 0
-          
-                qx, qh, // Position 1
-                tx, th, // TexCoord 1
-          
-                qw, qh, // Position 2
-                tw, th, // TexCoord 2
-          
-                qw, qy, // Position 3
-                tw, ty, // TexCoord 3
-            }
-        ),
-        Quad_VertexNumBytes
+        outPosition2UVData,
+        (float[Quad_Position2UVNum])
+        {
+            qx, qy, // position 0, top    left
+            tx, ty, // texcoord 0, top    left
+
+            qx, qh, // position 1, bottom left
+            tx, th, // texcoord 1, bottom left
+
+            qw, qh, // position 2, bottom right
+            tw, th, // texcoord 2, bottom right
+
+            qw, qy, // position 3, top    right
+            tw, ty, // texcoord 3, top    right
+        },
+        Quad_Position2UVSize
     );
 }
 
 
-static void GetQuadPosition3(Quad* quad, float outBornPositionData[Quad_Position3Num])
+static void GetPosition3(Quad* quad, float outBornPositionData[Quad_Position3Num])
 {
     float qx = quad->offsetCenterX;
     float qy = quad->offsetCenterY;
@@ -135,24 +141,19 @@ static void GetQuadPosition3(Quad* quad, float outBornPositionData[Quad_Position
     memcpy
     (
         outBornPositionData,
-        (
-            (float[])
-            {
-                qx, qy, 0.0f, // Position 0
-        
-                qx, qh, 0.0f, // Position 1
-        
-                qw ,qh, 0.0f, // Position 2
-        
-                qw, qy, 0.0f, // Position 3
-            }
-        ),
-        Quad_Position3NumBytes
+        (float[Quad_Position3Num])
+        {
+            qx, qy, 0.0f, // position 0, top    left
+            qx, qh, 0.0f, // position 1, bottom left
+            qw ,qh, 0.0f, // position 2, bottom right
+            qw, qy, 0.0f, // position 3, top    right
+        },
+        Quad_Position3Size
     );
 }
 
 
-static void GetQuadUV(Quad* quad, Texture* texture, float outUVData[Quad_UVNum])
+static void GetUV(Quad* quad, Texture* texture, float outUVData[Quad_UVNum])
 {
     float tx = AGLTool_ToUVWidth (quad->offsetTextureX, texture->width);
     float ty = AGLTool_ToUVHeight(quad->offsetTextureY, texture->height);
@@ -163,53 +164,46 @@ static void GetQuadUV(Quad* quad, Texture* texture, float outUVData[Quad_UVNum])
     memcpy
     (
         outUVData,
-        (
-            (float[])
-            {
-                tx, ty, // TexCoord 0
-
-                tx, th, // TexCoord 1
-
-                tw, th, // TexCoord 2
-
-                tw, ty, // TexCoord 3
-            }
-        ),
-        Quad_UVNumBytes
+        (float[Quad_UVNum])
+        {
+            tx, ty, // texCoord 0, top    left
+            tx, th, // texCoord 1, bottom left
+            tw, th, // texCoord 2, bottom right
+            tw, ty, // texCoord 3, top    right
+        },
+        Quad_UVSize
     );
 }
 
 
-static void GetQuadIndex(int vertexNumBefore, short outIndexData[Quad_IndexNum])
+static void GetIndex(int vertexNumBefore, short outIndexData[Quad_IndexNum])
 {
     memcpy
     (
         outIndexData,
-        (
-            (short[])
-            {
-                (short) (0 + vertexNumBefore),
-                (short) (1 + vertexNumBefore),
-                (short) (2 + vertexNumBefore),
+        (short[Quad_IndexNum])
+        {
+            (short) (0 + vertexNumBefore),
+            (short) (1 + vertexNumBefore),
+            (short) (2 + vertexNumBefore),
 
-                (short) (2 + vertexNumBefore),
-                (short) (3 + vertexNumBefore),
-                (short) (0 + vertexNumBefore),
-            }
-        ),
-        Quad_IndexNumBytes
+            (short) (2 + vertexNumBefore),
+            (short) (3 + vertexNumBefore),
+            (short) (0 + vertexNumBefore),
+        },
+        Quad_IndexSize
     );
 }
 
 
 struct AQuad AQuad[1] =
-{
+{{
     Create,
     Init,
-    MaxSize,
+    GetMaxSize,
 
-    GetQuadVertex,
-    GetQuadPosition3,
-    GetQuadUV,
-    GetQuadIndex,
-};
+    GetPosition2UV,
+    GetPosition3,
+    GetUV,
+    GetIndex,
+}};

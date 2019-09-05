@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-6-27
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-6-27
+ * Update   : 2019-2-13
+ * Author   : scott.cgi
  */
+
 
 #ifndef SKELETON_DATA_H
 #define SKELETON_DATA_H
@@ -19,10 +26,14 @@
 
 
 typedef struct SkeletonBoneData SkeletonBoneData;
+
+/**
+ * The skeleton bone data read from json file.
+ */
 struct  SkeletonBoneData
 {
     SkeletonBoneData* parent;
-    char*             name;
+    const char*       name;
     float             length;
     float             x;
     float             y;
@@ -34,46 +45,58 @@ struct  SkeletonBoneData
 };
 
 
+/**
+ * The skeleton slot data read from json file.
+ */
 typedef struct
 {
-    char*                               name;
-    char*                               attachmentName;
+    const char*                         name;
+    const char*                         attachmentName;
     bool                                isAdditiveBlending;
     SkeletonBoneData*                   boneData;
     Color                               color[1];
 
     /**
-     * Each skin corresponding SkeletonAttachmentData may not exits
+     * The skin's SkeletonAttachmentData may not exits.
      */
     ArrayList(SkeletonAttachmentData*)* attachmentDataList;
 }
 SkeletonSlotData;
 
 
+/**
+ * The skeleton event data read from json file.
+ */
 typedef struct
 {
-    char* name;
-    char* stringValue;
-    int   intValue;
-    float floatValue;
+    const char* name;
+    const char* stringValue;
+    int         intValue;
+    float       floatValue;
 }
 SkeletonEventData;
 
 
+/**
+ * The skeleton animation data read from json file.
+ */
 typedef struct
 {
-    char*                        name;
+    const char*                  name;
     float                        duration;
     ArrayList(SkeletonTimeline*) timelineArr[1];
 }
 SkeletonAnimationData;
 
 
+/**
+ * The skeleton skin data read from json file.
+ */
 typedef struct
 {
     /**
-     * The slotAttachmentMap key is slotData name,        value is attachmentDataMap
-     * the attachmentDataMap key is slot attachment name, value is SkeletonAttachmentData
+     * The slotAttachmentMap key is slotData name,        value is attachmentDataMap.
+     * the attachmentDataMap key is slot attachment name, value is SkeletonAttachmentData.
      */
     ArrayStrMap
     (
@@ -82,7 +105,7 @@ typedef struct
     )
     slotAttachmentMap[1];
 
-    char* name;
+    const char* name;
 }
 SkeletonSkinData;
 
@@ -100,15 +123,18 @@ typedef enum
 SkeletonAttachmentDataType;
 
 
+/**
+ * The abstract skeleton attachment data.
+ */
 typedef struct
 {
     /**
-     * Attachment actual name
+     * Attachment actual name.
      */
-    char*                      name;
+    const char*                name;
 
     /**
-     * Subclass attachment pointer
+     * Subclass attachment pointer.
      */
     void*                      childPtr;
     SkeletonAttachmentDataType type;
@@ -116,6 +142,9 @@ typedef struct
 SkeletonAttachmentData;
 
 
+/**
+ * The skeleton region attachment data read from json file.
+ */
 typedef struct
 {
     float                  x;
@@ -128,23 +157,26 @@ typedef struct
     SkeletonAttachmentData attachmentData[1];
 
     /**
-     * Index in meshList from Skeleton
+     * Index of meshList in Skeleton.
      */
     int                    meshIndex;
 
     /**
-     * Index in Mesh from meshList
+     * Index of SubMeshList in Mesh.
      */
     int                    subMeshIndex;
 
     /**
-     * Texture atlas quad info
+     * Texture atlas quad.
      */
     Quad*                  quad;
 }
 SkeletonRegionAttachmentData;
 
 
+/**
+ * The skeleton boundingBox attachment data read from json file.
+ */
 typedef struct
 {
     SkeletonAttachmentData attachmentData[1];
@@ -153,6 +185,9 @@ typedef struct
 SkeletonBoundingBoxAttachmentData;
 
 
+/**
+ * The skeleton mesh attachment data read from json file.
+ */
 typedef struct
 {
     float                  width;
@@ -163,33 +198,36 @@ typedef struct
     Array(float)           uvArr         [1];
 
     /**
-     * Careful 4 byte aligned
+     * Careful 4 byte aligned.
      */
     Array(short)           triangleArr   [1];
 
     /**
-     * Index in meshList from Skeleton
+     * Index of meshList in Skeleton.
      */
     int                    meshIndex;
 
     /**
-     * Index in Mesh from meshList
+     * Index of SubMeshList in Mesh.
      */
     int                    subMeshIndex;
 
     /**
-     * Texture atlas quad info
+     * Texture atlas quad.
      */
     Quad*                  quad;
 
     /**
-     * Whether convert uv data into TextureAtlas
+     * Whether convert uv data to TextureAtlas.
      */
     bool                   isUVMappedInTexture;
 }
 SkeletonMeshAttachmentData;
 
 
+/**
+ * The skeleton skinned mesh attachment data read from json file.
+ */
 typedef struct
 {
     Array(int)                 boneArr           [1];
@@ -202,9 +240,14 @@ SkeletonSkinnedMeshAttachmentData;
 
 typedef enum
 {
-    SkeletonAttachmentMeshOffset_RegionIndex      = offsetof(SkeletonRegionAttachmentData,      meshIndex),
-    SkeletonAttachmentMeshOffset_MeshIndex        = offsetof(SkeletonMeshAttachmentData,        meshIndex),
-    SkeletonAttachmentMeshOffset_SkinnedMeshIndex = offsetof(SkeletonSkinnedMeshAttachmentData, meshAttachmentData) + SkeletonAttachmentMeshOffset_MeshIndex,
+    SkeletonAttachmentMeshOffset_RegionIndex      = (int) offsetof(SkeletonRegionAttachmentData, meshIndex),
+    SkeletonAttachmentMeshOffset_MeshIndex        = (int) offsetof(SkeletonMeshAttachmentData,   meshIndex),
+    SkeletonAttachmentMeshOffset_SkinnedMeshIndex = (int) offsetof
+                                                          (
+                                                              SkeletonSkinnedMeshAttachmentData,
+                                                              meshAttachmentData
+                                                          )
+                                                          + SkeletonAttachmentMeshOffset_MeshIndex,
 }
 SkeletonAttachmentMeshOffset;
 
@@ -214,9 +257,14 @@ extern SkeletonAttachmentMeshOffset skeletonAttachmentMeshOffset[3];
 
 typedef enum
 {
-    SkeletonAttachmentSubMeshOffset_RegionSubIndex      = offsetof(SkeletonRegionAttachmentData,      subMeshIndex),
-    SkeletonAttachmentSubMeshOffset_MeshSubIndex        = offsetof(SkeletonMeshAttachmentData,        subMeshIndex),
-    SkeletonAttachmentSubMeshOffset_SkinnedMeshSubIndex = offsetof(SkeletonSkinnedMeshAttachmentData, meshAttachmentData) + SkeletonAttachmentSubMeshOffset_MeshSubIndex,
+    SkeletonAttachmentSubMeshOffset_RegionSubIndex      = (int) offsetof(SkeletonRegionAttachmentData, subMeshIndex),
+    SkeletonAttachmentSubMeshOffset_MeshSubIndex        = (int) offsetof(SkeletonMeshAttachmentData,   subMeshIndex),
+    SkeletonAttachmentSubMeshOffset_SkinnedMeshSubIndex = (int) offsetof
+                                                                (
+                                                                    SkeletonSkinnedMeshAttachmentData,
+                                                                    meshAttachmentData
+                                                                )
+                                                                + SkeletonAttachmentSubMeshOffset_MeshSubIndex,
 }
 SkeletonAttachmentSubMeshOffset;
 
@@ -227,11 +275,14 @@ extern SkeletonAttachmentSubMeshOffset skeletonAttachmentSubMeshOffset[3];
 //----------------------------------------------------------------------------------------------------------------------
 
 
+/**
+ * The skeleton data read from json file.
+ */
 typedef struct
 {
     float                                                 width;
     float                                                 height;
-    char*                                                 filePath;
+    const char*                                           filePath;
     TextureAtlas*                                         textureAtlas;
     SkeletonSkinData*                                     skinDataDefault;
 
@@ -242,36 +293,47 @@ typedef struct
     ArrayStrMap(eventName,     SkeletonEventDataMap*)     eventDataMap    [1];
 
     /**
-     * All SkeletonBoneData order same as in JOSN
+     * All SkeletonBoneData order same as in JSON.
      */
     Array(SkeletonBoneData*)*                             boneDataOrderArr;
 
     /**
-     * All SkeletonSlotData order same as in JOSN
+     * All SkeletonSlotData order same as in JSON.
      */
     Array(SkeletonSlotData*)*                             slotDataOrderArr;
 
     /**
-     * All slot attachments
+     * All slot attachments.
      */
     ArrayList(SkeletonAttachmentData*)                    attachmentDataList[1];
 }
 SkeletonData;
 
 
+/**
+ * Control and mange SkeletonData.
+ */
 struct ASkeletonData
 {
     /**
-     * Scales the bones, images, and animations as they are loaded, default 1.0
+     * Scales the bones, images, and animations as they are loaded, default 1.0.
      */
     float scale;
 
     /**
-     * Get SkeletonData by filePath, not found will create one
+     * Get SkeletonData by jsonFilePath, not found will create one.
+     *
+     * jsonFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
      */
-    SkeletonData*           (*Get)                        (char*             filePath);
-    void                    (*Release)                    (SkeletonData*     skeletonData);
-    SkeletonAttachmentData* (*GetAttachmentDataBySkinData)(SkeletonSkinData* skinData, char* slotName, char* attachmentName);
+    SkeletonData*           (*Get)                        (const char*          jsonFilePath);
+    void                    (*Release)                    (SkeletonData*        skeletonData);
+    SkeletonAttachmentData* (*GetAttachmentDataBySkinData)(
+                                                              SkeletonSkinData* skinData,
+                                                              const char*       slotName,
+                                                              const char*       attachmentName
+                                                          );
 };
 
 

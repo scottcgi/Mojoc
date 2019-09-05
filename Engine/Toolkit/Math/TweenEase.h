@@ -1,11 +1,17 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-11-5
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-11-5
+ * Author   : scott.cgi
  */
+
 
 #ifndef TWEEN_EASE_H
 #define TWEEN_EASE_H
@@ -15,94 +21,44 @@ typedef enum
 {
     TweenEaseType_Linear,
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Quadratic
-------------------------------------------------------------------------------------------------------------------------
-*/
     TweenEaseType_QuadraticIn,
     TweenEaseType_QuadraticOut,
     TweenEaseType_QuadraticInOut,
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Cubic
-------------------------------------------------------------------------------------------------------------------------
-*/
     TweenEaseType_CubicIn,
     TweenEaseType_CubicOut,
     TweenEaseType_CubicInOut,
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Quartic
-------------------------------------------------------------------------------------------------------------------------
-*/
     TweenEaseType_QuarticIn,
     TweenEaseType_QuarticOut,
     TweenEaseType_QuarticInOut,
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Quintic
-------------------------------------------------------------------------------------------------------------------------
-*/
     TweenEaseType_QuinticIn,
     TweenEaseType_QuinticOut,
     TweenEaseType_QuinticInOut,
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Sine
-------------------------------------------------------------------------------------------------------------------------
-*/
-    TweenEaseType_SineIn,
-    TweenEaseType_SineOut,
-    TweenEaseType_SineInOut,
-
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Exponential
-------------------------------------------------------------------------------------------------------------------------
-*/
     TweenEaseType_ExponentialIn,
     TweenEaseType_ExponentialOut,
     TweenEaseType_ExponentialInOut,
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Circular
-------------------------------------------------------------------------------------------------------------------------
-*/
+    TweenEaseType_SineIn,
+    TweenEaseType_SineOut,
+    TweenEaseType_SineInOut,
+
     TweenEaseType_CircularIn,
     TweenEaseType_CircularOut,
     TweenEaseType_CircularInOut,
 
-
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Elastic
-------------------------------------------------------------------------------------------------------------------------
-*/
     TweenEaseType_ElasticIn,
     TweenEaseType_ElasticOut,
     TweenEaseType_ElasticInOut,
 
-
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Back
-------------------------------------------------------------------------------------------------------------------------
-*/
     TweenEaseType_BackIn,
     TweenEaseType_BackOut,
     TweenEaseType_BackInOut,
+    TweenEaseType_BackInExponentialOut,
+    TweenEaseType_BackInElasticOut,
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    Bounce
-------------------------------------------------------------------------------------------------------------------------
-*/
     TweenEaseType_BounceIn,
     TweenEaseType_BounceOut,
     TweenEaseType_BounceInOut,
@@ -115,8 +71,8 @@ TweenEaseType;
 struct ATweenEase
 {
     /**
-     * Ease interpolation algorithm function
-     * value between [from, to] control by time between [0.0f, 1.0f]
+     * Ease interpolation algorithm function.
+     * value between [from, to] control by time between [0.0f, 1.0f].
      */
     float (*Interpolates[TweenEaseType_Length])(float from, float to, float time);
 };

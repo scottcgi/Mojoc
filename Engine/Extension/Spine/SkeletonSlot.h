@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-7-7
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-7-7
+ * Update   : 2019-2-12
+ * Author   : scott.cgi
  */
+
 
 #ifndef SKELETON_SLOT_H
 #define SKELETON_SLOT_H
@@ -16,6 +23,9 @@
 #include "Engine/Extension/Spine/Skeleton.h"
 
 
+/**
+ * The skeleton slot can provide color and texture.
+ */
 typedef struct
 {
     Color                   color[1];
@@ -33,6 +43,10 @@ struct ASkeletonSlot
     void          (*Init)             (SkeletonSlotData* slotData, Skeleton* skeleton, SkeletonSlot* outSlot);
 
     void          (*SetAttachmentData)(SkeletonSlot* slot, SkeletonAttachmentData* attachmentData);
+
+    /**
+     * Set slot to setup pose.
+     */
     void          (*SetToSetupPose)   (SkeletonSlot* slot);
 };
 
@@ -40,27 +54,39 @@ struct ASkeletonSlot
 extern struct ASkeletonSlot ASkeletonSlot[1];
 
 
+/**
+ * Get boundingBox in slot.
+ */
 static inline SkeletonBoundingBoxAttachmentData* ASkeletonSlot_GetBoundingBox(SkeletonSlot* slot)
 {
-    return (SkeletonBoundingBoxAttachmentData*) slot->attachmentData->childPtr;
+    return slot->attachmentData->childPtr;
 }
 
 
+/**
+ * Get region in slot.
+ */
 static inline SkeletonRegionAttachmentData* ASkeletonSlot_GetRegion(SkeletonSlot* slot)
 {
-    return (SkeletonRegionAttachmentData*) slot->attachmentData->childPtr;
+    return slot->attachmentData->childPtr;
 }
 
 
+/**
+ * Get mesh in slot.
+ */
 static inline SkeletonMeshAttachmentData* ASkeletonSlot_GetMesh(SkeletonSlot* slot)
 {
-    return (SkeletonMeshAttachmentData*) slot->attachmentData->childPtr;
+    return slot->attachmentData->childPtr;
 }
 
 
-static inline SkeletonSkinnedMeshAttachmentData* ASkeletonSlot_GetSkinned(SkeletonSlot* slot)
+/**
+ * Get skinned mesh in slot.
+ */
+static inline SkeletonSkinnedMeshAttachmentData* ASkeletonSlot_GetSkinnedMesh(SkeletonSlot* slot)
 {
-    return (SkeletonSkinnedMeshAttachmentData*) slot->attachmentData->childPtr;
+    return slot->attachmentData->childPtr;
 }
 
 

@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-1-2
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-1-2
+ * Update   : 2019-1-24
+ * Author   : scott.cgi
  */
+
 
 #ifndef DRAWABLE_H
 #define DRAWABLE_H
@@ -15,160 +22,157 @@
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Toolkit/Math/Matrix.h"
 #include "Engine/Toolkit/Math/Math.h"
-#include "Engine/Toolkit/Head/Bitwise.h"
+#include "Engine/Toolkit/HeaderUtils/Bitwise.h"
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Graphics/Draw/Color.h"
 #include "Engine/Toolkit/Math/Vector.h"
-#include "Engine/Toolkit/Head/UserData.h"
+#include "Engine/Toolkit/HeaderUtils/UserData.h"
 
 
 /**
- * If contains 'is' the state can set and clear
- * else the state will automatically set and clear
+ * If contains 'Is' the state can set add and clear,
+ * else the state will automatically set add and clear.
  */
 typedef enum
 {
-    DrawableState_Null              = 0,
+    DrawableState_Null                = 0,
+    
+    /**
+     * Whether drawable is invisible.
+     */
+    DrawableState_IsInvisible         = 1,
 
     /**
-     * Whether drawable is invisible
+     * Whether drawable mvp matrix need to update.
      */
-    DrawableState_IsInvisible       = 1,
+    DrawableState_IsUpdateMVPMatrix   = 1 << 1,
 
     /**
-     * Whether drawable mvp matrix need update
+     * Whether drawable calculate blendColor by parent.
      */
-    DrawableState_IsUpdateMVP       = 1 << 1,
+    DrawableState_IsBlendColor        = 1 << 2,
 
     /**
-     * Whether drawable calculate blendColor by parent
+     * Flag drawable inverse matrix need to update.
      */
-    DrawableState_IsBlendColor      = 1 << 2,
+    DrawableState_UpdateInverseMatrix = 1 << 3,
 
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
-     * Flag drawable inverse matrix need update
+     * Flag drawable transform has changed.
      */
-    DrawableState_UpdateInverse      = 1 << 3,
-
-//----------------------------------------------------------------------------------------------------------------------
+    DrawableState_TransformChanged    = 1 << 4,
 
     /**
-     * Flag drawable transform has changed
+     * Flag drawable rgb has changed.
      */
-    DrawableState_TransformChanged   = 1 << 4,
+    DrawableState_RGBChanged          = 1 << 5,
 
     /**
-     * Flag drawable rgb has changed
+     * Flag drawable opacity has changed.
      */
-    DrawableState_RGBChanged         = 1 << 5,
+    DrawableState_OpacityChanged      = 1 << 6,
 
     /**
-     * Flag drawable opacity has changed
+     * Flag drawable has been drawn.
      */
-    DrawableState_OpacityChanged     = 1 << 6,
-
-    /**
-     * Flag drawable has been drawn
-     */
-    DrawableState_DrawChanged        = 1 << 7,
+    DrawableState_DrawChanged         = 1 << 7,
 
     /**
      * Flag drawable color has changed
      */
-    DrawableState_ColorChanged       = DrawableState_RGBChanged  | DrawableState_OpacityChanged,
+    DrawableState_ColorChanged        = DrawableState_RGBChanged |
+                                        DrawableState_OpacityChanged,
 
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
-     * Flag drawable parent change
+     * Flag drawable parent has changed.
      */
-    DrawableState_Parent             = 1 << 8,
+    DrawableState_Parent              = 1 << 8,
+
+    /**
+     * Flag drawable position x has changed.
+     */
+    DrawableState_PositionX           = 1 << 9,
+
+    /**
+     * Flag drawable position y has changed.
+     */
+    DrawableState_PositionY           = 1 << 10,
+
+    /**
+     * Flag drawable position z has changed.
+     */
+    DrawableState_PositionZ           = 1 << 11,
+
+    /**
+     * Flag drawable position x and y have changed.
+     */
+    DrawableState_Position2           = DrawableState_PositionX |
+                                        DrawableState_PositionY,
 
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
-     * Flag drawable position x change
+     * Flag drawable scale x has changed.
      */
-    DrawableState_PositionX          = 1 << 9,
+    DrawableState_ScaleX             = 1 << 12, 
 
     /**
-     * Flag drawable position y change
-     */
-    DrawableState_PositionY          = 1 << 10,
-
-    /**
-     * Flag drawable position z change
-     */
-    DrawableState_PositionZ          = 1 << 11,
-
-    /**
-     * Flag drawable position x and y change
-     */
-    DrawableState_Position2          = DrawableState_PositionX | DrawableState_PositionY,
-
-//----------------------------------------------------------------------------------------------------------------------
-
-    /**
-     * Flag drawable scale x change
-     */
-    DrawableState_ScaleX             = 1 << 12,
-
-    /**
-     * Flag drawable scale y change
+     * Flag drawable scale y has changed.
      */
     DrawableState_ScaleY             = 1 << 13,
 
     /**
-     * Flag drawable scale z change
+     * Flag drawable scale z has changed.
      */
     DrawableState_ScaleZ             = 1 << 14,
 
     /**
-     * Flag drawable scale x and y change
+     * Flag drawable scale x and y have changed.
      */
     DrawableState_Scale2             = DrawableState_ScaleX | DrawableState_ScaleY,
 
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
-     * Flag drawable rotation x change
+     * Flag drawable rotation x has changed.
      */
     DrawableState_RotationX          = 1 << 15,
 
     /**
-     * Flag drawable rotation x change
+     * Flag drawable rotation x has changed.
      */
     DrawableState_RotationY          = 1 << 16,
 
     /**
-     * Flag drawable rotation x change
+     * Flag drawable rotation x has changed.
      */
     DrawableState_RotationZ          = 1 << 17,
 
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
-     * Flag drawable rgb change
+     * Flag drawable rgb has changed.
      */
     DrawableState_RGB                 = 1 << 18,
 
     /**
-     * Flag drawable opacity change
+     * Flag drawable opacity has changed.
      */
     DrawableState_Opacity             = 1 << 19,
 
     /**
-     * Flag drawable color change
+     * Flag drawable color has changed.
      */
     DrawableState_Color               = DrawableState_RGB | DrawableState_Opacity,
 
 //----------------------------------------------------------------------------------------------------------------------
 
-
     /**
-     * Flag drawable position scale rotate translate parent change
+     * Flag drawable position scale rotate translate parent have changed.
      */
     DrawableState_Transform           = DrawableState_Parent    |
                                         DrawableState_PositionX |
@@ -182,201 +186,252 @@ typedef enum
                                         DrawableState_RotationZ,
 
     /**
-     * Flag drawable state change
+     * Flag drawable transform and color have changed.
      */
-    DrawableState_Change              = DrawableState_Transform |
+    DrawableState_Draw                = DrawableState_Transform |
                                         DrawableState_Color,
 }
 DrawableState;
 
 
 typedef struct Drawable Drawable;
+
+/**
+ * If object can be drawn then must inherit Drawable.
+ * the drawable provides transform, color, state, matrix properties,
+ * but render function must be implemented by subclass.
+ */
 struct  Drawable
 {
-     UserData  userData[1];
+     UserData      userData[1];
 
-     /**
-      * Default 0.0f, use openGL coordinate
-      */
-     float     width;
-     float     height;
+     /* Default 0.0f, use openGL coordinate. */
+     float         width;
+     float         height;
 
 //----------------------------------------------------------------------------------------------------------------------
 
      /**
-      * If has parent will render use parent modelMatrix
-      * parent invisible child will stop rendering
+      * If has parent will render use parent modelMatrix,
+      * and parent invisible that children will stop rendering.
       */
-     Drawable* parent;
+     Drawable*     parent;
+
+     /* The local position relative parent, default 0.0f. */
+     float         positionX;
+     float         positionY;
+     float         positionZ;
+
+     /* The local scale relative parent, default 1.0f. */
+     float         scaleX;
+     float         scaleY;
+     float         scaleZ;
 
      /**
-      * Default 0.0f
+      * The local rotationZ relative parent, default 0.0f and clockwise [0.0f - 360.0f].
       */
-     float     positionX;
-     float     positionY;
-     float     positionZ;
+     float         rotationZ;
 
      /**
-      * Default 1.0f
+      * The color value each between [0.0f, 1.0f], default {1.0f, 1.0f, 1.0f, 1.0f}.
       */
-     float     scaleX;
-     float     scaleY;
-     float     scaleZ;
-
-     /**
-      * Default0.0f Clockwise [0.0f - 360.0f]
-      */
-     float     rotationZ;
-
-     /**
-      * Each [0.0f, 1.0f], default (1.0f, 1.0f, 1.0f, 1.0f)
-      */
-     Color     color        [1];
+     Color         color        [1];
 
      /**
       * If set DrawableState_IsBlendColor
-      *     set (color) * (parent blendColor)
+      *     equal (color) * (parent blendColor)
       * else
       *     equal color
       *
-      * default (1.0f, 1.0f, 1.0f, 1.0f)
+      * default {1.0f, 1.0f, 1.0f, 1.0f}
       */
-     Color     blendColor   [1];
+     Color         blendColor   [1];
 
 //----------------------------------------------------------------------------------------------------------------------
 
      /**
-      * Cached MVP matrix when property changed will update
+      * Cached MVP matrix when property has changed will update.
       */
-     Matrix4   mvpMatrix    [1];
+     Matrix4       mvpMatrix    [1];
 
      /**
-      * Cached model matrix when property changed will update
+      * Cached model matrix when property has changed will update.
       */
-     Matrix4   modelMatrix  [1];
+     Matrix4       modelMatrix  [1];
 
      /**
-      * Cached inverse model matrix
+      * Cached inverse model matrix。
       */
-     Matrix4   inverseMatrix[1];
+     Matrix4       inverseMatrix[1];
 
      /**
-      * Identifier property has changed
+      * Flag the property changes.
       */
-     int       state;
+     DrawableState state;
 
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
-      * Custom draw called by ADrawable's Draw, not use any openGL command
+      * Custom draw for preparing rendering data.
+      * called by ADrawable's Draw, do not use any openGL command,
+      * and can check any state change.
+      *
+      * if called in Scheduler or Coroutine may have draw order problem,
+      * because the draw oder common controlled by Component.
       */
      void (*Draw)  (Drawable* drawable);
 
      /**
-      * Render with openGL command
+      * Render with openGL command.
       */
      void (*Render)(Drawable* drawable);
 };
 
 
+/**
+ * Control Drawable and coordinate conversion.
+ */
 struct ADrawable
 {
-    Drawable* (*Create)                ();
-    void      (*Init)                  (Drawable* outDrawable);
+    Drawable* (*Create)                       (void);
+    void      (*Init)                         (Drawable* outDrawable);
 
      /**
-      * Transform model matrix and calculate mvp matrix if need
-      * Calculate blend color if need
-      * Call custom drawable's Draw method
+      * Transform model matrix by position scale rotation,
+      * and calculate mvp matrix and blend color if needed,
+      * and call drawable's Draw method.
       *
-      * if render method implemented will push into render queue for flush openGL command
+      * if render method implemented will push Drawable into render queue for flush openGL command.
       */
-    void      (*Draw)                  (Drawable* drawable);
+    void      (*Draw)                         (Drawable* drawable);
 
     /**
-     * Rendering Drawable queue and clear it wait for next frame
+     * Call Render function of Drawable in the render queue and clear it for next frame.
+     * the drawable will push into render queue when it's Draw function called.
      */
-    void      (*RenderQueue)           ();
+    void      (*Render)                       (void);
 
     /**
-     * Convert local x in parent coordinate to world x
-     * return world x
+     * Get render queue size.
      */
-    float     (*ConvertToWorldX)       (Drawable* localParent, float localX);
+    int       (*GetDrawCalls)                 (void);
 
     /**
-     * Convert local y in parent coordinate to world y
-     * return world y
+     * Convert localPositionX in localParent to world coordinate.
+     * return world position x.
      */
-    float     (*ConvertToWorldY)       (Drawable* localParent, float localY);
+    float     (*ConvertToWorldPositionX)      (Drawable* localParent, float localPositionX);
 
     /**
-     * Convert localPoint in parent coordinate to world coordinate
+     * Convert localPositionY in localParent to world coordinate.
+     * return world position y.
      */
-    void      (*ConvertToWorldPoint)   (Drawable* localParent, Vector2* localPoint, Vector2* outWorldPoint);
+    float     (*ConvertToWorldPositionY)      (Drawable* localParent, float localPositionY);
 
     /**
-     * Convert world x to local x in parent coordinate
-     * return local x
+     * Convert localPositionV2 in localParent to world coordinate.
      */
-    float     (*ConvertToLocalX)       (Drawable* localParent, float worldX);
+    void      (*ConvertToWorldPositionV2)     (
+                                                   Drawable* localParent,
+                                                   Vector2*  localPositionV2,
+                                                   Vector2*  outWorldPositionV2
+                                              );
 
     /**
-     * Convert world y to local y in parent coordinate
-     * return local y
+     * Convert worldPositionX to localParent coordinate.
+     * return local position x
      */
-    float     (*ConvertToLocalY)       (Drawable* localParent, float worldY);
+    float    (*ConvertToLocalPositionX)       (Drawable* localParent, float worldPositionX);
 
     /**
-     * Convert worldPoint to localPoint in parent coordinate
+     * Convert worldPositionY to localParent coordinate.
+     * return local position y.
      */
-    void      (*ConvertToLocalPoint)   (Drawable* localParent, Vector2* worldPoint, Vector2* outLocalPoint);
+    float    (*ConvertToLocalPositionY)       (Drawable* localParent, float worldPositionY);
 
     /**
-     * Convert drawable transform to parent, will change parent and scale position rotationZ for parent coordinate
-     * if parent NULL will convert to world coordinate
+     * Convert worldPositionV2 to localParent coordinate.
      */
-    void      (*ConvertToParent)       (Drawable* drawable, Drawable* parent);
-
+    void     (*ConvertToLocalPositionV2)      (
+                                                  Drawable* localParent,
+                                                  Vector2*  worldPositionV2,
+                                                  Vector2*  outLocalPositionV2
+                                              );
 
     /**
-     * Convert local x in parentA to parentB
-     * return local x in parentB
+     * Set drawable parent and keep world transform.
+     * if parent NULL transform will convert to world coordinate.
      */
-    float     (*ConvertBetweenLocalX)  (Drawable* parentA, float localXA, Drawable* parentB);
-
-    /**
-     * Convert local y in parentA to ParentB
-     * return local y in parentB
-     */
-    float     (*ConvertBetweenLocalY)  (Drawable* parentA, float localYA, Drawable* parentB);
-
-
-    /**
-     * Convert localPointA in parentA to localPointB in parentB
-     */
-    void      (*ConvertBetweenLocal)   (Drawable* parentA, Vector2* localPointA, Drawable* parentB, Vector2* outLocalPointB);
+    void     (*ConvertToParent)               (Drawable* drawable, Drawable* parent);
 
 
     /**
-     * If Drawable has flip will transform rotationZ to flipped value
+     * Convert localPositionX in parentA to parentB coordinate.
+     * return local position x in parentB.
      */
-    float     (*GetFlipRotationZ)      (Drawable* drawable, float rotationZ);
+    float    (*ConvertBetweenLocalPositionX)  (Drawable* parentA, float localPositionX, Drawable* parentB);
 
     /**
-     * Get drawable rotationZ in world
+     * Convert localPositionY in parentA to ParentB coordinate.
+     * return local position y in parentB.
      */
-    float     (*GetWorldRotationZ)     (Drawable* drawable);
+    float    (*ConvertBetweenLocalPositionY)  (Drawable* parentA, float localPositionY, Drawable* parentB);
+
 
     /**
-     * Get drawable scaleX in world
+     * Convert localPositionV2 in parentA to outLocalPositionV2 in parentB.
      */
-    float     (*GetWorldScaleX)        (Drawable* drawable);
+    void     (*ConvertBetweenLocalPositionV2) (
+                                                  Drawable* parentA,
+                                                  Vector2*  localPositionV2,
+                                                  Drawable* parentB,
+                                                  Vector2*  outLocalPositionV2
+                                              );
 
     /**
-     * Get drawable scaleY in world
+     * If Drawable has flip will transform rotationZ to flipped value.
      */
-    float     (*GetWorldScaleY)        (Drawable* drawable);
+    float    (*GetFlipRotationZ)              (Drawable* drawable, float rotationZ);
+
+    /**
+     * Get drawable rotationZ in world coordinate.
+     */
+    float    (*GetWorldRotationZ)             (Drawable* drawable);
+
+    /**
+     * Get drawable scaleX in world coordinate.
+     */
+    float    (*GetWorldScaleX)                (Drawable* drawable);
+
+    /**
+     * Get drawable scaleY in world coordinate.
+     */
+    float    (*GetWorldScaleY)                (Drawable* drawable);
+
+    /**
+     * Get drawable scale Vector2 in world coordinate.
+     */
+    void     (*GetWorldScaleV2)               (Drawable* drawable, Vector2* outScaleV2);
+
+    /**
+     * Get drawable position x in world coordinate.
+     */
+    float    (*GetWorldPositionX)             (Drawable* drawable);
+
+    /**
+     * Get drawable position x in world coordinate.
+     */
+    float    (*GetWorldPositionY)             (Drawable* drawable);
+
+    /**
+     * Get drawable position Vector2 in world coordinate.
+     */
+    void     (*GetWorldPositionV2)            (Drawable* drawable, Vector2* outPositionV2);
+
+    /**
+     * Get drawable position Vector3 in world coordinate.
+     */
+    void     (*GetWorldPositionV3)            (Drawable* drawable, Vector3* outPositionV3);
 };
 
 
@@ -386,51 +441,75 @@ extern struct ADrawable ADrawable[1];
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static inline bool ADrawable_CheckState(Drawable* drawable, DrawableState checkState)
+/**
+ * Check drawable whether has state.
+ */
+static inline bool ADrawable_CheckState(Drawable* drawable, DrawableState state)
 {
-    return ABitwise_Check(drawable->state, checkState);
+    return ABitwise_Check(drawable->state, state);
 }
 
 
-static inline void ADrawable_SetState(Drawable* drawable, DrawableState setState)
+/**
+ * Add state to drawable.
+ */
+static inline void ADrawable_AddState(Drawable* drawable, DrawableState state)
 {
-    ABitwise_Set(drawable->state, setState);
+    ABitwise_Add(drawable->state, state);
 }
 
 
-static inline void ADrawable_SetOnlyState(Drawable* drawable, DrawableState setOnlyState)
+/**
+ * Set state to drawable.
+ */
+static inline void ADrawable_SetState(Drawable* drawable, DrawableState state)
 {
-    ABitwise_SetOnly(drawable->state, setOnlyState);
+    ABitwise_Set(drawable->state, state);
 }
 
 
-static inline void ADrawable_ClearState(Drawable* drawable, DrawableState clearState)
+/**
+ * Clear drawable state.
+ */
+static inline void ADrawable_ClearState(Drawable* drawable, DrawableState state)
 {
-    ABitwise_Clear(drawable->state, clearState);
+    ABitwise_Clear(drawable->state, state);
 }
 
 
-static inline void ADrawable_ClearAndSetState(Drawable* drawable, DrawableState clearState, DrawableState setState)
+/**
+ * Clear drawable clearState and add addState.
+ */
+static inline void ADrawable_ClearAndAddState(Drawable* drawable, DrawableState clearState, DrawableState addState)
 {
-    ABitwise_ClearAndSet(drawable->state, clearState, setState);
+    ABitwise_ClearAndAdd(drawable->state, clearState, addState);
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
+/**
+ * Make drawable visible.
+ */
 static inline void ADrawable_SetVisible(Drawable* drawable)
 {
     ADrawable_ClearState(drawable, DrawableState_IsInvisible);
 }
 
 
-static inline void ADrawable_SetInVisible(Drawable* drawable)
+/**
+ * Make drawable invisible.
+ */
+static inline void ADrawable_SetInvisible(Drawable* drawable)
 {
-    ADrawable_SetState(drawable, DrawableState_IsInvisible);
+    ADrawable_AddState(drawable, DrawableState_IsInvisible);
 }
 
 
+/**
+ * Check drawable whether is visible.
+ */
 static inline bool ADrawable_CheckVisible(Drawable* drawable)
 {
     return ADrawable_CheckState(drawable, DrawableState_IsInvisible) == false;
@@ -440,152 +519,198 @@ static inline bool ADrawable_CheckVisible(Drawable* drawable)
 //----------------------------------------------------------------------------------------------------------------------
 
 
+/**
+ * Set drawable parent, current transform will become local in new parent.
+ * use ADrawable->ConvertToParent can keep world transform stay.
+ */
 static inline void ADrawable_SetParent(Drawable* drawable, Drawable* parent)
 {
     drawable->parent = parent;
-    ADrawable_SetState(drawable, DrawableState_Parent);
+    ADrawable_AddState(drawable, DrawableState_Parent);
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
+/**
+ * Set drawable position x, and flag state for Drawable->Draw to change modelMatrix.
+ */
 static inline void ADrawable_SetPositionX(Drawable* drawable, float positionX)
 {
     drawable->positionX = positionX;
-    ADrawable_SetState(drawable, DrawableState_PositionX);
+    ADrawable_AddState(drawable, DrawableState_PositionX);
 }
 
 
+/**
+ * Set drawable position y, and flag state for Drawable->Draw to change modelMatrix.
+ */
 static inline void ADrawable_SetPositionY(Drawable* drawable, float positionY)
 {
     drawable->positionY = positionY;
-    ADrawable_SetState(drawable, DrawableState_PositionY);
+    ADrawable_AddState(drawable, DrawableState_PositionY);
 }
 
-
+/**
+* Set drawable position x y, and flag state for Drawable->Draw to change modelMatrix.
+*/
 static inline void ADrawable_SetPosition2(Drawable* drawable, float positionX, float positionY)
 {
     drawable->positionX = positionX;
     drawable->positionY = positionY;
-    ADrawable_SetState(drawable, DrawableState_Position2);
+    ADrawable_AddState(drawable, DrawableState_Position2);
 }
 
 
+/**
+* Set drawable position same x y, and flag state for Drawable->Draw to change modelMatrix.
+*/
 static inline void ADrawable_SetPositionSame2(Drawable* drawable, float position)
 {
     drawable->positionX = position;
     drawable->positionY = position;
-    ADrawable_SetState(drawable, DrawableState_Position2);
+    ADrawable_AddState(drawable, DrawableState_Position2);
 }
 
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    All property set just make dirty flag
-    so the model matrix will apply changes until nearest frame draw called
-------------------------------------------------------------------------------------------------------------------------
-*/
+//----------------------------------------------------------------------------------------------------------------------
 
 
+/**
+ * Set drawable scale x, and flag state for Drawable->Draw to change modelMatrix.
+ */
 static inline void ADrawable_SetScaleX(Drawable* drawable, float scaleX)
 {
     drawable->scaleX = scaleX;
-    ADrawable_SetState(drawable, DrawableState_ScaleX);
+    ADrawable_AddState(drawable, DrawableState_ScaleX);
 }
 
 
+/**
+ * Set drawable scale y, and flag state for Drawable->Draw to change modelMatrix.
+ */
 static inline void ADrawable_SetScaleY(Drawable* drawable, float scaleY)
 {
     drawable->scaleY = scaleY;
-    ADrawable_SetState(drawable, DrawableState_ScaleY);
+    ADrawable_AddState(drawable, DrawableState_ScaleY);
 }
 
 
+/**
+ * Set drawable scale x y, and flag state for Drawable->Draw to change modelMatrix.
+ */
 static inline void ADrawable_SetScale2(Drawable* drawable, float scaleX, float scaleY)
 {
     drawable->scaleX = scaleX;
     drawable->scaleY = scaleY;
-    ADrawable_SetState(drawable, DrawableState_Scale2);
+    ADrawable_AddState(drawable, DrawableState_Scale2);
 }
 
 
+/**
+ * Set drawable scale same x y, and flag state for Drawable->Draw to change modelMatrix.
+ */
 static inline void ADrawable_SetScaleSame2(Drawable* drawable, float scale)
 {
     drawable->scaleX = scale;
     drawable->scaleY = scale;
-    ADrawable_SetState(drawable, DrawableState_Scale2);
+    ADrawable_AddState(drawable, DrawableState_Scale2);
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
+/**
+ * Set drawable rotation z, and flag state for Drawable->Draw to change modelMatrix.
+ */
 static inline void ADrawable_SetRotationZ(Drawable* drawable, float rotationZ)
 {
     drawable->rotationZ = rotationZ;
-    ADrawable_SetState(drawable, DrawableState_RotationZ);
+    ADrawable_AddState(drawable, DrawableState_RotationZ);
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
+/**
+ * Set drawable rgb, and flag state for Drawable->Draw to change blendColor.
+ */
 static inline void ADrawable_SetRGB(Drawable* drawable, float red, float green, float blue)
 {
     drawable->color->r = red;
     drawable->color->g = green;
     drawable->color->b = blue;
-    ADrawable_SetState(drawable, DrawableState_RGB);
+    ADrawable_AddState(drawable, DrawableState_RGB);
 }
 
 
+/**
+ * Set drawable same rgb, and flag state for Drawable->Draw to change blendColor.
+ */
 static inline void ADrawable_SetRGBSame(Drawable* drawable, float rgb)
 {
     drawable->color->r = rgb;
     drawable->color->g = rgb;
     drawable->color->b = rgb;
-    ADrawable_SetState(drawable, DrawableState_RGB);
+    ADrawable_AddState(drawable, DrawableState_RGB);
 }
 
 
+/**
+ * Set drawable opacity, and flag state for Drawable->Draw to change blendColor.
+ */
 static inline void ADrawable_SetOpacity(Drawable* drawable, float opacity)
 {
     drawable->color->a = opacity;
-    ADrawable_SetState(drawable, DrawableState_Opacity);
+    ADrawable_AddState(drawable, DrawableState_Opacity);
 }
 
 
+/**
+ * Set drawable rgba, and flag state for Drawable->Draw to change blendColor.
+ */
 static inline void ADrawable_SetRGBA(Drawable* drawable, float red, float green, float blue, float opacity)
 {
     drawable->color->r = red;
     drawable->color->g = green;
     drawable->color->b = blue;
     drawable->color->a = opacity;
-    ADrawable_SetState(drawable, DrawableState_Color);
+    ADrawable_AddState(drawable, DrawableState_Color);
 }
 
 
+/**
+ * Set drawable same rgba, and flag state for Drawable->Draw to change blendColor.
+ */
 static inline void ADrawable_SetRGBASame(Drawable* drawable, float rgba)
 {
     drawable->color->r = rgba;
     drawable->color->g = rgba;
     drawable->color->b = rgba;
     drawable->color->a = rgba;
-    ADrawable_SetState(drawable, DrawableState_Color);
+    ADrawable_AddState(drawable, DrawableState_Color);
 }
 
 
+/**
+ * Set drawable color, and flag state for Drawable->Draw to change blendColor.
+ */
 static inline void ADrawable_SetColor(Drawable* drawable, Color* color)
 {
     *drawable->color = *color;
-    ADrawable_SetState(drawable, DrawableState_Color);
+    ADrawable_AddState(drawable, DrawableState_Color);
 }
 
 
+/**
+ * Make drawable color blend parent blendColor.
+ */
 static inline void ADrawable_SetBlendColor(Drawable* drawable)
 {
-    ADrawable_SetState(drawable, DrawableState_IsBlendColor);
+    ADrawable_AddState(drawable, DrawableState_IsBlendColor);
 }
 
 

@@ -1,15 +1,21 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2012-12-22
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2012-12-22
+ * Update   : 2019-1-23
+ * Author   : scott.cgi
  */
+
 
 #include <string.h>
 #include <stdlib.h>
-
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Toolkit/Utils/FileTool.h"
@@ -18,6 +24,9 @@
 
 static void SetSize(int width, int height)
 {
+    // set the OpenGL viewport to the same size as the surface.
+    glViewport(0, 0, width, height);
+
     AGLTool->screenWidth          = (float) width;
     AGLTool->screenHeight         = (float) height;
     AGLTool->screenRatio          = (float) width  / (float) height;
@@ -29,7 +38,7 @@ static void SetSize(int width, int height)
 }
 
 
-static GLuint LoadShader(GLenum shaderType, char* shaderSource)
+static GLuint LoadShader(GLenum shaderType, const char* shaderSourceStr)
 {
     // create the shader object
     GLuint shader = glCreateShader(shaderType);
@@ -41,7 +50,7 @@ static GLuint LoadShader(GLenum shaderType, char* shaderSource)
     }
 
     // load the shader source
-    glShaderSource(shader, 1, (const GLchar**) &shaderSource, NULL);
+    glShaderSource(shader, 1, &shaderSourceStr, NULL);
 
     // compile the shader
     glCompileShader(shader);
@@ -58,37 +67,42 @@ static GLuint LoadShader(GLenum shaderType, char* shaderSource)
 
         if (infoLen > 0)
         {
-            char buf[infoLen];
-            glGetShaderInfoLog(shader, infoLen, NULL, buf);
-            ALog_E("AGLTool LoadShader could not compile shader %d: %s", shaderType, buf);
-
+            char buffer[infoLen];
+            glGetShaderInfoLog(shader, infoLen, NULL, buffer);
+            ALog_E("AGLTool LoadShader could not compile shader: %s, log: %s", shaderSourceStr, buffer);
             glDeleteShader(shader);
-
-            return 0;
         }
+        else
+        {
+            ALog_E("AGLTool LoadShader could not compile shader: %s", shaderSourceStr);
+        }
+
+        return 0;
     }
 
     return shader;
 }
 
 
-static GLuint LoadProgram(char* vertexSource, char* fragmentSource)
+static GLuint LoadProgram(const char* vertexSourceStr, const char* fragmentSourceStr)
 {
     GLuint program;
 
-    // load the vertex shaders
-    GLuint vertexShader = LoadShader(GL_VERTEX_SHADER, vertexSource);
+    // load the vertex shader
+    GLuint vertexShader = LoadShader(GL_VERTEX_SHADER, vertexSourceStr);
 
     if (vertexShader == 0)
     {
+        ALog_E("AGLTool LoadProgram failed, cannot load shader: %s", vertexSourceStr);
         return 0;
     }
 
-    // load the fragment shaders
-    GLuint fragmentShader = LoadShader(GL_FRAGMENT_SHADER, fragmentSource);
+    // load the fragment shader
+    GLuint fragmentShader = LoadShader(GL_FRAGMENT_SHADER, fragmentSourceStr);
 
     if (fragmentShader == 0)
     {
+        ALog_E("AGLTool LoadProgram failed, cannot load shader: %s", fragmentSourceStr);
         return 0;
     }
 
@@ -97,7 +111,7 @@ static GLuint LoadProgram(char* vertexSource, char* fragmentSource)
 
     if (program == 0)
     {
-        ALog_E("AGLTool LoadProgram glCreateProgram failed !");
+        ALog_E("AGLTool LoadProgram glCreateProgram failed，from shader: %s, %s", vertexSourceStr, fragmentSourceStr);
         return 0;
     }
 
@@ -108,7 +122,6 @@ static GLuint LoadProgram(char* vertexSource, char* fragmentSource)
     glLinkProgram(program);
 
     GLint linkStatus;
-
     // check the link status
     glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
 
@@ -119,9 +132,24 @@ static GLuint LoadProgram(char* vertexSource, char* fragmentSource)
 
         if (bufLength > 0)
         {
-            char buf[bufLength];
-            glGetProgramInfoLog(program, bufLength, NULL, buf);
-            ALog_E("AGLTool LoadProgram could not link program: %s", buf);
+            char buffer[bufLength];
+            glGetProgramInfoLog(program, bufLength, NULL, buffer);
+            ALog_E
+            (
+                "AGLTool LoadProgram cannot link program from shader: %s, %s, log: %s",
+                vertexSourceStr,
+                fragmentSourceStr,
+                buffer
+            );
+        }
+        else
+        {
+            ALog_E
+            (
+                "AGLTool LoadProgram cannot link program from shader: %s, %s",
+                vertexSourceStr,
+                fragmentSourceStr
+            );
         }
 
         glDeleteProgram(program);
@@ -137,33 +165,33 @@ static GLuint LoadProgram(char* vertexSource, char* fragmentSource)
 }
 
 
-GLuint LoadProgramByFile(char* vertexShaderPath, char* fragmentShaderPath)
+GLuint LoadProgramFromFile(const char* vertexShaderFilePath, const char* fragmentShaderFilePath)
 {
-    char*  vSource = AFileTool->CreateStringFromRes(vertexShaderPath);
-    char*  fSource = AFileTool->CreateStringFromRes(fragmentShaderPath);
-    GLuint program = AGLTool  ->LoadProgram        (vSource, fSource);
+    char* vertexShader   = AFileTool->CreateStringFromResource(vertexShaderFilePath);
+    char* fragmentShader = AFileTool->CreateStringFromResource(fragmentShaderFilePath);
+    GLuint program       = LoadProgram(vertexShader, fragmentShader);
 
-    free((void*) vSource);
-    free((void*) fSource);
+    free((void*) vertexShader);
+    free((void*) fragmentShader);
 
     return program;
 }
 
 
-static void LoadTexture(char* filePath, Texture* outTexture)
+static void LoadTexture(const char* textureFilePath, Texture* outTexture)
 {
-     GLuint textureId;
+     GLuint textureID;
 
      // use tightly packed data
      // glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
      // generate a outTexture object
-     glGenTextures(1, &textureId);
+     glGenTextures(1, &textureID);
 
-     // bind to the outTexture in OpenGL
-     glBindTexture(GL_TEXTURE_2D, textureId);
+     // bind to the outTexture
+     glBindTexture(GL_TEXTURE_2D, textureID);
 
-     outTexture->id = textureId;
+     outTexture->id = textureID;
 
      // set filtering
      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -172,15 +200,25 @@ static void LoadTexture(char* filePath, Texture* outTexture)
      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     GL_CLAMP_TO_EDGE);
      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_CLAMP_TO_EDGE);
 
-
      float width;
      float height;
 
-     void* pixels = AImage->CreatePixelDataFromPNG(filePath, &width, &height);
-     ALog_A(pixels != NULL, "AGLTool LoadTexture failed, no pixels data");
+     void* pixels = AImage->CreatePixelDataFromPNG(textureFilePath, &width, &height);
+     ALog_A(pixels != NULL, "AGLTool LoadTexture failed, no pixels data found");
 
      // load the data into the bound outTexture
-     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei) width, (GLsizei) height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+     glTexImage2D
+     (
+         GL_TEXTURE_2D,
+         0,
+         GL_RGBA,
+         (GLsizei) width,
+         (GLsizei) height, 
+         0,
+         GL_RGBA,
+         GL_UNSIGNED_BYTE,
+         pixels
+     );
 
      outTexture->width  = AGLTool_ToGLWidth (width);
      outTexture->height = AGLTool_ToGLHeight(height);
@@ -190,21 +228,13 @@ static void LoadTexture(char* filePath, Texture* outTexture)
 
 
 struct AGLTool AGLTool[1] =
-{
-    0.0f,
-    0.0f,
-    0.0f,
-    0.0f,
-    0.0f,
-    0.0f,
-    0.0f,
+{{
+    .SetSize             = SetSize,
 
-    SetSize,
+    .LoadShader          = LoadShader,
+    .LoadProgram         = LoadProgram,
 
-    LoadShader,
-    LoadProgram,
-
-    LoadProgramByFile,
-    LoadTexture,
-};
+    .LoadProgramFromFile = LoadProgramFromFile,
+    .LoadTexture         = LoadTexture,
+}};
 

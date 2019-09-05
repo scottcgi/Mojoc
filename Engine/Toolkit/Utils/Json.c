@@ -1,10 +1,16 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-5-29
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-5-29
+ * Update   : 2019-1-8
+ * Author   : scott.cgi
  */
 
 
@@ -18,11 +24,10 @@
 
 
 /**
- * The JsonValue which
- * if JsonType_Array  free each items and recursive
- * if JsonType_Object free each K-V   and recursive
+ * If the JsonValue is JsonType_Array,  then free each items and do recursively.
+ * if the JsonValue is JsonType_Object, then free each K-V   and do recursively.
  */
-static void Release(JsonValue* value)
+static void Destroy(JsonValue* value)
 {
     // JsonValue hold the whole memory
     // so free JsonValue will be release JsonValue's memory
@@ -32,26 +37,24 @@ static void Release(JsonValue* value)
         case JsonType_Array:
         {
             ArrayList* list = value->jsonArray->valueList;
-            for (int i = 0; i < list->size; i++)
+            for (int i = 0; i < list->size; ++i)
             {
-                Release(AArrayList_Get(list, i, JsonValue*));
+                Destroy(AArrayList_Get(list, i, JsonValue*));
             }
 
             AArrayList->Release(list);
-
             break;
         }
 
         case JsonType_Object:
         {
             ArrayStrMap* map = value->jsonObject->valueMap;
-            for (int i = 0; i < map->elementList->size; i++)
+            for (int i = 0; i < map->elementList->size; ++i)
             {
-                Release(AArrayStrMap_GetAt(map, i, JsonValue*));
+                Destroy(AArrayStrMap_GetAt(map, i, JsonValue*));
             }
 
             AArrayStrMap->Release(map);
-
             break;
         }
             
@@ -71,7 +74,7 @@ static void Release(JsonValue* value)
 
 static inline JsonValue* CreateJsonValue(void* data, size_t valueSize, JsonType type)
 {
-    JsonValue* value = (JsonValue*) malloc(sizeof(JsonValue) + valueSize);
+    JsonValue* value = malloc(sizeof(JsonValue) + valueSize);
 
     switch (type)
     {
@@ -110,14 +113,27 @@ static inline JsonValue* CreateJsonValue(void* data, size_t valueSize, JsonType 
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static bool ObjectGetBool(JsonObject* object, char* key, bool defaultValue)
+static bool ObjectGetBool(JsonObject* object, const char* key, bool defaultValue)
 {
     JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
     return jsonValue != NULL ? strcmp(jsonValue->jsonString, "true") == 0 : defaultValue;
 }
 
 
-static int ObjectGetInt(JsonObject* object, char* key, int defaultValue)
+static int ObjectGetInt(JsonObject* object, const char* key, int defaultValue)
+{
+    JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
+    
+    if (jsonValue != NULL)
+    {
+        return (int) jsonValue->jsonFloat;
+    }
+    
+    return defaultValue;
+}
+
+
+static float ObjectGetFloat(JsonObject* object, const char* key, float defaultValue)
 {
     JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
     
@@ -130,41 +146,28 @@ static int ObjectGetInt(JsonObject* object, char* key, int defaultValue)
 }
 
 
-static float ObjectGetFloat(JsonObject* object, char* key, float defaultValue)
+static char* ObjectGetString(JsonObject* object, const char* key, const char* defaultValue)
 {
     JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
-    
-    if (jsonValue != NULL)
-    {
-        return jsonValue->jsonFloat;
-    }
-    
-    return defaultValue;
+    return jsonValue != NULL ? jsonValue->jsonString : (char*) defaultValue;
 }
 
 
-static char* ObjectGetString(JsonObject* object, char* key, char* defaultValue)
-{
-    JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
-    return jsonValue != NULL ? jsonValue->jsonString : defaultValue;
-}
-
-
-static JsonObject* ObjectGetObject(JsonObject* object, char* key)
+static JsonObject* ObjectGetObject(JsonObject* object, const char* key)
 {
     JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
     return jsonValue != NULL ? jsonValue->jsonObject : NULL;
 }
 
 
-static JsonArray* ObjectGetArray(JsonObject* object, char* key)
+static JsonArray* ObjectGetArray(JsonObject* object, const char* key)
 {
     JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
     return jsonValue != NULL ? jsonValue->jsonArray : NULL;
 }
 
 
-static JsonType ObjectGetType(JsonObject* object, char* key)
+static JsonType ObjectGetType(JsonObject* object, const char* key)
 {
     JsonValue* jsonValue = AArrayStrMap_Get(object->valueMap, key, JsonValue*);
 
@@ -177,7 +180,7 @@ static JsonType ObjectGetType(JsonObject* object, char* key)
 }
 
 
-static char* ObjectGetKey(JsonObject* object, int index)
+static const char* ObjectGetKey(JsonObject* object, int index)
 {
     return AArrayStrMap->GetKey(object->valueMap, index);
 }
@@ -196,7 +199,7 @@ static JsonArray* ObjectGetArrayByIndex(JsonObject* object, int index)
 
 
 struct AJsonObject AJsonObject[1] =
-{
+{{
     ObjectGetBool,
     ObjectGetInt,
     ObjectGetFloat,
@@ -207,7 +210,7 @@ struct AJsonObject AJsonObject[1] =
     ObjectGetKey,
     ObjectGetObjectByIndex,
     ObjectGetArrayByIndex,
-};
+}};
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -221,7 +224,7 @@ static bool ArrayGetBool(JsonArray* array, int index)
 
 static int ArrayGetInt(JsonArray* array, int index)
 {
-    return AArrayList_Get(array->valueList, index, JsonValue*)->jsonFloat;
+    return (int) AArrayList_Get(array->valueList, index, JsonValue*)->jsonFloat;
 }
 
 static float ArrayGetFloat(JsonArray* array, int index)
@@ -260,7 +263,7 @@ static JsonType ArrayGetType(JsonArray* array, int index)
 
 
 struct AJsonArray AJsonArray[1] =
-{
+{{
     ArrayGetBool,
     ArrayGetInt,
     ArrayGetFloat,
@@ -268,15 +271,15 @@ struct AJsonArray AJsonArray[1] =
     ArrayGetString,
     ArrayGetObject,
     ArrayGetArray,
-};
+}};
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static inline void SkipWhiteSpace(char** jsonPtr)
+static inline void SkipWhiteSpace(const char** jsonPtr)
 {
-    char* json  = *jsonPtr;
+    const char* json = *jsonPtr;
 
     while (true)
     {
@@ -286,102 +289,39 @@ static inline void SkipWhiteSpace(char** jsonPtr)
             case '\t':
             case '\n':
             case '\r':
-                json++;
+                ++json;
                 continue;
+            default:
+                break;
         }
-
         break;
     }
 
-    ALog_A(json != NULL, "The Json parse error on NULL, json is incomplete");
+    ALog_A(json != NULL, "The Json parse error on NULL, json is incomplete.");
     
     *jsonPtr = json;
 }
 
 
-#define PARSE_NUMBER_VALIDATE_BY_STRTOF
-#ifdef  PARSE_NUMBER_VALIDATE_BY_STRTOF
-
-
-static inline void* ParseNumber(char** jsonPtr)
+static inline void* ParseNumber(const char** jsonPtr)
 {
     char* endPtr;
 
     JsonValue* value = CreateJsonValue(NULL, 0, JsonType_Float);
     value->jsonFloat = strtof(*jsonPtr, &endPtr);
 
-    // record char after number
-    char c  = *endPtr;
-
-    // insert number string end
-    *endPtr = '\0';
-
-    ALog_D("Json number = %s", *jsonPtr);
-
-    // restore char after number
-    *endPtr  = c;
+    ALog_D("Json number = %.*s", (int) (endPtr - *jsonPtr), *jsonPtr);
+    
     *jsonPtr = endPtr;
 
     return value;
 }
 
 
-#else
-
-
-static inline void* ParseNumber(char** jsonPtr)
-{
-    char* json = *jsonPtr;
-
-    while (true)
-    {
-        switch (*(++json))
-        {
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
-            case '-':
-            case '+':
-            case '.':
-            case 'e':
-            case 'E':
-                continue;
-        }
-
-        break;
-    }
-
-    char c = *json;
-    // insert number string end
-    *json  = '\0';
-    ALog_D("Json number = %s", *jsonPtr);
-
-    JsonValue* value = CreateJsonValue(NULL, 0, JsonType_Float);
-    value->jsonFloat = atof(*jsonPtr);
-
-    // restore char after number
-    *json            = c;
-    *jsonPtr         = json;
-
-    return value;
-}
-
-
-#endif
-#undef PARSE_NUMBER_VALIDATE_BY_STRTOF
-
-
-static inline int SkipString(char **jsonPtr)
+static inline int SkipString(const char **jsonPtr)
 {
     // skip '"'
-    (*jsonPtr)++;
+    ++(*jsonPtr);
 
     char c     = **jsonPtr;
     int  count = 0;
@@ -391,7 +331,7 @@ static inline int SkipString(char **jsonPtr)
     {
         if (c != '\\')
         {
-            count++;
+            ++count;
         }
         else
         {
@@ -410,25 +350,25 @@ static inline int SkipString(char **jsonPtr)
 }
 
 
-static inline JsonValue* ParseString(char** jsonPtr)
+static inline JsonValue* ParseString(const char** jsonPtr)
 {
-    int        length         = SkipString(jsonPtr);
-    char*      start          = *jsonPtr - length - 1;
-    JsonValue* value          = CreateJsonValue((void*) start, (length + 1) * sizeof(char), JsonType_String);
+    int         length = SkipString(jsonPtr);
+    const char* start  = *jsonPtr - length - 1;
+    JsonValue*  value  = CreateJsonValue((void*) start, (length + 1) * sizeof(char), JsonType_String);
     
     value->jsonString[length] = '\0';
 
-    ALog_D("Json string = %s", value->stringValue);
+    ALog_D("Json string = %s", value->jsonString);
     
     return value;
 }
 
 
 // predefine
-static inline JsonValue* ParseValue(char** jsonPtr);
+static inline JsonValue* ParseValue(const char** jsonPtr);
 
 
-static inline JsonValue* ParseArray(char** jsonPtr)
+static inline JsonValue* ParseArray(const char** jsonPtr)
 {
     JsonValue* jsonValue = CreateJsonValue(NULL, sizeof(JsonArray), JsonType_Array);
     ArrayList* list      = jsonValue->jsonArray->valueList;
@@ -436,7 +376,7 @@ static inline JsonValue* ParseArray(char** jsonPtr)
     ALog_D("Json Array: [");
     
     // skip '['
-    (*jsonPtr)++;
+    ++(*jsonPtr);
 
     do
     {
@@ -455,11 +395,10 @@ static inline JsonValue* ParseArray(char** jsonPtr)
 
         if (**jsonPtr == ',')
         {
-            (*jsonPtr)++;
+            ++(*jsonPtr);
         }
         else
         {
-            SkipWhiteSpace(jsonPtr);
             ALog_A(**jsonPtr == ']', "Json Array not has ']', error char = %c ", **jsonPtr);
             break;
         }
@@ -467,14 +406,14 @@ static inline JsonValue* ParseArray(char** jsonPtr)
     while (true);
 
     // skip ']'
-    (*jsonPtr)++;
+    ++(*jsonPtr);
     ALog_D("] JsonArray element count = %d", list->size);
     
     return jsonValue;
 }
 
 
-static inline JsonValue* ParseObject(char** jsonPtr)
+static inline JsonValue* ParseObject(const char** jsonPtr)
 {
     JsonValue*   jsonValue = CreateJsonValue(NULL, sizeof(JsonObject), JsonType_Object);
     ArrayStrMap* map       = jsonValue->jsonObject->valueMap;
@@ -482,7 +421,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
     ALog_D("Json Object: {");
     
     // skip '{'
-    (*jsonPtr)++;
+    ++(*jsonPtr);
 
     do
     {
@@ -496,13 +435,14 @@ static inline JsonValue* ParseObject(char** jsonPtr)
         ALog_A(**jsonPtr == '"', "Json object parse error, char = %c, should be '\"' ", **jsonPtr);
 
         int   keyLen = SkipString(jsonPtr);
-        char* key    = *jsonPtr - keyLen - 1;
+        // the key string need a end char '\0', and will be changed back after use
+        char* key    = (char*) *jsonPtr - keyLen - 1;
 
         SkipWhiteSpace(jsonPtr);
         ALog_A((**jsonPtr) == ':', "Json object parse error, char = %c, should be ':' ", **jsonPtr);
 
         // skip ':'
-        (*jsonPtr)++;
+        ++(*jsonPtr);
         JsonValue*  value = ParseValue(jsonPtr);
         char        c     = key[keyLen];
 
@@ -521,11 +461,10 @@ static inline JsonValue* ParseObject(char** jsonPtr)
 
         if (**jsonPtr == ',')
         {
-            (*jsonPtr)++;
+            ++(*jsonPtr);
         }
         else
         {
-            SkipWhiteSpace(jsonPtr);
             ALog_A(**jsonPtr == '}', "Json Object not has '}', error char = %c ", **jsonPtr);
             break;
         }
@@ -533,7 +472,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
     while (true);
 
     // skip '}'
-    (*jsonPtr)++;
+    ++(*jsonPtr);
     ALog_D("} JsonObject elements count = %d", map->elementList->size);
 
     return jsonValue;
@@ -543,7 +482,7 @@ static inline JsonValue* ParseObject(char** jsonPtr)
 /**
  * ParseValue changed the *jsonPtr, so if *jsonPtr is direct malloc will cause error
  */
-static inline JsonValue* ParseValue(char** jsonPtr)
+static inline JsonValue* ParseValue(const char** jsonPtr)
 {
     SkipWhiteSpace(jsonPtr);
 
@@ -575,7 +514,7 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 
         case 'f':
         {
-            char* json = *jsonPtr;
+            const char* json = *jsonPtr;
 
             if
             (
@@ -597,7 +536,7 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 
         case 't':
         {
-            char* json = *jsonPtr;
+            const char* json = *jsonPtr;
 
             if
             (
@@ -618,7 +557,7 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 
         case 'n':
         {
-            char* json = *jsonPtr;
+            const char* json = *jsonPtr;
 
             if
             (
@@ -647,15 +586,15 @@ static inline JsonValue* ParseValue(char** jsonPtr)
 }
 
 
-static JsonValue* Parse(char* jsonString)
+static JsonValue* Parse(const char* jsonString)
 {
     return ParseValue(&jsonString);
 }
 
 
-static JsonValue* ParseWithFile(char* jsonPath)
+static JsonValue* ParseFile(const char* jsonFilePath)
 {
-    char*        jsonString = AFileTool->CreateStringFromRes(jsonPath);
+    char*        jsonString = AFileTool->CreateStringFromResource(jsonFilePath);
     JsonValue*   value      = Parse(jsonString);
     free(jsonString);
 
@@ -664,8 +603,8 @@ static JsonValue* ParseWithFile(char* jsonPath)
 
 
 struct AJson AJson[1] =
-{
+{{
     Parse,
-    ParseWithFile,
-    Release,
-};
+    ParseFile,
+    Destroy,
+}};

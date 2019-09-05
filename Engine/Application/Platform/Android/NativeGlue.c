@@ -1,21 +1,27 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2016-1-28
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2016-1-28
+ * Update   : 2019-1-7
+ * Author   : scott.cgi
  */
+
 
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
-//----------------------------------------------------------------------------------------------------------------------
+//------------------------
 #ifdef IS_PLATFORM_ANDROID
-//----------------------------------------------------------------------------------------------------------------------
+//------------------------
 
 
-#include <pthread.h>
 #include <android/asset_manager.h>
 #include <android/configuration.h>
 #include <android/looper.h>
@@ -27,66 +33,106 @@
 #include "Engine/Toolkit/Utils/FileTool.h"
 #include "Engine/Graphics/OpenGL/Platform/EGLTool.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Application/Application.h"
 #include "Engine/Application/Input.h"
+#include "Engine/Toolkit/Utils/Thread.h"
+#include "JniTool.h"
 
 
-ANativeActivity* nativeActivity;
-
-
+/**
+ * IDentify input event.
+ */
 enum
 {
-    LooperId_Input,
-    LooperId_Sensor,
+    LooperID_Input,
+    LooperID_Sensor,
 };
 
 
+/**
+ * IDentify main thread callbacks from java client.
+ */
 typedef volatile enum
 {
-    MainThread_OnNull,
+    MainThread_OnLoop,
     MainThread_OnWait,
     MainThread_OnResized,
     MainThread_OnPause,
     MainThread_OnResume,
-    MainThread_OnFirstResized,
+    MainThread_OnNeedCreateEGL,
     MainThread_OnDestroy,
 }
 MainThreadCallback;
 
 
-//----------------------------------------------------------------------------------------------------------------------
+/* public to external methods calls. */
+ANativeActivity*      nativeActivity       = NULL;
+AConfiguration*       nativeActivityConfig = NULL;
 
 
-static struct
-{
-    EGLDisplay      display;
-    EGLSurface      surface;
-    EGLContext      context;
-    EGLConfig       config;
-    EGLint          format;
-
-    AConfiguration* assetConfig;
-    ANativeWindow*  window;
-    ALooper*        looper;
-    AInputQueue*    inputQueue;
-
-    // volatile make sure not optimized by the compiler
-    // because two threads modify mainThreadCallback
-    volatile MainThreadCallback mainThreadCallback;
-}
-AData[1] =
-{
-    {
-        .mainThreadCallback = MainThread_OnWait,
-    }
-};
+/* EGL setting objects. */
+static EGLDisplay     eglDisplay;
+static EGLSurface     eglSurface;
+static EGLContext     eglContext;
+static EGLConfig      eglConfig;
+static EGLint         eglFormat;
 
 
-//----------------------------------------------------------------------------------------------------------------------
+/* NDK support objects. */
+static ANativeWindow* nativeWindow;
+static ALooper*       looper;
+static AInputQueue*   inputQueue;
 
 
 /**
- * Process the next input event
+ * The volatile make sure not optimized by the compiler,
+ * because two threads one set and one get,
+ * but look at one thread, it seems never modified.
+ */
+static volatile MainThreadCallback mainThreadCallback = MainThread_OnWait;
+static          bool               isNeedCreateEGL    = true;
+static          bool               isPaused           = true;
+
+
+/**
+ * One touch event handle.
+ */
+static void inline Touch(AInputEvent* event, int pointerIndex, InputTouchType inputTouchType)
+{
+    AApplication->Touch
+    (
+        AMotionEvent_getPointerId(event, (size_t) pointerIndex),
+        AMotionEvent_getX        (event, (size_t) pointerIndex),
+        AMotionEvent_getY        (event, (size_t) pointerIndex),
+        inputTouchType
+    );
+}
+
+
+/**
+ * Multiple touches event handle.
+ */
+static void inline Touches(AInputEvent* event, InputTouchType inputTouchType)
+{
+    int   count = (int) AMotionEvent_getPointerCount(event);
+    int   fingerIDs[count];
+    float pixelXs  [count];
+    float pixelYs  [count];
+
+    for (int i = 0; i < count; ++i)
+    {
+        fingerIDs[i] = AMotionEvent_getPointerId(event, (size_t) i);
+        pixelXs  [i] = AMotionEvent_getX        (event, (size_t) i);
+        pixelYs  [i] = AMotionEvent_getY        (event, (size_t) i);
+    }
+
+    AApplication->Touches(fingerIDs, pixelXs, pixelYs, count, inputTouchType);
+}
+
+
+/**
+ * Process the input event.
+ * return 0 event not handled.
+ * return 1 event handled.
  */
 static inline int32_t OnInputEvent(AInputEvent* event)
 {
@@ -101,145 +147,44 @@ static inline int32_t OnInputEvent(AInputEvent* event)
                 // first pointer down
                 case AMOTION_EVENT_ACTION_DOWN:
                 {
-                    AApplication->Touch
-                    (
-                        AArray_Make
-                        (
-                            InputTouch*, 1,
-                            AInput->SetTouch
-                            (
-                                AMotionEvent_getPointerId(event, 0),
-                                AMotionEvent_getX        (event, 0),
-                                AMotionEvent_getY        (event, 0),
-                                InputTouchType_Down
-                            )
-                        )
-                    );
-
+                    Touch(event, 0, InputTouchType_Down);
                     break;
                 }
 
                 // not first pointer down
                 case AMOTION_EVENT_ACTION_POINTER_DOWN:
-                {
-                    int indexDown = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-
-                    AApplication->Touch
+                    Touch
                     (
-                        AArray_Make
-                        (
-                            InputTouch*, 1,
-                            AInput->SetTouch
-                            (
-                                AMotionEvent_getPointerId(event, indexDown),
-                                AMotionEvent_getX        (event, indexDown),
-                                AMotionEvent_getY        (event, indexDown),
-                                InputTouchType_Down
-                            )
-                        )
+                        event,
+                        (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
+                        AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT,
+                        InputTouchType_Down
                     );
-
                     break;
-                }
 
                 // first pinter up
                 case AMOTION_EVENT_ACTION_UP:
-                {
-                    AApplication->Touch
-                    (
-                        AArray_Make
-                        (
-                            InputTouch*, 1,
-                            AInput->SetTouch
-                            (
-                                AMotionEvent_getPointerId(event, 0),
-                                AMotionEvent_getX        (event, 0),
-                                AMotionEvent_getY        (event, 0),
-                                InputTouchType_Up
-                            )
-                        )
-                    );
-
+                    Touch(event, 0, InputTouchType_Up);
                     break;
-                }
-
 
                 // not first pointer up
                 case AMOTION_EVENT_ACTION_POINTER_UP:
-                {
-                    int indexUp = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-
-                    AApplication->Touch
+                    Touch
                     (
-                        AArray_Make
-                        (
-                            InputTouch*, 1,
-                            AInput->SetTouch
-                            (
-                                AMotionEvent_getPointerId(event, indexUp),
-                                AMotionEvent_getX        (event, indexUp),
-                                AMotionEvent_getY        (event, indexUp),
-                                InputTouchType_Up
-                            )
-                        )
+                        event,
+                        (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
+                        AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT,
+                        InputTouchType_Up
                     );
-
                     break;
-                }
-
 
                 case AMOTION_EVENT_ACTION_MOVE:
-                {
-                    int count = AMotionEvent_getPointerCount(event);
-                    InputTouch* touches[count];
-
-                    for (int i = 0; i < count; i++)
-                    {
-                        InputTouch* touch = AInput->SetTouch
-                                            (
-                                                AMotionEvent_getPointerId(event, i),
-                                                AMotionEvent_getX        (event, i),
-                                                AMotionEvent_getY        (event, i),
-                                                InputTouchType_Move
-                                            );
-
-                        touches[i]        = touch;
-                    }
-
-                    AApplication->Touch
-                    (
-                        (Array[]) {touches, count}
-                    );
-
+                    Touches(event, InputTouchType_Move);
                     break;
-                }
-
 
                 case AMOTION_EVENT_ACTION_CANCEL:
-                {
-                    int count = AMotionEvent_getPointerCount(event);
-                    InputTouch* touches[count];
-
-                    for (int i = 0; i < count; i++)
-                    {
-                        InputTouch* touch = AInput->SetTouch
-                                            (
-                                                AMotionEvent_getPointerId(event, i),
-                                                AMotionEvent_getX        (event, i),
-                                                AMotionEvent_getY        (event, i),
-                                                InputTouchType_Cancel
-                                            );
-
-                        touches[i]        = touch;
-                    }
-
-                    AApplication->Touch
-                    (
-                        (Array[]) {touches, count}
-                    );
-
+                    Touches(event, InputTouchType_Cancel);
                     break;
-                }
 
                 default:
                     return 0;
@@ -250,40 +195,54 @@ static inline int32_t OnInputEvent(AInputEvent* event)
 
         case AINPUT_EVENT_TYPE_KEY:
             break;
+
+        default:
+            break;
     }
 
-    // default dispatching
+    // default continue dispatching event
     return 0;
 }
 
 
+/**
+ * Implementations should return 1 to continue receiving callbacks,
+ * or 0 to have this file descriptor (fd) and callback unregistered from the looper.
+ *
+ * events: typically ALOOPER_EVENT_INPUT
+ */
 static int LooperOnInputEvent(int fd, int events, void* data)
 {
     AInputEvent* event;
 
-    while (AInputQueue_getEvent(AData->inputQueue, &event) >= 0)
+    while (AInputQueue_getEvent(inputQueue, &event) >= 0)
     {
-        if (AInputQueue_preDispatchEvent(AData->inputQueue, event) == 0)
+        // returns 0 if it was not pre-dispatched,
+        // meaning you can process it right now.
+        // not 0 maybe IME consumed this event.
+        if (AInputQueue_preDispatchEvent(inputQueue, event) == 0)
         {
-            AInputQueue_finishEvent(AData->inputQueue, event, OnInputEvent(event));
+            AInputQueue_finishEvent(inputQueue, event, OnInputEvent(event));
         }
     }
 
+    // continue receiving callbacks
     return 1;
 }
 
 
-static void* ThreadRun(void* param)
+static void* LoopThreadRun(void* param)
 {
-    AData->looper = ALooper_prepare(0);
+    // attach thread env
+    AJniTool->Init();
 
-//----------------------------------------------------------------------------------------------------------------------
+    looper = ALooper_prepare(0);
 
     while (true)
     {
-        switch (AData->mainThreadCallback)
+        switch (mainThreadCallback)
         {
-            case MainThread_OnNull:
+            case MainThread_OnLoop:
                 // handle event
                 ALooper_pollAll(0, NULL, NULL, NULL);
 
@@ -291,67 +250,70 @@ static void* ThreadRun(void* param)
                 AApplication->Loop();
 
                 // render buffer
-                eglSwapBuffers(AData->display, AData->surface);
+                eglSwapBuffers(eglDisplay, eglSurface);
                 continue;
 
             case MainThread_OnDestroy:
-                // call in main thread
-                AEGLTool->DestroyEGL(&AData->display, &AData->context, &AData->surface);
                 AApplication->Destroy();
+                // wait for OnStart when app destroy in background
+                mainThreadCallback = MainThread_OnWait;
                 return NULL;
 
             case MainThread_OnPause: // sometimes before resized
-                // call in main thread
                 AApplication->Pause();
-                AData->mainThreadCallback = MainThread_OnWait;
+                mainThreadCallback = MainThread_OnWait;
                 continue;
 
             case MainThread_OnResume:
-                // call in main thread
                 AApplication->Resume();
-                AData->mainThreadCallback = MainThread_OnNull;
+                mainThreadCallback = MainThread_OnWait;
                 break;
 
-            case MainThread_OnFirstResized:
+            case MainThread_OnNeedCreateEGL:
                 // we need create EGL and use openGL in one thread
-                // call in main thread
-                AEGLTool->CreateEGL(AData->window, &AData->display, &AData->context, &AData->surface, &AData->config);
+                AEGLTool->CreateEGL(nativeWindow, &eglDisplay, &eglContext, &eglSurface, &eglConfig);
 
                 // EGL_NATIVE_VISUAL_ID is an attribute of the EGLConfig that is
                 // guaranteed to be accepted by ANativeWindow_SetBuffersGeometry()
                 // As soon as we picked a EGLConfig, we can safely reconfigure the
                 // ANativeWindow buffers to match, using EGL_NATIVE_VISUAL_ID
-                eglGetConfigAttrib(AData->display, AData->config, EGL_NATIVE_VISUAL_ID, &AData->format);
-                ANativeWindow_setBuffersGeometry(AData->window,  0, 0, AData->format);
+                eglGetConfigAttrib(eglDisplay, eglConfig, EGL_NATIVE_VISUAL_ID, &eglFormat);
+                
+                ANativeWindow_setBuffersGeometry(nativeWindow,  0, 0, eglFormat);
 
-                AApplication->GLReady
+                // app ready to rendering
+                AApplication->Ready
                 (
-                    ANativeWindow_getWidth (AData->window),
-                    ANativeWindow_getHeight(AData->window)
+                    ANativeWindow_getWidth (nativeWindow),
+                    ANativeWindow_getHeight(nativeWindow)
                 );
-
-                AData->mainThreadCallback = MainThread_OnNull;
+                
+                mainThreadCallback = MainThread_OnLoop;
                 break;
 
             case MainThread_OnResized:
-                // call in main thread
-                AEGLTool->ResetSurface(AData->window, AData->display, AData->context, AData->config, &AData->surface);
-                ANativeWindow_setBuffersGeometry(AData->window, 0, 0, AData->format);
-                AApplication->Resized(ANativeWindow_getWidth(AData->window), ANativeWindow_getHeight(AData->window));
-                AData->mainThreadCallback = MainThread_OnNull;
+                // not need to destroy EGL but only reset window
+                AEGLTool->ResetSurface(nativeWindow, eglDisplay, eglContext, eglConfig, &eglSurface);
+                ANativeWindow_setBuffersGeometry(nativeWindow, 0, 0, eglFormat);
+                AApplication->Resized
+                (
+                    ANativeWindow_getWidth(nativeWindow),
+                    ANativeWindow_getHeight(nativeWindow)
+                );
+                mainThreadCallback = MainThread_OnLoop;
                 break;
 
             case MainThread_OnWait:
                 break;
+
+            default:
+                break;
         }
     }
-
-    return NULL;
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
-
+/* The following methods callback from ANativeActivity. */
 
 static void OnStart(ANativeActivity* activity)
 {
@@ -362,17 +324,17 @@ static void OnStart(ANativeActivity* activity)
 static void OnResume(ANativeActivity* activity)
 {
     ALog_D("ANativeActivity OnResume");
-    AData->mainThreadCallback = MainThread_OnResume;
+    mainThreadCallback = MainThread_OnResume;
+    isPaused           = false;
 }
 
 
 static void* OnSaveInstanceState(ANativeActivity* activity, size_t* outSaveSize)
 {
     ALog_D("ANativeActivity OnSaveInstanceState");
+    AApplication->SaveData(NULL);
     *outSaveSize = 0;
-
-    AApplication->SaveData();
-
+    
     return NULL;
 }
 
@@ -380,7 +342,8 @@ static void* OnSaveInstanceState(ANativeActivity* activity, size_t* outSaveSize)
 static void OnPause(ANativeActivity* activity)
 {
     ALog_D("ANativeActivity OnPause");
-    AData->mainThreadCallback = MainThread_OnPause;
+    mainThreadCallback = MainThread_OnPause;
+    isPaused           = true;
 }
 
 
@@ -393,7 +356,8 @@ static void OnStop(ANativeActivity* activity)
 static void OnDestroy(ANativeActivity* activity)
 {
     ALog_D("ANativeActivity OnDestroy");
-    AData->mainThreadCallback = MainThread_OnDestroy;
+    mainThreadCallback = MainThread_OnDestroy;
+    AApplication->SaveData(NULL);
 }
 
 
@@ -406,24 +370,26 @@ static void OnWindowFocusChanged(ANativeActivity* activity, int hasFocus)
 static void OnNativeWindowCreated(ANativeActivity* activity, ANativeWindow* window)
 {
     ALog_D("ANativeActivity OnNativeWindowCreated");
-    AData->window = window;
+    nativeWindow = window;
 }
 
 
 static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* window)
 {
     ALog_D("ANativeActivity OnNativeWindowResized");
-    AData->window = window;
 
-    static bool isFirst = true;
-    if (isFirst)
+    // when start app and from back to front screen
+
+    if (isNeedCreateEGL == false)
     {
-        isFirst = false;
-        AData->mainThreadCallback = MainThread_OnFirstResized;
+        mainThreadCallback = MainThread_OnResized;
+        ALog_D("When OnNativeWindowResized do MainThread_OnResized");
     }
     else
     {
-        AData->mainThreadCallback = MainThread_OnResized;
+        isNeedCreateEGL    = false;
+        mainThreadCallback = MainThread_OnNeedCreateEGL;
+        ALog_D("When OnNativeWindowResized do MainThread_OnNeedCreateEGL");
     }
 }
 
@@ -431,42 +397,64 @@ static void OnNativeWindowResized(ANativeActivity* activity, ANativeWindow* wind
 static void OnNativeWindowRedrawNeeded(ANativeActivity* activity, ANativeWindow* window)
 {
     ALog_D("ANativeActivity OnNativeWindowRedrawNeeded");
-    AData->mainThreadCallback = MainThread_OnNull;
+    
+    if (isPaused == false)
+    {
+        if (mainThreadCallback == MainThread_OnWait)
+        {
+            mainThreadCallback = MainThread_OnResized;
+            ALog_D("When OnNativeWindowRedrawNeeded do MainThread_OnResized");
+        }
+    }
 }
 
 
 static void OnNativeWindowDestroyed(ANativeActivity* activity, ANativeWindow* window)
 {
     ALog_D("ANativeActivity OnNativeWindowDestroyed");
-    AData->mainThreadCallback = MainThread_OnWait;
+    mainThreadCallback = MainThread_OnWait;
 }
 
 
-static void OnInputQueueCreated(ANativeActivity* activity, AInputQueue* inputQueue)
+static void OnInputQueueCreated(ANativeActivity* activity, AInputQueue* queue)
 {
     ALog_D("ANativeActivity OnInputQueueCreated");
-    AData->inputQueue = inputQueue;
-    AInputQueue_attachLooper(inputQueue, AData->looper, LooperId_Input, LooperOnInputEvent, NULL);
+    inputQueue = queue;
+    AInputQueue_attachLooper(inputQueue, looper, LooperID_Input, LooperOnInputEvent, NULL);
 }
 
 
-static void OnInputQueueDestroyed(ANativeActivity* activity, AInputQueue* inputQueue)
+static void OnInputQueueDestroyed(ANativeActivity* activity, AInputQueue* queue)
 {
     ALog_D("ANativeActivity OnInputQueueDestroyed");
-    AInputQueue_detachLooper(inputQueue);
+    AInputQueue_detachLooper(queue);
 }
 
 
 static void OnContentRectChanged(ANativeActivity* activity, const ARect* rect)
 {
     ALog_D("ANativeActivity OnContentRectChanged");
+
+    // when start app and lock/unlock screen
+
+    if (isPaused == false)
+    {
+        if (isNeedCreateEGL == false)
+        {
+            if (mainThreadCallback != MainThread_OnNeedCreateEGL)
+            {
+                mainThreadCallback = MainThread_OnResized;
+                ALog_D("When OnContentRectChanged do MainThread_OnResized");
+            }
+        }
+    }
 }
 
 
 static void OnConfigurationChanged(ANativeActivity* activity)
 {
     ALog_D("ANativeActivity OnConfigurationChanged");
-    AConfiguration_fromAssetManager(AData->assetConfig, activity->assetManager);
+    AConfiguration_fromAssetManager(nativeActivityConfig, activity->assetManager);
 }
 
 
@@ -476,13 +464,13 @@ static void OnLowMemory(ANativeActivity* activity)
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
-
-
+/**
+ * Called from java native activity when the java activity creating.
+ * the func name set by AndroidManifest.xml with meta-data android:name = "android.app.func_name".
+ */
 void ANativeActivity_OnCreate(ANativeActivity* activity, void* savedState, size_t savedStateSize)
 {
     ALog_D("ANativeActivity_OnCreate Start");
-    nativeActivity                                  = activity;
 
     activity->callbacks->onStart                    = OnStart;
     activity->callbacks->onResume                   = OnResume;
@@ -501,22 +489,26 @@ void ANativeActivity_OnCreate(ANativeActivity* activity, void* savedState, size_
     activity->callbacks->onConfigurationChanged     = OnConfigurationChanged;
     activity->callbacks->onLowMemory                = OnLowMemory;
 
-    AApplication->Init();
+    if (nativeActivity == NULL)
+    {
+        AApplication->Init();
+    }
+    else
+    {
+        // app destroy in background
+        AConfiguration_delete(nativeActivityConfig);
+    }
 
-//----------------------------------------------------------------------------------------------------------------------
+    nativeActivity       = activity;
+    // create and set AConfiguration by assetManager
+    nativeActivityConfig = AConfiguration_new();
+    AConfiguration_fromAssetManager(nativeActivityConfig, activity->assetManager);
 
-    AData->assetConfig = AConfiguration_new();
-    AConfiguration_fromAssetManager(AData->assetConfig, activity->assetManager);
-
-    pthread_t      thread[1];
-    pthread_attr_t attr  [1];
-    pthread_attr_init          (attr);
-    pthread_attr_setdetachstate(attr,   PTHREAD_CREATE_DETACHED);
-    pthread_create             (thread, attr, ThreadRun, NULL);
-    pthread_attr_destroy       (attr);
+    // start loop thread for app's render and logic
+    AThread->StartThread(LoopThreadRun, NULL);
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
-#endif
-//----------------------------------------------------------------------------------------------------------------------
+//---------------------------
+#endif // IS_PLATFORM_ANDROID
+//---------------------------

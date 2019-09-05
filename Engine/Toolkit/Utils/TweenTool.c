@@ -1,21 +1,30 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2016-6-24
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2016-6-24
+ * Update   : 2019-1-8
+ * Author   : scott.cgi
  */
 
-#include <string.h>
 
-#include "Engine/Toolkit/Head/UserData.h"
+#include <string.h>
+#include "Engine/Toolkit/HeaderUtils/UserData.h"
 #include "Engine/Toolkit/Utils/TweenTool.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
 
 enum
 {
+    /**
+     * Max number of TweenActions in context.
+     */
     TweenAction_Length = 30,
 };
 
@@ -32,11 +41,11 @@ static TweenActionValue* actionValue = NULL;
 
 
 #define CheckAction(tag) \
-    ALog_A(action      != NULL, "ATweenTool " tag " TweenAction not created");
+    ALog_A(action      != NULL, "ATweenTool " tag " TweenAction not created.");
 
 
 #define CheckActionValue(tag) \
-    ALog_A(actionValue != NULL, "ATweenTool " tag " TweenActionValue can not NULL");
+    ALog_A(actionValue != NULL, "ATweenTool " tag " TweenActionValue cannot NULL.");
 
 
 static struct ATweenTool* AddAction()
@@ -44,7 +53,7 @@ static struct ATweenTool* AddAction()
     ALog_A
     (
         actionArr->length <= TweenAction_Length,
-        "ATweenTool can not cache TweenActions = %d more than %d",
+        "ATweenTool cannot cache TweenActions = %d more than %d",
         actionArr->length,
         TweenAction_Length
     );
@@ -233,132 +242,39 @@ static struct ATweenTool* AddFadeTo(float fadeTo, float duration)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static struct ATweenTool* SetUserData0Int(int userData)
+static struct ATweenTool* SetUserDataInt(int slotIndex, int value)
 {
-    CheckAction("SetUserData0Int");
-    action->userData->slot0->intValue = userData;
+    CheckAction("SetUserDataInt");
+    AUserData_SetSlotInt(action->userData, slotIndex, value);
     return ATweenTool;
 }
 
 
-static struct ATweenTool* SetUserData0Float(float userData)
+static struct ATweenTool* SetUserDataFloat(int slotIndex, float value)
 {
-    CheckAction("SetUserData0Float");
-    action->userData->slot0->floatValue = userData;
+    CheckAction("SetUserDataFloat");
+    AUserData_SetSlotFloat(action->userData, slotIndex, value);
     return ATweenTool;
 }
 
 
-static struct ATweenTool* SetUserData0Ptr(void* userData)
+static struct ATweenTool* SetUserDataPtr(int slotIndex, void* value)
 {
-    CheckAction("SetUserData0Ptr");
-    action->userData->slot0->ptrValue = userData;
+    CheckAction("SetUserDataPtr");
+    AUserData_SetSlotPtr(action->userData, slotIndex, value);
     return ATweenTool;
 }
 
 
-static struct ATweenTool* SetUserData0String(char* userData)
+static struct ATweenTool* SetUserDataString(int slotIndex, char* value)
 {
-    CheckAction("SetUserData0String");
-    action->userData->slot0->stringValue= userData;
+    CheckAction("SetUserDataString");
+    AUserData_SetSlotString(action->userData, slotIndex, value);
     return ATweenTool;
 }
 
 
-static struct ATweenTool* SetUserData1Int(int userData)
-{
-    CheckAction("SetUserData1Int");
-    action->userData->slot1->intValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData1Float(float userData)
-{
-    CheckAction("SetUserData1Float");
-    action->userData->slot1->floatValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData1Ptr(void* userData)
-{
-    CheckAction("SetUserData1Ptr");
-    action->userData->slot1->ptrValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData1String(char* userData)
-{
-    CheckAction("SetUserData1String");
-    action->userData->slot1->stringValue= userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData2Int(int userData)
-{
-    CheckAction("SetUserData2Int");
-    action->userData->slot2->intValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData2Float(float userData)
-{
-    CheckAction("SetUserData2Float");
-    action->userData->slot2->floatValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData2Ptr(void* userData)
-{
-    CheckAction("SetUserData2Ptr");
-    action->userData->slot2->ptrValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData2String(char* userData)
-{
-    CheckAction("SetUserData2String");
-    action->userData->slot2->stringValue= userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData3Int(int userData)
-{
-    CheckAction("SetUserData3Int");
-    action->userData->slot3->intValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData3Float(float userData)
-{
-    CheckAction("SetUserData3Float");
-    action->userData->slot3->floatValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData3Ptr(void* userData)
-{
-    CheckAction("SetUserData3Ptr");
-    action->userData->slot3->ptrValue = userData;
-    return ATweenTool;
-}
-
-
-static struct ATweenTool* SetUserData3String(char* userData)
-{
-    CheckAction("SetUserData3String");
-    action->userData->slot3->stringValue= userData;
-    return ATweenTool;
-}
+//----------------------------------------------------------------------------------------------------------------------
 
 
 static struct ATweenTool* SetQueue(bool isQueue)
@@ -481,9 +397,9 @@ static struct ATweenTool* SetFadeTo(float fadeTo)
 
 static void RunActions(void* target)
 {
-    ALog_A(target != NULL, "ATweenTool RunActions, target can not NULL");
+    ALog_A(target != NULL, "ATweenTool RunActions, target cannot NULL.");
 
-    for (int i = 0; i < actionArr->length; i++)
+    for (int i = 0; i < actionArr->length; ++i)
     {
         TweenAction* action = AArray_Get(actionArr, i, TweenAction*);
 
@@ -503,7 +419,7 @@ static void RunActions(void* target)
 
 static void* RunTargets()
 {
-    for (int i = 0; i < actionArr->length; i++)
+    for (int i = 0; i < actionArr->length; ++i)
     {
         TweenAction* action = AArray_Get(actionArr, i, TweenAction*);
 
@@ -511,26 +427,25 @@ static void* RunTargets()
         {
             ALog_A
             (
-                 action->target != NULL,
-                 "ATweenTool RunTargets, the {%d} action has actionValue, so must set target",
-                 i
+                action->target != NULL,
+                "ATweenTool RunTargets, the [%d] action has actionValue, so must set target.",
+                i
             );
         }
     }
 
-
-    void* tweenId = ATween->RunActions(actionArr, NULL);
+    void* tweenID = ATween->RunActions(actionArr, NULL);
 
     actionArr->length = 0;
     action            = NULL;
     actionValue       = NULL;
 
-    return tweenId;
+    return tweenID;
 }
 
 
 struct ATweenTool ATweenTool[1] =
-{
+{{
     AddAction,
     AddInterval,
 
@@ -551,22 +466,11 @@ struct ATweenTool ATweenTool[1] =
     SetQueue,
     SetOnComplete,
     SetTarget,
-    SetUserData0Int,
-    SetUserData0Float,
-    SetUserData0Ptr,
-    SetUserData0String,
-    SetUserData1Int,
-    SetUserData1Float,
-    SetUserData1Ptr,
-    SetUserData1String,
-    SetUserData2Int,
-    SetUserData2Float,
-    SetUserData2Ptr,
-    SetUserData2String,
-    SetUserData3Int,
-    SetUserData3Float,
-    SetUserData3Ptr,
-    SetUserData3String,
+    SetUserDataInt,
+    SetUserDataFloat,
+    SetUserDataPtr,
+    SetUserDataString,
+
     GetAction,
 
     SetMoveX,
@@ -585,7 +489,7 @@ struct ATweenTool ATweenTool[1] =
 
     RunActions,
     RunTargets,
-};
+}};
 
 
 #undef CheckAction

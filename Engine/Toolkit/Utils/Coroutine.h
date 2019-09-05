@@ -1,39 +1,47 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2016-11-13
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2016-11-13
+ * Update   : 2019-18
+ * Author   : scott.cgi
  */
 
+ 
 #ifndef COROUTINE_H
 #define COROUTINE_H
 
 
+#include "Engine/Toolkit/HeaderUtils/UserData.h"
 #include "Engine/Toolkit/Utils/ArrayList.h"
-#include "Engine/Toolkit/Head/Define.h"
+#include "Engine/Toolkit/HeaderUtils/Define.h"
 
 
 typedef enum
 {
     /**
-     * Coroutine wait for frame count to waitValue
+     * Coroutine wait for frame count to waitValue.
      */
      CoroutineWaitType_Frames,
 
     /**
-     * Coroutine wait for second count to waitValue
+     * Coroutine wait for second count to waitValue.
      */
      CoroutineWaitType_Seconds,
 
     /**
-     * Coroutine wait for other Coroutine to finish
+     * Coroutine wait for other Coroutine to finish.
      */
      CoroutineWaitType_Coroutines,
 
     /**
-     * Coroutine just run forward
+     * Coroutine just run forward.
      */
      CoroutineWaitType_Null,
 }
@@ -43,81 +51,87 @@ CoroutineWaitType;
 typedef enum
 {
     /**
-     * Coroutine enter queue ready to running
+     * Coroutine enter queue ready to running.
      */
      CoroutineState_Ready,
 
     /**
-     * Coroutine has started to execute
+     * Coroutine already running.
      */
      CoroutineState_Running,
 
     /**
-     * Coroutine already finished and waiting for reuse
+     * Coroutine already finished and waiting for reuse.
      */
      CoroutineState_Finish,
 }
 CoroutineState;
 
 
+/**
+ *  A Coroutine can suspend execution and wait for execution again.
+ */
 typedef struct Coroutine Coroutine;
-typedef void   (*CoroutineRun)(Coroutine* coroutine);
+
+/**
+ * A Coroutine running function.
+ */
+typedef void (*CoroutineRun)(Coroutine* coroutine);
 
 
 struct Coroutine
 {
-    /**
-     * Record coroutine run step
-     */
-    void*                 step;
+    UserData              userData[1];
 
     /**
-     * Coroutine implement function
+     * Record coroutine run step.
+     */
+    int                   step;
+
+    /**
+     * Coroutine implement this function.
      */
     CoroutineRun          Run;
 
     /**
-     * Coroutine current state
+     * Coroutine current state.
      */
     CoroutineState        state;
 
     /**
-     * Coroutine wait value to execute
+     * Coroutine wait value to continue execute.
      */
     float                 waitValue;
 
     /**
-     * Record wait progress
+     * Current wait progress.
      */
     float                 curWaitValue;
 
     /**
-     * Coroutine wait type
+     * Coroutine wait type.
      */
     CoroutineWaitType     waitType;
 
     /**
-     * Hold params for CoroutineRun to get
-     * when coroutine finish clear but the param create memory control yourself
-     */
-    ArrayList(void*)      params[1];
-
-    /**
-     * Hold Coroutines wait for this Coroutine to finish
+     * Store Coroutines that wait for this Coroutine to finish.
      */
     ArrayList(Coroutine*) waits [1];
 };
 
 
+/**
+ * Control all Coroutines.
+ */
 struct ACoroutine
 {
     /**
-     * Bind CoroutineRun with Coroutine and enter queue ready to run
+     * Bind CoroutineRun to Coroutine and enter running queue.
      */
     Coroutine* (*StartCoroutine)(CoroutineRun Run);
 
     /**
-     * Update on every frame
+     * Update on every frame by loop.
      */
     void       (*Update)        (float deltaSeconds);
 };
@@ -126,74 +140,60 @@ struct ACoroutine
 extern struct ACoroutine ACoroutine[1];
 
 
-#define ACoroutine_AddParam(coroutine, value) \
-    AArrayList_Add(coroutine->params, value)
-
-
 /**
- * Get param value
+ * Mark the Coroutine area begin.
  */
-#define ACoroutine_GetParam(coroutine, index, type) \
-    AArrayList_Get(coroutine->params, index, type)
+#define ACoroutine_Begin()                              \
+    switch (coroutine->step)                            \
+    {                                                   \
+        default:                                        \
+            break;                                      \
+        case 0:                                         \
+            coroutine->state = CoroutineState_Running
 
 
 /**
- * Get param valuePtr
- */
-#define ACoroutine_GetPtrParam(coroutine, index, type) \
-    AArrayList_GetPtr(coroutine->params, index, type)
+* Mark the Coroutine area end.
+*/
+#define ACoroutine_End()                                \
+    }                                                   \
+    coroutine->state = CoroutineState_Finish            \
 
 
 /**
- * Construct goto label with line number
- */
-#define ACoroutine_StepName(line) Step##line
-#define ACoroutine_Step(line)     ACoroutine_StepName(line)
-
-
-#define ACoroutine_Begin()                    \
-    if (coroutine->step != NULL)              \
-    {                                         \
-        goto *coroutine->step;                \
-    }                                         \
-    coroutine->state = CoroutineState_Running 
-
-
-#define ACoroutine_End() \
-    coroutine->state = CoroutineState_Finish
-
-
-/**
- * Called between ACoroutine_Begin and ACoroutine_End
+ * Yield execution and wait number of frames then execution again.
+ * called between ACoroutine_Begin and ACoroutine_End.
  *
- * waitFrameCount: CoroutineRun wait frames and running again
+ * waitFrames: CoroutineRun wait frames and running again
  */
-#define ACoroutine_YieldFrames(waitFrames)                  \
-    coroutine->waitValue    = waitFrames;                   \
-    coroutine->curWaitValue = 0.0f;                         \
-    coroutine->waitType     = CoroutineWaitType_Frames;     \
-    coroutine->step         = &&ACoroutine_Step(__LINE__);  \
-    return;                                                 \
-    ACoroutine_Step(__LINE__):
+#define ACoroutine_YieldFrames(waitFrames)              \
+    coroutine->waitValue    = waitFrames;               \
+    coroutine->curWaitValue = 0.0f;                     \
+    coroutine->waitType     = CoroutineWaitType_Frames; \
+    coroutine->step         = __LINE__;                 \
+    return;                                             \
+    case __LINE__:
 
 
 /**
- * Called between ACoroutine_Begin and ACoroutine_End
- *
- * waitSecond: CoroutineRun wait seconds and running again
+ * Yield execution and wait number of seconds then execution again.
+ * called between ACoroutine_Begin and ACoroutine_End.
+ * 
+ * waitSeconds: CoroutineRun wait seconds and running again
  */
-#define ACoroutine_YieldSeconds(waitSeconds)                \
-    coroutine->waitValue    = waitSeconds;                  \
-    coroutine->curWaitValue = 0.0f;                         \
-    coroutine->waitType     = CoroutineWaitType_Seconds;    \
-    coroutine->step         = &&ACoroutine_Step(__LINE__);  \
-    return;                                                 \
-    ACoroutine_Step(__LINE__):
+#define ACoroutine_YieldSeconds(waitSeconds)            \
+    coroutine->waitValue    = waitSeconds;              \
+    coroutine->curWaitValue = 0.0f;                     \
+    coroutine->waitType     = CoroutineWaitType_Seconds;\
+    coroutine->step         = __LINE__;                 \
+    return;                                             \
+    case __LINE__:
 
 
 /**
- * Called between ACoroutine_Begin and ACoroutine_End
- *
+ * Yield execution and wait other Coroutine finished then execution again.
+ * called between ACoroutine_Begin and ACoroutine_End.
+ * 
  * waitCoroutine: CoroutineRun wait other Coroutine finished and running again
  */
 #define ACoroutine_YieldCoroutine(waitCoroutine)            \
@@ -201,18 +201,18 @@ extern struct ACoroutine ACoroutine[1];
     coroutine->curWaitValue = 0.0f;                         \
     coroutine->waitType     = CoroutineWaitType_Coroutines; \
     AArrayList_Add((waitCoroutine)->waits, coroutine);      \
-    coroutine->step         = &&ACoroutine_Step(__LINE__);  \
+    coroutine->step         = __LINE__;                     \
     return;                                                 \
-    ACoroutine_Step(__LINE__):
+    case __LINE__:
 
 
 /**
- * Called between ACoroutine_Begin and ACoroutine_End
- * sotp coroutine running
+ * Just stop Coroutine running and jump out ACoroutine_Begin and ACoroutine_End.
+ * called between ACoroutine_Begin and ACoroutine_End.
  */
 #define ACoroutine_YieldBreak()               \
     coroutine->state = CoroutineState_Finish; \
-    return
+    break
 
 
 #endif

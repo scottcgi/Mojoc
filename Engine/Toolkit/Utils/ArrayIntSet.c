@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2017-4-23
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2017-4-23
+ * Update   : 2019-1-17
+ * Author   : scott.cgi
  */
+
 
 #include <stdlib.h>
 #include "Engine/Toolkit/Platform/Log.h"
@@ -13,19 +20,22 @@
 
 
 /**
- * Search index of key, if negative not found then return "-insertIndex - 1"
- * so insert index is "-BinarySearch() - 1"
+ * Search index of key, if negative not found then return "-insertIndex - 1",
+ * so insert index is "-BinarySearch() - 1".
  */
-static inline int BinarySearch(ArrayList* elementList, intptr_t key)
+static inline int BinarySearch(ArrayList(intptr_t)* elementList, intptr_t key)
 {
     int high  = elementList->size;
     int low   = -1;
     int guess = -1;
 
-    while (high - low > 1)
+    while (high - low > 1) // prevent infinite loops
     {
-        // not consider int overflow
-        guess            = (high + low) >> 1;
+        // (high + low) always positive, so convert to unsigned
+        // then the '>>' is unsigned move right
+        // so the overflow will be handled correctly
+        // because sign bit shift to right and 0 will be added
+        guess            = (unsigned int) (high + low) >> 1;
         intptr_t element = AArrayList_Get(elementList, guess, intptr_t);
 
         if (element < key)
@@ -38,26 +48,24 @@ static inline int BinarySearch(ArrayList* elementList, intptr_t key)
         }
         else if (element == key)
         {
-            // find the key
+            // find the key, the guess is positive value
             return guess;
         }
     }
 
-    // if guess == high the guess is bigger than key and insert at guess
+    // if guess == high
+    // the guess is bigger than key index and insert at guess
 
     if (guess == low)
     {
-        // the guess is smaller than key and insert behind
-        // or if empty then guess is -1, also do this make guess at 0
-        guess++;
+        // the guess is smaller than key index and insert behind,
+        // or if list empty then guess is -1, also do this make guess at 0
+        ++guess;
     }
 
-    // when empty guess is 0, so we -1 make sure return negative value
+    // when list empty guess is 0, so we -1 make sure return negative value
     return -guess - 1;
 }
-
-
-//----------------------------------------------------------------------------------------------------------------------
 
 
 static void Release(ArrayIntSet* arrayIntSet)
@@ -81,7 +89,7 @@ static void InitWithCapacity(int capacity, ArrayIntSet* arrayIntSet)
 
 static ArrayIntSet* CreateWithCapacity(int capacity)
 {
-    ArrayIntSet* arrayIntSet = (ArrayIntSet*) malloc(sizeof(ArrayIntSet));
+    ArrayIntSet* arrayIntSet = malloc(sizeof(ArrayIntSet));
     InitWithCapacity(capacity, arrayIntSet);
 
     return arrayIntSet;
@@ -143,7 +151,7 @@ static void Clear(ArrayIntSet* arrayIntSet)
 
 
 struct AArrayIntSet AArrayIntSet[1] =
-{
+{{
     Create,
     Init,
     CreateWithCapacity,
@@ -153,4 +161,4 @@ struct AArrayIntSet AArrayIntSet[1] =
     TryRemove,
     IsContains,
     Clear,
-};
+}};

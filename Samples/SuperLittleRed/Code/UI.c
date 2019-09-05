@@ -1,27 +1,35 @@
 /*
- * Copyright (c) 2017-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2016-12-20
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2016-12-20
+ * Update   : 2019-2-17
+ * Author   : scott.cgi
  */
+
 
 #include <stdio.h>
 
+#include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Extension/DrawAtlas.h"
 #include "Engine/Application/Input.h"
-#include "Engine/Toolkit/Head/UserData.h"
+#include "Engine/Application/Scheduler.h"
+#include "Engine/Application/Application.h"
 #include "Engine/Extension/Font.h"
 #include "Engine/Extension/Spine/SkeletonBone.h"
-#include "Engine/Application/Scheduler.h"
-#include "Engine/Extension/Font.h"
-#include "Engine/Application/Input.h"
-#include "Engine/Toolkit/Utils/TweenTool.h"
 #include "Engine/Extension/Spine/SkeletonSlot.h"
-#include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Toolkit/Head/Rect.h"
-#include "Engine/Application/Application.h"
+#include "Engine/Toolkit/Utils/TweenTool.h"
+#include "Engine/Toolkit/HeaderUtils/Rect.h"
+#include "Engine/Toolkit/Utils/Coroutine.h"
+#include "Engine/Toolkit/HeaderUtils/UserData.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
+#include "Engine/Graphics/OpenGL/SubMesh.h"
 
 #include "UI.h"
 #include "Tool.h"
@@ -32,39 +40,48 @@
 #include "GameActor.h"
 #include "GameData.h"
 #include "AudioTool.h"
+#include "ADTool.h"
 
 
 enum
 {
     Fail_Again,
+    Fail_Menu,
 
-    HUD_Stone,
-    HUD_Wood,
+    Menu_Start,
+    Menu_Record,
+    Menu_Tutorial,
+
+    HUD_StoneLeft,
+    HUD_WoodLeft,
+    HUD_StoneRight,
+    HUD_WoodRight,
 
     Record_Close,
     Tutorial_Close,
 };
 
-
-//----------------------------------------------------------------------------------------------------------------------
+enum
+{
+    ItemCount_Fail      = 2,
+    ItemCount_Menu      = 3,
+    ItemCount_HUD       = 4,
+    ItemCount_Record    = 1,
+    ItemCount_Tutorial  = 1,
+    ItemCount_Language  = 4,
+};
 
 
 static Font*                    numFont;
 static Font*                    talkFont;
+static SkeletonAnimationPlayer* curPlayer         = NULL;
+static SkeletonAnimationPlayer* prePlayer         = NULL;
 
-static SkeletonAnimationPlayer* curPlayer       = NULL;
-static SkeletonAnimationPlayer* prePlayer       = NULL;
+static int                      curSelectBox      = -1;
+static Drawable*                curUIDrawable     = NULL;
+static FontText*                coinNumText       = NULL;
 
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static int                      curSelectBox    = -1;
-static Drawable*                curUIDrawable   = NULL;
-static ArrayList(FontText*)     uiTextList[1]   = AArrayList_Init(sizeof(FontText*), 10);
-
-
-//----------------------------------------------------------------------------------------------------------------------
+static ArrayList(FontText*)     uiTextList[1]     = AArrayList_Init(FontText*, 10);
 
 
 static void Update(Component* component, float deltaSeconds)
@@ -84,14 +101,14 @@ static void Update(Component* component, float deltaSeconds)
 }
 
 
-static bool inline TestBox(char* slotName, float x, float y)
+static bool inline TestBox(const char* slotName, float x, float y)
 {
     SkeletonSlot* boxSlot = ASkeletonAnimationPlayer_GetSlot(curPlayer, slotName);
     float*        box     = (float*) ASkeletonSlot_GetBoundingBox(boxSlot)->vertexArr->data;
     Rect          rect[1];
 
-    ADrawable->ConvertToWorldPoint(boxSlot->bone->drawable, (Vector2*)  box,      (Vector2*)          rect     );
-    ADrawable->ConvertToWorldPoint(boxSlot->bone->drawable, (Vector2*) (box + 4), (Vector2*)((float*) rect + 2));
+    ADrawable->ConvertToWorldPositionV2(boxSlot->bone->drawable, (Vector2*)  box,      (Vector2*)           rect     );
+    ADrawable->ConvertToWorldPositionV2(boxSlot->bone->drawable, (Vector2*) (box + 4), (Vector2*) ((float*) rect + 2));
 
     return ARect_TestPoint(rect, x, y);
 }
@@ -134,12 +151,9 @@ static void inline ShowUI(SkeletonAnimationPlayer* player, TweenEaseType easeTyp
 
 static void inline CloseUI()
 {
-    for (int i = 0; i < uiTextList->size; i++)
+    for (int i = 0; i < uiTextList->size; ++i)
     {
-        AFont->ReuseText
-        (
-            AArrayList_Get(uiTextList, i, FontText*)
-        );
+        AFont->ReleaseText(AArrayList_Get(uiTextList, i, FontText*));
     }
 
     AArrayList->Clear(uiTextList);
@@ -150,22 +164,42 @@ static void inline CloseUI()
 }
 
 
-static bool inline ClickUI(char* boneNames[], char* boxNames[], int selectBox[], int length, InputTouch* touch)
+/**
+ * If attachmentNames NULL, will use slotName as attachmentName.
+ */
+static bool inline ClickUI
+(
+    const char* boneNames[],
+    const char* slotNames[],
+    const char* attachmentNames[],
+    const int   selectBox[],
+    int         length,
+    InputTouch* touch
+)
 {
-    char* boneName = NULL;
+    const char* boneName = NULL;
 
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < length; ++i)
     {
         // check SubMesh has same name with bone
-        char*    name    = boneNames[i];
-        SubMesh* subMesh = ASkeletonAnimationPlayer_GetSubMesh(curPlayer, name, name);
+        const char* name    = boneNames[i];
+        SubMesh*    subMesh;
+
+        if (attachmentNames == NULL)
+        {
+            subMesh = ASkeletonAnimationPlayer_GetSubMesh(curPlayer, name, name);
+        }
+        else
+        {
+            subMesh = ASkeletonAnimationPlayer_GetSubMesh(curPlayer, name, attachmentNames[i]);
+        }
 
         if (subMesh != NULL && (ADrawable_CheckVisible(subMesh->drawable) == false))
         {
             continue;
         }
 
-        if (TestBox(boxNames[i], touch->x, touch->y))
+        if (TestBox(slotNames[i], touch->x, touch->y))
         {
             boneName     = name;
             curSelectBox = selectBox[i];
@@ -177,7 +211,6 @@ static bool inline ClickUI(char* boneNames[], char* boxNames[], int selectBox[],
     {
         curSelectBox  = -1;
         curUIDrawable = NULL;
-
         return false;
     }
     else
@@ -195,13 +228,7 @@ static void inline CloseUITween(TweenActionOnComplete OnComplete)
 {
     Drawable* drawable = ASkeletonAnimationPlayer_GetDrawable(curPlayer);
 
-    ATweenTool->AddScaleSame2
-                (
-                    0.0f,
-                    0.5f,
-                    false,
-                    TweenEaseType_BackOut
-                )
+    ATweenTool->AddScaleSame2(0.0f, 0.5f, false, TweenEaseType_BackOut)
               ->SetOnComplete(OnComplete)
               ->RunActions   (drawable);
 
@@ -220,7 +247,37 @@ static void inline CloseUITween(TweenActionOnComplete OnComplete)
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
+static void CostActionOnComplete(TweenAction* action)
+{
+    AFont->ReleaseText(AUserData_GetSlotPtrWithType(action->userData, 0, FontText*));
+}
+
+
+static inline void AddFontText(char* boneName, int num, bool isTime)
+{
+    FontText* text = AFont->GetText(numFont);
+    AArrayList_Add(uiTextList, text);
+
+    ADrawable_SetParent
+    (
+        text->drawable,
+        ASkeletonAnimationPlayer_GetBone(curPlayer, boneName)->drawable
+    );
+
+    if (isTime)
+    {
+        char buff[10];
+        ATool->SetTimeToBuff(buff, num);
+        AFont->SetString    (text, buff);
+    }
+    else
+    {
+        AFont->SetInt(text, num);
+    }
+
+    ADrawable_SetScaleSame2(text->drawable, 1.2f);
+    ADrawable_SetPositionX (text->drawable, -text->drawable->width / 2);
+}
 
 
 static void FailCloseOnComplete(TweenAction* action)
@@ -233,8 +290,54 @@ static void FailCloseOnComplete(TweenAction* action)
     AEnemyAI->Restart();
     AHero->Revive();
 
-    // reset out screen
+    // reset outside screen
     ASkeleton->ResetBones(AHUD->hudPlayer->skeleton);
+
+    AADTool->Hide(ADType_Banner);
+}
+
+
+static void StartRunGame(Coroutine* coroutine)
+{
+    ACoroutine_Begin();
+
+    AGameMap->Run();
+    ACoroutine_YieldSeconds(0.2f);
+    AHUD->CloseCurtain(NULL);
+    AHero->Run();
+    AGameActor->Run();
+    AEnemyAI->Run();
+
+    ACoroutine_End();
+}
+
+
+static void MenuCloseOnComplete(TweenAction* action)
+{
+    CloseUI();
+
+    static bool isFirst = true;
+
+    if (isFirst)
+    {
+        isFirst = false;
+        ACoroutine->StartCoroutine(StartRunGame);
+    }
+    else
+    {
+        FailCloseOnComplete(NULL);
+    }
+}
+
+
+static void StoreCloseOnComplete(TweenAction* action)
+{
+    curUIDrawable = NULL;
+    curSelectBox  = -1;
+    curPlayer     = prePlayer;
+    prePlayer     = NULL;
+
+    AFont->ReleaseText(coinNumText);
 }
 
 
@@ -261,11 +364,57 @@ static void TutorialCloseOnComplete(TweenAction* action)
 //----------------------------------------------------------------------------------------------------------------------
 
 
+static void ShowTutorial(TweenActionOnComplete OnComplete)
+{
+    prePlayer = curPlayer;
+    ShowUI(AUI->uiTutorialPlayer, TweenEaseType_BackInElasticOut, OnComplete);
+}
+
+
+static void ShowAD(TweenAction* action)
+{
+    const int num = 3;
+
+    if (AHero->roundCount > num - 1 && AHero->roundCount % num == 0)
+    {
+        AADTool->Show(ADType_Interstitial);
+    }
+    else
+    {
+        AADTool->Show(ADType_Banner);
+    }
+}
+
+
+static void ShowTutorialScheduler(Scheduler* scheduler, float deltaSeconds)
+{
+    ShowTutorial(ShowAD);
+}
+
+
 static void ShowFail()
 {
-    int score = AHero->roundKillCount == 0 ? AHero->roundTime / 20 : AHero->roundKillCount * AHero->roundTime / 25;
+    if (AHero->roundCount > AGameData->maxRoundCount)
+    {
+        AGameData->maxRoundCount = AHero->roundCount;
+    }
 
-    char* names[] =
+    if (AHero->roundTime > AGameData->maxRoundTime)
+    {
+        AGameData->maxRoundTime = AHero->roundTime;
+    }
+
+    if (AHero->roundKillCount > AGameData->maxRoundKillCount)
+    {
+        AGameData->maxRoundKillCount = AHero->roundKillCount;
+    }
+
+    if (AGameData->maxScore < AHero->roundScore)
+    {
+        AGameData->maxScore = AHero->roundScore;
+    }
+
+    const char* names[] =
     {
         "Score",
         "Kill",
@@ -273,43 +422,75 @@ static void ShowFail()
         "Time",
     };
 
-    int  values[] =
+    int values[] =
     {
-        score,
+        AHero->roundScore,
         AHero->roundKillCount,
         AHero->roundArrowCount == 0 ? 0 :
         (AHero->roundArrowCount - AHero->roundMissCount) * 100 / AHero->roundArrowCount,
     };
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; ++i)
     {
         Drawable* posDrawable = ASkeletonAnimationPlayer_GetBone(AUI->uiFailPlayer, names[i])->drawable;
         FontText* text;
 
         text = AFont->GetText(numFont);
+        ADrawable_SetParent  (text->drawable, posDrawable);
+        AArrayList_Add       (uiTextList,     text);
 
-        ADrawable_SetParent(text->drawable, posDrawable);
-        AArrayList_Add     (uiTextList,     text);
+        switch (i)
+        {
+            case 2:
+            {
+                char buff[6];
+                sprintf(buff, "%d%%", values[i]);
+                AFont->SetString(text, buff);
+                break;
+            }
 
-        if (i == 2)
-        {
-            char buff[6];
-            sprintf(buff, "%d%%", values[i]);
-            AFont->SetString(text, buff);
-        }
-        else if (i == 3)
-        {
-            char buff[10];
-            ATool->SetTimeToBuff(buff, AHero->roundTime);
-            AFont->SetString    (text, buff);
-        }
-        else
-        {
-            AFont->SetInt(text, values[i]);
+            case 3:
+            {
+                char buff[10];
+                ATool->SetTimeToBuff(buff, (int) AHero->roundTime);
+                AFont->SetString    (text, buff);
+                break;
+            }
+
+            default:
+                AFont->SetInt(text, values[i]);
+                break;
         }
     }
 
-    ShowUI(AUI->uiFailPlayer, TweenEaseType_BackOut, NULL);
+    if (AHero->roundKillCount < 2)
+    {
+        AScheduler->ScheduleOnce(ShowTutorialScheduler, 0.5f);
+        ShowUI(AUI->uiFailPlayer, TweenEaseType_BackOut, NULL);
+    }
+    else
+    {
+        ShowUI(AUI->uiFailPlayer, TweenEaseType_BackOut, ShowAD);
+    }
+}
+
+
+static void ShowMenu()
+{
+    ShowUI(AUI->uiMenuPlayer, TweenEaseType_BackOut, NULL);
+}
+
+
+static void ShowRecord()
+{
+    prePlayer = curPlayer;
+    ShowUI(AUI->uiRecordPlayer, TweenEaseType_BounceOut, NULL);
+
+    AddFontText("MaxScore",           AGameData->maxScore,          false);
+    AddFontText("MaxKill",            AGameData->maxRoundKillCount, false);
+    AddFontText("MaxRound",           AGameData->maxRoundCount,     false);
+    AddFontText("MaxRoundTime", (int) AGameData->maxRoundTime,      true);
+    AddFontText("PlayGameTime",       AGameData->playGameCount,     false);
 }
 
 
@@ -320,9 +501,9 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
 {
     if (sender == AApplication)
     {
-        InputTouch* touch = AArray_Get((Array*) extraData, 0, InputTouch*);
+        InputTouch* touch = AArray_Get((Array(InputTouch*)*) extraData, 0, InputTouch*);
 
-        if (touch->fingerId > 0 && curPlayer == NULL)
+        if (touch->fingerID > 0 && curPlayer == NULL)
         {
             if (touch->type == InputTouchType_Down)
             {
@@ -331,16 +512,14 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
             }
         }
 
-//----------------------------------------------------------------------------------------------------------------------
-
         switch (touch->type)
         {
-            case InputTouchType_Move:
-                break;
-                
             case InputTouchType_Cancel:
                 break;
-                
+            
+            case InputTouchType_Move:
+                break;
+            
             case InputTouchType_Up:
                 if (curUIDrawable != NULL)
                 {
@@ -351,17 +530,37 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                     {
                         case Fail_Again:
                             CloseUITween(FailCloseOnComplete);
-                            AAudioTool->Play(AudioId_ClickBtn);
+                            AAudioTool->Play(AudioID_ClickBtn);
                             break;
 
-//----------------------------------------------------------------------------------------------------------------------
+                        case Fail_Menu:
+                            CloseUITween(NULL);
+                            ShowMenu();
+                            AAudioTool->Play(AudioID_ClickBtn);
+                            break;
 
-                        case HUD_Stone:
+                        case Menu_Start:
+                            CloseUITween(MenuCloseOnComplete);
+                            AAudioTool->Play(AudioID_ClickBtn);
+                            break;
+
+                        case Menu_Record:
+                            ShowRecord();
+                            AAudioTool->Play(AudioID_ClickBtn);
+                            break;
+
+                        case Menu_Tutorial:
+                            ShowTutorial(NULL);
+                            AAudioTool->Play(AudioID_ClickBtn);
+                            break;
+
+                        case HUD_StoneLeft:
+                        case HUD_StoneRight:
                             if (AGameData->stone > 0)
                             {
                                 AHUD->DropStone();
                                 AFont->SetInt(AHUD->stoneText, --AGameData->stone);
-                                AAudioTool->Play(AudioId_ClickBtn);
+                                AAudioTool->Play(AudioID_ClickBtn);
                             }
                             else
                             {
@@ -372,12 +571,13 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                             curSelectBox  = -1;
                             break;
 
-                        case HUD_Wood:
+                        case HUD_WoodLeft:
+                        case HUD_WoodRight:
                             if (AGameData->wood > 0)
                             {
                                 AHUD->DropWood();
                                 AFont->SetInt(AHUD->woodText, --AGameData->wood);
-                                AAudioTool->Play(AudioId_ClickBtn);
+                                AAudioTool->Play(AudioID_ClickBtn);
                             }
                             else
                             {
@@ -388,16 +588,17 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                             curSelectBox  = -1;
                             break;
 
-//----------------------------------------------------------------------------------------------------------------------
-
                         case Record_Close:
                             CloseUITween(RecordCloseOnComplete);
-                            AAudioTool->Play(AudioId_ClickBtn);
+                            AAudioTool->Play(AudioID_ClickBtn);
                             break;
 
                         case Tutorial_Close:
                             CloseUITween(TutorialCloseOnComplete);
-                            AAudioTool->Play(AudioId_ClickBtn);
+                            AAudioTool->Play(AudioID_ClickBtn);
+                            break;
+
+                        default:
                             break;
                     }
 
@@ -405,34 +606,119 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                 }
                 break;
 
-//----------------------------------------------------------------------------------------------------------------------
-
             case InputTouchType_Down:
                 if (curPlayer == AUI->uiFailPlayer)
                 {
                     ClickUI
                     (
-                        (char*[])
+                        (const char*[ItemCount_Fail])
                         {
                             "Again",
+                            "Menu",
                         },
 
-                        (char*[])
+                        (const char*[ItemCount_Fail])
                         {
                             "AgainBox",
+                            "MenuBox",
                         },
 
-                        (int[])
+                        NULL,
+
+                        (int[ItemCount_Fail])
                         {
                             Fail_Again,
+                            Fail_Menu,
                         },
-                        1, touch
+
+                        ItemCount_Fail,
+                        touch
                     );
                 }
-                else
+                else if (curPlayer == AUI->uiMenuPlayer)
                 {
+                    ClickUI
+                    (
+                        (const char*[ItemCount_Menu])
+                        {
+                            "Start",
+                            "Record",
+                            "Tutorial",
+                        },
 
-                    HUDTouch:  // click on HUD
+                        (const char*[ItemCount_Menu])
+                        {
+                            "StartBox",
+                            "RecordBox",
+                            "TutorialBox",
+                        },
+
+                        NULL,
+                        
+                        (int[ItemCount_Menu])
+                        {
+                            Menu_Start,
+                            Menu_Record,
+                            Menu_Tutorial,
+                        },
+
+                        ItemCount_Menu,
+                        touch
+                    );
+                }
+                else if (curPlayer == AUI->uiRecordPlayer)
+                {
+                    ClickUI
+                    (
+                        (const char*[ItemCount_Record])
+                        {
+                            "Close",
+                        },
+
+                        (const char*[ItemCount_Record])
+                        {
+                            "CloseBox",
+                        },
+
+                        NULL,
+
+                        (int[ItemCount_Record])
+                        {
+                            Record_Close,
+                        },
+                        
+                        ItemCount_Record,
+                        touch
+                    );
+                }
+                else if (curPlayer == AUI->uiTutorialPlayer)
+                {
+                    ClickUI
+                    (
+                        (const char*[ItemCount_Tutorial])
+                        {
+                            "Close",
+                        },
+
+                        (const char*[ItemCount_Tutorial])
+                        {
+                            "CloseBox",
+                        },
+
+                        NULL,
+
+                        (int[ItemCount_Tutorial])
+                        {
+                            Tutorial_Close,
+                        },
+
+                        ItemCount_Tutorial,
+                        touch
+                    );
+                }
+                else // click on HUD
+                {
+                    HUDTouch:
 
                     curPlayer = AHUD->hudPlayer;
 
@@ -440,24 +726,40 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                     (
                         ClickUI
                         (
-                            (char*[])
+                            (const char*[ItemCount_HUD])
                             {
+                                "StoneLeft",
+                                "WoodLeft",
+                                "StoneRight",
+                                "WoodRight",
+                            },
+
+                            (const char*[ItemCount_HUD])
+                            {
+                                "StoneBoxLeft",
+                                "WoodBoxLeft",
+                                "StoneBoxRight",
+                                "WoodBoxRight",
+                            },
+
+                            (const char*[ItemCount_HUD])
+                            {
+                                "Stone",
+                                "Wood",
                                 "Stone",
                                 "Wood",
                             },
 
-                            (char*[])
+                            (int[ItemCount_HUD])
                             {
-                                "StoneBox",
-                                "WoodBox",
+                                HUD_StoneLeft,
+                                HUD_WoodLeft,
+                                HUD_StoneRight,
+                                HUD_WoodRight,
                             },
-
-                            (int[])
-                            {
-                                HUD_Stone,
-                                HUD_Wood,
-                            },
-                            2, touch
+                            
+                            ItemCount_HUD,
+                            touch
                         )
                     )
                     {
@@ -489,10 +791,45 @@ static void Init()
     AUI->component->curState->Update    = Update;
     AUI->component->curState->OnMessage = OnMessage;
 
-    ASkeletonAnimationPlayer->Init("UI/UIFail", "animation", AUI->uiFailPlayer);
+    SkeletonAnimationPlayer* uiSkeletonPlayers[ItemCount_Language] =
+    {
+        AUI->uiMenuPlayer,
+        AUI->uiFailPlayer,
+        AUI->uiTutorialPlayer,
+        AUI->uiRecordPlayer,
+    };
 
-    numFont  = AFont->Get("Font/UINumber.atlas");
-    talkFont = AFont->Get("Font/TalkChar.atlas");
+    const char* uiSkeletonPaths[ItemCount_Language] =
+    {
+        "UI/UIMenu",
+        "UI/UIFail",
+        "UI/UITutorial",
+        "UI/UIRecord",
+    };
+
+    const char* uiSkeletonPathsZH[ItemCount_Language] =
+    {
+        "UI/UIMenu-zh",
+        "UI/UIFail-zh",
+        "UI/UITutorial-zh",
+        "UI/UIRecord-zh",
+    };
+
+    for (int i = 0; i < ItemCount_Language; ++i)
+    {
+        if (ATool->languageCode == LanguageCode_zh)
+        {
+            ASkeletonAnimationPlayer->Init(uiSkeletonPathsZH[i], "animation", uiSkeletonPlayers[i]);
+
+        }
+        else if (ATool->languageCode == LanguageCode_en)
+        {
+            ASkeletonAnimationPlayer->Init(uiSkeletonPaths[i], "animation", uiSkeletonPlayers[i]);
+        }
+    }
+
+    numFont   = AFont->Get("Font/UINumber.atlas");
+    talkFont  = AFont->Get("Font/TalkChar.atlas");
 }
 
 
@@ -503,10 +840,137 @@ static void Run()
 
 
 struct AUI AUI[1] =
-{
+{{
+    .Init     = Init,
+    .Run      = Run,
+    .ShowFail = ShowFail,
+    .ShowMenu = ShowMenu,
+}};
+
+
+struct AUIStore AUIStore[1] =
+{{
+    .weaponNames =
     {
-        .Init     = Init,
-        .Run      = Run,
-        .ShowFail = ShowFail,
-    }
-};
+        "Copper",
+        "Dragon",
+        "Gold",
+        "Heart",
+        "Ice",
+        "Iron",
+        "Lightning",
+        "Silver",
+        "Steel",
+        "Wood",
+    },
+
+    .weaponBoxes =
+    {
+        "CopperBox",
+        "DragonBox",
+        "GoldBox",
+        "HeartBox",
+        "IceBox",
+        "IronBox",
+        "LightningBox",
+        "SilverBox",
+        "SteelBox",
+        "WoodBox",
+    },
+
+    .weaponIcons =
+    {
+        "CopperIcon",
+        "DragonIcon",
+        "GoldIcon",
+        "HeartIcon",
+        "IceIcon",
+        "IronIcon",
+        "LightningIcon",
+        "SilverIcon",
+        "SteelIcon",
+        "WoodIcon",
+    },
+
+    .weaponLocks =
+    {
+        "CopperLock",
+        "DragonLock",
+        "GoldLock",
+        "HeartLock",
+        "IceLock",
+        "IronLock",
+        "LightningLock",
+        "SilverLock",
+        "SteelLock",
+        "WoodLock",
+    },
+
+    .dressNames =
+    {
+        "Armour",
+        "RedGirl",
+        "Bunny",
+        "Egypt",
+        "Luffy",
+        "Swan",
+    },
+
+    .dressBoxes =
+    {
+        "ArmourBox",
+        "RedGirlBox",
+        "BunnyBox",
+        "EgyptBox",
+        "LuffyBox",
+        "SwanBox",
+    },
+
+    .dressIcons =
+    {
+        "ArmourIcon",
+        "RedGirlIcon",
+        "BunnyIcon",
+        "EgyptIcon",
+        "LuffyIcon",
+        "SwanIcon",
+    },
+
+    .dressLocks =
+    {
+        "ArmourLock",
+        "RedGirlLock",
+        "BunnyLock",
+        "EgyptLock",
+        "LuffyLock",
+        "SwanLock",
+    },
+
+    .propertyNames =
+    {
+        "Speed",
+        "HP",
+        "Energy",
+        "EnergyRecovery",
+        "DizzyDistance",
+        "DizzyTime",
+        "StonePower",
+        "WoodTime",
+        "ArrowSpeed",
+        "ArrowPower",
+    },
+
+    .propertyBoxes =
+    {
+        "SpeedBox",
+        "HPBox",
+        "EnergyBox",
+        "EnergyRecoveryBox",
+        "DizzyDistanceBox",
+        "DizzyTimeBox",
+        "StonePowerBox",
+        "WoodTimeBox",
+        "ArrowSpeedBox",
+        "ArrowPowerBox",
+    },
+}};

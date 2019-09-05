@@ -1,3 +1,7 @@
+* Fix OpenSLES "E/libOpenSLES: Error after prepare: 1" in some devices. (+0.0.1)
+* Fix point and polygon collision algorithm error. (+0.0.1)
+* Optimize JSON function SkipWhiteSpace call in ParseArray and ParseObject. (+0.0.1)
+
 ## v0.4.7
 _`2018.1.16 UTC+8 17:12`_
 

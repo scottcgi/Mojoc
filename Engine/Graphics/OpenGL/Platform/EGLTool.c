@@ -1,25 +1,40 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-3-12
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-3-12
+ * Update   : 2019-2-23
+ * Author   : scott.cgi
  */
 
+
+#include <stddef.h>
 #include "Engine/Toolkit/Platform/Platform.h"
 
 
-//----------------------------------------------------------------------------------------------------------------------
+//------------------------
 #ifdef IS_PLATFORM_ANDROID
-//----------------------------------------------------------------------------------------------------------------------
+//------------------------
 
 
 #include "Engine/Graphics/OpenGL/Platform/EGLTool.h"
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-void CreateEGL(EGLNativeWindowType window, EGLDisplay* outDisplay, EGLContext* outContext, EGLSurface* outSurface, EGLConfig*  outConfig)
+void CreateEGL
+(
+    EGLNativeWindowType window,
+    EGLDisplay*         outDisplay,
+    EGLContext*         outContext,
+    EGLSurface*         outSurface,
+    EGLConfig*          outConfig
+)
 {
 
     *outDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
@@ -42,10 +57,10 @@ void CreateEGL(EGLNativeWindowType window, EGLDisplay* outDisplay, EGLContext* o
     EGLint configAttribs[] =
     {
         EGL_DEPTH_SIZE,      16,
-        EGL_RED_SIZE,        8,   //   5,
-        EGL_GREEN_SIZE,      8,   //   6,
-        EGL_BLUE_SIZE,       8,   //   5,
-        EGL_ALPHA_SIZE,      8,   //   0,
+        EGL_RED_SIZE,        8,
+        EGL_GREEN_SIZE,      8,
+        EGL_BLUE_SIZE,       8,
+        EGL_ALPHA_SIZE,      8,
         EGL_STENCIL_SIZE,    8,
         EGL_SURFACE_TYPE,    EGL_WINDOW_BIT,
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
@@ -95,7 +110,8 @@ void CreateEGL(EGLNativeWindowType window, EGLDisplay* outDisplay, EGLContext* o
 // eglSwapInterval(*outDisplay, 0);
 }
 
-void DestroyEGL(EGLDisplay* display, EGLContext* context, EGLSurface* surface)
+
+static void DestroyEGL(EGLDisplay* display, EGLContext* context, EGLSurface* surface)
 {
     if (*display != EGL_NO_DISPLAY)
     {
@@ -120,7 +136,14 @@ void DestroyEGL(EGLDisplay* display, EGLContext* context, EGLSurface* surface)
 }
 
 
-static void ResetSurface(EGLNativeWindowType window, EGLDisplay display, EGLContext context, EGLConfig config, EGLSurface* surface)
+static void ResetSurface
+(
+    EGLNativeWindowType window,
+    EGLDisplay          display,
+    EGLContext          context,
+    EGLConfig           config,
+    EGLSurface*         surface
+)
 {
     if (*surface != EGL_NO_SURFACE)
     {
@@ -144,13 +167,14 @@ static void ResetSurface(EGLNativeWindowType window, EGLDisplay display, EGLCont
 
 
 struct AEGLTool AEGLTool[1] =
-{
+{{
     CreateEGL,
     DestroyEGL,
     ResetSurface,
-};
+}};
 
 
-//----------------------------------------------------------------------------------------------------------------------
-#endif
-//----------------------------------------------------------------------------------------------------------------------
+//---------------------------
+#endif // IS_PLATFORM_ANDROID
+//---------------------------
+

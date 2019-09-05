@@ -1,17 +1,23 @@
 /*
- * Copyright (c) 2017-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2015-4-29
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2015-4-29
+ * Update   : 2019-2-16
+ * Author   : scott.cgi
  */
 
 
 #include <stddef.h>
 #include <string.h>
 
-#include "Engine/Toolkit/Head/UserData.h"
+#include "Engine/Toolkit/HeaderUtils/UserData.h"
 #include "Engine/Toolkit/Utils/ArrayList.h"
 #include "Engine/Toolkit/Utils/TweenTool.h"
 #include "Engine/Application/Scheduler.h"
@@ -26,8 +32,14 @@
 #include "GameData.h"
 
 
-static ArrayIntSet  woodSet[1];
-static ArrayIntSet* sets   [1] =
+#define AskGod() \
+    (AMath_Random() > AMath_Random())
+
+
+static ArrayIntSet woodSet       [1];
+
+
+static ArrayIntSet* enemySets[Enemy_KindsNum] =
 {
     woodSet,
 };
@@ -41,17 +53,17 @@ typedef enum
 AIResult;
 
 
-typedef AIResult (*AIFunc)(Enemy* enemy, Drawable* enemyDrawable, Drawable* heroDrawable, float deltaX);
+typedef AIResult (*EnemyAI)(Enemy* enemy, Drawable* enemyDrawable, Drawable* heroDrawable, float deltaX);
 
 
-static void DoAI(ArrayIntSet* enemySet, AIFunc AI)
+static void DoEnemySetAI(ArrayIntSet* enemySet, EnemyAI enemyAI)
 {
-    for (int i = 0; i < enemySet->elementList->size; i++)
+    for (int i = 0; i < enemySet->elementList->size; ++i)
     {
         Enemy*    enemy         = AArrayList_Get(enemySet->elementList, i, Enemy*);
         Drawable* enemyDrawable = AEnemy_GetDrawable(enemy);
         Drawable* heroDrawable  = AHero_GetDrawable();
-        float     deltaX        = enemyDrawable->positionX - ADrawable->ConvertBetweenLocalX
+        float     deltaX        = enemyDrawable->positionX - ADrawable->ConvertBetweenLocalPositionX
                                                              (
                                                                  heroDrawable->parent,
                                                                  heroDrawable->positionX,
@@ -67,13 +79,10 @@ static void DoAI(ArrayIntSet* enemySet, AIFunc AI)
             continue;
         }
 
-        if (deltaX > 0.0f)
+
+        if (deltaX * enemyDrawable->scaleX < 0)
         {
-            ADrawable_SetScaleX(enemyDrawable,  1.0f);
-        }
-        else
-        {
-            ADrawable_SetScaleX(enemyDrawable, -1.0f);
+            ADrawable_SetScaleX(enemyDrawable, -enemyDrawable->scaleX);
         }
 
         deltaX          = -deltaX;
@@ -81,7 +90,7 @@ static void DoAI(ArrayIntSet* enemySet, AIFunc AI)
 
         if (enemy->isWoodStop == false)
         {
-            result = AI(enemy, enemyDrawable, heroDrawable, deltaX);
+            result = enemyAI(enemy, enemyDrawable, heroDrawable, deltaX);
         }
 
         if (deltaX > -enemy->hitDis && deltaX < enemy->hitDis)
@@ -100,7 +109,7 @@ static void DoAI(ArrayIntSet* enemySet, AIFunc AI)
         {
             AComponent->SetState(enemy->component, EnemyState_Walk);
 
-            if (AMath_Random() > AMath_Random())
+            if (AskGod())
             {
                 return;
             }
@@ -123,7 +132,8 @@ static void DoAI(ArrayIntSet* enemySet, AIFunc AI)
 
 static void AttackOnComplete(TweenAction* action)
 {
-    Enemy* enemy = (Enemy*) action->userData->slot0->ptrValue;
+    Enemy* enemy = AUserData_GetSlotPtrWithType(action->userData, 0, Enemy*);
+
     if (enemy != NULL)
     {
         AComponent->SetState(enemy->component, EnemyState_Attack);
@@ -133,38 +143,39 @@ static void AttackOnComplete(TweenAction* action)
 
 static AIResult WoodAI(Enemy* enemy, Drawable* enemyDrawable, Drawable* heroDrawable, float deltaX)
 {
-    if (deltaX > -0.35f && deltaX < 0.35f && AMath_Random() > AMath_Random())
+    if (deltaX > -0.35f && deltaX < 0.35f && AskGod())
     {
         ATween->TryRemoveAllActions(enemyDrawable);
 
-        if (AMath_Random() > AMath_Random())
+        if (AskGod())
         {
-            ATweenTool->AddMoveX       (deltaX * 0.98f, 0.35f)
-                      ->SetEaseType    (TweenEaseType_QuadraticIn)
-                      ->SetQueue       (false)
-                      ->SetOnComplete  (AttackOnComplete)
-                      ->SetUserData0Ptr(enemy)
+            ATweenTool->AddMoveX      (deltaX * 0.98f, 0.35f)
+                      ->SetEaseType   (AskGod() ? TweenEaseType_QuadraticIn : TweenEaseType_CubicIn)
+                      ->SetQueue      (false)
+                      ->SetOnComplete (AttackOnComplete)
+                      ->SetUserDataPtr(0, enemy)
 
-                      ->AddMoveY       (0.035f, 0.25f)
-                      ->SetEaseType    (TweenEaseType_QuadraticIn)
+                      ->AddMoveY      (0.04f, 0.25f)
+                      ->SetEaseType   (AskGod() ? TweenEaseType_QuadraticIn : TweenEaseType_CubicIn)
 
-                      ->AddMoveY       (-0.035f, 0.15f)
-                      ->SetEaseType    (TweenEaseType_QuadraticOut)
+                      ->AddMoveY      (AGameMap->groundY, 0.15f)
+                      ->SetEaseType   (TweenEaseType_QuadraticOut)
+                      ->SetRelative   (false)
 
-                      ->RunActions     (enemyDrawable);
+                      ->RunActions    (enemyDrawable);
         }
         else
         {
-            ATweenTool->AddMoveX       (deltaX * 0.98f, 0.35f)
-                      ->SetEaseType    (TweenEaseType_QuadraticOut)
-                      ->SetQueue       (false)
-                      ->SetOnComplete  (AttackOnComplete)
-                      ->SetUserData0Ptr(enemy)
+            ATweenTool->AddMoveX      (deltaX * 0.98f, 0.35f)
+                      ->SetEaseType   (AskGod() ? TweenEaseType_QuadraticOut : TweenEaseType_CubicOut)
+                      ->SetQueue      (false)
+                      ->SetOnComplete (AttackOnComplete)
+                      ->SetUserDataPtr(0, enemy)
 
-                      ->AddMoveY       (AGameMap->groundY, 0.15f)
-                      ->SetEaseType    (TweenEaseType_QuadraticOut)
-                      ->SetRelative    (false)
-                      ->RunActions     (enemyDrawable);
+                      ->AddMoveY      (AGameMap->groundY, 0.15f)
+                      ->SetEaseType   (AskGod() ? TweenEaseType_QuadraticOut : TweenEaseType_CubicOut)
+                      ->SetRelative   (false)
+                      ->RunActions    (enemyDrawable);
         }
 
         return AIResult_Move;
@@ -177,13 +188,13 @@ static AIResult WoodAI(Enemy* enemy, Drawable* enemyDrawable, Drawable* heroDraw
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static AIFunc AIFuncs[] =
+static EnemyAI enemyAIs[Enemy_KindsNum] =
 {
     WoodAI,
 };
 
 
-static void EnemyAI(Scheduler* scheduler, float deltaSeconds)
+static void DoEnemyAI(Scheduler* scheduler, float deltaSeconds)
 {
     if (AHero->component->curState->id >= HeroState_Die)
     {
@@ -191,9 +202,9 @@ static void EnemyAI(Scheduler* scheduler, float deltaSeconds)
     }
     else
     {
-        for (int i = 0; i < ENEMY_KINDS_COUNT; i++)
+        for (int i = 0; i < Enemy_KindsNum; ++i)
         {
-            DoAI(sets[i], AIFuncs[i]);
+            DoEnemySetAI(enemySets[i], enemyAIs[i]);
         }
     }
 }
@@ -202,13 +213,24 @@ static void EnemyAI(Scheduler* scheduler, float deltaSeconds)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static inline Enemy* CreateAndCache(char* filePath, float bornX, float bornY)
+static inline void RandomSmallEnemey(Enemy* enemy)
+{
+    if (AMath_Random() < 0.2f)
+    {
+        Drawable* drawable = AEnemy_GetDrawable(enemy);
+        ADrawable_SetScaleSame2(drawable, 0.7f);
+    }
+}
+
+
+
+static inline Enemy* CreateAndCache(const char* filePath, float bornX, float bornY)
 {
     Enemy* enemy = NULL;
 
     if (AEnemyAI->isInit == false)
     {
-        for (int i = 0; i < AEnemyAI->enemyDeadList->size; i++)
+        for (int i = 0; i < AEnemyAI->enemyDeadList->size; ++i)
         {
             Enemy* e = AArrayList_Get(AEnemyAI->enemyDeadList, i, Enemy*);
 
@@ -237,7 +259,7 @@ static inline Enemy* CreateAndCache(char* filePath, float bornX, float bornY)
 static Enemy* CreateWood(float x)
 {
     Enemy* enemy         = CreateAndCache("Animation/wood", x, AGameMap->groundY);
-    int    increase      = AHero->roundKillCount / KILL_INCREASE_SCALE + 1;
+    int    increase      = AHero->roundKillCount / Enemy_KillIncrease + 1;
 
     enemy->hp            = increase;
     enemy->speed         = AGLTool_ToGLWidth(35 + AMath_RandomInt(increase, increase * 3));
@@ -259,6 +281,10 @@ static Enemy* CreateWood(float x)
     enemy->dieMoveX      = 0.15f;
     enemy->dieMoveY      = 0.05f;
 
+    enemy->type          = EnemyType_Wood;
+
+    RandomSmallEnemey(enemy);
+
     return enemy;
 }
 
@@ -269,7 +295,7 @@ static Enemy* CreateWood(float x)
 typedef Enemy* (*Create)(float x);
 
 
-static Create creates[] =
+static Create Creates[Enemy_KindsNum] =
 {
     CreateWood,
 };
@@ -278,50 +304,89 @@ static Create creates[] =
 //----------------------------------------------------------------------------------------------------------------------
 
 
+static ArrayList(int) kinds[1]   = AArayList_InitFixed(int, Enemy_KindsNum, 0);
+static int            eachKindNum;
+static int            kindIndex;
+static int            createNum;
+
+
 static void CreateEnemy(Scheduler* scheduler, float deltaSeconds)
 {
     if (AHero->component->curState->id >= HeroState_Die)
     {
         scheduler->isCancel = true;
     }
-    else if
-    (
-        AEnemyAI->currentEnemyNum <
-        AHero->roundKillCount / KILL_INCREASE_SCALE + (int) AHero->roundTime / TIME_INCREASE_SCALE + 2
-    )
+    else
     {
-        float pos;
+        int num1 =       AHero->roundKillCount /  Enemy_KillIncrease;
+        int num2 = (int) AHero->roundTime      / (Enemy_TimeIncrease + num1 * 3) + 2;
+        int num3 = AEnemyAI->isHasBoss ? num2  / 2 : num2;
 
-        if (AMath_Random() > 0.5f)
+        if (AEnemyAI->currentEnemyNum < num3)
         {
-            pos =  AGLTool->screenRatio + 0.2f;
-        }
-        else
-        {
-            pos = -AGLTool->screenRatio - 0.2f;
-        }
+            float pos = AMath_RandomFloat(0.2f, 0.3f);
 
-        float  x        = ADrawable->ConvertToLocalX(AGameMap->beforeDrawable, pos);
-        int    n        = AMath_RandomInt(0, ENEMY_KINDS_COUNT - 1);
-        Enemy* enemy    = creates[n](x);
-        enemy->belongAI = sets[n];
+            if (AMath_Random() > 0.5f)
+            {
+                pos =  AGLTool->screenRatio + pos;
+            }
+            else
+            {
+                pos = -AGLTool->screenRatio - pos;
+            }
 
-        AArrayIntSet->TryAdd(sets[n], (intptr_t) enemy);
-        AEnemyAI->currentEnemyNum++;
+            if (kinds->size > 0)
+            {
+                if (eachKindNum == Enemy_EachKindInitNum)
+                {
+                    // random one kind of enemy
+                    int index = AMath_RandomInt(0, kinds->size - 1);
+
+                    kindIndex = AArrayList_Get(kinds, index, int);
+
+                    AArrayList->Remove(kinds, index);
+                }
+
+                --eachKindNum;
+
+                if (eachKindNum == 0)
+                {
+                    // one kind of enemy show over
+                    eachKindNum = Enemy_EachKindInitNum;
+                }
+            }
+            else
+            {
+                // random enemy after all kinds of enemy showed
+                kindIndex = AMath_RandomInt(0, Enemy_KindsNum - 1);
+            }
+
+            float  x        = ADrawable->ConvertToLocalPositionX(AGameMap->beforeDrawable, pos);
+            Enemy* enemy    = Creates  [kindIndex](x);
+            enemy->belongAI = enemySets[kindIndex];
+
+            AArrayIntSet->TryAdd(enemySets[kindIndex], (intptr_t) enemy);
+            ++AEnemyAI->currentEnemyNum;
+            ++createNum;
+
+            if (createNum % Enemy_BossInterval == 0)
+            {
+                enemy->isBoss       = true;
+                enemy->hp          *= Enemy_BossHPX;
+                enemy->speed       *= Enemy_BossSpeedX;
+                AEnemyAI->isHasBoss = true;
+                ADrawable_SetScaleSame2(AEnemy_GetDrawable(enemy), 1.3f);
+            }
+        }
     }
 }
 
 
 static void CreateCache(int kind)
 {
-    Enemy* enemy = creates[kind](-2.0f);
+    Enemy* enemy = Creates[kind](-2.0f);
 
-    AArrayList_Add
-    (
-        AEnemyAI->enemyDeadList,
-        enemy
-    );
-
+    AArrayList_Add(AEnemyAI->enemyDeadList, enemy);
     AComponent->SetActive(enemy->component, false);
 }
 
@@ -330,36 +395,46 @@ static void Init()
 {
     AEnemyAI->currentEnemyNum = 0;
     AEnemyAI->isInit          = true;
+    createNum                 = 0;
 
     AArrayList->Init(sizeof(Enemy*), AEnemyAI->enemyDeadList);
 
-    for (int i = 0; i < ENEMY_KINDS_COUNT; i++)
+    for (int i = 0; i < Enemy_KindsNum; ++i)
     {
-        AArrayIntSet->Init(sets[i]);
+        AArrayIntSet->Init(enemySets[i]);
     }
 }
 
 
 static void Run()
 {
-    AEnemyAI->isInit = false;
-    AScheduler->Schedule(EnemyAI,     1.0f);
-    AScheduler->Schedule(CreateEnemy, 0.5f);
+    AEnemyAI->isInit    = false;
+    AEnemyAI->isHasBoss = false;
+    eachKindNum         = Enemy_EachKindInitNum;
+    createNum           = 0;
+
+    AArrayList->Clear(kinds);
+    for (int i = 0; i < Enemy_KindsNum; ++i)
+    {
+        AArrayList_Add(kinds, i);
+    }
+
+    #ifndef APP_NO_ENEMY
+    AScheduler->Schedule(DoEnemyAI,   enemyDoAITime);
+    AScheduler->Schedule(CreateEnemy, enemyCreateTime);
+    #endif
 }
 
 
-static float moveDis;
-
-
-static void SetAllEnemy(int enemyState, float enemyMoveDis)
+static void SetAllEnemy(int enemyStateID, float enemyMoveDis)
 {
-    moveDis = enemyMoveDis;
+    float moveDis = enemyMoveDis;
 
-    for (int i = 0; i < ENEMY_KINDS_COUNT; i++)
+    for (int i = 0; i < Enemy_KindsNum; ++i)
     {
-        ArrayIntSet* enemySet = sets[i];
+        ArrayIntSet* enemySet = enemySets[i];
 
-        for (int j = 0; j < enemySet->elementList->size; j++)
+        for (int j = 0; j < enemySet->elementList->size; ++j)
         {
             Enemy* enemy = AArrayList_Get(enemySet->elementList, j, Enemy*);
 
@@ -368,10 +443,9 @@ static void SetAllEnemy(int enemyState, float enemyMoveDis)
                 continue;
             }
 
-
             Drawable* enemyDrawable = AEnemy_GetDrawable(enemy);
             Drawable* heroDrawable  = AHero_GetDrawable();
-            float     deltaX        = enemyDrawable->positionX - ADrawable->ConvertBetweenLocalX
+            float     deltaX        = enemyDrawable->positionX - ADrawable->ConvertBetweenLocalPositionX
                                                                  (
                                                                     heroDrawable->parent,
                                                                     heroDrawable->positionX,
@@ -384,19 +458,22 @@ static void SetAllEnemy(int enemyState, float enemyMoveDis)
             if (deltaX > 0.0f)
             {
                 dis = moveDis;
-                ADrawable_SetScaleX(enemyDrawable,  1.0f);
             }
             else
             {
                 dis = -moveDis;
-                ADrawable_SetScaleX(enemyDrawable, -1.0f);
+            }
+
+            if (deltaX * enemyDrawable->scaleX < 0)
+            {
+                ADrawable_SetScaleX(enemyDrawable, -enemyDrawable->scaleX);
             }
 
             ATween->TryRemoveAllActions(enemyDrawable);
 
-            if (enemyState != EnemyState_Null)
+            if (enemyStateID != EnemyState_Null)
             {
-                AComponent->SetState(enemy->component, enemyState);
+                AComponent->SetState(enemy->component, enemyStateID);
             }
 
             ATweenTool->AddMoveX   (dis, moveDis / enemy->speed)
@@ -410,13 +487,13 @@ static void SetAllEnemy(int enemyState, float enemyMoveDis)
 
 static void Restart()
 {
-    for (int i = 0; i < ENEMY_KINDS_COUNT; i++)
+    for (int i = 0; i < Enemy_KindsNum; ++i)
     {
-        ArrayIntSet* enemySet = sets[i];
+        ArrayIntSet* enemySet = enemySets[i];
 
         while (enemySet->elementList->size > 0)
         {
-            AEnemy->Delete(AArrayList_Get(enemySet->elementList, 0, Enemy*));
+            AEnemy->Destroy(AArrayList_Get(enemySet->elementList, 0, Enemy*));
         }
     }
 
@@ -425,12 +502,13 @@ static void Restart()
 
 
 struct AEnemyAI AEnemyAI[1] =
-{
-    {
-        .Init        = Init,
-        .Run         = Run,
-        .CreateCache = CreateCache,
-        .SetAllEnemy = SetAllEnemy,
-        .Restart     = Restart,
-     }
-};
+{{
+    .Init        = Init,
+    .Run         = Run,
+    .CreateCache = CreateCache,
+    .SetAllEnemy = SetAllEnemy,
+    .Restart     = Restart,
+}};
+
+
+#undef AskGod

@@ -1,0 +1,20 @@
+
+UIRecord-zh.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Close
+  rotate: false
+  xy: 2, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+Record
+  rotate: false
+  xy: 2, 20
+  size: 666, 540
+  orig: 666, 540
+  offset: 0, 0
+  index: -1

@@ -30,7 +30,7 @@ include_directories(
 add_library(
     Mojoc STATIC
 
-################ MojocToolkit ################
+################ MojocToolkit ####################
 
     ../../Toolkit/Toolkit.c
 
@@ -43,6 +43,7 @@ add_library(
     ../../Toolkit/Utils/ArrayStrMap.c
     ../../Toolkit/Utils/ArrayIntMap.c
     ../../Toolkit/Utils/ArrayIntSet.c
+    ../../Toolkit/Utils/ArrayStrSet.c
     ../../Toolkit/Utils/ArrayQueue.c
     ../../Toolkit/Utils/BufferReader.c
     ../../Toolkit/Utils/Json.c
@@ -50,10 +51,11 @@ add_library(
     ../../Toolkit/Utils/TweenTool.c
     ../../Toolkit/Utils/Coroutine.c
     ../../Toolkit/Utils/FileTool.c
+    ../../Toolkit/Utils/Thread.c
 
     ../../Toolkit/Platform/Android/File.c
 
-################ MojocGraphics ################
+################ MojocGraphics ###################
 
     ../../Graphics/Graphics.c
 
@@ -80,7 +82,7 @@ add_library(
     ../../Graphics/Utils/Image.c
     ../../Graphics/Tween/TweenDrawable.c
 
-################ MojocPhysics ################
+################ MojocPhysics ####################
 
     ../../Physics/PhysicsWorld.c
     ../../Physics/PhysicsBody.c
@@ -95,14 +97,13 @@ add_library(
     ../../Application/Input.c
     ../../Application/Platform/Android/NativeGlue.c
     ../../Application/Platform/Android/JniTool.c
+    ../../Application/Platform/Android/SystemInfo.c
+    ../../Application/Platform/Android/Vibrator.c
 
-################ MojocExtension ################
+################ MojocExtension ##################
 
     ../../Extension/Extension.c
-    ../../Extension/Particle/Particle.c
-    ../../Extension/Particle/ParticleEmitterData.c
-    ../../Extension/Particle/ParticleEmitter.c
-
+        
     ../../Extension/Spine/SkeletonData.c
     ../../Extension/Spine/SkeletonBone.c
     ../../Extension/Spine/Skeleton.c
@@ -114,7 +115,7 @@ add_library(
     ../../Extension/Font.c
     ../../Extension/DrawAtlas.c
 
-################ MojocAudio ################
+################ MojocAudio ######################
     ../../Audio/Platform/Android/Audio.c
 )
 

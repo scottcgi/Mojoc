@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2016-8-7
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2016-8-7
+ * Update   : 2019-1-19
+ * Author   : scott.cgi
  */
+
 
 #ifndef SUB_MESH_H
 #define SUB_MESH_H
@@ -16,69 +23,174 @@
 #include "Engine/Graphics/Draw/Quad.h"
 
 
+/**
+ * The child of Mesh that render part of Texture.
+ * 
+ * the SubMesh has an array of vertices,
+ * and each vertex has position (xyz), uv coordinates, and vertex indices.
+ */
 struct SubMesh
 {
     /**
-     * if regenerate, the drawable parent must visible
-     * or parent property will lost
+     * The base class for provide draw functions.
+     * if regenerate and the drawable parent invisible，then the parent influence will lost.
      */
-    Drawable     drawable[1];
+    Drawable      drawable[1];
 
     /**
-     * SubMesh coordinate under parent Mesh drawable matrix
-     * if SubMesh drawable has own parent, equivalent to the parent under Mesh drawable matrix
-     * so let parent Mesh coordinate equal world space will make SubMesh own parent coordinate understandable
+     * SubMesh coordinate under parent Mesh drawable matrix.
+     * if SubMesh drawable has own parent, equivalent to the own parent under Mesh drawable matrix.
+     * so if let parent Mesh coordinate equal world space, will make SubMesh own coordinate more understandable.
      */
     Mesh*         parent;
 
     /**
-     * Index in Mesh for Mesh ReorderAllChildren
+     * Index in Mesh, so change it will reorder SubMesh by Mesh ReorderAllChildren.
+     * default -1.
      */
     int           index;
+
+    /**
+     * The uv width in parent texture.
+     */
+    float         uvWidth;
+
+    /**
+     * The uv height in parent texture.
+     */
+    float         uvHeight;
 
 //----------------------------------------------------------------------------------------------------------------------
 
     Array(float*) positionArr[1];
     Array(float*) uvArr      [1];
-
-    /**
-     * Careful 4 byte aligned
-     */
     Array(short*) indexArr   [1];
 
 //----------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * All vertices count.
+     */
     int           vertexCount;
+
+    /**
+     * The vertex bytes data size.
+     */
+    int           vertexDataSize;
+
+    /**
+     * The index bytes data size.
+     */
+    int           indexDataSize;
+
+    /**
+     * The position bytes data size.
+     */
+    int           positionDataSize;
+
+    /**
+     * The uv bytes data size.
+     */
+    int           uvDataSize;
+
+    /**
+     * The index offset in parent Mesh indexArr.
+     */
     int           indexOffset;
 
+    /**
+     * The position bytes data offset in parent Mesh vertexArr.
+     */
     int           positionDataOffset;
+
+    /**
+     * The uv bytes data offset in parent Mesh vertexArr.
+     */
     int           uvDataOffset;
+
+    /**
+     * The rgb bytes data offset in parent Mesh vertexArr.
+     */
     int           rgbDataOffset;
+
+    /**
+     * The opacity bytes data offset in parent Mesh vertexArr.
+     */
     int           opacityDataOffset;
+
+    /**
+     * The index bytes data offset in parent Mesh indexArr.
+     */
     int           indexDataOffset;
 };
 
 
+/**
+ * Control SubMesh.
+ */
 struct ASubMesh
 {
     /**
-     * The positionArr(has x y z) uvArr and indexArr will copy in
+     * The positionArr (array of xyz), uvArr (array of uv), indexArr (one vertex one index) will copy into SubMesh,
+     * and all data create by one malloc.
      */
-    SubMesh* (*CreateWithData)(Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr);
+    SubMesh* (*CreateWithData)(Mesh* paren, Array(float)* positionArr, Array(float)* uvArr, Array(short)* indexArr);
 
     /**
-     * The positionArr uvArr and indexArr will calculate by Quad in Texture
+     * The positionArr, uvArr, indexArr will calculated with quad that in texture.
      */
-    SubMesh* (*CreateWithQuad)(Texture* texture, Quad* quad);
+    SubMesh* (*CreateWithQuad)(Mesh* parent, Quad* quad);
 
     /**
-     * Update SubMesh data by Quad
+     * Set uv data with quad that in parent texture.
      */
-    void     (*SetWithQuad)   (SubMesh* subMesh, Texture* texture, Quad* quad);
+    void     (*SetUVWithQuad) (SubMesh* subMesh, Quad* quad);
+
+    /**
+     * Deform SubMesh vertex position and uv.
+     * the positionDeformArr will add each position (x y).
+     * the uvDeformArr will add each uv.
+     * the vertices order is from left-top counterclockwise to right-top.
+     *
+     * positionDeformArr: if NULL will not deform.
+     *                    the length must equals vertex positions number (positionArr length).
+     *
+     * uvDeformArr      : if NULL will not deform.
+     *                    the length must equals vertex uvs number (uvArr length).
+     */
+    void    (*Deform)         (SubMesh* subMesh, Array(float)* positionDeformArr, Array(float)* uvDeformArr);
+
+    /**
+     * Same as Deform function but deform position and uv by index.
+     *
+     * indexArr: the index of position or uv array, and each vertex position or uv will deform.
+     *
+     * if deform position, then the indexArr length must equals positionDeformArr length.
+     * if deform uv, then the indexArr length must equals uvArr length.
+     * 
+     * if deform position and uv at same time, then the indexArr must give both of position and uv index,
+     * and the form like [position...position...uv...uv...],
+     * and the positionDeformArr length and uvDeformArr length that each equals half length of indexArr.
+     */
+    void    (*DeformByIndex)  (
+                                  SubMesh*      subMesh,
+                                  Array(float)* positionDeformArr,
+                                  Array(float)* uvDeformArr,
+                                  Array(int)*   indexArr
+                              );
 };
 
 
 extern struct ASubMesh ASubMesh[1];
+
+
+/**
+ * Draw SubMesh.
+ */
+static inline void ASubMesh_Draw(SubMesh* subMesh)
+{
+    ADrawable->Draw(subMesh->drawable);
+}
 
 
 #endif

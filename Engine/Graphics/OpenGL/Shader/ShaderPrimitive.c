@@ -1,15 +1,22 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2014-2-26
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2014-2-26
+ * Update   : 2019-1-24
+ * Author   : scott.cgi
  *
  */
 
+
 #include <stdbool.h>
-#include "Engine/Toolkit/Head/String.h"
+#include "Engine/Toolkit/HeaderUtils/String.h"
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderPrimitive.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -17,14 +24,14 @@
 #include "Engine/Graphics/OpenGL/Shader/Shader.h"
 
 
-static void Use(Matrix4* mvpMatrix, Color* color, GLint pointSize)
+static void Use(Matrix4* mvpMatrix, Color* color, GLfloat pointSize)
 {
     if (AShader->program != AShaderPrimitive->program)
     {
         AShader->program = AShaderPrimitive->program;
 
         glUseProgram             (AShaderPrimitive->program);
-        glEnableVertexAttribArray(AShaderPrimitive->attribPosition);
+        glEnableVertexAttribArray((GLuint) AShaderPrimitive->attribPosition);
     }
 
     // passed matrix into shader program
@@ -54,18 +61,18 @@ static void Init()
 
         AString_Make
         (
-            precision lowp float;
+            precision highp float;
             uniform   vec4  uColor;
 
             void main()
             {
-              gl_FragColor = uColor;
+                gl_FragColor = uColor;
             }
         )
     );
 
     // get the attribute locations
-    AShaderPrimitive->attribPosition   = glGetAttribLocation(AShaderPrimitive->program,  "aPosition");
+    AShaderPrimitive->attribPosition   = glGetAttribLocation (AShaderPrimitive->program, "aPosition");
     AShaderPrimitive->uniformMVPMatrix = glGetUniformLocation(AShaderPrimitive->program, "uMVPMatrix");
     AShaderPrimitive->uniformColor     = glGetUniformLocation(AShaderPrimitive->program, "uColor");
     AShaderPrimitive->uniformPointSize = glGetUniformLocation(AShaderPrimitive->program, "uPointSize");
@@ -73,28 +80,26 @@ static void Init()
     ALog_A
     (
         AShaderPrimitive->uniformMVPMatrix != -1,
-        "AShaderPrimitive could not glGetUniformLocation for uMVPMatrix"
+        "AShaderPrimitive could not glGetUniformLocation for uniformMVPMatrix"
     );
 
     ALog_A
     (
         AShaderPrimitive->uniformColor != -1,
-        "AShaderPrimitive could not glGetUniformLocation for uColor"
+        "AShaderPrimitive could not glGetUniformLocation for uniformColor"
     );
 
     ALog_A
     (
         AShaderPrimitive->uniformPointSize != -1,
-        "AShaderPrimitive could not glGetUniformLocation for uPointSize"
+        "AShaderPrimitive could not glGetUniformLocation for uniformPointSize"
     );
 }
 
 
 struct AShaderPrimitive AShaderPrimitive[1] =
-{
-    {
-        .Use  = Use,
-        .Init = Init,
-    }
-};
+{{
+    .Use  = Use,
+    .Init = Init,
+}};
 

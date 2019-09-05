@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2015-6-5
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2015-6-5
+ * Update   : 2019-1-17
+ * Author   : scott.cgi
  */
+
 
 #include <stdlib.h>
 #include "Engine/Toolkit/Utils/ArrayQueue.h"
@@ -14,7 +21,7 @@
 
 static void* Push(ArrayQueue* arrayQueue, void* elementPtr)
 {
-    if (arrayQueue->topIndex > 0 && arrayQueue->topIndex == arrayQueue->elementList->elementArray->length)
+    if (arrayQueue->topIndex > 0 && arrayQueue->topIndex == arrayQueue->elementList->elementArr->length)
     {
         AArrayList->RemoveRange(arrayQueue->elementList, 0, arrayQueue->topIndex - 1);
         arrayQueue->topIndex = 0;
@@ -31,8 +38,8 @@ static void* Pop(ArrayQueue* arrayQueue, void* defaultElementPtr)
         return defaultElementPtr;
     }
 
-    return (char*) arrayQueue->elementList->elementArray->data +
-                   arrayQueue->elementList->elementTypeSize    *
+    return (char*) arrayQueue->elementList->elementArr->data +
+                   arrayQueue->elementList->elementTypeSize  *
                    (arrayQueue->topIndex++);
 }
 
@@ -74,7 +81,7 @@ static void InitWithCapacity(int elementTypeSize, int capacity, ArrayQueue* outA
 
 static ArrayQueue* CreateWithCapacity(int elementTypeSize, int capacity)
 {
-    ArrayQueue* arrayQueue = (ArrayQueue*) malloc(sizeof(ArrayQueue));
+    ArrayQueue* arrayQueue = malloc(sizeof(ArrayQueue));
     InitWithCapacity(elementTypeSize, capacity, arrayQueue);
 
     return arrayQueue;
@@ -101,7 +108,7 @@ static void Clear(ArrayQueue* arrayQueue)
 
 
 struct AArrayQueue AArrayQueue[1] =
-{
+{{
     Create,
     Init,
     CreateWithCapacity,
@@ -112,4 +119,4 @@ struct AArrayQueue AArrayQueue[1] =
     Pop,
     RemoveAt,
     Clear,
-};
+}};

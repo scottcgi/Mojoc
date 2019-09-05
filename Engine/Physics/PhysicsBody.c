@@ -1,79 +1,75 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2014-6-3
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2014-6-3
+ * Update   : 2019-1-18
+ * Author   : scott.cgi
  */
+
 
 #include <string.h>
 #include "Engine/Physics/PhysicsBody.h"
 #include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Physics/PhysicsWorld.h"
 
 
-static inline void Init(PhysicsBody* body)
+static inline PhysicsBody* CreateBody(Array(float)* vertexArr, PhysicsShape shape)
 {
+    int          size = sizeof(float) * vertexArr->length;
+    PhysicsBody* body = malloc(sizeof(PhysicsBody) + (size << 1));
+
+    body->vertexArr->length = vertexArr->length;
+    body->vertexArr->data   = (char*) body + sizeof(PhysicsBody);
+    memcpy(body->vertexArr->data, vertexArr->data, (size_t) size);
+
+    body->transformedVertexArr->length = vertexArr->length;
+    body->transformedVertexArr->data   = (char*) body->vertexArr->data + size;
+    memcpy(body->transformedVertexArr->data, vertexArr->data, (size_t) size);
+
     AUserData_Init(body->userData);
 
-    body->userId         =  -1;
-    body->positionX      =  0.0f;
-    body->positionY      =  0.0f;
-    body->velocityX      =  0.0f;
-    body->velocityY      =  0.0f;
-    body->accelerationX  =  0.0f;
-    body->accelerationY  =  0.0f;
-    body->rotationZ      =  0.0f;
-    body->shape          = -1;
-    body->state          =  0;
-    body->collisionGroup =  0;
-    body->OnCollision    =  NULL;
+    body->userID         = -1;
+    body->positionX      = 0.0f;
+    body->positionY      = 0.0f;
+    body->velocityX      = 0.0f;
+    body->velocityY      = 0.0f;
+    body->accelerationX  = 0.0f;
+    body->accelerationY  = 0.0f;
+    body->rotationZ      = 0.0f;
+    body->shape          = shape;
+    body->state          = PhysicsBodyState_OutsideWorld;
+    body->collisionGroup = 0;
+    body->OnCollision    = NULL;
+
+    return body;
 }
 
 
 static inline PhysicsBody* CreateWithPolygon(Array(float)* vertexArr)
 {
-    ALog_A(vertexArr->length >= 6, "PhysicsShape_Polygon vertex length (each contains x, y) must more than 6");
-
-    int          size         = sizeof(float) * vertexArr->length;
-    PhysicsBody* body         = (PhysicsBody*) malloc(sizeof(PhysicsBody) + (size << 1));
-
-    Init(body);
-
-    body->shape               = PhysicsShape_Polygon;
-    body->vertexArr->length   = vertexArr->length;
-    body->vertexArr->data     = (char*) body + sizeof(PhysicsBody);
-    memcpy(body->vertexArr->data,  vertexArr->data, size);
-
-    body->positionArr->length = vertexArr->length;
-    body->positionArr->data   = (char*) body->vertexArr->data + size;
-    memcpy(body->positionArr->data, vertexArr->data, size);
-
-    return body;
+    ALog_A(vertexArr->length >= 6, "PhysicsShape_Polygon vertexArr length must more than 6 (vertex contains x, y).");
+    return CreateBody(vertexArr, PhysicsShape_Polygon);
 }
 
 
 static inline PhysicsBody* CreateWithLine(Array(float)* vertexArr)
 {
-    ALog_A(vertexArr->length == 4, "PhysicsShape_Line vertex length must 4");
-
-    int          size         = sizeof(float) * vertexArr->length;
-    PhysicsBody* body         = (PhysicsBody*) malloc(sizeof(PhysicsBody) + (size << 1));
-
-    Init(body);
-
-    body->shape               = PhysicsShape_Line;
-    body->vertexArr->length   = vertexArr->length;
-    body->vertexArr->data     = (char*) body + sizeof(PhysicsBody);
-    memcpy(body->vertexArr->data,  vertexArr->data, size);
+    ALog_A(vertexArr->length == 4, "PhysicsShape_Line vertexArr length must equal 4 (vertex contains x, y).");
+    return CreateBody(vertexArr, PhysicsShape_Line);
+}
 
 
-    body->positionArr->length = vertexArr->length;
-    body->positionArr->data   = (char*) body->vertexArr->data + size;
-    memcpy(body->positionArr->data, vertexArr->data, size);
-
-
-    return body;
+static inline PhysicsBody* CreateWithPoint(Array(float)* vertexArr)
+{
+    ALog_A(vertexArr->length == 2, "PhysicsShape_Point vertexArr length must equal 2 (vertex contains x, y).");
+    return CreateBody(vertexArr, PhysicsShape_Point);
 }
 
 
@@ -81,14 +77,20 @@ static PhysicsBody* Create(PhysicsShape shape, Array(float)* vertexArr)
 {
     switch (shape)
     {
+        case PhysicsShape_NULL:
+            break;
+
         case PhysicsShape_Polygon:
             return CreateWithPolygon(vertexArr);
 
         case PhysicsShape_Line:
             return CreateWithLine(vertexArr);
 
+        case PhysicsShape_Point:
+            return CreateWithPoint(vertexArr);
+
         default:
-            ALog_A(false, "APhysicsBody Create with unknown shape = %d", shape);
+            ALog_E("APhysicsBody Create with unknown shape = %d", shape);
             break;
     }
 
@@ -96,26 +98,62 @@ static PhysicsBody* Create(PhysicsShape shape, Array(float)* vertexArr)
 }
 
 
-static void UpdateMotion2D(PhysicsBody* body, float deltaSeconds)
+static void ResetVertices(PhysicsBody* body)
 {
-    float  cos       = AMath_Cos(body->rotationZ);
-    float  sin       = AMath_Sin(body->rotationZ);
-    float* positions = AArray_GetData(body->positionArr, float);
-    float* vertices  = AArray_GetData(body->vertexArr,   float);
+    memcpy
+    (
+        body->transformedVertexArr->data,
+        body->vertexArr->data,
+        body->transformedVertexArr->length * sizeof(float)
+    );
+}
 
-    for (int i = 0; i < body->positionArr->length; i += 2)
+
+static void Update(PhysicsBody* body, float deltaSeconds)
+{
+    // cache v0
+    float vx           = body->velocityX;
+    float vy           = body->velocityY;
+
+    // get final velocity in x and y direction
+    // v1 = at + v0
+    body->velocityX   += (body->accelerationX + APhysicsWorld->gravity.x) * deltaSeconds;
+    body->velocityY   += (body->accelerationY + APhysicsWorld->gravity.y) * deltaSeconds;
+
+    // get delta distance in x and y indirection
+    // s = (v0 + v1) * t / 2
+    float dx           = (body->velocityX + vx) * deltaSeconds * 0.5f;
+    float dy           = (body->velocityY + vy) * deltaSeconds * 0.5f;
+
+    // increase x and y distance
+    body->positionX   += dx;
+    body->positionY   += dy;
+    body->rotationZ    = AMath_Atan2(dx, dy);
+                      
+    float  cosRZ       = AMath_Cos(body->rotationZ);
+    float  sinRZ       = AMath_Sin(body->rotationZ);
+    float* vertices    = body->vertexArr->data;
+    float* transformed = body->transformedVertexArr->data;
+
+    for (int i = 0; i < body->transformedVertexArr->length; i += 2)
     {
-        float x          = vertices[i];
-        float y          = vertices[i + 1];
+        float x = vertices[i];
+        float y = vertices[i + 1];
 
-        positions[i]     = x * cos - y * sin + body->positionX;
-        positions[i + 1] = x * sin + y * cos + body->positionY;
+        transformed[i]     = x * cosRZ - y * sinRZ + body->positionX;
+        transformed[i + 1] = x * sinRZ + y * cosRZ + body->positionY;
+    }
+
+//  if (AMath_TestFloatEqual(body->velocityX, 0.0f) && AMath_TestFloatEqual(body->velocityY, 0.0f))
+    {
+        // stop motion
     }
 }
 
 
 struct APhysicsBody APhysicsBody[1] =
-{
+{{
     Create,
-    UpdateMotion2D,
-};
+    ResetVertices,
+    Update,
+}};

@@ -1,25 +1,36 @@
 /*
- * Copyright (c) 2017-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-1-20
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-1-20
+ * Update   : 2019-2-16
+ * Author   : scott.cgi
  */
+
 
 #include <stdio.h>
 #include <string.h>
 
-#include "Engine/Graphics/OpenGL/Sprite.h"
 #include "Engine/Toolkit/Utils/TweenTool.h"
 #include "Engine/Audio/Platform/Audio.h"
-#include "Engine/Graphics/Graphics.h"
 #include "Engine/Application/Application.h"
 #include "Engine/Application/Scheduler.h"
+#include "Engine/Application/Platform/SystemInfo.h"
 #include "Engine/Extension/Font.h"
 #include "Engine/Toolkit/Utils/Coroutine.h"
 #include "Engine/Graphics/OpenGL/Camera.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
+#include "Engine/Graphics/Graphics.h"
+#include "Engine/Graphics/OpenGL/Platform/gl3.h"
+#include "Engine/Toolkit/Utils/FileTool.h"
+#include "Engine/Toolkit/Platform/Log.h"
+#include "Engine/Graphics/OpenGL/Sprite.h"
 
 #include "GameMap.h"
 #include "Hero.h"
@@ -30,12 +41,21 @@
 #include "UI.h"
 #include "GameData.h"
 #include "AudioTool.h"
+#include "ADTool.h"
+#include "Config.h"
 
 
-static Font*      font;
-static FontText*  loadingText;
-static Scheduler* loadingScheduler;
-static Sprite*    logoSprite = NULL;
+static const char* saveDataFileName = "MojocSampleSupperLittleRed";
+static int         progressSize     = AppInit_FunctionsCount + Enemy_KindsNum * Enemy_EachKindInitNum;
+static GLbitfield  clearBits        = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT;
+static Font*       font;
+static FontText*   loadingText;
+static Scheduler*  loadingScheduler;
+static Sprite*     logoSprite;
+
+
+typedef void (*InitFunction)(void);
+static InitFunction InitFunctions[AppInit_FunctionsCount];
 
 
 static void LoadingUpdate(Scheduler* scheduler, float deltaSeconds)
@@ -55,34 +75,27 @@ static void LoadingUpdate(Scheduler* scheduler, float deltaSeconds)
 }
 
 
-#define INIT_FUNCTION_COUNT 6
-static void (*Inits[INIT_FUNCTION_COUNT])();
-static int  progressSize = INIT_FUNCTION_COUNT + ENEMY_KINDS_COUNT * 5;
-
-
 static void LoadingRun(Coroutine* coroutine)
 {
     static int progress = 0;
 
-//----------------------------------------------------------------------------------------------------------------------
-
     ACoroutine_Begin();
 
-    ATweenTool->AddFadeTo (1.0f, 2.5f)->SetRelative(false)->RunActions(logoSprite->drawable);
-    ACoroutine_YieldSeconds(2.5f);
+    ATweenTool->AddFadeTo(1.0f, 2.5f)->SetEaseType(TweenEaseType_BounceOut)->RunActions(logoSprite->drawable);
+    ACoroutine_YieldSeconds(3.5f);
 
-    ATweenTool->AddFadeTo (0.0f, 1.5f)->SetRelative(false)->RunActions(logoSprite->drawable);
-    ACoroutine_YieldSeconds(1.5f);
+    ATweenTool->AddFadeTo(-1.0f, 0.8f)->RunActions(logoSprite->drawable);
+    ACoroutine_YieldSeconds(0.8f);
 
-    for (; progress < progressSize; progress++)
+    for (; progress < progressSize; ++progress)
     {
-        if (progress < INIT_FUNCTION_COUNT)
+        if (progress < AppInit_FunctionsCount)
         {
-            Inits[progress]();
+            InitFunctions[progress]();
         }
         else
         {
-             AEnemyAI->CreateCache((progress - INIT_FUNCTION_COUNT) / 5);
+             AEnemyAI->CreateCache((progress - AppInit_FunctionsCount) / Enemy_EachKindInitNum);
         }
 
         char buff[5];
@@ -95,19 +108,43 @@ static void LoadingRun(Coroutine* coroutine)
             loadingText->drawable->width / 2
         );
 
-        ACoroutine_YieldFrames(1);
+        ACoroutine_YieldFrames(0);
     }
 
     ACoroutine_YieldSeconds(1.0f);
-
     ACoroutine_End();
 
-//----------------------------------------------------------------------------------------------------------------------
-
     loadingScheduler->isCancel = true;
-    AFont->Reuse(font);
+    AFont->Release(font);
     AHUD->Run();
 }
+
+
+static void InitLanguageCode()
+{
+    char outLanguageCode[2];
+    ASystemInfo->GetLanguageCode(outLanguageCode);
+
+    if (outLanguageCode[0] == 'z' && outLanguageCode[1] == 'h')
+    {
+        ATool->languageCode = LanguageCode_zh;
+    }
+}
+
+
+static void InitWithSavedData()
+{
+    long  size;
+    void* data = AFileTool->CreateDataFromRelative(saveDataFileName, &size);
+
+    if (data != NULL)
+    {
+        memcpy(AGameData, data, (size_t) size);
+        free(data);
+    }
+
+    ++AGameData->playGameCount;
+}                                                              
 
 
 static void OnReady()
@@ -116,42 +153,34 @@ static void OnReady()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     AGraphics->SetUseVAO      (true);
-    AGraphics->SetUseMapBuffer(false);
-
-//----------------------------------------------------------------------------------------------------------------------
+    AGraphics->SetUseMapBuffer(true);
 
     memcpy
     (
-        Inits,
-        (
-            (void (*[])())
-            {
-                AGameMap->Init,
-                AHero->Init,
-                AGameActor->Init,
-                AHUD->Init,
-                AUI->Init,
-                AEnemyAI->Init,
-            }
-        ),
-        INIT_FUNCTION_COUNT * sizeof(void*)
+        InitFunctions,
+        (InitFunction[AppInit_FunctionsCount])
+        {
+            InitLanguageCode,
+            InitWithSavedData,
+            AGameMap->Init,
+            AHero->Init,
+            AGameActor->Init,
+            AHUD->Init,
+            AUI->Init,
+            AEnemyAI->Init,
+        },
+        AppInit_FunctionsCount * sizeof(void*)
     );
+
+    ATool->globalScaleX = AGLTool->screenWidth  / Screen_DesignWidth;
+    ATool->globalScaleY = AGLTool->screenHeight / Screen_DesignHeight;
 
     font        = AFont->Get("Font/hp.atlas");
     loadingText = AFont->GetText(font);
     loadingText->alignment = FontTextAlignment_HorizontalRight;
+    ADrawable_SetScale2(loadingText->drawable, ATool->globalScaleX, ATool->globalScaleY);
 
-    ATool->globalScaleX = AGLTool->screenWidth  / SCREEN_DESIGN_WIDTH;
-    ATool->globalScaleY = AGLTool->screenHeight / SCREEN_DESIGN_HEIGHT;
-
-    ADrawable_SetScale2
-    (
-        loadingText->drawable,
-        ATool->globalScaleX,
-        ATool->globalScaleY
-    );
-
-    logoSprite       = ASprite->CreateWithFile("Texture/Logo.png");
+    logoSprite = ASprite->CreateWithFile("Texture/Logo.png");
     ADrawable_SetOpacity(logoSprite->drawable, 0.0f);
 
     loadingScheduler = AScheduler->Schedule(LoadingUpdate, 0.0f);
@@ -202,30 +231,31 @@ static void OnResume()
 
 static void OnDestroy()
 {
-
 }
 
 
-static void OnSaveData(void** outSaveData, int* outLength)
+static void OnSaveData(void* param)
 {
-    *outSaveData = AGameData;
-    *outLength   = sizeof(AGameData);
+    AFileTool->WriteDataToRelative(saveDataFileName, AGameData, sizeof(struct AGameData));
 }
 
 
-static void OnInitWithSavedData(void* savedData, int length)
+static void Update(Component* component, float deltaSeconds)
 {
-    memcpy(AGameData, savedData, length);
+    glClear(clearBits);
 }
 
 
-void Application_Main()
+
+void Application_MainImpl()
 {
-    AApplication->callbacks->OnReady             = OnReady;
-    AApplication->callbacks->OnPause             = OnPause;
-    AApplication->callbacks->OnResume            = OnResume;
-    AApplication->callbacks->OnDestroy           = OnDestroy;
-    AApplication->callbacks->OnResized           = OnResized;
-    AApplication->callbacks->OnSaveData          = OnSaveData;
-    AApplication->callbacks->OnInitWithSavedData = OnInitWithSavedData;
+    AApplication->rootComponent->defaultState->Update = Update;
+
+    AApplication->callbacks->OnReady    = OnReady;
+    AApplication->callbacks->OnPause    = OnPause;
+    AApplication->callbacks->OnResume   = OnResume;
+    AApplication->callbacks->OnDestroy  = OnDestroy;
+    AApplication->callbacks->OnResized  = OnResized;
+    AApplication->callbacks->OnSaveData = OnSaveData;
 }
+

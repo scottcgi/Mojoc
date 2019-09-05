@@ -9,14 +9,14 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 #####################################################################
 
 add_subdirectory(
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../Engine/Build/Android/
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../Engine/Build/Android/Bin/
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../../Mojoc/Engine/Build/Android/
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../../Mojoc/Engine/Build/Android/Bin/
 )
 
 #####################################################################
 
 include_directories(
-     ../../../../../
+     ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../../Mojoc/
      ../../
 )
 
@@ -36,6 +36,7 @@ add_library(
     ../../UI.c
     ../../GameData.c
     ../../AudioTool.c
+    ../../ADTool.c
 )
 
 

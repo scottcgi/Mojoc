@@ -6,77 +6,91 @@ filter: Linear,Linear
 repeat: none
 Coin
   rotate: false
-  xy: 2, 2
+  xy: 126, 106
   size: 30, 31
   orig: 30, 31
   offset: 0, 0
   index: -1
 EnergyLength
   rotate: false
-  xy: 1017, 184
+  xy: 1017, 186
   size: 5, 61
   orig: 5, 61
   offset: 0, 0
   index: -1
 EnergySlot
   rotate: false
-  xy: 2, 35
+  xy: 2, 37
   size: 60, 135
   orig: 60, 135
   offset: 0, 0
   index: -1
 Heart
   rotate: false
-  xy: 964, 172
+  xy: 964, 174
   size: 30, 26
   orig: 30, 26
   offset: 0, 0
   index: -1
 Kill
   rotate: false
-  xy: 126, 140
+  xy: 163, 142
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
   index: -1
 Pointer
   rotate: false
-  xy: 64, 37
+  xy: 64, 39
   size: 17, 15
   orig: 17, 15
   offset: 0, 0
   index: -1
 Stone
   rotate: false
-  xy: 64, 54
+  xy: 64, 56
   size: 43, 42
   orig: 43, 42
   offset: 0, 0
   index: -1
+Stone2
+  rotate: false
+  xy: 126, 139
+  size: 35, 33
+  orig: 35, 33
+  offset: 0, 0
+  index: -1
 Tombstone
   rotate: false
-  xy: 64, 98
+  xy: 64, 100
   size: 60, 72
   orig: 60, 72
   offset: 0, 0
   index: -1
 Wood
   rotate: false
-  xy: 964, 200
+  xy: 964, 202
   size: 51, 45
   orig: 51, 45
   offset: 0, 0
   index: -1
+Wood2
+  rotate: false
+  xy: 2, 2
+  size: 40, 33
+  orig: 40, 33
+  offset: 0, 0
+  index: -1
 down
   rotate: false
-  xy: 2, 204
+  xy: 2, 206
   size: 960, 41
   orig: 960, 41
   offset: 0, 0
   index: -1
 up
   rotate: false
-  xy: 2, 172
+  xy: 2, 174
   size: 960, 30
   orig: 960, 30
   offset: 0, 0

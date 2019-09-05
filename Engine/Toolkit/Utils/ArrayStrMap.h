@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-5-20
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-5-20
+ * Update   : 2019-1-14
+ * Author   : scott.cgi
  */
+
 
 #ifndef ARRAY_STR_MAP_H
 #define ARRAY_STR_MAP_H
@@ -15,39 +22,52 @@
 #include "Engine/Toolkit/Utils/ArrayList.h"
 
 
+/**
+ * The actual element store in ArrayStrMap.
+ */
 typedef struct
 {
-    char*  key;
+    /**
+     * ArrayStrMap value's key.
+     * the key data will copy into ArrayStrMapElement malloc space.
+     */
+    const char* key;
 
     /**
-     * length of key include '\0'
+     * The length of key, include '\0'.
      */
-    int    keyLength;
+    int         keyLength;
 
     /**
-     * ArrayStrMap value pointer
-     * value data copy into ArrayStrMapElement
+     * ArrayStrMap value pointer.
+     * the value data copy into ArrayStrMapElement malloc space.
      */
-    void*  valuePtr;
+    void*       valuePtr;
 }
 ArrayStrMapElement;
 
 
+/**
+ * A list of elements each of which is a k-v pair.
+ */
 typedef struct
 {
     /**
-     * The sizeof ArrayStrMap value type
+     * The sizeof ArrayStrMap value type.
      */
     int                            valueTypeSize;
 
     /**
-     * Hold all ArrayStrMapElement
+     * Store all ArrayStrMapElements.
      */
     ArrayList(ArrayStrMapElement*) elementList[1];
 }
 ArrayStrMap;
 
 
+/**
+ * Control ArrayStrMap.
+ */
 struct AArrayStrMap
 {
     ArrayStrMap* (*Create)             (int valueTypeSize);
@@ -56,76 +76,77 @@ struct AArrayStrMap
     ArrayStrMap* (*CreateWithCapacity) (int valueTypeSize, int capacity);
     void         (*InitWithCapacity)   (int valueTypeSize, int capacity, ArrayStrMap* outArrayStrMap);
 
-    void         (*Release)            (ArrayStrMap*  arrayStrMap);
+    void         (*Release)            (ArrayStrMap* arrayStrMap);
 
     /**
-     * Put key and value from valuePtr into ArrayStrMap
+     * Try put key and value of valuePtr into ArrayStrMap.
      *
-     * valuePtr: point to value
+     * valuePtr: point to value.
      *
      * if key not exist in ArrayStrMap
      *     return valuePtr in ArrayStrMap
      * else
      *     return NULL
      */
-    void*        (*TryPut)             (ArrayStrMap* arrayStrMap, char* key, void* valuePtr);
+    void*        (*TryPut)             (ArrayStrMap* arrayStrMap, const char* key, void* valuePtr);
 
     /**
-     * Get valuePtr by key, if no key found return defaultValuePtr
+     * Get valuePtr by key, if no key found return defaultValuePtr.
      */
-    void*        (*Get)                (ArrayStrMap* arrayStrMap, char* key, void* defaultValuePtr);
+    void*        (*Get)                (ArrayStrMap* arrayStrMap, const char* key, void* defaultValuePtr);
 
     /**
-     * Set new value from valuePtr by key
+     * Try set new value of valuePtr to element by key.
      *
      * if key exist in ArrayStrMap
      *     return valuePtr in ArrayStrMap
      * else
      *     return NULL
      */
-    void*        (*TrySet)             (ArrayStrMap* arrayStrMap, char* key, void* valuePtr);
+    void*        (*TrySet)             (ArrayStrMap* arrayStrMap, const char* key, void* valuePtr);
 
     /**
-     * Remove value by key
-     * return true success, false failed
+     * Remove element by key.
+     * return true success, false failed.
      */
-    bool         (*TryRemove)          (ArrayStrMap* arrayStrMap, char* key);
+    bool         (*TryRemove)          (ArrayStrMap* arrayStrMap, const char* key);
 
     /**
-     * Clear all value, reset size 0, and keep memory space
+     * Clear all elements, reset size to 0, and keep memory space.
      */
     void         (*Clear)              (ArrayStrMap* arrayStrMap);
 
     /**
-     * Insert value from valuePtr at index, the possible index may be -getIndex() - 1
-     * return valuePtr in ArrayStrMap
+     * Insert value of valuePtr at index, the possible index is (-getIndex() - 1).
+     * return valuePtr in ArrayStrMap.
      */
-    void*        (*InsertAt)           (ArrayStrMap* arrayStrMap, char* key, int index, void* valuePtr);
+    void*        (*InsertAt)           (ArrayStrMap* arrayStrMap, const char* key, int index, void* valuePtr);
 
     /**
-     * Get index of key, if negative not found then return -insertIndex - 1
-     * so insert index is -getIndex() - 1
+     * Get index of key.
+     * if negative means not found the element by key, and return (-insertIndex - 1),
+     * so the insert index is (-getIndex() - 1).
      */
-    int          (*GetIndex)           (ArrayStrMap* arrayStrMap, char* key);
+    int          (*GetIndex)           (ArrayStrMap* arrayStrMap, const char* key);
 
     /**
-     * Get key at index
+     * Get key at index.
      */
-    char*        (*GetKey)             (ArrayStrMap* arrayStrMap, int index);
+    const char*  (*GetKey)             (ArrayStrMap* arrayStrMap, int index);
 
     /**
-     * Get valuePtr at index
+     * Get valuePtr at index.
      */
     void*        (*GetAt)              (ArrayStrMap* arrayStrMap, int index);
 
     /**
-     * Set value from valuePtr at index
-     * return valuePtr in ArrayStrMap
+     * Set value of valuePtr at index.
+     * return valuePtr in ArrayStrMap.
      */
     void*        (*SetAt)              (ArrayStrMap* arrayStrMap, int index, void* valuePtr);
 
     /**
-     * Remove value at index
+     * Remove element at index.
      */
     void         (*RemoveAt)           (ArrayStrMap* arrayStrMap, int index);
 };
@@ -135,88 +156,86 @@ extern struct AArrayStrMap AArrayStrMap[1];
 
 
 /**
- * Get key in ArrayStrMapElement by valuePtr with valueTypeSize
+ * Get key in ArrayStrMapElement by valuePtr and valueTypeSize.
  */
-static inline char* AArrayStrMap_GetKey(void* valuePtr, int valueTypeSize)
+static inline const char* AArrayStrMap_GetKey(void* valuePtr, int valueTypeSize)
 {
-    return (char*) valuePtr + valueTypeSize;
+    return (const char*) valuePtr + valueTypeSize;
 }
 
 
 /**
- * Marked ArrayStrMap key and value
+ * Marked ArrayStrMap key and value.
  */
-#define ArrayStrMap(keyName, valueType) ArrayStrMap
+#define ArrayStrMap(keyName, ValueType) ArrayStrMap
 
 
 /**
- * Initialize constant ArrayStrMap
- * use like ArrayStrMap map[1] = AArrayStrMap_Init(valueType, increase)
+ * Init constant ArrayStrMap.
+ * example: ArrayStrMap map[1] = AArrayStrMap_Init(ValueType, increase)
  */
-#define AArrayStrMap_Init(valueType, increase)              \
-    {                                                       \
-        {                                                   \
-            sizeof(valueType),                              \
-            AArrayList_Init(ArrayStrMapElement*, increase), \
-          }                                                 \
+#define AArrayStrMap_Init(ValueType, increase)          \
+    {                                                   \
+        sizeof(ValueType),                              \
+        AArrayList_Init(ArrayStrMapElement*, increase), \
     }
 
 
 /**
- * Shortcut of ArrayStrMap->TryPut
+ * Shortcut of ArrayStrMap->TryPut.
  */
 #define AArrayStrMap_TryPut(arrayStrMap, key, value) \
     AArrayStrMap->TryPut(arrayStrMap, key, &(value))
 
 
 /**
- * Shortcut of AArrayStrMap->Get
- * return value
+ * Shortcut of AArrayStrMap->Get.
+ * return value.
  */
-#define AArrayStrMap_Get(arrayStrMap, key, valueType) \
-    (*(valueType*) AArrayStrMap->Get(arrayStrMap, key, NULL_PTR))
+#define AArrayStrMap_Get(arrayStrMap, key, ValueType) \
+    (*(ValueType*) AArrayStrMap->Get(arrayStrMap, key, NULL_PTR))
 
 
 /**
- * Shortcut of AArrayStrMap->Get
- * return valuePtr
+ * Shortcut of AArrayStrMap->Get.
+ * return valuePtr.
  */
-#define AArrayStrMap_GetPtr(arrayStrMap, key, valueType) \
-    ((valueType*) AArrayStrMap->Get(arrayStrMap, key, NULL))
+#define AArrayStrMap_GetPtr(arrayStrMap, key, ValueType) \
+    ((ValueType*) AArrayStrMap->Get(arrayStrMap, key, NULL))
 
 
 /**
- * Shortcut of AArrayStrMap->TrySet
+ * Shortcut of AArrayStrMap->TrySet.
  */
 #define AArrayStrMap_TrySet(arrayStrMap, key, value) \
     AArrayStrMap->TrySet(arrayStrMap, key, &(value));
 
 
 /**
- * Shortcut of AArrayStrMap->InsertAt
+ * Shortcut of AArrayStrMap->InsertAt.
  */
 #define AArrayStrMap_InsertAt(arrayStrMap, key, index, value) \
     AArrayStrMap->InsertAt(arrayStrMap, key, index, &(value))
 
 
 /**
- * Shortcut of AArrayStrMap->GetAt
- * return value
+ * Shortcut of AArrayStrMap->GetAt.
+ * return value.
  */
-#define AArrayStrMap_GetAt(arrayStrMap, index, valueType) \
-    (*(valueType*) AArrayStrMap->GetAt(arrayStrMap, index))
+#define AArrayStrMap_GetAt(arrayStrMap, index, ValueType) \
+    (*(ValueType*) AArrayStrMap->GetAt(arrayStrMap, index))
 
 
 /**
- * Shortcut of AArrayStrMap->GetAt
- * return valuePtr
+ * Shortcut of AArrayStrMap->GetAt.
+ * return valuePtr.
  */
-#define AArrayStrMap_GetPtrAt(arrayStrMap, index, valueType) \
-    ((valueType*) AArrayStrMap->GetAt(arrayStrMap, index))
+#define AArrayStrMap_GetPtrAt(arrayStrMap, index, ValueType) \
+    ((ValueType*) AArrayStrMap->GetAt(arrayStrMap, index))
 
 
 /**
- * Shortcut of AArrayStrMap->SetAt
+ * Shortcut of AArrayStrMap->SetAt.
  */
 #define AArrayStrMap_SetAt(arrayStrMap, index, value) \
     AArrayStrMap->SetAt(arrayStrMap, index, &(value))

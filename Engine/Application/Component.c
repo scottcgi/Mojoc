@@ -1,15 +1,21 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2015-8-19
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2015-8-19
+ * Update   : 2019-1-27
+ * Author   : scott.cgi
  */
+
 
 #include <string.h>
 #include <stdlib.h>
-
 #include "Engine/Toolkit/Utils/ArrayIntSet.h"
 #include "Engine/Application/Component.h"
 #include "Engine/Toolkit/Platform/Log.h"
@@ -19,10 +25,10 @@ static void Init(Component* outComponent)
 {
     AUserData_Init(outComponent->userData);
 
-    outComponent->order         = 0;
-    outComponent->deltaOrder    = 100;
-    outComponent->parent        = NULL;
-    outComponent->isActive      = true;
+    outComponent->order        = 0;
+    outComponent->deltaOrder   = 100;
+    outComponent->parent       = NULL;
+    outComponent->isActive     = true;
 
     AArrayIntMap->Init(sizeof(Component*), outComponent->childMap);
     AArrayIntSet->Init(outComponent->observerSet);
@@ -38,7 +44,7 @@ static void Init(Component* outComponent)
 
 static Component* Create()
 {
-    Component* component = (Component*) malloc(sizeof(Component));
+    Component* component = malloc(sizeof(Component));
     Init(component);
 
     return component;
@@ -50,12 +56,16 @@ static void Release(Component* component)
     AArrayIntMap->Release(component->childMap);
     AArrayIntSet->Release(component->observerSet);
 
-    for (int i = 0; i < component->stateMap->elementList->size; i++)
+    for (int i = 0; i < component->stateMap->elementList->size; ++i)
     {
         free(AArrayIntMap_GetAt(component->stateMap, i, ComponentState*));
     }
 
     AArrayIntMap->Release(component->stateMap);
+
+    component->defaultState = NULL;
+    component->curState     = NULL;
+    component->preState     = NULL;
 }
 
 
@@ -64,7 +74,7 @@ static void Release(Component* component)
 
 static void AddChild(Component* parent, Component* child, int order)
 {
-    ALog_A(parent != NULL && child != NULL, "AComponent AddChild failed, parent and child can not NULL");
+    ALog_A(parent != NULL && child != NULL, "AComponent AddChild failed, parent and child cannot NULL");
     ALog_A(child->parent == NULL,           "AComponent AddChild failed, child already has parent");
 
     if (AArrayIntMap_TryPut(parent->childMap, order, child) != NULL)
@@ -81,7 +91,7 @@ static void AddChild(Component* parent, Component* child, int order)
 
 static void AppendChild(Component* parent, Component* child)
 {
-    ALog_A(parent != NULL && child != NULL, "AComponent AppendChild failed, parent and child can not NULL");
+    ALog_A(parent != NULL && child != NULL, "AComponent AppendChild failed, parent and child cannot NULL");
 
     int order;
 
@@ -106,15 +116,15 @@ static void AppendChild(Component* parent, Component* child)
 
 static void RemoveChild(Component* parent, Component* child)
 {
-    ALog_A(parent!= NULL && child != NULL, "AComponent RemoveChild failed, parent and child can not NULL");
+    ALog_A(parent!= NULL && child != NULL, "AComponent RemoveChild failed, parent and child cannot NULL");
 
     bool isRemoved = AArrayIntMap->TryRemove(parent->childMap, child->order);
 
     ALog_A
     (
         isRemoved,
-        "AComponent can not found child by order = %d, "
-        "may forget called ReorderAllChildren when changed order",
+        "AComponent cannot found child by order = %d, "
+        "may forget called ReorderAllChildren after changed order",
         child->order
     );
 
@@ -124,9 +134,9 @@ static void RemoveChild(Component* parent, Component* child)
 
 static void RemoveAllChildren(Component* parent)
 {
-    ALog_A(parent != NULL, "AComponent RemoveAllChildren failed, parent can not NULL");
+    ALog_A(parent != NULL, "AComponent RemoveAllChildren failed, parent cannot NULL");
 
-    for (int i = 0; i < parent->childMap->elementList->size; i++)
+    for (int i = 0; i < parent->childMap->elementList->size; ++i)
     {
         Component* child = AArrayIntMap_GetAt(parent->childMap, i, Component*);
         child->parent    = NULL;
@@ -140,7 +150,7 @@ static int Compare(const void* a, const void* b)
 {
     int keyA = (int) (*(ArrayIntMapElement**) a)->key;
     int keyB = (int) (*(ArrayIntMapElement**) b)->key;
-    ALog_A(keyA != keyB, "AComponent ReorderAllChildren failed, Two child has same order = %d", keyA);
+    ALog_A(keyA != keyB, "AComponent ReorderAllChildren failed, two child has same order = %d", keyA);
 
     return keyA - keyB;
 }
@@ -149,7 +159,7 @@ static int Compare(const void* a, const void* b)
 static void ReorderAllChildren(Component* parent)
 {
     // renew all children key
-    for (int i = 0; i < parent->childMap->elementList->size; i++)
+    for (int i = 0; i < parent->childMap->elementList->size; ++i)
     {
         ArrayIntMapElement* element = AArrayList_Get(parent->childMap->elementList, i, ArrayIntMapElement*);
         element->key                = (*(Component**) element->valuePtr)->order;
@@ -157,8 +167,8 @@ static void ReorderAllChildren(Component* parent)
 
     qsort
     (
-        parent->childMap->elementList->elementArray->data,
-        parent->childMap->elementList->size,
+        parent->childMap->elementList->elementArr->data,
+        (size_t) parent->childMap->elementList->size,
         sizeof(ArrayIntMapElement*),
         Compare
     );
@@ -170,25 +180,25 @@ static void ReorderAllChildren(Component* parent)
 
 static void AddObserver(Component* sender, Component* observer)
 {
-    ALog_A(sender != NULL && observer != NULL, "AComponent AddObserver failed, sender and observer can not NULL");
+    ALog_A(sender != NULL && observer != NULL, "AComponent AddObserver failed, sender and observer cannot NULL");
 
     if (AArrayIntSet->TryAdd(sender->observerSet, (intptr_t) observer) == false)
     {
-        ALog_A(false, "AComponent AddObserver failed, observer already exist in sender");
+        ALog_A(false, "AComponent AddObserver failed, observer %p already exist in sender", observer);
     }
 }
 
 
 static void RemoveObserver(Component* sender, Component* observer)
 {
-    ALog_A(sender != NULL && observer != NULL, "AComponent RemoveObserver failed, sender and observer can not NULL");
+    ALog_A(sender != NULL && observer != NULL, "AComponent RemoveObserver failed, sender and observer cannot NULL");
 
     bool isRemoved = AArrayIntSet->TryRemove(sender->observerSet, (intptr_t) observer);
 
     ALog_A
     (
         isRemoved,
-        "AComponent RemoveObserver sender can not found observer = %p",
+        "AComponent RemoveObserver sender cannot found observer = %p",
         observer
     );
 }
@@ -198,18 +208,31 @@ static bool SendMessage(Component* component, void* sender, int subject, void* e
 {
     if (component->isActive)
     {
-        if (component->curState->OnMessage != NULL && component->curState->OnMessage(component, sender, subject, extraData))
+        if(component->curState->OnMessage != NULL)
         {
-            return true;
+            if (component->curState->OnMessage(component, sender, subject, extraData))
+            {
+                // stop message passing
+                return true;
+            }
         }
 
-        // big order first, the last update the first response
-        for (int i = component->childMap->elementList->size - 1; i > -1 ; i--)
+        // the order bigger the response first
+        for (int i = component->childMap->elementList->size - 1; i > -1 ; --i)
         {
-            // if in OnMessage method remove parent child more than twice
-            // the i index will overflow
-            if (AComponent->SendMessage(AArrayIntMap_GetAt(component->childMap, i, Component*), sender, subject, extraData))
+            if
+            (
+                // if in OnMessage removed parent child, the i index may overflow
+                AComponent->SendMessage
+                (
+                    AArrayIntMap_GetAt(component->childMap, i, Component*),
+                    sender,
+                    subject,
+                    extraData
+                )
+            )
             {
+                // stop message passing
                 return true;
             }
         }
@@ -221,22 +244,17 @@ static bool SendMessage(Component* component, void* sender, int subject, void* e
 
 static void Notify(Component* sender, int subject, void* extraData)
 {
-    ALog_A(sender != NULL, "AComponent Notify failed, sender can not NULL");
+    ALog_A(sender != NULL, "AComponent Notify failed, sender cannot NULL");
 
     if (sender->isActive)
     {
-        for (int i = 0; i < sender->observerSet->elementList->size; i++)
+        for (int i = 0; i < sender->observerSet->elementList->size; ++i)
         {
             Component* observer = AArrayList_Get(sender->observerSet->elementList, i, Component*);
 
-            if
-            (
-               observer->isActive                    &&
-               observer->curState->OnMessage != NULL &&
-               observer->curState->OnMessage(observer, sender, subject, extraData)
-            )
+            if (observer->isActive && observer->curState->OnMessage != NULL)
             {
-                break;
+                observer->curState->OnMessage(observer, sender, subject, extraData);
             }
         }
     }
@@ -246,12 +264,12 @@ static void Notify(Component* sender, int subject, void* extraData)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static void SetState(Component* component, int stateId)
+static void SetState(Component* component, int stateID)
 {
     if (component->isActive)
     {
-        ComponentState* state = AArrayIntMap_Get(component->stateMap, stateId, ComponentState*);
-        ALog_A(state != NULL, "AComponent SetState not found ComponentState by stateId = %d", stateId);
+        ComponentState* state = AArrayIntMap_Get(component->stateMap, stateID, ComponentState*);
+        ALog_A(state != NULL, "AComponent SetState not found ComponentState by stateID = %d", stateID);
 
         if (component->curState->OnMessage != NULL)
         {
@@ -269,21 +287,27 @@ static void SetState(Component* component, int stateId)
 }
 
 
-static ComponentState* AddState(Component* component, int stateId, ComponentStateOnMessage onMessage, ComponentStateUpdate update)
+static ComponentState* AddState
+(
+    Component*              component,
+    int                     stateID,
+    ComponentStateOnMessage OnMessage,
+    ComponentStateUpdate    Update
+)
 {
-    ALog_A(component != NULL, "AComponent AddState failed, component can not NULL");
+    ALog_A(component != NULL, "AComponent AddState failed, component cannot NULL");
 
-    int index = AArrayIntMap->GetIndex(component->stateMap, stateId);
-    ALog_A(index < 0, "AComponent AddState failed, stateId = %d already exist", stateId);
+    int index = AArrayIntMap->GetIndex(component->stateMap, stateID);
+    ALog_A(index < 0, "AComponent AddState failed, stateID = %d already exist", stateID);
 
-    ComponentState* state = (ComponentState*) malloc(sizeof(ComponentState));
-    state->id             = stateId;
-    state->Update         = update;
+    ComponentState* state = malloc(sizeof(ComponentState));
+    state->id             = stateID;
+    state->Update         = Update;
     state->UpdateAfter    = NULL;
-    state->OnMessage      = onMessage;
+    state->OnMessage      = OnMessage;
     AUserData_Init(state->userData);
 
-    AArrayIntMap_InsertAt(component->stateMap, stateId, -index - 1, state);
+    AArrayIntMap_InsertAt(component->stateMap, stateID, -index - 1, state);
 
     return state;
 }
@@ -296,7 +320,7 @@ static void SetActive(Component* component, bool isActive)
 {
     component->isActive = isActive;
 
-    for (int i = 0; i < component->childMap->elementList->size; i++)
+    for (int i = 0; i < component->childMap->elementList->size; ++i)
     {
         AArrayIntMap_GetAt(component->childMap, i, Component*)->isActive = isActive;
     }
@@ -341,7 +365,7 @@ static void Update(Component* component, float deltaSeconds)
 
 
 struct AComponent AComponent[1] =
-{
+{{
     Create,
     Init,
     Release,
@@ -361,4 +385,4 @@ struct AComponent AComponent[1] =
     AddState,
     SetActive,
     Update,
-};
+}};

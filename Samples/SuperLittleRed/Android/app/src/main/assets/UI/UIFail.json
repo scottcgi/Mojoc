@@ -1,17 +1,15 @@
 {
-"skeleton": { "hash": "A9kLWlQjQCS7pd9VQFw5BlzRZlE", "spine": "3.6.04-beta", "width": 507, "height": 500 },
+"skeleton": { "hash": "V/6rfzALCxBO0FSMmaMtecPEAjw", "spine": "3.7.91", "width": 507, "height": 500 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Fail", "parent": "root" },
 	{ "name": "Again", "parent": "Fail", "y": -147.89 },
-	{ "name": "Hit", "parent": "Fail", "x": -102.3, "y": -37.5 },
-	{ "name": "Kill", "parent": "Fail", "x": -102.27, "y": 27.8 },
+	{ "name": "Hit", "parent": "Fail", "x": -82.29, "y": -30.95 },
+	{ "name": "Kill", "parent": "Fail", "x": 74.96, "y": 34.35 },
 	{ "name": "Menu", "parent": "Fail", "x": -130.1, "y": -147.9 },
-	{ "name": "Score", "parent": "Fail", "x": 53.85, "y": 27.8 },
+	{ "name": "Score", "parent": "Fail", "x": -82.29, "y": 34.35 },
 	{ "name": "Store", "parent": "Fail", "x": 129.17, "y": -151.64 },
-	{ "name": "Time", "parent": "Fail", "x": 39.09, "y": -37.5 },
-	{ "name": "Tip1", "parent": "Fail", "y": 135 },
-	{ "name": "Tip2", "parent": "Fail", "x": 0.54, "y": 98 }
+	{ "name": "Time", "parent": "Fail", "x": 74.96, "y": -30.95 }
 ],
 "slots": [
 	{ "name": "FailBG", "bone": "Fail", "attachment": "FailBG" },
@@ -35,7 +33,7 @@
 			}
 		},
 		"FailBG": {
-			"FailBG": { "width": 507, "height": 500 }
+			"FailBG": { "x": 0.73, "width": 507, "height": 500 }
 		},
 		"Menu": {
 			"Menu": { "width": 96, "height": 98 }

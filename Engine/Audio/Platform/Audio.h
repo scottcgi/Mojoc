@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2017-2018 2012-2017 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2017-2-16
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2017-2-16
+ * Update   : 2019-1-7
+ * Author   : scott.cgi
  */
+
 
 #ifndef AUDIO_H
 #define AUDIO_H
@@ -14,48 +21,60 @@
 #include <stdbool.h>
 
 
+/**
+ * Play one audio file.
+ */
 typedef struct AudioPlayer AudioPlayer;
-struct AAudio
+
+/**
+ * Manage and control all AudioPlayers.
+ */
+struct  AAudio
 {
     /**
-     * Init audio engine
+     * Init audio engine.
      */
-    void         (*Init)            ();
+    void         (*Init)         (void);
 
     /**
-     * Destroy audio engine
+     * Destroy audio engine.
      */
-    void         (*Release)         ();
+    void         (*Release)      (void);
 
     /**
-     * Every frame update
+     * Every frame update by loop.
      */
-    void         (*Update)          (float deltaSeconds);
+    void         (*Update)       (float deltaSeconds);
 
     /**
-     * Pause all loop AudioPlayer
+     * Pause all looping AudioPlayer.
      */
-    void         (*SetLoopPause)    ();
+    void         (*SetLoopPause) (void);
 
     /**
-     * Resume all loop AudioPlayer
+     * Resume all looping AudioPlayer.
      */
-    void         (*SetLoopResume)   ();
+    void         (*SetLoopResume)(void);
 
     /**
-     * Cache by filePath
+     * AudioPlayer will cache by relativeFilePath.
+     *
+     * relativeFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
      */
-    AudioPlayer* (*GetPlayer)       (char* filePath);
+    AudioPlayer* (*GetPlayer)    (const char* relativeFilePath);
 
     /**
-     * The volume range in [0.0, 1.0]
+     * The volume range in [0.0, 1.0].
      */
-    void         (*SetVolume)       (AudioPlayer* player, float volume);
-    void         (*SetLoop)         (AudioPlayer* player, bool  isLoop);
+    void         (*SetVolume)    (AudioPlayer* player, float volume);
+    void         (*SetLoop)      (AudioPlayer* player, bool  isLoop);
 
-    void         (*SetPlay)         (AudioPlayer* player);
-    void         (*SetPause)        (AudioPlayer* player);
-    bool         (*IsPlaying)       (AudioPlayer* player);
+    void         (*Play)         (AudioPlayer* player);
+    void         (*Pause)        (AudioPlayer* player);
+    void         (*Stop)         (AudioPlayer* player);
+    bool         (*IsPlaying)    (AudioPlayer* player);
 };
 
 

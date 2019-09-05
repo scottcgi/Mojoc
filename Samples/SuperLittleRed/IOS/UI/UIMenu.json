@@ -1,0 +1,73 @@
+{
+"skeleton": { "hash": "+mj9k7aDyAEkSRGEQhi9lQIkds8", "spine": "3.6.53", "width": 358, "height": 540 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "BG", "parent": "root", "rotation": 0.09 },
+	{ "name": "Button", "parent": "BG" },
+	{ "name": "Record", "parent": "Button", "y": -86 },
+	{ "name": "Shop", "parent": "Button", "y": -12 },
+	{ "name": "Start", "parent": "Button", "y": 73 },
+	{ "name": "Tutorial", "parent": "Button", "y": -168 }
+],
+"slots": [
+	{ "name": "BG", "bone": "BG", "attachment": "BG" },
+	{ "name": "Start", "bone": "Start", "attachment": "Start" },
+	{ "name": "Shop", "bone": "Shop", "attachment": "Shop" },
+	{ "name": "StartBox", "bone": "Start", "attachment": "StartBox" },
+	{ "name": "ShopBox", "bone": "Shop", "attachment": "ShopBox" },
+	{ "name": "RecordBox", "bone": "Record", "attachment": "RecordBox" },
+	{ "name": "TutorialBox", "bone": "Tutorial", "attachment": "TutorialBox" },
+	{ "name": "Record", "bone": "Record", "attachment": "Record" },
+	{ "name": "Tutorial", "bone": "Tutorial", "attachment": "Tutorial" }
+],
+"skins": {
+	"default": {
+		"BG": {
+			"BG": { "rotation": -0.09, "width": 358, "height": 540 }
+		},
+		"Record": {
+			"Record": { "y": -4, "width": 145, "height": 51 }
+		},
+		"RecordBox": {
+			"RecordBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -72.5, 22, 74.5, 22, 71.5, -28, -72.5, -26 ]
+			}
+		},
+		"Shop": {
+			"Shop": { "width": 145, "height": 50 }
+		},
+		"ShopBox": {
+			"ShopBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -72.5, 24, 77.5, 24, 77.5, -27, -71.5, -26 ]
+			}
+		},
+		"Start": {
+			"Start": { "y": -5, "width": 145, "height": 52 }
+		},
+		"StartBox": {
+			"StartBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -72.5, 19, 74.5, 19, 73.5, -27, -72.5, -30 ]
+			}
+		},
+		"Tutorial": {
+			"Tutorial": { "y": -2, "width": 145, "height": 52 }
+		},
+		"TutorialBox": {
+			"TutorialBox": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -74.5, 25, 75.5, 23, 75.5, -26, -73.5, -28 ]
+			}
+		}
+	}
+},
+"animations": {
+	"animation": {}
+}
+}

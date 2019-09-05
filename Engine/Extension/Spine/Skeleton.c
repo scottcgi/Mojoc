@@ -1,16 +1,23 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-7-3
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Styleate.
+ *
+ * Since    : 2013-7-3
+ * Update   : 2019-2-14
+ * Author   : scott.cgi
  */
 
+
 #include "Engine/Extension/Spine/Skeleton.h"
-#include "Engine/Toolkit/Head/Struct.h"
+#include "Engine/Toolkit/HeaderUtils/Struct.h"
 #include "Engine/Toolkit/Platform/Log.h"
-#include "Engine/Toolkit/Head/Define.h"
+#include "Engine/Toolkit/HeaderUtils/Define.h"
 #include "Engine/Extension/Spine/SkeletonTimeline.h"
 #include "Engine/Graphics/OpenGL/SubMesh.h"
 
@@ -18,13 +25,13 @@
 static inline SubMesh* GetAttachmentSubMesh(Skeleton* skeleton, SkeletonAttachmentData* skeletonAttachmentData)
 {
     int meshIndex    = *(int*) (
-                                   (char*) (skeletonAttachmentData)->childPtr +
-                                   skeletonAttachmentMeshOffset[(skeletonAttachmentData)->type]
+                                   (char*) skeletonAttachmentData->childPtr +
+                                   skeletonAttachmentMeshOffset[skeletonAttachmentData->type]
                                );
 
     int subMeshIndex = *(int*) (
-                                   (char*) (skeletonAttachmentData)->childPtr +
-                                   skeletonAttachmentSubMeshOffset[(skeletonAttachmentData)->type]
+                                   (char*) skeletonAttachmentData->childPtr +
+                                   skeletonAttachmentSubMeshOffset[skeletonAttachmentData->type]
                                );
 
     return AArrayList_Get
@@ -44,12 +51,12 @@ static inline void InitBone(Skeleton* skeleton, SkeletonData* skeletonData)
     skeleton->boneArr              = AArray->Create(sizeof(SkeletonBone), skeletonData->boneDataOrderArr->length);
     AArrayStrMap->InitWithCapacity(sizeof(SkeletonBone*), skeletonData->boneDataOrderArr->length, boneMap);
 
-    SkeletonBone*      bones       = AArray_GetData(skeleton->boneArr,              SkeletonBone);
-    SkeletonBoneData** boneDatas   = AArray_GetData(skeletonData->boneDataOrderArr, SkeletonBoneData*);
+    SkeletonBone*      bones       = skeleton->boneArr->data;
+    SkeletonBoneData** bonesData   = skeletonData->boneDataOrderArr->data;
 
-    for (int i = 0; i < skeleton->boneArr->length; i++)
+    for (int i = 0; i < skeleton->boneArr->length; ++i)
     {
-        SkeletonBoneData* boneData = boneDatas[i];
+        SkeletonBoneData* boneData = bonesData[i];
         SkeletonBone*     bone     = bones + i;
         ASkeletonBone->Init(boneData, bone);
 
@@ -80,12 +87,12 @@ static inline void InitSlot(Skeleton* skeleton, SkeletonData* skeletonData)
 
     AArrayStrMap->InitWithCapacity(sizeof(SkeletonSlot*), skeletonData->slotDataOrderArr->length, slotMap);
 
-    SkeletonSlot**     slotOrders    = AArray_GetData(skeleton->slotOrderArr,         SkeletonSlot*);
-    SkeletonSlotData** slotDatas     = AArray_GetData(skeletonData->slotDataOrderArr, SkeletonSlotData*);
+    SkeletonSlot**     slotOrders    = skeleton->slotOrderArr->data;
+    SkeletonSlotData** slotsData     = skeletonData->slotDataOrderArr->data;
 
-    for (int i = 0; i < skeleton->slotArr->length; i++)
+    for (int i = 0; i < skeleton->slotArr->length; ++i)
     {
-        SkeletonSlotData* slotData   = slotDatas[i];
+        SkeletonSlotData* slotData   = slotsData[i];
         SkeletonSlot*     slot       = AArray_GetPtr(skeleton->slotArr, i, SkeletonSlot);
 
         ASkeletonSlot->Init(slotData, skeleton, slot);
@@ -97,7 +104,7 @@ static inline void InitSlot(Skeleton* skeleton, SkeletonData* skeletonData)
 }
 
 
-static void SetSkin(Skeleton* skeleton, char* skinName)
+static void SetSkin(Skeleton* skeleton, const char* skinName)
 {
     ArrayStrMap*      skinDataMap = skeleton->skeletonData->skinDataMap;
     SkeletonSkinData* skinData    = AArrayStrMap_Get(skinDataMap, skinName, SkeletonSkinData*);
@@ -112,7 +119,7 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
     if (skeleton->curSkinData != skeleton->skeletonData->skinDataDefault)
     {
         // first invisible before skin
-        for (int i = 0; i < skeleton->curSkinData->slotAttachmentMap->elementList->size; i++)
+        for (int i = 0; i < skeleton->curSkinData->slotAttachmentMap->elementList->size; ++i)
         {
             SkeletonSlot* slot = AArrayStrMap_Get
                                  (
@@ -127,7 +134,7 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
 
                 if (subMesh != NULL)
                 {
-                    ADrawable_SetInVisible(subMesh->drawable);
+                    ADrawable_SetInvisible(subMesh->drawable);
                 }
 
                 slot->attachmentData = NULL;
@@ -135,9 +142,7 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
         }
     }
 
-//----------------------------------------------------------------------------------------------------------------------
-
-    for (int i = 0; i < skinData->slotAttachmentMap->elementList->size; i++)
+    for (int i = 0; i < skinData->slotAttachmentMap->elementList->size; ++i)
     {
         SkeletonSlot* slot = AArrayStrMap_Get
                              (
@@ -167,29 +172,23 @@ static void SetSkin(Skeleton* skeleton, char* skinName)
 
 static void ResetBones(Skeleton* skeleton)
 {
-    for (int i = 0; i < skeleton->boneArr->length; i++)
+    for (int i = 0; i < skeleton->boneArr->length; ++i)
     {
-        ASkeletonBone->SetToSetupPose
-        (
-            AArray_GetPtr(skeleton->boneArr, i, SkeletonBone)
-        );
+        ASkeletonBone->SetToSetupPose(AArray_GetPtr(skeleton->boneArr, i, SkeletonBone));
     }
 }
 
 
 static void ResetSlots(Skeleton* skeleton)
 {
-    for (int i = 0; i < skeleton->slotOrderArr->length; i++)
+    for (int i = 0; i < skeleton->slotOrderArr->length; ++i)
     {
-        ASkeletonSlot->SetToSetupPose
-        (
-            AArray_Get(skeleton->slotOrderArr, i, SkeletonSlot*)
-        );
+        ASkeletonSlot->SetToSetupPose(AArray_Get(skeleton->slotOrderArr, i, SkeletonSlot*));
     }
 }
 
 
-static SkeletonAttachmentData* GetAttachmentData(Skeleton* skeleton, char* slotName, char* attachmentName)
+static SkeletonAttachmentData* GetAttachmentData(Skeleton* skeleton, const char* slotName, const char* attachmentName)
 {
     SkeletonAttachmentData* attachmentData = ASkeletonData->GetAttachmentDataBySkinData
                                              (
@@ -223,12 +222,12 @@ static void Release(Skeleton* skeleton)
     free(skeleton->slotOrderArr);
     skeleton->slotOrderArr = NULL;
 
-    for (int j = 0; j < skeleton->meshList->size; j++)
+    for (int j = 0; j < skeleton->meshList->size; ++j)
     {
         AMesh->Release(AArrayList_GetPtr(skeleton->meshList, j, Mesh));
     }
-    AArrayList->Release(skeleton->meshList);
-
+    
+    AArrayList  ->Release(skeleton->meshList);
     AArrayStrMap->Release(skeleton->boneMap);
     AArrayStrMap->Release(skeleton->slotMap);
 }
@@ -236,7 +235,7 @@ static void Release(Skeleton* skeleton)
 
 static void Apply(Skeleton* skeleton, SkeletonAnimationData* animationData, float time, float mixPercent)
 {
-    for (int i = 0; i < animationData->timelineArr->size; i++)
+    for (int i = 0; i < animationData->timelineArr->size; ++i)
     {
         SkeletonTimeline* timeline = AArrayList_Get(animationData->timelineArr, i, SkeletonTimeline*);
         timeline->Apply(timeline, skeleton, time, mixPercent);
@@ -246,19 +245,18 @@ static void Apply(Skeleton* skeleton, SkeletonAnimationData* animationData, floa
 
 static void Draw(Drawable* drawable)
 {
-    Skeleton* skeleton = AStruct_GetParent2(drawable, Skeleton);
+    Skeleton* skeleton = AStruct_GetParent(drawable, Skeleton);
 
-    for (int i = 0; i < skeleton->boneArr->length; i++)
+    for (int i = 0; i < skeleton->boneArr->length; ++i)
     {
         ADrawable->Draw(AArray_GetPtr(skeleton->boneArr, i, SkeletonBone)->drawable);
     }
 
-    Mesh*    preMesh      = NULL;
-    SubMesh* preSubMesh   = NULL;
-    SubMesh* startSubMesh = NULL;
-    SubMesh* subMesh;
+    Mesh* parent    = NULL;
+    int   fromIndex = 0;
+    int   toIndex   = 0;
 
-    for (int i = 0; i < skeleton->slotOrderArr->length; i++)
+    for (int i = 0; i < skeleton->slotOrderArr->length; ++i)
     {
         SkeletonSlot* slot = AArray_Get(skeleton->slotOrderArr, i, SkeletonSlot*);
 
@@ -267,27 +265,25 @@ static void Draw(Drawable* drawable)
             continue;
         }
 
-        subMesh = GetAttachmentSubMesh(skeleton, slot->attachmentData);
+        SubMesh* subMesh = GetAttachmentSubMesh(skeleton, slot->attachmentData);
 
-        if (subMesh->parent != preMesh)
+        if (subMesh->parent != parent)
         {
-            if (preMesh != NULL)
+            if (parent != NULL)
             {
-                AMesh_PushDrawRange(preSubMesh->parent, startSubMesh->index, preSubMesh->index);
-                ADrawable->Draw(preSubMesh->parent->drawable);
+                AMesh_DrawByIndex(parent, fromIndex, toIndex);
             }
 
-            startSubMesh = subMesh;
-            preMesh      = subMesh->parent;
+            fromIndex = subMesh->index;
+            parent    = subMesh->parent;
         }
-
-        preSubMesh = subMesh;
+        
+        toIndex = subMesh->index;
     }
 
-    if (preSubMesh != NULL)
+    if (parent != NULL)
     {
-        AMesh_PushDrawRange(preSubMesh->parent, startSubMesh->index, preSubMesh->index);
-        ADrawable->Draw(preSubMesh->parent->drawable);
+        AMesh_DrawByIndex(parent, fromIndex, toIndex);
     }
 }
 
@@ -296,7 +292,7 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
 {
     AArrayList->InitWithCapacity(sizeof(Mesh), skeletonData->textureAtlas->textureList->size, skeleton->meshList);
 
-    for (int i = 0; i < skeletonData->textureAtlas->textureList->size; i++)
+    for (int i = 0; i < skeletonData->textureAtlas->textureList->size; ++i)
     {
         Texture* texture = AArrayList_Get      (skeletonData->textureAtlas->textureList, i, Texture*);
         Mesh*    mesh    = AArrayList_GetPtrAdd(skeleton->meshList, Mesh);
@@ -304,33 +300,39 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
         AMesh->Init(texture, mesh);
     }
 
-    for (int i = 0; i < skeletonData->attachmentDataList->size; i++)
+    for (int i = 0; i < skeletonData->attachmentDataList->size; ++i)
     {
-        SkeletonAttachmentData* attachmentData = AArrayList_Get(skeletonData->attachmentDataList, i, SkeletonAttachmentData*);
-        SubMesh*                subMesh        = NULL;
+        SkeletonAttachmentData* attachmentData = AArrayList_Get
+                                                 (
+                                                     skeletonData->attachmentDataList,
+                                                     i,
+                                                     SkeletonAttachmentData*
+                                                 );
+        
+        SubMesh* subMesh = NULL;
 
         switch (attachmentData->type)
         {
             case SkeletonAttachmentDataType_BoundingBox:
-                break;
+                continue;
                 
             case SkeletonAttachmentDataType_Region:
             {
-                SkeletonRegionAttachmentData* regionAttachmentData = (SkeletonRegionAttachmentData*) attachmentData->childPtr;
-                subMesh                                            =  AMesh->AddChildWithQuad
-                                                                      (
-                                                                         AArrayList_GetPtr
-                                                                         (
-                                                                             skeleton->meshList,
-                                                                             regionAttachmentData->meshIndex,
-                                                                             Mesh
-                                                                         ),
-                                                                         regionAttachmentData->quad
-                                                                      );
+                SkeletonRegionAttachmentData* regionAttachmentData = attachmentData->childPtr;
+                subMesh                                            = AMesh->AddChildWithQuad
+                                                                     (
+                                                                        AArrayList_GetPtr
+                                                                        (
+                                                                            skeleton->meshList,
+                                                                            regionAttachmentData->meshIndex,
+                                                                            Mesh
+                                                                        ),
+                                                                        regionAttachmentData->quad
+                                                                     );
 
                 if (ASkeletonData->scale != 1.0f)
                 {
-                    for (int l = 0; l < subMesh->positionArr->length; l++)
+                    for (int l = 0; l < subMesh->positionArr->length; ++l)
                     {
                         AArray_Get(subMesh->positionArr, l, float) *= ASkeletonData->scale;
                     }
@@ -342,31 +344,36 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
                 break;
             }
 
-            SkeletonMeshAttachmentData* meshData;
-
             case SkeletonAttachmentDataType_SkinnedMesh:
-                meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr)->meshAttachmentData;
-                
             case SkeletonAttachmentDataType_Mesh:
             {
-                meshData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
+                SkeletonMeshAttachmentData* meshData;
+
+                if (attachmentData->type == SkeletonAttachmentDataType_SkinnedMesh)
+                {
+                    meshData = ((SkeletonSkinnedMeshAttachmentData*) attachmentData->childPtr)->meshAttachmentData;
+                }
+                else
+                {
+                    meshData = (SkeletonMeshAttachmentData*) attachmentData->childPtr;
+                }
 
                 if (meshData->isUVMappedInTexture == false)
                 {
                     float texData[Quad_UVNum];
-                    AQuad->GetQuadUV
+                    AQuad->GetUV
                     (
                         meshData->quad,
                         AArrayList_Get(skeletonData->textureAtlas->textureList, meshData->meshIndex, Texture*),
                         texData
                     );
 
-                    float  left    = texData[0];
-                    float  top     = texData[1];
-                    float  width   = texData[4] - left;
-                    float  height  = texData[5] - top;
-
-                    float* uvs     = AArray_GetData(meshData->uvArr, float);
+                    float  left   = texData[0];
+                    float  top    = texData[1];
+                    float  width  = texData[4] - left;
+                    float  height = texData[5] - top;
+                    float* uvs    = meshData->uvArr->data;
+                    
                     for (int l = 0; l < meshData->uvArr->length; l += 2)
                     {
                         uvs[l]     = left + uvs[l]     * width;
@@ -400,10 +407,10 @@ static inline void InitMeshList(Skeleton* skeleton, SkeletonData* skeletonData)
         }
 
         // first born invisible
-        ADrawable_SetInVisible(subMesh->drawable);
+        ADrawable_SetInvisible(subMesh->drawable);
     }
 
-    for (int i = 0; i < skeleton->meshList->size; i++)
+    for (int i = 0; i < skeleton->meshList->size; ++i)
     {
         AMesh->GenerateBuffer(AArrayList_GetPtr(skeleton->meshList, i, Mesh));
     }
@@ -414,12 +421,12 @@ static void Init(SkeletonData* skeletonData, Skeleton* outSkeleton)
 {
     ADrawable->Init(outSkeleton->drawable);
 
-    outSkeleton->drawable->Draw     = Draw;
-    outSkeleton->drawable->width    = skeletonData->width;
-    outSkeleton->drawable->height   = skeletonData->height;
-    outSkeleton->skeletonData       = skeletonData;
-    outSkeleton->curSkinData        = outSkeleton->skeletonData->skinDataDefault;
-    outSkeleton->FireSkeletonEvent  = NULL;
+    outSkeleton->drawable->Draw    = Draw;
+    outSkeleton->drawable->width   = skeletonData->width;
+    outSkeleton->drawable->height  = skeletonData->height;
+    outSkeleton->skeletonData      = skeletonData;
+    outSkeleton->curSkinData       = outSkeleton->skeletonData->skinDataDefault;
+    outSkeleton->FireSkeletonEvent = NULL;
 
     InitMeshList(outSkeleton, skeletonData);
     InitBone    (outSkeleton, skeletonData);
@@ -432,7 +439,7 @@ static void Init(SkeletonData* skeletonData, Skeleton* outSkeleton)
 
 static Skeleton* Create(SkeletonData* skeletonData)
 {
-    Skeleton* skeleton = (Skeleton*) malloc(sizeof(Skeleton));
+    Skeleton* skeleton = malloc(sizeof(Skeleton));
     Init(skeletonData, skeleton);
 
     return skeleton;
@@ -440,7 +447,7 @@ static Skeleton* Create(SkeletonData* skeletonData)
 
 
 struct ASkeleton ASkeleton[1] =
-{
+{{
     Create,
     Init,
     Release,
@@ -450,4 +457,4 @@ struct ASkeleton ASkeleton[1] =
     GetAttachmentData,
     GetAttachmentSubMesh,
     Apply,
-};
+}};

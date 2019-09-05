@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-9-8
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-9-8
+ * Update   : 2019-1-19
+ * Author   : scott.cgi
  */
+
 
 #include "Engine/Graphics/Graphics.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderMesh.h"
@@ -56,10 +63,11 @@ static void SetUseMapBuffer(bool isUseMapBuffer)
 
 
 struct AGraphics AGraphics[1] =
-{
-    {
-        .Init            = Init,
-        .SetUseVAO       = SetUseVAO,
-        .SetUseMapBuffer = SetUseMapBuffer,
-    }
-};
+{{
+    false,
+    false,
+    false,
+    Init,
+    SetUseVAO,
+    SetUseMapBuffer,
+}};

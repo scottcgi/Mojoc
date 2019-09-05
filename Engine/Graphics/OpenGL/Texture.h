@@ -1,62 +1,72 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2012-12-29
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2012-12-29
+ * Update   : 2019-1-19
+ * Author   : scott.cgi
  */
+
 
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
 
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
-#include "Engine/Toolkit/Head/Define.h"
+#include "Engine/Toolkit/HeaderUtils/Define.h"
 
 
 typedef struct
 {
     /**
-     *  The openGL generated texture id
+     *  The openGL generated texture id.
      */
     GLuint id;
 
     /**
-     * The texture width
+     * The texture width.
      */
-    float  width;
+    float   width;
 
     /**
-     * The texture height
+     * The texture height.
      */
-    float  height;
+    float   height;
 
     /**
-     * All texture chaced in ArrayStrMap by filePath
-     *
-     * filePath: ArrayStrMap's key
+     * All texture cache in ArrayStrMap by filePath.
      */
-    char*  filePath;
+    const char* filePath;
 }
 Texture;
 
 
 /**
- * Cache all texture with filePath as key
+ * Manage and control Texture.
  */
 struct ATexture
 {
     /**
-     * Get Texture by filePath, not found will create one
+     * Get Texture by resourceFilePath, not found will create one.
+     *
+     * resourceFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
      */
-    Texture*  (*Get)    (char* filePath);
+    Texture*  (*Get)    (const char* resourceFilePath);
 
     /**
-     * Release texture memory both in GPU and CPU
-     * removed from cache
+     * Destroy texture memory both in GPU and CPU, and removed from cache.
+     *
+     * important: after Destroy the texture will be invalidated.
      */
-    void      (*Release)(Texture* texture);
+    void      (*Destroy)(Texture* texture);
 };
 
 

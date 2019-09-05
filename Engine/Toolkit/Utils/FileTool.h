@@ -1,12 +1,19 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2017-03-20
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2017-03-20
+ * Update   : 2019-1-8
+ * Author   : scott.cgi
  */
 
+ 
 #ifndef FILE_TOOL_H
 #define FILE_TOOL_H
 
@@ -15,86 +22,94 @@
 #include <stdio.h>
 
 
+/**
+ * A tool for access file by file string path.
+ */
 struct AFileTool
 {
     /**
-     * Get file directory length in file path string, include last slash '/' or '\\'
-     *
-     * return 0 when no directory
+     * Get file directory length in file path string, include last slash '/' or '\\'.
+     * return 0 when no directory.
      */
-    int   (*GetDirLength)      (char* filePath);
-
-//----------------------------------------------------------------------------------------------------------------------
+    int   (*GetDirLength)            (const char* filePath);
 
     /**
-     * Read all file data into malloc buffer, with close file
+     * Read all file data into malloc buffer, and close file.
      *
-     * return buffer pointer, need to free it after using
-     */
-    char* (*CreateDataFrom)    (char* absoluteFilePath, long* outLength);
-
-    /**
-     * Read all file data into malloc buffer, with '\0' end, with close file
-     *
-     * return buffer pointer, need to free it after using
-     */
-    char* (*CreateStringFrom)  (char* absoluteFilePath);
-
-//----------------------------------------------------------------------------------------------------------------------
-
-    /**
-     * Indirect use AFile
-     * read all file data into malloc buffer, with close file
-     *
-     * relativeFilePath:
-     *     Android: assets
-     *        IOS : NSBundle
-     *
-     * return buffer pointer, need to free it after using
-     */
-    char* (*CreateDataFromRes)  (char* relativeFilePath, long* outLength);
-
-    /**
-     * Indirect use AFile
-     * read all file data into malloc buffer, with '\0' end, with close file
-     *
-     * relativeFilePath:
-     *     Android: assets
-     *        IOS : NSBundle
-     *
-     * return buffer pointer, need to free it after using
-     */
-    char* (*CreateStringFromRes)(char* relativeFilePath);
-
-//----------------------------------------------------------------------------------------------------------------------
-
-    /**
-     * Indirect use AFile's GetAbsoluteDirPath()
-     * read all file data into malloc buffer, with close file
-     *
-     * relativeDirFilePath:
-     *     Android: internal data directory
-     *     IOS    : document data directory
+     * outSize: the create data size.
      *
      * if file not exist
      *     return NULL
      * else
-     *     return buffer pointer, need to free it after using
+     *     return buffer ptr, and need to free it after using.
      */
-    char* (*CreateDataFromDir)  (char* relativeDirFilePath, int* outLength);
-
+    void* (*CreateDataFromAbsolute)  (const char* absoluteFilePath, long* outSize);
 
     /**
-     * Indirect use AFile's GetAbsoluteDirPath()
-     * write data into relativeFilePath, with close file
+     * Read all file data into malloc buffer, end with '\0', and close file.
      *
-     * relativeDirFilePath:
+     * if file not exist
+     *     return NULL
+     * else
+     *     return buffer ptr, and need to free it after using.
+     */
+    char* (*CreateStringFromAbsolute)(const char* absoluteFilePath);
+
+    /**
+     * Indirect use AFile, read all file data into malloc buffer, and close file.
+     *
+     * outSize: the create data size.
+     *
+     * resourceFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
+     *
+     * return buffer ptr, and need to free it after using.
+     */
+    void* (*CreateDataFromResource)  (const char* resourceFilePath, long* outSize);
+
+    /**
+     * Indirect use AFile, read all file data into malloc buffer, end with '\0', and close file.
+     *
+     * resourceFilePath:
+     *     Android: assets
+     *     IOS    : NSBundle
+     *
+     * return buffer ptr, and need to free it after using.
+     */
+    char* (*CreateStringFromResource)(const char* resourceFilePath);
+
+    /**
+     * Read all file data into malloc buffer, and close file.
+     * the relativeFilePath is relative internalDataPath from AFile->GetInternalDataPath().
+     *
+     * internalDataPath:
      *     Android: internal data directory
      *     IOS    : document data directory
      *
-     * if file not exist will created
+     *  outSize: the create data size.
+     *
+     * if file not exist
+     *     return NULL
+     * else
+     *     return buffer ptr, and need to free it after using.
      */
-     void (*WriteDataToDir)     (char* relativeDirFilePath, void* data, int length);
+    void* (*CreateDataFromRelative)  (const char* relativeFilePath, long* outSize);
+
+    /**
+     * Write data into relativeDirFilePath, and close file.
+     * the relativeFilePath is relative internalDataPath from AFile->GetInternalDataPath().
+     *
+     * internalDataPath:
+     *     Android: internal data directory
+     *     IOS    : document data directory
+     *
+     * data: will be write to relativeFilePath
+     * size: the write data size
+     *
+     * if file not exist will created.
+     */
+     void (*WriteDataToRelative)     (const char* relativeFilePath, void* data, size_t size);
 };
 
 

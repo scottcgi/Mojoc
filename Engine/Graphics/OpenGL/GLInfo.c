@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-4-17
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-4-17
+ * Update   : 2019-1-24
+ * Author   : scott.cgi
  */
+
 
 #include <string.h>
 #include "Engine/Graphics/OpenGL/Platform/gl3.h"
@@ -15,15 +22,15 @@
 
 static void Init()
 {
-    char* vendor     = (char*) glGetString(GL_VENDOR);
-    char* renderer   = (char*) glGetString(GL_RENDERER);
-    char* version    = (char*) glGetString(GL_VERSION);
-    char* extensions = (char*) glGetString(GL_EXTENSIONS);
+    const char* version = (char*) glGetString(GL_VERSION);
 
     ALog_D
     (
         "vendor = %s \n renderer = %s \n version = %s \n extensions = %s",
-         vendor, renderer, version, extensions
+         glGetString(GL_VENDOR),
+         glGetString(GL_RENDERER),
+         version,
+         glGetString(GL_EXTENSIONS)
     );
 
     if(strstr(version, "OpenGL ES 3.") != NULL)
@@ -34,7 +41,8 @@ static void Init()
     {
         AGLInfo->version = 2.0f;
     }
-    
+
+
     glGetFloatv  (GL_ALIASED_POINT_SIZE_RANGE,          AGLInfo->pointSizeRange);
     glGetFloatv  (GL_ALIASED_LINE_WIDTH_RANGE,          AGLInfo->lineWidthRange);
 
@@ -49,8 +57,6 @@ static void Init()
 
 
 struct AGLInfo AGLInfo[1] =
-{
-    {
-        .Init = Init
-    }
-};
+{{
+    .Init = Init
+}};

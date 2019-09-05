@@ -1,11 +1,18 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2016-7-27
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2016-7-27
+ * Update   : 2019-1-31
+ * Author   : scott.cgi
  */
+
 
 #ifndef FONT_H
 #define FONT_H
@@ -16,31 +23,38 @@
 #include "Engine/Graphics/OpenGL/Mesh.h"
 
 
+/**
+ * Font implementation by TextureAtlas.
+ */
 typedef struct
 {
     /**
-     * Font used TextureAtlas
+     * the TextureAtlas that Font used.
      */
-    TextureAtlas*                       textureAtlas;
+    TextureAtlas*          textureAtlas;
 
     /**
-     * Font TextureAtlas used Mesh
+     * The Mesh that textureAtlas used.
      */
-    Mesh                                mesh             [1];
+    Mesh                   mesh[1];
 
     /**
-     * Cahce FontText
+     * Cache all FontTexts.
      */
-    ArrayIntSet(FontText*)              fontTextSet      [1];
+    ArrayIntSet(FontText*) fontTextSet[1];
 
     /**
-     * Font Mesh unused SubMesh list
+     * Font Mesh unused SubMesh list.
+     * released FontText's SubMesh will add into this.
      */
-    ArrayList  (SubMesh*)               unusedSubMeshList[1];
+    ArrayList  (SubMesh*)  unusedSubMeshList[1];
 }
 Font;
 
 
+/**
+ * FontText alignment type.
+ */
 typedef enum
 {
     FontTextAlignment_HorizontalLeft,
@@ -51,53 +65,70 @@ typedef enum
 FontTextAlignment;
 
 
+/**
+ * The text in font textureAtlas.
+ */
 typedef struct
 {
-    Drawable             drawable       [1];
+    /**
+     * The base class for provide draw functions.
+     */
+    Drawable            drawable[1];
 
     /**
-     * Default FontTextAlignment_HorizontalLeft
+     * Default FontTextAlignment_HorizontalLeft.
      */
-    FontTextAlignment    alignment;
+    FontTextAlignment   alignment;
 
     /**
-     * Default 0
+     * The spacing between chars, default 0.
      */
-    float                charSpacing;
+    float               charSpacing;
 
     /**
-     * FontText belongs Font
+     * The Font that FontText belongs to.
      */
-    Font*                font;
+    Font*               font;
 
     /**
-     * FontText unused SubMesh list
+     * The SubMesh list that FontText used.
      */
-    ArrayList(SubMesh*)  usedSubMeshList[1];
+    ArrayList(SubMesh*) usedSubMeshList[1];
 }
 FontText;
 
 
+/**
+ * Control Font and FontText.
+ */
 struct AFont
 {
-    Font*     (*Get)           (char* filePath);
+    /**
+     * Get Font by filePath.
+     *
+     * filePath:
+     *     Android: assets
+     *     IOS    : NSBundle
+     */
+    Font*     (*Get)           (const char* filePath);
     FontText* (*GetText)       (Font* font);
     void      (*Draw)          (Font* font);
 
-    void      (*SetString)     (FontText* text, char* str);
-    void      (*SetInt)        (FontText* text, int   num);
-    void      (*SetFloat)      (FontText* text, float num);
+    void      (*SetString)     (FontText* text, const char* str);
+    void      (*SetInt)        (FontText* text, int         num);
+    void      (*SetFloat)      (FontText* text, float       num);
 
     /**
-     * Make Font can reuse in Get method
-     * and release all FontText contained
+     * Make Font can reuse in Get method,
+     * and release all FontTexts.
      */
-    void      (*Reuse)         (Font* font);
+    void      (*Release)       (Font* font);
 
     /**
-     * Make FontText can reuse in GetText method
+     * Make FontText can reuse in GetText method.
+     * and add FontText's SubMesh into Font->unusedSubMeshList.
      */
-    void      (*ReuseText)     (FontText* text);
+    void      (*ReleaseText)   (FontText* text);
 };
 
 

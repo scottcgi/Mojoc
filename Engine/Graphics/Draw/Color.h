@@ -1,16 +1,26 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2013-2-1
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2013-2-1
+ * Update   : 2019-1-25
+ * Author   : scott.cgi
  */
+
 
 #ifndef COLOR_H
 #define COLOR_H
 
 
+/**
+ * RGBA between in [0.0f, 1.0f].
+ */
 typedef struct
 {
     float r;
@@ -24,7 +34,7 @@ Color;
 struct AColor
 {
     /**
-     * String format 000000 - ffffffff
+     * String format to 000000 - ffffffff
      */
     void (*SetWithString)(char* colorStr, Color* outColor);
 };
@@ -33,8 +43,24 @@ struct AColor
 extern struct AColor AColor[1];
 
 
+#define COLOR_RED   {1.0f, 0.0f, 0.0f, 1.0f}
+#define COLOR_GREED {0.0f, 1.0f, 0.0f, 1.0f}
+#define COLOR_BLUE  {0.0f, 0.0f, 1.0f, 1.0f}
 #define COLOR_WHITE {1.0f, 1.0f, 1.0f, 1.0f}
-#define COLOR_BLACK {0.0f, 0.0f, 0.0f, 0.0f}
+#define COLOR_BLACK {0.0f, 0.0f, 0.0f, 1.0f}
+
+#define COLOR_RED_ARRAY   (Color[1]) {1.0f, 0.0f, 0.0f, 1.0f}
+#define COLOR_GREED_ARRAY (Color[1]) {0.0f, 1.0f, 0.0f, 1.0f}
+#define COLOR_BLUE_ARRAY  (Color[1]) {0.0f, 0.0f, 1.0f, 1.0f}
+#define COLOR_WHITE_ARRAY (Color[1]) {1.0f, 1.0f, 1.0f, 1.0f}
+#define COLOR_BLACK_ARRAY (Color[1]) {0.0f, 0.0f, 0.0f, 1.0f}
+
+
+/**
+ * Construct Color composite literal.
+ */
+#define AColor_Make(r, g, b, a) \
+   (Color[1]) {{r, g, b, a}}
 
 
 #endif

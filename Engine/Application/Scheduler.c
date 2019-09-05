@@ -1,14 +1,21 @@
 /*
- * Copyright (c) 2012-2018 scott.cgi All Rights Reserved.
+ * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
- * This code is licensed under the MIT License.
+ * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
+ * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
  *
- * Since : 2014-1-16
- * Author: scott.cgi
+ * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
+ * GitHub   : https://github.com/scottcgi/Mojoc
+ * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ *
+ * Since    : 2014-1-16
+ * Update   : 2019-1-25
+ * Author   : scott.cgi
  */
 
+
 #include <stdlib.h>
-#include "Engine/Toolkit/Head/Define.h"
+#include "Engine/Toolkit/HeaderUtils/Define.h"
 #include "Engine/Application/Scheduler.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Toolkit/Utils/ArrayList.h"
@@ -26,7 +33,7 @@ static inline Scheduler* GetScheduler(SchedulerUpdate Update, float intervalTime
 
     if (scheduler == NULL)
     {
-        scheduler = (Scheduler*) malloc(sizeof(Scheduler));
+        scheduler = malloc(sizeof(Scheduler));
     }
 
     AUserData_Init(scheduler->userData);
@@ -58,7 +65,7 @@ static Scheduler* ScheduleOnce(SchedulerUpdate Update, float intervalTime)
 
 static void Update(float deltaSeconds)
 {
-    for (int i = schedulerRun->size - 1; i > -1; i--)
+    for (int i = schedulerRun->size - 1; i > -1; --i)
     {
         Scheduler* scheduler = AArrayList_Get(schedulerRun, i, Scheduler*);
 
@@ -85,8 +92,8 @@ static void Update(float deltaSeconds)
 
 
 struct AScheduler AScheduler[1] =
-{
+{{
     Schedule,
     ScheduleOnce,
     Update,
-};
+}};
