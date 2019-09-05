@@ -1,8 +1,10 @@
 
 package com.Mojoc.Samples.SuperLittleRed;
 
+import android.app.Activity;
 import android.app.NativeActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -17,7 +19,7 @@ public class GameActivity extends NativeActivity {
     
     @Override
     protected void onCreate (Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
+        super.onCreate(savedInstanceState);
     }
 
 
@@ -49,8 +51,16 @@ public class GameActivity extends NativeActivity {
                 this.exitTime = System.currentTimeMillis();
             } else {
                 this.onDestroy();
-                this.finish();
-                System.exit(0);
+                final Activity local = this;
+
+                // wait for onDestroy finish
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        local.finish();
+                        System.exit(0);
+                    }
+                }, 1000);
             }
 
             return true;

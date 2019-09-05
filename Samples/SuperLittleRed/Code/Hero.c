@@ -1422,8 +1422,8 @@ static inline void InitProperty()
     AHero->roundScore      = 0;
     AHero->roundTime       = 0.0f;
 
-    AGameData->dressIndex  = AMath_RandomInt(0, StoreDress_Length);
-    AGameData->weaponIndex = AMath_RandomInt(0, StoreWeapon_Length);
+    AGameData->dressIndex  = AMath_RandomInt(0, StoreDress_Length  - 1);
+    AGameData->weaponIndex = AMath_RandomInt(0, StoreWeapon_Length - 1);
 
     char buff[20];
     sprintf(buff, "%s%s", AUIStore->dressNames[AGameData->dressIndex], AUIStore->weaponNames[AGameData->weaponIndex]);
