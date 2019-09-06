@@ -26,13 +26,13 @@ Less is more, simple is better, simplify complex ideas.
 
 * The only programming skill needed is the C99 language.
 * In platform-independent code, Mojoc uses only the standard C library, no dependence on third-party libraries.
-* Mojoc has its own unique coding style. 
-  * [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style)
+* Mojoc has its own unique coding style.
+  * [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style).
 * Mojoc uses an extremely lightweight OOC (Object Oriented C) programming model. 
   * [Mojoc OOC Model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C))
 * Mojoc application architecture is based on components, state-machines and is message-driven. 
   * [Mojoc Component Architecture](https://github.com/scottcgi/Mojoc/wiki/Component-Architecture)
-* For more feature details see 
+* More feature details. 
   * [Mojoc Code Details](https://github.com/scottcgi/Mojoc/wiki/Code-Details)
   
     
@@ -73,7 +73,7 @@ Please check out the wiki [Quick Start](https://github.com/scottcgi/Mojoc/wiki) 
   The c stand for the C language.
     
 * #### Who designed the logo and what is its meaning?
-  I designed it. The logo is an unknown creature made up of `Mojoc` letters.
+  I designed it. The logo is an unknown creature made up of `'Mojoc'` letters.
   ```
   M : ears  
   OO: eyes  
@@ -86,7 +86,7 @@ Please check out the wiki [Quick Start](https://github.com/scottcgi/Mojoc/wiki) 
     
   During the development I experienced a lot of repetition and thinking. For a long time I was not very sure and clear about how to use the C language to simulate OOP and keep it simple and uniform. So I tried a lot of ideas, repeated the proces: wrote code, modified, refactored, changed ideas, deleted code, rewritten it again and so on.
   
-  But in the end, I developed a unique rule set, the [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style), and [Mojoc OOC Model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C)) that felt right and nice, then I followed the rules to develop Mojoc.
+  But in the end, I developed a unique rule set, the [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style) and [Mojoc OOC Model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C)) that felt right and nice, then I followed the rules to develop Mojoc.
 
 
 * #### What kind of games can Mojoc do?
@@ -95,10 +95,40 @@ Please check out the wiki [Quick Start](https://github.com/scottcgi/Mojoc/wiki) 
   
   
 ## Roadmap
-The [Mojoc Roadmap](https://github.com/scottcgi/Mojoc/wiki/Roadmap) gives the direction of the Mojoc development.
+The roadmap gives the direction of the Mojoc development.
+
+* **Graphics Module**
+  * Create graphics layer compatible with Vulkan, Metal and D3D.
+  * Create material system control shaders.
+  * Support Primitive Restart and DrawInstance.
+  * Support Sampler Objects and Immutable Textures.
+  * Support dynamic Multi-Texture Unit rendering.
+  
+* **Extensions Module**
+  * Support bitmap fonts.
+  * Support Simple test unit for Mojoc features.
+  
+* **Physics Module**
+  * Support motion simulation after rigid body collision.
+  * Support mutual restriction and linkage between rigid bodies.
+  * Support more physical motion simulations.  
+  
+* **Toolkit Module**  
+  * Generic iteration interface, it's a step-by-step calculation that can be driven by coroutine.
+  * Memory management strategy for many to one.
+  * Plug-in function extensions.
+  * More algorithm implementation.  
+  
+* **Other Modules**   
+  * Create UI module.
+  * Create network module.
+  
+* **Others**
+  * Game editor implement by Mojoc self.
+  * Game script language `‘MojoScript’`, and implement by C language with Toolkit.  
 
 
 ## Support
-  * :video_game: Play Mojoc [Published Games](#published-games).
+  * :video_game: Play Mojoc [Published Games](#published-games) (rating or comment).
   * :coffee: Buy me a coffee via [Paypal](https://www.paypal.me/PayScottcgi/0.99).
   
