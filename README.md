@@ -27,7 +27,7 @@ Less is more, simple is better, simplify complex ideas.
 * The only programming skill needed is the C99 language.
 * In platform-independent code, Mojoc uses only the standard C library, no dependence on third-party libraries.
 * Mojoc has its own unique coding style.
-  * [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style).
+  * [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style)
 * Mojoc uses an extremely lightweight OOC (Object Oriented C) programming model. 
   * [Mojoc OOC Model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C))
 * Mojoc application architecture is based on components, state-machines and is message-driven. 
@@ -38,7 +38,8 @@ Less is more, simple is better, simplify complex ideas.
     
 ## Published Games
 Mojoc has been used for a cross-platform Android and IOS game on the App Store and Google Play. I will be using Mojoc to make more games.
-* Super Little Red is a bow and arrow shooting game, very challenging for your operation.
+
+* **SuperLittleRed** is a bow and arrow shooting game, very challenging for your operation.
   * [App Store](https://itunes.apple.com/cn/app/id1242353775)
   * [Google Play](https://play.google.com/store/apps/details?id=com.SuperLittleRed)
   * [Tap Tap](https://www.taptap.com/app/45524)
@@ -47,9 +48,9 @@ Mojoc has been used for a cross-platform Android and IOS game on the App Store a
 ## Samples
 The samples will show all aspects of the Mojoc features. Each platform will provide native building project for native platform editor. For example: Android provides AndroidStudio project, IOS provides XCode project.
 
-Currently there is only one sample, which is a simplfied version of the published game [Super Little Red](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed). **Then how to run this sample ?** 
+Currently there is only one sample, which is a simplfied version of the published game [SuperLittleRed](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed). Please check out the wiki [Quick Start](https://github.com/scottcgi/Mojoc/wiki) guide for quickly run this sample.
 
-Please check out the wiki [Quick Start](https://github.com/scottcgi/Mojoc/wiki) guide. And the compiled apk is here:
+And the compiled and playable apk is here:
 
 * [Sample-SuperLittleRed](https://github.com/scottcgi/Mojoc/blob/master/Samples/Apk/Sample-SuperLittleRed.apk?raw=true)
 * [SuperLittleRed-2.0.1.apk](https://github.com/scottcgi/Mojoc/blob/master/Samples/Apk/SuperLittleRed-2.0.1.apk?raw=true)
@@ -60,19 +61,19 @@ Please check out the wiki [Quick Start](https://github.com/scottcgi/Mojoc/wiki) 
 
 ## FAQ
 
-* #### Why not C++?
+#### Why not C++?
   * There are plenty of C++ game engines, but pure C game engines are much rarer. I don't want to reinvent wheels, I hope to be different.
   * The core idea of the game engine I want to create is to be smaller and simple, which is consistent with the C language.
   * At the beginning, I had an idea of how to build a complex project with pure C language. I want to test the feasibility of the idea, that is Mojoc.
   * The C language is simple but powerful, it can do a lot of interesting things. **Why not C**?
     
-* #### What is the meaning of the name Mojoc? 
+#### What is the meaning of the name Mojoc? 
   ```
   Mojoc = Mojo + c
   ```
   The c stand for the C language.
     
-* #### Who designed the logo and what is its meaning?
+#### Who designed the logo and what is its meaning?
   I designed it. The logo is an unknown creature made up of `'Mojoc'` letters.
   ```
   M : ears  
@@ -80,7 +81,8 @@ Please check out the wiki [Quick Start](https://github.com/scottcgi/Mojoc/wiki) 
   J : body  
   C : tail
   ```
-* #### How was Mojoc was born?
+  
+#### How was Mojoc was born?
 
   Mojoc started in 2012 as a spare time project. At first, Mojoc used Eclipse + CDT + ADT + NDK for development, and was focused on Android platform. 
     
@@ -89,46 +91,50 @@ Please check out the wiki [Quick Start](https://github.com/scottcgi/Mojoc/wiki) 
   But in the end, I developed a unique rule set, the [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style) and [Mojoc OOC Model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C)) that felt right and nice, then I followed the rules to develop Mojoc.
 
 
-* #### What kind of games can Mojoc do?
+#### What kind of games can Mojoc do?
 
-  For now, it is not recommended to use Mojoc to make games. To be honest, Mojoc is not yet quite perfect. There are many improvements and refinements left to be made, that I'm currently working on. But Mojoc's code architecture and programming model have already been established. Mojoc is therefore very suitable for learning and understanding of how to use the C language to build game engine.
+  For now, it is not recommended to use Mojoc to make games. To be honest, Mojoc is not yet quite perfect. There are many improvements and refinements left to be made, that I'm currently working on. But Mojoc's code architecture and programming model have already been established. 
+  
+  Therefore Mojoc is very suitable for learning and understanding of how to use the C language to build game engine.
   
   
 ## Roadmap
 The roadmap gives the direction of the Mojoc development.
 
-* **Graphics Module**
+#### Graphics Module
   * Create graphics layer compatible with Vulkan, Metal and D3D.
   * Create material system control shaders.
   * Support Primitive Restart and DrawInstance.
   * Support Sampler Objects and Immutable Textures.
   * Support dynamic Multi-Texture Unit rendering.
   
-* **Extensions Module**
+#### Extensions Module
   * Support bitmap fonts.
   * Support Simple test unit for Mojoc features.
   
-* **Physics Module**
+#### Physics Module
   * Support motion simulation after rigid body collision.
   * Support mutual restriction and linkage between rigid bodies.
   * Support more physical motion simulations.  
   
-* **Toolkit Module**  
+#### Toolkit Module  
   * Generic iteration interface, it's a step-by-step calculation that can be driven by coroutine.
   * Memory management strategy for many to one.
   * Plug-in function extensions.
   * More algorithm implementation.  
   
-* **Other Modules**   
+#### Other Modules  
   * Create UI module.
   * Create network module.
   
-* **Others**
+#### Others
   * Game editor implement by Mojoc self.
   * Game script language `‘MojoScript’`, and implement by C language with Toolkit.  
 
 
 ## Support
   * :video_game: Play Mojoc [Published Games](#published-games) (rating or comment).
-  * :coffee: Buy me a coffee via [Paypal](https://www.paypal.me/PayScottcgi/0.99).
+  * :octocat: **Star & Watch & Fork** on GitHub, or share **Mojoc** project to anyone.
   
+------
+:loop:
