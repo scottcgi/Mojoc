@@ -74,7 +74,7 @@ And the compiled and playable apk is here:
   The c stand for the C language.
     
 #### Who designed the logo and what is its meaning?
-  I designed it. The logo is an unknown creature made up of `'Mojoc'` letters.
+  I designed it. The logo is an unknown creature made up of `"Mojoc"` letters.
   ```
   M : ears  
   OO: eyes  
@@ -129,12 +129,13 @@ The roadmap gives the direction of the Mojoc development.
   
 #### Others
   * Game editor implement by Mojoc self.
-  * Game script language `‘MojoScript’`, and implement by C language with Toolkit.  
+  * Game script language `"MojoScript"`, and implement by C language with Toolkit.  
 
 
 ## Support
   * :video_game: Play Mojoc [Published Games](#published-games) (rating or comment).
-  * :octocat: **Star & Watch & Fork** on GitHub, or share **Mojoc** project to anyone.
+  * :octocat: Star & Watch & Fork on GitHub, or share **Mojoc** project to anyone.
   
-------
+
+
 :loop:
