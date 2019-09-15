@@ -108,7 +108,7 @@ The roadmap gives the direction of the Mojoc development.
   * Support Sampler Objects and Immutable Textures.
   * Support dynamic Multi-Texture Unit rendering.
   
-#### Extensions Module
+#### Extension Module
   * Support bitmap fonts.
   * Support Simple test unit for Mojoc features.
   
