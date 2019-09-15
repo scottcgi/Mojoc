@@ -61,8 +61,8 @@
  * Get struct pointer from member pointer.
  * this for memberPtr same as memberName.
  * 
- * memberPtr：the pointer that point struct's member.
- *           it's the member address offset from struct address.
+ * memberPtr: the pointer that point struct's member.
+ *            it's the member address offset from struct address.
  * 
  */
 #define AStruct_GetParent(memberPtr, ParentType) \
@@ -73,8 +73,8 @@
  * Get struct pointer from member pointer with memberName.
  * this for memberPtr not same as memberName.
  *
- * memberPtr：the pointer that point struct's member.
- *           it's the member address offset from struct address.
+ * memberPtr: the pointer that point struct's member.
+ *            it's the member address offset from struct address.
  */
 #define AStruct_GetParentWithName(memberPtr, ParentType, memberName) \
     ((ParentType*) ((char*) (memberPtr) - offsetof(ParentType, memberName)))
