@@ -134,7 +134,7 @@ The roadmap gives the direction of the Mojoc development.
 
 ## Support
   * :video_game: Play Mojoc [Published Games](#published-games) (rating or comment).
-  * :octocat: Star & Watch & Fork on GitHub, or share **Mojoc** project to anyone.
+  * :octocat: Star & Issue & Fork on GitHub, or share **Mojoc** project to anyone.
   * :coffee: Buy me a cheap coffee via [Paypal-0.99](https://www.paypal.me/PayScottcgi/0.99) (cheap coffee can also be converted into high-quality code, but some brain cells will be lost).
   
 
