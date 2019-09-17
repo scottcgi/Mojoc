@@ -30,14 +30,14 @@ Less is more, simple is better, simplify complex ideas.
   * [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style)
 * Mojoc uses an extremely lightweight OOC (Object Oriented C) programming model. 
   * [Mojoc OOC Model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C))
-* Mojoc application architecture is based on components, state-machines and is message-driven. 
+* Mojoc application architecture is based on components, state-machines and message-driven. 
   * [Mojoc Component Architecture](https://github.com/scottcgi/Mojoc/wiki/Component-Architecture)
 * More feature details. 
   * [Mojoc Code Details](https://github.com/scottcgi/Mojoc/wiki/Code-Details)
   
     
 ## Published Games
-Mojoc has been used for a cross-platform Android and IOS game on the App Store and Google Play. I will be using Mojoc to make more games.
+Mojoc has been used for a cross-platform Android and IOS game on the App Store and Google Play. 
 
 * **SuperLittleRed** is a bow and arrow shooting game, very challenging for your operation.
   * [App Store](https://itunes.apple.com/cn/app/id1242353775)
@@ -50,7 +50,7 @@ The samples will show all aspects of the Mojoc features. Each platform will prov
 
 Currently there is only one sample, which is a simplfied version of the published game [SuperLittleRed](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed). Please check out the wiki [Quick Start](https://github.com/scottcgi/Mojoc/wiki) guide for quickly run this sample.
 
-And the compiled and playable apk is here:
+The compiled and playable apk is here:
 
 * [Sample-SuperLittleRed](https://github.com/scottcgi/Mojoc/blob/master/Samples/Apk/Sample-SuperLittleRed.apk?raw=true)
 * [SuperLittleRed-2.0.1.apk](https://github.com/scottcgi/Mojoc/blob/master/Samples/Apk/SuperLittleRed-2.0.1.apk?raw=true)
