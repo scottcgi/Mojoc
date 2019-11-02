@@ -42,7 +42,7 @@ _`2019.9.5 UTC+8 15:42`_
   * Refactor const constraints of `Json` implementation.
 
 
-* **Refactor Name (Break Compatibility))**
+* **Refactor Name (Break Compatibility)**
 
   * Rename `random()`to `rand()` and `srandom()` to `srand()`.
   * Rename Id to ID.
