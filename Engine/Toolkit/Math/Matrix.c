@@ -20,15 +20,20 @@
 
 
 /**
- * x: left    axis
+ * x: right   axis
  * y: up      axis
  * z: forward axis
  * t: translation
  * 
- * (m0  m1  m2 ) x m3     (m0  m1  m2 ) x m3
- * (m4  m5  m6 ) y m7     (m4  m5  m6 ) y m7  
- * (m8  m9  m10) z m11    (m8  m9  m10) z m11
- * (m12 m13 m14) t m15    (m12 m13 m14) t m15
+ * (m0  m1  m2 ) x m3   |  (m0  m1  m2 ) x m3
+ * (m4  m5  m6 ) y m7   |  (m4  m5  m6 ) y m7
+ * (m8  m9  m10) z m11  |  (m8  m9  m10) z m11
+ * (m12 m13 m14) t m15  |  (m12 m13 m14) t m15
+ *
+ * M-cr      = L-column         * R-row
+ * M-00 (m0) = L-column[0]-048  * R-row[0]-012
+ * M-10 (m1) = L-column[1]-159  * R-row[0]-012
+ * M-20 (m2) = L-column[2]-2610 * R-row[0]-012
  */
 static void MultiplyMM(Matrix4* left, Matrix4* right, Matrix4* outMatrix4)
 {
@@ -100,15 +105,17 @@ static void MultiplyMMM(Matrix4* m1, Matrix4* m2, Matrix4* m3, Matrix4* outM23, 
 }
 
 /**
- * x: left    axis
+ * x: right   axis
  * y: up      axis
  * z: forward axis
  * t: translation
  *
- * (m0  m1  m2 ) x m3  w
- * (m4  m5  m6 ) y m7  w
- * (m8  m9  m10) z m11 w
- * (m12 m13 m14) t m15 w
+ * (m0  m1  m2 ) x m3  w  |  (x y z) w
+ * (m4  m5  m6 ) y m7  w  |
+ * (m8  m9  m10) z m11 w  |
+ * (m12 m13 m14) t m15 w  |
+ *
+ * V-c[xyz]r[0] = L-column * V-row
  */
 static void MultiplyMV4(Matrix4* matrix4, float x, float y, float z, float w, Vector4* outVector4)
 {
@@ -153,19 +160,15 @@ static float MultiplyMZ(Matrix4* matrix4, float z)
 
 
 /**
- * x: left    axis
+ * x: right   axis
  * y: up      axis
  * z: forward axis
  * t: translation
  *
- * (m0  m1  m2 ) x m3  w
- * (m4  m5  m6 ) y m7  w
- * (m8  m9  m10) z m11 w
- * (m12 m13 m14) t m15 w
- *
- * The OpenGL column matrix multiply vector.
- * matrix index 048 is matrix column.
- * 048 multiply vector means x do vector sum for final vector's x.
+ * (m0  m1  m2 ) x m3  w  |  (x y z)
+ * (m4  m5  m6 ) y m7  w  |
+ * (m8  m9  m10) z m11 w  |
+ * (m12 m13 m14) t m15 w  |
  */
 static void Translate(Matrix4* matrix4, float x, float y, float z)
 {
@@ -176,18 +179,17 @@ static void Translate(Matrix4* matrix4, float x, float y, float z)
 
 
 /**
- * Rotation Matrix4 by xyz and angle:
+ * Rotate identity matrix4 and multiply matrix4.
  *
  * s = sin angle
  * c = cos angle
  * n = 1 - c
  *
- * xxn + c   xyn + zs  zxn − ys  0
- * xyn - zs  yyn + c   yzn + xs  0
- * zxn + ys  yzn - xs  zzn + c   0
- * 0         0         0         1
- *
- * Rotate identity matrix4 and multiply matrix4.
+ * (m0  m1  m2 ) x m3  w  |  xxn + c   xyn + zs  zxn − ys 0
+ * (m4  m5  m6 ) y m7  w  |  xyn - zs  yyn + c   yzn + xs 0
+ * (m8  m9  m10) z m11 w  |  zxn + ys  yzn - xs  zzn + c  0
+ * (m12 m13 m14) t m15 w  |  0         0         0        1
+ * 
  */
 static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
 {
@@ -212,10 +214,11 @@ static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
     float xs = x * s;
     float ys = y * s;
     float zs = z * s;
-    
+
+/*
     Matrix4 temp1[1] =
     {{
-        // left x axis
+        // right x axis
         x  * x  * nc + c,
         xy * nc + zs,
         zx * nc - ys,
@@ -241,20 +244,65 @@ static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
     MultiplyMM(matrix4, temp1, temp2);
 
     *matrix4 = *temp2; // memcpy(matrix->m, temp2->m, sizeof(Matrix4));
+*/
+
+    /* expand matrix multiplication */
+    
+    float rm0    = x  * x  * nc + c;
+    float rm1    = xy * nc + zs;
+    float rm2    = zx * nc - ys;
+
+    float rm4    = xy * nc - zs;
+    float rm5    = y  * y  * nc + c;
+    float rm6    = yz * nc + xs;
+
+    float rm8    = zx * nc + ys;
+    float rm9    = yz * nc - xs;
+    float rm10   = z  * z  * nc + c;
+
+    float lm0    = matrix4->m0;
+    float lm1    = matrix4->m1;
+    float lm2    = matrix4->m2;
+    float lm3    = matrix4->m3;
+
+    float lm4    = matrix4->m4;
+    float lm5    = matrix4->m5;
+    float lm6    = matrix4->m6;
+    float lm7    = matrix4->m7;
+
+    float lm8    = matrix4->m8;
+    float lm9    = matrix4->m9;
+    float lm10   = matrix4->m10;
+    float lm11   = matrix4->m11;
+
+    matrix4->m0  = lm0 * rm0 + lm4 * rm1 + lm8  * rm2;
+    matrix4->m1  = lm1 * rm0 + lm5 * rm1 + lm9  * rm2;
+    matrix4->m2  = lm2 * rm0 + lm6 * rm1 + lm10 * rm2;
+    matrix4->m3  = lm3 * rm0 + lm7 * rm1 + lm11 * rm2;
+
+    matrix4->m4  = lm0 * rm4 + lm4 * rm5 + lm8  * rm6;
+    matrix4->m5  = lm1 * rm4 + lm5 * rm5 + lm9  * rm6;
+    matrix4->m6  = lm2 * rm4 + lm6 * rm5 + lm10 * rm6;
+    matrix4->m7  = lm3 * rm4 + lm7 * rm5 + lm11 * rm6;
+
+    matrix4->m8  = lm0 * rm8 + lm4 * rm9 + lm8  * rm10;
+    matrix4->m9  = lm1 * rm8 + lm5 * rm9 + lm9  * rm10;
+    matrix4->m10 = lm2 * rm8 + lm6 * rm9 + lm10 * rm10;
+    matrix4->m11 = lm3 * rm8 + lm7 * rm9 + lm11 * rm10;
 }
 
 
-
 /**
- * x: left    axis
+ * x: right   axis
  * y: up      axis
  * z: forward axis
  * t: translation
  *
- * (1  0  0) x 0
- * (0  c  s) y 0
- * (0 -s  c) z 0
- * (0  0  0) t 1
+ * (m0  m1  m2 ) x m3   |  (1  0  0) x 0
+ * (m4  m5  m6 ) y m7   |  (0  c  s) y 0
+ * (m8  m9  m10) z m11  |  (0 -s  c) z 0
+ * (m12 m13 m14) t m15  |  (0  0  0) t 1
+ * 
  */
 static void RotateX(Matrix4* matrix4, float angle)
 {
@@ -277,6 +325,8 @@ static void RotateX(Matrix4* matrix4, float angle)
     *matrix4 = *temp2; // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
 */
 
+    /* expand matrix multiplication */
+    
     float m4     = matrix4->m4;
     float m5     = matrix4->m5;
     float m6     = matrix4->m6;
@@ -296,15 +346,15 @@ static void RotateX(Matrix4* matrix4, float angle)
 
 
 /**
- * x: left    axis
+ * x: right   axis
  * y: up      axis
  * z: forward axis
  * t: translation
  *
- * (c  0 -s) x 0
- * (0  1  0) y 0
- * (s  0  c) z 0
- * (0  0  0) t 1
+ * (m0  m1  m2 ) x m3   |  (c  0 -s) x 0
+ * (m4  m5  m6 ) y m7   |  (0  1  0) y 0
+ * (m8  m9  m10) z m11  |  (s  0  c) z 0
+ * (m12 m13 m14) t m15  |  (0  0  0) t 1
  */
 static void RotateY(Matrix4* matrix4, float angle)
 {
@@ -327,6 +377,8 @@ static void RotateY(Matrix4* matrix4, float angle)
     *matrix4 = *temp2; // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
 */
 
+    /* expand matrix multiplication */
+
     float m0     = matrix4->m0;
     float m1     = matrix4->m1;
     float m2     = matrix4->m2;
@@ -345,15 +397,15 @@ static void RotateY(Matrix4* matrix4, float angle)
 
 
 /**
- * x: left    axis
+ * x: right   axis
  * y: up      axis
  * z: forward axis
  * t: translation
  *
- * ( c  s  0) x 0
- * (-s  c  0) y 0
- * ( 0  0  1) z 0
- * ( 0  0  0) t 1
+ * (m0  m1  m2 ) x m3   |  ( c  s  0) x 0
+ * (m4  m5  m6 ) y m7   |  (-s  c  0) y 0
+ * (m8  m9  m10) z m11  |  ( 0  0  1) z 0
+ * (m12 m13 m14) t m15  |  ( 0  0  0) t 1
 */
 static void RotateZ(Matrix4* matrix4, float angle)
 {
@@ -376,6 +428,8 @@ static void RotateZ(Matrix4* matrix4, float angle)
     *matrix4 = *temp2; // memcpy(matrix4->m, temp2->m, sizeof(Matrix4));
 */
 
+    /* expand matrix multiplication */
+
     float m0    = matrix4->m0;
     float m1    = matrix4->m1;
     float m2    = matrix4->m2;
@@ -394,7 +448,7 @@ static void RotateZ(Matrix4* matrix4, float angle)
 
 
 /**
- * x: left    axis
+ * x: right   axis
  * y: up      axis
  * z: forward axis
  * t: translation
