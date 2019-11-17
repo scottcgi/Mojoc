@@ -22,6 +22,12 @@
 #include "Engine/Toolkit/Math/Vector.h"
 
 
+/**
+ * (m0  m1  m2 ) x m3  w
+ * (m4  m5  m6 ) y m7  w
+ * (m8  m9  m10) z m11 w
+ * (m12 m13 m14) t m15 w
+ */
 typedef union
 {
     float m[16];

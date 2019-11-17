@@ -19,6 +19,17 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
+/**
+ * x: left    axis
+ * y: up      axis
+ * z: forward axis
+ * t: translation
+ * 
+ * (m0  m1  m2 ) x m3     (m0  m1  m2 ) x m3
+ * (m4  m5  m6 ) y m7     (m4  m5  m6 ) y m7  
+ * (m8  m9  m10) z m11    (m8  m9  m10) z m11
+ * (m12 m13 m14) t m15    (m12 m13 m14) t m15
+ */
 static void MultiplyMM(Matrix4* left, Matrix4* right, Matrix4* outMatrix4)
 {
     outMatrix4->m0  = left->m0 * right->m0  + left->m4 * right->m1  + left->m8  * right->m2  + left->m12 * right->m3;
@@ -88,7 +99,17 @@ static void MultiplyMMM(Matrix4* m1, Matrix4* m2, Matrix4* m3, Matrix4* outM23, 
     outM231->m15 = m1->m3 * outM23->m12 + m1->m7 * outM23->m13 + m1->m11 * outM23->m14 + m1->m15 * outM23->m15;
 }
 
-
+/**
+ * x: left    axis
+ * y: up      axis
+ * z: forward axis
+ * t: translation
+ *
+ * (m0  m1  m2 ) x m3  w
+ * (m4  m5  m6 ) y m7  w
+ * (m8  m9  m10) z m11 w
+ * (m12 m13 m14) t m15 w
+ */
 static void MultiplyMV4(Matrix4* matrix4, float x, float y, float z, float w, Vector4* outVector4)
 {
     outVector4->x = matrix4->m0 * x + matrix4->m4 * y + matrix4->m8  * z + matrix4->m12 * w;
@@ -132,125 +153,16 @@ static float MultiplyMZ(Matrix4* matrix4, float z)
 
 
 /**
- * Redundancy is better so don't delete.
- */
-static void RotateM(Matrix4* matrix4, float angle, float x, float y, float z)
-{
-    // if matrix4 always identity matrix
-    // then no need to set these values
-    matrix4->m3  = 0.0f;
-    matrix4->m7  = 0.0f;
-    matrix4->m11 = 0.0f;
-    matrix4->m12 = 0.0f;
-    matrix4->m13 = 0.0f;
-    matrix4->m14 = 0.0f;
-    matrix4->m15 = 1.0f;
-
-    angle    = AMath_ToRadian(angle);
-    float s  = sinf(angle);
-    float c  = cosf(angle);
-    int  dir = ((x != 0.0f) << 2) | ((y != 0.0f) << 1) | (z != 0.0f);
-
-    switch (dir)
-    {
-        case 0:
-            break;
-
-        case 1:
-        {
-            // x y z  0 0 1
-            
-            matrix4->m0  = c;
-            matrix4->m1  = s;
-            matrix4->m2  = 0.0f;
-
-            matrix4->m4  = -s;
-            matrix4->m5  = c;
-            matrix4->m6  = 0.0f;
-
-            matrix4->m8  = 0.0f;
-            matrix4->m9  = 0.0f;
-            matrix4->m10 = 1.0f;
-
-            break;
-        }
-
-        case 4:
-        {
-            // x y z  1 0 0
-            
-            matrix4->m0  = 1.0f;
-            matrix4->m1  = 0.0f;
-            matrix4->m2  = 0.0f;
-
-            matrix4->m4  = 0.0f;
-            matrix4->m5  = c;
-            matrix4->m6  = s;
-
-            matrix4->m8  = 0.0f;
-            matrix4->m9  = -s;
-            matrix4->m10 = c;
-
-            break;
-        }
-
-        case 2:
-        {
-            // x y z  0 1 0
-            
-            matrix4->m0  = c;
-            matrix4->m1  = 0.0f;
-            matrix4->m2  = -s;
-
-            matrix4->m4  = 0.0f;
-            matrix4->m5  = 1.0f;
-            matrix4->m6  = 0.0f;
-
-            matrix4->m8  = s;
-            matrix4->m9  = 0.0f;
-            matrix4->m10 = c;
-
-            break;
-        }
-
-        default:
-        {
-            float len = AVector3_Length3(x, y, z);
-
-            if (len != 1.0f)
-            {
-                float recipLen = 1.0f / len;
-
-                x *= recipLen;
-                y *= recipLen;
-                z *= recipLen;
-            }
-
-            float nc     = 1.0f - c;
-            float xy     = x  * y;
-            float yz     = y  * z;
-            float zx     = z  * x;
-            float xs     = x  * s;
-            float ys     = y  * s;
-            float zs     = z  * s;
-
-            matrix4->m0  = x  * x  * nc + c;
-            matrix4->m1  = xy * nc + zs;
-            matrix4->m2  = zx * nc - ys;
-
-            matrix4->m4  = xy * nc - zs;
-            matrix4->m5  = y  * y  * nc + c;
-            matrix4->m6  = yz * nc + xs;
-
-            matrix4->m8  = zx * nc + ys;
-            matrix4->m9  = yz * nc - xs;
-            matrix4->m10 = z  * z  * nc + c;
-        }
-    }
-}
-
-
-/**
+ * x: left    axis
+ * y: up      axis
+ * z: forward axis
+ * t: translation
+ *
+ * (m0  m1  m2 ) x m3  w
+ * (m4  m5  m6 ) y m7  w
+ * (m8  m9  m10) z m11 w
+ * (m12 m13 m14) t m15 w
+ *
  * The OpenGL column matrix multiply vector.
  * matrix index 048 is matrix column.
  * 048 multiply vector means x do vector sum for final vector's x.
@@ -264,6 +176,17 @@ static void Translate(Matrix4* matrix4, float x, float y, float z)
 
 
 /**
+ * Rotation Matrix4 by xyz and angle:
+ *
+ * s = sin angle
+ * c = cos angle
+ * n = 1 - c
+ *
+ * xxn + c   xyn + zs  zxn − ys  0
+ * xyn - zs  yyn + c   yzn + xs  0
+ * zxn + ys  yzn - xs  zzn + c   0
+ * 0         0         0         1
+ *
  * Rotate identity matrix4 and multiply matrix4.
  */
 static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
@@ -273,13 +196,13 @@ static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
     float c   = cosf(angle);
     float len = AVector3_Length3(x, y, z);
 
-    if (len != 1.0f)
+    if (len  != 1.0f)
     {
+        // reciprocal length
         float recipLen = 1.0f / len;
-
-        x *= recipLen;
-        y *= recipLen;
-        z *= recipLen;
+        x             *= recipLen;
+        y             *= recipLen;
+        z             *= recipLen;
     }
 
     float nc = 1.0f - c;
@@ -289,24 +212,28 @@ static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
     float xs = x * s;
     float ys = y * s;
     float zs = z * s;
-
+    
     Matrix4 temp1[1] =
     {{
+        // left x axis
         x  * x  * nc + c,
         xy * nc + zs,
         zx * nc - ys,
         0.0f,
 
+        // up y axis
         xy * nc - zs,
         y  * y  * nc + c,
         yz * nc + xs,
         0.0f,
 
+        // forward z axis
         zx * nc + ys,
         yz * nc - xs,
         z  * z  * nc + c,
         0.0f,
 
+        // translation
         0.0f, 0.0f, 0.0f, 1.0f,
     }};
 
@@ -316,21 +243,33 @@ static void Rotate(Matrix4* matrix4, float angle, float x, float y, float z)
     *matrix4 = *temp2; // memcpy(matrix->m, temp2->m, sizeof(Matrix4));
 }
 
+
+
+/**
+ * x: left    axis
+ * y: up      axis
+ * z: forward axis
+ * t: translation
+ *
+ * (1  0  0) x 0
+ * (0  c  s) y 0
+ * (0 -s  c) z 0
+ * (0  0  0) t 1
+ */
 static void RotateX(Matrix4* matrix4, float angle)
 {
-    angle  = AMath_ToRadian(angle);
-
+    angle   = AMath_ToRadian(angle);
     float s = sinf(angle);
     float c = cosf(angle);
 
 /*
     Matrix4 temp1[1] =
-    {
+    {{
         1.0f, 0.0f, 0.0f, 0.0f,
         0.0f,    c,    s, 0.0f,
         0.0f,   -s,    c, 0.0f,
         0.0f, 0.0f, 0.0f, 1.0f,
-    };
+    }};
 
     Matrix4 temp2[1];
     MultiplyMM(matrix4, temp1, temp2);
@@ -355,20 +294,32 @@ static void RotateX(Matrix4* matrix4, float angle)
 }
 
 
+
+/**
+ * x: left    axis
+ * y: up      axis
+ * z: forward axis
+ * t: translation
+ *
+ * (c  0 -s) x 0
+ * (0  1  0) y 0
+ * (s  0  c) z 0
+ * (0  0  0) t 1
+ */
 static void RotateY(Matrix4* matrix4, float angle)
 {
     angle   = AMath_ToRadian(angle);
-    float s  = sinf(angle);
-    float c  = cosf(angle);
+    float s = sinf(angle);
+    float c = cosf(angle);
 
 /*
     Matrix4 temp1[1] =
-    {
+    {{
            c, 0.0f,   -s, 0.0f,
         0.0f, 1.0f, 0.0f, 0.0f,
            s, 0.0f,    c, 0.0f,
         0.0f, 0.0f, 0.0f, 1.0f,
-    };
+    }};
 
     Matrix4 temp2[1];
     MultiplyMM(matrix4, temp1, temp2);
@@ -393,20 +344,31 @@ static void RotateY(Matrix4* matrix4, float angle)
 }
 
 
+/**
+ * x: left    axis
+ * y: up      axis
+ * z: forward axis
+ * t: translation
+ *
+ * ( c  s  0) x 0
+ * (-s  c  0) y 0
+ * ( 0  0  1) z 0
+ * ( 0  0  0) t 1
+*/
 static void RotateZ(Matrix4* matrix4, float angle)
 {
     angle   = AMath_ToRadian(angle);
-    float s  = sinf(angle);
-    float c  = cosf(angle);
+    float s = sinf(angle);
+    float c = cosf(angle);
 
 /*
     Matrix4 temp1[1] =
-    {
+    {{
            c,    s, 0.0f, 0.0f,
           -s,    c, 0.0f, 0.0f,
         0.0f, 0.0f, 1.0f, 0.0f,
         0.0f, 0.0f, 0.0f, 1.0f,
-    };
+    }};
 
     Matrix4 temp2[1];
     MultiplyMM(matrix4, temp1, temp2);
@@ -431,6 +393,17 @@ static void RotateZ(Matrix4* matrix4, float angle)
 }
 
 
+/**
+ * x: left    axis
+ * y: up      axis
+ * z: forward axis
+ * t: translation
+ *
+ * (m0  m1  m2 ) x m3  w
+ * (m4  m5  m6 ) y m7  w
+ * (m8  m9  m10) z m11 w
+ * (m12 m13 m14) t m15 w
+ */
 static void Scale(Matrix4* matrix4, float sx, float sy, float sz)
 {
     matrix4->m0  *= sx;
@@ -539,7 +512,7 @@ static void InverseTranspose(Matrix4* matrix4, Matrix4* outInverseTranspose)
     // calculate the determinant
     float det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
-    // Close to zero, can't invert
+    // close to zero, can't invert
     if (fabsf(det) < FLT_EPSILON)
     {
        return false;
@@ -584,28 +557,28 @@ static void Perspective(float fovy, float aspect, float near, float far, Matrix4
         "AMatrix Perspective failed, because far == near"
     );
 
-    float f               = 1.0f / tanf(fovy * MATH_PI360);
-    float rangeReciprocal = 1.0f / (near - far);
+    fovy               = 1.0f / tanf(fovy * DEGREE_TO_RADIAN2);
+    float range        = 1.0f / (near - far);
 
-    outProjection->m0    = f / aspect;
-    outProjection->m1    = 0.0f;
-    outProjection->m2    = 0.0f;
-    outProjection->m3    = 0.0f;
+    outProjection->m0  = fovy / aspect;
+    outProjection->m1  = 0.0f;
+    outProjection->m2  = 0.0f;
+    outProjection->m3  = 0.0f;
 
-    outProjection->m4    = 0.0f;
-    outProjection->m5    = f;
-    outProjection->m6    = 0.0f;
-    outProjection->m7    = 0.0f;
+    outProjection->m4  = 0.0f;
+    outProjection->m5  = fovy;
+    outProjection->m6  = 0.0f;
+    outProjection->m7  = 0.0f;
 
-    outProjection->m8    = 0.0f;
-    outProjection->m9    = 0.0f;
-    outProjection->m10   = (far + near) * rangeReciprocal;
-    outProjection->m11   = -1.0f;
+    outProjection->m8  = 0.0f;
+    outProjection->m9  = 0.0f;
+    outProjection->m10 = (far + near) * range;
+    outProjection->m11 = -1.0f;
 
-    outProjection->m12   = 0.0f;
-    outProjection->m13   = 0.0f;
-    outProjection->m14   = 2.0f * far * near * rangeReciprocal;
-    outProjection->m15   = 0.0f;
+    outProjection->m12 = 0.0f;
+    outProjection->m13 = 0.0f;
+    outProjection->m14 = 2.0f * far * near * range;
+    outProjection->m15 = 0.0f;
 }
 
 
@@ -614,7 +587,7 @@ static void Ortho(float left, float right, float bottom, float top, float near, 
     ALog_A
     (
         right != left && top != bottom && far != near,
-        "AMatrix Ortho failed because right == left || top == bottom || far == near"
+        "AMatrix Ortho failed, because right == left || top == bottom || far == near"
     );
 
     float width        = 1.0f / (right - left);
@@ -649,7 +622,7 @@ static void Frustum(float left, float right, float bottom, float top, float near
     (
         right != left && top != bottom && near != far && near > 0.0f && far > 0.0f,
         "AMatrix Frustum failed,"
-        " because right == left || top == bottom || near == far || near <= 0.0f || far <= 0.0f"
+        "because right == left || top == bottom || near == far || near <= 0.0f || far <= 0.0f"
     );
 
     float width         = 1.0f / (right - left);

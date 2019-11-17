@@ -50,34 +50,40 @@ extern struct AMath AMath[1];
 //----------------------------------------------------------------------------------------------------------------------
 
 
-#define GOLDEN_RATIO     0.618033988749894f
+#define GOLDEN_RATIO      0.618033988749894f
 
 
 /**
  * The value of (PI / 180.0f).
  */
-#define DEGREE_TO_RADIAN 0.017453292519943f
-
-
-/**
- * The value of (180.0f / PI).
- */
-#define RADIAN_TO_DEGREE 57.29577951308232f
-
-
-#define MATH_PI          3.141592653589793f
-
-
-#define MATH_2PI         6.283185307179586f
-
-
-#define MATH_PI2         1.570796326794897f
+#define DEGREE_TO_RADIAN  0.017453292519943f
 
 
 /**
  * The value of (PI / 360.0f).
  */
-#define MATH_PI360       0.008726646259972f
+#define DEGREE_TO_RADIAN2 0.008726646259972f
+
+
+/**
+ * The value of (180.0f / PI).
+ */
+#define RADIAN_TO_DEGREE  57.29577951308232f
+
+
+#define MATH_PI           3.141592653589793f
+
+
+/**
+ * The value of (2 * PI).
+ */
+#define MATH_2PI          6.283185307179586f
+
+
+/**
+ * The value of (PI / 2).
+ */
+#define MATH_PI2          1.570796326794897f
 
 
 //----------------------------------------------------------------------------------------------------------------------
