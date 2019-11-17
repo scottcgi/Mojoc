@@ -81,6 +81,16 @@ static void Draw(Drawable* drawable)
                 AMatrix->RotateZ(drawable->modelMatrix, drawable->rotationZ);
             }
 
+            if (drawable->rotationX != 0.0f)
+            {
+                AMatrix->RotateX(drawable->modelMatrix, drawable->rotationX);
+            }
+
+            if (drawable->rotationY != 0.0f)
+            {
+                AMatrix->RotateY(drawable->modelMatrix, drawable->rotationY);
+            }
+
             if (ADrawable_CheckState(drawable, DrawableState_IsUpdateMVPMatrix))
             {
                 AMatrix->MultiplyMM(ACamera->vp, drawable->modelMatrix, drawable->mvpMatrix);
@@ -704,6 +714,8 @@ static void Init(Drawable* outDrawable)
     outDrawable->scaleY        = 1.0f;
     outDrawable->scaleZ        = 1.0f;
 
+    outDrawable->rotationX     = 0.0f;
+    outDrawable->rotationY     = 0.0f;
     outDrawable->rotationZ     = 0.0f;
 
     outDrawable->color->r      = 1.0f;

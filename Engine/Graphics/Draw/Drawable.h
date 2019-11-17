@@ -228,8 +228,10 @@ struct  Drawable
      float         scaleZ;
 
      /**
-      * The local rotationZ relative parent, default 0.0f and clockwise [0.0f - 360.0f].
+      * The local rotation relative parent, default 0.0f and clockwise [0.0f - 360.0f].
       */
+     float         rotationX;
+     float         rotationY;
      float         rotationZ;
 
      /**
@@ -620,6 +622,26 @@ static inline void ADrawable_SetScaleSame2(Drawable* drawable, float scale)
 
 
 //----------------------------------------------------------------------------------------------------------------------
+
+
+/**
+ * Set drawable rotation x, and flag state for Drawable->Draw to change modelMatrix.
+ */
+static inline void ADrawable_SetRotationX(Drawable* drawable, float rotationX)
+{
+    drawable->rotationX = rotationX;
+    ADrawable_AddState(drawable, DrawableState_RotationX);
+}
+
+
+/**
+ * Set drawable rotation y, and flag state for Drawable->Draw to change modelMatrix.
+ */
+static inline void ADrawable_SetRotationY(Drawable* drawable, float rotationY)
+{
+    drawable->rotationY = rotationY;
+    ADrawable_AddState(drawable, DrawableState_RotationY);
+}
 
 
 /**
