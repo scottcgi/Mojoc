@@ -71,10 +71,16 @@ TweenEaseType;
 struct ATweenEase
 {
     /**
-     * Ease interpolation algorithm function.
-     * value between [from, to] control by time between [0.0f, 1.0f].
+     * Easing functions.
+     * the return value between [from, to] controlled by time between [0.0f, 1.0f].
      */
-    float (*Interpolates[TweenEaseType_Length])(float from, float to, float time);
+    float (*EasingFns[TweenEaseType_Length])(float from, float to, float time);
+
+    /**
+     * Easing time functions.
+     * the return value between [0.0f, 1.0f], which is the time between [0.0f, 1.0f] after easing.
+     */
+    float (*EasingTimeFns[TweenEaseType_Length])(float time);
 };
 
 

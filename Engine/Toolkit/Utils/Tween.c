@@ -374,12 +374,8 @@ static void Update(float deltaSeconds)
                     actionValue->OnSet
                     (
                         action->target,
-                        ATweenEase->Interpolates[actionValue->easeType]
-                        (
-                            actionValue->fromValue,
-                            actionValue->toValue,
-                            action->curTime / action->duration
-                        )
+                        actionValue->fromValue + (actionValue->toValue - actionValue->fromValue) *
+                        ATweenEase->EasingTimeFns[actionValue->easeType](action->curTime / action->duration)
                     );
                 }
 
