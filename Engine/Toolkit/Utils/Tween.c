@@ -348,7 +348,7 @@ static void Update(float deltaSeconds)
             if (tween->queueAction != NULL)
             {
                 // add the running queue action into current list
-                AArrayList_Add (tween->current, tween->queueAction);
+                AArrayList_Add(tween->current, tween->queueAction);
                 SetActionValue(tween->queueAction);
             }
         }
@@ -357,7 +357,7 @@ static void Update(float deltaSeconds)
         {
             // all actions complete so remove tweenData and push to cache
             AArrayList_Add        (tweenCacheList, tween);
-            AArrayIntMap->RemoveAt(tweenRunningMap,  i);
+            AArrayIntMap->RemoveAt(tweenRunningMap,    i);
             continue;
         }
 

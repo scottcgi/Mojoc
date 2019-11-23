@@ -364,30 +364,6 @@ static float BackInElasticOut(float from, float to, float time)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float BounceOut(float from, float to, float time)
-{
-    if (time < 0.363636f)
-    {
-        return VALUE * 7.5625f * time * time;
-    }
-    else if (time < 0.72727f)
-    {
-        time -= 0.545454f;
-        return VALUE * (7.5625f * time * time + 0.75f);
-    }
-    else if (time < 0.909091f)
-    {
-        time -= 0.818182f;
-        return VALUE * (7.5625f * time * time + 0.9375f);
-    }
-    else
-    {
-        time -= 0.954545f;
-        return VALUE * (7.5625f * time * time + 0.984375f);
-    }
-}
-
-
 static float BounceIn(float from, float to, float time)
 {
     if (time > 0.636364f)
@@ -409,6 +385,30 @@ static float BounceIn(float from, float to, float time)
     {
         time = 0.045455f - time;
         return VALUE * (0.015625f - 7.5625f * time * time);
+    }
+}
+
+
+static float BounceOut(float from, float to, float time)
+{
+    if (time < 0.363636f)
+    {
+        return VALUE * 7.5625f * time * time;
+    }
+    else if (time < 0.72727f)
+    {
+        time -= 0.545454f;
+        return VALUE * (7.5625f * time * time + 0.75f);
+    }
+    else if (time < 0.909091f)
+    {
+        time -= 0.818182f;
+        return VALUE * (7.5625f * time * time + 0.9375f);
+    }
+    else
+    {
+        time -= 0.954545f;
+        return VALUE * (7.5625f * time * time + 0.984375f);
     }
 }
 

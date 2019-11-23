@@ -80,9 +80,9 @@ struct ATweenTool
     struct ATweenTool* (*AddMoveY)     (float moveY,   float duration);
 
     struct ATweenTool* (*AddMove2)     (
-                                           float          moveX,
-                                           float          moveY,
-                                           float          duration,
+                                           float         moveX,
+                                           float         moveY,
+                                           float         duration,
                                            bool          isRelative,
                                            TweenEaseType easeType
                                        );
