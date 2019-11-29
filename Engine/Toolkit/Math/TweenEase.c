@@ -383,6 +383,11 @@ static float BounceIn(float from, float to, float time)
     }
     else
     {
+        if (time == 1.0f)
+        {
+            return to;
+        }
+
         time = 0.045455f - time;
         return VALUE * (0.015625f - 7.5625f * time * time);
     }
@@ -407,6 +412,11 @@ static float BounceOut(float from, float to, float time)
     }
     else
     {
+        if (time == 1.0f)
+        {
+            return to;
+        }
+
         time -= 0.954545f;
         return VALUE * (7.5625f * time * time + 0.984375f);
     }
@@ -458,6 +468,11 @@ static float BounceInOut(float from, float to, float time)
     }
     else
     {
+        if (time == 1.0f)
+        {
+            return to;
+        }
+        
         time = time * 2.0f - 1.954545f;
         return VALUE * (3.78125f * time * time + 0.992188f);
     }
@@ -812,6 +827,11 @@ static float BounceInTime(float time)
     }
     else
     {
+        if (time == 1.0f)
+        {
+            return time;
+        }
+
         time = 0.045455f - time;
         return 0.015625f - 7.5625f * time * time;
     }
@@ -836,6 +856,11 @@ static float BounceOutTime(float time)
     }
     else
     {
+        if (time == 1.0f)
+        {
+            return time;
+        }
+        
         time -= 0.954545f;
         return 7.5625f * time * time + 0.984375f;
     }
@@ -887,6 +912,11 @@ static float BounceInOutTime(float time)
     }
     else
     {
+        if (time == 1.0f)
+        {
+            return time;
+        }
+        
         time = time * 2.0f - 1.954545f;
         return 3.78125f * time * time + 0.992188f;
     }
