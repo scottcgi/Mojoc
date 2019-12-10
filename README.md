@@ -42,7 +42,6 @@ Mojoc has been used for a cross-platform Android and IOS game on the App Store a
 * **SuperLittleRed** is a bow and arrow shooting game, very challenging for your operation.
   * [App Store](https://itunes.apple.com/cn/app/id1242353775)
   * [Google Play](https://play.google.com/store/apps/details?id=com.SuperLittleRed)
-  * [Tap Tap](https://www.taptap.com/app/45524)
   
 
 ## Samples
@@ -99,7 +98,7 @@ The compiled and playable apk is here:
   
   
 ## Roadmap
-The roadmap gives the direction of the Mojoc development.
+The roadmap shows the direction of the Mojoc development.
 
 #### Graphics Module
   * Create graphics layer compatible with Vulkan, Metal and D3D.
@@ -135,7 +134,7 @@ The roadmap gives the direction of the Mojoc development.
 ## Support
   * :video_game: Play Mojoc [Published Games](#published-games) (rating or comment).
   * :octocat: Star & Issue & Fork on GitHub, or share **Mojoc** project to anyone.
-  * :coffee: Buy me a cheap coffee via [Paypal-0.99](https://www.paypal.me/PayScottcgi/0.99) (cheap coffee can also be converted into high-quality code, but some brain cells will be lost).
+  * :coffee: Buy me a cheap coffee via [Paypal-0.99](https://www.paypal.me/PayScottcgi/0.99).
   
 
 ##  
