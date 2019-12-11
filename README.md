@@ -51,7 +51,6 @@ Currently there is only one sample, which is a simplfied version of the publishe
 
 The compiled and playable apk is here:
 
-* [Sample-SuperLittleRed](https://github.com/scottcgi/Mojoc/blob/master/Samples/Apk/Sample-SuperLittleRed.apk?raw=true)
 * [SuperLittleRed-2.0.1.apk](https://github.com/scottcgi/Mojoc/blob/master/Samples/Apk/SuperLittleRed-2.0.1.apk?raw=true)
 
 <img src="https://raw.githubusercontent.com/scottcgi/Mojoc/master/Docs/Pic/SuperLittleRed-Sample.gif" width="400" height="225" alt="SuperLittleRed-Sample" title="SuperLittleRed-Sample" />
@@ -109,7 +108,7 @@ The roadmap shows the direction of the Mojoc development.
   
 #### Extension Module
   * Support bitmap fonts.
-  * Support Simple test unit for Mojoc features.
+  * Support simple test unit for Mojoc features.
   
 #### Physics Module
   * Support motion simulation after rigid body collision.
@@ -132,9 +131,9 @@ The roadmap shows the direction of the Mojoc development.
 
 
 ## Support
-  * :video_game: Play Mojoc [Published Games](#published-games) (rating or comment).
+  * :video_game: Play Mojoc [Published Games](#published-games).
   * :octocat: Star & Issue & Fork on GitHub, or share **Mojoc** project to anyone.
-  * :coffee: Buy me a cheap coffee via [Paypal-0.99](https://www.paypal.me/PayScottcgi/0.99).
+  * :coffee: If the source code is **useful** for you, maybe buy me a coffee via [Paypal-0.99](https://www.paypal.me/PayScottcgi/0.99).
   
 
 ##  
