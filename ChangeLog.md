@@ -1,3 +1,15 @@
+## Developing
+
+* Remove `RotateM` function in `Matrix.c`.
+* Optimize matrix `ratation`.
+* Add `rotatioinX` and `rotationY` in `Drawable`. 
+* Rename `Interpolates` to `EasingFns` in `ATweenEase`.
+* Add `EasingTimeFns` in `ATweenEase`. 
+* Fix `Bounce` function error when easing complete in `TweenEase`.
+* Fix bug `off_t` convert to `off_t*` in function `OpenFileDescriptor` of `File.c`.
+* Optimize easing functions that delete all redundant `else` keywords.
+
+
 ## v0.5.0
 _`2019.9.5 UTC+8 15:42`_
 
