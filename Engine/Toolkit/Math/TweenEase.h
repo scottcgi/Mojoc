@@ -1,4 +1,12 @@
-/*
+/* 
+ * The original algorithms of easing functions come from Robert Penner 
+ * http://robertpenner.com/easing/
+ * 
+ * The licenses are MIT and BSD 
+ * http://robertpenner.com/easing_terms_of_use.html
+ *
+ *----------------------------------------------------------------------------------------------------------------------
+ * 
  * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
  *
  * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
@@ -9,6 +17,7 @@
  * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
  * Since    : 2013-11-5
+ * Update   : 2019-12-19
  * Author   : scott.cgi
  */
 
