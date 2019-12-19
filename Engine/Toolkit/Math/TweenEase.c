@@ -1,9 +1,9 @@
 /*
- * The original algorithms of easing functions come from Robert Penner 
- * http://robertpenner.com/easing/
- * 
- * The licenses are MIT and BSD 
- * http://robertpenner.com/easing_terms_of_use.html
+ * The original algorithms of easing functions come from Robert Penner.
+ * The open source licensed under the MIT License and the BSD License.
+ *
+ * Introduce: http://robertpenner.com/easing
+ * License  : http://robertpenner.com/easing_terms_of_use.html
  *
  *----------------------------------------------------------------------------------------------------------------------
  * 
@@ -56,10 +56,8 @@ static float QuadraticInOut(float from, float to, float time)
     {
         return VALUE * time * time * 2.0f;
     }
-    else
-    {
-        return VALUE * (2.0f * time * (2.0f - time) - 1.0f);
-    }
+
+    return VALUE * (2.0f * time * (2.0f - time) - 1.0f);
 }
 
 
@@ -85,11 +83,9 @@ static float CubicInOut(float from, float to, float time)
     {
         return VALUE * 4.0f * time * time * time;
     }
-    else
-    {
-        time -= 1.0f;
-        return VALUE * (4.0f * time * time * time + 1.0f);
-    }
+
+    time -= 1.0f;
+    return VALUE * (4.0f * time * time * time + 1.0f);
 }
 
 
@@ -105,7 +101,7 @@ static float QuarticIn(float from, float to, float time)
 static float QuarticOut(float from, float to, float time)
 {
     time -= 1.0f;
-    return VALUE * (time * time * time * (-time) + 1.0f);
+    return VALUE * (1.0f - time * time * time * time);
 }
 
 
@@ -115,11 +111,9 @@ static float QuarticInOut(float from, float to, float time)
     {
         return VALUE * 8.0f * time * time * time * time;
     }
-    else
-    {
-        time -= 1.0f;
-        return VALUE * (-8.0f * time * time * time * time + 1.0f);
-    }
+
+    time -= 1.0f;
+    return VALUE * (1.0f - 8.0f * time * time * time * time);
 }
 
 
@@ -145,11 +139,9 @@ static float QuinticInOut(float from, float to, float time)
     {
         return VALUE * 16.0f * time * time * time * time * time;
     }
-    else
-    {
-        time -=  1.0f;
-        return VALUE * (16.0f * time * time * time * time * time + 1.0f);
-    }
+
+    time -= 1.0f;
+    return VALUE * (16.0f * time * time * time * time * time + 1.0f);
 }
 
 
@@ -158,38 +150,34 @@ static float QuinticInOut(float from, float to, float time)
 
 static float ExponentialIn(float from, float to, float time)
 {
-    if (time == 0.0f)
+    if (time <= 0.0f)
     {
         return from;
     }
-    else
-    {
-        return VALUE * powf(2.0f, 10.0f * (time - 1.0f));
-    }
+
+    return VALUE * powf(2.0f, 10.0f * (time - 1.0f));
 }
 
 
 static float ExponentialOut(float from, float to, float time)
 {
-    if (time == 1.0f)
+    if (time >= 1.0f)
     {
         return to;
     }
-    else
-    {
-        return VALUE * (1.0f - powf(2.0f, -10.0f * time));
-    }
+
+    return VALUE * (1.0f - powf(2.0f, -10.0f * time));
 }
 
 
 static float ExponentialInOut(float from, float to, float time)
 {
-    if (time == 0.0f)
+    if (time <= 0.0f)
     {
         return from;
     }
 
-    if (time == 1.0f)
+    if (time >= 1.0f)
     {
         return to;
     }
@@ -198,10 +186,8 @@ static float ExponentialInOut(float from, float to, float time)
     {
         return VALUE * 0.5f * powf(2.0f, 20.0f * time - 10.0f);
     }
-    else
-    {
-        return VALUE * 0.5f * (2.0f - powf(2.0f, -20.0f * time + 10.0f));
-    }
+
+    return VALUE * 0.5f * (2.0f - powf(2.0f, -20.0f * time + 10.0f));
 }
 
 
@@ -247,11 +233,9 @@ static float CircularInOut(float from, float to, float time)
     {
         return VALUE * 0.5f * (1.0f - AMath_Sqrtf(1.0f - 4.0f * time * time));
     }
-    else
-    {
-        time = time * 2.0f - 2.0f;
-        return VALUE * 0.5f * (AMath_Sqrtf(1.0f - time * time) + 1.0f);
-    }
+
+    time = time * 2.0f - 2.0f;
+    return VALUE * 0.5f * (AMath_Sqrtf(1.0f - time * time) + 1.0f);
 }
 
 
@@ -260,12 +244,12 @@ static float CircularInOut(float from, float to, float time)
 
 static float ElasticIn(float from, float to, float time)
 {
-    if (time == 0.0f)
+    if (time <= 0.0f)
     {
         return from;
     }
 
-    if (time == 1.0f)
+    if (time >= 1.0f)
     {
         return to;
     }
@@ -276,12 +260,12 @@ static float ElasticIn(float from, float to, float time)
 
 static float ElasticOut(float from, float to, float time)
 {
-    if (time == 0.0f)
+    if (time <= 0.0f)
     {
         return from;
     }
 
-    if (time == 1.0f)
+    if (time >= 1.0f)
     {
         return to;
     }
@@ -292,12 +276,12 @@ static float ElasticOut(float from, float to, float time)
 
 static float ElasticInOut(float from, float to, float time)
 {
-    if (time == 0.0f)
+    if (time <= 0.0f)
     {
         return from;
     }
 
-    if (time == 1.0f)
+    if (time >= 1.0f)
     {
         return to;
     }
@@ -306,10 +290,8 @@ static float ElasticInOut(float from, float to, float time)
     {
         return VALUE * -0.5f * powf(2.0f, 20.0f * time - 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI);
     }
-    else
-    {
-        return VALUE * (powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f);
-    }
+    
+    return VALUE * (powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f);
 }
 
 
@@ -335,11 +317,9 @@ static float BackInOut(float from, float to, float time)
     {
         return VALUE * time * time * (14.379636f * time - 5.189818f);
     }
-    else
-    {
-        time -= 1.0f;
-        return VALUE * (time * time * (14.379636f * time + 5.189818f) + 1.0f);
-    }
+
+    time -= 1.0f;
+    return VALUE * (time * time * (14.379636f * time + 5.189818f) + 1.0f);
 }
 
 
@@ -349,10 +329,8 @@ static float BackInExponentialOut(float from, float to, float time)
     {
         return VALUE * time * time * (14.379636f * time - 5.189818f);
     }
-    else
-    {
-        return VALUE * 0.5f * (2.0f - powf(2.0f, -20.0f * time + 10.0f));
-    }
+
+    return VALUE * 0.5f * (2.0f - powf(2.0f, -20.0f * time + 10.0f));
 }
 
 
@@ -362,10 +340,8 @@ static float BackInElasticOut(float from, float to, float time)
     {
         return VALUE * time * time * (14.379636f * time - 5.189818f);
     }
-    else
-    {
-        return VALUE * (powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f);
-    }
+
+    return VALUE * (powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f);
 }
 
 
@@ -379,26 +355,26 @@ static float BounceIn(float from, float to, float time)
         time = 1.0f - time;
         return VALUE * (1.0f - 7.5625f * time * time);
     }
-    else if (time > 0.27273f)
+
+    if (time > 0.27273f)
     {
         time = 0.454546f - time;
         return VALUE * (0.25f - 7.5625f * time * time);
     }
-    else if (time > 0.090909f)
+
+    if (time > 0.090909f)
     {
         time = 0.181818f - time;
         return VALUE * (0.0625f - 7.5625f * time * time);
     }
-    else
-    {
-        if (time == 1.0f)
-        {
-            return to;
-        }
 
-        time = 0.045455f - time;
-        return VALUE * (0.015625f - 7.5625f * time * time);
+    if (time >= 1.0f)
+    {
+        return to;
     }
+
+    time = 0.045455f - time;
+    return VALUE * (0.015625f - 7.5625f * time * time);
 }
 
 
@@ -408,26 +384,26 @@ static float BounceOut(float from, float to, float time)
     {
         return VALUE * 7.5625f * time * time;
     }
-    else if (time < 0.72727f)
+
+    if (time < 0.72727f)
     {
         time -= 0.545454f;
         return VALUE * (7.5625f * time * time + 0.75f);
     }
-    else if (time < 0.909091f)
+
+    if (time < 0.909091f)
     {
         time -= 0.818182f;
         return VALUE * (7.5625f * time * time + 0.9375f);
     }
-    else
-    {
-        if (time == 1.0f)
-        {
-            return to;
-        }
 
-        time -= 0.954545f;
-        return VALUE * (7.5625f * time * time + 0.984375f);
+    if (time >= 1.0f)
+    {
+        return to;
     }
+
+    time -= 0.954545f;
+    return VALUE * (7.5625f * time * time + 0.984375f);
 }
 
 
@@ -441,21 +417,21 @@ static float BounceInOut(float from, float to, float time)
             time = 1.0f - time * 2.0f;
             return VALUE * (0.5f - 3.78125f * time * time);
         }
-        else if (time > 0.136365f)
+
+        if (time > 0.136365f)
         {
             time = 0.454546f - time * 2.0f;
             return VALUE * (0.125f - 3.78125f * time * time);
         }
-        else if (time > 0.045455f)
+
+        if (time > 0.045455f)
         {
             time = 0.181818f - time * 2.0f;
             return VALUE * (0.03125f - 3.78125f * time * time);
         }
-        else
-        {
-            time = 0.045455f - time * 2.0f;
-            return VALUE * (0.007813f - 3.78125f * time * time);
-        }
+
+        time = 0.045455f - time * 2.0f;
+        return VALUE * (0.007813f - 3.78125f * time * time);
     }
 
     // bounce out
@@ -464,26 +440,26 @@ static float BounceInOut(float from, float to, float time)
         time = time * 2.0f - 1.0f;
         return VALUE * (3.78125f * time * time + 0.5f);
     }
-    else if (time < 0.863635f)
+
+    if (time < 0.863635f)
     {
         time = time * 2.0f - 1.545454f;
         return VALUE * (3.78125f * time * time + 0.875f);
     }
-    else if (time < 0.954546f)
+
+    if (time < 0.954546f)
     {
         time = time * 2.0f - 1.818182f;
         return VALUE * (3.78125f * time * time + 0.96875f);
     }
-    else
+
+    if (time >= 1.0f)
     {
-        if (time == 1.0f)
-        {
-            return to;
-        }
-        
-        time = time * 2.0f - 1.954545f;
-        return VALUE * (3.78125f * time * time + 0.992188f);
+        return to;
     }
+
+    time = time * 2.0f - 1.954545f;
+    return VALUE * (3.78125f * time * time + 0.992188f);
 }
 
 
@@ -520,10 +496,8 @@ static float QuadraticInOutTime(float time)
     {
         return time * time * 2.0f;
     }
-    else
-    {
-        return 2.0f * time * (2.0f - time) - 1.0f;
-    }
+
+    return 2.0f * time * (2.0f - time) - 1.0f;
 }
 
 
@@ -549,11 +523,9 @@ static float CubicInOutTime(float time)
     {
         return 4.0f * time * time * time;
     }
-    else
-    {
-        time -= 1.0f;
-        return 4.0f * time * time * time + 1.0f;
-    }
+
+    time -= 1.0f;
+    return 4.0f * time * time * time + 1.0f;
 }
 
 
@@ -569,7 +541,7 @@ static float QuarticInTime(float time)
 static float QuarticOutTime(float time)
 {
     time -= 1.0f;
-    return time * time * time * (-time) + 1.0f;
+    return 1.0f - time * time * time * time;
 }
 
 
@@ -579,11 +551,9 @@ static float QuarticInOutTime(float time)
     {
         return 8.0f * time * time * time * time;
     }
-    else
-    {
-        time -= 1.0f;
-        return -8.0f * time * time * time * time + 1.0f;
-    }
+
+    time -= 1.0f;
+    return 1.0f - 8.0f * time * time * time * time;
 }
 
 
@@ -609,11 +579,9 @@ static float QuinticInOutTime(float time)
     {
         return 16.0f * time * time * time * time * time;
     }
-    else
-    {
-        time -=  1.0f;
-        return 16.0f * time * time * time * time * time + 1.0f;
-    }
+
+    time -= 1.0f;
+    return 16.0f * time * time * time * time * time + 1.0f;
 }
 
 
@@ -622,33 +590,29 @@ static float QuinticInOutTime(float time)
 
 static float ExponentialInTime(float time)
 {
-    if (time == 0.0f)
+    if (time <= 0.0f)
     {
         return time;
     }
-    else
-    {
-        return powf(2.0f, 10.0f * (time - 1.0f));
-    }
+
+    return powf(2.0f, 10.0f * (time - 1.0f));
 }
 
 
 static float ExponentialOutTime(float time)
 {
-    if (time == 1.0f)
+    if (time >= 1.0f)
     {
         return time;
     }
-    else
-    {
-        return 1.0f - powf(2.0f, -10.0f * time);
-    }
+
+    return 1.0f - powf(2.0f, -10.0f * time);
 }
 
 
 static float ExponentialInOutTime(float time)
 {
-    if (time == 0.0f || time == 1.0f)
+    if (time <= 0.0f || time >= 1.0f)
     {
         return time;
     }
@@ -657,10 +621,8 @@ static float ExponentialInOutTime(float time)
     {
         return 0.5f * powf(2.0f, 20.0f * time - 10.0f);
     }
-    else
-    {
-        return 0.5f * (2.0f - powf(2.0f, -20.0f * time + 10.0f));
-    }
+
+    return 0.5f * (2.0f - powf(2.0f, -20.0f * time + 10.0f));
 }
 
 
@@ -706,11 +668,9 @@ static float CircularInOutTime(float time)
     {
         return 0.5f * (1.0f - AMath_Sqrtf(1.0f - 4.0f * time * time));
     }
-    else
-    {
-        time = time * 2.0f - 2.0f;
-        return 0.5f * (AMath_Sqrtf(1.0f - time * time) + 1.0f);
-    }
+
+    time = time * 2.0f - 2.0f;
+    return 0.5f * (AMath_Sqrtf(1.0f - time * time) + 1.0f);
 }
 
 
@@ -719,7 +679,7 @@ static float CircularInOutTime(float time)
 
 static float ElasticInTime(float time)
 {
-    if (time == 0.0f || time == 1.0f)
+    if (time <= 0.0f || time >= 1.0f)
     {
         return time;
     }
@@ -730,7 +690,7 @@ static float ElasticInTime(float time)
 
 static float ElasticOutTime(float time)
 {
-    if (time == 0.0f || time == 1.0f)
+    if (time <= 0.0f || time >= 1.0f)
     {
         return time;
     }
@@ -741,7 +701,7 @@ static float ElasticOutTime(float time)
 
 static float ElasticInOutTime(float time)
 {
-    if (time == 0.0f || time == 1.0f)
+    if (time <= 0.0f || time >= 1.0f)
     {
         return time;
     }
@@ -750,10 +710,8 @@ static float ElasticInOutTime(float time)
     {
         return -0.5f * powf(2.0f, 20.0f * time - 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI);
     }
-    else
-    {
-        return powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f;
-    }
+
+    return powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f;
 }
 
 
@@ -779,11 +737,9 @@ static float BackInOutTime(float time)
     {
         return time * time * (14.379636f * time - 5.189818f);
     }
-    else
-    {
-        time -= 1.0f;
-        return time * time * (14.379636f * time + 5.189818f) + 1.0f;
-    }
+
+    time -= 1.0f;
+    return time * time * (14.379636f * time + 5.189818f) + 1.0f;
 }
 
 
@@ -793,10 +749,8 @@ static float BackInExponentialOutTime(float time)
     {
         return time * time * (14.379636f * time - 5.189818f);
     }
-    else
-    {
-        return 0.5f * (2.0f - powf(2.0f, -20.0f * time + 10.0f));
-    }
+
+    return 0.5f * (2.0f - powf(2.0f, -20.0f * time + 10.0f));
 }
 
 
@@ -806,10 +760,8 @@ static float BackInElasticOutTime(float time)
     {
         return time * time * (14.379636f * time - 5.189818f);
     }
-    else
-    {
-        return powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f;
-    }
+
+    return powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f;
 }
 
 
@@ -823,26 +775,26 @@ static float BounceInTime(float time)
         time = 1.0f - time;
         return 1.0f - 7.5625f * time * time;
     }
-    else if (time > 0.27273f)
+
+    if (time > 0.27273f)
     {
         time = 0.454546f - time;
         return 0.25f - 7.5625f * time * time;
     }
-    else if (time > 0.090909f)
+
+    if (time > 0.090909f)
     {
         time = 0.181818f - time;
         return 0.0625f - 7.5625f * time * time;
     }
-    else
-    {
-        if (time == 1.0f)
-        {
-            return time;
-        }
 
-        time = 0.045455f - time;
-        return 0.015625f - 7.5625f * time * time;
+    if (time >= 1.0f)
+    {
+        return time;
     }
+
+    time = 0.045455f - time;
+    return 0.015625f - 7.5625f * time * time;
 }
 
 
@@ -852,26 +804,26 @@ static float BounceOutTime(float time)
     {
         return 7.5625f * time * time;
     }
-    else if (time < 0.72727f)
+
+    if (time < 0.72727f)
     {
         time -= 0.545454f;
         return 7.5625f * time * time + 0.75f;
     }
-    else if (time < 0.909091f)
+
+    if (time < 0.909091f)
     {
         time -= 0.818182f;
         return 7.5625f * time * time + 0.9375f;
     }
-    else
+
+    if (time >= 1.0f)
     {
-        if (time == 1.0f)
-        {
-            return time;
-        }
-        
-        time -= 0.954545f;
-        return 7.5625f * time * time + 0.984375f;
+        return time;
     }
+    
+    time -= 0.954545f;
+    return 7.5625f * time * time + 0.984375f;
 }
 
 
@@ -885,21 +837,21 @@ static float BounceInOutTime(float time)
             time = 1.0f - time * 2.0f;
             return 0.5f - 3.78125f * time * time;
         }
-        else if (time > 0.136365f)
+
+        if (time > 0.136365f)
         {
             time = 0.454546f - time * 2.0f;
             return 0.125f - 3.78125f * time * time;
         }
-        else if (time > 0.045455f)
+
+        if (time > 0.045455f)
         {
             time = 0.181818f - time * 2.0f;
             return 0.03125f - 3.78125f * time * time;
         }
-        else
-        {
-            time = 0.045455f - time * 2.0f;
-            return 0.007813f - 3.78125f * time * time;
-        }
+
+        time = 0.045455f - time * 2.0f;
+        return 0.007813f - 3.78125f * time * time;
     }
 
     // bounce out
@@ -908,26 +860,26 @@ static float BounceInOutTime(float time)
         time = time * 2.0f - 1.0f;
         return 3.78125f * time * time + 0.5f;
     }
-    else if (time < 0.863635f)
+
+    if (time < 0.863635f)
     {
         time = time * 2.0f - 1.545454f;
         return 3.78125f * time * time + 0.875f;
     }
-    else if (time < 0.954546f)
+
+    if (time < 0.954546f)
     {
         time = time * 2.0f - 1.818182f;
         return 3.78125f * time * time + 0.96875f;
     }
-    else
+
+    if (time >= 1.0f)
     {
-        if (time == 1.0f)
-        {
-            return time;
-        }
-        
-        time = time * 2.0f - 1.954545f;
-        return 3.78125f * time * time + 0.992188f;
+        return time;
     }
+
+    time = time * 2.0f - 1.954545f;
+    return 3.78125f * time * time + 0.992188f;
 }
 
 

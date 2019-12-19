@@ -1,9 +1,9 @@
 /* 
- * The original algorithms of easing functions come from Robert Penner 
- * http://robertpenner.com/easing/
- * 
- * The licenses are MIT and BSD 
- * http://robertpenner.com/easing_terms_of_use.html
+ * The original algorithms of easing functions come from Robert Penner.
+ * The open source licensed under the MIT License and the BSD License.
+ *
+ * Introduce: http://robertpenner.com/easing
+ * License  : http://robertpenner.com/easing_terms_of_use.html
  *
  *----------------------------------------------------------------------------------------------------------------------
  * 
@@ -80,13 +80,13 @@ TweenEaseType;
 struct ATweenEase
 {
     /**
-     * Easing functions.
+     * Tween easing functions.
      * the return value between [from, to] controlled by time between [0.0f, 1.0f].
      */
     float (*EasingFns[TweenEaseType_Length])(float from, float to, float time);
 
     /**
-     * Easing time functions.
+     * Tween easing time functions.
      * the return value between [0.0f, 1.0f], which is the time between [0.0f, 1.0f] after easing.
      */
     float (*EasingTimeFns[TweenEaseType_Length])(float time);
