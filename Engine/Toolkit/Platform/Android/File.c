@@ -41,7 +41,7 @@ static File* Open(const char* resourceFilePath)
 static int OpenFileDescriptor(const char* resourceFilePath, long* outStart, long* outLength)
 {
     AAsset* asset = AAssetManager_open(nativeActivity->assetManager, resourceFilePath, AASSET_MODE_UNKNOWN);
-    int     fd    = AAsset_openFileDescriptor(asset, (off_t) outStart, (off_t) outLength);
+    int     fd    = AAsset_openFileDescriptor(asset, (off_t*) outStart, (off_t*) outLength);
     AAsset_close(asset);
 
     return fd;
