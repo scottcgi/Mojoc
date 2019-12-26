@@ -26,450 +26,7 @@
 #include "Engine/Toolkit/Math/Math.h"
 
 
-#define VALUE from + (to - from)
-
-
-static float Linear(float from, float to, float time)
-{
-    return VALUE * time;
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static float QuadraticIn(float from, float to, float time)
-{
-    return VALUE * time * time;
-}
-
-
-static float QuadraticOut(float from, float to, float time)
-{
-    return VALUE * time * (2.0f - time);
-}
-
-
-static float QuadraticInOut(float from, float to, float time)
-{
-    if (time < 0.5f)
-    {
-        return VALUE * time * time * 2.0f;
-    }
-
-    return VALUE * (2.0f * time * (2.0f - time) - 1.0f);
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static float CubicIn(float from, float to, float time)
-{
-    return VALUE * time * time * time;
-}
-
-
-static float CubicOut(float from, float to, float time)
-{
-    time -= 1.0f;
-    return VALUE * (time * time * time + 1.0f);
-}
-
-
-static float CubicInOut(float from, float to, float time)
-{
-    if (time < 0.5f)
-    {
-        return VALUE * 4.0f * time * time * time;
-    }
-
-    time -= 1.0f;
-    return VALUE * (4.0f * time * time * time + 1.0f);
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static float QuarticIn(float from, float to, float time)
-{
-    return VALUE * time * time * time * time;
-}
-
-
-static float QuarticOut(float from, float to, float time)
-{
-    time -= 1.0f;
-    return VALUE * (1.0f - time * time * time * time);
-}
-
-
-static float QuarticInOut(float from, float to, float time)
-{
-    if (time < 0.5f)
-    {
-        return VALUE * 8.0f * time * time * time * time;
-    }
-
-    time -= 1.0f;
-    return VALUE * (1.0f - 8.0f * time * time * time * time);
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static float QuinticIn(float from, float to, float time)
-{
-    return VALUE * time * time * time * time * time;
-}
-
-
-static float QuinticOut(float from, float to, float time)
-{
-    time -= 1.0f;
-    return VALUE * (time * time * time * time * time + 1.0f);
-}
-
-
-static float QuinticInOut(float from, float to, float time)
-{
-    if (time < 0.5f)
-    {
-        return VALUE * 16.0f * time * time * time * time * time;
-    }
-
-    time -= 1.0f;
-    return VALUE * (16.0f * time * time * time * time * time + 1.0f);
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static float ExponentialIn(float from, float to, float time)
-{
-    if (time <= 0.0f)
-    {
-        return from;
-    }
-
-    return VALUE * powf(2.0f, 10.0f * (time - 1.0f));
-}
-
-
-static float ExponentialOut(float from, float to, float time)
-{
-    if (time >= 1.0f)
-    {
-        return to;
-    }
-
-    return VALUE * (1.0f - powf(2.0f, -10.0f * time));
-}
-
-
-static float ExponentialInOut(float from, float to, float time)
-{
-    if (time <= 0.0f)
-    {
-        return from;
-    }
-
-    if (time >= 1.0f)
-    {
-        return to;
-    }
-
-    if (time < 0.5f)
-    {
-        return VALUE * 0.5f * powf(2.0f, 20.0f * time - 10.0f);
-    }
-
-    return VALUE * 0.5f * (2.0f - powf(2.0f, -20.0f * time + 10.0f));
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static float SineIn(float from, float to, float time)
-{
-    return VALUE * (1.0f - cosf(time * MATH_PI2));
-}
-
-
-static float SineOut(float from, float to, float time)
-{
-    return VALUE * sinf(time * MATH_PI2);
-}
-
-
-static float SineInOut(float from, float to, float time)
-{
-    return VALUE * 0.5f * (1.0f - cosf(time * MATH_PI));
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static float CircularIn(float from, float to, float time)
-{
-    return VALUE * (1.0f - AMath_Sqrtf(1.0f - time * time));
-}
-
-
-static float CircularOut(float from, float to, float time)
-{
-    return VALUE * AMath_Sqrtf((2.0f - time) * time);
-}
-
-
-static float CircularInOut(float from, float to, float time)
-{
-    if (time < 0.5f)
-    {
-        return VALUE * 0.5f * (1.0f - AMath_Sqrtf(1.0f - 4.0f * time * time));
-    }
-
-    time = time * 2.0f - 2.0f;
-    return VALUE * 0.5f * (AMath_Sqrtf(1.0f - time * time) + 1.0f);
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static float ElasticIn(float from, float to, float time)
-{
-    if (time <= 0.0f)
-    {
-        return from;
-    }
-
-    if (time >= 1.0f)
-    {
-        return to;
-    }
-
-    return VALUE * -powf(2.0f, 10.0f * time - 10.0f) * sinf((3.33f * time - 3.58f) * MATH_2PI);
-}
-
-
-static float ElasticOut(float from, float to, float time)
-{
-    if (time <= 0.0f)
-    {
-        return from;
-    }
-
-    if (time >= 1.0f)
-    {
-        return to;
-    }
-
-    return VALUE * (powf(2.0f, -10.0f * time) * sinf((3.33f * time - 0.25f) * MATH_2PI) + 1.0f);
-}
-
-
-static float ElasticInOut(float from, float to, float time)
-{
-    if (time <= 0.0f)
-    {
-        return from;
-    }
-
-    if (time >= 1.0f)
-    {
-        return to;
-    }
-
-    if (time < 0.5f)
-    {
-        return VALUE * -0.5f * powf(2.0f, 20.0f * time - 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI);
-    }
-    
-    return VALUE * (powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f);
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static float BackIn(float from, float to, float time)
-{
-    return VALUE * time * time * (2.70158f * time - 1.70158f);
-}
-
-
-static float BackOut(float from, float to, float time)
-{
-    time -= 1.0f;
-    return VALUE * (time * time * (2.70158f * time + 1.70158f) + 1.0f);
-}
-
-
-static float BackInOut(float from, float to, float time)
-{
-    if (time < 0.5f)
-    {
-        return VALUE * time * time * (14.379636f * time - 5.189818f);
-    }
-
-    time -= 1.0f;
-    return VALUE * (time * time * (14.379636f * time + 5.189818f) + 1.0f);
-}
-
-
-static float BackInExponentialOut(float from, float to, float time)
-{
-    if (time < 0.5f)
-    {
-        return VALUE * time * time * (14.379636f * time - 5.189818f);
-    }
-
-    return VALUE * 0.5f * (2.0f - powf(2.0f, -20.0f * time + 10.0f));
-}
-
-
-static float BackInElasticOut(float from, float to, float time)
-{
-    if (time < 0.5f)
-    {
-        return VALUE * time * time * (14.379636f * time - 5.189818f);
-    }
-
-    return VALUE * (powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f);
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static float BounceIn(float from, float to, float time)
-{
-    if (time > 0.636364f)
-    {
-        time = 1.0f - time;
-        return VALUE * (1.0f - 7.5625f * time * time);
-    }
-
-    if (time > 0.27273f)
-    {
-        time = 0.454546f - time;
-        return VALUE * (0.25f - 7.5625f * time * time);
-    }
-
-    if (time > 0.090909f)
-    {
-        time = 0.181818f - time;
-        return VALUE * (0.0625f - 7.5625f * time * time);
-    }
-
-    if (time >= 1.0f)
-    {
-        return to;
-    }
-
-    time = 0.045455f - time;
-    return VALUE * (0.015625f - 7.5625f * time * time);
-}
-
-
-static float BounceOut(float from, float to, float time)
-{
-    if (time < 0.363636f)
-    {
-        return VALUE * 7.5625f * time * time;
-    }
-
-    if (time < 0.72727f)
-    {
-        time -= 0.545454f;
-        return VALUE * (7.5625f * time * time + 0.75f);
-    }
-
-    if (time < 0.909091f)
-    {
-        time -= 0.818182f;
-        return VALUE * (7.5625f * time * time + 0.9375f);
-    }
-
-    if (time >= 1.0f)
-    {
-        return to;
-    }
-
-    time -= 0.954545f;
-    return VALUE * (7.5625f * time * time + 0.984375f);
-}
-
-
-static float BounceInOut(float from, float to, float time)
-{
-    if (time < 0.5f)
-    {
-        // bounce in
-        if (time > 0.318182f)
-        {
-            time = 1.0f - time * 2.0f;
-            return VALUE * (0.5f - 3.78125f * time * time);
-        }
-
-        if (time > 0.136365f)
-        {
-            time = 0.454546f - time * 2.0f;
-            return VALUE * (0.125f - 3.78125f * time * time);
-        }
-
-        if (time > 0.045455f)
-        {
-            time = 0.181818f - time * 2.0f;
-            return VALUE * (0.03125f - 3.78125f * time * time);
-        }
-
-        time = 0.045455f - time * 2.0f;
-        return VALUE * (0.007813f - 3.78125f * time * time);
-    }
-
-    // bounce out
-    if (time < 0.681818f)
-    {
-        time = time * 2.0f - 1.0f;
-        return VALUE * (3.78125f * time * time + 0.5f);
-    }
-
-    if (time < 0.863635f)
-    {
-        time = time * 2.0f - 1.545454f;
-        return VALUE * (3.78125f * time * time + 0.875f);
-    }
-
-    if (time < 0.954546f)
-    {
-        time = time * 2.0f - 1.818182f;
-        return VALUE * (3.78125f * time * time + 0.96875f);
-    }
-
-    if (time >= 1.0f)
-    {
-        return to;
-    }
-
-    time = time * 2.0f - 1.954545f;
-    return VALUE * (3.78125f * time * time + 0.992188f);
-}
-
-
-#undef VALUE
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-static float LinearTime(float time)
+static float Linear(float time)
 {
     return time;
 }
@@ -478,19 +35,19 @@ static float LinearTime(float time)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float QuadraticInTime(float time)
+static float QuadraticIn(float time)
 {
     return time * time;
 }
 
 
-static float QuadraticOutTime(float time)
+static float QuadraticOut(float time)
 {
     return time * (2.0f - time);
 }
 
 
-static float QuadraticInOutTime(float time)
+static float QuadraticInOut(float time)
 {
     if (time < 0.5f)
     {
@@ -504,20 +61,20 @@ static float QuadraticInOutTime(float time)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float CubicInTime(float time)
+static float CubicIn(float time)
 {
     return time * time * time;
 }
 
 
-static float CubicOutTime(float time)
+static float CubicOut(float time)
 {
     time -= 1.0f;
     return time * time * time + 1.0f;
 }
 
 
-static float CubicInOutTime(float time)
+static float CubicInOut(float time)
 {
     if (time < 0.5f)
     {
@@ -532,20 +89,20 @@ static float CubicInOutTime(float time)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float QuarticInTime(float time)
+static float QuarticIn(float time)
 {
     return time * time * time * time;
 }
 
 
-static float QuarticOutTime(float time)
+static float QuarticOut(float time)
 {
     time -= 1.0f;
     return 1.0f - time * time * time * time;
 }
 
 
-static float QuarticInOutTime(float time)
+static float QuarticInOut(float time)
 {
     if (time < 0.5f)
     {
@@ -560,20 +117,20 @@ static float QuarticInOutTime(float time)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float QuinticInTime(float time)
+static float QuinticIn(float time)
 {
     return time * time * time * time * time;
 }
 
 
-static float QuinticOutTime(float time)
+static float QuinticOut(float time)
 {
     time -= 1.0f;
     return time * time * time * time * time + 1.0f;
 }
 
 
-static float QuinticInOutTime(float time)
+static float QuinticInOut(float time)
 {
     if (time < 0.5f)
     {
@@ -588,7 +145,7 @@ static float QuinticInOutTime(float time)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float ExponentialInTime(float time)
+static float ExponentialIn(float time)
 {
     if (time <= 0.0f)
     {
@@ -599,7 +156,7 @@ static float ExponentialInTime(float time)
 }
 
 
-static float ExponentialOutTime(float time)
+static float ExponentialOut(float time)
 {
     if (time >= 1.0f)
     {
@@ -610,7 +167,7 @@ static float ExponentialOutTime(float time)
 }
 
 
-static float ExponentialInOutTime(float time)
+static float ExponentialInOut(float time)
 {
     if (time <= 0.0f || time >= 1.0f)
     {
@@ -629,19 +186,19 @@ static float ExponentialInOutTime(float time)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float SineInTime(float time)
+static float SineIn(float time)
 {
     return 1.0f - cosf(time * MATH_PI2);
 }
 
 
-static float SineOutTime(float time)
+static float SineOut(float time)
 {
     return sinf(time * MATH_PI2);
 }
 
 
-static float SineInOutTime(float time)
+static float SineInOut(float time)
 {
     return 0.5f * (1.0f - cosf(time * MATH_PI));
 }
@@ -650,19 +207,19 @@ static float SineInOutTime(float time)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float CircularInTime(float time)
+static float CircularIn(float time)
 {
     return 1.0f - AMath_Sqrtf(1.0f - time * time);
 }
 
 
-static float CircularOutTime(float time)
+static float CircularOut(float time)
 {
     return AMath_Sqrtf((2.0f - time) * time);
 }
 
 
-static float CircularInOutTime(float time)
+static float CircularInOut(float time)
 {
     if (time < 0.5f)
     {
@@ -677,29 +234,29 @@ static float CircularInOutTime(float time)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float ElasticInTime(float time)
+static float ElasticIn(float time)
 {
     if (time <= 0.0f || time >= 1.0f)
     {
         return time;
     }
 
-    return -powf(2.0f, 10.0f * time - 10.0f) * sinf((3.33f * time - 3.58f) * MATH_2PI);
+    return -powf(2.0f, 10.0f * time - 10.0f) * sinf(20.923007f * time - 22.493803f);
 }
 
 
-static float ElasticOutTime(float time)
+static float ElasticOut(float time)
 {
     if (time <= 0.0f || time >= 1.0f)
     {
         return time;
     }
     
-    return powf(2.0f, -10.0f * time) * sinf((3.33f * time - 0.25f) * MATH_2PI) + 1.0f;
+    return powf(2.0f, -10.0f * time) * sinf(20.923007f * time - 1.570796f) + 1.0f;
 }
 
 
-static float ElasticInOutTime(float time)
+static float ElasticInOut(float time)
 {
     if (time <= 0.0f || time >= 1.0f)
     {
@@ -708,30 +265,30 @@ static float ElasticInOutTime(float time)
 
     if (time < 0.5f)
     {
-        return -0.5f * powf(2.0f, 20.0f * time - 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI);
+        return -0.5f * powf(2.0f, 20.0f * time - 10.0f) * sinf(27.960175f * time - 15.550884f);
     }
 
-    return powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f;
+    return powf(2.0f, -20.0f * time + 10.0f) * sinf(27.960175f * time - 15.550884f) * 0.5f + 1.0f;
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float BackInTime(float time)
+static float BackIn(float time)
 {
     return time * time * (2.70158f * time - 1.70158f);
 }
 
 
-static float BackOutTime(float time)
+static float BackOut(float time)
 {
     time -= 1.0f;
     return time * time * (2.70158f * time + 1.70158f) + 1.0f;
 }
 
 
-static float BackInOutTime(float time)
+static float BackInOut(float time)
 {
     if (time < 0.5f)
     {
@@ -743,7 +300,7 @@ static float BackInOutTime(float time)
 }
 
 
-static float BackInExponentialOutTime(float time)
+static float BackInExponentialOut(float time)
 {
     if (time < 0.5f)
     {
@@ -754,21 +311,21 @@ static float BackInExponentialOutTime(float time)
 }
 
 
-static float BackInElasticOutTime(float time)
+static float BackInElasticOut(float time)
 {
     if (time < 0.5f)
     {
         return time * time * (14.379636f * time - 5.189818f);
     }
 
-    return powf(2.0f, -20.0f * time + 10.0f) * sinf((4.45f * time - 2.475f) * MATH_2PI) * 0.5f + 1.0f;
+    return powf(2.0f, -20.0f * time + 10.0f) * sinf(27.960175f * time - 15.550884f) * 0.5f + 1.0f;
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static float BounceInTime(float time)
+static float BounceIn(float time)
 {
     if (time > 0.636364f)
     {
@@ -798,7 +355,7 @@ static float BounceInTime(float time)
 }
 
 
-static float BounceOutTime(float time)
+static float BounceOut(float time)
 {
     if (time < 0.363636f)
     {
@@ -827,7 +384,7 @@ static float BounceOutTime(float time)
 }
 
 
-static float BounceInOutTime(float time)
+static float BounceInOut(float time)
 {
     if (time < 0.5f)
     {
@@ -928,50 +485,4 @@ struct ATweenEase ATweenEase[1] =
     BounceIn,
     BounceOut,
     BounceInOut,
-
-//----------------------------------------------------------------------------------------------------------------------
-
-     LinearTime,
-
-     QuadraticInTime,
-     QuadraticOutTime,
-     QuadraticInOutTime,
-
-     CubicInTime,
-     CubicOutTime,
-     CubicInOutTime,
-
-     QuarticInTime,
-     QuarticOutTime,
-     QuarticInOutTime,
-
-     QuinticInTime,
-     QuinticOutTime,
-     QuinticInOutTime,
-
-     ExponentialInTime,
-     ExponentialOutTime,
-     ExponentialInOutTime,
-
-     SineInTime,
-     SineOutTime,
-     SineInOutTime,
-
-     CircularInTime,
-     CircularOutTime,
-     CircularInOutTime,
-
-     ElasticInTime,
-     ElasticOutTime,
-     ElasticInOutTime,
-
-     BackInTime,
-     BackOutTime,
-     BackInOutTime,
-     BackInExponentialOutTime,
-     BackInElasticOutTime,
-
-     BounceInTime,
-     BounceOutTime,
-     BounceInOutTime,
 }};

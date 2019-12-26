@@ -375,7 +375,7 @@ static void Update(float deltaSeconds)
                     (
                         action->target,
                         actionValue->fromValue + (actionValue->toValue - actionValue->fromValue) *
-                        ATweenEase->EasingTimeFns[actionValue->easeType](action->curTime / action->duration)
+                        ATweenEase->Easing[actionValue->easeType](action->curTime / action->duration)
                     );
                 }
 

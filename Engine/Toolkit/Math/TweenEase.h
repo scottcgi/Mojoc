@@ -79,17 +79,12 @@ TweenEaseType;
 
 struct ATweenEase
 {
-    /**
-     * Tween easing functions.
-     * the return value between [from, to] controlled by time between [0.0f, 1.0f].
-     */
-    float (*EasingFns[TweenEaseType_Length])(float from, float to, float time);
 
     /**
      * Tween easing time functions.
      * the return value between [0.0f, 1.0f], which is the time between [0.0f, 1.0f] after easing.
      */
-    float (*EasingTimeFns[TweenEaseType_Length])(float time);
+    float (*Easing[TweenEaseType_Length])(float time);
 };
 
 
