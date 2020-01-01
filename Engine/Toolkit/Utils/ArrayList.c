@@ -168,7 +168,7 @@ static void AddArray(ArrayList* arrayList, void* data, int length, int elementTy
     (
         (char*)  arrayList->elementArr->data + arrayList->elementTypeSize * arrayList->size,
         data,
-        (size_t) arrayList->elementTypeSize * length
+        (size_t) arrayList->elementTypeSize  * length
     );
 
     arrayList->size += length;

@@ -23,6 +23,9 @@
 #include "Engine/Toolkit/Utils/FileTool.h"
 
 
+//----------------------------------------------------------------------------------------------------------------------
+
+
 /**
  * If the JsonValue is JsonType_Array,  then free each items and do recursively.
  * if the JsonValue is JsonType_Object, then free each K-V   and do recursively.
@@ -72,7 +75,7 @@ static void Destroy(JsonValue* value)
 }
 
 
-static inline JsonValue* CreateJsonValue(void* data, size_t valueSize, JsonType type)
+static JsonValue* CreateJsonValue(void* data, size_t valueSize, JsonType type)
 {
     JsonValue* value = malloc(sizeof(JsonValue) + valueSize);
 
@@ -82,12 +85,7 @@ static inline JsonValue* CreateJsonValue(void* data, size_t valueSize, JsonType 
             break;
 
         case JsonType_String:
-            value->jsonString = memcpy
-                                (
-                                    (char*) value + sizeof(JsonValue),
-                                    data,
-                                    valueSize
-                                );
+            value->jsonString = memcpy((char*) value + sizeof(JsonValue), data, valueSize);
             break;
 
         case JsonType_Array:
@@ -303,7 +301,7 @@ static inline void SkipWhiteSpace(const char** jsonPtr)
 }
 
 
-static inline void* ParseNumber(const char** jsonPtr)
+static void* ParseNumber(const char** jsonPtr)
 {
     char* endPtr;
 
@@ -318,57 +316,53 @@ static inline void* ParseNumber(const char** jsonPtr)
 }
 
 
-static inline int SkipString(const char **jsonPtr)
+static int SkipString(const char** jsonPtr, const char** outStrStart)
 {
     // skip '"'
-    ++(*jsonPtr);
-
-    char c     = **jsonPtr;
-    int  count = 0;
+    const char* json  = ++(*jsonPtr);
+    int         count = 0;
+    char        c;
 
     // check end '"'
-    while (c != '"')
+    while ((c = json[count++]) != '"')
     {
-        if (c != '\\')
-        {
-            ++count;
-        }
-        else
+        if (c == '\\')
         {
             // skip escaped quotes
-            count += 2;
+            // the escape char may be '\"'，which will break while
+            ++count;
         }
-
-        c = *(*jsonPtr + count);
     }
 
-    // skip whole string include the end '"'
-    *jsonPtr += count + 1;
+    *outStrStart = json;
+    
+    // already skipped the string end '"'
+    *jsonPtr    += count;
 
     // how many char skipped
-    return count;
+    // count contains the string end '"', so -1
+    return count - 1;
 }
 
 
-static inline JsonValue* ParseString(const char** jsonPtr)
+static JsonValue* ParseString(const char** jsonPtr)
 {
-    int         length = SkipString(jsonPtr);
-    const char* start  = *jsonPtr - length - 1;
-    JsonValue*  value  = CreateJsonValue((void*) start, (length + 1) * sizeof(char), JsonType_String);
-    
+    const char* strStart;
+    int         length        = SkipString(jsonPtr, &strStart);
+    JsonValue*  value         = CreateJsonValue((void*) strStart, (length + 1) * sizeof(char), JsonType_String);
     value->jsonString[length] = '\0';
 
     ALog_D("Json string = %s", value->jsonString);
-    
+
     return value;
 }
 
 
 // predefine
-static inline JsonValue* ParseValue(const char** jsonPtr);
+static JsonValue* ParseValue(const char** jsonPtr);
 
 
-static inline JsonValue* ParseArray(const char** jsonPtr)
+static JsonValue* ParseArray(const char** jsonPtr)
 {
     JsonValue* jsonValue = CreateJsonValue(NULL, sizeof(JsonArray), JsonType_Array);
     ArrayList* list      = jsonValue->jsonArray->valueList;
@@ -413,7 +407,7 @@ static inline JsonValue* ParseArray(const char** jsonPtr)
 }
 
 
-static inline JsonValue* ParseObject(const char** jsonPtr)
+static JsonValue* ParseObject(const char** jsonPtr)
 {
     JsonValue*   jsonValue = CreateJsonValue(NULL, sizeof(JsonObject), JsonType_Object);
     ArrayStrMap* map       = jsonValue->jsonObject->valueMap;
@@ -434,28 +428,24 @@ static inline JsonValue* ParseObject(const char** jsonPtr)
         
         ALog_A(**jsonPtr == '"', "Json object parse error, char = %c, should be '\"' ", **jsonPtr);
 
-        int   keyLen = SkipString(jsonPtr);
-        // the key string need a end char '\0', and will be changed back after use
-        char* key    = (char*) *jsonPtr - keyLen - 1;
+        const char* strStart;
+        int         keyLen = SkipString(jsonPtr, &strStart);
+        char        key[keyLen];
+        // make string end
+        key[keyLen] = '\0';
+
+        memcpy(key, strStart, (size_t) keyLen);
+        ALog_D("Json key = %s", key);
 
         SkipWhiteSpace(jsonPtr);
         ALog_A((**jsonPtr) == ':', "Json object parse error, char = %c, should be ':' ", **jsonPtr);
 
         // skip ':'
         ++(*jsonPtr);
-        JsonValue*  value = ParseValue(jsonPtr);
-        char        c     = key[keyLen];
-
-        // make string end in json string
-        key[keyLen]       = '\0';
-
-        ALog_D("Json key = %s", key);
-
+        JsonValue* value = ParseValue(jsonPtr);
+        
         // set object element
         AArrayStrMap_TryPut(map, key, value);
-
-        // restore char after key string
-        key[keyLen]       = c;
 
         SkipWhiteSpace(jsonPtr);
 
@@ -482,7 +472,7 @@ static inline JsonValue* ParseObject(const char** jsonPtr)
 /**
  * ParseValue changed the *jsonPtr, so if *jsonPtr is direct malloc will cause error
  */
-static inline JsonValue* ParseValue(const char** jsonPtr)
+static JsonValue* ParseValue(const char** jsonPtr)
 {
     SkipWhiteSpace(jsonPtr);
 

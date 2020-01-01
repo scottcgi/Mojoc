@@ -1,5 +1,7 @@
 ## Developing
 
+* Optimize the implementation of Json `SkipString`.
+* Fix the bug of Json `parseObject` that modifying the json string.
 * Remove `RotateM` function in `Matrix.c`.
 * Optimize matrix `ratation`.
 * Add `rotatioinX` and `rotationY` in `Drawable`. 
