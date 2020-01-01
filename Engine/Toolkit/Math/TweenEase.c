@@ -7,7 +7,7 @@
  *
  *----------------------------------------------------------------------------------------------------------------------
  * 
- * Copyright (c) 2012-2019 scott.cgi All Rights Reserved.
+ * Copyright (c) scott.cgi All Rights Reserved.
  *
  * This source code belongs to project Mojoc, which is a pure C Game Engine hosted on GitHub.
  * The Mojoc Game Engine is licensed under the MIT License, and will continue to be iterated with coding passion.
