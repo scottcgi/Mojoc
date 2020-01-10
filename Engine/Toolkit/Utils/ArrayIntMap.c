@@ -81,11 +81,11 @@ static inline int BinarySearch(ArrayList(intptr_t)* elementList, intptr_t key)
     if (guess == low)
     {
         // the guess is smaller than key index and insert value behind,
-        // or if list empty then guess is -1, so do this make guess at 0
+        // or if list empty then the guess is -1, so do this make guess at 0
         ++guess;
     }
 
-    // when list empty guess is 0, so we -1 make sure return negative value
+    // when list empty the guess is 0, so we -1 make sure return negative value
     return -guess - 1;
 }
 

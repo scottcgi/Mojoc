@@ -90,7 +90,7 @@ JsonValue;
 
 
 /**
- * Get kinds of value from JsonObject.
+ * Get different types of values from JsonObject.
  */
 struct AJsonObject
 {
@@ -100,17 +100,17 @@ struct AJsonObject
     JsonType    (*GetType)         (JsonObject* object, const char* key);
 
     /**
-     * When JsonValue released the string value will free.
+     * When JsonValue released the string value will be freed.
      */
     char*       (*GetString)       (JsonObject* object, const char* key, const char* defaultValue);
 
     /**
-     * If not found return NULL.
+     * If not found key then return NULL.
      */
     JsonObject* (*GetObject)       (JsonObject* object, const char* key);
 
     /**
-     * If not found return NULL.
+     * If not found key then return NULL.
      */
     JsonArray*  (*GetArray)        (JsonObject* object, const char* key);
 
@@ -135,7 +135,7 @@ extern struct AJsonObject AJsonObject[1];
 
 
 /**
- * Get kinds of value from JsonArray.
+ * Get different types of values from JsonArray.
  */
 struct AJsonArray
 {
@@ -145,7 +145,7 @@ struct AJsonArray
     JsonType    (*GetType)  (JsonArray* array, int index);
 
     /**
-     * When JsonValue released the string value will free.
+     * When JsonValue released the string value will be freed.
      */
     char*       (*GetString)(JsonArray* array, int index);
     JsonObject* (*GetObject)(JsonArray* array, int index);
