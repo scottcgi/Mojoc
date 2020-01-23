@@ -31,16 +31,69 @@
 struct AMath
 {
     /**
-     * Test polygon contains 2D point, return true inside or false outside.
-     * one point contains pair of x, y.
+     * Test polygon contains 2D point.
+     * one point of polygon contains pair of x, y.
+     *
+     * return true inside or false outside.
      */
-    bool  (*TestPolygonPoint)(Array(float)* pointArr, float x, float y);
+    bool  (*TestPolygonPoint)     (Array(float)* polygon, float x, float y);
 
     /**
-     * Rotate 2D point by angle.
-     * one point contains pair of x, y.
+     * Test polygonA intersects polygonB.
+     *
+     * not test polygonB intersects polygonA.
+     * not test through and cross each others.
+     *
+     * return true inside or false outside.
      */
-    void  (*RotatePoints2)   (Array(float)* pointArr, float angle, Array(float)* outRotatedPointArr);
+    bool (*TestPolygonAB)          (Array(float)* polygonA, Array(float)* polygonB);
+
+    /**
+     * Test polygonA and polygonB intersect each others.
+     * not test through and cross each others.
+     *
+     * return true inside or false outside.
+     */
+    bool (*TestPolygonPolygon)     (Array(float)* polygonA, Array(float)* polygonB);
+
+    /**
+     * Test polygonA intersects polygonB.
+     *
+     * not test polygonB intersects polygonA.
+     * can test through and cross each others.
+     *
+     * return true inside or false outside.
+     */
+    bool (*TestPolygonABStrict)    (Array(float)* polygonA, Array(float)* polygonB);
+
+    /**
+     * Test polygonA and polygonB intersect each others.
+     * can test through and cross each others.
+     *
+     * return true inside or false outside.
+     */
+    bool (*TestPolygonPolygonStrict)(Array(float)* polygonA, Array(float)* polygonB);
+
+    /**
+     * Test lineA intersects lineB.
+     * not test lineB intersects lineA.
+     *
+     * return true inside or false outside.
+     */
+    bool (*TestLineAB)              (Array(float)* lineA, Array(float)* lineB);
+
+    /**
+     * Test lineA and lineB intersect each others.
+     *
+     * return true inside or false outside.
+     */
+    bool (*TestLineLine)            (Array(float)* lineA, Array(float)* lineB);
+
+    /**
+     * Rotate 2D points by angle.
+     * one point of pointArr contains pair of x, y.
+     */
+    void  (*RotatePoints)           (Array(float)* pointArr, float angle, Array(float)* outRotatedPointArr);
 };
 
 

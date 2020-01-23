@@ -18,42 +18,169 @@
 #include "Engine/Toolkit/Math/Math.h"
 
 
-static bool TestPolygonPoint(Array(float)* pointArr, float x, float y)
+/**
+ * Test polygon contains 2D point(x, y).
+ *
+ * first  — foreach vector(preX - curX, preY - curY) of polygon
+ * second — check the point's y on the y area of vector
+ * third  — cross product between vector(x - curX, y - curY) and vector(preX - curX, preY - curY)
+ * fourth — get the result is (x - curX) * (preY - curY) - (y - curY) * (preX - curX) = 0
+ * then   —
+ * 
+ * if result zero     means point on the vector
+ * if result positive means point on the right of vector
+ * if result negative means point on the left  of vector
+ */
+#define TestPolygonXY(polygon, x, y, pointOnRight, pointOnLeft)                     \
+    float* points   = polygon->data;                                                \
+    int    preIndex = polygon->length - 2;                                          \
+                                                                                    \
+    for (int i = 0; i < polygon->length; i += 2)                                    \
+    {                                                                               \
+        float curY  = points[i        + 1];                                         \
+        float preY  = points[preIndex + 1];                                         \
+                                                                                    \
+        if ((curY < y && preY >= y) || (preY < y && curY >= y))                     \
+        {                                                                           \
+            float curX = points[i];                                                 \
+                                                                                    \
+            if (curX + (y - curY) / (preY - curY) * (points[preIndex] - curX) <= x) \
+            {                                                                       \
+                pointOnRight;                                                       \
+            }                                                                       \
+            else                                                                    \
+            {                                                                       \
+                pointOnLeft;                                                        \
+            }                                                                       \
+        }                                                                           \
+                                                                                    \
+        preIndex = i;                                                               \
+    }                                                                               \
+
+
+
+
+static bool TestPolygonPoint(Array(float)* polygon, float x, float y)
 {
-    bool   inside   = false;
-    int    preIndex = pointArr->length - 2;
-    float* points   = pointArr->data;
+    bool inside = false;
 
-    for (int i = 0; i < pointArr->length; i += 2)
+    TestPolygonXY
+    (
+        polygon,
+        x,
+        y,
+        // point on the right of polygon vector
+        inside = !inside,
+    );
+
+    return inside;
+}
+
+
+static bool TestPolygonAB(Array(float)* polygonA, Array(float)* polygonB)
+{
+    bool inside = false;
+    
+    for (int i = 0; i < polygonA->length; i += 2)
     {
-        float pointY  = points[i + 1];
-        float preY    = points[preIndex + 1];
+        float x = AArray_Get(polygonA, i,     float);
+        float y = AArray_Get(polygonA, i + 1, float);
 
-        // whether point on the y area of vector
-        if ((pointY < y && preY >= y) || (preY < y && pointY >= y))
+        TestPolygonXY
+        (
+            polygonB,
+            x,
+            y,
+            // point on the right of polygon vector
+            inside = !inside,
+        );
+
+        if (inside)
         {
-            float pointX = points[i];
-
-            // cross product between vector (x - pointX, y - pointY) and (preX - pointX, preY - pointY)
-            // result is (x - pointX) * (preY - pointY) - (y - pointY) * (preX - pointX)
-            // if result zero means point (x, y) on the vector (preX - pointX, preY - pointY)
-            // if result positive means point on the right of vector
-            // if result negative means point on the left  of vector
-            if (pointX + (y - pointY) / (preY - pointY) * (points[preIndex] - pointX) <= x)
-            {
-                // point on the right
-                inside = !inside;
-            }
+            return true;
         }
-
-        preIndex = i;
     }
 
     return inside;
 }
 
 
-static void RotatePoints2(Array(float)* pointArr, float angle, Array(float)* outRotatedPointArr)
+static bool TestPolygonPolygon(Array(float)* polygonA, Array(float)* polygonB)
+{
+    return TestPolygonAB(polygonA, polygonB) || TestPolygonAB(polygonB, polygonA);
+}
+
+
+static bool TestPolygonABStrict(Array(float)* polygonA, Array(float)* polygonB)
+{
+    int leftCount  = 0;
+    int rightCount = 0;
+
+    for (int i = 0; i < polygonA->length; i += 2)
+    {
+        float x = AArray_Get(polygonA, i,     float);
+        float y = AArray_Get(polygonA, i + 1, float);
+
+        TestPolygonXY
+        (
+            polygonB,
+            x,
+            y,
+            // count point on the right of polygon vector
+            ++rightCount,
+            // count point on the left  of polygon vector
+            ++leftCount
+        );
+
+        if (rightCount % 2 != 0)
+        {
+            return true;
+        }
+    }
+
+    return rightCount != 0 && leftCount == rightCount;
+}
+
+
+static bool TestPolygonPolygonStrict(Array(float)* polygonA, Array(float)* polygonB)
+{
+    return TestPolygonABStrict(polygonA, polygonB) || TestPolygonABStrict(polygonB, polygonA);
+}
+
+
+static bool TestLineAB(Array(float)* lineA, Array(float)* lineB)
+{
+    bool flags[2]  = {false, false};
+
+    for (int i = 0; i < lineA->length; i += 2)
+    {
+        float x = AArray_Get(lineA, i,     float);
+        float y = AArray_Get(lineA, i + 1, float);
+
+        TestPolygonXY
+        (
+            lineB,
+            x,
+            y,
+            // flag point on the right of line vector
+            flags[(unsigned int) i >> 1] = true,
+            // flag point on the left  of line vector
+            flags[(unsigned int) i >> 1] = true
+        );
+    }
+
+    // test lineA two points both sides of lineB
+    return flags[0] && flags[1];
+}
+
+
+static bool TestLineLine(Array(float)* lineA, Array(float)* lineB)
+{
+    return TestLineAB(lineA, lineB) || TestLineAB(lineB, lineA);
+}
+
+
+static void RotatePoints(Array(float)* pointArr, float angle, Array(float)* outRotatedPointArr)
 {
     ALog_A
     (
@@ -80,5 +207,11 @@ static void RotatePoints2(Array(float)* pointArr, float angle, Array(float)* out
 struct AMath AMath[1] =
 {{
     TestPolygonPoint,
-    RotatePoints2,
+    TestPolygonAB,
+    TestPolygonPolygon,
+    TestPolygonABStrict,
+    TestPolygonPolygonStrict,
+    TestLineAB,
+    TestLineLine,
+    RotatePoints,
 }};

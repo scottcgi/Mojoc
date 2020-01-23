@@ -1,5 +1,7 @@
 ## Developing
 
+* Add some collision algorithms to the `Math`.
+* Refactor the PhysicsCollision implementation.
 * Optimize the implementation of Json `SkipString`.
 * Fix the bug of Json `parseObject` that modifying the json string.
 * Remove `RotateM` function in `Matrix.c`.
