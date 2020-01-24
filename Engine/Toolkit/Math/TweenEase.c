@@ -188,19 +188,19 @@ static float ExponentialInOut(float time)
 
 static float SineIn(float time)
 {
-    return 1.0f - cosf(time * MATH_PI2);
+    return 1.0f - cosf(time * 1.570796f);
 }
 
 
 static float SineOut(float time)
 {
-    return sinf(time * MATH_PI2);
+    return sinf(time * 1.570796f);
 }
 
 
 static float SineInOut(float time)
 {
-    return 0.5f * (1.0f - cosf(time * MATH_PI));
+    return 0.5f * (1.0f - cosf(time * 3.141593f));
 }
 
 
