@@ -318,6 +318,11 @@ static float BackInElasticOut(float time)
         return time * time * (14.379636f * time - 5.189818f);
     }
 
+    if (time >= 1.0f)
+    {
+        return time;
+    }
+
     return powf(2.0f, -20.0f * time + 10.0f) * sinf(27.960175f * time - 15.550884f) * 0.5f + 1.0f;
 }
 

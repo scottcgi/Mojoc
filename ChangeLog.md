@@ -1,5 +1,6 @@
 ## Developing
 
+* Fix precision problem of TweenEase BackInElasticOut.
 * Add some collision algorithms to the `Math`.
 * Refactor the PhysicsCollision implementation.
 * Optimize the implementation of Json `SkipString`.
