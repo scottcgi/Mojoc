@@ -149,7 +149,7 @@ struct AMatrix
     /**
      * Computes an orthogonal projection matrix4.
      */
-    void  (*Ortho)           (
+    void  (*Orthographic)    (
                                 float    left,
                                 float    right,
                                 float    bottom,
@@ -174,6 +174,8 @@ struct AMatrix
 
     /**
      * Define a projection matrix in terms of a field of view angle an aspect ratio, and z clip planes.
+     * fovy  : field of view angle for y axis.
+     * aspect: width / height.
      */
     void  (*Perspective)     (float fovy, float aspect, float near, float far, Matrix4* outProjection);
 

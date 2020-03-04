@@ -1,5 +1,6 @@
 ## Developing
 
+* Rename Ortho to Orthographic.
 * Fix precision problem of TweenEase BackInElasticOut.
 * Add some collision algorithms to the `Math`.
 * Refactor the PhysicsCollision implementation.

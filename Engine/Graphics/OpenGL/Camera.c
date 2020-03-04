@@ -17,10 +17,10 @@
 #include "Engine/Graphics/OpenGL/Camera.h"
 
 
-static void SetOrtho()
+static void SetOrthographic()
 {
     // near and far is distance of eye position to look up direction
-    AMatrix->Ortho
+    AMatrix->Orthographic
     (
         ACamera->left,
         ACamera->right,
@@ -97,7 +97,7 @@ struct ACamera ACamera[1] =
     MATRIX4_IDENTITY,
     MATRIX4_IDENTITY,
 
-    SetOrtho,
+    SetOrthographic,
     SetFrustum,
     SetLookAt,
     GetNearZOrder,

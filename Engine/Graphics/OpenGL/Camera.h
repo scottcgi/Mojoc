@@ -72,9 +72,9 @@ struct ACamera
     Matrix4  view     [1];
 
 
-    void  (*SetOrtho)    (void);
-    void  (*SetFrustum)  (void);
-    void  (*SetLookAt)   (void);
+    void  (*SetOrthographic)(void);
+    void  (*SetFrustum)     (void);
+    void  (*SetLookAt)      (void);
 
     /**
      * The ZOrder most near camera.

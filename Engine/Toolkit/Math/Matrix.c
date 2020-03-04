@@ -636,12 +636,12 @@ static void Perspective(float fovy, float aspect, float near, float far, Matrix4
 }
 
 
-static void Ortho(float left, float right, float bottom, float top, float near, float far, Matrix4* outProjection)
+static void Orthographic(float left, float right, float bottom, float top, float near, float far, Matrix4* outProjection)
 {
     ALog_A
     (
         right != left && top != bottom && far != near,
-        "AMatrix Ortho failed, because right == left || top == bottom || far == near"
+        "AMatrix Orthographic failed, because right == left || top == bottom || far == near"
     );
 
     float width        = 1.0f / (right - left);
@@ -679,9 +679,9 @@ static void Frustum(float left, float right, float bottom, float top, float near
         "because right == left || top == bottom || near == far || near <= 0.0f || far <= 0.0f"
     );
 
-    float width         = 1.0f / (right - left);
-    float height        = 1.0f / (top - bottom);
-    float depth         = 1.0f / (near - far);
+    float width        = 1.0f / (right - left);
+    float height       = 1.0f / (top - bottom);
+    float depth        = 1.0f / (near - far);
 
     outProjection->m0  = 2.0f * (near * width);  // x
     outProjection->m1  = 0.0f;
@@ -714,8 +714,8 @@ static void LookAt
 )
 {
 
-    // see the OpenGL GLUT documentation for gluLookAt for a description
-    // of the algorithm. We implement it in a straightforward way
+    // see the OpenGL GLUT documentation for gluLookAt for a description of the algorithm
+    // we implement it in a straightforward way
 
     float fx   = centerX - eyeX;
     float fy   = centerY - eyeY;
@@ -723,22 +723,22 @@ static void LookAt
 
     // normalize f
     float rlf  = AVector3_Normalize3(fx, fy, fz);
-    fx       *= rlf;
-    fy       *= rlf;
-    fz       *= rlf;
+    fx        *= rlf;
+    fy        *= rlf;
+    fz        *= rlf;
 
-    // compute s = f x up (x means "cross product")
+    // compute s = f cross product up
     float sx  = fy * upZ - fz * upY;
     float sy  = fz * upX - fx * upZ;
     float sz  = fx * upY - fy * upX;
 
     // and normalize s
     float rls = AVector3_Normalize3(sx, sy, sz);
-    sx      *= rls;
-    sy      *= rls;
-    sz      *= rls;
+    sx       *= rls;
+    sy       *= rls;
+    sz       *= rls;
 
-    // compute u = s x f
+    // compute u = s cross product f
     float ux  = sy * fz - sz * fy;
     float uy  = sz * fx - sx * fz;
     float uz  = sx * fy - sy * fx;
@@ -787,7 +787,7 @@ struct AMatrix AMatrix[1] =
     Inverse,
     Transpose,
     InverseTranspose,
-    Ortho,
+    Orthographic,
     Frustum,
     Perspective,
     LookAt,

@@ -199,7 +199,7 @@ static void OnResized(int width, int height)
     ACamera->top    =  1.0f;
     ACamera->near   =  1.0f;
     ACamera->far    =  11.0f;
-    ACamera->SetOrtho();
+    ACamera->SetOrthographic();
 
     ACamera->eyeX   =  0.0f;
     ACamera->eyeY   =  0.0f;
