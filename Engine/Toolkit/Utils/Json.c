@@ -28,7 +28,7 @@
 
 /**
  * If the JsonValue is JsonType_Array,  then free each items and do recursively.
- * if the JsonValue is JsonType_Object, then free each K-V   and do recursively.
+ * if the JsonValue is JsonType_Object, then free each k-v   and do recursively.
  */
 static void Destroy(JsonValue* value)
 {
