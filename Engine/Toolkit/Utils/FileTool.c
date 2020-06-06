@@ -8,7 +8,7 @@
  * GitHub   : https://github.com/scottcgi/Mojoc
  * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
- * Since    : 2017-03-20
+ * Since    : 2017-3-20
  * Update   : 2019-1-8
  * Author   : scott.cgi
  */
