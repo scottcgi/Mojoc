@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/scottcgi/Mojoc/master/Docs/Pic/Logo.png" width="176" height="228" alt="Mojoc Logo" title="Mojoc Logo" />
 
 
-## Mojoc v0.5.0
+## Mojoc v0.6.0
 
 Mojoc is an open-source, cross-platform, pure C game engine. It is based on OpenGLES3 and written in C99. It currently works on IOS and Android, but can easily be extended to other platforms, and will support more platforms in the future.
 
@@ -49,7 +49,7 @@ Currently there is only one sample, which is a simplfied version of the publishe
 
 The compiled and playable apk is here:
 
-* [SuperLittleRed-2.0.1.apk](https://github.com/scottcgi/Mojoc/blob/master/Samples/Apk/SuperLittleRed-2.0.1.apk?raw=true)
+* [SuperLittleRed-2.0.2.apk](https://github.com/scottcgi/Mojoc/blob/master/Samples/Apk/SuperLittleRed-2.0.2.apk?raw=true)
 
 <img src="https://raw.githubusercontent.com/scottcgi/Mojoc/master/Docs/Pic/SuperLittleRed-Sample.gif" width="400" height="225" alt="SuperLittleRed-Sample" title="SuperLittleRed-Sample" />
 
@@ -127,12 +127,10 @@ The roadmap shows the direction of the Mojoc development.
   * Game editor implement by Mojoc self.
   * Game script language `"MojoScript"`, and implement by C language with Toolkit.  
 
-
 ## Support
   * :video_game: Play Mojoc [Published Games](#published-games).
   * :octocat: Star & Issue & Fork on GitHub, or share **Mojoc** project to anyone.
   * :coffee: If the source code is **useful** for you, maybe buy me a coffee via [Paypal-0.99](https://www.paypal.me/PayScottcgi/0.99).
   
-
 ##  
 :loop:

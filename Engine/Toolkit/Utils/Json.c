@@ -430,7 +430,7 @@ static JsonValue* ParseObject(const char** jsonPtr)
 
         const char* strStart;
         int         keyLen = SkipString(jsonPtr, &strStart);
-        char        key[keyLen];
+        char        key[keyLen + 1];
         // make string end
         key[keyLen] = '\0';
 

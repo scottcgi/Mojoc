@@ -1,20 +1,26 @@
-## Developing
+## v0.6.0
+
+_`2021.2.6 UTC+8 13:26`_
+
+* Refactor the PhysicsCollision implementation.
+* Remove `RotateM` function in `Matrix.c`.
 
 * Rename Ortho to Orthographic.
-* Fix precision problem of TweenEase BackInElasticOut.
-* Add some collision algorithms to the `Math`.
-* Refactor the PhysicsCollision implementation.
-* Optimize the implementation of Json `SkipString`.
-* Fix the bug of Json `parseObject` that modifying the json string.
-* Remove `RotateM` function in `Matrix.c`.
-* Optimize matrix `ratation`.
-* Add `rotatioinX` and `rotationY` in `Drawable`. 
 * Rename `Interpolates` to `Easing` in `ATweenEase`.
+
+* Add some collision algorithms to the `Math`.
+* Add `rotatioinX` and `rotationY` in `Drawable`. 
 * Add `EasingTimeFns` in `ATweenEase`. 
+
+* Fix precision problem of TweenEase BackInElasticOut.
 * Fix `Bounce` function error when easing complete in `TweenEase`.
 * Fix bug `off_t` convert to `off_t*` in function `OpenFileDescriptor` of `File.c`.
+* Fix the bug of Json `parseObject` that modifying the json string.
+
+* Optimize matrix `ratation`.
 * Optimize easing functions that delete all redundant `else` keywords.
 * Optimize easing functions `ElasticIn, Out, IntOut`.
+* Optimize the implementation of Json `SkipString`.
 
 
 ## v0.5.0
