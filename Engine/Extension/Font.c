@@ -9,7 +9,7 @@
  * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
  * Since    : 2016-7-27
- * Update   : 2019-2-1
+ * Update   : 2021-2-8
  * Author   : scott.cgi
  */
 
@@ -349,6 +349,7 @@ static void ReleaseText(FontText* text)
     }
 
     AArrayIntSet->TryRemove(text->font->fontTextSet, (intptr_t) text);
+    ADrawable_SetColor(text->drawable, COLOR_WHITE_ARRAY);
     text->font = NULL;
 
     AArrayList_Add(textCacheList, text);

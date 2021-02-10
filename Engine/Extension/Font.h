@@ -9,7 +9,7 @@
  * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
  * Since    : 2016-7-27
- * Update   : 2019-1-31
+ * Update   : 2021-2-8
  * Author   : scott.cgi
  */
 
@@ -133,6 +133,15 @@ struct AFont
 
 
 extern struct AFont AFont[1];
+
+
+/**
+ * Set FontText color.
+ */
+static inline void AFont_SetTextColor(FontText* text, Color* color)
+{
+    ADrawable_SetColor(text->drawable, color);
+}
 
 
 #endif
