@@ -9,7 +9,7 @@
  * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
  * Since    : 2017-3-24
- * Update   : 2019-1-25
+ * Update   : 2021-2-8
  * Author   : scott.cgi
  */
 
@@ -41,7 +41,7 @@ typedef struct
     float          y;
 
     /**
-     * IDentify touch point, [0, 9] corresponds to 10 fingers.
+     * Identify touch point, [0, 9] corresponds to 10 fingers.
      */
     int            fingerID;
     

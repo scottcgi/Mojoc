@@ -34,7 +34,7 @@ static struct timespec last;
 
 
 #define CheckCallback(callback) \
-    ALog_A((callback) != NULL, #callback " in Application_MainImpl cannot NULL")
+    ALog_A((callback) != NULL, #callback " in Application_MainImpl cannot NULL !")
 
 
 static void Init()

@@ -9,7 +9,7 @@
  * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
  * Since    : 2019-8-6
- * Update   : 2019-8-6
+ * Update   : 2021-2-10
  * Author   : scott.cgi
  */
 
@@ -31,10 +31,12 @@ static void Vibrate(int milliseconds)
 {
     if (milliseconds <= 50)
     {
+        // 3D Touch Peek
         AudioServicesPlaySystemSound(1519);
     }
     else
     {
+        // 3D Touch Pop
         AudioServicesPlaySystemSound(1520);
     }
 }
