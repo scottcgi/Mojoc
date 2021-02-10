@@ -9,7 +9,7 @@
  * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
  *
  * Since    : 2013-3-12
- * Update   : 2019-2-23
+ * Update   : 2021-2-8
  * Author   : scott.cgi
  */
 
@@ -27,7 +27,7 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-void CreateEGL
+static void CreateEGL
 (
     EGLNativeWindowType window,
     EGLDisplay*         outDisplay,
