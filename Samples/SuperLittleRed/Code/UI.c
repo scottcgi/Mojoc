@@ -16,6 +16,7 @@
 
 #include <stdio.h>
 
+#include "Engine/Application/Platform/Vibrator.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Extension/DrawAtlas.h"
 #include "Engine/Application/Input.h"
@@ -561,6 +562,7 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                                 AHUD->DropStone();
                                 AFont->SetInt(AHUD->stoneText, --AGameData->stone);
                                 AAudioTool->Play(AudioID_ClickBtn);
+                                AVibrator->Vibrate(100);
                             }
                             else
                             {
@@ -578,6 +580,7 @@ static bool OnMessage(Component* component, void* sender, int subject, void* ext
                                 AHUD->DropWood();
                                 AFont->SetInt(AHUD->woodText, --AGameData->wood);
                                 AAudioTool->Play(AudioID_ClickBtn);
+                                AVibrator->Vibrate(100);
                             }
                             else
                             {

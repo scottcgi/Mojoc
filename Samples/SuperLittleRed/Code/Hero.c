@@ -851,7 +851,7 @@ static bool OnStandMessage(Array(InputTouch*)* touchArr)
                     float     deltaX       = fabsf(touchDownX - touch->x);
                     float     deltaY       = touchDownY - touch->y;
 
-                    if (deltaY > 0.05f && deltaX < 0.1f)
+                    if (deltaY > 0.08f && deltaX < 0.1f)
                     {
                         if
                         (
@@ -1107,15 +1107,15 @@ static void OnActionOver(SkeletonAnimationPlayer* player)
 
                 AHero->hitFloor->loop = 1;
                 AComponent->Notify(AHero->component, HeroNotify_Dizzy, NULL);
+
+                AAudioTool->Play(AudioID_FallDown);
+                AVibrator->Vibrate(100);
             }
             else
             {
                 // no power hit floor, release dizzy lock
                 isDizzyLocked = false;
             }
-
-            AAudioTool->Play(AudioID_FallDown);
-            AVibrator->Vibrate(100);
             break;
         }
 
@@ -1558,6 +1558,7 @@ static void RoundScore()
     char buff[12];
     sprintf(buff, "+%d", score);
     AFont->SetString(text, buff);
+    AFont_SetTextColor(text, AColor_Make(0.72f, 0.99f, 0.38f, 1.0f));
     ATool->FlyTextOnHero(text, 0.045f, 3.0f);
 
     AHero->roundEnergy += score;

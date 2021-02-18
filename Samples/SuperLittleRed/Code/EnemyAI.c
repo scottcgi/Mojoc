@@ -213,7 +213,7 @@ static void DoEnemyAI(Scheduler* scheduler, float deltaSeconds)
 //----------------------------------------------------------------------------------------------------------------------
 
 
-static inline void RandomSmallEnemey(Enemy* enemy)
+static inline void RandomSmallEnemy(Enemy* enemy)
 {
     if (AMath_Random() < 0.2f)
     {
@@ -283,7 +283,7 @@ static Enemy* CreateWood(float x)
 
     enemy->type          = EnemyType_Wood;
 
-    RandomSmallEnemey(enemy);
+    RandomSmallEnemy(enemy);
 
     return enemy;
 }

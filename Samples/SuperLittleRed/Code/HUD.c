@@ -325,7 +325,13 @@ static bool CostPower(int cost)
     {
         AHero->roundEnergy -= cost;
         isCostEnergy        = true;
-        float scaleY        = (float) AHero->roundEnergy / (float) AGameData->maxEnergy;
+
+        if (AHero->roundEnergy > AGameData->maxEnergy)
+        {
+            AHero->roundEnergy = AGameData->maxEnergy;
+        }
+        
+        float scaleY = (float) AHero->roundEnergy / (float) AGameData->maxEnergy;
 
         ATweenTool->AddScaleY    (scaleY, 0.2f)
                   ->SetRelative  (false)
@@ -359,6 +365,7 @@ static bool CostPower(int cost)
             AFont->SetString(text, "Weak");
         }
 
+        AFont_SetTextColor(text, AColor_Make(0.81f, 0.78f, 0.75f,1.0f));
         ATool->FlyTextOnHero(text, 0.1f, 4.0f);
         
         return false;
