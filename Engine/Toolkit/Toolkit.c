@@ -6,7 +6,7 @@
  *
  * License  : https://github.com/scottcgi/Mojoc/blob/master/LICENSE
  * GitHub   : https://github.com/scottcgi/Mojoc
- * CodeStyle: https://github.com/scottcgi/Mojoc/wiki/Code-Style
+ * CodeStyle: https://github.com/scottcgi/Mojoc/blob/master/Docs/CodeStyle.md
  *
  * Since    : 2014-9-8
  * Update   : 2019-1-8
