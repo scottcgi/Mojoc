@@ -1,38 +1,38 @@
 ## Three Steps To Quick Start
 
 #### Step 1.
-Get the source code, have three options.
+To get the source code, there are three options.
 
-* Git from <https://github.com/scottcgi/Mojoc.git>
-* Download git master zip file <https://github.com/scottcgi/Mojoc/archive/master.zip>
-* Download released version <https://github.com/scottcgi/Mojoc/releases>
+* Git clone from <https://github.com/scottcgi/Mojoc.git>
+* Download Github master zip file from <https://github.com/scottcgi/Mojoc/archive/master.zip>
+* Download released version from <https://github.com/scottcgi/Mojoc/releases>
 
 #### Step 2.
 
-Running sample [SuperLittleRed](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed), debugging on phone.
+Running sample [SuperLittleRed](../Samples/SuperLittleRed), debugging on phone.
 
-  * [IOS Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/IOS) is XCode project that all set up well, just open it with XCode. 
-  * [Android Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/Android) is AndroidStudio project that all set up well, just open it with AndroidStudio.
-  * The only thing need to be set is switch Mojoc platform macro in [Platform.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/Platform/Platform.h). 
+  * [IOS Folder](../Samples/SuperLittleRed/IOS) is XCode project that all set up well, just open it with XCode. 
+  * [Android Folder](../Samples/SuperLittleRed/Android) is AndroidStudio project that all set up well, just open it with AndroidStudio.
+  * The only thing that needs to be set is Mojoc platform macro in [Platform.h](../Engine/Toolkit/Platform/Platform.h). 
     ```c
     #define PLATFORM_TARGET PLATFORM_IOS
     #define PLATFORM_TARGET PLATFORM_ANDROID
     ```
-  * [Code Folder](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed/Code) is sample code shared between android and ios.
+  * [Code Folder](../Samples/SuperLittleRed/Code) is sample code shared between android and ios.
 
-And the AndroidStudio and Xcode already config sample source code reference [engine code](https://github.com/scottcgi/Mojoc/tree/master/Engine). So any engine code changes will present in sample game.
+The AndroidStudio and Xcode sample source code already references [engine code](../Engine). So any engine code changes will be present in the sample game.
 
 #### Step 3.
-Understanding source code.
+Understanding the source code.
 
-* [Code Style](./CodeStyle.md) is unified code writing style, all source code following.
+* [Code Style](./CodeStyle.md) is unified code writing style that all the source code follows.
 * [OOC (Object Oriented C)](./OOC.md)) is the OOP (Object Oriented Programming) model of C language. 
-  * Mojoc uses extremely lightweight OOC model that very easy to understand and use. 
+  * Mojoc uses extremely lightweight OOC model that is very easy to understand and use. 
   * Following the OOC rules, the C language can build complex projects, and can organize and reuse large amounts of code.
-* [Component Architecture](./ComponentArchitecture.md) is code architecture support gameplay logic.
-* [Code Details](./CodeDetails.md) are introduced the engine modules and functions of each code file. Through this can understand all the code of Mojoc.
+* [Component Architecture](./ComponentArchitecture.md) is code architecture that supports gameplay logic.
+* [Code Details](./CodeDetails.md) to introduce the engine modules and functions of each source file. Through this can understand all the code of Mojoc.
 
-The sample [SuperLittleRed](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed) give all aspects of using Mojoc, including all the above features. So modify and debug the source code helps understand all about Mojoc.
+The sample [SuperLittleRed](../Samples/SuperLittleRed) shows all aspects of using Mojoc, including all the above features. So modifying and debugging the source code helps to understand everything about Mojoc.
 
 ## Android Studio Bug
 

@@ -89,8 +89,8 @@ struct AComponent
 
 ## Mojoc Component
 It's a minimal reusable, interactive, stateful, composable, extensible structure. And the code implementation is as follows:
-* [Component.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Application/Component.h)
-* [Component.c](https://github.com/scottcgi/Mojoc/blob/master/Engine/Application/Component.c)
+* [Component.h](../Engine/Application/Component.h)
+* [Component.c](../Engine/Application/Component.c)
 
 ##
 :curly_loop:

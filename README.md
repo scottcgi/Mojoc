@@ -7,15 +7,15 @@ Mojoc is an open-source, cross-platform, pure C game engine. It is based on Open
 
 * Released version in [releases](https://github.com/scottcgi/Mojoc/releases).
 * Release changes in [ChangeLog](./ChangeLog.md).
-* Documents in [wiki](./Docs/Home.md).
+* Documents in [Docs/Home](./Docs/Home.md).
 
 
 ## Architecture
-![Mojoc Engine Architecture](https://github.com/scottcgi/Mojoc/raw/master/Docs/Pic/Architecture.png "Mojoc Engine Architecture")
+![Mojoc Engine Architecture](./Docs/Pic/Architecture.png "Mojoc Engine Architecture")
 
 
 ## License
-Mojoc is licensed under the [MIT License](https://github.com/scottcgi/Mojoc/blob/master/LICENSE "Mojoc Under MIT License").
+Mojoc is licensed under the [MIT License](./LICENSE "Mojoc Under MIT License").
 
 
 ## Core Idea
@@ -45,13 +45,13 @@ Mojoc has been used for a cross-platform Android and IOS game.
 ## Samples
 The samples will show all aspects of the Mojoc features. Each platform will provide native building project for native platform editor. For example: Android provides AndroidStudio project, IOS provides XCode project.
 
-Currently there is only one sample, which is a simplfied version of the published game [SuperLittleRed](https://github.com/scottcgi/Mojoc/tree/master/Samples/SuperLittleRed). Please check out the wiki [Quick Start](https://github.com/scottcgi/Mojoc/wiki) guide for quickly run this sample.
+Currently there is only one sample, which is a simplfied version of the published game [SuperLittleRed](./Samples/SuperLittleRed). Please check out the wiki [Quick Start](./Docs/QuickStart.md) guide for quickly run this sample.
 
 The compiled and playable apk is here:
 
-* [SuperLittleRed-2.1.5.apk](https://github.com/scottcgi/Mojoc/blob/master/Samples/Apk/SuperLittleRed-2.1.5.apk?raw=true)
+* [SuperLittleRed-2.1.5.apk](./Samples/Apk/SuperLittleRed-2.1.5.apk?raw=true)
 
-<img src="https://raw.githubusercontent.com/scottcgi/Mojoc/master/Docs/Pic/SuperLittleRed-Sample.gif" width="400" height="225" alt="SuperLittleRed-Sample" title="SuperLittleRed-Sample" />
+<img src="./Docs/Pic/SuperLittleRed-Sample.gif" width="400" height="225" alt="SuperLittleRed-Sample" title="SuperLittleRed-Sample" />
 
 
 
@@ -84,7 +84,7 @@ The compiled and playable apk is here:
     
   During the development I experienced a lot of repetition and thinking. For a long time I was not very sure and clear about how to use the C language to simulate OOP and keep it simple and uniform. So I tried a lot of ideas, repeated the proces: wrote code, modified, refactored, changed ideas, deleted code, rewritten it again and so on.
   
-  But in the end, I developed a unique rule set, the [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style) and [Mojoc OOC Model](./Docs/OOC.md) that felt right and nice, then I followed the rules to develop Mojoc.
+  But in the end, I developed a unique rule set, the [Mojoc Code Style](./Docs/CodeStyle.md) and [Mojoc OOC Model](./Docs/OOC.md) that felt right and nice, then I followed the rules to develop Mojoc.
 
 
 #### What kind of games can Mojoc do?

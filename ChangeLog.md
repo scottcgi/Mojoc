@@ -1,3 +1,9 @@
+## Developing
+
+* Fix "static" missing of EGLTool function.
+* Add AFont_SetTextColor to Font.
+* Improve comments and logs of [Application, Input, Vibrator].
+
 ## v0.6.0
 
 _`2021.2.6 UTC+8 13:26`_

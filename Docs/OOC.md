@@ -249,15 +249,15 @@ If we want to override Sprite's `Draw` function:
 
 ## Examples
 
-* [Drawable.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Graphics/Draw/Drawable.h)
-* [Drawable.c](https://github.com/scottcgi/Mojoc/blob/master/Engine/Graphics/Draw/Drawable.c)
-* [Sprite.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Graphics/OpenGL/Sprite.h)
-* [Sprite.c](https://github.com/scottcgi/Mojoc/blob/master/Engine/Graphics/OpenGL/Sprite.c)
-* [Struct.h](https://github.com/scottcgi/Mojoc/blob/master/Engine/Toolkit/HeaderUtils/Struct.h)
+* [Drawable.h](../Engine/Graphics/Draw/Drawable.h)
+* [Drawable.c](../Engine/Graphics/Draw/Drawable.c)
+* [Sprite.h](../Engine/Graphics/OpenGL/Sprite.h)
+* [Sprite.c](../Engine/Graphics/OpenGL/Sprite.c)
+* [Struct.h](../Engine/Toolkit/HeaderUtils/Struct.h)
 
 ## Sample
 
-Mojoc uses [OOC Spine](https://github.com/scottcgi/Mojoc/tree/master/Engine/Extension/Spine) to implement the Java [OOP Spine](https://github.com/EsotericSoftware/spine-runtimes/tree/3.5/spine-libgdx/spine-libgdx/src/com/esotericsoftware/spine).
+Mojoc uses [OOC Spine](../Engine/Extension/Spine) to implement the Java [OOP Spine](https://github.com/EsotericSoftware/spine-runtimes/tree/3.5/spine-libgdx/spine-libgdx/src/com/esotericsoftware/spine).
 
 ##
 :rocket:

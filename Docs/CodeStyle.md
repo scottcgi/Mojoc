@@ -1,4 +1,4 @@
-Mojoc strictly follow this code style to ensure the C code **readability** and **uniformity**. This code style is important to understand how Mojoc works.
+Mojoc strictly follow this code style to ensure the C code **readability** and **uniformity**. This code style is important to understanding how Mojoc works.
 
 #### Code Naming
 * [Basic Naming](#basic-naming)
