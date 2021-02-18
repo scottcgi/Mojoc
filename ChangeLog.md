@@ -1,8 +1,13 @@
-## Developing
+## v0.6.4
 
-* Fix "static" missing of EGLTool function.
+_`2021.2.19 UTC+8 00:27`_
+
+* Fix `static` missing of EGLTool function.
 * Add AFont_SetTextColor to Font.
+* Add docs to repo.
 * Improve comments and logs of [Application, Input, Vibrator].
+* Update the codestyle site for all source code.
+
 
 ## v0.6.0
 
