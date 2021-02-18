@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/scottcgi/Mojoc/master/Docs/Pic/Logo.png" width="176" height="228" alt="Mojoc Logo" title="Mojoc Logo" />
+<img src="./Docs/Pic/Logo.png" width="176" height="228" alt="Mojoc Logo" title="Mojoc Logo" />
 
 
 ## Mojoc v0.6.0
@@ -6,8 +6,8 @@
 Mojoc is an open-source, cross-platform, pure C game engine. It is based on OpenGLES3 and written in C99. It currently works on IOS and Android, but can easily be extended to other platforms, and will support more platforms in the future.
 
 * Released version in [releases](https://github.com/scottcgi/Mojoc/releases).
-* Release changes in [ChangeLog](https://github.com/scottcgi/Mojoc/blob/master/ChangeLog.md).
-* Documents in [wiki](https://github.com/scottcgi/Mojoc/wiki).
+* Release changes in [ChangeLog](./ChangeLog.md).
+* Documents in [wiki](./Docs/Home.md).
 
 
 ## Architecture
@@ -27,13 +27,13 @@ Less is more, simple is better, simplify complex ideas.
 * The only programming skill needed is the C99 language.
 * In platform-independent code, Mojoc uses only the standard C library, no dependence on third-party libraries.
 * Mojoc has its own unique coding style.
-  * [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style)
+  * [Mojoc Code Style](./Docs/CodeStyle.md)
 * Mojoc uses an extremely lightweight OOC (Object Oriented C) programming model. 
-  * [Mojoc OOC Model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C))
+  * [Mojoc OOC Model](./Docs/OOC.md)
 * Mojoc application architecture is based on components, state-machines and message-driven. 
-  * [Mojoc Component Architecture](https://github.com/scottcgi/Mojoc/wiki/Component-Architecture)
+  * [Mojoc Component Architecture](./Docs/ComponentArchitecture.md)
 * More feature details. 
-  * [Mojoc Code Details](https://github.com/scottcgi/Mojoc/wiki/Code-Details)
+  * [Mojoc Code Details](./Docs/CodeDetails.md)
   
     
 ## Published Games
@@ -49,7 +49,7 @@ Currently there is only one sample, which is a simplfied version of the publishe
 
 The compiled and playable apk is here:
 
-* [SuperLittleRed-2.0.2.apk](https://github.com/scottcgi/Mojoc/blob/master/Samples/Apk/SuperLittleRed-2.0.2.apk?raw=true)
+* [SuperLittleRed-2.1.5.apk](https://github.com/scottcgi/Mojoc/blob/master/Samples/Apk/SuperLittleRed-2.1.5.apk?raw=true)
 
 <img src="https://raw.githubusercontent.com/scottcgi/Mojoc/master/Docs/Pic/SuperLittleRed-Sample.gif" width="400" height="225" alt="SuperLittleRed-Sample" title="SuperLittleRed-Sample" />
 
@@ -84,7 +84,7 @@ The compiled and playable apk is here:
     
   During the development I experienced a lot of repetition and thinking. For a long time I was not very sure and clear about how to use the C language to simulate OOP and keep it simple and uniform. So I tried a lot of ideas, repeated the proces: wrote code, modified, refactored, changed ideas, deleted code, rewritten it again and so on.
   
-  But in the end, I developed a unique rule set, the [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style) and [Mojoc OOC Model](https://github.com/scottcgi/Mojoc/wiki/OOC-(Object-Oriented-C)) that felt right and nice, then I followed the rules to develop Mojoc.
+  But in the end, I developed a unique rule set, the [Mojoc Code Style](https://github.com/scottcgi/Mojoc/wiki/Code-Style) and [Mojoc OOC Model](./Docs/OOC.md) that felt right and nice, then I followed the rules to develop Mojoc.
 
 
 #### What kind of games can Mojoc do?
