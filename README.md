@@ -45,7 +45,7 @@ Mojoc has been used for a cross-platform Android and IOS game.
 ## Samples
 The samples will show all aspects of the Mojoc features. Each platform will provide native building project for native platform editor. For example: Android provides AndroidStudio project, IOS provides XCode project.
 
-Currently there is only one sample, which is a simplfied version of the published game [SuperLittleRed](./Samples/SuperLittleRed). Please check out the wiki [Quick Start](./Docs/QuickStart.md) guide for quickly run this sample.
+Currently there is only one sample, which is a simplfied version of the published game [SuperLittleRed](./Samples/SuperLittleRed). Please check out the [Quick Start](./Docs/QuickStart.md) guide for how to quickly run this sample.
 
 The compiled and playable apk is here:
 
@@ -82,7 +82,7 @@ The compiled and playable apk is here:
 
   Mojoc started in 2012 as a spare time project. At first, Mojoc used Eclipse + CDT + ADT + NDK for development, and was focused on Android platform. 
     
-  During the development I experienced a lot of repetition and thinking. For a long time I was not very sure and clear about how to use the C language to simulate OOP and keep it simple and uniform. So I tried a lot of ideas, repeated the proces: wrote code, modified, refactored, changed ideas, deleted code, rewritten it again and so on.
+  During the development I experienced a lot of repetition and thinking. For a long time I was not very sure and clear about how to use the C language to simulate OOP and keep it simple and uniform. So I tried a lot of ideas, repeated the proces: wrote code, modified, refactored, changed ideas, deleted code, rewrote it again and so on.
   
   But in the end, I developed a unique rule set, the [Mojoc Code Style](./Docs/CodeStyle.md) and [Mojoc OOC Model](./Docs/OOC.md) that felt right and nice, then I followed the rules to develop Mojoc.
 
@@ -95,7 +95,7 @@ The compiled and playable apk is here:
   
   
 ## Roadmap
-The roadmap shows the direction of the Mojoc development.
+The roadmap shows the direction of Mojoc development.
 
 #### Graphics Module
   * Create graphics layer compatible with Vulkan, Metal and D3D.
@@ -106,7 +106,7 @@ The roadmap shows the direction of the Mojoc development.
   
 #### Extension Module
   * Support bitmap fonts.
-  * Support simple test unit for Mojoc features.
+  * Support simple unit tests for Mojoc features.
   
 #### Physics Module
   * Support motion simulation after rigid body collision.
@@ -124,8 +124,8 @@ The roadmap shows the direction of the Mojoc development.
   * Create network module.
   
 #### Others
-  * Game editor implement by Mojoc self.
-  * Game script language `"MojoScript"`, and implement by C language with Toolkit.  
+  * Game editor implemented with Mojoc itself.
+  * Game script language `"MojoScript"`, implemented with the C language and Toolkit module.  
 
 ## Support
   * :video_game: Play Mojoc [Published Games](#published-games).
