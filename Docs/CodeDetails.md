@@ -2,7 +2,7 @@
 
 ## 
 
-Mojoc modules have a dependency hierarchy, the upper layer can reference the lower layer, but the lower layer cannot reference the upper layer, and parallel modules cannot be referenced to each other. This ensures minimal dependency compilation of modules.
+Mojoc modules have a dependency hierarchy, the upper layer can reference the lower layer, but the lower layer cannot reference the upper layer, and parallel modules cannot reference each other. This ensures minimal dependency compilation of modules.
 
 * [Toolkit Module](#toolkit-module)
 * [ThirdParty Module](#thirdparty-module)
@@ -15,7 +15,7 @@ Mojoc modules have a dependency hierarchy, the upper layer can reference the low
 
 ## Toolkit Module
 
-The [Toolkit](../Engine/Toolkit) module is a development kit of C language. It provides basic data structure and algorithm support.
+The [Toolkit](../Engine/Toolkit) module is a development kit for the C language. It provides basic data structure and algorithm support.
 
 * [Math](../Engine/Toolkit/Math) provides mathematical algorithms implementation.
 * [Utils](../Engine/Toolkit/Utils) provides basic data storage tools and algorithms.
@@ -25,7 +25,7 @@ The [Toolkit](../Engine/Toolkit) module is a development kit of C language. It p
 
 ## ThirdParty Module
 
-The [ThirdParty](../Engine/ThirdParty) module contains third party libraries, that can direct called by Mojoc engine. So the third party need to provide different prebuild lib files for native platforms of Mojoc support.
+The [ThirdParty](../Engine/ThirdParty) module contains third party libraries, that can be directly called by the Mojoc engine. So the third party needs to provide different prebuilt lib files for native platforms supported by Mojoc.
 
 * Currently only contains [PNG](../Engine/ThirdParty/PNG) library.
 * [ThirdPartyBuild](../ThirdPartyBuild) is a multi-platform build project of the ThirdParty module.
@@ -53,12 +53,12 @@ The [ThirdParty](../Engine/ThirdParty) module contains third party libraries, th
 
 ## Extension Module
 
-[Extension](../Engine/Extension) module is editor-related implementation.
+[Extension](../Engine/Extension) module contains editor-related implementations.
   * [Spine](../Engine/Extension/Spine) is runtime implementation of Spine 2D skeleton animation.
 
 ## Application Module
 
-[Application](../Engine/Application) module is app control and interaction layer. It provides app lifecycle callbacks, input events, native platform functions, component architecture and so on.
+[Application](../Engine/Application) module contains the app control and interaction layer. It provides app lifecycle callbacks, input events, native platform functions, component architecture and so on.
 
 * [Platform](../Engine/Application/Platform) contains platform-related implementations.
   * [Platform/Android](../Engine/Application/Platform/Android) contains native function implementations of Android.
