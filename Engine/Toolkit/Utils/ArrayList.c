@@ -307,7 +307,7 @@ static ArrayList* Create(int elementTypeSize)
 }
 
 
-static void init(int elementTypeSize, ArrayList* outArrayList)
+static void Init(int elementTypeSize, ArrayList* outArrayList)
 {
     InitArrayList(elementTypeSize, outArrayList);
 }
@@ -348,7 +348,7 @@ static void InitWithCapacity(int elementTypeSize, int capacity, ArrayList* outAr
 struct AArrayList AArrayList[1] =
 {{
     Create,
-    init,
+    Init,
     CreateWithSize,
     InitWithSize,
     CreateWithCapacity,

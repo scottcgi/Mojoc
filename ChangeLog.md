@@ -1,3 +1,8 @@
+## Developing
+
+* Fix case spelling error in `ArrayList.c`.
+
+
 ## v0.6.4
 
 _`2021.2.19 UTC+8 00:27`_
