@@ -41,6 +41,7 @@ Mojoc has been used for a cross-platform Android and IOS game.
 
 * **SuperLittleRed** is a bow and arrow shooting game, very challenging for your operation.
   * [App Store](https://itunes.apple.com/cn/app/id1242353775)
+  * [Google Play](https://play.google.com/store/apps/details?id=com.SuperLittleRed)
   
 ## Samples
 The samples will show all aspects of the Mojoc features. Each platform will provide native building project for native platform editor. For example: Android provides AndroidStudio project, IOS provides XCode project.
