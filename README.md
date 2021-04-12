@@ -1,4 +1,4 @@
-<img src="./Docs/Pic/Logo.png" width="176" height="228" alt="Mojoc Logo" title="Mojoc Logo" />
+<img src="./Docs/Images/Logo.png" width="176" height="228" alt="Mojoc Logo" title="Mojoc Logo" />
 
 
 ## Mojoc v0.6.4
@@ -11,7 +11,7 @@ Mojoc is an open-source, cross-platform, pure C game engine. It is based on Open
 
 
 ## Architecture
-![Mojoc Engine Architecture](./Docs/Pic/Architecture.png "Mojoc Engine Architecture")
+![Mojoc Engine Architecture](./Docs/Images/Architecture.png "Mojoc Engine Architecture")
 
 
 ## License
@@ -52,7 +52,7 @@ The compiled and playable apk is here:
 
 * [SuperLittleRed-2.1.5.apk](./Samples/Apk/SuperLittleRed-2.1.5.apk?raw=true)
 
-<img src="./Docs/Pic/SuperLittleRed-Sample.gif" width="400" height="225" alt="SuperLittleRed-Sample" title="SuperLittleRed-Sample" />
+<img src="./Docs/Images/SuperLittleRed-Sample.gif" width="400" height="225" alt="SuperLittleRed-Sample" title="SuperLittleRed-Sample" />
 
 
 

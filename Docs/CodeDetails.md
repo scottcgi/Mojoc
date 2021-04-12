@@ -1,4 +1,4 @@
-<img src="./Pic/Architecture.png" width="790" height="560" alt="Mojoc Engine Architecture" title="Mojoc Engine Architecture" />
+<img src="./Images/Architecture.png" width="790" height="560" alt="Mojoc Engine Architecture" title="Mojoc Engine Architecture" />
 
 ## 
 
