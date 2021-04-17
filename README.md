@@ -129,9 +129,9 @@ The roadmap shows the direction of Mojoc development.
   * Game script language `"MojoScript"`, implemented with the C language and Toolkit module.  
 
 ## Support
-  * :video_game: Play Mojoc [Published Games](#published-games).
-  * :octocat: Star & Issue & Fork on GitHub, or share **Mojoc** project to anyone.
-  * :coffee: If the source code is **useful** for you, maybe buy me a coffee via [Paypal-0.99](https://www.paypal.me/PayScottcgi/0.99).
+  * Play Mojoc [Published Games](#published-games).
+  * Star & Issue & Fork on GitHub, or share **Mojoc** project to anyone.
+  * If the source code is **useful** or **helpful** for you, maybe buy me a coffee via **Sponsor Button**.
   
 ##  
 :loop:
