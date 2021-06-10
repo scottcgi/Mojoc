@@ -50,7 +50,7 @@ Currently there is only one sample, which is a simplfied version of the publishe
 
 The compiled and playable apk is here:
 
-* [SuperLittleRed-2.1.5.apk](./Samples/Apk/SuperLittleRed-2.1.5.apk?raw=true)
+* [SuperLittleRed-2.2.0.apk](./Samples/Apk/SuperLittleRed-2.2.0.apk?raw=true)
 
 <img src="./Docs/Images/SuperLittleRed-Sample.gif" width="400" height="225" alt="SuperLittleRed-Sample" title="SuperLittleRed-Sample" />
 

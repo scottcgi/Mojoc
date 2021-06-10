@@ -1,6 +1,7 @@
 ## Developing
 
 * Fix case spelling error in `ArrayList.c`.
+* Update the `Vibrator` API of Android.
 
 
 ## v0.6.4

@@ -28,19 +28,28 @@
 
 static void Vibrate(int milliseconds)
 {
-    jobject vibrator = AJniTool->CallNativeActivityMethod
-                       (
-                           "getSystemService",
-                           "(Ljava/lang/String;)Ljava/lang/Object;",
-                           AJniTool->GetStaticField
-                           (
-                               "android/content/Context",
-                               "VIBRATOR_SERVICE",
-                               "Ljava/lang/String;"
-                           ).l
-                       ).l;
+    jobject vibrator        = AJniTool->CallNativeActivityMethod
+                              (
+                                  "getSystemService",
+                                  "(Ljava/lang/String;)Ljava/lang/Object;",
+                                  AJniTool->GetStaticField
+                                  (
+                                      "android/content/Context",
+                                      "VIBRATOR_SERVICE",
+                                      "Ljava/lang/String;"
+                                  ).l
+                              ).l;
 
-    AJniTool->CallMethod(vibrator, "vibrate", "(J)V", (long long) milliseconds);
+    jvalue  vibrationEffect = AJniTool->CallStaticMethod
+                              (
+                                  "android/os/VibrationEffect",
+                                  "createOneShot",
+                                  "(JI)Landroid/os/VibrationEffect;",
+                                  (long long) milliseconds,
+                                  255
+                              );
+
+    AJniTool->CallMethod(vibrator, "vibrate", "(Landroid/os/VibrationEffect;)V", vibrationEffect);
 }
 
 
