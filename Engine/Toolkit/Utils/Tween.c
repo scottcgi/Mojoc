@@ -9,7 +9,7 @@
  * CodeStyle: https://github.com/scottcgi/Mojoc/blob/master/Docs/CodeStyle.md
  *
  * Since    : 2016-6-8
- * Update   : 2019-1-8
+ * Update   : 2021-8-16
  * Author   : scott.cgi
  */
 
@@ -107,7 +107,7 @@ static TweenActionValue* AddTweenActionValue(TweenAction* action)
     actionValue->OnGet            = NULL;
     actionValue->OnSet            = NULL;
     actionValue->isRelative       = true;
-    actionValue->easeType         = TweenEaseType_Linear;
+    actionValue->easeType         = TweenEaseType_Smooth;
 
     return actionValue;
 }
@@ -187,6 +187,18 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenID)
 }
 
 
+static void RemoveActionByIndex(Tween* tween, TweenAction* action, int index)
+{
+    if (action == tween->queueAction)
+    {
+        tween->queueAction = NULL;
+    }
+
+    AArrayList->RemoveByLast(tween->current, index);
+    AArrayList_Add(actionCacheList, action);
+}
+
+
 static bool TryRemoveAction(void* tweenID, TweenAction* action)
 {
     Tween* tween = AArrayIntMap_Get(tweenRunningMap, tweenID, Tween*);
@@ -199,14 +211,7 @@ static bool TryRemoveAction(void* tweenID, TweenAction* action)
 
             if (action == tweenAction)
             {
-                if (action == tween->queueAction)
-                {
-                    tween->queueAction = NULL;
-                }
-
-                AArrayList->RemoveByLast(tween->current, i);
-                AArrayList_Add(actionCacheList, action);
-
+                RemoveActionByIndex(tween, action, i);
                 return true;
             }
         }
@@ -395,13 +400,7 @@ static void Update(float deltaSeconds)
                     action->OnComplete(action);
                 }
 
-                if (tween->queueAction == action)
-                {
-                    tween->queueAction = NULL;
-                }
-
-                AArrayList->RemoveByLast(tween->current, j);
-                AArrayList_Add(actionCacheList, action);
+                RemoveActionByIndex(tween, action, j);
             }
         }
     }

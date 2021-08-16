@@ -72,7 +72,7 @@ typedef struct
     bool                  isRelative;
 
     /**
-     * Default TweenEaseType_Linear.
+     * Default TweenEaseType_Smooth.
      */
     TweenEaseType         easeType;
 }
