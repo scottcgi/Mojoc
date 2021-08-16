@@ -17,7 +17,7 @@
  * CodeStyle: https://github.com/scottcgi/Mojoc/blob/master/Docs/CodeStyle.md
  *
  * Since    : 2013-11-5
- * Update   : 2019-1-17
+ * Update   : 2021-8-16
  * Author   : scott.cgi
  */
 
@@ -29,6 +29,13 @@
 static float Linear(float time)
 {
     return time;
+}
+
+
+static float Smooth(float time)
+{
+    ALog_E("Smooth");
+    return time * time * (3.0f - 2.0f * time);
 }
 
 
@@ -448,6 +455,7 @@ static float BounceInOut(float time)
 struct ATweenEase ATweenEase[1] =
 {{
     Linear,
+    Smooth,
 
     QuadraticIn,
     QuadraticOut,

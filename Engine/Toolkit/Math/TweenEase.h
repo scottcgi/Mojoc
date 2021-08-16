@@ -17,7 +17,7 @@
  * CodeStyle: https://github.com/scottcgi/Mojoc/blob/master/Docs/CodeStyle.md
  *
  * Since    : 2013-11-5
- * Update   : 2019-12-19
+ * Update   : 2021-8-16
  * Author   : scott.cgi
  */
 
@@ -29,6 +29,7 @@
 typedef enum
 {
     TweenEaseType_Linear,
+    TweenEaseType_Smooth,
 
     TweenEaseType_QuadraticIn,
     TweenEaseType_QuadraticOut,
