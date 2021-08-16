@@ -34,7 +34,6 @@ static float Linear(float time)
 
 static float Smooth(float time)
 {
-    ALog_E("Smooth");
     return time * time * (3.0f - 2.0f * time);
 }
 
