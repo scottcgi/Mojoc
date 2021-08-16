@@ -2,6 +2,8 @@
 
 * Fix case spelling error in `ArrayList.c`.
 * Update the `Vibrator` API of Android.
+* Add the `Smooth` function and Set the `Smooth` as the default ease.
+* Optimize the `Tween` implementation by remove the `queueAction`.
 
 
 ## v0.6.4
