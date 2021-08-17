@@ -53,21 +53,21 @@ struct AArrayQueue
     void        (*Release)           (ArrayQueue* arrayQueue);
 
     /**
-     * Push element from elementPtr into ArrayQueue.
+     * Push the element from elementPtr to the tail of ArrayQueue.
      * elementPtr: point to element
      *
-     * return elementPtr in ArrayQueue.
+     * return the elementPtr in ArrayQueue.
      */
     void*       (*Push)              (ArrayQueue* arrayQueue, void* elementPtr);
 
     /**
-     * Pop element from ArrayQueue.
-     * return top elementPtr in ArrayQueue, if no element return defaultElementPtr.
+     * Pop the element from the head of ArrayQueue.
+     * return the top elementPtr of the ArrayQueue, if no element return defaultElementPtr.
      */
     void*       (*Pop)               (ArrayQueue* arrayQueue, void* defaultElementPtr);
 
     /**
-     * Remove element at index that range in [topIndex, ArrayQueue size - 1].
+     * Remove the element at index that range in [topIndex, ArrayQueue size - 1].
      */
     void        (*RemoveAt)          (ArrayQueue* arrayQueue, int   index);
 
