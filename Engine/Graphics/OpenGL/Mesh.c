@@ -268,14 +268,14 @@ static void Render(Drawable* drawable)
         fromChild = AArrayList_Get
                     (
                         mesh->childList,
-                        AArrayQueue_PopWithDefault(mesh->drawRangeQueue, int, mesh->fromIndex),
+                        AArrayQueue_DequeueWithDefault(mesh->drawRangeQueue, int, mesh->fromIndex),
                         SubMesh*
                     );
 
         toChild   = AArrayList_Get
                     (
                         mesh->childList,
-                        AArrayQueue_PopWithDefault(mesh->drawRangeQueue, int, mesh->toIndex),
+                        AArrayQueue_DequeueWithDefault(mesh->drawRangeQueue, int, mesh->toIndex),
                         SubMesh*
                     );
     }

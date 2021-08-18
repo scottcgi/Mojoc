@@ -1,7 +1,7 @@
 <img src="./Docs/Images/Logo.png" width="176" height="228" alt="Mojoc Logo" title="Mojoc Logo" />
 
 
-## Mojoc v0.6.4
+## Mojoc v0.7.0
 
 Mojoc is an open-source, cross-platform, pure C game engine. It is based on OpenGLES3 and written in C99. It currently works on IOS and Android, but can easily be extended to other platforms, and will support more platforms in the future.
 

@@ -1,9 +1,12 @@
-## Developing
+## v0.7.0
+
+_`2021.8.18 UTC+8 10:42`_
 
 * Fix case spelling error in `ArrayList.c`.
 * Update the `Vibrator` API of Android.
 * Add the `Smooth` function and Set the `Smooth` as the default ease.
 * Optimize the `Tween` implementation by remove the `queueAction`.
+* Refactor the `ArrayQueue`, rename `Push` to `Enqueue` and `Pop` to `Dequeue`. **(Break Compatibility)**
 
 
 ## v0.6.4

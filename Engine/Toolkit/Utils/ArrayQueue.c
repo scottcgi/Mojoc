@@ -19,28 +19,28 @@
 #include "Engine/Toolkit/Platform/Log.h"
 
 
-static void* Push(ArrayQueue* arrayQueue, void* elementPtr)
+static void* Enqueue(ArrayQueue* arrayQueue, void* elementPtr)
 {
-    if (arrayQueue->topIndex > 0 && arrayQueue->topIndex == arrayQueue->elementList->elementArr->length)
+    if (arrayQueue->headIndex > 0 && arrayQueue->headIndex == arrayQueue->elementList->elementArr->length)
     {
-        AArrayList->RemoveRange(arrayQueue->elementList, 0, arrayQueue->topIndex - 1);
-        arrayQueue->topIndex = 0;
+        AArrayList->RemoveRange(arrayQueue->elementList, 0, arrayQueue->headIndex - 1);
+        arrayQueue->headIndex = 0;
     }
 
     return AArrayList->Add(arrayQueue->elementList, elementPtr);
 }
 
 
-static void* Pop(ArrayQueue* arrayQueue, void* defaultElementPtr)
+static void* Dequeue(ArrayQueue* arrayQueue, void* defaultElementPtr)
 {
-    if (arrayQueue->topIndex == arrayQueue->elementList->size)
+    if (arrayQueue->headIndex == arrayQueue->elementList->size)
     {
         return defaultElementPtr;
     }
 
     return (char*) arrayQueue->elementList->elementArr->data +
                    arrayQueue->elementList->elementTypeSize  *
-                   (arrayQueue->topIndex++);
+                   (arrayQueue->headIndex++);
 }
 
 
@@ -48,9 +48,9 @@ static void RemoveAt(ArrayQueue* arrayQueue, int index)
 {
     ALog_A
     (
-        index >= arrayQueue->topIndex && index < arrayQueue->elementList->size,
+        index >= arrayQueue->headIndex && index < arrayQueue->elementList->size,
         "AArrayQueue RemoveAt index = %d, out of range [%d, %d]",
-        index, arrayQueue->topIndex, arrayQueue->elementList->size - 1
+        index, arrayQueue->headIndex, arrayQueue->elementList->size - 1
     );
 
     AArrayList->Remove(arrayQueue->elementList, index);
@@ -59,7 +59,7 @@ static void RemoveAt(ArrayQueue* arrayQueue, int index)
 
 static void Release(ArrayQueue* arrayQueue)
 {
-    arrayQueue->topIndex = 0;
+    arrayQueue->headIndex = 0;
     AArrayList->Release(arrayQueue->elementList);
 }
 
@@ -75,7 +75,7 @@ static void InitWithCapacity(int elementTypeSize, int capacity, ArrayQueue* outA
         AArrayList->InitWithCapacity(elementTypeSize, capacity, outArrayQueue->elementList);
     }
 
-    outArrayQueue->topIndex = 0;
+    outArrayQueue->headIndex = 0;
 }
 
 
@@ -102,7 +102,7 @@ static ArrayQueue* Create(int elementTypeSize)
 
 static void Clear(ArrayQueue* arrayQueue)
 {
-    arrayQueue->topIndex = 0;
+    arrayQueue->headIndex = 0;
     AArrayList->Clear(arrayQueue->elementList);
 }
 
@@ -115,8 +115,8 @@ struct AArrayQueue AArrayQueue[1] =
     InitWithCapacity,
     Release,
 
-    Push,
-    Pop,
+    Enqueue,
+    Dequeue,
     RemoveAt,
     Clear,
 }};

@@ -132,10 +132,10 @@ static inline void SetActionValue(TweenAction* action)
 }
 
 
-static void PopQueueActionToRun(Tween* tween)
+static void DequeueAction(Tween* tween)
 {
     // get a queue action to run
-    TweenAction* action = AArrayQueue_Pop(tween->queue, TweenAction*);
+    TweenAction* action = AArrayQueue_Dequeue(tween->queue, TweenAction*);
 
     if (action != NULL)
     {
@@ -181,7 +181,7 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenID)
 
         if (action->isQueue)
         {
-            AArrayQueue_Push(tween->queue, action);
+            AArrayQueue_Enqueue(tween->queue, action);
         }
         else
         {
@@ -190,7 +190,7 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenID)
         }
     }
 
-    PopQueueActionToRun(tween);
+    DequeueAction(tween);
 
     return tweenID;
 }
@@ -220,7 +220,7 @@ static bool TryRemoveAction(void* tweenID, TweenAction* action)
             }
         }
 
-        for (int i = tween->queue->topIndex; i < tween->queue->elementList->size; ++i)
+        for (int i = tween->queue->headIndex; i < tween->queue->elementList->size; ++i)
         {
             TweenAction* tweenAction = AArrayList_Get(tween->queue->elementList, i, TweenAction*);
 
@@ -253,7 +253,7 @@ static bool TryRemoveAllActions(void* tweenID)
         AArrayList->Clear(tween->current);
 
         TweenAction* action;
-        while ((action = AArrayQueue_Pop(tween->queue, TweenAction*)))
+        while ((action = AArrayQueue_Dequeue(tween->queue, TweenAction*)))
         {
             AArrayList_Add(actionCacheList, action);
         }
@@ -302,7 +302,7 @@ static bool TryCompleteAllActions(void* tweenID, bool isFireOnComplete)
         AArrayList->Clear(tween->current);
 
         TweenAction* action;
-        while ((action = AArrayQueue_Pop(tween->queue, TweenAction*)))
+        while ((action = AArrayQueue_Dequeue(tween->queue, TweenAction*)))
         {
             SetActionComplete(action, isFireOnComplete);
             AArrayList_Add(actionCacheList, action);
@@ -387,7 +387,7 @@ static void Update(float deltaSeconds)
 
                 if (action->isQueue)
                 {
-                    PopQueueActionToRun(tween);
+                    DequeueAction(tween);
                 }
             }
         }

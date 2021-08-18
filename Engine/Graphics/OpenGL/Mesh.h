@@ -272,8 +272,8 @@ static inline void AMesh_Draw(Mesh* mesh)
  */
 static inline void AMesh_DrawByIndex(Mesh* mesh, int fromIndex, int toIndex)
 {
-    AArrayQueue_Push(mesh->drawRangeQueue, fromIndex);
-    AArrayQueue_Push(mesh->drawRangeQueue, toIndex);
+    AArrayQueue_Enqueue(mesh->drawRangeQueue, fromIndex);
+    AArrayQueue_Enqueue(mesh->drawRangeQueue, toIndex);
     ADrawable->Draw (mesh->drawable);
 }
 
