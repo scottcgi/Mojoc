@@ -104,6 +104,7 @@ static void MultiplyMMM(Matrix4* m1, Matrix4* m2, Matrix4* m3, Matrix4* outM23, 
     outM231->m15 = m1->m3 * outM23->m12 + m1->m7 * outM23->m13 + m1->m11 * outM23->m14 + m1->m15 * outM23->m15;
 }
 
+
 /**
  * x: right   axis
  * y: up      axis
