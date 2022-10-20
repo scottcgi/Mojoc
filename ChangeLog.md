@@ -1,3 +1,10 @@
+## v0.7.1
+
+_`2022.10.20 UTC+8 16:00`_
+
+* Fix the `Tween` error with queue actions. 
+
+
 ## v0.7.0
 
 _`2021.8.18 UTC+8 10:42`_

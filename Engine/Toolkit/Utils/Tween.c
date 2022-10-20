@@ -9,7 +9,7 @@
  * CodeStyle: https://github.com/scottcgi/Mojoc/blob/master/Docs/CodeStyle.md
  *
  * Since    : 2016-6-8
- * Update   : 2021-8-16
+ * Update   : 2022-10-19
  * Author   : scott.cgi
  */
 
@@ -32,6 +32,11 @@ typedef struct
      * Target's current running actions.
      */
     ArrayList(TweenAction*)  current[1];
+
+    /**
+     * A queue action currently is running in current list.
+     */
+    TweenAction*             queueAction;
 }
 Tween;
 
@@ -60,6 +65,8 @@ static inline Tween* GetTween()
         AArrayQueue->Clear(tween->queue);
         AArrayList ->Clear(tween->current);
     }
+
+    tween->queueAction = NULL;
 
     return tween;
 }
@@ -132,20 +139,6 @@ static inline void SetActionValue(TweenAction* action)
 }
 
 
-static void DequeueAction(Tween* tween)
-{
-    // get a queue action to run
-    TweenAction* action = AArrayQueue_Dequeue(tween->queue, TweenAction*);
-
-    if (action != NULL)
-    {
-        // add the running queue action into current list
-        AArrayList_Add(tween->current, action);
-        SetActionValue(action);
-    }
-}
-
-
 static void* RunActions(Array(TweenAction*)* actions, void* tweenID)
 {
     Tween* tween;
@@ -190,14 +183,17 @@ static void* RunActions(Array(TweenAction*)* actions, void* tweenID)
         }
     }
 
-    DequeueAction(tween);
-
     return tweenID;
 }
 
 
 static void RemoveCurrentActionByIndex(Tween* tween, TweenAction* action, int index)
 {
+    if (action == tween->queueAction)
+    {
+        tween->queueAction = NULL;
+    }
+
     AArrayList->RemoveByLast(tween->current, index);
     AArrayList_Add(actionCacheList, action);
 }
@@ -258,6 +254,10 @@ static bool TryRemoveAllActions(void* tweenID)
             AArrayList_Add(actionCacheList, action);
         }
 
+        // if queueAction not NULL it must be in tweenData->current
+        // so just set NULL
+        tween->queueAction = NULL;
+
         return true;
     }
 
@@ -308,6 +308,10 @@ static bool TryCompleteAllActions(void* tweenID, bool isFireOnComplete)
             AArrayList_Add(actionCacheList, action);
         }
 
+        // if queueAction not NULL it must be in tweenData->current
+        // so just set NULL
+        tween->queueAction = NULL;
+
         return true;
     }
 
@@ -340,7 +344,20 @@ static void Update(float deltaSeconds)
     for (int i = tweenRunningMap->elementList->size - 1; i > -1; --i)
     {
         Tween* tween = AArrayIntMap_GetAt(tweenRunningMap, i, Tween*);
-        
+
+        // get a queue action to run
+        if (tween->queueAction == NULL)
+        {
+            tween->queueAction = AArrayQueue_Dequeue(tween->queue, TweenAction*);
+
+            if (tween->queueAction != NULL)
+            {
+                // add the running queue action into current list
+                AArrayList_Add(tween->current, tween->queueAction);
+                SetActionValue(tween->queueAction);
+            }
+        }
+
         if (tween->current->size == 0)
         {
             // all actions complete so remove tweenData and push to cache
@@ -382,13 +399,8 @@ static void Update(float deltaSeconds)
                 {
                     action->OnComplete(action);
                 }
-                
-                RemoveCurrentActionByIndex(tween, action, j);
 
-                if (action->isQueue)
-                {
-                    DequeueAction(tween);
-                }
+                RemoveCurrentActionByIndex(tween, action, j);
             }
         }
     }

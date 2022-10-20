@@ -1,7 +1,7 @@
 <img src="./Docs/Images/Logo.png" width="176" height="228" alt="Mojoc Logo" title="Mojoc Logo" />
 
 
-## Mojoc v0.7.0
+## Mojoc v0.7.1
 
 Mojoc is an open-source, cross-platform, pure C game engine. It is based on OpenGLES3 and written in C99. It currently works on IOS and Android, but can easily be extended to other platforms, and will support more platforms in the future.
 
@@ -39,9 +39,6 @@ Less is more, simple is better, simplify complex ideas.
 ## Published Games
 Mojoc has been used for a cross-platform Android and IOS game. 
 
-* **SuperLittleRed** is a bow and arrow shooting game, very challenging for your operation.
-  * [App Store](https://itunes.apple.com/cn/app/id1242353775)
-  * [Google Play](https://play.google.com/store/apps/details?id=com.SuperLittleRed)
   
 ## Samples
 The samples will show all aspects of the Mojoc features. Each platform will provide native building project for native platform editor. For example: Android provides AndroidStudio project, IOS provides XCode project.
@@ -50,7 +47,7 @@ Currently there is only one sample, which is a simplfied version of the publishe
 
 The compiled and playable apk is here:
 
-* [SuperLittleRed-2.2.0.apk](./Samples/Apk/SuperLittleRed-2.2.0.apk?raw=true)
+* [SuperLittleRed-2.2.0.apk](./Samples/Apk/SuperLittleRed-2.2.0.apk?raw=true) is a bow and arrow shooting game, very challenging for your operation.
 
 <img src="./Docs/Images/SuperLittleRed-Sample.gif" width="400" height="225" alt="SuperLittleRed-Sample" title="SuperLittleRed-Sample" />
 
