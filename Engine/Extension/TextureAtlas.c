@@ -54,7 +54,7 @@ static void Init(const char* filePath, TextureAtlas* outTextureAtlas)
         ABufferReader->ReadLine(buffer, range, line);
 
         int  fileDirLen = AFileTool->GetDirLength(filePath);
-        int  pathLen   = fileDirLen + (line->end - line->start);
+        int  pathLen   = fileDirLen + (line->end - line->start) - 1;
         char path[pathLen + 1];
 
         path[pathLen]  = '\0';
@@ -86,7 +86,7 @@ static void Init(const char* filePath, TextureAtlas* outTextureAtlas)
             }
 
             // make the line to string
-            buffer[line->end]     = '\0';
+            buffer[line->end-1]     = '\0';
             char* textureQuadName = buffer + line->start;
 
             ReadFind("rotate");
