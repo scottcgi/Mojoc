@@ -27,33 +27,6 @@
 #include "Engine/Graphics/OpenGL/MeshDefine.h"
 
 
-/**
- * The data update to VBO buffer by glBufferSubData or glMapBufferRange.
- */
-typedef struct
-{
-    /**
-     * GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER.
-     */
-    GLenum     target;
-
-    /**
-     * The byte offset in VBO data.
-     */
-    GLintptr   offset;
-
-    /**
-     * The bytes size of update data.
-     */
-    GLsizeiptr size;
-
-    /**
-     * The update data ptr.
-     */
-    GLvoid*    data;
-}
-VBOSubData;
-
 
 /**
  * Render with texture by vertices, and the vertices info come from children SubMesh.
@@ -112,22 +85,6 @@ struct Mesh
      * All vertices data from children SubMesh.
      */
     Array(short)*         indexArr;
-
-    /**
-     * If use VBO is the generated VBO ids else 0.
-     */
-    GLuint                vboIDs[Mesh_BufferNum];
-
-    /**
-     * If use VAO is the generated vao id else 0.
-     */
-    GLuint                vaoID;
-
-    /**
-     * If use VBO use VBOSubData to update VBO buffer.
-     * VBOSubData in ArrayList malloc data.
-     */
-    ArrayList(VBOSubData) vboSubDataList[1];
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -212,7 +169,7 @@ struct AMesh
     void      (*Release)           (Mesh* mesh);
 
     /**
-     * Clear children, drawRangeQueue, vboSubDataList, and ready to GenerateBuffer.
+     * Clear children, drawRangeQueue, and ready to GenerateBuffer.
      */
     void      (*Clear)             (Mesh* mesh);
 

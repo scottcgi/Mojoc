@@ -127,7 +127,7 @@ target_link_libraries(
 
     android
     EGL
-    GLESv3
+    GLESv2
     log
     z
     OpenSLES

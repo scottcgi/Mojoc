@@ -27,21 +27,6 @@
 enum
 {
     /**
-     * Number of buffers.
-     */
-     Sprite_BufferNum           = 2,
-
-    /**
-     * Index of buffer vertex.
-     */
-     Sprite_BufferVertex        = 0,
-     
-    /**
-     * Index of buffer index.
-     */
-     Sprite_BufferIndex         = 1,
-
-    /**
      * One vertex position has x, y.
      */
     Sprite_VertexPositionNum    = 2,
@@ -100,25 +85,15 @@ typedef struct
     float         uvHeight;
 
     /**
-     * If use VBO is NULL else buffer all vertex data.
+     * Buffer all vertex data.
      * data model: [x, y, u, v...x, y, u, v...]
      */
     Array(float)*  vertexArr;
 
     /**
-     * If use VBO is NULL else buffer all index data.
+     * Buffer all index data.
      */
     Array(short)* indexArr;
-
-    /**
-     * If use VBO is the generated VBO ids else 0.
-     */
-    GLuint        vboIDs[Sprite_BufferNum];
-
-    /**
-     * If use VAO is the generated vao id else 0.
-     */
-    GLuint        vaoID;
 
 //----------------------------------------------------------------------------------------------------------------------
 

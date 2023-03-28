@@ -18,7 +18,7 @@
 #define SHADER_SPRITE_H
 
 
-#include "Engine/Graphics/OpenGL/Platform/gl3.h"
+#include "Engine/Graphics/OpenGL/Platform/gl2.h"
 #include "Engine/Toolkit/Math/Matrix.h"
 #include "Engine/Toolkit/Math/Math.h"
 #include "Engine/Graphics/Draw/Color.h"

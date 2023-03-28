@@ -18,7 +18,7 @@
 #define MESH_DEFINE_H
 
 
-#include "Engine/Graphics/OpenGL/Platform/gl3.h"
+#include "Engine/Graphics/OpenGL/Platform/gl2.h"
 
 
 typedef struct Mesh    Mesh;
@@ -27,21 +27,6 @@ typedef struct SubMesh SubMesh;
 
 enum
 {
-    /**
-     * Number of buffers.
-     */
-    Mesh_BufferNum             = 2,
-
-    /**
-     * Index of buffer vertex.
-     */
-    Mesh_BufferVertex          = 0,
-
-    /**
-     * Index of buffer index.
-     */
-    Mesh_BufferIndex           = 1,
-
     /**
      * One vertex position has x, y, z.
      */

@@ -18,7 +18,7 @@
 #define SHADER_H
 
 
-#include "Engine/Graphics/OpenGL/Platform/gl3.h"
+#include "Engine/Graphics/OpenGL/Platform/gl2.h"
 
 
 /**

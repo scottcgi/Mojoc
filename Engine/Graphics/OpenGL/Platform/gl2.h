@@ -18,7 +18,7 @@
 
 
 #ifdef IS_PLATFORM_ANDROID
-    #include <GLES3/gl3.h>
+    #include <GLES2/gl2.h>
 #elif defined(IS_PLATFORM_IOS)
-    #include <OpenGLES/ES3/gl.h>
+    #include <OpenGLES/ES2/gl.h>
 #endif

@@ -16,7 +16,7 @@
 
 #include <stdbool.h>
 #include "Engine/Toolkit/HeaderUtils/String.h"
-#include "Engine/Graphics/OpenGL/Platform/gl3.h"
+#include "Engine/Graphics/OpenGL/Platform/gl2.h"
 #include "Engine/Graphics/OpenGL/Shader/ShaderMesh.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"

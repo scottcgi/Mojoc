@@ -27,47 +27,9 @@ static void Init()
     AShaderMesh     ->Init();
     AShaderSprite   ->Init();
     AShaderPrimitive->Init();
-
-    AGraphics->isUseVBO       = false;
-    AGraphics->isUseVAO       = false;
-    AGraphics->isUseMapBuffer = false;
 }
-
-
-static void SetUseVAO(bool isUseVAO)
-{
-    if (isUseVAO && AGLInfo->version > 2.0f)
-    {
-        AGraphics->isUseVAO = true;
-        AGraphics->isUseVBO = true;
-    }
-    else
-    {
-        AGraphics->isUseVAO = false;
-        AGraphics->isUseVBO = false;
-    }
-}
-
-
-static void SetUseMapBuffer(bool isUseMapBuffer)
-{
-    if (isUseMapBuffer && AGLInfo->version > 2.0f)
-    {
-        AGraphics->isUseMapBuffer = true;
-    }
-    else
-    {
-        AGraphics->isUseMapBuffer = false;
-    }
-}
-
 
 struct AGraphics AGraphics[1] =
 {{
-    false,
-    false,
-    false,
     Init,
-    SetUseVAO,
-    SetUseMapBuffer,
 }};

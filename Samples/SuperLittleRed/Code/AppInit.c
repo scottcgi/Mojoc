@@ -27,7 +27,7 @@
 #include "Engine/Graphics/OpenGL/Camera.h"
 #include "Engine/Graphics/OpenGL/GLTool.h"
 #include "Engine/Graphics/Graphics.h"
-#include "Engine/Graphics/OpenGL/Platform/gl3.h"
+#include "Engine/Graphics/OpenGL/Platform/gl2.h"
 #include "Engine/Toolkit/Utils/FileTool.h"
 #include "Engine/Toolkit/Platform/Log.h"
 #include "Engine/Graphics/OpenGL/Sprite.h"
@@ -151,9 +151,6 @@ static void OnReady()
 {
     glEnable   (GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    AGraphics->SetUseVAO      (true);
-    AGraphics->SetUseMapBuffer(true);
 
     memcpy
     (

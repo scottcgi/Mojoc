@@ -46,16 +46,6 @@ static void ReorderAllChildren(Mesh* mesh)
 
         indexDataOffset += subMesh->indexDataSize;
     }
-
-    if (AGraphics->isUseVBO)
-    {
-        // update all index data
-        VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
-        subData->target     = GL_ELEMENT_ARRAY_BUFFER;
-        subData->offset     = 0;
-        subData->size       = mesh->indexDataSize;
-        subData->data       = mesh->indexArr->data;
-    }
 }
 
 
@@ -92,15 +82,6 @@ static void Draw(Drawable* meshDrawable)
                         (Vector3*) (positionData + j)
                     );
                 }
-
-                if (AGraphics->isUseVBO)
-                {
-                    VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
-                    subData->target     = GL_ARRAY_BUFFER;
-                    subData->offset     = subMesh->positionDataOffset;
-                    subData->size       = subMesh->positionDataSize;
-                    subData->data       = positionData;
-                }
             }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -117,15 +98,6 @@ static void Draw(Drawable* meshDrawable)
                 for (int j = 0; j < subMesh->vertexCount; ++j)
                 {
                     opacityData[j] = opacity;
-                }
-
-                if (AGraphics->isUseVBO)
-                {
-                    VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
-                    subData->target     = GL_ARRAY_BUFFER;
-                    subData->offset     = mesh->opacityDataOffset + subMesh->opacityDataOffset;
-                    subData->size       = subMesh->vertexDataSize;
-                    subData->data       = opacityData;
                 }
             }
 
@@ -148,15 +120,6 @@ static void Draw(Drawable* meshDrawable)
                     rgbData[index]     = r;
                     rgbData[index + 1] = g;
                     rgbData[index + 2] = b;
-                }
-
-                if (AGraphics->isUseVBO)
-                {
-                    VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
-                    subData->target     = GL_ARRAY_BUFFER;
-                    subData->offset     = mesh->rgbDataOffset  + subMesh->rgbDataOffset;
-                    subData->size       = subMesh->positionDataSize; // equals rgbDataSize
-                    subData->data       = rgbData;
                 }
             }
         }
@@ -184,65 +147,8 @@ static void Draw(Drawable* meshDrawable)
             {
                 memset(opacityData, 0, (size_t) subMesh->vertexDataSize);
             }
-
-            if (AGraphics->isUseVBO)
-            {
-                VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
-                subData->target     = GL_ARRAY_BUFFER;
-                subData->offset     = mesh->opacityDataOffset + subMesh->opacityDataOffset;
-                subData->size       = subMesh->vertexDataSize; // equals opacityDataSize
-                subData->data       = opacityData;
-            }
         }
     }
-}
-
-
-static inline void BindVBO(Mesh* mesh)
-{
-    // load the position
-    glVertexAttribPointer
-    (
-        (GLuint) AShaderMesh->attribPosition,
-        Mesh_VertexPositionNum,
-        GL_FLOAT,
-        false,
-        Mesh_VertexPositionStride,
-        0
-    );
-
-    // load the texture coordinate
-    glVertexAttribPointer
-    (
-        (GLuint) AShaderMesh->attribTexcoord,
-        Mesh_VertexUVNum,
-        GL_FLOAT,
-        false,
-        Mesh_VertexUVStride,
-        (GLvoid*) (intptr_t) mesh->uvDataOffset
-    );
-
-    // load the opacity
-    glVertexAttribPointer
-    (
-        (GLuint) AShaderMesh->attribOpacity,
-        Mesh_VertexOpacityNum,
-        GL_FLOAT,
-        false,
-        Mesh_VertexOpacityStride,
-        (GLvoid*) (intptr_t) mesh->opacityDataOffset
-    );
-
-    // load the rgb
-    glVertexAttribPointer
-    (
-        (GLuint) AShaderMesh->attribRGB,
-        Mesh_VertexRGBNum,
-        GL_FLOAT,
-        false,
-        Mesh_VertexRGBStride,
-        (GLvoid*) (intptr_t) mesh->rgbDataOffset
-    );
 }
 
 
@@ -285,150 +191,57 @@ static void Render(Drawable* drawable)
 
     glBindTexture(GL_TEXTURE_2D, mesh->texture->id);
 
-    // update SubMesh data in vbo
-    if (mesh->vboSubDataList->size > 0)
-    {
-        // load the vertex data
-        glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIDs[Mesh_BufferVertex]);
+    // load the position
+    glVertexAttribPointer
+    (
+        (GLuint) AShaderMesh->attribPosition,
+        Mesh_VertexPositionNum,
+        GL_FLOAT,
+        false,
+        Mesh_VertexPositionStride,
+        mesh->vertexArr->data
+    );
 
-        // load the vertex index
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIDs[Mesh_BufferIndex]);
+    // load the texture coordinate
+    glVertexAttribPointer
+    (
+        (GLuint) AShaderMesh->attribTexcoord,
+        Mesh_VertexUVNum,
+        GL_FLOAT,
+        false,
+        Mesh_VertexUVStride,
+        (char*) mesh->vertexArr->data + mesh->uvDataOffset
+    );
 
-        // without vao state update sub data
-        if (AGraphics->isUseMapBuffer)
-        {
-            for (int i = 0; i < mesh->vboSubDataList->size; ++i)
-            {
-                VBOSubData* subData   = AArrayList_GetPtr(mesh->vboSubDataList, i, VBOSubData);
-                void*       mappedPtr = glMapBufferRange
-                                        (
-                                            subData->target,
-                                            subData->offset,
-                                            subData->size,
-                                            GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT
-                                        );
+    // load the opacity
+    glVertexAttribPointer
+    (
+        (GLuint) AShaderMesh->attribOpacity,
+        Mesh_VertexOpacityNum,
+        GL_FLOAT,
+        false,
+        Mesh_VertexOpacityStride,
+        (char*) mesh->vertexArr->data + mesh->opacityDataOffset
+    );
 
-                memcpy(mappedPtr, subData->data, (size_t) subData->size);
-                glUnmapBuffer(subData->target);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < mesh->vboSubDataList->size; ++i)
-            {
-                VBOSubData* subData = AArrayList_GetPtr(mesh->vboSubDataList, i, VBOSubData);
-                glBufferSubData(subData->target, subData->offset, subData->size, subData->data);
-            }
-        }
+    // load the rgb
+    glVertexAttribPointer
+    (
+        (GLuint) AShaderMesh->attribRGB,
+        Mesh_VertexRGBNum,
+        GL_FLOAT,
+        false,
+        Mesh_VertexRGBStride,
+        (char*) mesh->vertexArr->data + mesh->rgbDataOffset
+    );
 
-        AArrayList->Clear(mesh->vboSubDataList);
-
-        if (AGraphics->isUseVAO)
-        {
-            // clear VBO bind
-            glBindBuffer(GL_ARRAY_BUFFER,         0);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-            goto UseVAO;
-        }
-
-        goto UseVBO;
-    }
-
-    if (AGraphics->isUseVAO) // if isUseVAO then the isUseVBO must be true
-    {
-        UseVAO:
-
-        glBindVertexArray(mesh->vaoID);
-
-        glDrawElements
-        (
-            mesh->drawMode,
-            toChild->indexOffset - fromChild->indexOffset + toChild->indexArr->length,
-            GL_UNSIGNED_SHORT,
-            (GLvoid*) (intptr_t) fromChild->indexDataOffset // (intptr_t) for fix xcode warning
-        );
-
-        // clear VAO bind
-        glBindVertexArray(0);
-    }
-    else if (AGraphics->isUseVBO)
-    {
-        // load the vertex data
-        glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIDs[Mesh_BufferVertex]);
-        // load the vertex index
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIDs[Mesh_BufferIndex]);
-
-        UseVBO:
-
-        BindVBO(mesh);
-
-        glDrawElements
-        (
-            mesh->drawMode,
-            toChild->indexOffset - fromChild->indexOffset + toChild->indexArr->length,
-            GL_UNSIGNED_SHORT,
-            (GLvoid*) (intptr_t) fromChild->indexDataOffset // (intptr_t) for fix xcode warning
-        );
-
-        // clearAddChildWithData VBO bind
-        glBindBuffer(GL_ARRAY_BUFFER,         0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
-    else
-    {
-        // load the position
-        glVertexAttribPointer
-        (
-            (GLuint) AShaderMesh->attribPosition,
-            Mesh_VertexPositionNum,
-            GL_FLOAT,
-            false,
-            Mesh_VertexPositionStride,
-            mesh->vertexArr->data
-        );
-
-        // load the texture coordinate
-        glVertexAttribPointer
-        (
-            (GLuint) AShaderMesh->attribTexcoord,
-            Mesh_VertexUVNum,
-            GL_FLOAT,
-            false,
-            Mesh_VertexUVStride,
-            (char*) mesh->vertexArr->data + mesh->uvDataOffset
-        );
-
-        // load the opacity
-        glVertexAttribPointer
-        (
-            (GLuint) AShaderMesh->attribOpacity,
-            Mesh_VertexOpacityNum,
-            GL_FLOAT,
-            false,
-            Mesh_VertexOpacityStride,
-            (char*) mesh->vertexArr->data + mesh->opacityDataOffset
-        );
-
-        // load the rgb
-        glVertexAttribPointer
-        (
-            (GLuint) AShaderMesh->attribRGB,
-            Mesh_VertexRGBNum,
-            GL_FLOAT,
-            false,
-            Mesh_VertexRGBStride,
-            (char*) mesh->vertexArr->data + mesh->rgbDataOffset
-        );
-
-        glDrawElements
-        (
-            mesh->drawMode,
-            toChild->indexOffset - fromChild->indexOffset + toChild->indexArr->length,
-            GL_UNSIGNED_SHORT,
-            (char*) mesh->indexArr->data + fromChild->indexDataOffset
-        );
-    }
+    glDrawElements
+    (
+        mesh->drawMode,
+        toChild->indexOffset - fromChild->indexOffset + toChild->indexArr->length,
+        GL_UNSIGNED_SHORT,
+        (char*) mesh->indexArr->data + fromChild->indexDataOffset
+    );
 }
 
 
@@ -465,10 +278,7 @@ static void Init(Texture* texture, Mesh* outMesh)
 
     outMesh->drawMode                  = GL_TRIANGLES;
     outMesh->texture                   = texture;
-    outMesh->vboIDs[Mesh_BufferIndex]  = 0;
-    outMesh->vboIDs[Mesh_BufferVertex] = 0;
 
-    outMesh->vaoID                     = 0;
     outMesh->vertexArr                 = NULL;
     outMesh->indexArr                  = NULL;
 
@@ -476,8 +286,6 @@ static void Init(Texture* texture, Mesh* outMesh)
 
     AArrayQueue->Init(sizeof(int),        outMesh->drawRangeQueue);
     AArrayList ->Init(sizeof(SubMesh*),   outMesh->childList);
-    AArrayList ->Init(sizeof(VBOSubData), outMesh->vboSubDataList);
-    outMesh->vboSubDataList->increase   = outMesh->childList->increase * 4;
 }
 
 static inline void InitBuffer(Mesh* mesh)
@@ -592,19 +400,6 @@ static inline void ReleaseBuffer(Mesh* mesh)
 
     mesh->vertexArr = NULL;
     mesh->indexArr  = NULL;
-
-    if (AGraphics->isUseVBO)
-    {
-        glDeleteBuffers(Mesh_BufferNum, mesh->vboIDs);
-        mesh->vboIDs[Mesh_BufferIndex]  = 0;
-        mesh->vboIDs[Mesh_BufferVertex] = 0;
-
-        if (AGraphics->isUseVAO)
-        {
-            glDeleteVertexArrays(1, &mesh->vaoID);
-            mesh->vaoID = 0;
-        }
-    }
 }
 
 
@@ -614,65 +409,6 @@ static void GenerateBuffer(Mesh* mesh)
     free(mesh->indexArr);
 
     InitBuffer(mesh);
-
-    if (AGraphics->isUseVBO)
-    {
-        if (mesh->vboIDs[Mesh_BufferVertex] == 0)
-        {
-            glGenBuffers(Mesh_BufferNum, mesh->vboIDs);
-        }
-
-        // vertex
-        glBindBuffer(GL_ARRAY_BUFFER, mesh->vboIDs[Mesh_BufferVertex]);
-        glBufferData
-        (
-            GL_ARRAY_BUFFER,
-            mesh->vertexDataSize,
-            mesh->vertexArr->data,
-            GL_DYNAMIC_DRAW
-        );
-
-        // index
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIDs[Mesh_BufferIndex]);
-        glBufferData
-        (
-            GL_ELEMENT_ARRAY_BUFFER,
-            mesh->indexDataSize,
-            mesh->indexArr->data,
-            GL_STATIC_DRAW
-        );
-
-        // vertexArr and indexArr data pointer changed
-        // so we clear all sub data update
-        AArrayList->Clear(mesh->vboSubDataList);
-
-        if (AGraphics->isUseVAO)
-        {
-            if (mesh->vaoID == 0)
-            {
-                glGenVertexArrays(1, &mesh->vaoID);
-            }
-
-            glBindVertexArray(mesh->vaoID);
-
-            // with vao has own state
-
-            // load the vertex data
-            glBindBuffer(GL_ARRAY_BUFFER,         mesh->vboIDs[Mesh_BufferVertex]);
-            // load the vertex index
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vboIDs[Mesh_BufferIndex]);
-
-            glEnableVertexAttribArray((GLuint) AShaderMesh->attribPosition);
-            glEnableVertexAttribArray((GLuint) AShaderMesh->attribTexcoord);
-            glEnableVertexAttribArray((GLuint) AShaderMesh->attribOpacity);
-            glEnableVertexAttribArray((GLuint) AShaderMesh->attribRGB);
-
-            BindVBO(mesh);
-
-            // go back to normal state
-            glBindVertexArray(0);
-        }
-    }
 }
 
 
@@ -686,7 +422,6 @@ static void Release(Mesh* mesh)
     }
 
     AArrayList ->Release(mesh->childList);
-    AArrayList ->Release(mesh->vboSubDataList);
     AArrayQueue->Release(mesh->drawRangeQueue);
 }
 
@@ -699,7 +434,6 @@ static void Clear(Mesh* mesh)
     }
 
     AArrayList ->Clear(mesh->childList);
-    AArrayList ->Clear(mesh->vboSubDataList);
     AArrayQueue->Clear(mesh->drawRangeQueue);
 
     ResetData(mesh);

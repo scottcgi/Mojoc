@@ -34,97 +34,20 @@ static void Render(Drawable* drawable)
     glBindTexture(GL_TEXTURE_2D, sprite->texture->id);
 
     if (sprite->isDeformed)
-    {
         sprite->isDeformed = false;
-        
-        if (AGraphics->isUseVBO)
-        {
-            // load the vertex data
-            glBindBuffer(GL_ARRAY_BUFFER, sprite->vboIDs[Sprite_BufferVertex]);
 
-            // without vao state update sub data
-            if (AGraphics->isUseMapBuffer)
-            {
-                void* mappedPtr = glMapBufferRange
-                                  (
-                                      GL_ARRAY_BUFFER,
-                                      0,
-                                      sprite->vertexDataSize,
-                                      GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT
-                                  );
+    // load the position and texture coordinate
+    glVertexAttribPointer
+    (
+        (GLuint) AShaderSprite->attribPositionTexcoord,
+        Sprite_VertexNum,
+        GL_FLOAT,
+        false,
+        Sprite_VertexStride,
+        sprite->vertexArr->data
+    );
 
-                memcpy(mappedPtr, sprite->vertexArr->data, (size_t) sprite->vertexDataSize);
-                glUnmapBuffer(GL_ARRAY_BUFFER);
-            }
-            else
-            {
-                glBufferSubData(GL_ARRAY_BUFFER, 0, sprite->vertexDataSize , sprite->vertexArr->data);
-            }
-
-            if (AGraphics->isUseVAO)
-            {
-                // clear VBO bind
-                glBindBuffer(GL_ARRAY_BUFFER, 0);
-                goto UseVAO;
-            }
-            
-            goto UseVBO;
-        }
-
-        goto UseNormal;
-    }
-
-    if (AGraphics->isUseVAO)
-    {
-        UseVAO:
-        
-        glBindVertexArray(sprite->vaoID);
-        glDrawElements(GL_TRIANGLES, sprite->indexCount, GL_UNSIGNED_SHORT, 0);
-        // clear VAO bind
-        glBindVertexArray(0);
-    }
-    else if (AGraphics->isUseVBO)
-    {
-        glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIDs[Sprite_BufferVertex]);
-
-        UseVBO:
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIDs[Sprite_BufferIndex]);
-
-        // load the position and texture coordinate
-        glVertexAttribPointer
-        (
-            (GLuint) AShaderSprite->attribPositionTexcoord,
-            Sprite_VertexNum,
-            GL_FLOAT,
-            false,
-            Sprite_VertexStride,
-            0
-        );
-
-        glDrawElements(GL_TRIANGLES, sprite->indexCount, GL_UNSIGNED_SHORT, 0);
-
-        // clear VBO bind
-        glBindBuffer(GL_ARRAY_BUFFER,         0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
-    else
-    {
-        UseNormal:
-        
-        // load the position and texture coordinate
-        glVertexAttribPointer
-        (
-            (GLuint) AShaderSprite->attribPositionTexcoord,
-            Sprite_VertexNum,
-            GL_FLOAT,
-            false,
-            Sprite_VertexStride,
-            sprite->vertexArr->data
-        );
-
-        glDrawElements(GL_TRIANGLES, sprite->indexCount, GL_UNSIGNED_SHORT, sprite->indexArr->data);
-    }
+    glDrawElements(GL_TRIANGLES, sprite->indexCount, GL_UNSIGNED_SHORT, sprite->indexArr->data);
 }
 
 
@@ -136,19 +59,6 @@ static void Release(Sprite* sprite)
     sprite->indexArr  = NULL;
     sprite->vertexArr = NULL;
     sprite->texture   = NULL;
-
-    if (AGraphics->isUseVBO)
-    {
-        glDeleteBuffers(Sprite_BufferNum, sprite->vboIDs);
-        sprite->vboIDs[Sprite_BufferVertex] = 0;
-        sprite->vboIDs[Sprite_BufferIndex]  = 0;
-
-        if (AGraphics->isUseVAO)
-        {
-            glDeleteVertexArrays(1, &sprite->vaoID);
-            sprite->vaoID = 0;
-        }
-    }
 }
 
 
@@ -165,9 +75,6 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
     sprite->texture                     = texture;
     sprite->uvWidth                     = AGLTool_ToUVWidth(drawable->width,  texture->width);
     sprite->uvHeight                    = AGLTool_ToUVWidth(drawable->height, texture->height);
-    sprite->vboIDs[Sprite_BufferVertex] = 0;
-    sprite->vboIDs[Sprite_BufferIndex]  = 0;
-    sprite->vaoID                       = 0;
     sprite->indexCount                  = quadArr->length * Quad_IndexNum;
     sprite->vertexArr                   = AArray->Create(sizeof(float), quadArr->length * Quad_Position2UVNum);
     sprite->indexArr                    = AArray->Create(sizeof(short), sprite->indexCount);
@@ -186,63 +93,6 @@ static inline void InitSprite(Sprite* sprite, Texture* texture, Array(Quad)* qua
         );
         
         AQuad->GetIndex(i * Quad_VertexNum, (short*) sprite->indexArr->data + i * Quad_IndexNum);
-    }
-
-    if (AGraphics->isUseVBO)
-    {
-        if (sprite->vboIDs[Sprite_BufferVertex] == 0)
-        {
-            glGenBuffers(Sprite_BufferNum, sprite->vboIDs);
-        }
-
-        // vertex
-        glBindBuffer(GL_ARRAY_BUFFER, sprite->vboIDs[Sprite_BufferVertex]);
-        glBufferData
-        (
-            GL_ARRAY_BUFFER,
-            sprite->vertexDataSize,
-            sprite->vertexArr->data,
-            GL_STATIC_DRAW
-        );
-
-        // index
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIDs[Sprite_BufferIndex]);
-        glBufferData
-        (
-            GL_ELEMENT_ARRAY_BUFFER,
-            sprite->indexArr->length * sizeof(short),
-            sprite->indexArr->data,
-            GL_STATIC_DRAW
-        );
-
-        if (AGraphics->isUseVAO)
-        {
-            if (sprite->vaoID == 0)
-            {
-                glGenVertexArrays(1, &sprite->vaoID);
-            }
-
-            glBindVertexArray(sprite->vaoID);
-
-            // with vao has own state
-            glBindBuffer(GL_ARRAY_BUFFER,         sprite->vboIDs[Sprite_BufferVertex]);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->vboIDs[Sprite_BufferIndex]);
-            glEnableVertexAttribArray((GLuint) AShaderSprite->attribPositionTexcoord);
-
-            // load the position and texture coordinate
-            glVertexAttribPointer
-            (
-                (GLuint) AShaderSprite->attribPositionTexcoord,
-                Sprite_VertexNum,
-                GL_FLOAT,
-                false,
-                Sprite_VertexStride,
-                0
-            );
-
-            // go back to normal state
-            glBindVertexArray(0);
-        }
     }
 }
 

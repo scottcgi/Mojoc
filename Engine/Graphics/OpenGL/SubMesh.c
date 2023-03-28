@@ -134,15 +134,6 @@ static void SetUVWithQuad(SubMesh* subMesh, Quad* quad)
         subMesh->uvArr->data,
         (size_t) subMesh->uvDataSize
     );
-
-    if (AGraphics->isUseVBO)
-    {
-        VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
-        subData->target     = GL_ARRAY_BUFFER;
-        subData->offset     = mesh->uvDataOffset + subMesh->uvDataOffset;
-        subData->size       = subMesh->uvDataSize;
-        subData->data       = subMesh->uvArr->data;
-    }
 }
 
 
@@ -189,21 +180,6 @@ static inline void DeformApplyPositionUV(SubMesh *subMesh)
         subMesh->uvArr->data,
         (size_t) subMesh->uvDataSize
     );
-
-    if (AGraphics->isUseVBO)
-    {
-        VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
-        subData->target     = GL_ARRAY_BUFFER;
-        subData->offset     = subMesh->positionDataOffset;
-        subData->size       = subMesh->positionDataSize;
-        subData->data       = subMesh->positionArr->data;
-
-        subData             = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
-        subData->target     = GL_ARRAY_BUFFER;
-        subData->offset     = mesh->uvDataOffset + subMesh->uvDataOffset;
-        subData->size       = subMesh->uvDataSize;
-        subData->data       = subMesh->uvArr->data;
-    }
 }
 
 
@@ -217,15 +193,6 @@ static inline void DeformApplyPosition(SubMesh *subMesh)
         subMesh->positionArr->data,
         (size_t) subMesh->positionDataSize
     );
-
-    if (AGraphics->isUseVBO)
-    {
-        VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
-        subData->target     = GL_ARRAY_BUFFER;
-        subData->offset     = subMesh->positionDataOffset;
-        subData->size       = subMesh->positionDataSize;
-        subData->data       = subMesh->positionArr->data;
-    }
 }
 
 
@@ -239,15 +206,6 @@ static inline void DeformApplyUV(SubMesh* subMesh)
         subMesh->uvArr->data,
         (size_t) subMesh->uvDataSize
     );
-
-    if (AGraphics->isUseVBO)
-    {
-        VBOSubData* subData = AArrayList_GetPtrAdd(mesh->vboSubDataList, VBOSubData);
-        subData->target     = GL_ARRAY_BUFFER;
-        subData->offset     = mesh->uvDataOffset + subMesh->uvDataOffset;
-        subData->size       = subMesh->uvDataSize;
-        subData->data       = subMesh->uvArr->data;
-    }
 }
 
 

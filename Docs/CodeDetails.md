@@ -32,7 +32,7 @@ The [ThirdParty](../Engine/ThirdParty) module contains third party libraries, th
 
 ## Graphics Module
 
-[Graphics](../Engine/Graphics) module is draw layer implemented with OpenGLES3, and provides drawing tools and implementations.
+[Graphics](../Engine/Graphics) module is draw layer implemented with OpenGLES2, and provides drawing tools and implementations.
 
 * [Draw](../Engine/Graphics/Draw) provides basic abstract drawing layer.
 * [OpenGL](../Engine/Graphics/OpenGL) provides OpenGLES rendering functions.
